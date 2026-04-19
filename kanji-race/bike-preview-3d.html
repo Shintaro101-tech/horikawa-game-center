@@ -23,113 +23,53 @@
             background-image:
                 linear-gradient(rgba(0, 255, 255, 0.04) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.04) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none; z-index: 0;
+            background-size: 40px 40px; pointer-events: none; z-index: 0;
         }
-        main {
-            position: relative; z-index: 1;
-            max-width: 900px; margin: 0 auto;
-            padding: 30px 20px 60px;
-        }
-        .nav {
-            display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;
-        }
+        main { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 30px 20px 60px; }
+        .nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
         .back {
             color: #18FFFF; text-decoration: none;
             border: 1px solid #18FFFF; padding: 6px 14px;
             border-radius: 999px; font-size: 13px; letter-spacing: 2px;
         }
         h1 {
+            text-align: center; font-size: clamp(28px, 5vw, 46px);
+            color: #18FFFF; text-shadow: 0 0 20px rgba(24, 255, 255, 0.4);
+            letter-spacing: 6px; margin-bottom: 4px;
+        }
+        .sub { text-align: center; font-size: 13px; color: #FFEB3B; letter-spacing: 4px; margin-bottom: 32px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .card {
+            background: rgba(20, 20, 40, 0.7);
+            border: 2px solid #18FFFF;
+            border-radius: 16px;
+            padding: 22px 18px;
             text-align: center;
-            font-size: clamp(28px, 5vw, 48px);
-            color: #18FFFF;
-            text-shadow: 0 0 20px rgba(24, 255, 255, 0.4);
-            letter-spacing: 6px;
-            margin-bottom: 4px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 0 32px rgba(24, 255, 255, 0.2);
+            transition: transform .2s ease, box-shadow .2s ease;
         }
-        .sub {
-            text-align: center;
-            font-size: 13px;
-            color: #FFEB3B;
-            letter-spacing: 4px;
-            margin-bottom: 32px;
-        }
-        .hero {
-            display: grid; grid-template-columns: 1fr; gap: 30px;
-            align-items: center;
-        }
-        @media (min-width: 720px) {
-            .hero { grid-template-columns: auto 1fr; }
-        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 0 50px rgba(24, 255, 255, 0.45); }
+        .card.featured { border-color: #FFD700; box-shadow: 0 0 40px rgba(255, 215, 0, 0.4); }
+        .card.featured:hover { box-shadow: 0 0 60px rgba(255, 215, 0, 0.6); }
         .canvas-wrap {
             display: flex; justify-content: center;
             background: linear-gradient(180deg, #000 0%, #1a0040 80%, #4a0080 100%);
-            border-radius: 16px;
-            padding: 30px 24px 40px;
-            border: 2px solid #18FFFF;
-            box-shadow: 0 0 32px rgba(24, 255, 255, 0.3), inset 0 0 30px rgba(0,0,0,0.5);
-            position: relative;
-            overflow: hidden;
+            border-radius: 12px; padding: 20px 0 28px;
+            margin-bottom: 16px;
+            border: 1px solid rgba(24, 255, 255, 0.3);
+            position: relative; overflow: hidden;
         }
         .canvas-wrap::before {
             content: ""; position: absolute; inset: 0;
-            background: radial-gradient(ellipse at center 70%, rgba(0, 229, 255, 0.15) 0%, transparent 60%);
+            background: radial-gradient(ellipse at center 80%, rgba(0, 229, 255, 0.18) 0%, transparent 60%);
             pointer-events: none;
         }
-        .canvas-wrap canvas {
-            display: block; position: relative; z-index: 1;
-        }
-        .info {
-            padding: 0 6px;
-        }
-        .info h2 {
-            font-size: 26px; color: #FFEB3B; letter-spacing: 2px;
-            margin-bottom: 14px;
-        }
-        .info p {
-            font-size: 15px; line-height: 1.7; color: #E0F7FA;
-            margin-bottom: 16px;
-        }
-        .info ul {
-            list-style: none; padding: 0;
-        }
-        .info li {
-            font-size: 14px; line-height: 1.8; color: #B0BEC5;
-            padding-left: 18px; position: relative;
-        }
-        .info li::before {
-            content: "▸"; position: absolute; left: 0;
-            color: #18FFFF;
-        }
-        .compare {
-            margin-top: 50px;
-            text-align: center;
-        }
-        .compare h3 {
-            font-size: 18px; color: #FF80AB; letter-spacing: 4px;
-            margin-bottom: 18px;
-        }
-        .compare-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            max-width: 540px; margin: 0 auto;
-        }
-        .compare-card {
-            background: rgba(20, 20, 40, 0.6);
-            border: 1px solid #444;
-            border-radius: 12px;
-            padding: 14px;
-        }
-        .compare-card .label {
-            font-size: 13px; color: #B0BEC5; letter-spacing: 2px;
-            margin-top: 10px;
-        }
-        .compare-card.featured {
-            border-color: #FFEB3B;
-            box-shadow: 0 0 20px rgba(255, 235, 59, 0.3);
-        }
-        .compare-card.featured .label { color: #FFEB3B; }
+        canvas { display: block; position: relative; z-index: 1; }
+        .name { font-size: 20px; font-weight: 800; color: #FFEB3B; letter-spacing: 1px; }
+        .tag { font-size: 11px; color: #18FFFF; letter-spacing: 3px; margin: 4px 0 12px; }
+        .desc { font-size: 13px; color: #E0F7FA; line-height: 1.6; }
+        .featured .name { color: #FFD700; font-size: 22px; }
     </style>
 </head>
 <body>
@@ -138,188 +78,275 @@
             <a href="./" class="back">← ゲームに もどる</a>
             <a href="./bike-preview.html" class="back">← トップビュー案</a>
         </div>
-        <h1>BIKE 3D</h1>
-        <div class="sub">◤ REAR VIEW PERSPECTIVE ◢</div>
-
-        <div class="hero">
-            <div class="canvas-wrap" id="hero-wrap"></div>
-            <div class="info">
-                <h2>後方視点 立体バイク</h2>
-                <p>カメラの位置を<strong>ライダーの真後ろ</strong>に移動。実際のレーシングゲーム（マリオカート、リッジレーサー）のような視点。</p>
-                <ul>
-                    <li>大きなリアタイヤが手前に近い</li>
-                    <li>スポーク付きのゴールドリム + シアンハブ</li>
-                    <li>ライダーの背中・肩アーマー</li>
-                    <li>ヘルメットの後頭部 + ゴールドの背骨</li>
-                    <li>奥に伸びるガスタンク（遠近感）</li>
-                    <li>左右からハンドルを握る腕</li>
-                    <li>ヘッドライトとフロントフェアリングが奥に小さく見える</li>
-                    <li>左右にエキゾースト + オレンジの排気炎</li>
-                    <li>下部にプラズマ後方噴射（シアン発光）</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="compare">
-            <h3>VS 現在のトップビュー</h3>
-            <div class="compare-grid">
-                <div class="compare-card">
-                    <div id="cmp-top"></div>
-                    <div class="label">CURRENT (TOP-DOWN)</div>
-                </div>
-                <div class="compare-card featured">
-                    <div id="cmp-rear"></div>
-                    <div class="label">★ NEW (REAR 3D)</div>
-                </div>
-            </div>
-        </div>
+        <h1>BIKE 3D — REAR VIEW</h1>
+        <div class="sub">◤ 後方視点 立体デザイン 全6案 ◢</div>
+        <div class="grid" id="grid"></div>
     </main>
 
-    <div id="phaser-hidden" style="position:absolute; visibility:hidden; pointer-events:none; left:-9999px;"></div>
+    <div id="phaser-hidden" style="position:absolute; visibility:hidden; left:-9999px;"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
     <script>
-    const REAR_W = 240, REAR_H = 320;
-    const TOP_W = 110, TOP_H = 200;
-    const HERO_SCALE = 1.4;
+    const W = 240, H = 320;
+
+    const designs = [
+        { id: 'samurai', name: 'B: サイバー侍', tag: 'CYBER SAMURAI', featured: true,
+          desc: '兜（鍬形・前立て・吹返・錣）に、刀を背負った最強サムライ。漆黒×朱赤×金箔。',
+          draw: (g, w, h) => drawBike(g, w, h, samuraiP, samuraiExtras) },
+        { id: 'current', name: '◎ 現在のスタイル', tag: 'CURRENT', desc: '今のシアン×ゴールドのレーシングカラー。基本スタイル。',
+          draw: (g, w, h) => drawBike(g, w, h, currentP) },
+        { id: 'stealth', name: 'A: ステルス・ダークナイト', tag: 'STEALTH BLACK',
+          desc: 'マットブラック+赤い細ライン。装飾を削ぎ落とした冷徹なミニマル。',
+          draw: (g, w, h) => drawBike(g, w, h, stealthP) },
+        { id: 'motogp', name: 'C: ガチMotoGP', tag: 'PRO RACING',
+          desc: '赤×白×蛍光イエロー。番号「7」、本物のサーキット感。',
+          draw: (g, w, h) => drawBike(g, w, h, motogpP, motogpExtras) },
+        { id: 'hover', name: 'D: ホバーバイク', tag: 'ANTI-GRAVITY',
+          desc: 'タイヤなし。シアンの推力リングで浮遊するSF機。',
+          draw: (g, w, h) => drawBike(g, w, h, hoverP) },
+        { id: 'synth', name: 'E: シンセウェーブ80\'s', tag: 'SYNTHWAVE',
+          desc: 'マゼンタ×シアン×ネオン紫。VAPORWAVEのワイヤーフレーム。',
+          draw: (g, w, h) => drawBike(g, w, h, synthP, synthExtras) },
+        { id: 'mecha', name: 'F: 重装コンバット', tag: 'COMBAT MECH',
+          desc: '軍用グリーン×オレンジ警告ストライプ。サイドミサイルポッド付き。',
+          draw: (g, w, h) => drawBike(g, w, h, mechaP, mechaExtras) },
+    ];
 
     new Phaser.Game({
-        type: Phaser.CANVAS,
-        width: 1, height: 1,
-        parent: 'phaser-hidden',
-        transparent: true,
-        scene: {
-            create() {
-                const g1 = this.make.graphics({ add: false });
-                drawRear3D(g1, REAR_W, REAR_H);
-                g1.generateTexture('rear', REAR_W, REAR_H);
-                g1.destroy();
-
-                const g2 = this.make.graphics({ add: false });
-                drawTopDown(g2, TOP_W, TOP_H);
-                g2.generateTexture('top', TOP_W, TOP_H);
-                g2.destroy();
-
-                renderTo('hero-wrap', 'rear', REAR_W, REAR_H, HERO_SCALE, this);
-                renderTo('cmp-top', 'top', TOP_W, TOP_H, 1.2, this);
-                renderTo('cmp-rear', 'rear', REAR_W, REAR_H, 0.6, this);
+        type: Phaser.CANVAS, width: 1, height: 1,
+        parent: 'phaser-hidden', transparent: true,
+        scene: { create() {
+            for (const d of designs) {
+                const g = this.make.graphics({ add: false });
+                d.draw(g, W, H);
+                g.generateTexture(d.id, W, H);
+                g.destroy();
             }
-        }
+            const grid = document.getElementById('grid');
+            for (const d of designs) {
+                const card = document.createElement('div');
+                card.className = 'card' + (d.featured ? ' featured' : '');
+                const wrap = document.createElement('div');
+                wrap.className = 'canvas-wrap';
+                const c = document.createElement('canvas');
+                c.width = W; c.height = H;
+                c.getContext('2d').drawImage(this.textures.get(d.id).getSourceImage(), 0, 0);
+                wrap.appendChild(c);
+                card.appendChild(wrap);
+                card.insertAdjacentHTML('beforeend',
+                    `<div class="name">${d.name}</div><div class="tag">${d.tag}</div><div class="desc">${d.desc}</div>`);
+                grid.appendChild(card);
+            }
+        }}
     });
 
-    function renderTo(parentId, key, sw, sh, scale, scene) {
-        const c = document.createElement('canvas');
-        c.width = sw; c.height = sh;
-        c.style.width = (sw * scale) + 'px';
-        c.style.height = (sh * scale) + 'px';
-        c.getContext('2d').drawImage(scene.textures.get(key).getSourceImage(), 0, 0);
-        document.getElementById(parentId).appendChild(c);
+    // === COLOR PALETTES ===
+    const currentP = {
+        ug1: 0x00E5FF, ug2: 0xFF1744, plasma: 0x00FFFF, plasmaCore: 0xFFFFFF,
+        bodyDark: 0x080814, bodySide: 0x14060a, bodyMid: 0x141420,
+        rim: 0xFFD700, hub: 0x18FFFF, hubCore: 0xFFFFFF,
+        trim: 0x18FFFF, trimAcc: 0xFFD700,
+        tail: 0xFF1744, tailIn: 0xFF80AB,
+        suit: 0x14142a, stripe1: 0x18FFFF, stripe2: 0xFFD700, accent: 0xE91E63, spine: 0xFF1744,
+        helmet: 0x080808, helmetHi: 0x1a1a2a, helmetSpine: 0xFFD700, helmetAcc: 0xFF1744, visor: 0x18FFFF,
+        headlight: 0xFFEB3B, exhaust: 0x37474F, flame: 0xFF6F00
+    };
+    const stealthP = { ...currentP,
+        ug1: 0xFF1744, ug2: 0xFF1744, plasma: 0xFF1744, plasmaCore: 0xFF80AB,
+        bodyDark: 0x050505, bodySide: 0x0a0a0a, bodyMid: 0x080808,
+        rim: 0xFF1744, hub: 0xFF1744, hubCore: 0xFFFFFF,
+        trim: 0xFF1744, trimAcc: 0xFF1744,
+        tail: 0xFF1744, tailIn: 0xFF80AB,
+        suit: 0x0a0a0a, stripe1: 0xFF1744, stripe2: 0xFF1744, accent: 0xFF1744, spine: 0xFF1744,
+        helmet: 0x000000, helmetSpine: 0xFF1744, helmetAcc: 0xFF1744, visor: 0xFF1744,
+        headlight: 0xFF1744
+    };
+    const samuraiP = { ...currentP,
+        ug1: 0xC62828, ug2: 0xFFD700, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
+        bodyDark: 0x14060a, bodySide: 0x080406, bodyMid: 0x14060a,
+        rim: 0xC62828, hub: 0xFFD700, hubCore: 0xC62828,
+        trim: 0xFFD700, trimAcc: 0xFFD700,
+        tail: 0xC62828, tailIn: 0xFF1744,
+        suit: 0x14060a, stripe1: 0xC62828, stripe2: 0xFFD700, accent: 0xFFD700, spine: 0xFFD700,
+        helmet: 0x14060a, helmetSpine: 0xFFD700, helmetAcc: 0xC62828, visor: 0xFF1744,
+        headlight: 0xFF1744
+    };
+    const motogpP = { ...currentP,
+        ug1: 0xC62828, ug2: 0xFFEB3B, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
+        bodyDark: 0xC62828, bodySide: 0x8B0000, bodyMid: 0xC62828,
+        rim: 0xFFD700, hub: 0xFFFFFF, hubCore: 0x000,
+        trim: 0xFFFFFF, trimAcc: 0xFFEB3B,
+        tail: 0xFF1744, tailIn: 0xFF80AB,
+        suit: 0xC62828, stripe1: 0xFFFFFF, stripe2: 0xFFEB3B, accent: 0x000, spine: 0xFFFFFF,
+        helmet: 0xFFEB3B, helmetSpine: 0xC62828, helmetAcc: 0x000, visor: 0x111,
+        headlight: 0xFFEB3B
+    };
+    const hoverP = { ...currentP,
+        ug1: 0x00E5FF, ug2: 0x18FFFF, plasma: 0x00FFFF, plasmaCore: 0xFFFFFF,
+        bodyDark: 0x080814, bodySide: 0x141420, bodyMid: 0x141420,
+        rim: 0x00E5FF, hub: 0xFFFFFF, hubCore: 0x18FFFF,
+        trim: 0x18FFFF, trimAcc: 0xFFFFFF,
+        tail: 0x00E5FF, tailIn: 0x18FFFF,
+        suit: 0x141420, stripe1: 0x18FFFF, stripe2: 0xFFFFFF, accent: 0x00E5FF, spine: 0x18FFFF,
+        helmet: 0x080814, helmetSpine: 0x18FFFF, helmetAcc: 0xFFFFFF, visor: 0x18FFFF,
+        headlight: 0x18FFFF, noWheel: true
+    };
+    const synthP = { ...currentP,
+        ug1: 0xE91E63, ug2: 0x18FFFF, plasma: 0xE91E63, plasmaCore: 0x18FFFF,
+        bodyDark: 0x4A148C, bodySide: 0x2D0040, bodyMid: 0x4A148C,
+        rim: 0xE91E63, hub: 0x18FFFF, hubCore: 0xFFFFFF,
+        trim: 0xE91E63, trimAcc: 0x18FFFF,
+        tail: 0xE91E63, tailIn: 0xFF80AB,
+        suit: 0x4A148C, stripe1: 0x18FFFF, stripe2: 0xE91E63, accent: 0xFFFFFF, spine: 0xE91E63,
+        helmet: 0x4A148C, helmetSpine: 0xE91E63, helmetAcc: 0x18FFFF, visor: 0x18FFFF,
+        headlight: 0xFF80AB
+    };
+    const mechaP = { ...currentP,
+        ug1: 0xFF6F00, ug2: 0x4A5D2A, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
+        bodyDark: 0x4A5D2A, bodySide: 0x2A3D1A, bodyMid: 0x4A5D2A,
+        rim: 0xFF6F00, hub: 0x424242, hubCore: 0xFF6F00,
+        trim: 0xFF6F00, trimAcc: 0x000,
+        tail: 0xFF6F00, tailIn: 0xFFEB3B,
+        suit: 0x4A5D2A, stripe1: 0xFF6F00, stripe2: 0x000, accent: 0xFF1744, spine: 0xFF6F00,
+        helmet: 0x2A3D1A, helmetSpine: 0xFF6F00, helmetAcc: 0xFF6F00, visor: 0xFF6F00,
+        headlight: 0xFFEB3B
+    };
+
+    // === MAIN BIKE DRAW ===
+    function drawBike(g, w, h, p, extras) {
+        const cx = w / 2;
+        // Shadow + underglow
+        g.fillStyle(0x000000, 0.55); g.fillEllipse(cx, h - 6, 150, 26);
+        g.fillStyle(p.ug1, 0.22); g.fillEllipse(cx, h - 4, 160, 30);
+        g.fillStyle(p.ug2, 0.16); g.fillEllipse(cx, h - 14, 130, 30);
+        // Plasma engine
+        g.fillStyle(p.plasma, 0.85); g.fillEllipse(cx - 24, h - 18, 32, 20); g.fillEllipse(cx + 24, h - 18, 32, 20);
+        g.fillStyle(p.plasmaCore, 0.95); g.fillEllipse(cx - 24, h - 18, 16, 10); g.fillEllipse(cx + 24, h - 18, 16, 10);
+        if (p.noWheel) drawHoverPad(g, cx, h, p);
+        else drawWheel(g, cx, h, p);
+        drawCowl(g, cx, h, p);
+        drawTailLight(g, cx, h, p);
+        drawNumberPlate(g, cx, h, p);
+        if (extras) extras(g, cx, h, p, 'preTank');
+        drawTank(g, cx, h, p);
+        drawTorso(g, cx, h, p);
+        drawShoulders(g, cx, h, p);
+        drawArms(g, cx, h, p);
+        drawHelmet(g, cx, h, p);
+        drawFairing(g, cx, h, p);
+        drawExhausts(g, cx, h, p);
+        if (extras) extras(g, cx, h, p, 'post');
     }
 
-    function drawRear3D(g, w, h) {
-        const cx = w / 2;
-
-        g.fillStyle(0x000000, 0.55); g.fillEllipse(cx, h - 6, 150, 26);
-        g.fillStyle(0x00E5FF, 0.25); g.fillEllipse(cx, h - 4, 160, 30);
-        g.fillStyle(0xFF1744, 0.18); g.fillEllipse(cx, h - 14, 130, 30);
-
-        g.fillStyle(0x00FFFF, 0.85); g.fillEllipse(cx - 24, h - 18, 32, 20); g.fillEllipse(cx + 24, h - 18, 32, 20);
-        g.fillStyle(0xFFFFFF, 0.95); g.fillEllipse(cx - 24, h - 18, 16, 10); g.fillEllipse(cx + 24, h - 18, 16, 10);
-        g.fillStyle(0xE91E63, 0.5); g.fillCircle(cx, h - 12, 7);
-
+    function drawWheel(g, cx, h, p) {
         g.fillStyle(0x080808); g.fillEllipse(cx, h - 36, 116, 70);
         g.fillStyle(0x1a1a1a); g.fillEllipse(cx, h - 38, 110, 64);
         g.fillStyle(0x000); g.fillEllipse(cx - 44, h - 36, 24, 60); g.fillEllipse(cx + 44, h - 36, 24, 60);
-
         g.lineStyle(1, 0x0a0a0a);
         for (let i = -3; i <= 3; i++) {
             const x = cx + i * 14;
             g.lineBetween(x, h - 58 + Math.abs(i), x, h - 14 - Math.abs(i) * 0.5);
         }
-
-        g.fillStyle(0xFFD700); g.fillEllipse(cx, h - 42, 60, 36);
+        g.fillStyle(p.rim); g.fillEllipse(cx, h - 42, 60, 36);
         g.fillStyle(0x1a1a1a); g.fillEllipse(cx, h - 42, 52, 30);
-
-        g.lineStyle(2.5, 0xFFD700, 0.9);
+        g.lineStyle(2.5, p.rim, 0.95);
         for (let i = 0; i < 6; i++) {
             const a = (i / 6) * Math.PI * 2;
             g.lineBetween(cx, h - 42, cx + Math.cos(a) * 26, h - 42 + Math.sin(a) * 15);
         }
-        g.fillStyle(0x18FFFF); g.fillCircle(cx, h - 42, 8);
-        g.fillStyle(0xFFFFFF); g.fillCircle(cx, h - 42, 3.5);
-
+        g.fillStyle(p.hub); g.fillCircle(cx, h - 42, 8);
+        g.fillStyle(p.hubCore); g.fillCircle(cx, h - 42, 3.5);
         g.lineStyle(1.5, 0xC0C0C0, 0.7); g.strokeEllipse(cx, h - 42, 64, 38);
+    }
 
-        g.fillStyle(0x080814);
+    function drawHoverPad(g, cx, h, p) {
+        // Twin thrust ports glowing brightly
+        g.fillStyle(p.plasma, 0.6); g.fillEllipse(cx - 28, h - 32, 50, 36); g.fillEllipse(cx + 28, h - 32, 50, 36);
+        g.fillStyle(p.plasma); g.fillEllipse(cx - 28, h - 36, 36, 22); g.fillEllipse(cx + 28, h - 36, 36, 22);
+        g.fillStyle(p.plasmaCore); g.fillEllipse(cx - 28, h - 36, 22, 12); g.fillEllipse(cx + 28, h - 36, 22, 12);
+        g.fillStyle(0xE91E63, 0.5); g.fillEllipse(cx, h - 30, 18, 10);
+        g.lineStyle(2, p.trim, 0.9); g.strokeEllipse(cx - 28, h - 36, 50, 30); g.strokeEllipse(cx + 28, h - 36, 50, 30);
+    }
+
+    function drawCowl(g, cx, h, p) {
+        g.fillStyle(p.bodyDark);
         g.beginPath();
         g.moveTo(cx - 70, h - 64); g.lineTo(cx + 70, h - 64);
         g.lineTo(cx + 58, h - 110); g.lineTo(cx - 58, h - 110);
         g.closePath(); g.fillPath();
-
-        g.fillStyle(0x141420);
+        g.fillStyle(p.bodySide);
         g.fillTriangle(cx - 70, h - 64, cx - 58, h - 110, cx - 64, h - 87);
         g.fillTriangle(cx + 70, h - 64, cx + 58, h - 110, cx + 64, h - 87);
-
-        g.lineStyle(2, 0x18FFFF, 0.95);
+        g.lineStyle(2, p.trim, 0.95);
         g.beginPath();
         g.moveTo(cx - 70, h - 64); g.lineTo(cx + 70, h - 64);
         g.lineTo(cx + 58, h - 110); g.lineTo(cx - 58, h - 110);
         g.closePath(); g.strokePath();
+    }
 
-        g.fillStyle(0xFF1744); g.fillRoundedRect(cx - 60, h - 76, 120, 9, 3);
-        g.fillStyle(0xFF80AB); g.fillRoundedRect(cx - 58, h - 74, 116, 4, 2);
+    function drawTailLight(g, cx, h, p) {
+        g.fillStyle(p.tail); g.fillRoundedRect(cx - 60, h - 76, 120, 9, 3);
+        g.fillStyle(p.tailIn); g.fillRoundedRect(cx - 58, h - 74, 116, 4, 2);
         g.fillStyle(0xFFFFFF); g.fillRect(cx - 50, h - 73, 100, 1.5);
+    }
 
-        g.fillStyle(0xFFD700); g.fillRoundedRect(cx - 22, h - 105, 44, 18, 2);
+    function drawNumberPlate(g, cx, h, p) {
+        g.fillStyle(p.trimAcc === 0xFFD700 ? 0xFFD700 : 0xFFFFFF);
+        g.fillRoundedRect(cx - 22, h - 105, 44, 18, 2);
         g.lineStyle(1, 0x000); g.strokeRoundedRect(cx - 22, h - 105, 44, 18, 2);
-        g.fillStyle(0x000); g.fillRect(cx - 8, h - 100, 16, 2.5); g.fillRect(cx + 6, h - 100, 2.5, 12);
+        g.fillStyle(0x000);
+        g.fillRect(cx - 8, h - 100, 16, 2.5); g.fillRect(cx + 6, h - 100, 2.5, 12);
+    }
 
-        g.fillStyle(0x080814);
+    function drawTank(g, cx, h, p) {
+        g.fillStyle(p.bodyDark);
         g.beginPath();
         g.moveTo(cx - 58, h - 110); g.lineTo(cx + 58, h - 110);
         g.lineTo(cx + 40, h - 175); g.lineTo(cx - 40, h - 175);
         g.closePath(); g.fillPath();
-
         g.lineStyle(0.7, 0x252540, 0.7);
         for (let i = 0; i < 6; i++) {
             const y = h - 118 - i * 10;
             const off = i * 1.8;
             g.lineBetween(cx - 56 + off, y, cx + 56 - off, y);
         }
-        g.fillStyle(0xFFD700);
+        g.fillStyle(p.trimAcc);
         g.fillRect(cx - 54, h - 128, 108, 1.8);
         g.fillRect(cx - 46, h - 158, 92, 1.8);
-
-        g.lineStyle(2, 0x18FFFF, 0.95);
+        g.lineStyle(2, p.trim, 0.95);
         g.beginPath();
         g.moveTo(cx - 58, h - 110); g.lineTo(cx - 40, h - 175);
         g.moveTo(cx + 58, h - 110); g.lineTo(cx + 40, h - 175);
         g.strokePath();
+        g.fillStyle(p.spine); g.fillRect(cx - 1.2, h - 175, 2.4, 65);
+    }
 
-        g.fillStyle(0xFF1744); g.fillRect(cx - 1.2, h - 175, 2.4, 65);
-
-        g.fillStyle(0x14142a);
+    function drawTorso(g, cx, h, p) {
+        g.fillStyle(p.suit);
         g.beginPath();
         g.moveTo(cx - 44, h - 175); g.lineTo(cx + 44, h - 175);
         g.lineTo(cx + 36, h - 222); g.lineTo(cx - 36, h - 222);
         g.closePath(); g.fillPath();
+        g.fillStyle(p.stripe1); g.fillRect(cx - 38, h - 200, 76, 4);
+        g.fillStyle(p.stripe2); g.fillRect(cx - 38, h - 193, 76, 1.5);
+        g.fillStyle(p.accent); g.fillRect(cx - 8, h - 188, 16, 9);
+        g.fillStyle(p.spine); g.fillRect(cx - 1.5, h - 222, 3, 47);
+    }
 
-        g.fillStyle(0x18FFFF); g.fillRect(cx - 38, h - 200, 76, 4);
-        g.fillStyle(0xFFD700); g.fillRect(cx - 38, h - 193, 76, 1.5);
-        g.fillStyle(0xE91E63); g.fillRect(cx - 8, h - 188, 16, 9);
-        g.fillStyle(0xFF1744); g.fillRect(cx - 1.5, h - 222, 3, 47);
-
+    function drawShoulders(g, cx, h, p) {
         g.fillStyle(0x1a1a30);
         g.fillRoundedRect(cx - 44, h - 217, 20, 26, 5);
         g.fillRoundedRect(cx + 24, h - 217, 20, 26, 5);
-        g.fillStyle(0x18FFFF);
+        g.fillStyle(p.stripe1);
         g.fillRect(cx - 42, h - 209, 16, 1.5);
         g.fillRect(cx + 26, h - 209, 16, 1.5);
-        g.lineStyle(1, 0xFFD700);
+        g.lineStyle(1, p.trimAcc);
         g.strokeRoundedRect(cx - 44, h - 217, 20, 26, 5);
         g.strokeRoundedRect(cx + 24, h - 217, 20, 26, 5);
+    }
 
-        g.fillStyle(0x14142a);
+    function drawArms(g, cx, h, p) {
+        g.fillStyle(p.suit);
         g.beginPath();
         g.moveTo(cx - 44, h - 209); g.lineTo(cx - 36, h - 196);
         g.lineTo(cx - 70, h - 145); g.lineTo(cx - 80, h - 152);
@@ -328,89 +355,264 @@
         g.moveTo(cx + 44, h - 209); g.lineTo(cx + 36, h - 196);
         g.lineTo(cx + 70, h - 145); g.lineTo(cx + 80, h - 152);
         g.closePath(); g.fillPath();
-
-        g.fillStyle(0x18FFFF, 0.7); g.fillRect(cx - 70, h - 158, 8, 2);
-        g.fillStyle(0x18FFFF, 0.7); g.fillRect(cx + 62, h - 158, 8, 2);
-
         g.fillStyle(0x000); g.fillCircle(cx - 75, h - 148, 10); g.fillCircle(cx + 75, h - 148, 10);
-        g.lineStyle(1, 0x444); g.strokeCircle(cx - 75, h - 148, 10); g.strokeCircle(cx + 75, h - 148, 10);
-        g.fillStyle(0xFFD700); g.fillRect(cx - 80, h - 152, 9, 2); g.fillRect(cx + 71, h - 152, 9, 2);
-        g.fillStyle(0x18FFFF); g.fillCircle(cx - 75, h - 152, 2.5); g.fillCircle(cx + 75, h - 152, 2.5);
+        g.lineStyle(1, p.trimAcc); g.strokeCircle(cx - 75, h - 148, 10); g.strokeCircle(cx + 75, h - 148, 10);
+        g.fillStyle(p.trimAcc); g.fillRect(cx - 80, h - 152, 9, 2); g.fillRect(cx + 71, h - 152, 9, 2);
+        g.fillStyle(p.hub); g.fillCircle(cx - 75, h - 152, 2); g.fillCircle(cx + 75, h - 152, 2);
+    }
 
-        g.fillStyle(0x080808); g.fillEllipse(cx, h - 240, 58, 46);
-        g.fillStyle(0x1a1a2a, 0.85); g.fillEllipse(cx - 8, h - 250, 32, 24);
+    function drawHelmet(g, cx, h, p) {
+        // Default racing helmet (samurai overrides)
+        g.fillStyle(p.helmet); g.fillEllipse(cx, h - 240, 58, 46);
+        g.fillStyle(p.helmetHi || 0x1a1a2a, 0.85); g.fillEllipse(cx - 8, h - 250, 32, 24);
         g.lineStyle(1.5, 0x2a2a3a); g.strokeEllipse(cx, h - 240, 58, 46);
-
-        g.fillStyle(0xFFD700);
+        g.fillStyle(p.helmetSpine);
         g.fillRect(cx - 3, h - 264, 6, 42);
         g.fillTriangle(cx - 5, h - 264, cx + 5, h - 264, cx, h - 274);
-
-        g.fillStyle(0xFF1744);
+        g.fillStyle(p.helmetAcc);
         g.fillTriangle(cx - 28, h - 240, cx - 20, h - 234, cx - 20, h - 246);
         g.fillTriangle(cx + 28, h - 240, cx + 20, h - 234, cx + 20, h - 246);
-
-        g.fillStyle(0x0a0a14); g.fillEllipse(cx, h - 218, 52, 14);
-        g.lineStyle(1.5, 0x18FFFF, 0.85); g.strokeEllipse(cx, h - 218, 52, 14);
-
-        g.fillStyle(0xFFD700);
+        g.fillStyle(p.bodyDark); g.fillEllipse(cx, h - 218, 52, 14);
+        g.lineStyle(1.5, p.trim, 0.85); g.strokeEllipse(cx, h - 218, 52, 14);
+        g.fillStyle(p.trimAcc);
         g.fillRect(cx - 9, h - 235, 18, 1.4);
         g.fillRect(cx - 13, h - 230, 26, 1.4);
+    }
 
-        g.fillStyle(0x141420);
+    function drawFairing(g, cx, h, p) {
+        g.fillStyle(p.bodyMid);
         g.beginPath();
         g.moveTo(cx - 36, h - 222); g.lineTo(cx + 36, h - 222);
         g.lineTo(cx + 25, h - 256); g.lineTo(cx - 25, h - 256);
         g.closePath(); g.fillPath();
-        g.lineStyle(1, 0x18FFFF, 0.7);
+        g.lineStyle(1, p.trim, 0.7);
         g.beginPath();
         g.moveTo(cx - 36, h - 222); g.lineTo(cx + 36, h - 222);
         g.lineTo(cx + 25, h - 256); g.lineTo(cx - 25, h - 256);
         g.closePath(); g.strokePath();
-
         g.fillStyle(0x080808); g.fillRect(cx - 20, h - 256, 40, 4);
-        g.fillStyle(0xFFEB3B); g.fillRect(cx - 18, h - 255.5, 36, 2);
+        g.fillStyle(p.headlight); g.fillRect(cx - 18, h - 255.5, 36, 2);
         g.fillStyle(0xFFFFFF); g.fillRect(cx - 16, h - 255, 32, 1);
-
-        g.fillStyle(0xFFEB3B, 0.18);
+        g.fillStyle(p.headlight, 0.18);
         g.fillTriangle(cx - 36, h - 280, cx + 36, h - 280, cx, h - 258);
-
-        g.fillStyle(0x37474F); g.fillRoundedRect(cx - 90, h - 64, 16, 40, 4);
-        g.fillRoundedRect(cx + 74, h - 64, 16, 40, 4);
-        g.fillStyle(0x607D8B); g.fillRect(cx - 90, h - 64, 16, 5); g.fillRect(cx + 74, h - 64, 16, 5);
-
-        g.fillStyle(0x000); g.fillEllipse(cx - 82, h - 28, 16, 8); g.fillEllipse(cx + 82, h - 28, 16, 8);
-        g.fillStyle(0xFF6F00); g.fillEllipse(cx - 82, h - 28, 11, 5); g.fillEllipse(cx + 82, h - 28, 11, 5);
-        g.fillStyle(0xFFEB3B); g.fillEllipse(cx - 82, h - 28, 5, 2.5); g.fillEllipse(cx + 82, h - 28, 5, 2.5);
-
-        g.fillStyle(0xFF6F00, 0.4); g.fillCircle(cx - 82, h - 14, 7); g.fillCircle(cx + 82, h - 14, 7);
     }
 
-    function drawTopDown(g, w, h) {
-        const cx = w / 2;
-        g.fillStyle(0x00E5FF, 0.14); g.fillEllipse(cx, h - 4, 90, 36);
-        g.fillStyle(0x000, 0.6); g.fillEllipse(cx + 5, h/2 + 14, 58, 184);
-        g.fillStyle(0x080810); g.fillRoundedRect(cx - 12, 4, 24, 50, 5);
-        g.fillStyle(0x00E5FF, 0.45); g.fillCircle(cx, 28, 10);
-        g.fillStyle(0x00BCD4); g.fillCircle(cx, 28, 5);
-        g.fillStyle(0xFFD700); g.fillCircle(cx, 28, 2);
-        g.fillStyle(0x37474F); g.fillRect(cx - 11, 50, 4, 32); g.fillRect(cx + 7, 50, 4, 32);
-        g.fillStyle(0x141420); g.fillTriangle(cx, 48, cx - 33, 80, cx + 33, 80);
-        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeTriangle(cx, 48, cx - 33, 80, cx + 33, 80);
-        g.fillStyle(0xFFEB3B); g.fillRect(cx - 26, 65, 52, 2);
-        g.fillStyle(0x070710); g.fillRoundedRect(cx - 28, 88, 56, 60, 12);
-        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeRoundedRect(cx - 28, 88, 56, 60, 12);
-        g.fillStyle(0xFFD700); g.fillRect(cx - 27, 99, 54, 1);
-        g.fillStyle(0x070710); g.fillCircle(cx, 102, 18);
-        g.fillStyle(0xFFD700); g.fillRect(cx - 1.5, 84, 3, 32);
-        g.fillStyle(0x00E5FF, 0.9); g.fillEllipse(cx, 94, 24, 8);
-        g.fillStyle(0x070710); g.fillRoundedRect(cx - 22, 150, 44, 28, 8);
-        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeRoundedRect(cx - 22, 150, 44, 28, 8);
-        g.fillStyle(0xFFD700); g.fillRect(cx - 11, 158, 22, 11);
-        g.fillStyle(0x080810); g.fillRoundedRect(cx - 16, 174, 32, 26, 8);
-        g.fillStyle(0x00E5FF, 0.45); g.fillCircle(cx, 187, 10);
-        g.fillStyle(0xFFD700); g.fillCircle(cx, 187, 2);
-        g.fillStyle(0xFF1744); g.fillRect(cx - 14, 174, 28, 3);
-        g.fillStyle(0x37474F); g.fillRect(cx - 32, 164, 5, 22); g.fillRect(cx + 27, 164, 5, 22);
+    function drawExhausts(g, cx, h, p) {
+        g.fillStyle(0x37474F); g.fillRoundedRect(cx - 90, h - 64, 16, 40, 4); g.fillRoundedRect(cx + 74, h - 64, 16, 40, 4);
+        g.fillStyle(p.trimAcc); g.fillRect(cx - 90, h - 64, 16, 5); g.fillRect(cx + 74, h - 64, 16, 5);
+        g.fillStyle(0x000); g.fillEllipse(cx - 82, h - 28, 16, 8); g.fillEllipse(cx + 82, h - 28, 16, 8);
+        g.fillStyle(p.flame); g.fillEllipse(cx - 82, h - 28, 11, 5); g.fillEllipse(cx + 82, h - 28, 11, 5);
+        g.fillStyle(0xFFEB3B); g.fillEllipse(cx - 82, h - 28, 5, 2.5); g.fillEllipse(cx + 82, h - 28, 5, 2.5);
+        g.fillStyle(p.flame, 0.4); g.fillCircle(cx - 82, h - 14, 7); g.fillCircle(cx + 82, h - 14, 7);
+    }
+
+    // === SAMURAI EXTRAS (kabuto helmet override + katana on cowl) ===
+    function samuraiExtras(g, cx, h, p, phase) {
+        if (phase === 'preTank') {
+            // KATANA (sword) strapped horizontally across the cowl
+            g.fillStyle(0x1a1a1a); g.fillRect(cx - 56, h - 92, 112, 4);
+            // Sheath body (saya)
+            g.fillStyle(0x080808); g.fillRoundedRect(cx - 55, h - 100, 110, 8, 2);
+            // Gold rings on sheath
+            g.fillStyle(0xFFD700);
+            [-52, -32, -12, 10, 30].forEach(dx => g.fillRect(cx + dx, h - 100, 2.5, 8));
+            // Tsuba (guard) at handle end
+            g.fillStyle(0xFFD700); g.fillCircle(cx + 50, h - 96, 6.5);
+            g.fillStyle(0x1a1a1a); g.fillCircle(cx + 50, h - 96, 3.5);
+            // Tsuka (handle) wrapped in red
+            g.fillStyle(0xC62828); g.fillRoundedRect(cx + 56, h - 100, 22, 8, 2);
+            // Diamond pattern on handle
+            g.fillStyle(0x000);
+            for (let i = 0; i < 5; i++) {
+                g.fillTriangle(cx + 58 + i * 4, h - 99, cx + 60 + i * 4, h - 96, cx + 58 + i * 4, h - 93);
+            }
+            // Pommel (kashira)
+            g.fillStyle(0xFFD700); g.fillCircle(cx + 79, h - 96, 4);
+            g.fillStyle(0xC62828); g.fillCircle(cx + 79, h - 96, 1.8);
+            // Sheath tip (kojiri)
+            g.fillStyle(0xFFD700);
+            g.fillTriangle(cx - 55, h - 100, cx - 55, h - 92, cx - 64, h - 96);
+            return;
+        }
+        // post: redraw KABUTO over the default helmet (covering it)
+        // Erase default helmet area first by re-drawing background-colored ellipse
+        // Then draw kabuto
+
+        // Helmet bowl (鉢) - dark crimson black
+        g.fillStyle(0x14060a); g.fillEllipse(cx, h - 240, 60, 48);
+        g.fillStyle(0x281020, 0.8); g.fillEllipse(cx, h - 252, 38, 22);
+        g.fillStyle(0xC62828, 0.4); g.fillEllipse(cx - 8, h - 254, 14, 8);
+        g.lineStyle(2, 0xFFD700); g.strokeEllipse(cx, h - 240, 60, 48);
+
+        // Bowl plate divisions (suji-bachi style ridges)
+        g.lineStyle(1, 0xFFD700, 0.5);
+        g.lineBetween(cx - 28, h - 240, cx, h - 264);
+        g.lineBetween(cx + 28, h - 240, cx, h - 264);
+        g.lineBetween(cx - 16, h - 235, cx, h - 264);
+        g.lineBetween(cx + 16, h - 235, cx, h - 264);
+
+        // === MAEDATE (前立て) - center crest pole with ornament
+        g.fillStyle(0xFFD700);
+        g.fillRect(cx - 2.5, h - 270, 5, 32);
+        // Crest ornament at top - sun disc + ray
+        g.fillCircle(cx, h - 278, 6);
+        g.fillStyle(0xC62828); g.fillCircle(cx, h - 278, 3);
+        g.fillStyle(0xFFD700);
+        // Rays around the disc
+        for (let i = 0; i < 8; i++) {
+            const a = (i / 8) * Math.PI * 2;
+            g.fillTriangle(
+                cx + Math.cos(a) * 6, h - 278 + Math.sin(a) * 6,
+                cx + Math.cos(a) * 11, h - 278 + Math.sin(a) * 11,
+                cx + Math.cos(a + 0.3) * 7, h - 278 + Math.sin(a + 0.3) * 7
+            );
+        }
+
+        // === KUWAGATA (鍬形) - giant gold horns sweeping outward
+        g.fillStyle(0xFFD700);
+        // Left horn (curved sweep up and out)
+        g.beginPath();
+        g.moveTo(cx - 24, h - 254);
+        g.lineTo(cx - 36, h - 274);
+        g.lineTo(cx - 42, h - 296);
+        g.lineTo(cx - 32, h - 300);
+        g.lineTo(cx - 28, h - 290);
+        g.lineTo(cx - 22, h - 274);
+        g.lineTo(cx - 14, h - 258);
+        g.closePath(); g.fillPath();
+        // Right horn (mirror)
+        g.beginPath();
+        g.moveTo(cx + 24, h - 254);
+        g.lineTo(cx + 36, h - 274);
+        g.lineTo(cx + 42, h - 296);
+        g.lineTo(cx + 32, h - 300);
+        g.lineTo(cx + 28, h - 290);
+        g.lineTo(cx + 22, h - 274);
+        g.lineTo(cx + 14, h - 258);
+        g.closePath(); g.fillPath();
+
+        // Horn outlines
+        g.lineStyle(1.2, 0x8B4513);
+        g.beginPath();
+        g.moveTo(cx - 24, h - 254); g.lineTo(cx - 36, h - 274);
+        g.lineTo(cx - 42, h - 296); g.lineTo(cx - 32, h - 300);
+        g.lineTo(cx - 28, h - 290); g.lineTo(cx - 22, h - 274);
+        g.lineTo(cx - 14, h - 258); g.closePath();
+        g.strokePath();
+        g.beginPath();
+        g.moveTo(cx + 24, h - 254); g.lineTo(cx + 36, h - 274);
+        g.lineTo(cx + 42, h - 296); g.lineTo(cx + 32, h - 300);
+        g.lineTo(cx + 28, h - 290); g.lineTo(cx + 22, h - 274);
+        g.lineTo(cx + 14, h - 258); g.closePath();
+        g.strokePath();
+
+        // === FUKIGAESHI (吹返) - decorative side flares at cheek level
+        g.fillStyle(0x14060a);
+        g.fillTriangle(cx - 30, h - 230, cx - 44, h - 222, cx - 38, h - 240);
+        g.fillTriangle(cx + 30, h - 230, cx + 44, h - 222, cx + 38, h - 240);
+        g.lineStyle(1.5, 0xFFD700);
+        g.strokeTriangle(cx - 30, h - 230, cx - 44, h - 222, cx - 38, h - 240);
+        g.strokeTriangle(cx + 30, h - 230, cx + 44, h - 222, cx + 38, h - 240);
+        // Family crest (mon) on flares - simple circle
+        g.fillStyle(0xC62828);
+        g.fillCircle(cx - 37, h - 230, 2);
+        g.fillCircle(cx + 37, h - 230, 2);
+
+        // === SHIKORO (錣) - layered neck guard plates
+        for (let i = 0; i < 5; i++) {
+            const py = h - 220 + i * 5;
+            const pw = 64 - i * 4;
+            g.fillStyle(0x14060a); g.fillRoundedRect(cx - pw/2, py, pw, 4.5, 1.5);
+            g.lineStyle(0.8, 0xFFD700, 0.85); g.strokeRoundedRect(cx - pw/2, py, pw, 4.5, 1.5);
+            // Red odoshi (lacing)
+            g.fillStyle(0xC62828);
+            for (let j = -2; j <= 2; j++) g.fillCircle(cx + j * (pw/5.5), py + 2.2, 0.8);
+        }
+
+        // Eye visor (mempo hint - sharp red glowing slit)
+        g.fillStyle(0x000); g.fillEllipse(cx, h - 224, 30, 4);
+        g.fillStyle(0xFF1744); g.fillRect(cx - 12, h - 225, 24, 1.2);
+    }
+
+    // === MOTOGP EXTRAS (sponsor decals + slick tires) ===
+    function motogpExtras(g, cx, h, p, phase) {
+        if (phase === 'post') {
+            // Number 7 on rear cowl center
+            g.fillStyle(0xFFFFFF); g.fillRoundedRect(cx - 10, h - 100, 20, 14, 2);
+            g.fillStyle(0x000);
+            g.fillRect(cx - 5, h - 96, 10, 1.5);
+            g.fillRect(cx + 3, h - 96, 1.5, 8);
+            // Sponsor stickers on tank
+            g.fillStyle(0xFFFFFF); g.fillRect(cx - 18, h - 145, 36, 8);
+            g.fillStyle(0x000); g.fillRect(cx - 14, h - 142, 8, 2); g.fillRect(cx + 6, h - 142, 8, 2);
+            // White checkered stripe on helmet center
+            g.fillStyle(0xFFFFFF); g.fillRect(cx - 12, h - 244, 24, 6);
+            g.fillStyle(0x000);
+            for (let i = 0; i < 4; i++) {
+                if (i % 2 === 0) g.fillRect(cx - 12 + i * 6, h - 244, 6, 3);
+                else g.fillRect(cx - 12 + i * 6, h - 241, 6, 3);
+            }
+        }
+    }
+
+    // === SYNTHWAVE EXTRAS (wireframe grid pattern) ===
+    function synthExtras(g, cx, h, p, phase) {
+        if (phase === 'post') {
+            // Grid lines on tank (vertical)
+            g.lineStyle(0.6, 0x18FFFF, 0.6);
+            for (let i = -3; i <= 3; i++) {
+                const x = cx + i * 14;
+                const yTop = h - 175;
+                const yBot = h - 110;
+                g.lineBetween(x * 0.85 + cx * 0.15, yTop, x, yBot);
+            }
+            // Triangle wireframe on fairing
+            g.lineStyle(0.8, 0xFFFFFF, 0.7);
+            g.lineBetween(cx - 25, h - 256, cx + 25, h - 256);
+            g.lineBetween(cx, h - 256, cx, h - 222);
+            g.lineBetween(cx - 25, h - 256, cx, h - 222);
+            g.lineBetween(cx + 25, h - 256, cx, h - 222);
+            // Sun-like decoration on rear (synthwave staple)
+            g.fillStyle(0xE91E63, 0.4); g.fillCircle(cx, h - 92, 28);
+            g.lineStyle(1, 0xFFEB3B, 0.4);
+            for (let i = 0; i < 6; i++) g.lineBetween(cx, h - 92, cx - 28 + i * 11, h - 78);
+        }
+    }
+
+    // === MECHA EXTRAS (missile pods + chunky tread + antenna) ===
+    function mechaExtras(g, cx, h, p, phase) {
+        if (phase === 'preTank') {
+            // Side missile pods
+            g.fillStyle(0x424242);
+            g.fillRoundedRect(cx - 96, h - 110, 14, 36, 3);
+            g.fillRoundedRect(cx + 82, h - 110, 14, 36, 3);
+            g.fillStyle(0xFF1744);
+            g.fillTriangle(cx - 96, h - 112, cx - 82, h - 112, cx - 89, h - 122);
+            g.fillTriangle(cx + 82, h - 112, cx + 96, h - 112, cx + 89, h - 122);
+            g.lineStyle(1, 0x000);
+            g.strokeRoundedRect(cx - 96, h - 110, 14, 36, 3);
+            g.strokeRoundedRect(cx + 82, h - 110, 14, 36, 3);
+            // Warning stripes on cowl
+            for (let i = 0; i < 8; i++) {
+                const x = cx - 60 + i * 15;
+                g.fillStyle(i % 2 === 0 ? 0xFF6F00 : 0x000);
+                g.fillRect(x, h - 88, 15, 4);
+            }
+        }
+        if (phase === 'post') {
+            // Antenna
+            g.fillStyle(0x222); g.fillRect(cx + 22, h - 270, 1.5, 16);
+            g.fillStyle(0xFF1744); g.fillCircle(cx + 23, h - 272, 2);
+            // Air filter on helmet (respirator)
+            g.fillStyle(0x222); g.fillRoundedRect(cx - 8, h - 232, 16, 8, 2);
+            g.fillStyle(0x424242); g.fillRect(cx - 6, h - 230, 12, 1.2); g.fillRect(cx - 6, h - 227, 12, 1.2);
+            // Tread on rear wheel (chunky lines)
+            g.lineStyle(1.5, 0x000);
+            for (let i = -3; i <= 3; i++) {
+                const x = cx + i * 14;
+                g.lineBetween(x - 2, h - 50, x + 2, h - 22);
+            }
+        }
     }
     </script>
 </body>
