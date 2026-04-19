@@ -114,9 +114,28 @@
                                50%{transform:translate(-50%,-50%) scale(1.5);opacity:1;}
                                100%{transform:translate(-50%,-50%) scale(3);opacity:0;} }
 
-        .touch-area { position: absolute; bottom: 0; width: 50vw; height: 100vh; height: 100dvh;
-                      pointer-events: auto; z-index: 5; }
-        #touch-left { left: 0; } #touch-right { right: 0; }
+        .touch-area { position: absolute; bottom: 0; width: 50vw; height: 65vh; height: 65dvh;
+                      pointer-events: auto; z-index: 15; touch-action: none;
+                      display: flex; align-items: flex-end; padding-bottom: 40px;
+                      box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+        #touch-left { left: 0; justify-content: flex-start; padding-left: 32px; }
+        #touch-right { right: 0; justify-content: flex-end; padding-right: 32px; }
+        .touch-icon { width: 110px; height: 110px; border-radius: 50%;
+                      background: rgba(0, 255, 255, 0.15);
+                      border: 3px solid rgba(0, 255, 255, 0.7);
+                      color: var(--n-blue); font-size: 60px; font-weight: bold;
+                      display: flex; align-items: center; justify-content: center;
+                      text-shadow: 0 0 12px var(--n-blue);
+                      box-shadow: 0 0 24px rgba(0, 255, 255, 0.35), inset 0 0 18px rgba(0, 255, 255, 0.2);
+                      transition: transform 0.08s ease, background 0.08s ease, box-shadow 0.08s ease;
+                      pointer-events: none; }
+        .touch-area.pressing .touch-icon {
+                      background: rgba(0, 255, 255, 0.55);
+                      color: #000; transform: scale(1.18);
+                      box-shadow: 0 0 40px rgba(0, 255, 255, 0.9), inset 0 0 30px rgba(255, 255, 255, 0.5); }
+        @media (hover: hover) and (pointer: fine) {
+            .touch-icon { display: none; }
+        }
         input[type="file"] { display: none; }
         .file-label { display: block; text-align: center; width: 100%; box-sizing: border-box; }
         .review-list { width: 100%; max-width: 600px; max-height: 40vh; overflow-y: auto;
@@ -183,8 +202,8 @@
             <div id="question-wrapper"><div id="question-box" style="opacity: 0;"><div id="question-text"></div></div></div>
         </div>
 
-        <div id="touch-left" class="touch-area hidden"></div>
-        <div id="touch-right" class="touch-area hidden"></div>
+        <div id="touch-left" class="touch-area hidden"><div class="touch-icon">◀</div></div>
+        <div id="touch-right" class="touch-area hidden"><div class="touch-icon">▶</div></div>
 
         <div id="gameover-screen" class="screen hidden">
             <h1 style="color: var(--n-red);">無念...！</h1>
@@ -856,9 +875,29 @@
             if(e.key==='ArrowRight'||e.key==='d') keys.r=false;
         });
         ['touch-left','touch-right'].forEach((id,i)=>{
-            let el=document.getElementById(id), d=i===0?'l':'r';
-            el.ontouchstart = el.onmousedown = (e)=>{ e.preventDefault(); keys[d]=true; };
-            el.ontouchend = el.onmouseup = el.onmouseleave = (e)=>{ e.preventDefault(); keys[d]=false; };
+            const el = document.getElementById(id), d = i===0 ? 'l' : 'r';
+            const press = (e) => {
+                if(e.cancelable) e.preventDefault();
+                keys[d] = true;
+                el.classList.add('pressing');
+            };
+            const release = (e) => {
+                if(e && e.cancelable) e.preventDefault();
+                keys[d] = false;
+                el.classList.remove('pressing');
+            };
+            el.addEventListener('touchstart', press, { passive: false });
+            el.addEventListener('touchend', release, { passive: false });
+            el.addEventListener('touchcancel', release, { passive: false });
+            el.addEventListener('touchmove', (e) => { if(e.cancelable) e.preventDefault(); }, { passive: false });
+            el.addEventListener('mousedown', press);
+            el.addEventListener('mouseup', release);
+            el.addEventListener('mouseleave', release);
+        });
+
+        document.addEventListener('gesturestart', (e) => e.preventDefault());
+        document.addEventListener('contextmenu', (e) => {
+            if(e.target.closest('.touch-area, canvas')) e.preventDefault();
         });
 
         function animate() {
