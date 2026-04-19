@@ -3,7 +3,7 @@ const GAME_H = 960;
 const FONT = '"Hiragino Sans", "Yu Gothic", sans-serif';
 const BUFF_DURATIONS = { fast: 20000, missile: 20000, invincible: 10000 };
 
-const LEVEL_COIN_THRESHOLDS = [0, 250, 500, 900, 1300, 1900, 3000, 6100];
+const LEVEL_COIN_THRESHOLDS = [0, 800, 1800, 3500, 5500, 8000, 11000, 14000];
 const HP_BY_LEVEL = [0, 100, 210, 300, 450, 530, 600, 800, 1000];
 
 const PLAYER_Y_MIN = 60;
