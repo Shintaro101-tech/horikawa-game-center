@@ -1930,7 +1930,7 @@ class GameScene extends Phaser.Scene {
     }
 
     defeatMidBoss(mb) {
-        if (this.midBossMoveTween) this.midBossMoveTween.remove();
+        if (this.midBossMoveTween) { this.midBossMoveTween.remove(); this.midBossMoveTween = null; }
         const x = mb.x, y = mb.y;
         mb.body.enable = false;
         for (let i = 0; i < 4; i++) {
@@ -2178,13 +2178,15 @@ class GameScene extends Phaser.Scene {
                 this.fireBossBullet(sx, sy, vx, vy, bConfig.bulletEmoji, bConfig.contactDamage);
             }
         } else if (bConfig.attackPattern === 'aimedSalvo') {
+            if (!this.salvoTimers) this.salvoTimers = [];
             for (let i = 0; i < 3; i++) {
-                this.time.delayedCall(i * 130, () => {
-                    if (!this.boss || !this.boss.active || this.bossDefeated) return;
+                const t = this.time.delayedCall(i * 130, () => {
+                    if (this.isGameOver || !this.boss || !this.boss.active || this.bossDefeated) return;
                     this.fireAimedBullet(this.boss.x, this.boss.y + this.boss.displayHeight / 3,
                         this.player.x, this.player.y,
                         bConfig.bulletSpeed, bConfig.bulletEmoji, bConfig.contactDamage);
                 });
+                this.salvoTimers.push(t);
             }
         }
 
@@ -2219,11 +2221,13 @@ class GameScene extends Phaser.Scene {
         if (this.bossAttackTimerLoop) this.bossAttackTimerLoop.remove();
         if (this.bossAttackTimer) this.bossAttackTimer.remove();
         if (this.bossIdleTween) this.bossIdleTween.remove();
-        if (this.bossGlowTween) this.bossGlowTween.remove();
+        if (this.salvoTimers) { this.salvoTimers.forEach(t => t.remove()); this.salvoTimers = []; }
+        if (this.bossGlowTween) { this.bossGlowTween.remove(); this.bossGlowTween = null; }
         if (this.bossGlow) {
-            this.tweens.add({ targets: this.bossGlow, alpha: 0, scale: 2, duration: 800,
-                onComplete: () => this.bossGlow && this.bossGlow.destroy() });
+            const glow = this.bossGlow;
             this.bossGlow = null;
+            this.tweens.add({ targets: glow, alpha: 0, scale: 2, duration: 800,
+                onComplete: () => glow.destroy() });
         }
 
         this.bossBullets.getChildren().forEach(b => {
@@ -2692,12 +2696,14 @@ class GameScene extends Phaser.Scene {
         if (this.bossAttackTimerLoop) this.bossAttackTimerLoop.remove();
         if (this.bossAttackTimer) this.bossAttackTimer.remove();
         if (this.bossIdleTween) this.bossIdleTween.remove();
-        if (this.bossGlowTween) this.bossGlowTween.remove();
-        if (this.midBossMoveTween) this.midBossMoveTween.remove();
+        if (this.bossGlowTween) { this.bossGlowTween.remove(); this.bossGlowTween = null; }
+        if (this.midBossMoveTween) { this.midBossMoveTween.remove(); this.midBossMoveTween = null; }
         if (this.shieldTween) this.shieldTween.remove();
         if (this.barrierTween) this.barrierTween.remove();
         if (this.hpBarPulseTween) this.hpBarPulseTween.remove();
+        if (this.salvoTimers) { this.salvoTimers.forEach(t => t.remove()); this.salvoTimers = []; }
 
+        if (this.bossGlow) { this.bossGlow.destroy(); this.bossGlow = null; }
         if (this.shieldFx) { this.shieldFx.destroy(); this.shieldFx = null; }
         if (this.barrierFx) { this.barrierFx.destroy(); this.barrierFx = null; }
         if (this.laserBeam) { this.laserBeam.destroy(); this.laserBeam = null; }
