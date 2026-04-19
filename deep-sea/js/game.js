@@ -932,17 +932,23 @@ function drawSeaBackground(scene, bg) {
 }
 
 function startBackgroundBubbles(scene, alphaRef) {
+    if (!scene.bubbleList) scene.bubbleList = [];
     const spawn = () => {
         const x = Phaser.Math.Between(0, GAME_W);
         const size = Phaser.Math.Between(18, 38);
         const a = alphaRef.value;
         const bubble = scene.add.text(x, GAME_H + 30, '🫧', { fontSize: `${size}px` })
             .setOrigin(0.5).setAlpha(a).setDepth(-5);
+        scene.bubbleList.push(bubble);
         scene.tweens.add({
             targets: bubble, y: -40,
             x: x + Phaser.Math.Between(-40, 40),
             duration: Phaser.Math.Between(5000, 9000),
-            onComplete: () => bubble.destroy()
+            onComplete: () => {
+                const idx = scene.bubbleList.indexOf(bubble);
+                if (idx >= 0) scene.bubbleList.splice(idx, 1);
+                bubble.destroy();
+            }
         });
     };
     for (let i = 0; i < 6; i++) scene.time.delayedCall(i * 600, spawn);
@@ -2622,6 +2628,10 @@ class GameScene extends Phaser.Scene {
         this.items.getChildren().forEach(i => i.destroy());
         this.bullets.getChildren().forEach(b => b.destroy());
         this.bossBullets.getChildren().forEach(b => b.destroy());
+        if (this.bubbleList) {
+            this.bubbleList.forEach(b => { this.tweens.killTweensOf(b); b.destroy(); });
+            this.bubbleList = [];
+        }
 
         if (this.shootTimer) this.shootTimer.paused = false;
         if (this.gameTimer) this.gameTimer.paused = false;
