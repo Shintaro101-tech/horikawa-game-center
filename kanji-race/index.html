@@ -371,6 +371,17 @@
             if(id) document.getElementById(id).classList.remove('hidden');
             if(id==='shop-screen') renderShop();
             if(id==='review-screen') renderReview();
+            if(id) {
+                isPlaying = false;
+                if(snd && snd.stopBGM) snd.stopBGM();
+                ['hud','touch-left','touch-right'].forEach(eid => {
+                    const el = document.getElementById(eid);
+                    if(el) el.classList.add('hidden');
+                });
+                const fov = document.getElementById('fever-overlay');
+                if(fov) fov.style.opacity = 0;
+                isFever = false;
+            }
         }
 
         function colorHex(c) { return c.toString(16).padStart(6, '0'); }
