@@ -1,7 +1,7 @@
 const GAME_W = 540;
 const GAME_H = 960;
 const FONT = '"Hiragino Sans", "Yu Gothic", sans-serif';
-const BUFF_DURATIONS = { fast: 20000, missile: 20000, invincible: 10000, barrier: 10000 };
+const BUFF_DURATIONS = { fast: 20000, missile: 20000, invincible: 10000 };
 
 const LEVEL_COIN_THRESHOLDS = [0, 250, 500, 900, 1300, 1900, 3000, 6100];
 const HP_BY_LEVEL = [0, 100, 210, 300, 450, 530, 600, 800, 1000];
@@ -1201,7 +1201,7 @@ class GameScene extends Phaser.Scene {
         this.depth = this.stages[startStage - 1].depthStart;
         this.deepestThisRun = this.depth;
 
-        this.buffs = { fast: 0, missile: 0, invincible: 0, barrier: 0 };
+        this.buffs = { fast: 0, missile: 0, invincible: 0 };
         this.specialWeapon = null;
         this.allies = [];
         this.bonusCompleted = startStage > 3;
@@ -1366,8 +1366,7 @@ class GameScene extends Phaser.Scene {
         const types = [
             { key: 'fast', emoji: '⭐', color: '#FFFFFF' },
             { key: 'missile', emoji: '💎', color: '#00E5FF' },
-            { key: 'invincible', emoji: '🌟', color: '#FFD700' },
-            { key: 'barrier', emoji: '🍩', color: '#FF80AB' }
+            { key: 'invincible', emoji: '🍩', color: '#FF80AB' }
         ];
         const active = types.filter(t => this.buffs[t.key] > now);
 
@@ -1417,9 +1416,6 @@ class GameScene extends Phaser.Scene {
         if (this.shieldFx && this.player.alive) {
             this.shieldFx.x = this.player.x; this.shieldFx.y = this.player.y;
         }
-        if (this.barrierFx && this.player.alive) {
-            this.barrierFx.x = this.player.x; this.barrierFx.y = this.player.y;
-        }
         if (this.bossGlow && this.boss && this.boss.active) {
             this.bossGlow.x = this.boss.x; this.bossGlow.y = this.boss.y;
         }
@@ -1434,7 +1430,6 @@ class GameScene extends Phaser.Scene {
         }
 
         if (this.buffs.invincible > 0 && this.buffs.invincible < now) this.endBuff('invincible');
-        if (this.buffs.barrier > 0 && this.buffs.barrier < now) this.endBuff('barrier');
         this.updateBuffUI();
 
         if (!this.bossActive) {
@@ -1592,7 +1587,6 @@ class GameScene extends Phaser.Scene {
         const items = [
             { emoji: '⭐', type: 'star_fast', size: 56, weight: 3 },
             { emoji: '💎', type: 'diamond', size: 56, weight: 3 },
-            { emoji: '🌟', type: 'star_inv', size: 60, weight: 1 },
             { emoji: '🍩', type: 'donut', size: 58, weight: 2 },
             { emoji: '❤️', type: 'heart', size: 54, weight: 2 }
         ];
@@ -1606,6 +1600,24 @@ class GameScene extends Phaser.Scene {
         item.body.setVelocity(0, 90);
         item.itemType = t.type;
         this.tweens.add({ targets: item, angle: 360, duration: 1800, repeat: -1 });
+    }
+
+    spawnDonut() {
+        if (this.isGameOver) return;
+        const x = Phaser.Math.Between(50, GAME_W - 50);
+        const item = this.add.text(x, -60, '🍩', { fontSize: '58px' }).setOrigin(0.5);
+        this.items.add(item);
+        item.body.setSize(40, 40).setOffset(9, 9);
+        item.body.setVelocity(0, 90);
+        item.itemType = 'donut';
+        this.tweens.add({ targets: item, angle: 360, duration: 1800, repeat: -1 });
+        const aura = this.add.circle(x, -60, 36, 0xFF80AB, 0.4).setDepth(-1);
+        this.tweens.add({ targets: aura, alpha: 0.1, scale: 1.4, duration: 500, yoyo: true, repeat: -1 });
+        item.aura = aura;
+        this.time.addEvent({ delay: 50, loop: true, callback: () => {
+            if (!item.active) { aura.destroy(); return; }
+            aura.x = item.x; aura.y = item.y;
+        }});
     }
 
     bulletHit(bullet, enemy) {
@@ -1719,10 +1731,6 @@ class GameScene extends Phaser.Scene {
             this.handleProtectedHit(enemy, true);
             return;
         }
-        if (this.buffs.barrier > now) {
-            this.handleProtectedHit(enemy, false);
-            return;
-        }
         if (player.bumpInvuln) return;
 
         const damage = enemy.contactDamage || 10;
@@ -1748,7 +1756,7 @@ class GameScene extends Phaser.Scene {
         if (this.isGameOver || !player.alive) return;
         const now = this.time.now;
 
-        if (this.buffs.invincible > now || this.buffs.barrier > now) {
+        if (this.buffs.invincible > now) {
             spawnExplosion(this, bullet.x, bullet.y, 0.6);
             bullet.destroy();
             playTone(this, 800, 0.08, 0.05, 'sine');
@@ -1843,8 +1851,7 @@ class GameScene extends Phaser.Scene {
             }
         } else if (t === 'star_fast') this.activateBuff('fast');
         else if (t === 'diamond') this.activateBuff('missile');
-        else if (t === 'star_inv') this.activateBuff('invincible');
-        else if (t === 'donut') this.activateBuff('barrier');
+        else if (t === 'donut') this.activateBuff('invincible');
 
         const cheer = this.add.text(item.x, item.y, '🎉', { fontSize: '70px' }).setOrigin(0.5);
         this.tweens.add({ targets: cheer, scale: 2, alpha: 0, duration: 500,
@@ -1875,16 +1882,6 @@ class GameScene extends Phaser.Scene {
                 duration: 400, yoyo: true, repeat: -1
             });
         }
-        if (type === 'barrier' && !this.barrierFx) {
-            this.barrierFx = this.add.circle(this.player.x, this.player.y, 80);
-            this.barrierFx.setStrokeStyle(8, 0x00BCD4, 0.8);
-            this.barrierFx.setDepth(4);
-            this.barrierTween = this.tweens.add({
-                targets: this.barrierFx, scale: 1.12, alpha: 0.6,
-                duration: 600, yoyo: true, repeat: -1
-            });
-        }
-
         this.cameras.main.flash(200, 255, 215, 100);
         playTone(this, 500, 0.1, 0.07, 'square');
         this.time.delayedCall(100, () => playTone(this, 800, 0.15, 0.07, 'square'));
@@ -1896,10 +1893,6 @@ class GameScene extends Phaser.Scene {
             if (this.shieldFx) { this.shieldFx.destroy(); this.shieldFx = null; }
             if (this.shieldTween) { this.shieldTween.remove(); this.shieldTween = null; }
             this.playStageBGM();
-        }
-        if (type === 'barrier') {
-            if (this.barrierFx) { this.barrierFx.destroy(); this.barrierFx = null; }
-            if (this.barrierTween) { this.barrierTween.remove(); this.barrierTween = null; }
         }
     }
 
@@ -2108,6 +2101,10 @@ class GameScene extends Phaser.Scene {
         this.bossItemTimer = this.time.addEvent({
             delay: 18000, loop: true, callback: () => this.spawnItem()
         });
+        this.time.delayedCall(2000, () => this.spawnDonut());
+        this.bossDonutTimer = this.time.addEvent({
+            delay: 30000, loop: true, callback: () => this.spawnDonut()
+        });
         const stage = this.stages[this.stage - 1];
         this.bossAttackTimer = this.time.delayedCall(800, () => {
             this.bossAttack();
@@ -2237,6 +2234,7 @@ class GameScene extends Phaser.Scene {
         if (this.bossMoveTween) this.bossMoveTween.remove();
         if (this.bossLungeTimer) this.bossLungeTimer.remove();
         if (this.bossItemTimer) this.bossItemTimer.remove();
+        if (this.bossDonutTimer) { this.bossDonutTimer.remove(); this.bossDonutTimer = null; }
         if (this.bossAttackTimerLoop) this.bossAttackTimerLoop.remove();
         if (this.bossAttackTimer) this.bossAttackTimer.remove();
         if (this.bossIdleTween) this.bossIdleTween.remove();
@@ -2686,19 +2684,18 @@ class GameScene extends Phaser.Scene {
         if (this.bossLungeTimer) this.bossLungeTimer.remove();
         if (this.bossMoveTween) this.bossMoveTween.remove();
         if (this.bossItemTimer) this.bossItemTimer.remove();
+        if (this.bossDonutTimer) { this.bossDonutTimer.remove(); this.bossDonutTimer = null; }
         if (this.bossAttackTimerLoop) this.bossAttackTimerLoop.remove();
         if (this.bossAttackTimer) this.bossAttackTimer.remove();
         if (this.bossIdleTween) this.bossIdleTween.remove();
         if (this.bossGlowTween) { this.bossGlowTween.remove(); this.bossGlowTween = null; }
         if (this.midBossMoveTween) { this.midBossMoveTween.remove(); this.midBossMoveTween = null; }
         if (this.shieldTween) this.shieldTween.remove();
-        if (this.barrierTween) this.barrierTween.remove();
         if (this.hpBarPulseTween) this.hpBarPulseTween.remove();
         if (this.salvoTimers) { this.salvoTimers.forEach(t => t.remove()); this.salvoTimers = []; }
 
         if (this.bossGlow) { this.bossGlow.destroy(); this.bossGlow = null; }
         if (this.shieldFx) { this.shieldFx.destroy(); this.shieldFx = null; }
-        if (this.barrierFx) { this.barrierFx.destroy(); this.barrierFx = null; }
         if (this.laserBeam) { this.laserBeam.destroy(); this.laserBeam = null; }
         if (this.allyShootTimer) { this.allyShootTimer.remove(); this.allyShootTimer = null; }
         if (this.allies && this.allies.length) { this.allies.forEach(a => a.destroy()); this.allies = []; }
