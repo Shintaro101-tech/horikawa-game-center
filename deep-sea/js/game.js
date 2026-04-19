@@ -1110,6 +1110,16 @@ class TitleScene extends Phaser.Scene {
             color: '#FFD54A', stroke: '#001f4d', strokeThickness: 3
         }).setOrigin(0.5);
 
+        const portalBtn = this.add.text(20, 20, '🏠 アーケードへ', {
+            fontSize: '18px', fontFamily: FONT, fontStyle: 'bold',
+            color: '#FFFFFF', backgroundColor: '#1a4d80',
+            padding: { x: 14, y: 8 }, stroke: '#001f4d', strokeThickness: 3
+        }).setOrigin(0, 0).setInteractive({ useHandCursor: true });
+        portalBtn.on('pointerdown', () => {
+            bgm.stop();
+            window.location.href = '../';
+        });
+
         const resetBtn = this.add.text(GAME_W / 2, 950, '⚠️ ぜんぶ リセット', {
             fontSize: '16px', fontFamily: FONT, fontStyle: 'bold',
             color: '#FFFFFF', backgroundColor: '#7A0000',
