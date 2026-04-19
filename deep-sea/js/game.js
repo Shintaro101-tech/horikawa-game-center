@@ -1183,7 +1183,9 @@ class GameScene extends Phaser.Scene {
         const startStage = Math.min(Math.max(1, requestedStage), this.stages.length);
 
         this.score = 0;
-        this.totalCoins = storage.getCoins();
+        const baseCoins = (data && typeof data.startCoins === 'number') ? data.startCoins : storage.getCoins();
+        this.totalCoins = baseCoins;
+        if (baseCoins > 0) storage.setCoins(baseCoins);
         this.runCoins = 0;
         this.level = getLevelFromCoins(this.totalCoins);
         this.startLevel = this.level;
@@ -2752,6 +2754,7 @@ class GameScene extends Phaser.Scene {
         });
 
         const finalLevel = this.level;
+        const finalCoins = this.totalCoins;
         const dyingStage = this.stage;
         storage.setCoins(0);
 
@@ -2762,7 +2765,8 @@ class GameScene extends Phaser.Scene {
                 runCoins: this.runCoins, totalCoins: 0,
                 level: finalLevel, startLevel: this.startLevel,
                 deepest: this.deepestThisRun, stage: dyingStage, coinsReset: true,
-                worldIndex: this.worldIndex, retryStage: dyingStage
+                worldIndex: this.worldIndex, retryStage: dyingStage,
+                retryCoins: finalCoins
             });
         });
     }
@@ -2783,6 +2787,7 @@ class GameOverScene extends Phaser.Scene {
         this.coinsReset = data.coinsReset || false;
         this.worldIndex = data.worldIndex || 0;
         this.retryStage = data.retryStage || 1;
+        this.retryCoins = data.retryCoins || 0;
     }
     create() {
         const alphaRef = { value: 0.3 };
@@ -2896,7 +2901,8 @@ class GameOverScene extends Phaser.Scene {
             bgm.play('normal');
             this.scene.start('GameScene', {
                 worldIndex: this.worldIndex,
-                startStage: this.victory ? 1 : this.retryStage
+                startStage: this.victory ? 1 : this.retryStage,
+                startCoins: this.victory ? 0 : this.retryCoins
             });
         });
 
@@ -2913,7 +2919,8 @@ class GameOverScene extends Phaser.Scene {
             bgm.play('normal');
             this.scene.start('GameScene', {
                 worldIndex: this.worldIndex,
-                startStage: this.victory ? 1 : this.retryStage
+                startStage: this.victory ? 1 : this.retryStage,
+                startCoins: this.victory ? 0 : this.retryCoins
             });
         };
         const titleAction = () => {
