@@ -8,6 +8,8 @@ const ROAD_HALF_NEAR = 250;
 const ROAD_HALF_FAR = 26;
 const FAR_Z = 36;
 const SCROLL_SPEED = 0.10;
+const BG_SCROLL_SPEED = 0.42;
+const POLE_SCROLL_SPEED = 0.50;
 const LANE_SPAN = 400;
 const QUESTION_GAP_MS = 2400;
 
@@ -631,20 +633,75 @@ class RaceScene extends Phaser.Scene {
         this.gates = [];
         this.barriers = [];
         this.stripes = [];
-        for (let i = 0; i < 16; i++) this.stripes.push({ z: (i / 16) * FAR_Z });
+        for (let i = 0; i < 28; i++) this.stripes.push({ z: (i / 28) * FAR_Z });
+
+        this.poles = [];
+        for (let i = 0; i < 22; i++) {
+            this.poles.push({ z: (i / 11) * FAR_Z, side: i % 2 === 0 ? -1 : 1 });
+        }
 
         this.streaks = [];
-        for (let i = 0; i < 36; i++) {
+        for (let i = 0; i < 70; i++) {
             this.streaks.push({
                 angle: Math.random() * Math.PI * 2,
                 dist: Math.random() * 600,
-                speed: 3 + Math.random() * 6
+                speed: 6 + Math.random() * 10
             });
         }
 
+        this.bgStars = [];
+        for (let i = 0; i < 80; i++) {
+            this.bgStars.push({
+                x: Math.random() * GAME_W,
+                y: Math.random() * HORIZON_Y,
+                speed: 5 + Math.random() * 12,
+                size: Math.random() < 0.7 ? 1 : 2,
+                alpha: 0.4 + Math.random() * 0.5
+            });
+        }
+
+        this.edgeStreaks = [];
+        for (let i = 0; i < 28; i++) {
+            const side = i % 2 === 0 ? 'L' : 'R';
+            this.edgeStreaks.push({
+                side,
+                offset: Math.random() * 35,
+                y: Math.random() * GAME_H,
+                speed: 22 + Math.random() * 28,
+                len: 30 + Math.random() * 70,
+                alpha: 0.3 + Math.random() * 0.4
+            });
+        }
+
+        this.thrusters = [];
+
         this.drawSky();
+        this.bgStarGfx = this.add.graphics().setDepth(-11);
         this.streakGfx = this.add.graphics().setDepth(-7);
         this.roadGfx = this.add.graphics().setDepth(-5);
+        this.poleGfx = this.add.graphics().setDepth(-3);
+        this.thrusterGfx = this.add.graphics().setDepth(19);
+        this.edgeStreakGfx = this.add.graphics().setDepth(48);
+
+        this.cameras.main.shake(60000, 0.0015);
+
+        this.fovTimer = this.time.addEvent({
+            delay: 2200, loop: true, callback: () => {
+                if (this.gameOver) return;
+                this.tweens.add({
+                    targets: this.cameras.main, zoom: 1.035,
+                    duration: 200, yoyo: true, ease: 'Sine.easeOut'
+                });
+            }
+        });
+
+        this.startEngineSound();
+        this.startWindSound();
+
+        this.events.once('shutdown', () => {
+            this.stopEngineSound();
+            this.stopWindSound();
+        });
 
         this.car = this.add.image(GAME_W / 2, GAME_H - 80, 'car').setOrigin(0.5, 0.95).setDepth(20);
         this.tweens.add({ targets: this.car, scale: { from: 0.95, to: 1.02 },
@@ -681,6 +738,79 @@ class RaceScene extends Phaser.Scene {
         this.barrierTimer = this.time.addEvent({ delay: 4500, loop: true, callback: () => this.maybeSpawnBarrier() });
 
         bgm.play('race');
+    }
+
+    startEngineSound() {
+        if (this.engineOsc) return;
+        const ctx = this.sound.context;
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
+        try {
+            this.engineOsc = ctx.createOscillator();
+            this.engineGain = ctx.createGain();
+            this.engineLfo = ctx.createOscillator();
+            this.engineLfoGain = ctx.createGain();
+
+            this.engineOsc.type = 'sawtooth';
+            this.engineOsc.frequency.value = 70;
+            this.engineGain.gain.value = 0.04;
+
+            this.engineLfo.frequency.value = 9;
+            this.engineLfoGain.gain.value = 6;
+            this.engineLfo.connect(this.engineLfoGain);
+            this.engineLfoGain.connect(this.engineOsc.frequency);
+
+            this.engineFilter = ctx.createBiquadFilter();
+            this.engineFilter.type = 'lowpass';
+            this.engineFilter.frequency.value = 350;
+
+            this.engineOsc.connect(this.engineFilter);
+            this.engineFilter.connect(this.engineGain);
+            this.engineGain.connect(ctx.destination);
+
+            this.engineOsc.start();
+            this.engineLfo.start();
+        } catch (e) {}
+    }
+
+    stopEngineSound() {
+        try { if (this.engineOsc) this.engineOsc.stop(); } catch (e) {}
+        try { if (this.engineLfo) this.engineLfo.stop(); } catch (e) {}
+        this.engineOsc = null; this.engineLfo = null;
+    }
+
+    startWindSound() {
+        if (this.windNode) return;
+        const ctx = this.sound.context;
+        if (!ctx) return;
+        if (ctx.state === 'suspended') ctx.resume();
+        try {
+            const bufferSize = ctx.sampleRate * 2;
+            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+
+            this.windNode = ctx.createBufferSource();
+            this.windNode.buffer = buffer;
+            this.windNode.loop = true;
+
+            this.windFilter = ctx.createBiquadFilter();
+            this.windFilter.type = 'highpass';
+            this.windFilter.frequency.value = 1800;
+
+            this.windGain = ctx.createGain();
+            this.windGain.gain.value = 0.025;
+
+            this.windNode.connect(this.windFilter);
+            this.windFilter.connect(this.windGain);
+            this.windGain.connect(ctx.destination);
+            this.windNode.start();
+        } catch (e) {}
+    }
+
+    stopWindSound() {
+        try { if (this.windNode) this.windNode.stop(); } catch (e) {}
+        this.windNode = null;
     }
 
     drawSky() {
@@ -776,8 +906,80 @@ class RaceScene extends Phaser.Scene {
         const delta = dt / 1000;
 
         for (const stripe of this.stripes) {
-            stripe.z -= SCROLL_SPEED * delta * 60;
+            stripe.z -= BG_SCROLL_SPEED * delta * 60;
             if (stripe.z < 0) stripe.z += FAR_Z;
+        }
+
+        this.bgStarGfx.clear();
+        for (const s of this.bgStars) {
+            s.y += s.speed * delta * 60;
+            if (s.y > HORIZON_Y) {
+                s.y = -5;
+                s.x = Math.random() * GAME_W;
+            }
+            this.bgStarGfx.fillStyle(0xFFFFFF, s.alpha);
+            this.bgStarGfx.fillCircle(s.x, s.y, s.size);
+        }
+
+        this.poleGfx.clear();
+        for (const p of this.poles) {
+            p.z -= POLE_SCROLL_SPEED * delta * 60;
+            if (p.z < 0) {
+                p.z += FAR_Z;
+                p.side = Math.random() > 0.5 ? 1 : -1;
+            }
+            const f = 1 - p.z / FAR_Z;
+            const halfRoad = ROAD_HALF_FAR + (ROAD_HALF_NEAR - ROAD_HALF_FAR) * f;
+            const px = GAME_W / 2 + p.side * (halfRoad + 25 * f + 8);
+            const py = HORIZON_Y + (GROUND_Y - HORIZON_Y) * f;
+            const poleH = 110 * f + 10;
+            this.poleGfx.fillStyle(0x00E5FF, 0.25 * f + 0.05);
+            this.poleGfx.fillRect(px - 8 * f - 1, py - poleH, 16 * f + 2, poleH);
+            this.poleGfx.fillStyle(0x18FFFF, Math.min(1, f * 1.4));
+            this.poleGfx.fillRect(px - 2 * f - 0.5, py - poleH, 4 * f + 1, poleH);
+            this.poleGfx.fillStyle(0xFFFFFF);
+            this.poleGfx.fillRect(px - 1 * f - 0.5, py - poleH, 2 * f + 1, poleH * 0.35);
+            this.poleGfx.fillStyle(0xE91E63, f);
+            this.poleGfx.fillCircle(px, py - poleH, 3 * f + 1);
+        }
+
+        this.edgeStreakGfx.clear();
+        for (const e of this.edgeStreaks) {
+            e.y += e.speed * delta * 60;
+            if (e.y > GAME_H + 80) {
+                e.y = -80;
+                e.offset = Math.random() * 35;
+            }
+            const x = e.side === 'L' ? e.offset : GAME_W - e.offset;
+            this.edgeStreakGfx.lineStyle(2, 0xFFFFFF, e.alpha);
+            this.edgeStreakGfx.lineBetween(x, e.y, x, e.y - e.len);
+        }
+
+        this.thrusterGfx.clear();
+        if (!this.gameOver && this.car && this.car.visible) {
+            if (Math.random() < 0.6) {
+                this.thrusters.push({
+                    x: this.car.x + (Math.random() < 0.5 ? -11 : 11),
+                    y: this.car.y - 10,
+                    vy: 6 + Math.random() * 5,
+                    life: 18,
+                    maxLife: 18,
+                    size: 3 + Math.random() * 3,
+                    color: Math.random() < 0.7 ? 0x18FFFF : 0xFFD700
+                });
+            }
+        }
+        for (const t of this.thrusters.slice()) {
+            t.y += t.vy * delta * 60;
+            t.life--;
+            if (t.life <= 0) {
+                const idx = this.thrusters.indexOf(t);
+                this.thrusters.splice(idx, 1);
+                continue;
+            }
+            const a = t.life / t.maxLife;
+            this.thrusterGfx.fillStyle(t.color, a * 0.65);
+            this.thrusterGfx.fillCircle(t.x, t.y, t.size * a + 0.5);
         }
 
         this.streakGfx.clear();
