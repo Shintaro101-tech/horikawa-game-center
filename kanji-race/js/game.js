@@ -1553,7 +1553,7 @@ const config = {
     width: GAME_W,
     height: GAME_H,
     backgroundColor: '#0a0020',
-    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+    scale: { mode: Phaser.Scale.FIT },
     input: { gamepad: true },
     scene: [BootScene, TitleScene, RaceScene, ResultScene]
 };

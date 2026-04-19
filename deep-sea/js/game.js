@@ -2959,7 +2959,7 @@ const config = {
     width: GAME_W,
     height: GAME_H,
     backgroundColor: '#001a40',
-    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+    scale: { mode: Phaser.Scale.FIT },
     input: { gamepad: true },
     physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } },
     scene: [BootScene, TitleScene, GameScene, GameOverScene]
