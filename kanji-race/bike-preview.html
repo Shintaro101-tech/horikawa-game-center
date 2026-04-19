@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0020">
+    <title>BIKE DESIGN GALLERY - KANJI レースバトル</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            width: 100%; min-height: 100%; min-height: 100dvh;
+            background: #0a0020;
+            background-image:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+        }
+        body::before {
+            content: ""; position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 0;
+        }
+        main {
+            position: relative; z-index: 1;
+            max-width: 1200px; margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+        .back {
+            display: inline-block; color: #18FFFF; text-decoration: none;
+            border: 1px solid #18FFFF; padding: 6px 14px;
+            border-radius: 999px; font-size: 13px; letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: clamp(28px, 5vw, 48px);
+            color: #18FFFF;
+            text-shadow: 0 0 20px rgba(24, 255, 255, 0.4);
+            letter-spacing: 6px;
+            margin-bottom: 4px;
+        }
+        .sub {
+            text-align: center;
+            font-size: 13px;
+            color: #FFEB3B;
+            letter-spacing: 4px;
+            margin-bottom: 32px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 22px;
+        }
+        .card {
+            background: rgba(20, 20, 40, 0.65);
+            border: 2px solid #18FFFF;
+            border-radius: 14px;
+            padding: 20px 18px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+            box-shadow: 0 0 28px rgba(24, 255, 255, 0.15);
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 40px rgba(24, 255, 255, 0.4);
+        }
+        .canvas-wrap {
+            display: flex; justify-content: center;
+            background: linear-gradient(180deg, #1a0040 0%, #000 100%);
+            border-radius: 10px;
+            padding: 14px 0;
+            margin-bottom: 16px;
+            border: 1px solid rgba(24, 255, 255, 0.25);
+        }
+        canvas { display: block; image-rendering: pixelated; }
+        .name {
+            font-size: 19px; font-weight: 800; color: #FFEB3B;
+            letter-spacing: 1px;
+        }
+        .tag {
+            font-size: 11px; color: #18FFFF;
+            letter-spacing: 3px; margin: 4px 0 10px;
+        }
+        .desc {
+            font-size: 12.5px; color: #E0F7FA;
+            line-height: 1.55;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="./" class="back">← ゲームに もどる</a>
+        <h1>BIKE DESIGN</h1>
+        <div class="sub">◤ DESIGN GALLERY ◢</div>
+        <div class="grid" id="grid"></div>
+    </main>
+
+    <div id="phaser-hidden" style="position:absolute; visibility:hidden; pointer-events:none; left:-9999px;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+    <script>
+    const W = 130, H = 240;
+
+    const designs = [
+        { id: 'current', name: '現在のデザイン', tag: 'CURRENT', desc: '今のバイク（参考）。スカイブルー＆ピンクのレーシングカラー。', draw: drawCurrent },
+        { id: 'stealth', name: 'A: ステルス・ダークナイト', tag: 'STEALTH BLACK', desc: 'マットブラック+赤い細ライン。装飾を削ぎ落とした冷徹なミニマル設計。', draw: drawStealth },
+        { id: 'samurai', name: 'B: サイバー侍', tag: 'CYBER SAMURAI', desc: '漆黒×朱赤×金箔。兜（かぶと）の前立てとカタナ風シルエット。', draw: drawSamurai },
+        { id: 'motogp', name: 'C: ガチMotoGP', tag: 'PRO RACING', desc: '赤×白×蛍光イエロー。スポンサーロゴ風デカール、本物のサーキット感。', draw: drawMotoGP },
+        { id: 'hover', name: 'D: ホバーバイク', tag: 'ANTI-GRAVITY', desc: 'タイヤなし、シアン推力リングで浮遊。スター・ウォーズのスピーダー風。', draw: drawHover },
+        { id: 'synth', name: 'E: シンセウェーブ80\'s', tag: 'SYNTHWAVE', desc: 'マゼンタ×シアン×ネオン紫。ワイヤーフレーム調のVAPORWAVE。', draw: drawSynth },
+        { id: 'mecha', name: 'F: 重装コンバット', tag: 'COMBAT MECH', desc: '軍用グリーン×オレンジ警告ストライプ。装甲プレート、サイドミサイル付き。', draw: drawMecha },
+    ];
+
+    new Phaser.Game({
+        type: Phaser.CANVAS,
+        width: 1, height: 1,
+        parent: 'phaser-hidden',
+        transparent: true,
+        scene: {
+            create() {
+                for (const d of designs) {
+                    const g = this.make.graphics({ add: false });
+                    d.draw(g, W, H);
+                    g.generateTexture(d.id, W, H);
+                    g.destroy();
+                }
+                const grid = document.getElementById('grid');
+                for (const d of designs) {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    const wrap = document.createElement('div');
+                    wrap.className = 'canvas-wrap';
+                    const canvas = document.createElement('canvas');
+                    canvas.width = W; canvas.height = H;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(this.textures.get(d.id).getSourceImage(), 0, 0);
+                    wrap.appendChild(canvas);
+                    card.innerHTML = `<div class="name">${d.name}</div><div class="tag">${d.tag}</div><div class="desc">${d.desc}</div>`;
+                    card.prepend(wrap);
+                    grid.appendChild(card);
+                }
+            }
+        }
+    });
+
+    function drawCurrent(g, w, h) {
+        g.fillStyle(0x00E5FF, 0.14); g.fillEllipse(w/2, h - 4, 90, 36);
+        g.fillStyle(0xFFD700, 0.08); g.fillEllipse(w/2, 24, 70, 50);
+        g.fillStyle(0x000000, 0.6); g.fillEllipse(w/2 + 5, h/2 + 14, 58, 184);
+        g.fillStyle(0x080810); g.fillRoundedRect(w/2 - 12, 4, 24, 50, 5);
+        g.fillStyle(0x00E5FF, 0.45); g.fillCircle(w/2, 28, 10);
+        g.fillStyle(0x00BCD4); g.fillCircle(w/2, 28, 5);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2, 28, 2);
+        g.fillStyle(0x37474F); g.fillRect(w/2 - 11, 50, 4, 32); g.fillRect(w/2 + 7, 50, 4, 32);
+        g.fillStyle(0x141420); g.fillTriangle(w/2, 48, w/2 - 33, 80, w/2 + 33, 80);
+        g.fillRoundedRect(w/2 - 33, 74, 66, 14, 5);
+        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeTriangle(w/2, 48, w/2 - 33, 80, w/2 + 33, 80);
+        g.fillStyle(0xFFEB3B); g.fillRect(w/2 - 26, 65, 52, 2);
+        g.fillStyle(0x070710); g.fillRoundedRect(w/2 - 28, 88, 56, 60, 12);
+        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeRoundedRect(w/2 - 28, 88, 56, 60, 12);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 27, 99, 54, 1); g.fillRect(w/2 - 27, 136, 54, 1);
+        g.fillStyle(0x0a0a18); g.fillRoundedRect(w/2 - 17, 96, 34, 44, 10);
+        g.fillStyle(0x00E5FF); g.fillRect(w/2 - 14, 116, 28, 2);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 14, 120, 28, 1);
+        g.fillStyle(0x070710); g.fillCircle(w/2, 102, 18);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 1.5, 84, 3, 32);
+        g.fillStyle(0x00E5FF, 0.9); g.fillEllipse(w/2, 94, 24, 8);
+        g.lineStyle(1, 0xFFFFFF); g.strokeEllipse(w/2, 94, 24, 8);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 17, 105, 4, 6); g.fillRect(w/2 + 13, 105, 4, 6);
+        g.fillStyle(0x070710); g.fillRoundedRect(w/2 - 22, 150, 44, 28, 8);
+        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeRoundedRect(w/2 - 22, 150, 44, 28, 8);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 11, 158, 22, 11);
+        g.fillStyle(0x080810); g.fillRoundedRect(w/2 - 16, 174, 32, 26, 8);
+        g.fillStyle(0x00E5FF, 0.45); g.fillCircle(w/2, 187, 10);
+        g.fillStyle(0x00BCD4); g.fillCircle(w/2, 187, 5);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2, 187, 2);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 14, 174, 28, 3);
+        g.fillStyle(0x37474F); g.fillRect(w/2 - 32, 164, 5, 22); g.fillRect(w/2 + 27, 164, 5, 22);
+        g.fillStyle(0xFF6F00); g.fillCircle(w/2 - 29.5, 184, 2.5); g.fillCircle(w/2 + 29.5, 184, 2.5);
+        g.fillStyle(0x00E5FF, 0.75); g.fillCircle(w/2 - 11, 204, 6); g.fillCircle(w/2 + 11, 204, 6);
+        g.fillStyle(0xFFFFFF); g.fillCircle(w/2 - 11, 204, 2.5); g.fillCircle(w/2 + 11, 204, 2.5);
+    }
+
+    function drawStealth(g, w, h) {
+        g.fillStyle(0xFF1744, 0.12); g.fillEllipse(w/2, h - 4, 84, 30);
+        g.fillStyle(0x000000, 0.65); g.fillEllipse(w/2 + 5, h/2 + 14, 60, 184);
+        g.fillStyle(0x070707); g.fillRoundedRect(w/2 - 12, 4, 24, 50, 4);
+        g.fillStyle(0xFF1744, 0.5); g.fillCircle(w/2, 28, 7);
+        g.fillStyle(0xFF1744); g.fillCircle(w/2, 28, 2.5);
+        g.fillStyle(0x222); g.fillRect(w/2 - 11, 50, 4, 32); g.fillRect(w/2 + 7, 50, 4, 32);
+        g.fillStyle(0x080808); g.fillTriangle(w/2, 44, w/2 - 35, 82, w/2 + 35, 82);
+        g.fillRoundedRect(w/2 - 35, 78, 70, 12, 3);
+        g.lineStyle(2, 0xFF1744, 0.95); g.strokeTriangle(w/2, 44, w/2 - 35, 82, w/2 + 35, 82);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 22, 70, 44, 1.5);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 28, 88, 56, 60, 4);
+        g.lineStyle(1.5, 0xFF1744, 0.85); g.strokeRoundedRect(w/2 - 28, 88, 56, 60, 4);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 0.7, 50, 1.4, 100);
+        g.fillStyle(0x050505); g.fillRoundedRect(w/2 - 17, 100, 34, 42, 4);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 14, 122, 28, 1.2);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 38, 90, 17, 14, 3); g.fillRoundedRect(w/2 + 21, 90, 17, 14, 3);
+        g.fillStyle(0x222); g.fillCircle(w/2 - 38, 100, 7); g.fillCircle(w/2 + 38, 100, 7);
+        g.fillStyle(0xFF1744); g.fillCircle(w/2 - 38, 100, 1.5); g.fillCircle(w/2 + 38, 100, 1.5);
+        g.fillStyle(0x000); g.fillCircle(w/2, 102, 18);
+        g.lineStyle(1, 0xFF1744, 0.85); g.strokeCircle(w/2, 102, 18);
+        g.fillStyle(0x050505); g.fillEllipse(w/2, 96, 26, 8);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 13, 95, 26, 1.8);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 22, 150, 44, 28, 4);
+        g.lineStyle(1.5, 0xFF1744, 0.85); g.strokeRoundedRect(w/2 - 22, 150, 44, 28, 4);
+        g.fillStyle(0x050505); g.fillRoundedRect(w/2 - 16, 174, 32, 26, 4);
+        g.fillStyle(0xFF1744, 0.5); g.fillCircle(w/2, 187, 7);
+        g.fillStyle(0xFF1744); g.fillCircle(w/2, 187, 2);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 16, 174, 32, 1.5);
+        g.fillStyle(0x222); g.fillRect(w/2 - 32, 164, 4, 22); g.fillRect(w/2 + 28, 164, 4, 22);
+        g.fillStyle(0xFF1744, 0.6); g.fillCircle(w/2 - 30, 184, 2); g.fillCircle(w/2 + 30, 184, 2);
+        g.fillStyle(0xFF1744, 0.5); g.fillCircle(w/2 - 11, 204, 5); g.fillCircle(w/2 + 11, 204, 5);
+        g.fillStyle(0xFFFFFF, 0.6); g.fillCircle(w/2 - 11, 204, 2); g.fillCircle(w/2 + 11, 204, 2);
+    }
+
+    function drawSamurai(g, w, h) {
+        g.fillStyle(0xC62828, 0.22); g.fillEllipse(w/2, h - 4, 88, 32);
+        g.fillStyle(0xFFD700, 0.1); g.fillEllipse(w/2, h/2, 110, 200);
+        g.fillStyle(0x000, 0.6); g.fillEllipse(w/2 + 5, h/2 + 14, 60, 184);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 12, 4, 24, 50, 4);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2, 28, 4);
+        g.fillStyle(0xC62828); g.fillCircle(w/2, 28, 2);
+        g.fillStyle(0x222); g.fillRect(w/2 - 11, 50, 4, 32); g.fillRect(w/2 + 7, 50, 4, 32);
+        g.fillStyle(0x14060a); g.fillTriangle(w/2, 42, w/2 - 30, 84, w/2 + 30, 84);
+        g.lineStyle(1.5, 0xFFD700, 1); g.strokeTriangle(w/2, 42, w/2 - 30, 84, w/2 + 30, 84);
+        g.fillStyle(0xC62828); g.fillTriangle(w/2, 56, w/2 - 13, 80, w/2 + 13, 80);
+        g.lineStyle(1, 0xFFD700); g.strokeTriangle(w/2, 56, w/2 - 13, 80, w/2 + 13, 80);
+        g.fillStyle(0x14060a); g.fillRoundedRect(w/2 - 28, 88, 56, 60, 4);
+        g.lineStyle(2, 0xFFD700, 0.9); g.strokeRoundedRect(w/2 - 28, 88, 56, 60, 4);
+        g.lineStyle(0.6, 0xC62828, 0.5);
+        for (let i = 0; i < 4; i++) g.lineBetween(w/2 - 24, 96 + i*12, w/2 + 24, 96 + i*12);
+        g.fillStyle(0xC62828); g.fillRect(w/2 - 28, 110, 56, 4);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 28, 113, 56, 1);
+        g.fillStyle(0x14060a); g.fillRoundedRect(w/2 - 17, 100, 34, 42, 4);
+        g.fillStyle(0xC62828); g.fillRect(w/2 - 14, 116, 28, 2.5);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 14, 120, 28, 1);
+        g.fillStyle(0x14060a); g.fillRoundedRect(w/2 - 38, 90, 17, 14, 3); g.fillRoundedRect(w/2 + 21, 90, 17, 14, 3);
+        g.fillStyle(0x222); g.fillCircle(w/2 - 38, 100, 7); g.fillCircle(w/2 + 38, 100, 7);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2 - 38, 99, 1.5); g.fillCircle(w/2 + 38, 99, 1.5);
+        g.fillStyle(0x000); g.fillCircle(w/2, 102, 18);
+        g.lineStyle(1.5, 0xFFD700); g.strokeCircle(w/2, 102, 18);
+        // 兜 maedate (center crest)
+        g.fillStyle(0xFFD700);
+        g.fillTriangle(w/2 - 5, 86, w/2 + 5, 86, w/2, 70);
+        g.fillRect(w/2 - 1.5, 84, 3, 4);
+        // Side horns
+        g.fillTriangle(w/2 - 15, 86, w/2 - 8, 88, w/2 - 12, 76);
+        g.fillTriangle(w/2 + 15, 86, w/2 + 8, 88, w/2 + 12, 76);
+        g.fillStyle(0x331111); g.fillEllipse(w/2, 95, 24, 7);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 11, 94, 22, 1.8);
+        g.fillStyle(0x14060a); g.fillRoundedRect(w/2 - 22, 150, 44, 28, 4);
+        g.lineStyle(2, 0xFFD700, 0.9); g.strokeRoundedRect(w/2 - 22, 150, 44, 28, 4);
+        g.fillStyle(0xC62828); g.fillRect(w/2 - 11, 158, 22, 11);
+        g.fillStyle(0xFFD700); g.fillRect(w/2 - 9, 160, 18, 2);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 16, 174, 32, 26, 4);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2, 187, 5);
+        g.fillStyle(0xC62828); g.fillCircle(w/2, 187, 2.5);
+        g.fillStyle(0xC62828); g.fillRect(w/2 - 14, 174, 28, 3);
+        g.fillStyle(0x37474F); g.fillRect(w/2 - 32, 164, 5, 22); g.fillRect(w/2 + 27, 164, 5, 22);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2 - 29.5, 184, 2.5); g.fillCircle(w/2 + 29.5, 184, 2.5);
+        g.fillStyle(0xC62828, 0.6); g.fillCircle(w/2 - 11, 204, 5); g.fillCircle(w/2 + 11, 204, 5);
+    }
+
+    function drawMotoGP(g, w, h) {
+        g.fillStyle(0x000, 0.6); g.fillEllipse(w/2 + 5, h/2 + 14, 62, 184);
+        g.fillStyle(0x111); g.fillRoundedRect(w/2 - 14, 4, 28, 56, 3);
+        g.fillStyle(0xFFD700); g.fillCircle(w/2, 32, 9);
+        g.fillStyle(0x111); g.fillCircle(w/2, 32, 5);
+        g.fillStyle(0xFFFFFF); g.fillCircle(w/2, 32, 2);
+        g.fillStyle(0x9E9E9E); g.fillRect(w/2 - 12, 50, 5, 32); g.fillRect(w/2 + 7, 50, 5, 32);
+        g.fillStyle(0xC62828); g.fillTriangle(w/2, 48, w/2 - 33, 86, w/2 + 33, 86);
+        g.fillStyle(0xFFFFFF); g.fillTriangle(w/2, 60, w/2 - 18, 84, w/2 + 18, 84);
+        g.lineStyle(1.5, 0x000); g.strokeTriangle(w/2, 48, w/2 - 33, 86, w/2 + 33, 86);
+        // Number 7
+        g.fillStyle(0x000);
+        g.fillRect(w/2 - 5, 64, 10, 1.5);
+        g.fillRect(w/2 + 3.5, 64, 1.5, 12);
+        g.fillStyle(0x080808); g.fillRect(w/2 - 24, 78, 48, 5);
+        g.fillStyle(0xFFEB3B); g.fillRect(w/2 - 22, 79, 44, 2);
+        g.fillStyle(0xC62828); g.fillRoundedRect(w/2 - 28, 88, 56, 60, 6);
+        g.fillStyle(0xFFEB3B); g.fillRect(w/2 - 28, 116, 56, 6);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 28, 118, 56, 2);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 20, 96, 40, 14);
+        g.fillStyle(0x000);
+        g.fillRect(w/2 - 17, 100, 12, 3); g.fillRect(w/2 + 5, 100, 12, 3);
+        g.fillRect(w/2 - 17, 105, 12, 2); g.fillRect(w/2 + 5, 105, 12, 2);
+        g.lineStyle(2, 0x000); g.strokeRoundedRect(w/2 - 28, 88, 56, 60, 6);
+        g.fillStyle(0xFFEB3B); g.fillCircle(w/2, 102, 18);
+        g.lineStyle(1.5, 0x000); g.strokeCircle(w/2, 102, 18);
+        g.fillStyle(0xC62828); g.fillTriangle(w/2 - 14, 106, w/2 + 14, 106, w/2, 90);
+        g.fillStyle(0x111); g.fillEllipse(w/2, 96, 24, 8);
+        g.lineStyle(1, 0xFFFFFF); g.strokeEllipse(w/2, 96, 24, 8);
+        g.fillStyle(0xC62828); g.fillRoundedRect(w/2 - 17, 100, 34, 42, 6);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 14, 116, 28, 4);
+        g.fillStyle(0xFFEB3B); g.fillRect(w/2 - 14, 122, 28, 2);
+        g.fillStyle(0x111); g.fillRoundedRect(w/2 - 38, 90, 17, 14, 3); g.fillRoundedRect(w/2 + 21, 90, 17, 14, 3);
+        g.fillStyle(0xFFEB3B); g.fillCircle(w/2 - 38, 100, 7); g.fillCircle(w/2 + 38, 100, 7);
+        g.fillStyle(0xC62828); g.fillCircle(w/2 - 38, 100, 4); g.fillCircle(w/2 + 38, 100, 4);
+        g.fillStyle(0xC62828); g.fillRoundedRect(w/2 - 22, 150, 44, 28, 6);
+        g.lineStyle(1.5, 0x000); g.strokeRoundedRect(w/2 - 22, 150, 44, 28, 6);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 9, 158, 18, 12);
+        g.fillStyle(0x000);
+        g.fillRect(w/2 - 5, 161, 10, 1.5);
+        g.fillRect(w/2 + 3.5, 161, 1.5, 7);
+        g.fillStyle(0x111); g.fillRoundedRect(w/2 - 17, 174, 34, 28, 3);
+        for (let i = 0; i < 4; i++) { g.fillStyle(0x000); g.fillRect(w/2 - 15, 178 + i*5, 30, 1); }
+        g.fillStyle(0xFFD700); g.fillCircle(w/2, 188, 8);
+        g.fillStyle(0x111); g.fillCircle(w/2, 188, 4);
+        g.fillStyle(0xFFFFFF); g.fillCircle(w/2, 188, 2);
+        g.fillStyle(0x9E9E9E); g.fillRect(w/2 - 32, 164, 5, 22); g.fillRect(w/2 + 27, 164, 5, 22);
+        g.fillStyle(0x424242); g.fillCircle(w/2 - 29.5, 184, 2); g.fillCircle(w/2 + 29.5, 184, 2);
+        g.fillStyle(0xFF6F00, 0.7); g.fillCircle(w/2 - 11, 204, 4); g.fillCircle(w/2 + 11, 204, 4);
+    }
+
+    function drawHover(g, w, h) {
+        g.fillStyle(0x00E5FF, 0.45); g.fillEllipse(w/2, h - 6, 100, 50);
+        g.fillStyle(0x00E5FF, 0.28); g.fillEllipse(w/2, h - 14, 80, 30);
+        g.fillStyle(0x00E5FF, 0.18); g.fillEllipse(w/2, h/2, 110, 200);
+        g.fillStyle(0x00E5FF, 0.12); g.fillEllipse(w/2, 30, 80, 50);
+        g.fillStyle(0x000, 0.3); g.fillEllipse(w/2 + 6, h - 8, 80, 22);
+        // Front pod
+        g.fillStyle(0x141420); g.fillEllipse(w/2, 22, 50, 22);
+        g.fillStyle(0x00FFFF, 0.7); g.fillEllipse(w/2, 22, 38, 14);
+        g.fillStyle(0xFFFFFF); g.fillEllipse(w/2, 22, 24, 8);
+        g.lineStyle(1.5, 0x00E5FF); g.strokeEllipse(w/2, 22, 50, 22);
+        // Sleek body (water-drop)
+        g.fillStyle(0x141420); g.fillTriangle(w/2, 30, w/2 - 32, 88, w/2 + 32, 88);
+        g.fillRoundedRect(w/2 - 32, 82, 64, 70, 14);
+        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeTriangle(w/2, 30, w/2 - 32, 88, w/2 + 32, 88);
+        g.lineStyle(1.5, 0x00E5FF, 0.95); g.strokeRoundedRect(w/2 - 32, 82, 64, 70, 14);
+        g.fillStyle(0x00E5FF); g.fillRect(w/2 - 32, 100, 64, 1.5); g.fillRect(w/2 - 32, 140, 64, 1.5);
+        // Cockpit (glowing)
+        g.fillStyle(0x00BCD4); g.fillCircle(w/2, 102, 18);
+        g.lineStyle(1.5, 0xFFFFFF); g.strokeCircle(w/2, 102, 18);
+        g.fillStyle(0xFFFFFF, 0.7); g.fillEllipse(w/2 - 5, 95, 8, 5);
+        // Visor
+        g.fillStyle(0x00E5FF); g.fillEllipse(w/2, 96, 22, 6);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 8, 95, 6, 1.4);
+        // Rider suit (minimal glowing)
+        g.fillStyle(0x141420); g.fillRoundedRect(w/2 - 14, 110, 28, 32, 6);
+        g.fillStyle(0x00E5FF); g.fillRect(w/2 - 12, 122, 24, 1.5);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 12, 126, 24, 0.8);
+        // Handlebars
+        g.fillStyle(0x141420); g.fillRoundedRect(w/2 - 38, 96, 16, 12, 4); g.fillRoundedRect(w/2 + 22, 96, 16, 12, 4);
+        g.fillStyle(0x00E5FF); g.fillCircle(w/2 - 38, 102, 5); g.fillCircle(w/2 + 38, 102, 5);
+        // Side hover pads
+        g.fillStyle(0x00E5FF, 0.6); g.fillEllipse(w/2 - 36, 130, 20, 12); g.fillEllipse(w/2 + 36, 130, 20, 12);
+        g.fillStyle(0xFFFFFF, 0.95); g.fillEllipse(w/2 - 36, 130, 8, 5); g.fillEllipse(w/2 + 36, 130, 8, 5);
+        // Rear (no wheel - twin thrusters)
+        g.fillStyle(0x141420); g.fillRoundedRect(w/2 - 28, 156, 56, 26, 8);
+        g.lineStyle(1.5, 0x00E5FF, 0.9); g.strokeRoundedRect(w/2 - 28, 156, 56, 26, 8);
+        // Twin thrust nozzles (huge glowing ports)
+        g.fillStyle(0x00FFFF, 0.75); g.fillEllipse(w/2 - 16, 200, 28, 22); g.fillEllipse(w/2 + 16, 200, 28, 22);
+        g.fillStyle(0xFFFFFF, 0.95); g.fillEllipse(w/2 - 16, 200, 16, 12); g.fillEllipse(w/2 + 16, 200, 16, 12);
+        g.fillStyle(0xE91E63, 0.5); g.fillCircle(w/2, 205, 6);
+        g.fillStyle(0xFF1744); g.fillRect(w/2 - 16, 156, 32, 2.5);
+    }
+
+    function drawSynth(g, w, h) {
+        g.fillStyle(0xE91E63, 0.32); g.fillEllipse(w/2, h - 4, 96, 36);
+        g.fillStyle(0x18FFFF, 0.22); g.fillEllipse(w/2, 22, 84, 50);
+        g.fillStyle(0x9C27B0, 0.18); g.fillEllipse(w/2, h/2, 110, 200);
+        g.fillStyle(0x000, 0.55); g.fillEllipse(w/2 + 5, h/2 + 14, 60, 184);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 12, 4, 24, 50, 4);
+        g.fillStyle(0xE91E63); g.fillCircle(w/2, 28, 9);
+        g.fillStyle(0x18FFFF); g.fillCircle(w/2, 28, 5);
+        g.fillStyle(0xFFFFFF); g.fillCircle(w/2, 28, 2);
+        g.fillStyle(0x222); g.fillRect(w/2 - 11, 50, 4, 32); g.fillRect(w/2 + 7, 50, 4, 32);
+        g.fillStyle(0x4A148C); g.fillTriangle(w/2, 48, w/2 - 33, 80, w/2 + 33, 80);
+        // Wireframe lines
+        g.lineStyle(0.8, 0xFFFFFF, 0.85);
+        g.lineBetween(w/2 - 33, 80, w/2 + 33, 80);
+        g.lineBetween(w/2, 48, w/2 - 16, 64); g.lineBetween(w/2, 48, w/2 + 16, 64);
+        g.lineBetween(w/2 - 16, 64, w/2 + 16, 64);
+        g.lineBetween(w/2 - 16, 64, w/2 - 33, 80); g.lineBetween(w/2 + 16, 64, w/2 + 33, 80);
+        g.lineStyle(2, 0xE91E63); g.strokeTriangle(w/2, 48, w/2 - 33, 80, w/2 + 33, 80);
+        g.fillStyle(0xFF80AB); g.fillRect(w/2 - 22, 70, 44, 3);
+        g.fillStyle(0x4A148C); g.fillRoundedRect(w/2 - 28, 88, 56, 60, 8);
+        g.lineStyle(0.7, 0x18FFFF, 0.7);
+        for (let i = 0; i < 5; i++) g.lineBetween(w/2 - 26, 92 + i*12, w/2 + 26, 92 + i*12);
+        g.lineBetween(w/2 - 14, 90, w/2 - 14, 146); g.lineBetween(w/2 + 14, 90, w/2 + 14, 146);
+        g.lineStyle(2, 0xE91E63, 0.95); g.strokeRoundedRect(w/2 - 28, 88, 56, 60, 8);
+        g.lineStyle(1, 0x18FFFF, 0.85); g.strokeRoundedRect(w/2 - 26, 90, 52, 56, 6);
+        g.fillStyle(0x4A148C); g.fillCircle(w/2, 102, 18);
+        g.lineStyle(1.5, 0xE91E63); g.strokeCircle(w/2, 102, 18);
+        g.fillStyle(0x18FFFF, 0.55); g.fillEllipse(w/2, 100, 28, 16);
+        g.lineStyle(1, 0xFFFFFF); g.strokeEllipse(w/2, 100, 28, 16);
+        g.fillStyle(0xFFFFFF, 0.85); g.fillEllipse(w/2 - 6, 95, 6, 4);
+        g.fillStyle(0x4A148C); g.fillRoundedRect(w/2 - 17, 100, 34, 42, 5);
+        g.fillStyle(0xE91E63); g.fillRect(w/2 - 14, 116, 28, 3);
+        g.fillStyle(0x18FFFF); g.fillRect(w/2 - 14, 121, 28, 1.5);
+        g.fillStyle(0xFFFFFF); g.fillRect(w/2 - 14, 124, 28, 0.8);
+        g.fillStyle(0x4A148C); g.fillRoundedRect(w/2 - 38, 90, 17, 14, 3); g.fillRoundedRect(w/2 + 21, 90, 17, 14, 3);
+        g.fillStyle(0xE91E63); g.fillCircle(w/2 - 38, 100, 7); g.fillCircle(w/2 + 38, 100, 7);
+        g.fillStyle(0x18FFFF); g.fillCircle(w/2 - 38, 100, 3); g.fillCircle(w/2 + 38, 100, 3);
+        g.fillStyle(0x4A148C); g.fillRoundedRect(w/2 - 22, 150, 44, 28, 6);
+        g.lineStyle(2, 0xE91E63, 0.9); g.strokeRoundedRect(w/2 - 22, 150, 44, 28, 6);
+        g.fillStyle(0x080808); g.fillRoundedRect(w/2 - 16, 174, 32, 26, 4);
+        g.fillStyle(0xE91E63); g.fillCircle(w/2, 187, 7);
+        g.fillStyle(0x18FFFF); g.fillCircle(w/2, 187, 4);
+        g.fillStyle(0xFFFFFF); g.fillCircle(w/2, 187, 2);
+        g.fillStyle(0xE91E63); g.fillRect(w/2 - 16, 174, 32, 2.5);
+        g.fillStyle(0x18FFFF); g.fillRect(w/2 - 16, 177, 32, 1.2);
+        g.fillStyle(0x4A148C); g.fillRect(w/2 - 32, 164, 5, 22); g.fillRect(w/2 + 27, 164, 5, 22);
+        g.fillStyle(0xE91E63); g.fillCircle(w/2 - 29.5, 184, 3); g.fillCircle(w/2 + 29.5, 184, 3);
+        g.fillStyle(0x18FFFF); g.fillCircle(w/2 - 29.5, 184, 1.5); g.fillCircle(w/2 + 29.5, 184, 1.5);
+        g.fillStyle(0xE91E63, 0.6); g.fillCircle(w/2 - 11, 204, 6); g.fillCircle(w/2 + 11, 204, 6);
+        g.fillStyle(0x18FFFF); g.fillCircle(w/2 - 11, 204, 3); g.fillCircle(w/2 + 11, 204, 3);
+    }
+
+    function drawMecha(g, w, h) {
+        g.fillStyle(0xFF6F00, 0.22); g.fillEllipse(w/2, h - 4, 90, 30);
+        g.fillStyle(0x000, 0.7); g.fillEllipse(w/2 + 5, h/2 + 14, 76, 184);
+        // Front wheel chunky
+        g.fillStyle(0x1A1A14); g.fillRoundedRect(w/2 - 16, 4, 32, 56, 4);
+        for (let i = 0; i < 5; i++) { g.fillStyle(0x000); g.fillRect(w/2 - 14, 8 + i*11, 28, 1.5); }
+        g.fillStyle(0xFF6F00); g.fillCircle(w/2, 32, 5);
+        g.fillStyle(0x424242); g.fillCircle(w/2, 32, 3);
+        g.fillStyle(0x424242); g.fillRect(w/2 - 14, 50, 6, 32); g.fillRect(w/2 + 8, 50, 6, 32);
+        // Front armor plate
+        g.fillStyle(0x4A5D2A); g.fillRect(w/2 - 36, 60, 72, 26);
+        g.fillStyle(0x6A7D4A); g.fillRect(w/2 - 36, 60, 72, 6);
+        // Warning stripes
+        for (let i = 0; i < 6; i++) {
+            const x = w/2 - 36 + i * 12;
+            g.fillStyle(i % 2 === 0 ? 0xFF6F00 : 0x000);
+            g.fillRect(x, 80, 12, 4);
+        }
+        g.lineStyle(2, 0x000); g.strokeRect(w/2 - 36, 60, 72, 26);
+        // Headlights
+        g.fillStyle(0x000); g.fillCircle(w/2 - 18, 73, 6); g.fillCircle(w/2 + 18, 73, 6);
+        g.fillStyle(0xFFEB3B); g.fillCircle(w/2 - 18, 73, 4); g.fillCircle(w/2 + 18, 73, 4);
+        g.fillStyle(0xFFFFFF); g.fillCircle(w/2 - 18, 73, 2); g.fillCircle(w/2 + 18, 73, 2);
+        // Body armor
+        g.fillStyle(0x4A5D2A); g.fillRoundedRect(w/2 - 32, 88, 64, 60, 3);
+        g.lineStyle(2, 0x000); g.strokeRoundedRect(w/2 - 32, 88, 64, 60, 3);
+        g.lineStyle(1, 0x2A3D1A); g.lineBetween(w/2 - 32, 102, w/2 + 32, 102);
+        g.lineBetween(w/2 - 32, 134, w/2 + 32, 134); g.lineBetween(w/2, 88, w/2, 148);
+        // Bolts
+        g.fillStyle(0x222);
+        [w/2 - 26, w/2 + 26].forEach(x => { [94, 116, 142].forEach(y => g.fillCircle(x, y, 1.5)); });
+        // Helmet (military full)
+        g.fillStyle(0x2A3D1A); g.fillCircle(w/2, 102, 18);
+        g.lineStyle(1.5, 0x000); g.strokeCircle(w/2, 102, 18);
+        g.fillStyle(0x000); g.fillEllipse(w/2, 95, 22, 6);
+        g.fillStyle(0xFF6F00); g.fillRect(w/2 - 10, 94, 20, 1.5);
+        // Air filter
+        g.fillStyle(0x222); g.fillRoundedRect(w/2 - 8, 104, 16, 10, 2);
+        g.fillStyle(0x424242); g.fillRect(w/2 - 6, 106, 12, 2); g.fillRect(w/2 - 6, 110, 12, 2);
+        g.fillStyle(0x222); g.fillRect(w/2 + 16, 80, 1.5, 14);
+        g.fillStyle(0xFF1744); g.fillCircle(w/2 + 17, 80, 2);
+        // Suit
+        g.fillStyle(0x4A5D2A); g.fillRoundedRect(w/2 - 18, 100, 36, 44, 3);
+        g.fillStyle(0x6A7D4A); g.fillRect(w/2 - 18, 100, 8, 16); g.fillRect(w/2 + 10, 100, 8, 16);
+        g.lineStyle(1, 0x000); g.strokeRect(w/2 - 18, 100, 8, 16); g.strokeRect(w/2 + 10, 100, 8, 16);
+        g.fillStyle(0xFF6F00); g.fillRect(w/2 - 12, 122, 24, 2);
+        g.fillStyle(0x000); g.fillRect(w/2 - 4, 130, 8, 6);
+        // Handlebars chunky
+        g.fillStyle(0x222); g.fillRoundedRect(w/2 - 38, 88, 18, 16, 3); g.fillRoundedRect(w/2 + 20, 88, 18, 16, 3);
+        g.fillStyle(0x111); g.fillCircle(w/2 - 38, 100, 7); g.fillCircle(w/2 + 38, 100, 7);
+        g.fillStyle(0xFF6F00); g.fillCircle(w/2 - 38, 100, 3); g.fillCircle(w/2 + 38, 100, 3);
+        // Side missile pods
+        g.fillStyle(0x424242); g.fillRoundedRect(w/2 - 44, 110, 10, 24, 2); g.fillRoundedRect(w/2 + 34, 110, 10, 24, 2);
+        g.fillStyle(0xFF1744); g.fillTriangle(w/2 - 44, 108, w/2 - 34, 108, w/2 - 39, 102);
+        g.fillTriangle(w/2 + 34, 108, w/2 + 44, 108, w/2 + 39, 102);
+        g.lineStyle(1, 0x000); g.strokeRoundedRect(w/2 - 44, 110, 10, 24, 2); g.strokeRoundedRect(w/2 + 34, 110, 10, 24, 2);
+        // Rear cargo
+        g.fillStyle(0x4A5D2A); g.fillRoundedRect(w/2 - 26, 150, 52, 30, 2);
+        g.lineStyle(2, 0x000); g.strokeRoundedRect(w/2 - 26, 150, 52, 30, 2);
+        for (let i = 0; i < 4; i++) {
+            const x = w/2 - 24 + i * 12;
+            g.fillStyle(i % 2 === 0 ? 0xFF6F00 : 0x000);
+            g.fillRect(x, 168, 12, 5);
+        }
+        // Rear wheel chunky
+        g.fillStyle(0x1A1A14); g.fillRoundedRect(w/2 - 18, 174, 36, 28, 3);
+        for (let i = 0; i < 6; i++) { g.fillStyle(0x000); g.fillRect(w/2 - 16, 178 + i*4, 32, 1); }
+        g.fillStyle(0xFF6F00); g.fillCircle(w/2, 188, 5);
+        g.fillStyle(0x424242); g.fillCircle(w/2, 188, 2);
+        // Heavy exhausts
+        g.fillStyle(0x424242); g.fillRect(w/2 - 36, 162, 7, 22); g.fillRect(w/2 + 29, 162, 7, 22);
+        g.fillStyle(0x111); g.fillCircle(w/2 - 32.5, 184, 3); g.fillCircle(w/2 + 32.5, 184, 3);
+        g.fillStyle(0xFF6F00); g.fillCircle(w/2 - 32.5, 184, 1.5); g.fillCircle(w/2 + 32.5, 184, 1.5);
+        g.fillStyle(0xFF6F00, 0.6); g.fillCircle(w/2 - 11, 204, 5); g.fillCircle(w/2 + 11, 204, 5);
+    }
+    </script>
+</body>
+</html>
