@@ -2333,23 +2333,24 @@ class GameScene extends Phaser.Scene {
         this.refreshHeadlight();
 
         this.cameras.main.flash(600, 255, 215, 0);
-        this.showStageBanner(`🎁 ボーナスステージ！\n🪙アイテム ザクザク！🎁`, 2400);
+        this.showStageBanner(`🎁 ボーナスステージ！\nたからばこを たおせ！🎁`, 2200);
         bgm.play('victory');
 
         for (let i = 0; i < 3; i++) {
             this.time.delayedCall(i * 200, () => playTone(this, 523 + i * 130, 0.2, 0.08, 'square'));
         }
 
-        if (this.enemyTimer) this.enemyTimer.remove();
-        if (this.itemTimer) this.itemTimer.remove();
+        if (this.enemyTimer) { this.enemyTimer.remove(); this.enemyTimer = null; }
+        if (this.itemTimer) { this.itemTimer.remove(); this.itemTimer = null; }
         if (this.unkoTimer) { this.unkoTimer.remove(); this.unkoTimer = null; }
 
-        this.enemyTimer = this.time.addEvent({ delay: 500, loop: true, callback: () => this.spawnEnemy() });
-        this.itemTimer = this.time.addEvent({ delay: 1100, loop: true, callback: () => this.spawnItem() });
+        this.enemies.getChildren().forEach(e => {
+            if (!e.isBoss && !e.isMidBoss) e.destroy();
+        });
+        this.items.getChildren().forEach(i => i.destroy());
 
-        this.time.delayedCall(22000, () => {
+        this.time.delayedCall(2200, () => {
             if (!this.inBonusStage || this.isGameOver) return;
-            if (this.enemyTimer) this.enemyTimer.remove();
             this.spawnBonusBoss();
         });
     }
