@@ -255,143 +255,195 @@ const bgm = {
 };
 
 function createCarTexture(scene) {
-    const w = 90, h = 200;
+    const w = 92, h = 210;
     const g = scene.make.graphics({ add: false });
 
-    g.fillStyle(0xE91E63, 0.18);
-    g.fillEllipse(w/2, h - 4, 84, 30);
-    g.fillStyle(0x00E5FF, 0.12);
-    g.fillEllipse(w/2, h/2, 110, 180);
+    g.fillStyle(0x00E5FF, 0.14);
+    g.fillEllipse(w/2, h - 4, 90, 36);
+    g.fillStyle(0xFFD700, 0.08);
+    g.fillEllipse(w/2, 24, 70, 50);
+    g.fillStyle(0x00E5FF, 0.08);
+    g.fillEllipse(w/2, h/2, 116, 200);
 
-    g.fillStyle(0x000000, 0.55);
-    g.fillEllipse(w/2 + 4, h/2 + 12, 56, 170);
+    g.fillStyle(0x000000, 0.6);
+    g.fillEllipse(w/2 + 5, h/2 + 14, 58, 184);
 
-    g.fillStyle(0x0a0a0a);
-    g.fillRoundedRect(w/2 - 13, 6, 26, 50, 6);
-    g.lineStyle(1.5, 0x333344);
-    g.strokeRoundedRect(w/2 - 13, 6, 26, 50, 6);
-    g.fillStyle(0x18FFFF, 0.6);
-    g.fillCircle(w/2, 30, 7);
-    g.fillStyle(0x00E5FF);
-    g.fillCircle(w/2, 30, 4);
-    g.fillStyle(0xFFFFFF);
-    g.fillCircle(w/2, 30, 1.8);
-
-    g.fillStyle(0x0d0d18);
-    g.fillTriangle(w/2, 50, w/2 - 30, 86, w/2 + 30, 86);
-    g.fillRoundedRect(w/2 - 30, 78, 60, 16, 6);
-    g.lineStyle(2, 0x18FFFF, 0.85);
-    g.strokeTriangle(w/2, 50, w/2 - 30, 86, w/2 + 30, 86);
-
-    g.fillStyle(0xE91E63);
-    g.fillTriangle(w/2, 56, w/2 - 7, 74, w/2 + 7, 74);
-
-    g.fillStyle(0xFFEB3B);
-    g.fillRect(w/2 - 22, 64, 44, 3);
-    g.fillStyle(0xFFFFFF);
-    g.fillRect(w/2 - 20, 64.5, 40, 1.5);
-    g.fillStyle(0xFFEB3B, 0.4);
-    g.fillTriangle(w/2 - 30, 56, w/2 - 8, 50, w/2 - 8, 64);
-    g.fillTriangle(w/2 + 30, 56, w/2 + 8, 50, w/2 + 8, 64);
-
-    g.fillStyle(0x080812);
-    g.fillRoundedRect(w/2 - 27, 88, 54, 56, 11);
-    g.lineStyle(1, 0x222244, 0.7);
-    for (let i = 0; i < 4; i++) {
-        const yLine = 96 + i * 12;
-        g.lineBetween(w/2 - 24, yLine, w/2 + 24, yLine);
-    }
-    g.lineStyle(2, 0x18FFFF, 0.8);
-    g.strokeRoundedRect(w/2 - 27, 88, 54, 56, 11);
+    g.fillStyle(0x080810);
+    g.fillRoundedRect(w/2 - 12, 4, 24, 50, 5);
+    g.lineStyle(1, 0x333344, 0.7);
+    g.strokeRoundedRect(w/2 - 12, 4, 24, 50, 5);
+    g.fillStyle(0x00E5FF, 0.45);
+    g.fillCircle(w/2, 28, 10);
+    g.fillStyle(0x00BCD4);
+    g.fillCircle(w/2, 28, 5);
     g.fillStyle(0xFFD700);
-    g.fillRect(w/2 - 27, 100, 54, 1.5);
-    g.fillRect(w/2 - 27, 132, 54, 1.5);
-
-    g.fillStyle(0x0d0d1f);
-    g.fillRoundedRect(w/2 - 16, 96, 32, 40, 9);
-    g.fillStyle(0x00FFFF);
-    g.fillRect(w/2 - 14, 108, 28, 2.5);
-    g.fillStyle(0xE91E63);
-    g.fillRect(w/2 - 14, 113, 28, 1.5);
-    g.fillStyle(0xFFD700);
-    g.fillRect(w/2 - 14, 117, 28, 1);
-
-    g.fillStyle(0x0d0d1f);
-    g.fillRoundedRect(w/2 - 36, 90, 16, 14, 4);
-    g.fillRoundedRect(w/2 + 20, 90, 16, 14, 4);
-    g.fillStyle(0x222222);
-    g.fillCircle(w/2 - 36, 100, 7);
-    g.fillCircle(w/2 + 36, 100, 7);
-    g.lineStyle(1, 0x444444);
-    g.strokeCircle(w/2 - 36, 100, 7);
-    g.strokeCircle(w/2 + 36, 100, 7);
-    g.fillStyle(0x00FFFF);
-    g.fillCircle(w/2 - 36, 99, 1.8);
-    g.fillCircle(w/2 + 36, 99, 1.8);
-
-    g.fillStyle(0x111111);
-    g.fillCircle(w/2, 99, 17);
-    g.lineStyle(1.2, 0x444444);
-    g.strokeCircle(w/2, 99, 17);
-    g.fillStyle(0xFFD700);
-    g.fillRect(w/2 - 1.5, 84, 3, 30);
-    g.fillStyle(0x18FFFF);
-    g.fillEllipse(w/2, 92, 22, 7);
-    g.lineStyle(1.2, 0xFFFFFF);
-    g.strokeEllipse(w/2, 92, 22, 7);
-    g.fillStyle(0xFFFFFF, 0.7);
-    g.fillRect(w/2 - 7, 91, 5, 1.5);
-    g.fillStyle(0xE91E63);
-    g.fillRect(w/2 - 16, 99, 3, 7);
-    g.fillRect(w/2 + 13, 99, 3, 7);
-
-    g.fillStyle(0x080812);
-    g.fillRoundedRect(w/2 - 22, 144, 44, 26, 8);
-    g.lineStyle(2, 0x18FFFF, 0.8);
-    g.strokeRoundedRect(w/2 - 22, 144, 44, 26, 8);
-    g.fillStyle(0xFFD700);
-    g.fillRect(w/2 - 12, 152, 24, 11);
-    g.lineStyle(1, 0x000000);
-    g.strokeRect(w/2 - 12, 152, 24, 11);
+    g.fillCircle(w/2, 28, 2);
 
     g.fillStyle(0x37474F);
-    g.fillRect(w/2 - 24, 148, 4, 28);
-    g.fillRect(w/2 + 20, 148, 4, 28);
+    g.fillRect(w/2 - 11, 50, 4, 32);
+    g.fillRect(w/2 + 7, 50, 4, 32);
+    g.fillStyle(0x90A4AE);
+    g.fillRect(w/2 - 11, 50, 4, 5);
+    g.fillRect(w/2 + 7, 50, 4, 5);
 
-    g.fillStyle(0x0a0a0a);
-    g.fillRoundedRect(w/2 - 16, 168, 32, 26, 8);
-    g.lineStyle(1.5, 0x333344);
-    g.strokeRoundedRect(w/2 - 16, 168, 32, 26, 8);
-    g.fillStyle(0x18FFFF, 0.6);
-    g.fillCircle(w/2, 181, 7);
-    g.fillStyle(0x00E5FF);
-    g.fillCircle(w/2, 181, 4);
+    g.fillStyle(0x141420);
+    g.fillTriangle(w/2, 48, w/2 - 33, 80, w/2 + 33, 80);
+    g.fillRoundedRect(w/2 - 33, 74, 66, 14, 5);
+
+    g.lineStyle(0.6, 0x2a2a3a, 0.7);
+    for (let i = 0; i < 7; i++) {
+        const sx = w/2 - 28 + i * 9;
+        g.lineBetween(sx, 60, sx + 6, 80);
+    }
+
+    g.lineStyle(1.5, 0x00E5FF, 0.95);
+    g.strokeTriangle(w/2, 48, w/2 - 33, 80, w/2 + 33, 80);
+    g.fillStyle(0xFFD700);
+    g.fillTriangle(w/2 + 7, 50, w/2 + 20, 64, w/2 + 9, 64);
+
+    g.fillStyle(0x080810);
+    g.fillRect(w/2 - 28, 64, 56, 5);
+    g.fillStyle(0xFFEB3B);
+    g.fillRect(w/2 - 26, 65, 52, 2);
     g.fillStyle(0xFFFFFF);
-    g.fillCircle(w/2, 181, 1.8);
+    g.fillRect(w/2 - 24, 65.4, 48, 1.2);
+    g.fillStyle(0xFFEB3B, 0.35);
+    g.fillTriangle(w/2 - 32, 60, w/2 - 6, 50, w/2 - 6, 64);
+    g.fillTriangle(w/2 + 32, 60, w/2 + 6, 50, w/2 + 6, 64);
+
+    g.fillStyle(0x070710);
+    g.fillRoundedRect(w/2 - 28, 88, 56, 60, 12);
+
+    g.lineStyle(0.5, 0x252540, 0.6);
+    for (let row = 0; row < 5; row++) {
+        const y = 92 + row * 11;
+        g.lineBetween(w/2 - 25, y, w/2 + 25, y);
+    }
+
+    g.lineStyle(1.5, 0x00E5FF, 0.95);
+    g.strokeRoundedRect(w/2 - 28, 88, 56, 60, 12);
+    g.fillStyle(0xFFD700);
+    g.fillRect(w/2 - 27, 99, 54, 1);
+    g.fillRect(w/2 - 27, 136, 54, 1);
+
+    g.fillStyle(0x0a0a18);
+    g.fillRoundedRect(w/2 - 17, 96, 34, 44, 10);
+    g.fillStyle(0x14142a);
+    g.fillTriangle(w/2 - 17, 100, w/2 - 17, 118, w/2 - 7, 110);
+    g.fillTriangle(w/2 + 17, 100, w/2 + 17, 118, w/2 + 7, 110);
+
+    g.fillStyle(0x00E5FF);
+    g.fillRect(w/2 - 14, 116, 28, 2);
+    g.fillStyle(0xFFD700);
+    g.fillRect(w/2 - 14, 120, 28, 1);
+    g.fillStyle(0xFF1744);
+    g.fillRect(w/2 - 4, 124, 8, 6);
+
+    g.fillStyle(0x0a0a18);
+    g.fillRoundedRect(w/2 - 38, 90, 17, 14, 4);
+    g.fillRoundedRect(w/2 + 21, 90, 17, 14, 4);
+
+    g.fillStyle(0x1a1a1a);
+    g.fillCircle(w/2 - 38, 100, 7);
+    g.fillCircle(w/2 + 38, 100, 7);
+    g.lineStyle(1, 0x4a4a4a);
+    g.strokeCircle(w/2 - 38, 100, 7);
+    g.strokeCircle(w/2 + 38, 100, 7);
+    g.fillStyle(0xFFD700);
+    g.fillRect(w/2 - 41, 99, 5, 1.5);
+    g.fillRect(w/2 + 36, 99, 5, 1.5);
+    g.fillStyle(0x00FFFF);
+    g.fillCircle(w/2 - 38, 99.5, 1.5);
+    g.fillCircle(w/2 + 38, 99.5, 1.5);
+
+    g.fillStyle(0x070710);
+    g.fillCircle(w/2, 102, 18);
+
+    g.fillStyle(0x141422, 0.85);
+    g.fillCircle(w/2 - 5, 96, 11);
+
+    g.lineStyle(1.5, 0x2a2a3a);
+    g.strokeCircle(w/2, 102, 18);
+
+    g.fillStyle(0xFFD700);
+    g.fillTriangle(w/2 - 4, 84, w/2 + 4, 84, w/2, 79);
+    g.fillRect(w/2 - 1.5, 84, 3, 32);
+
+    g.fillStyle(0x002240);
+    g.fillEllipse(w/2, 94, 26, 10);
+    g.fillStyle(0x00E5FF, 0.9);
+    g.fillEllipse(w/2, 94, 24, 8);
+    g.fillStyle(0x18FFFF, 0.7);
+    g.fillEllipse(w/2 - 5, 93, 9, 4);
+    g.fillStyle(0xFFFFFF, 0.95);
+    g.fillRect(w/2 - 9, 92, 5, 1.4);
+    g.fillRect(w/2 + 4, 92.5, 5, 1.2);
+    g.lineStyle(1, 0x004466);
+    g.strokeEllipse(w/2, 94, 24, 8);
 
     g.fillStyle(0xFF1744);
-    g.fillRect(w/2 - 14, 168, 28, 3);
-    g.fillStyle(0xFF80AB);
-    g.fillRect(w/2 - 12, 168.5, 24, 1.5);
+    g.fillRect(w/2 - 17, 105, 4, 6);
+    g.fillRect(w/2 + 13, 105, 4, 6);
+    g.fillStyle(0x000000);
+    g.fillRect(w/2 - 16, 106, 2, 4);
+    g.fillRect(w/2 + 14, 106, 2, 4);
+
+    g.fillStyle(0x141420);
+    g.fillRoundedRect(w/2 - 32, 144, 64, 5, 2);
+    g.lineStyle(1, 0x00E5FF, 0.7);
+    g.strokeRoundedRect(w/2 - 32, 144, 64, 5, 2);
+
+    g.fillStyle(0x070710);
+    g.fillRoundedRect(w/2 - 22, 150, 44, 28, 8);
+    g.lineStyle(1.5, 0x00E5FF, 0.95);
+    g.strokeRoundedRect(w/2 - 22, 150, 44, 28, 8);
+
+    g.fillStyle(0xFFD700);
+    g.fillRect(w/2 - 11, 158, 22, 11);
+    g.lineStyle(0.8, 0x000000);
+    g.strokeRect(w/2 - 11, 158, 22, 11);
 
     g.fillStyle(0x37474F);
-    g.fillRect(w/2 - 30, 158, 5, 22);
-    g.fillRect(w/2 + 25, 158, 5, 22);
-    g.fillStyle(0xFF6F00);
-    g.fillCircle(w/2 - 27.5, 178, 2.5);
-    g.fillCircle(w/2 + 27.5, 178, 2.5);
-    g.fillStyle(0xFFEB3B);
-    g.fillCircle(w/2 - 27.5, 178, 1.2);
-    g.fillCircle(w/2 + 27.5, 178, 1.2);
+    g.fillRect(w/2 - 26, 154, 5, 32);
+    g.fillRect(w/2 + 21, 154, 5, 32);
+    g.fillStyle(0x90A4AE);
+    g.fillRect(w/2 - 26, 154, 5, 4);
+    g.fillRect(w/2 + 21, 154, 5, 4);
 
-    g.fillStyle(0x00FFFF, 0.7);
-    g.fillCircle(w/2 - 11, 196, 5);
-    g.fillCircle(w/2 + 11, 196, 5);
+    g.fillStyle(0x080810);
+    g.fillRoundedRect(w/2 - 16, 174, 32, 26, 8);
+    g.lineStyle(1, 0x444466, 0.6);
+    g.strokeRoundedRect(w/2 - 16, 174, 32, 26, 8);
+    g.fillStyle(0x00E5FF, 0.45);
+    g.fillCircle(w/2, 187, 10);
+    g.fillStyle(0x00BCD4);
+    g.fillCircle(w/2, 187, 5);
+    g.fillStyle(0xFFD700);
+    g.fillCircle(w/2, 187, 2);
+
+    g.fillStyle(0xFF1744);
+    g.fillRect(w/2 - 14, 174, 28, 3);
+    g.fillStyle(0xFF80AB, 0.9);
+    g.fillRect(w/2 - 12, 174.5, 24, 1.5);
+
+    g.fillStyle(0x37474F);
+    g.fillRect(w/2 - 32, 164, 5, 22);
+    g.fillRect(w/2 + 27, 164, 5, 22);
+    g.fillStyle(0xFF6F00);
+    g.fillCircle(w/2 - 29.5, 184, 2.5);
+    g.fillCircle(w/2 + 29.5, 184, 2.5);
+    g.fillStyle(0xFFEB3B);
+    g.fillCircle(w/2 - 29.5, 184, 1.2);
+    g.fillCircle(w/2 + 29.5, 184, 1.2);
+
+    g.fillStyle(0x00E5FF, 0.75);
+    g.fillCircle(w/2 - 11, 204, 6);
+    g.fillCircle(w/2 + 11, 204, 6);
     g.fillStyle(0xFFFFFF);
-    g.fillCircle(w/2 - 11, 196, 2.5);
-    g.fillCircle(w/2 + 11, 196, 2.5);
-    g.fillStyle(0xE91E63, 0.4);
-    g.fillCircle(w/2, 199, 4);
+    g.fillCircle(w/2 - 11, 204, 2.5);
+    g.fillCircle(w/2 + 11, 204, 2.5);
+    g.fillStyle(0xFFD700, 0.4);
+    g.fillCircle(w/2, 207, 5);
 
     g.generateTexture('car', w, h);
     g.destroy();
@@ -423,13 +475,15 @@ class TitleScene extends Phaser.Scene {
         titleFrame.lineBetween(GAME_W/2 + 200, 280, GAME_W/2 + 220, 280);
         titleFrame.lineBetween(GAME_W/2 + 200, 280, GAME_W/2 + 200, 300);
 
-        const title = this.add.text(GAME_W / 2, 165, 'Kanji', {
-            fontSize: '88px', fontFamily: FONT, fontStyle: 'bold',
-            color: '#18FFFF', stroke: '#0d0028', strokeThickness: 6
+        const title = this.add.text(GAME_W / 2, 168, 'KANJI', {
+            fontSize: '108px', fontFamily: FONT, fontStyle: 'bold',
+            color: '#18FFFF', stroke: '#0d0028', strokeThickness: 8,
+            letterSpacing: 6
         }).setOrigin(0.5);
-        const title2 = this.add.text(GAME_W / 2, 240, 'レースバトル', {
-            fontSize: '46px', fontFamily: FONT, fontStyle: 'bold',
-            color: '#E0F7FA', stroke: '#E91E63', strokeThickness: 4
+        const title2 = this.add.text(GAME_W / 2, 248, 'レースバトル', {
+            fontSize: '40px', fontFamily: FONT, fontStyle: 'bold',
+            color: '#E0F7FA', stroke: '#E91E63', strokeThickness: 4,
+            letterSpacing: 6
         }).setOrigin(0.5);
         this.tweens.add({ targets: [title, title2], scale: 1.05, duration: 1100,
             yoyo: true, repeat: -1, ease: 'Sine.easeInOut' });
@@ -577,9 +631,19 @@ class RaceScene extends Phaser.Scene {
         this.gates = [];
         this.barriers = [];
         this.stripes = [];
-        for (let i = 0; i < 12; i++) this.stripes.push({ z: (i / 12) * FAR_Z });
+        for (let i = 0; i < 16; i++) this.stripes.push({ z: (i / 16) * FAR_Z });
+
+        this.streaks = [];
+        for (let i = 0; i < 36; i++) {
+            this.streaks.push({
+                angle: Math.random() * Math.PI * 2,
+                dist: Math.random() * 600,
+                speed: 3 + Math.random() * 6
+            });
+        }
 
         this.drawSky();
+        this.streakGfx = this.add.graphics().setDepth(-7);
         this.roadGfx = this.add.graphics().setDepth(-5);
 
         this.car = this.add.image(GAME_W / 2, GAME_H - 80, 'car').setOrigin(0.5, 0.95).setDepth(20);
@@ -714,6 +778,31 @@ class RaceScene extends Phaser.Scene {
         for (const stripe of this.stripes) {
             stripe.z -= SCROLL_SPEED * delta * 60;
             if (stripe.z < 0) stripe.z += FAR_Z;
+        }
+
+        this.streakGfx.clear();
+        const cx = GAME_W / 2, cy = HORIZON_Y;
+        for (const s of this.streaks) {
+            s.dist += s.speed * delta * 60;
+            if (s.dist > 760) {
+                s.dist = Math.random() * 20;
+                s.angle = Math.random() * Math.PI * 2;
+                s.speed = 3 + Math.random() * 6;
+            }
+            const cosA = Math.cos(s.angle), sinA = Math.sin(s.angle);
+            const x1 = cx + cosA * s.dist;
+            const y1 = cy + sinA * s.dist * 0.7;
+            const trail = Math.max(0, s.dist - 55);
+            const x2 = cx + cosA * trail;
+            const y2 = cy + sinA * trail * 0.7;
+            if (x1 < -40 || x1 > GAME_W + 40 || y1 < -40 || y1 > GAME_H + 40) continue;
+            const alpha = Math.min(0.55, s.dist / 280);
+            const inSky = y1 < HORIZON_Y + 10;
+            const offRoad = (Math.abs(x1 - GAME_W/2) > 200 + (s.dist * 0.4));
+            const visible = inSky || offRoad;
+            if (!visible) continue;
+            this.streakGfx.lineStyle(1.5, 0x18FFFF, alpha);
+            this.streakGfx.lineBetween(x1, y1, x2, y2);
         }
 
         if (this.cursors.left.isDown) this.carTargetX -= 9;
