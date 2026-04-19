@@ -1498,7 +1498,24 @@ class GameScene extends Phaser.Scene {
 
     shoot() {
         if (this.isGameOver || !this.player.alive) return;
-        if (this.specialWeapon === 'laser') return;
+
+        if (this.specialWeapon === 'laser') {
+            const angles = [-0.42, 0, 0.42];
+            const speed = 880;
+            for (const a of angles) {
+                const bullet = this.add.rectangle(this.player.x, this.player.y - 60, 7, 34, 0xFF1744)
+                    .setStrokeStyle(2, 0xFFFFFF);
+                this.bullets.add(bullet);
+                bullet.body.setSize(7, 34);
+                bullet.damage = 4;
+                bullet.isLaser = true;
+                bullet.body.setVelocity(Math.sin(a) * speed, -Math.cos(a) * speed);
+                bullet.rotation = a;
+            }
+            playTone(this, 1500, 0.05, 0.04, 'square', 700);
+            return;
+        }
+
         const now = this.time.now;
         const isPiercing = this.specialWeapon === 'piercing';
         const isMissile = this.buffs.missile > now || isPiercing;
@@ -1607,7 +1624,8 @@ class GameScene extends Phaser.Scene {
                 onComplete: () => hitFx.destroy() });
             this.tweens.add({ targets: enemy, alpha: 0.5, duration: 60, yoyo: true });
             if (!bullet.piercing) bullet.destroy();
-            playTone(this, 200, 0.08, 0.06, 'square');
+            if (bullet.isLaser) playTone(this, 1800, 0.08, 0.07, 'square', 600);
+            else playTone(this, 200, 0.08, 0.06, 'square');
             if (enemy.hp <= 0) {
                 if (enemy.isBoss) this.defeatBoss(enemy);
                 else this.defeatMidBoss(enemy);
@@ -1628,7 +1646,8 @@ class GameScene extends Phaser.Scene {
 
         if (!bullet.piercing) bullet.destroy();
         enemy.destroy();
-        playTone(this, 600, 0.08, 0.06, 'square');
+        if (bullet.isLaser) playTone(this, 1600, 0.06, 0.06, 'square', 500);
+        else playTone(this, 600, 0.08, 0.06, 'square');
     }
 
     addPoints(p) {
@@ -2579,40 +2598,7 @@ class GameScene extends Phaser.Scene {
     }
 
     updateLaser() {
-        if (this.specialWeapon !== 'laser' || !this.player.alive) {
-            if (this.laserBeam) { this.laserBeam.destroy(); this.laserBeam = null; }
-            return;
-        }
-        const beamWidth = 70, beamH = this.player.y;
-        if (!this.laserBeam) {
-            this.laserBeam = this.add.rectangle(this.player.x, beamH / 2, beamWidth, beamH, 0xFF1744, 0.55)
-                .setStrokeStyle(4, 0xFFFFFF).setDepth(8);
-        }
-        this.laserBeam.x = this.player.x;
-        this.laserBeam.y = beamH / 2;
-        this.laserBeam.height = beamH;
-
-        const now = this.time.now;
-        this.enemies.getChildren().forEach(e => {
-            if (Math.abs(e.x - this.player.x) > beamWidth / 2 + 10) return;
-            if (e.y > this.player.y) return;
-            if (now - (e.lastLaserHit || 0) < 70) return;
-            e.lastLaserHit = now;
-            const damage = (e.isBoss || e.isMidBoss) ? 2 : 9999;
-            if (e.isBoss || e.isMidBoss) {
-                e.hp -= damage;
-                this.updateBossHp(e);
-                if (e.hp <= 0) {
-                    if (e.isBoss) this.defeatBoss(e);
-                    else this.defeatMidBoss(e);
-                }
-            } else {
-                this.addPoints(e.points || 10);
-                this.addCoins(e.coins || 10);
-                spawnExplosion(this, e.x, e.y, 0.8);
-                e.destroy();
-            }
-        });
+        if (this.laserBeam) { this.laserBeam.destroy(); this.laserBeam = null; }
     }
 
     advanceStage() {
@@ -2626,6 +2612,12 @@ class GameScene extends Phaser.Scene {
         this.bossDefeated = false;
         this.boss = null;
         this.midBoss = null;
+
+        this.enemies.getChildren().forEach(e => {
+            if (!e.isBoss && !e.isMidBoss) e.destroy();
+        });
+        this.items.getChildren().forEach(i => i.destroy());
+        this.bossBullets.getChildren().forEach(b => b.destroy());
 
         if (this.shootTimer) this.shootTimer.paused = false;
         if (this.gameTimer) this.gameTimer.paused = false;
