@@ -2753,14 +2753,15 @@ class GameScene extends Phaser.Scene {
 
         const finalLevel = this.level;
         const dyingStage = this.stage;
+        storage.setCoins(0);
 
         this.time.delayedCall(3000, () => {
             bgm.stop();
             this.scene.start('GameOverScene', {
                 score: this.score, victory: false,
-                runCoins: this.runCoins, totalCoins: this.totalCoins,
+                runCoins: this.runCoins, totalCoins: 0,
                 level: finalLevel, startLevel: this.startLevel,
-                deepest: this.deepestThisRun, stage: dyingStage, coinsReset: false,
+                deepest: this.deepestThisRun, stage: dyingStage, coinsReset: true,
                 worldIndex: this.worldIndex, retryStage: dyingStage
             });
         });
