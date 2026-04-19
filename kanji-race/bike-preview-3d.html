@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0a0020">
-    <title>BIKE 3D REAR VIEW - KANJI レースバトル</title>
+    <title>3D REAR VIEW GALLERY - KANJI レースバトル</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         html, body {
@@ -14,8 +14,7 @@
                 radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
                 radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
                 linear-gradient(180deg, #0a0020 0%, #000 100%);
-            background-attachment: fixed;
-            color: #fff;
+            background-attachment: fixed; color: #fff;
             font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
         }
         body::before {
@@ -38,6 +37,13 @@
             letter-spacing: 6px; margin-bottom: 4px;
         }
         .sub { text-align: center; font-size: 13px; color: #FFEB3B; letter-spacing: 4px; margin-bottom: 32px; }
+        .section-title {
+            font-size: 22px; color: #FFEB3B; letter-spacing: 8px;
+            text-align: center; margin: 50px 0 20px;
+            padding: 10px;
+            border-top: 1px solid rgba(24, 255, 255, 0.4);
+            border-bottom: 1px solid rgba(24, 255, 255, 0.4);
+        }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
         .card {
             background: rgba(20, 20, 40, 0.7);
@@ -55,7 +61,7 @@
         .canvas-wrap {
             display: flex; justify-content: center;
             background: linear-gradient(180deg, #000 0%, #1a0040 80%, #4a0080 100%);
-            border-radius: 12px; padding: 20px 0 28px;
+            border-radius: 12px; padding: 16px 0 24px;
             margin-bottom: 16px;
             border: 1px solid rgba(24, 255, 255, 0.3);
             position: relative; overflow: hidden;
@@ -78,540 +84,636 @@
             <a href="./" class="back">← ゲームに もどる</a>
             <a href="./bike-preview.html" class="back">← トップビュー案</a>
         </div>
-        <h1>BIKE 3D — REAR VIEW</h1>
-        <div class="sub">◤ 後方視点 立体デザイン 全6案 ◢</div>
-        <div class="grid" id="grid"></div>
+        <h1>3D REAR VIEW</h1>
+        <div class="sub">◤ ライダー視点 ・ バイク と 車 ◢</div>
+
+        <div class="section-title">🏍 BIKE 後方視点</div>
+        <div class="grid" id="bike-grid"></div>
+
+        <div class="section-title">🚗 CAR 後方視点</div>
+        <div class="grid" id="car-grid"></div>
     </main>
 
     <div id="phaser-hidden" style="position:absolute; visibility:hidden; left:-9999px;"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
     <script>
-    const W = 240, H = 320;
+    const W = 280, H = 320;
 
-    const designs = [
-        { id: 'samurai', name: 'B: サイバー侍', tag: 'CYBER SAMURAI', featured: true,
-          desc: '兜（鍬形・前立て・吹返・錣）に、刀を背負った最強サムライ。漆黒×朱赤×金箔。',
-          draw: (g, w, h) => drawBike(g, w, h, samuraiP, samuraiExtras) },
-        { id: 'current', name: '◎ 現在のスタイル', tag: 'CURRENT', desc: '今のシアン×ゴールドのレーシングカラー。基本スタイル。',
-          draw: (g, w, h) => drawBike(g, w, h, currentP) },
-        { id: 'stealth', name: 'A: ステルス・ダークナイト', tag: 'STEALTH BLACK',
-          desc: 'マットブラック+赤い細ライン。装飾を削ぎ落とした冷徹なミニマル。',
-          draw: (g, w, h) => drawBike(g, w, h, stealthP) },
-        { id: 'motogp', name: 'C: ガチMotoGP', tag: 'PRO RACING',
+    // === COLOR PALETTES (shared between bike & car) ===
+    const cyber = {
+        ug1: 0x00E5FF, ug2: 0xFF1744, plasma: 0x00FFFF, plasmaCore: 0xFFFFFF,
+        bodyDark: 0x080814, bodyMid: 0x141420, bodySide: 0x040408,
+        rim: 0xFFD700, hub: 0x18FFFF, hubCore: 0xFFFFFF,
+        trim: 0x18FFFF, trimAcc: 0xFFD700,
+        tail: 0xFF1744, tailIn: 0xFF80AB,
+        suit: 0x14142a, stripe1: 0x18FFFF, stripe2: 0xFFD700, accent: 0xE91E63, spine: 0xFF1744,
+        helmet: 0x080808, helmetHi: 0x1a1a2a, helmetSpine: 0xFFD700, helmetAcc: 0xFF1744,
+        headlight: 0xFFEB3B, flame: 0xFF6F00
+    };
+    const stealth = { ...cyber,
+        ug1: 0xFF1744, ug2: 0xFF1744, plasma: 0xFF1744, plasmaCore: 0xFF80AB,
+        bodyDark: 0x050505, bodyMid: 0x0a0a0a, bodySide: 0x000,
+        rim: 0xFF1744, hub: 0xFF1744, hubCore: 0xFFFFFF,
+        trim: 0xFF1744, trimAcc: 0xFF1744,
+        tail: 0xFF1744, tailIn: 0xFF80AB,
+        suit: 0x0a0a0a, stripe1: 0xFF1744, stripe2: 0xFF1744, accent: 0xFF1744, spine: 0xFF1744,
+        helmet: 0x000, helmetSpine: 0xFF1744, helmetAcc: 0xFF1744,
+        headlight: 0xFF1744
+    };
+    const samurai = { ...cyber,
+        ug1: 0xC62828, ug2: 0xFFD700, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
+        bodyDark: 0x14060a, bodyMid: 0x1a080e, bodySide: 0x080406,
+        rim: 0xC62828, hub: 0xFFD700, hubCore: 0xC62828,
+        trim: 0xFFD700, trimAcc: 0xFFD700,
+        tail: 0xC62828, tailIn: 0xFF1744,
+        suit: 0x14060a, stripe1: 0xC62828, stripe2: 0xFFD700, accent: 0xFFD700, spine: 0xFFD700,
+        helmet: 0x14060a, helmetSpine: 0xFFD700, helmetAcc: 0xC62828,
+        headlight: 0xFF1744
+    };
+    const motogp = { ...cyber,
+        ug1: 0xC62828, ug2: 0xFFEB3B, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
+        bodyDark: 0xC62828, bodyMid: 0xE53935, bodySide: 0x8B0000,
+        rim: 0xFFD700, hub: 0xFFFFFF, hubCore: 0x000,
+        trim: 0xFFFFFF, trimAcc: 0xFFEB3B,
+        tail: 0xFF1744, tailIn: 0xFF80AB,
+        suit: 0xC62828, stripe1: 0xFFFFFF, stripe2: 0xFFEB3B, accent: 0x000, spine: 0xFFFFFF,
+        helmet: 0xFFEB3B, helmetSpine: 0xC62828, helmetAcc: 0x000,
+        headlight: 0xFFEB3B
+    };
+    const synth = { ...cyber,
+        ug1: 0xE91E63, ug2: 0x18FFFF, plasma: 0xE91E63, plasmaCore: 0x18FFFF,
+        bodyDark: 0x4A148C, bodyMid: 0x6A1B9A, bodySide: 0x2D0040,
+        rim: 0xE91E63, hub: 0x18FFFF, hubCore: 0xFFFFFF,
+        trim: 0xE91E63, trimAcc: 0x18FFFF,
+        tail: 0xE91E63, tailIn: 0xFF80AB,
+        suit: 0x4A148C, stripe1: 0x18FFFF, stripe2: 0xE91E63, accent: 0xFFFFFF, spine: 0xE91E63,
+        helmet: 0x4A148C, helmetSpine: 0xE91E63, helmetAcc: 0x18FFFF,
+        headlight: 0xFF80AB
+    };
+    const mecha = { ...cyber,
+        ug1: 0xFF6F00, ug2: 0x4A5D2A, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
+        bodyDark: 0x4A5D2A, bodyMid: 0x6A7D4A, bodySide: 0x2A3D1A,
+        rim: 0xFF6F00, hub: 0x424242, hubCore: 0xFF6F00,
+        trim: 0xFF6F00, trimAcc: 0x000,
+        tail: 0xFF6F00, tailIn: 0xFFEB3B,
+        suit: 0x4A5D2A, stripe1: 0xFF6F00, stripe2: 0x000, accent: 0xFF1744, spine: 0xFF6F00,
+        helmet: 0x2A3D1A, helmetSpine: 0xFF6F00, helmetAcc: 0xFF6F00,
+        headlight: 0xFFEB3B
+    };
+
+    const bikeDesigns = [
+        { id: 'b_samurai', name: 'B: サイバー侍', tag: 'CYBER SAMURAI', featured: true,
+          desc: '兜（鍬形・前立て・吹返・錣・面頬）に、刀を背負う最強サムライバイク。',
+          draw: (g, w, h) => drawBike(g, w, h, samurai, samuraiBikeExtras) },
+        { id: 'b_cyber', name: '◎ 現在のスタイル', tag: 'CYBER CURRENT',
+          desc: '今のシアン×ゴールドのレーシングカラー。', draw: (g, w, h) => drawBike(g, w, h, cyber) },
+        { id: 'b_stealth', name: 'A: ステルス・ダークナイト', tag: 'STEALTH BLACK',
+          desc: 'マットブラック+赤い細ライン。', draw: (g, w, h) => drawBike(g, w, h, stealth) },
+        { id: 'b_motogp', name: 'C: ガチMotoGP', tag: 'PRO RACING',
           desc: '赤×白×蛍光イエロー。番号「7」、本物のサーキット感。',
-          draw: (g, w, h) => drawBike(g, w, h, motogpP, motogpExtras) },
-        { id: 'hover', name: 'D: ホバーバイク', tag: 'ANTI-GRAVITY',
-          desc: 'タイヤなし。シアンの推力リングで浮遊するSF機。',
-          draw: (g, w, h) => drawBike(g, w, h, hoverP) },
-        { id: 'synth', name: 'E: シンセウェーブ80\'s', tag: 'SYNTHWAVE',
-          desc: 'マゼンタ×シアン×ネオン紫。VAPORWAVEのワイヤーフレーム。',
-          draw: (g, w, h) => drawBike(g, w, h, synthP, synthExtras) },
-        { id: 'mecha', name: 'F: 重装コンバット', tag: 'COMBAT MECH',
-          desc: '軍用グリーン×オレンジ警告ストライプ。サイドミサイルポッド付き。',
-          draw: (g, w, h) => drawBike(g, w, h, mechaP, mechaExtras) },
+          draw: (g, w, h) => drawBike(g, w, h, motogp) },
+        { id: 'b_synth', name: 'E: シンセウェーブ80\'s', tag: 'SYNTHWAVE',
+          desc: 'マゼンタ×シアン×ネオン紫。VAPORWAVE調。', draw: (g, w, h) => drawBike(g, w, h, synth) },
+        { id: 'b_mecha', name: 'F: 重装コンバット', tag: 'COMBAT MECH',
+          desc: '軍用グリーン×オレンジ警告ストライプ。', draw: (g, w, h) => drawBike(g, w, h, mecha) },
+    ];
+
+    const carDesigns = [
+        { id: 'c_samurai', name: 'B: サイバー侍カー', tag: 'CYBER SAMURAI', featured: true,
+          desc: 'トランクに刀、ルーフに前立て、トランクに鍬形フィン。漆黒×朱赤×金。',
+          draw: (g, w, h) => drawCar(g, w, h, samurai, samuraiCarExtras) },
+        { id: 'c_cyber', name: '◎ サイバーカー', tag: 'CYBER CURRENT',
+          desc: 'シアン×ゴールド。スポーティな低重心ボディ。',
+          draw: (g, w, h) => drawCar(g, w, h, cyber) },
+        { id: 'c_stealth', name: 'A: ステルスカー', tag: 'STEALTH BLACK',
+          desc: 'マットブラック+赤ライン。最低限のミニマル。',
+          draw: (g, w, h) => drawCar(g, w, h, stealth) },
+        { id: 'c_motogp', name: 'C: F1風レーサー', tag: 'PRO RACING',
+          desc: '赤×白×イエローのレーシングカラー。',
+          draw: (g, w, h) => drawCar(g, w, h, motogp) },
+        { id: 'c_synth', name: 'E: シンセウェーブカー', tag: 'SYNTHWAVE',
+          desc: 'マゼンタ×シアン×紫。バーチャルレーサー。',
+          draw: (g, w, h) => drawCar(g, w, h, synth) },
+        { id: 'c_mecha', name: 'F: 装甲車', tag: 'COMBAT MECH',
+          desc: '軍用カラー、ゴツい装甲車。', draw: (g, w, h) => drawCar(g, w, h, mecha) },
     ];
 
     new Phaser.Game({
         type: Phaser.CANVAS, width: 1, height: 1,
         parent: 'phaser-hidden', transparent: true,
         scene: { create() {
-            for (const d of designs) {
+            const all = bikeDesigns.concat(carDesigns);
+            for (const d of all) {
                 const g = this.make.graphics({ add: false });
                 d.draw(g, W, H);
                 g.generateTexture(d.id, W, H);
                 g.destroy();
             }
-            const grid = document.getElementById('grid');
-            for (const d of designs) {
-                const card = document.createElement('div');
-                card.className = 'card' + (d.featured ? ' featured' : '');
-                const wrap = document.createElement('div');
-                wrap.className = 'canvas-wrap';
-                const c = document.createElement('canvas');
-                c.width = W; c.height = H;
-                c.getContext('2d').drawImage(this.textures.get(d.id).getSourceImage(), 0, 0);
-                wrap.appendChild(c);
-                card.appendChild(wrap);
-                card.insertAdjacentHTML('beforeend',
-                    `<div class="name">${d.name}</div><div class="tag">${d.tag}</div><div class="desc">${d.desc}</div>`);
-                grid.appendChild(card);
-            }
+            renderGrid('bike-grid', bikeDesigns, this);
+            renderGrid('car-grid', carDesigns, this);
         }}
     });
 
-    // === COLOR PALETTES ===
-    const currentP = {
-        ug1: 0x00E5FF, ug2: 0xFF1744, plasma: 0x00FFFF, plasmaCore: 0xFFFFFF,
-        bodyDark: 0x080814, bodySide: 0x14060a, bodyMid: 0x141420,
-        rim: 0xFFD700, hub: 0x18FFFF, hubCore: 0xFFFFFF,
-        trim: 0x18FFFF, trimAcc: 0xFFD700,
-        tail: 0xFF1744, tailIn: 0xFF80AB,
-        suit: 0x14142a, stripe1: 0x18FFFF, stripe2: 0xFFD700, accent: 0xE91E63, spine: 0xFF1744,
-        helmet: 0x080808, helmetHi: 0x1a1a2a, helmetSpine: 0xFFD700, helmetAcc: 0xFF1744, visor: 0x18FFFF,
-        headlight: 0xFFEB3B, exhaust: 0x37474F, flame: 0xFF6F00
-    };
-    const stealthP = { ...currentP,
-        ug1: 0xFF1744, ug2: 0xFF1744, plasma: 0xFF1744, plasmaCore: 0xFF80AB,
-        bodyDark: 0x050505, bodySide: 0x0a0a0a, bodyMid: 0x080808,
-        rim: 0xFF1744, hub: 0xFF1744, hubCore: 0xFFFFFF,
-        trim: 0xFF1744, trimAcc: 0xFF1744,
-        tail: 0xFF1744, tailIn: 0xFF80AB,
-        suit: 0x0a0a0a, stripe1: 0xFF1744, stripe2: 0xFF1744, accent: 0xFF1744, spine: 0xFF1744,
-        helmet: 0x000000, helmetSpine: 0xFF1744, helmetAcc: 0xFF1744, visor: 0xFF1744,
-        headlight: 0xFF1744
-    };
-    const samuraiP = { ...currentP,
-        ug1: 0xC62828, ug2: 0xFFD700, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
-        bodyDark: 0x14060a, bodySide: 0x080406, bodyMid: 0x14060a,
-        rim: 0xC62828, hub: 0xFFD700, hubCore: 0xC62828,
-        trim: 0xFFD700, trimAcc: 0xFFD700,
-        tail: 0xC62828, tailIn: 0xFF1744,
-        suit: 0x14060a, stripe1: 0xC62828, stripe2: 0xFFD700, accent: 0xFFD700, spine: 0xFFD700,
-        helmet: 0x14060a, helmetSpine: 0xFFD700, helmetAcc: 0xC62828, visor: 0xFF1744,
-        headlight: 0xFF1744
-    };
-    const motogpP = { ...currentP,
-        ug1: 0xC62828, ug2: 0xFFEB3B, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
-        bodyDark: 0xC62828, bodySide: 0x8B0000, bodyMid: 0xC62828,
-        rim: 0xFFD700, hub: 0xFFFFFF, hubCore: 0x000,
-        trim: 0xFFFFFF, trimAcc: 0xFFEB3B,
-        tail: 0xFF1744, tailIn: 0xFF80AB,
-        suit: 0xC62828, stripe1: 0xFFFFFF, stripe2: 0xFFEB3B, accent: 0x000, spine: 0xFFFFFF,
-        helmet: 0xFFEB3B, helmetSpine: 0xC62828, helmetAcc: 0x000, visor: 0x111,
-        headlight: 0xFFEB3B
-    };
-    const hoverP = { ...currentP,
-        ug1: 0x00E5FF, ug2: 0x18FFFF, plasma: 0x00FFFF, plasmaCore: 0xFFFFFF,
-        bodyDark: 0x080814, bodySide: 0x141420, bodyMid: 0x141420,
-        rim: 0x00E5FF, hub: 0xFFFFFF, hubCore: 0x18FFFF,
-        trim: 0x18FFFF, trimAcc: 0xFFFFFF,
-        tail: 0x00E5FF, tailIn: 0x18FFFF,
-        suit: 0x141420, stripe1: 0x18FFFF, stripe2: 0xFFFFFF, accent: 0x00E5FF, spine: 0x18FFFF,
-        helmet: 0x080814, helmetSpine: 0x18FFFF, helmetAcc: 0xFFFFFF, visor: 0x18FFFF,
-        headlight: 0x18FFFF, noWheel: true
-    };
-    const synthP = { ...currentP,
-        ug1: 0xE91E63, ug2: 0x18FFFF, plasma: 0xE91E63, plasmaCore: 0x18FFFF,
-        bodyDark: 0x4A148C, bodySide: 0x2D0040, bodyMid: 0x4A148C,
-        rim: 0xE91E63, hub: 0x18FFFF, hubCore: 0xFFFFFF,
-        trim: 0xE91E63, trimAcc: 0x18FFFF,
-        tail: 0xE91E63, tailIn: 0xFF80AB,
-        suit: 0x4A148C, stripe1: 0x18FFFF, stripe2: 0xE91E63, accent: 0xFFFFFF, spine: 0xE91E63,
-        helmet: 0x4A148C, helmetSpine: 0xE91E63, helmetAcc: 0x18FFFF, visor: 0x18FFFF,
-        headlight: 0xFF80AB
-    };
-    const mechaP = { ...currentP,
-        ug1: 0xFF6F00, ug2: 0x4A5D2A, plasma: 0xFF6F00, plasmaCore: 0xFFEB3B,
-        bodyDark: 0x4A5D2A, bodySide: 0x2A3D1A, bodyMid: 0x4A5D2A,
-        rim: 0xFF6F00, hub: 0x424242, hubCore: 0xFF6F00,
-        trim: 0xFF6F00, trimAcc: 0x000,
-        tail: 0xFF6F00, tailIn: 0xFFEB3B,
-        suit: 0x4A5D2A, stripe1: 0xFF6F00, stripe2: 0x000, accent: 0xFF1744, spine: 0xFF6F00,
-        helmet: 0x2A3D1A, helmetSpine: 0xFF6F00, helmetAcc: 0xFF6F00, visor: 0xFF6F00,
-        headlight: 0xFFEB3B
-    };
-
-    // === MAIN BIKE DRAW ===
-    function drawBike(g, w, h, p, extras) {
-        const cx = w / 2;
-        // Shadow + underglow
-        g.fillStyle(0x000000, 0.55); g.fillEllipse(cx, h - 6, 150, 26);
-        g.fillStyle(p.ug1, 0.22); g.fillEllipse(cx, h - 4, 160, 30);
-        g.fillStyle(p.ug2, 0.16); g.fillEllipse(cx, h - 14, 130, 30);
-        // Plasma engine
-        g.fillStyle(p.plasma, 0.85); g.fillEllipse(cx - 24, h - 18, 32, 20); g.fillEllipse(cx + 24, h - 18, 32, 20);
-        g.fillStyle(p.plasmaCore, 0.95); g.fillEllipse(cx - 24, h - 18, 16, 10); g.fillEllipse(cx + 24, h - 18, 16, 10);
-        if (p.noWheel) drawHoverPad(g, cx, h, p);
-        else drawWheel(g, cx, h, p);
-        drawCowl(g, cx, h, p);
-        drawTailLight(g, cx, h, p);
-        drawNumberPlate(g, cx, h, p);
-        if (extras) extras(g, cx, h, p, 'preTank');
-        drawTank(g, cx, h, p);
-        drawTorso(g, cx, h, p);
-        drawShoulders(g, cx, h, p);
-        drawArms(g, cx, h, p);
-        drawHelmet(g, cx, h, p);
-        drawFairing(g, cx, h, p);
-        drawExhausts(g, cx, h, p);
-        if (extras) extras(g, cx, h, p, 'post');
+    function renderGrid(elId, list, scene) {
+        const grid = document.getElementById(elId);
+        for (const d of list) {
+            const card = document.createElement('div');
+            card.className = 'card' + (d.featured ? ' featured' : '');
+            const wrap = document.createElement('div');
+            wrap.className = 'canvas-wrap';
+            const c = document.createElement('canvas');
+            c.width = W; c.height = H;
+            c.getContext('2d').drawImage(scene.textures.get(d.id).getSourceImage(), 0, 0);
+            wrap.appendChild(c);
+            card.appendChild(wrap);
+            card.insertAdjacentHTML('beforeend',
+                `<div class="name">${d.name}</div><div class="tag">${d.tag}</div><div class="desc">${d.desc}</div>`);
+            grid.appendChild(card);
+        }
     }
 
-    function drawWheel(g, cx, h, p) {
-        g.fillStyle(0x080808); g.fillEllipse(cx, h - 36, 116, 70);
-        g.fillStyle(0x1a1a1a); g.fillEllipse(cx, h - 38, 110, 64);
-        g.fillStyle(0x000); g.fillEllipse(cx - 44, h - 36, 24, 60); g.fillEllipse(cx + 44, h - 36, 24, 60);
-        g.lineStyle(1, 0x0a0a0a);
-        for (let i = -3; i <= 3; i++) {
-            const x = cx + i * 14;
-            g.lineBetween(x, h - 58 + Math.abs(i), x, h - 14 - Math.abs(i) * 0.5);
+    // ============================================================
+    // === BIKE (proper rear view: rider's back is the focus) ===
+    // ============================================================
+    function drawBike(g, w, h, p, extras) {
+        const cx = w / 2;
+
+        // Ground shadow + underglow
+        g.fillStyle(0x000, 0.55); g.fillEllipse(cx, h - 8, 220, 30);
+        g.fillStyle(p.ug1, 0.30); g.fillEllipse(cx, h - 6, 240, 36);
+        g.fillStyle(p.ug2, 0.18); g.fillEllipse(cx, h - 18, 180, 30);
+
+        // Plasma engine glow
+        g.fillStyle(p.plasma, 0.85); g.fillEllipse(cx - 50, h - 22, 32, 18); g.fillEllipse(cx + 50, h - 22, 32, 18);
+        g.fillStyle(p.plasmaCore, 0.95); g.fillEllipse(cx - 50, h - 22, 18, 10); g.fillEllipse(cx + 50, h - 22, 18, 10);
+
+        // === REAR WHEEL (proper rear view: flat tire from behind) ===
+        // Tire wide squashed ellipse with curvature
+        g.fillStyle(0x080808); g.fillEllipse(cx, h - 50, 150, 70);
+        g.fillStyle(0x1a1a1a); g.fillEllipse(cx, h - 52, 142, 64);
+        // Tire side darkening (sphere effect)
+        g.fillStyle(0x000, 0.7); g.fillEllipse(cx - 60, h - 50, 28, 64); g.fillEllipse(cx + 60, h - 50, 28, 64);
+        // Tread (vertical lines following curvature)
+        g.lineStyle(1, 0x000);
+        for (let i = -5; i <= 5; i++) {
+            const x = cx + i * 13;
+            const skew = Math.abs(i) * 0.6;
+            g.lineBetween(x, h - 76 + skew, x, h - 22 - skew);
         }
-        g.fillStyle(p.rim); g.fillEllipse(cx, h - 42, 60, 36);
-        g.fillStyle(0x1a1a1a); g.fillEllipse(cx, h - 42, 52, 30);
+        // Brake disc edge peeking
+        g.lineStyle(1.2, 0xC0C0C0, 0.6);
+        g.strokeEllipse(cx, h - 52, 156, 70);
+        // Wheel rim (golden disc visible in middle)
+        g.fillStyle(p.rim); g.fillEllipse(cx, h - 56, 80, 28);
+        g.fillStyle(0x1a1a1a); g.fillEllipse(cx, h - 56, 70, 22);
+        // Spokes
         g.lineStyle(2.5, p.rim, 0.95);
         for (let i = 0; i < 6; i++) {
             const a = (i / 6) * Math.PI * 2;
-            g.lineBetween(cx, h - 42, cx + Math.cos(a) * 26, h - 42 + Math.sin(a) * 15);
+            g.lineBetween(cx, h - 56, cx + Math.cos(a) * 35, h - 56 + Math.sin(a) * 11);
         }
-        g.fillStyle(p.hub); g.fillCircle(cx, h - 42, 8);
-        g.fillStyle(p.hubCore); g.fillCircle(cx, h - 42, 3.5);
-        g.lineStyle(1.5, 0xC0C0C0, 0.7); g.strokeEllipse(cx, h - 42, 64, 38);
-    }
+        // Hub
+        g.fillStyle(p.hub); g.fillCircle(cx, h - 56, 8);
+        g.fillStyle(p.hubCore); g.fillCircle(cx, h - 56, 3.5);
 
-    function drawHoverPad(g, cx, h, p) {
-        // Twin thrust ports glowing brightly
-        g.fillStyle(p.plasma, 0.6); g.fillEllipse(cx - 28, h - 32, 50, 36); g.fillEllipse(cx + 28, h - 32, 50, 36);
-        g.fillStyle(p.plasma); g.fillEllipse(cx - 28, h - 36, 36, 22); g.fillEllipse(cx + 28, h - 36, 36, 22);
-        g.fillStyle(p.plasmaCore); g.fillEllipse(cx - 28, h - 36, 22, 12); g.fillEllipse(cx + 28, h - 36, 22, 12);
-        g.fillStyle(0xE91E63, 0.5); g.fillEllipse(cx, h - 30, 18, 10);
-        g.lineStyle(2, p.trim, 0.9); g.strokeEllipse(cx - 28, h - 36, 50, 30); g.strokeEllipse(cx + 28, h - 36, 50, 30);
-    }
+        // === EXHAUST PIPES on sides (visible past wheel) ===
+        g.fillStyle(0x37474F); g.fillRoundedRect(cx - 110, h - 95, 14, 60, 4);
+        g.fillRoundedRect(cx + 96, h - 95, 14, 60, 4);
+        g.fillStyle(p.trimAcc); g.fillRect(cx - 110, h - 95, 14, 5); g.fillRect(cx + 96, h - 95, 14, 5);
+        g.fillStyle(0x000); g.fillEllipse(cx - 103, h - 38, 16, 8); g.fillEllipse(cx + 103, h - 38, 16, 8);
+        g.fillStyle(p.flame); g.fillEllipse(cx - 103, h - 38, 11, 5); g.fillEllipse(cx + 103, h - 38, 11, 5);
+        g.fillStyle(0xFFEB3B); g.fillEllipse(cx - 103, h - 38, 5, 2.5); g.fillEllipse(cx + 103, h - 38, 5, 2.5);
+        g.fillStyle(p.flame, 0.5); g.fillCircle(cx - 103, h - 22, 8); g.fillCircle(cx + 103, h - 22, 8);
 
-    function drawCowl(g, cx, h, p) {
+        // === REAR COWL/TAIL (above wheel, wraps around bike rear) ===
         g.fillStyle(p.bodyDark);
         g.beginPath();
-        g.moveTo(cx - 70, h - 64); g.lineTo(cx + 70, h - 64);
-        g.lineTo(cx + 58, h - 110); g.lineTo(cx - 58, h - 110);
+        g.moveTo(cx - 95, h - 80); g.lineTo(cx + 95, h - 80);
+        g.lineTo(cx + 70, h - 130); g.lineTo(cx - 70, h - 130);
         g.closePath(); g.fillPath();
+        // Cowl side darkening
         g.fillStyle(p.bodySide);
-        g.fillTriangle(cx - 70, h - 64, cx - 58, h - 110, cx - 64, h - 87);
-        g.fillTriangle(cx + 70, h - 64, cx + 58, h - 110, cx + 64, h - 87);
+        g.fillTriangle(cx - 95, h - 80, cx - 70, h - 130, cx - 80, h - 105);
+        g.fillTriangle(cx + 95, h - 80, cx + 70, h - 130, cx + 80, h - 105);
+        // Outline
         g.lineStyle(2, p.trim, 0.95);
         g.beginPath();
-        g.moveTo(cx - 70, h - 64); g.lineTo(cx + 70, h - 64);
-        g.lineTo(cx + 58, h - 110); g.lineTo(cx - 58, h - 110);
+        g.moveTo(cx - 95, h - 80); g.lineTo(cx + 95, h - 80);
+        g.lineTo(cx + 70, h - 130); g.lineTo(cx - 70, h - 130);
         g.closePath(); g.strokePath();
-    }
 
-    function drawTailLight(g, cx, h, p) {
-        g.fillStyle(p.tail); g.fillRoundedRect(cx - 60, h - 76, 120, 9, 3);
-        g.fillStyle(p.tailIn); g.fillRoundedRect(cx - 58, h - 74, 116, 4, 2);
-        g.fillStyle(0xFFFFFF); g.fillRect(cx - 50, h - 73, 100, 1.5);
-    }
+        // Tail light bar (long LED across)
+        g.fillStyle(p.tail); g.fillRoundedRect(cx - 90, h - 100, 180, 11, 3);
+        g.fillStyle(p.tailIn); g.fillRect(cx - 88, h - 97, 176, 5);
+        g.fillStyle(0xFFFFFF); g.fillRect(cx - 80, h - 96, 160, 1.8);
 
-    function drawNumberPlate(g, cx, h, p) {
-        g.fillStyle(p.trimAcc === 0xFFD700 ? 0xFFD700 : 0xFFFFFF);
-        g.fillRoundedRect(cx - 22, h - 105, 44, 18, 2);
-        g.lineStyle(1, 0x000); g.strokeRoundedRect(cx - 22, h - 105, 44, 18, 2);
-        g.fillStyle(0x000);
-        g.fillRect(cx - 8, h - 100, 16, 2.5); g.fillRect(cx + 6, h - 100, 2.5, 12);
-    }
+        // Number plate
+        g.fillStyle(p.trimAcc); g.fillRoundedRect(cx - 24, h - 88, 48, 16, 2);
+        g.lineStyle(1, 0x000); g.strokeRoundedRect(cx - 24, h - 88, 48, 16, 2);
+        g.fillStyle(0x000); g.fillRect(cx - 8, h - 84, 16, 2.5); g.fillRect(cx + 6, h - 84, 2.5, 12);
 
-    function drawTank(g, cx, h, p) {
-        g.fillStyle(p.bodyDark);
-        g.beginPath();
-        g.moveTo(cx - 58, h - 110); g.lineTo(cx + 58, h - 110);
-        g.lineTo(cx + 40, h - 175); g.lineTo(cx - 40, h - 175);
-        g.closePath(); g.fillPath();
-        g.lineStyle(0.7, 0x252540, 0.7);
-        for (let i = 0; i < 6; i++) {
-            const y = h - 118 - i * 10;
-            const off = i * 1.8;
-            g.lineBetween(cx - 56 + off, y, cx + 56 - off, y);
-        }
-        g.fillStyle(p.trimAcc);
-        g.fillRect(cx - 54, h - 128, 108, 1.8);
-        g.fillRect(cx - 46, h - 158, 92, 1.8);
-        g.lineStyle(2, p.trim, 0.95);
-        g.beginPath();
-        g.moveTo(cx - 58, h - 110); g.lineTo(cx - 40, h - 175);
-        g.moveTo(cx + 58, h - 110); g.lineTo(cx + 40, h - 175);
-        g.strokePath();
-        g.fillStyle(p.spine); g.fillRect(cx - 1.2, h - 175, 2.4, 65);
-    }
+        // EXTRAS (e.g., katana on cowl)
+        if (extras) extras(g, cx, h, p, 'cowl');
 
-    function drawTorso(g, cx, h, p) {
+        // === RIDER'S BACK (BIG central element) ===
+        // Wide trapezoid - shoulders wide at top, narrowing toward waist
         g.fillStyle(p.suit);
         g.beginPath();
-        g.moveTo(cx - 44, h - 175); g.lineTo(cx + 44, h - 175);
-        g.lineTo(cx + 36, h - 222); g.lineTo(cx - 36, h - 222);
+        g.moveTo(cx - 75, h - 220); g.lineTo(cx + 75, h - 220);
+        g.lineTo(cx + 60, h - 130); g.lineTo(cx - 60, h - 130);
         g.closePath(); g.fillPath();
-        g.fillStyle(p.stripe1); g.fillRect(cx - 38, h - 200, 76, 4);
-        g.fillStyle(p.stripe2); g.fillRect(cx - 38, h - 193, 76, 1.5);
-        g.fillStyle(p.accent); g.fillRect(cx - 8, h - 188, 16, 9);
-        g.fillStyle(p.spine); g.fillRect(cx - 1.5, h - 222, 3, 47);
-    }
 
-    function drawShoulders(g, cx, h, p) {
+        // Side body shading (3D feel)
+        g.fillStyle(0x000, 0.3);
+        g.fillTriangle(cx - 75, h - 220, cx - 60, h - 130, cx - 70, h - 175);
+        g.fillTriangle(cx + 75, h - 220, cx + 60, h - 130, cx + 70, h - 175);
+
+        // Spine (vertical accent)
+        g.fillStyle(p.spine); g.fillRect(cx - 2, h - 220, 4, 90);
+
+        // Racing stripes
+        g.fillStyle(p.stripe1); g.fillRect(cx - 65, h - 175, 130, 5);
+        g.fillStyle(p.stripe2); g.fillRect(cx - 65, h - 168, 130, 2);
+        g.fillStyle(p.accent); g.fillRect(cx - 22, h - 162, 44, 9);
+
+        // Number on back (big "7")
+        g.fillStyle(0xFFFFFF, 0.85); g.fillRoundedRect(cx - 18, h - 155, 36, 22, 3);
+        g.fillStyle(0x000); g.fillRect(cx - 12, h - 150, 24, 3.5); g.fillRect(cx + 8, h - 150, 3.5, 18);
+
+        // Shoulder armor pieces (raised plates above shoulders)
         g.fillStyle(0x1a1a30);
-        g.fillRoundedRect(cx - 44, h - 217, 20, 26, 5);
-        g.fillRoundedRect(cx + 24, h - 217, 20, 26, 5);
-        g.fillStyle(p.stripe1);
-        g.fillRect(cx - 42, h - 209, 16, 1.5);
-        g.fillRect(cx + 26, h - 209, 16, 1.5);
-        g.lineStyle(1, p.trimAcc);
-        g.strokeRoundedRect(cx - 44, h - 217, 20, 26, 5);
-        g.strokeRoundedRect(cx + 24, h - 217, 20, 26, 5);
-    }
+        g.fillRoundedRect(cx - 86, h - 230, 26, 22, 6);
+        g.fillRoundedRect(cx + 60, h - 230, 26, 22, 6);
+        g.lineStyle(1.5, p.trimAcc);
+        g.strokeRoundedRect(cx - 86, h - 230, 26, 22, 6);
+        g.strokeRoundedRect(cx + 60, h - 230, 26, 22, 6);
+        g.fillStyle(p.stripe1); g.fillRect(cx - 82, h - 220, 18, 2); g.fillRect(cx + 64, h - 220, 18, 2);
 
-    function drawArms(g, cx, h, p) {
+        // Arm hints (forearms going forward/down-out from shoulders)
         g.fillStyle(p.suit);
-        g.beginPath();
-        g.moveTo(cx - 44, h - 209); g.lineTo(cx - 36, h - 196);
-        g.lineTo(cx - 70, h - 145); g.lineTo(cx - 80, h - 152);
-        g.closePath(); g.fillPath();
-        g.beginPath();
-        g.moveTo(cx + 44, h - 209); g.lineTo(cx + 36, h - 196);
-        g.lineTo(cx + 70, h - 145); g.lineTo(cx + 80, h - 152);
-        g.closePath(); g.fillPath();
-        g.fillStyle(0x000); g.fillCircle(cx - 75, h - 148, 10); g.fillCircle(cx + 75, h - 148, 10);
-        g.lineStyle(1, p.trimAcc); g.strokeCircle(cx - 75, h - 148, 10); g.strokeCircle(cx + 75, h - 148, 10);
-        g.fillStyle(p.trimAcc); g.fillRect(cx - 80, h - 152, 9, 2); g.fillRect(cx + 71, h - 152, 9, 2);
-        g.fillStyle(p.hub); g.fillCircle(cx - 75, h - 152, 2); g.fillCircle(cx + 75, h - 152, 2);
-    }
+        g.fillTriangle(cx - 75, h - 220, cx - 95, h - 195, cx - 70, h - 200);
+        g.fillTriangle(cx + 75, h - 220, cx + 95, h - 195, cx + 70, h - 200);
 
-    function drawHelmet(g, cx, h, p) {
-        // Default racing helmet (samurai overrides)
-        g.fillStyle(p.helmet); g.fillEllipse(cx, h - 240, 58, 46);
-        g.fillStyle(p.helmetHi || 0x1a1a2a, 0.85); g.fillEllipse(cx - 8, h - 250, 32, 24);
-        g.lineStyle(1.5, 0x2a2a3a); g.strokeEllipse(cx, h - 240, 58, 46);
-        g.fillStyle(p.helmetSpine);
-        g.fillRect(cx - 3, h - 264, 6, 42);
-        g.fillTriangle(cx - 5, h - 264, cx + 5, h - 264, cx, h - 274);
-        g.fillStyle(p.helmetAcc);
-        g.fillTriangle(cx - 28, h - 240, cx - 20, h - 234, cx - 20, h - 246);
-        g.fillTriangle(cx + 28, h - 240, cx + 20, h - 234, cx + 20, h - 246);
-        g.fillStyle(p.bodyDark); g.fillEllipse(cx, h - 218, 52, 14);
-        g.lineStyle(1.5, p.trim, 0.85); g.strokeEllipse(cx, h - 218, 52, 14);
-        g.fillStyle(p.trimAcc);
-        g.fillRect(cx - 9, h - 235, 18, 1.4);
-        g.fillRect(cx - 13, h - 230, 26, 1.4);
-    }
-
-    function drawFairing(g, cx, h, p) {
-        g.fillStyle(p.bodyMid);
-        g.beginPath();
-        g.moveTo(cx - 36, h - 222); g.lineTo(cx + 36, h - 222);
-        g.lineTo(cx + 25, h - 256); g.lineTo(cx - 25, h - 256);
-        g.closePath(); g.fillPath();
-        g.lineStyle(1, p.trim, 0.7);
-        g.beginPath();
-        g.moveTo(cx - 36, h - 222); g.lineTo(cx + 36, h - 222);
-        g.lineTo(cx + 25, h - 256); g.lineTo(cx - 25, h - 256);
-        g.closePath(); g.strokePath();
-        g.fillStyle(0x080808); g.fillRect(cx - 20, h - 256, 40, 4);
-        g.fillStyle(p.headlight); g.fillRect(cx - 18, h - 255.5, 36, 2);
-        g.fillStyle(0xFFFFFF); g.fillRect(cx - 16, h - 255, 32, 1);
-        g.fillStyle(p.headlight, 0.18);
-        g.fillTriangle(cx - 36, h - 280, cx + 36, h - 280, cx, h - 258);
-    }
-
-    function drawExhausts(g, cx, h, p) {
-        g.fillStyle(0x37474F); g.fillRoundedRect(cx - 90, h - 64, 16, 40, 4); g.fillRoundedRect(cx + 74, h - 64, 16, 40, 4);
-        g.fillStyle(p.trimAcc); g.fillRect(cx - 90, h - 64, 16, 5); g.fillRect(cx + 74, h - 64, 16, 5);
-        g.fillStyle(0x000); g.fillEllipse(cx - 82, h - 28, 16, 8); g.fillEllipse(cx + 82, h - 28, 16, 8);
-        g.fillStyle(p.flame); g.fillEllipse(cx - 82, h - 28, 11, 5); g.fillEllipse(cx + 82, h - 28, 11, 5);
-        g.fillStyle(0xFFEB3B); g.fillEllipse(cx - 82, h - 28, 5, 2.5); g.fillEllipse(cx + 82, h - 28, 5, 2.5);
-        g.fillStyle(p.flame, 0.4); g.fillCircle(cx - 82, h - 14, 7); g.fillCircle(cx + 82, h - 14, 7);
-    }
-
-    // === SAMURAI EXTRAS (kabuto helmet override + katana on cowl) ===
-    function samuraiExtras(g, cx, h, p, phase) {
-        if (phase === 'preTank') {
-            // KATANA (sword) strapped horizontally across the cowl
-            g.fillStyle(0x1a1a1a); g.fillRect(cx - 56, h - 92, 112, 4);
-            // Sheath body (saya)
-            g.fillStyle(0x080808); g.fillRoundedRect(cx - 55, h - 100, 110, 8, 2);
-            // Gold rings on sheath
-            g.fillStyle(0xFFD700);
-            [-52, -32, -12, 10, 30].forEach(dx => g.fillRect(cx + dx, h - 100, 2.5, 8));
-            // Tsuba (guard) at handle end
-            g.fillStyle(0xFFD700); g.fillCircle(cx + 50, h - 96, 6.5);
-            g.fillStyle(0x1a1a1a); g.fillCircle(cx + 50, h - 96, 3.5);
-            // Tsuka (handle) wrapped in red
-            g.fillStyle(0xC62828); g.fillRoundedRect(cx + 56, h - 100, 22, 8, 2);
-            // Diamond pattern on handle
-            g.fillStyle(0x000);
-            for (let i = 0; i < 5; i++) {
-                g.fillTriangle(cx + 58 + i * 4, h - 99, cx + 60 + i * 4, h - 96, cx + 58 + i * 4, h - 93);
-            }
-            // Pommel (kashira)
-            g.fillStyle(0xFFD700); g.fillCircle(cx + 79, h - 96, 4);
-            g.fillStyle(0xC62828); g.fillCircle(cx + 79, h - 96, 1.8);
-            // Sheath tip (kojiri)
-            g.fillStyle(0xFFD700);
-            g.fillTriangle(cx - 55, h - 100, cx - 55, h - 92, cx - 64, h - 96);
-            return;
+        // === HELMET (back-of-head dome) ===
+        if (p.kabuto) {
+            drawKabuto(g, cx, h);
+        } else {
+            drawBackHelmet(g, cx, h, p);
         }
-        // post: redraw KABUTO over the default helmet (covering it)
-        // Erase default helmet area first by re-drawing background-colored ellipse
-        // Then draw kabuto
 
-        // Helmet bowl (鉢) - dark crimson black
-        g.fillStyle(0x14060a); g.fillEllipse(cx, h - 240, 60, 48);
-        g.fillStyle(0x281020, 0.8); g.fillEllipse(cx, h - 252, 38, 22);
-        g.fillStyle(0xC62828, 0.4); g.fillEllipse(cx - 8, h - 254, 14, 8);
-        g.lineStyle(2, 0xFFD700); g.strokeEllipse(cx, h - 240, 60, 48);
+        // === Front fairing tiny hint (peeking past helmet) ===
+        g.fillStyle(p.bodyMid, 0.6);
+        g.fillRect(cx - 22, h - 296, 44, 5);
+        g.fillStyle(p.headlight, 0.7);
+        g.fillRect(cx - 18, h - 295, 36, 2);
 
-        // Bowl plate divisions (suji-bachi style ridges)
-        g.lineStyle(1, 0xFFD700, 0.5);
-        g.lineBetween(cx - 28, h - 240, cx, h - 264);
-        g.lineBetween(cx + 28, h - 240, cx, h - 264);
-        g.lineBetween(cx - 16, h - 235, cx, h - 264);
-        g.lineBetween(cx + 16, h - 235, cx, h - 264);
+        // Mirror hints
+        g.fillStyle(p.bodyMid);
+        g.fillCircle(cx - 38, h - 290, 4); g.fillCircle(cx + 38, h - 290, 4);
+        g.fillStyle(p.trim, 0.85);
+        g.fillCircle(cx - 38, h - 290, 1.8); g.fillCircle(cx + 38, h - 290, 1.8);
 
-        // === MAEDATE (前立て) - center crest pole with ornament
+        if (extras) extras(g, cx, h, p, 'post');
+    }
+
+    function drawBackHelmet(g, cx, h, p) {
+        // Helmet bowl - back hemisphere
+        g.fillStyle(p.helmet); g.fillEllipse(cx, h - 252, 70, 75);
+        // Side highlight
+        g.fillStyle(p.helmetHi || 0x1a1a2a, 0.7); g.fillEllipse(cx - 8, h - 268, 32, 25);
+        // Outline
+        g.lineStyle(1.5, 0x2a2a3a); g.strokeEllipse(cx, h - 252, 70, 75);
+        // Vertical center spine (down the back of helmet)
+        g.fillStyle(p.helmetSpine);
+        g.fillRect(cx - 3, h - 286, 6, 60);
+        g.fillTriangle(cx - 6, h - 286, cx + 6, h - 286, cx, h - 296);
+        // Side accent triangles
+        g.fillStyle(p.helmetAcc);
+        g.fillTriangle(cx - 32, h - 252, cx - 22, h - 244, cx - 22, h - 260);
+        g.fillTriangle(cx + 32, h - 252, cx + 22, h - 244, cx + 22, h - 260);
+        // Bottom collar (cyan piping)
+        g.lineStyle(1.5, p.trim, 0.9);
+        g.strokeEllipse(cx, h - 220, 64, 18);
+        // Logo bars
+        g.fillStyle(p.trimAcc);
+        g.fillRect(cx - 10, h - 246, 20, 1.5);
+        g.fillRect(cx - 14, h - 240, 28, 1.5);
+    }
+
+    function drawKabuto(g, cx, h) {
+        // === Helmet bowl (鉢) - dark crimson black, dome shape ===
+        g.fillStyle(0x14060a); g.fillEllipse(cx, h - 252, 80, 78);
+        g.fillStyle(0x281020, 0.85); g.fillEllipse(cx - 8, h - 268, 36, 26);
+        g.fillStyle(0xC62828, 0.4); g.fillEllipse(cx - 10, h - 270, 16, 10);
+        g.lineStyle(2, 0xFFD700); g.strokeEllipse(cx, h - 252, 80, 78);
+
+        // Suji-bachi ridges (vertical ribs on bowl)
+        g.lineStyle(1, 0xFFD700, 0.55);
+        g.lineBetween(cx, h - 290, cx, h - 220);
+        g.lineBetween(cx - 32, h - 252, cx - 6, h - 290);
+        g.lineBetween(cx + 32, h - 252, cx + 6, h - 290);
+        g.lineBetween(cx - 18, h - 244, cx - 4, h - 290);
+        g.lineBetween(cx + 18, h - 244, cx + 4, h - 290);
+
+        // === KUWAGATA (鍬形) - giant gold horns ===
         g.fillStyle(0xFFD700);
-        g.fillRect(cx - 2.5, h - 270, 5, 32);
-        // Crest ornament at top - sun disc + ray
-        g.fillCircle(cx, h - 278, 6);
-        g.fillStyle(0xC62828); g.fillCircle(cx, h - 278, 3);
+        g.beginPath();
+        g.moveTo(cx - 30, h - 272); g.lineTo(cx - 52, h - 295);
+        g.lineTo(cx - 60, h - 314); g.lineTo(cx - 48, h - 318);
+        g.lineTo(cx - 40, h - 305); g.lineTo(cx - 28, h - 290);
+        g.lineTo(cx - 18, h - 275); g.closePath(); g.fillPath();
+        g.beginPath();
+        g.moveTo(cx + 30, h - 272); g.lineTo(cx + 52, h - 295);
+        g.lineTo(cx + 60, h - 314); g.lineTo(cx + 48, h - 318);
+        g.lineTo(cx + 40, h - 305); g.lineTo(cx + 28, h - 290);
+        g.lineTo(cx + 18, h - 275); g.closePath(); g.fillPath();
+        // Horn outlines
+        g.lineStyle(1.5, 0x8B4513);
+        g.beginPath();
+        g.moveTo(cx - 30, h - 272); g.lineTo(cx - 52, h - 295);
+        g.lineTo(cx - 60, h - 314); g.lineTo(cx - 48, h - 318);
+        g.lineTo(cx - 40, h - 305); g.lineTo(cx - 28, h - 290);
+        g.lineTo(cx - 18, h - 275); g.closePath(); g.strokePath();
+        g.beginPath();
+        g.moveTo(cx + 30, h - 272); g.lineTo(cx + 52, h - 295);
+        g.lineTo(cx + 60, h - 314); g.lineTo(cx + 48, h - 318);
+        g.lineTo(cx + 40, h - 305); g.lineTo(cx + 28, h - 290);
+        g.lineTo(cx + 18, h - 275); g.closePath(); g.strokePath();
+
+        // === MAEDATE (前立て) - center sun crest ===
+        g.fillStyle(0xFFD700); g.fillRect(cx - 3, h - 308, 6, 30);
+        g.fillCircle(cx, h - 316, 8);
+        g.fillStyle(0xC62828); g.fillCircle(cx, h - 316, 4);
         g.fillStyle(0xFFD700);
-        // Rays around the disc
         for (let i = 0; i < 8; i++) {
             const a = (i / 8) * Math.PI * 2;
             g.fillTriangle(
-                cx + Math.cos(a) * 6, h - 278 + Math.sin(a) * 6,
-                cx + Math.cos(a) * 11, h - 278 + Math.sin(a) * 11,
-                cx + Math.cos(a + 0.3) * 7, h - 278 + Math.sin(a + 0.3) * 7
+                cx + Math.cos(a) * 8, h - 316 + Math.sin(a) * 8,
+                cx + Math.cos(a) * 14, h - 316 + Math.sin(a) * 14,
+                cx + Math.cos(a + 0.3) * 9, h - 316 + Math.sin(a + 0.3) * 9
             );
         }
 
-        // === KUWAGATA (鍬形) - giant gold horns sweeping outward
-        g.fillStyle(0xFFD700);
-        // Left horn (curved sweep up and out)
-        g.beginPath();
-        g.moveTo(cx - 24, h - 254);
-        g.lineTo(cx - 36, h - 274);
-        g.lineTo(cx - 42, h - 296);
-        g.lineTo(cx - 32, h - 300);
-        g.lineTo(cx - 28, h - 290);
-        g.lineTo(cx - 22, h - 274);
-        g.lineTo(cx - 14, h - 258);
-        g.closePath(); g.fillPath();
-        // Right horn (mirror)
-        g.beginPath();
-        g.moveTo(cx + 24, h - 254);
-        g.lineTo(cx + 36, h - 274);
-        g.lineTo(cx + 42, h - 296);
-        g.lineTo(cx + 32, h - 300);
-        g.lineTo(cx + 28, h - 290);
-        g.lineTo(cx + 22, h - 274);
-        g.lineTo(cx + 14, h - 258);
-        g.closePath(); g.fillPath();
-
-        // Horn outlines
-        g.lineStyle(1.2, 0x8B4513);
-        g.beginPath();
-        g.moveTo(cx - 24, h - 254); g.lineTo(cx - 36, h - 274);
-        g.lineTo(cx - 42, h - 296); g.lineTo(cx - 32, h - 300);
-        g.lineTo(cx - 28, h - 290); g.lineTo(cx - 22, h - 274);
-        g.lineTo(cx - 14, h - 258); g.closePath();
-        g.strokePath();
-        g.beginPath();
-        g.moveTo(cx + 24, h - 254); g.lineTo(cx + 36, h - 274);
-        g.lineTo(cx + 42, h - 296); g.lineTo(cx + 32, h - 300);
-        g.lineTo(cx + 28, h - 290); g.lineTo(cx + 22, h - 274);
-        g.lineTo(cx + 14, h - 258); g.closePath();
-        g.strokePath();
-
-        // === FUKIGAESHI (吹返) - decorative side flares at cheek level
+        // === FUKIGAESHI (吹返) - decorative side flares ===
         g.fillStyle(0x14060a);
-        g.fillTriangle(cx - 30, h - 230, cx - 44, h - 222, cx - 38, h - 240);
-        g.fillTriangle(cx + 30, h - 230, cx + 44, h - 222, cx + 38, h - 240);
+        g.fillTriangle(cx - 36, h - 232, cx - 56, h - 224, cx - 50, h - 246);
+        g.fillTriangle(cx + 36, h - 232, cx + 56, h - 224, cx + 50, h - 246);
         g.lineStyle(1.5, 0xFFD700);
-        g.strokeTriangle(cx - 30, h - 230, cx - 44, h - 222, cx - 38, h - 240);
-        g.strokeTriangle(cx + 30, h - 230, cx + 44, h - 222, cx + 38, h - 240);
-        // Family crest (mon) on flares - simple circle
+        g.strokeTriangle(cx - 36, h - 232, cx - 56, h - 224, cx - 50, h - 246);
+        g.strokeTriangle(cx + 36, h - 232, cx + 56, h - 224, cx + 50, h - 246);
         g.fillStyle(0xC62828);
-        g.fillCircle(cx - 37, h - 230, 2);
-        g.fillCircle(cx + 37, h - 230, 2);
+        g.fillCircle(cx - 47, h - 233, 2.5); g.fillCircle(cx + 47, h - 233, 2.5);
 
-        // === SHIKORO (錣) - layered neck guard plates
+        // === SHIKORO (錣) - layered neck guard plates ===
         for (let i = 0; i < 5; i++) {
-            const py = h - 220 + i * 5;
-            const pw = 64 - i * 4;
-            g.fillStyle(0x14060a); g.fillRoundedRect(cx - pw/2, py, pw, 4.5, 1.5);
-            g.lineStyle(0.8, 0xFFD700, 0.85); g.strokeRoundedRect(cx - pw/2, py, pw, 4.5, 1.5);
-            // Red odoshi (lacing)
+            const py = h - 220 + i * 6;
+            const pw = 76 - i * 5;
+            g.fillStyle(0x14060a);
+            g.fillRoundedRect(cx - pw/2, py, pw, 5, 1.5);
+            g.lineStyle(0.8, 0xFFD700, 0.85);
+            g.strokeRoundedRect(cx - pw/2, py, pw, 5, 1.5);
             g.fillStyle(0xC62828);
-            for (let j = -2; j <= 2; j++) g.fillCircle(cx + j * (pw/5.5), py + 2.2, 0.8);
+            for (let j = -2; j <= 2; j++) g.fillCircle(cx + j * (pw/5.5), py + 2.5, 0.9);
         }
 
-        // Eye visor (mempo hint - sharp red glowing slit)
-        g.fillStyle(0x000); g.fillEllipse(cx, h - 224, 30, 4);
-        g.fillStyle(0xFF1744); g.fillRect(cx - 12, h - 225, 24, 1.2);
+        // === MEMPO (面頬) - face mask hint with red eye slit ===
+        g.fillStyle(0x000); g.fillEllipse(cx, h - 240, 38, 7);
+        g.fillStyle(0xFF1744); g.fillRect(cx - 14, h - 241, 28, 1.8);
     }
 
-    // === MOTOGP EXTRAS (sponsor decals + slick tires) ===
-    function motogpExtras(g, cx, h, p, phase) {
-        if (phase === 'post') {
-            // Number 7 on rear cowl center
-            g.fillStyle(0xFFFFFF); g.fillRoundedRect(cx - 10, h - 100, 20, 14, 2);
+    function samuraiBikeExtras(g, cx, h, p, phase) {
+        if (phase === 'cowl') {
+            // === KATANA strapped horizontally on rear cowl ===
+            g.fillStyle(0x1a1a1a); g.fillRect(cx - 90, h - 110, 180, 4);
+            g.fillStyle(0x080808); g.fillRoundedRect(cx - 88, h - 118, 176, 8, 2);
+            g.lineStyle(0.8, 0x222); g.strokeRoundedRect(cx - 88, h - 118, 176, 8, 2);
+            g.fillStyle(0xFFD700);
+            [-82, -52, -22, 8, 36, 64].forEach(dx => g.fillRect(cx + dx, h - 118, 2.5, 8));
+            // Tsuba (guard)
+            g.fillStyle(0xFFD700); g.fillCircle(cx + 78, h - 114, 7);
+            g.fillStyle(0x1a1a1a); g.fillCircle(cx + 78, h - 114, 4);
+            // Tsuka (handle wrapped in red)
+            g.fillStyle(0xC62828); g.fillRoundedRect(cx + 84, h - 118, 24, 8, 2);
             g.fillStyle(0x000);
-            g.fillRect(cx - 5, h - 96, 10, 1.5);
-            g.fillRect(cx + 3, h - 96, 1.5, 8);
-            // Sponsor stickers on tank
-            g.fillStyle(0xFFFFFF); g.fillRect(cx - 18, h - 145, 36, 8);
-            g.fillStyle(0x000); g.fillRect(cx - 14, h - 142, 8, 2); g.fillRect(cx + 6, h - 142, 8, 2);
-            // White checkered stripe on helmet center
-            g.fillStyle(0xFFFFFF); g.fillRect(cx - 12, h - 244, 24, 6);
-            g.fillStyle(0x000);
-            for (let i = 0; i < 4; i++) {
-                if (i % 2 === 0) g.fillRect(cx - 12 + i * 6, h - 244, 6, 3);
-                else g.fillRect(cx - 12 + i * 6, h - 241, 6, 3);
+            for (let i = 0; i < 6; i++) {
+                g.fillTriangle(cx + 86 + i * 4, h - 117, cx + 88 + i * 4, h - 114, cx + 86 + i * 4, h - 111);
             }
+            // Pommel
+            g.fillStyle(0xFFD700); g.fillCircle(cx + 110, h - 114, 4);
+            g.fillStyle(0xC62828); g.fillCircle(cx + 110, h - 114, 1.8);
+            // Sheath tip
+            g.fillStyle(0xFFD700);
+            g.fillTriangle(cx - 88, h - 118, cx - 88, h - 110, cx - 96, h - 114);
         }
-    }
-
-    // === SYNTHWAVE EXTRAS (wireframe grid pattern) ===
-    function synthExtras(g, cx, h, p, phase) {
         if (phase === 'post') {
-            // Grid lines on tank (vertical)
-            g.lineStyle(0.6, 0x18FFFF, 0.6);
-            for (let i = -3; i <= 3; i++) {
-                const x = cx + i * 14;
-                const yTop = h - 175;
-                const yBot = h - 110;
-                g.lineBetween(x * 0.85 + cx * 0.15, yTop, x, yBot);
-            }
-            // Triangle wireframe on fairing
-            g.lineStyle(0.8, 0xFFFFFF, 0.7);
-            g.lineBetween(cx - 25, h - 256, cx + 25, h - 256);
-            g.lineBetween(cx, h - 256, cx, h - 222);
-            g.lineBetween(cx - 25, h - 256, cx, h - 222);
-            g.lineBetween(cx + 25, h - 256, cx, h - 222);
-            // Sun-like decoration on rear (synthwave staple)
-            g.fillStyle(0xE91E63, 0.4); g.fillCircle(cx, h - 92, 28);
-            g.lineStyle(1, 0xFFEB3B, 0.4);
-            for (let i = 0; i < 6; i++) g.lineBetween(cx, h - 92, cx - 28 + i * 11, h - 78);
+            // Override default helmet by drawing kabuto (already handled via p.kabuto if set)
+            // We'll set it via a flag below
         }
     }
+    samurai.kabuto = true;
+    samurai.drawKabuto = true;
+    // Override flag check in drawBike
+    Object.defineProperty(samurai, 'kabuto', { value: true });
 
-    // === MECHA EXTRAS (missile pods + chunky tread + antenna) ===
-    function mechaExtras(g, cx, h, p, phase) {
-        if (phase === 'preTank') {
-            // Side missile pods
-            g.fillStyle(0x424242);
-            g.fillRoundedRect(cx - 96, h - 110, 14, 36, 3);
-            g.fillRoundedRect(cx + 82, h - 110, 14, 36, 3);
-            g.fillStyle(0xFF1744);
-            g.fillTriangle(cx - 96, h - 112, cx - 82, h - 112, cx - 89, h - 122);
-            g.fillTriangle(cx + 82, h - 112, cx + 96, h - 112, cx + 89, h - 122);
-            g.lineStyle(1, 0x000);
-            g.strokeRoundedRect(cx - 96, h - 110, 14, 36, 3);
-            g.strokeRoundedRect(cx + 82, h - 110, 14, 36, 3);
-            // Warning stripes on cowl
+    // ============================================================
+    // === CAR (proper rear view) ===
+    // ============================================================
+    function drawCar(g, w, h, p, extras) {
+        const cx = w / 2;
+
+        // Ground shadow + underglow
+        g.fillStyle(0x000, 0.55); g.fillEllipse(cx, h - 8, 260, 30);
+        g.fillStyle(p.ug1, 0.30); g.fillEllipse(cx, h - 6, 270, 36);
+        g.fillStyle(p.ug2, 0.18); g.fillEllipse(cx, h - 18, 220, 30);
+
+        // Plasma engine glow (twin)
+        g.fillStyle(p.plasma, 0.85); g.fillEllipse(cx - 60, h - 22, 32, 18); g.fillEllipse(cx + 60, h - 22, 32, 18);
+        g.fillStyle(p.plasmaCore, 0.95); g.fillEllipse(cx - 60, h - 22, 18, 10); g.fillEllipse(cx + 60, h - 22, 18, 10);
+
+        // === REAR WHEELS (visible at corners) ===
+        // Left wheel
+        g.fillStyle(0x080808); g.fillRoundedRect(cx - 130, h - 78, 36, 65, 6);
+        g.fillStyle(0x1a1a1a); g.fillRoundedRect(cx - 128, h - 76, 32, 61, 5);
+        g.lineStyle(1, 0x000);
+        for (let i = 0; i < 7; i++) g.lineBetween(cx - 128, h - 73 + i * 9, cx - 96, h - 73 + i * 9);
+        // Right wheel
+        g.fillStyle(0x080808); g.fillRoundedRect(cx + 94, h - 78, 36, 65, 6);
+        g.fillStyle(0x1a1a1a); g.fillRoundedRect(cx + 96, h - 76, 32, 61, 5);
+        g.lineStyle(1, 0x000);
+        for (let i = 0; i < 7; i++) g.lineBetween(cx + 96, h - 73 + i * 9, cx + 128, h - 73 + i * 9);
+        // Rims
+        g.fillStyle(p.rim); g.fillCircle(cx - 112, h - 45, 14); g.fillCircle(cx + 112, h - 45, 14);
+        g.fillStyle(0x1a1a1a); g.fillCircle(cx - 112, h - 45, 9); g.fillCircle(cx + 112, h - 45, 9);
+        g.lineStyle(1.5, p.rim);
+        for (let i = 0; i < 5; i++) {
+            const a = (i / 5) * Math.PI * 2;
+            g.lineBetween(cx - 112, h - 45, cx - 112 + Math.cos(a) * 12, h - 45 + Math.sin(a) * 12);
+            g.lineBetween(cx + 112, h - 45, cx + 112 + Math.cos(a) * 12, h - 45 + Math.sin(a) * 12);
+        }
+        g.fillStyle(p.hub); g.fillCircle(cx - 112, h - 45, 4); g.fillCircle(cx + 112, h - 45, 4);
+        g.fillStyle(p.hubCore); g.fillCircle(cx - 112, h - 45, 1.5); g.fillCircle(cx + 112, h - 45, 1.5);
+
+        // === REAR BUMPER + DIFFUSER ===
+        g.fillStyle(p.bodyDark); g.fillRect(cx - 100, h - 60, 200, 35);
+        g.fillStyle(p.bodyMid);
+        for (let i = 0; i < 7; i++) g.fillRect(cx - 90 + i * 28, h - 50, 2.5, 30);
+        g.lineStyle(2, p.trim, 0.95); g.strokeRect(cx - 100, h - 60, 200, 35);
+
+        // === REAR PANEL / TRUNK (trapezoidal, rising up) ===
+        g.fillStyle(p.bodyDark);
+        g.beginPath();
+        g.moveTo(cx - 110, h - 130); g.lineTo(cx + 110, h - 130);
+        g.lineTo(cx + 100, h - 60); g.lineTo(cx - 100, h - 60);
+        g.closePath(); g.fillPath();
+        // Side darkening
+        g.fillStyle(p.bodySide, 0.5);
+        g.fillTriangle(cx - 110, h - 130, cx - 100, h - 60, cx - 105, h - 95);
+        g.fillTriangle(cx + 110, h - 130, cx + 100, h - 60, cx + 105, h - 95);
+
+        // === TAIL LIGHTS (long horizontal bars) ===
+        g.fillStyle(p.tail); g.fillRoundedRect(cx - 100, h - 78, 90, 12, 3);
+        g.fillRoundedRect(cx + 10, h - 78, 90, 12, 3);
+        g.fillStyle(p.tailIn); g.fillRect(cx - 96, h - 75, 82, 5); g.fillRect(cx + 14, h - 75, 82, 5);
+        g.fillStyle(0xFFFFFF); g.fillRect(cx - 90, h - 74, 70, 2); g.fillRect(cx + 20, h - 74, 70, 2);
+        // Center brand strip
+        g.fillStyle(p.tail); g.fillRoundedRect(cx - 8, h - 78, 16, 5, 1);
+
+        // Trunk lines
+        g.lineStyle(1, 0x252540, 0.7);
+        g.lineBetween(cx, h - 130, cx, h - 60);
+        g.lineBetween(cx - 80, h - 95, cx + 80, h - 95);
+
+        // Brand badge (center)
+        g.fillStyle(p.trimAcc); g.fillCircle(cx, h - 100, 9);
+        g.lineStyle(1, 0x000); g.strokeCircle(cx, h - 100, 9);
+        g.fillStyle(p.bodyDark);
+        g.fillRect(cx - 5, h - 102, 10, 1.5); g.fillRect(cx - 5, h - 99, 10, 1.5);
+
+        // EXTRAS pre-cabin (e.g., katana on trunk)
+        if (extras) extras(g, cx, h, p, 'rear');
+
+        // === SPOILER (rear wing) ===
+        g.fillStyle(0x080808); g.fillRoundedRect(cx - 100, h - 138, 200, 8, 2);
+        g.fillRect(cx - 95, h - 142, 6, 12); g.fillRect(cx + 89, h - 142, 6, 12);
+        g.lineStyle(1, p.trim); g.strokeRoundedRect(cx - 100, h - 138, 200, 8, 2);
+
+        // === BACK WINDOW (curved) ===
+        g.fillStyle(0x002240);
+        g.beginPath();
+        g.moveTo(cx - 90, h - 195); g.lineTo(cx + 90, h - 195);
+        g.lineTo(cx + 110, h - 138); g.lineTo(cx - 110, h - 138);
+        g.closePath(); g.fillPath();
+        // Window tint highlight
+        g.fillStyle(p.trim, 0.3); g.fillRect(cx - 80, h - 188, 160, 8);
+        // Frame
+        g.lineStyle(2, p.trim, 0.85);
+        g.beginPath();
+        g.moveTo(cx - 90, h - 195); g.lineTo(cx + 90, h - 195);
+        g.lineTo(cx + 110, h - 138); g.lineTo(cx - 110, h - 138);
+        g.closePath(); g.strokePath();
+        // Center divider
+        g.lineStyle(1, p.trim, 0.4);
+        g.lineBetween(cx, h - 195, cx, h - 138);
+
+        // Driver visible through window (helmet + back of head)
+        g.fillStyle(p.helmet); g.fillEllipse(cx, h - 178, 38, 26);
+        g.fillStyle(p.helmetSpine); g.fillRect(cx - 2, h - 192, 4, 18);
+        g.fillStyle(p.helmetAcc);
+        g.fillTriangle(cx - 18, h - 178, cx - 12, h - 175, cx - 12, h - 181);
+        g.fillTriangle(cx + 18, h - 178, cx + 12, h - 175, cx + 12, h - 181);
+
+        // === ROOF ===
+        g.fillStyle(p.bodyDark);
+        g.beginPath();
+        g.moveTo(cx - 80, h - 245); g.lineTo(cx + 80, h - 245);
+        g.lineTo(cx + 90, h - 195); g.lineTo(cx - 90, h - 195);
+        g.closePath(); g.fillPath();
+        // Roof shine
+        g.fillStyle(p.bodyMid); g.fillRect(cx - 60, h - 240, 120, 4);
+        // Roof outline
+        g.lineStyle(2, p.trim, 0.9);
+        g.beginPath();
+        g.moveTo(cx - 80, h - 245); g.lineTo(cx + 80, h - 245);
+        g.lineTo(cx + 90, h - 195); g.lineTo(cx - 90, h - 195);
+        g.closePath(); g.strokePath();
+        // Center spine line
+        g.fillStyle(p.spine); g.fillRect(cx - 1.5, h - 245, 3, 50);
+
+        // === SIDE MIRRORS ===
+        g.fillStyle(p.bodyDark);
+        g.fillTriangle(cx - 90, h - 200, cx - 102, h - 188, cx - 92, h - 184);
+        g.fillTriangle(cx + 90, h - 200, cx + 102, h - 188, cx + 92, h - 184);
+        g.fillStyle(p.trim, 0.8); g.fillRect(cx - 100, h - 195, 5, 3); g.fillRect(cx + 95, h - 195, 5, 3);
+
+        // === FRONT (small, far above roof) ===
+        g.fillStyle(p.bodyMid, 0.6); g.fillRect(cx - 30, h - 270, 60, 8);
+        g.fillStyle(p.headlight, 0.8); g.fillRect(cx - 26, h - 269, 52, 3);
+
+        if (extras) extras(g, cx, h, p, 'post');
+    }
+
+    function samuraiCarExtras(g, cx, h, p, phase) {
+        if (phase === 'rear') {
+            // === KATANA mounted horizontally on trunk ===
+            g.fillStyle(0x1a1a1a); g.fillRect(cx - 100, h - 105, 200, 4);
+            g.fillStyle(0x080808); g.fillRoundedRect(cx - 98, h - 113, 196, 8, 2);
+            g.lineStyle(0.8, 0x222); g.strokeRoundedRect(cx - 98, h - 113, 196, 8, 2);
+            g.fillStyle(0xFFD700);
+            [-92, -62, -32, 0, 28, 56, 84].forEach(dx => g.fillRect(cx + dx, h - 113, 2.5, 8));
+            // Tsuba
+            g.fillStyle(0xFFD700); g.fillCircle(cx + 88, h - 109, 7);
+            g.fillStyle(0x1a1a1a); g.fillCircle(cx + 88, h - 109, 4);
+            // Tsuka
+            g.fillStyle(0xC62828); g.fillRoundedRect(cx + 94, h - 113, 24, 8, 2);
+            g.fillStyle(0x000);
+            for (let i = 0; i < 6; i++) {
+                g.fillTriangle(cx + 96 + i * 4, h - 112, cx + 98 + i * 4, h - 109, cx + 96 + i * 4, h - 106);
+            }
+            // Pommel
+            g.fillStyle(0xFFD700); g.fillCircle(cx + 120, h - 109, 4);
+            g.fillStyle(0xC62828); g.fillCircle(cx + 120, h - 109, 1.8);
+            // Sheath tip
+            g.fillStyle(0xFFD700);
+            g.fillTriangle(cx - 98, h - 113, cx - 98, h - 105, cx - 106, h - 109);
+        }
+        if (phase === 'post') {
+            // === MAEDATE on roof (samurai car ornament) ===
+            g.fillStyle(0xFFD700); g.fillRect(cx - 2.5, h - 278, 5, 32);
+            g.fillCircle(cx, h - 285, 7);
+            g.fillStyle(0xC62828); g.fillCircle(cx, h - 285, 3.5);
+            g.fillStyle(0xFFD700);
             for (let i = 0; i < 8; i++) {
-                const x = cx - 60 + i * 15;
-                g.fillStyle(i % 2 === 0 ? 0xFF6F00 : 0x000);
-                g.fillRect(x, h - 88, 15, 4);
+                const a = (i / 8) * Math.PI * 2;
+                g.fillTriangle(
+                    cx + Math.cos(a) * 7, h - 285 + Math.sin(a) * 7,
+                    cx + Math.cos(a) * 12, h - 285 + Math.sin(a) * 12,
+                    cx + Math.cos(a + 0.3) * 8, h - 285 + Math.sin(a + 0.3) * 8
+                );
             }
-        }
-        if (phase === 'post') {
-            // Antenna
-            g.fillStyle(0x222); g.fillRect(cx + 22, h - 270, 1.5, 16);
-            g.fillStyle(0xFF1744); g.fillCircle(cx + 23, h - 272, 2);
-            // Air filter on helmet (respirator)
-            g.fillStyle(0x222); g.fillRoundedRect(cx - 8, h - 232, 16, 8, 2);
-            g.fillStyle(0x424242); g.fillRect(cx - 6, h - 230, 12, 1.2); g.fillRect(cx - 6, h - 227, 12, 1.2);
-            // Tread on rear wheel (chunky lines)
-            g.lineStyle(1.5, 0x000);
-            for (let i = -3; i <= 3; i++) {
-                const x = cx + i * 14;
-                g.lineBetween(x - 2, h - 50, x + 2, h - 22);
-            }
+            // === KUWAGATA-style fins on trunk corners ===
+            g.fillStyle(0xFFD700);
+            g.beginPath();
+            g.moveTo(cx - 95, h - 130); g.lineTo(cx - 110, h - 155);
+            g.lineTo(cx - 118, h - 168); g.lineTo(cx - 110, h - 170);
+            g.lineTo(cx - 102, h - 158); g.lineTo(cx - 92, h - 138);
+            g.closePath(); g.fillPath();
+            g.beginPath();
+            g.moveTo(cx + 95, h - 130); g.lineTo(cx + 110, h - 155);
+            g.lineTo(cx + 118, h - 168); g.lineTo(cx + 110, h - 170);
+            g.lineTo(cx + 102, h - 158); g.lineTo(cx + 92, h - 138);
+            g.closePath(); g.fillPath();
+            g.lineStyle(1.2, 0x8B4513);
+            g.beginPath();
+            g.moveTo(cx - 95, h - 130); g.lineTo(cx - 110, h - 155);
+            g.lineTo(cx - 118, h - 168); g.lineTo(cx - 110, h - 170);
+            g.lineTo(cx - 102, h - 158); g.lineTo(cx - 92, h - 138);
+            g.closePath(); g.strokePath();
+            g.beginPath();
+            g.moveTo(cx + 95, h - 130); g.lineTo(cx + 110, h - 155);
+            g.lineTo(cx + 118, h - 168); g.lineTo(cx + 110, h - 170);
+            g.lineTo(cx + 102, h - 158); g.lineTo(cx + 92, h - 138);
+            g.closePath(); g.strokePath();
         }
     }
     </script>
