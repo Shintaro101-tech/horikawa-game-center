@@ -6,7 +6,7 @@ const BUFF_DURATIONS = { fast: 20000, missile: 20000, invincible: 10000 };
 const LEVEL_COIN_THRESHOLDS = [0, 250, 500, 900, 1300, 1900, 3000, 6100];
 const HP_BY_LEVEL = [0, 100, 210, 300, 450, 530, 600, 800, 1000];
 
-const PLAYER_Y_MIN = 280;
+const PLAYER_Y_MIN = 60;
 const PLAYER_Y_MAX = GAME_H - 80;
 
 function getLevelFromCoins(coins) {
@@ -1316,16 +1316,16 @@ class GameScene extends Phaser.Scene {
             color: '#00E5FF', stroke: '#001f4d', strokeThickness: 4
         }).setDepth(20);
 
-        this.depthText = this.add.text(GAME_W / 2, 15, `${this.depth}${this.world.depthUnit}`, {
-            fontSize: '30px', fontFamily: FONT, fontStyle: 'bold',
+        this.depthText = this.add.text(GAME_W / 2 - 30, 15, `${this.depth}${this.world.depthUnit}`, {
+            fontSize: '24px', fontFamily: FONT, fontStyle: 'bold',
             color: '#FFFFFF', stroke: '#001f4d', strokeThickness: 5
         }).setOrigin(0.5, 0).setDepth(20);
-        this.stageText = this.add.text(GAME_W / 2, 52, '', {
-            fontSize: '18px', fontFamily: FONT, fontStyle: 'bold',
-            color: '#FFD54A', stroke: '#001f4d', strokeThickness: 4
+        this.stageText = this.add.text(GAME_W / 2 - 30, 46, '', {
+            fontSize: '14px', fontFamily: FONT, fontStyle: 'bold',
+            color: '#FFD54A', stroke: '#001f4d', strokeThickness: 3
         }).setOrigin(0.5, 0).setDepth(20);
 
-        const hpBarW = 220, hpBarX = GAME_W - 15 - hpBarW;
+        const hpBarW = 175, hpBarX = GAME_W - 15 - hpBarW;
         this.hpBarBg = this.add.rectangle(hpBarX + hpBarW / 2, 28, hpBarW, 26, 0x000000)
             .setStrokeStyle(2, 0xFFFFFF).setDepth(20);
         this.hpBar = this.add.rectangle(hpBarX + 2, 28, hpBarW - 4, 20, 0x4CAF50)
@@ -1463,6 +1463,7 @@ class GameScene extends Phaser.Scene {
 
     tickGameTime() {
         if (this.bossActive) return;
+        if (this.inBonusStage) return;
         this.stageElapsed++;
         const stage = this.stages[this.stage - 1];
 
@@ -1493,14 +1494,12 @@ class GameScene extends Phaser.Scene {
         });
     }
 
-    shoot() {
-        if (this.isGameOver || !this.player.alive) return;
-
+    fireBulletsFrom(x, y) {
         if (this.specialWeapon === 'laser') {
             const angles = [-0.42, 0, 0.42];
             const speed = 880;
             for (const a of angles) {
-                const bullet = this.add.rectangle(this.player.x, this.player.y - 60, 7, 34, 0xFF1744)
+                const bullet = this.add.rectangle(x, y, 7, 34, 0xFF1744)
                     .setStrokeStyle(2, 0xFFFFFF);
                 this.bullets.add(bullet);
                 bullet.body.setSize(7, 34);
@@ -1509,7 +1508,6 @@ class GameScene extends Phaser.Scene {
                 bullet.body.setVelocity(Math.sin(a) * speed, -Math.cos(a) * speed);
                 bullet.rotation = a;
             }
-            playTone(this, 1500, 0.05, 0.04, 'square', 700);
             return;
         }
 
@@ -1520,12 +1518,12 @@ class GameScene extends Phaser.Scene {
 
         let bullet;
         if (isMissile) {
-            bullet = this.add.image(this.player.x, this.player.y - 60, 'missile');
+            bullet = this.add.image(x, y, 'missile');
             this.bullets.add(bullet);
             bullet.body.setSize(16, 36).setOffset(8, 8);
             bullet.damage = isPiercing ? 8 : 5;
         } else {
-            bullet = this.add.text(this.player.x, this.player.y - 60, '🫧', { fontSize: '40px' }).setOrigin(0.5);
+            bullet = this.add.text(x, y, '🫧', { fontSize: '40px' }).setOrigin(0.5);
             this.bullets.add(bullet);
             bullet.body.setSize(28, 28).setOffset(6, 6);
             bullet.damage = 1;
@@ -1537,9 +1535,15 @@ class GameScene extends Phaser.Scene {
         }
         const speed = (isFast ? this.bulletSpeed * 1.7 : this.bulletSpeed);
         bullet.body.setVelocity(0, -speed * (isPiercing ? 1.1 : 1));
+    }
 
-        if (isMissile) playTone(this, 600, 0.06, 0.035, 'sawtooth', 200);
-        else playTone(this, isFast ? 1400 : 1100, 0.04, 0.025, 'sine');
+    shoot() {
+        if (this.isGameOver || !this.player.alive) return;
+        this.fireBulletsFrom(this.player.x, this.player.y - 60);
+        const now = this.time.now;
+        if (this.specialWeapon === 'laser') playTone(this, 1500, 0.05, 0.04, 'square', 700);
+        else if (this.buffs.missile > now || this.specialWeapon === 'piercing') playTone(this, 600, 0.06, 0.035, 'sawtooth', 200);
+        else playTone(this, this.buffs.fast > now ? 1400 : 1100, 0.04, 0.025, 'sine');
     }
 
     spawnEnemy() {
@@ -2485,6 +2489,8 @@ class GameScene extends Phaser.Scene {
             color: '#FFFFFF', stroke: '#000', strokeThickness: 5
         }).setOrigin(0.5).setDepth(51);
 
+        const finalIdx = Phaser.Math.Between(0, weapons.length - 1);
+
         const slotTimer = this.time.addEvent({
             delay: 110, loop: true, callback: () => {
                 currentIdx = (currentIdx + 1) % weapons.length;
@@ -2494,16 +2500,17 @@ class GameScene extends Phaser.Scene {
             }
         });
 
-        const stopBtn = this.add.text(GAME_W/2, GAME_H - 200, '🎯 ストップ！', {
-            fontSize: '52px', fontFamily: FONT, fontStyle: 'bold',
-            color: '#FFFFFF', backgroundColor: '#FF6B00',
-            padding: { x: 50, y: 22 }, stroke: '#5B2200', strokeThickness: 5
-        }).setOrigin(0.5).setDepth(51).setInteractive({ useHandCursor: true });
-        this.tweens.add({ targets: stopBtn, scale: 1.1, duration: 500, yoyo: true, repeat: -1 });
+        const hint = this.add.text(GAME_W/2, GAME_H - 200, 'ランダムで けってい中…', {
+            fontSize: '24px', fontFamily: FONT, fontStyle: 'bold',
+            color: '#FFEB3B', stroke: '#000', strokeThickness: 4
+        }).setOrigin(0.5).setDepth(51);
+        this.tweens.add({ targets: hint, alpha: 0.4, duration: 400, yoyo: true, repeat: -1 });
 
-        stopBtn.on('pointerdown', () => {
+        this.time.delayedCall(2800, () => {
             slotTimer.remove();
-            stopBtn.disableInteractive();
+            currentIdx = finalIdx;
+            slotIcon.setText(weapons[currentIdx].emoji);
+            slotName.setText(weapons[currentIdx].name);
             const selected = weapons[currentIdx];
             this.cameras.main.flash(500, 255, 215, 0);
             this.tweens.add({ targets: slotIcon, scale: 1.5, duration: 350, yoyo: true });
@@ -2531,7 +2538,7 @@ class GameScene extends Phaser.Scene {
             this.time.delayedCall(2200, () => {
                 overlay.destroy(); title.destroy();
                 slotIcon.destroy(); slotName.destroy();
-                stopBtn.destroy(); got.destroy();
+                hint.destroy(); got.destroy();
                 this.inBonusStage = false;
                 this.bonusCompleted = true;
                 this.bossActive = false;
@@ -2588,11 +2595,7 @@ class GameScene extends Phaser.Scene {
     alliesShoot() {
         if (this.isGameOver || !this.player.alive) return;
         this.allies.forEach(ally => {
-            const bullet = this.add.text(ally.x, ally.y - 30, '🫧', { fontSize: '28px' }).setOrigin(0.5);
-            this.bullets.add(bullet);
-            bullet.body.setSize(20, 20);
-            bullet.body.setVelocity(0, -500);
-            bullet.damage = 1;
+            this.fireBulletsFrom(ally.x, ally.y - 30);
         });
         playTone(this, 1300, 0.03, 0.02, 'sine');
     }
@@ -2617,6 +2620,7 @@ class GameScene extends Phaser.Scene {
             if (!e.isBoss && !e.isMidBoss) e.destroy();
         });
         this.items.getChildren().forEach(i => i.destroy());
+        this.bullets.getChildren().forEach(b => b.destroy());
         this.bossBullets.getChildren().forEach(b => b.destroy());
 
         if (this.shootTimer) this.shootTimer.paused = false;
