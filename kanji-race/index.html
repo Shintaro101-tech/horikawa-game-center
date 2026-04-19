@@ -15,9 +15,10 @@
         }
         body { margin: 0; padding: 0; overflow: hidden; background: #050510; color: #fff;
                font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", 'Segoe UI', sans-serif;
-               touch-action: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+               user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;
+               overscroll-behavior: none; }
         #game-container, #ui-layer { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; }
-        #game-container { z-index: 1; transition: filter 0.5s; }
+        #game-container { z-index: 1; transition: filter 0.5s; touch-action: none; }
         #ui-layer { pointer-events: none; z-index: 10; display: flex; flex-direction: column; }
         .screen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column;
                   align-items: center; justify-content: center; background: rgba(5,5,16,0.9);
@@ -35,13 +36,17 @@
                          z-index: 11; }
         .btn-container { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 400px; align-items: center; }
         .btn-row { display: flex; gap: 10px; width: 100%; }
-        .btn { flex: 1; padding: 12px; font-size: clamp(1rem, 3.5vw, 1.5rem); font-weight: bold;
-               background: rgba(0,255,255,0.1); color: var(--n-blue); border: 2px solid var(--n-blue); border-radius: 8px;
-               cursor: pointer; transition: all 0.2s; text-shadow: 0 0 5px var(--n-blue);
+        .btn { flex: 1; padding: 18px 16px; min-height: 60px;
+               font-size: clamp(1.05rem, 3.8vw, 1.5rem); font-weight: bold;
+               background: rgba(0,255,255,0.15); color: var(--n-blue); border: 2px solid var(--n-blue); border-radius: 10px;
+               cursor: pointer; transition: background 0.08s ease, color 0.08s ease, transform 0.08s ease;
+               text-shadow: 0 0 5px var(--n-blue);
                box-shadow: 0 0 10px rgba(0,255,255,0.2) inset; pointer-events: auto;
-               font-family: inherit; }
-        .btn:hover, .btn:active { background: var(--n-blue); color: #000;
-                                  box-shadow: 0 0 20px var(--n-blue) inset; transform: scale(1.02); }
+               font-family: inherit; touch-action: manipulation;
+               -webkit-tap-highlight-color: rgba(0,255,255,0.3); }
+        .btn:hover { background: rgba(0,255,255,0.3); color: #000; }
+        .btn:active { background: var(--n-blue); color: #000;
+                      box-shadow: 0 0 20px var(--n-blue) inset; transform: scale(0.97); }
         .btn-pink { color: var(--n-pink); border-color: var(--n-pink); background: rgba(255,0,255,0.1);
                     text-shadow: 0 0 5px var(--n-pink); box-shadow: 0 0 10px rgba(255,0,255,0.2) inset; }
         .btn-pink:hover, .btn-pink:active { background: var(--n-pink); color: #000;
