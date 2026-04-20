@@ -149,6 +149,18 @@
         .file-label { display: block; text-align: center; width: 100%; box-sizing: border-box; }
         .review-list { width: 100%; max-width: 600px; max-height: 40vh; overflow-y: auto;
                        background: rgba(0,0,0,0.5); border: 1px solid #555; padding: 10px; margin-bottom: 20px; }
+        #enc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+                    gap: 8px; width: 100%; max-width: 720px; max-height: 55vh; overflow-y: auto;
+                    padding: 10px; background: rgba(0,0,0,0.4); border: 1px solid #333; border-radius: 10px; }
+        .enc-cell { border-radius: 8px; padding: 8px 4px; text-align: center; }
+        .enc-cell.unlocked { background: rgba(0,255,255,0.12); border: 2px solid var(--n-blue);
+                             box-shadow: 0 0 10px rgba(0,255,255,0.3); }
+        .enc-cell.locked { background: rgba(20,20,30,0.6); border: 2px dashed #555; opacity: 0.65; }
+        .enc-cell .k { font-size: 2rem; font-weight: bold; }
+        .enc-cell.unlocked .k { color: #fff; text-shadow: 0 0 10px var(--n-blue); }
+        .enc-cell.locked .k { color: #333; }
+        .enc-cell .y { font-size: 0.75rem; color: var(--n-yellow); }
+        .enc-cell .c { font-size: 0.7rem; color: #aaa; margin-top: 2px; }
         .review-item { padding: 5px; border-bottom: 1px solid #333; display: flex; justify-content: space-between; }
         .home-back { position: absolute; top: 18px; right: 18px; z-index: 60;
                      color: #fff; text-decoration: none; background: rgba(0,0,0,0.6);
@@ -177,7 +189,10 @@
                     <button class="btn btn-pink" onclick="startGame('grade2')">武士の里（中級）</button>
                 </div>
                 <button class="btn" style="color:var(--n-green); border-color:var(--n-green);" onclick="startGame('endless')">∞ 時空の裂け目</button>
-                <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 鍛冶屋の万屋</button>
+                <div class="btn-row">
+                    <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 鍛冶屋の万屋</button>
+                    <button class="btn" style="color:var(--n-yellow); border-color:var(--n-yellow);" onclick="showScreen('encyclopedia-screen')">📖 精霊図鑑</button>
+                </div>
                 <div class="btn-row">
                     <button class="btn" onclick="showScreen('review-screen')">📝 修行の道場</button>
                     <label class="btn file-label">📁 問題追加 (CSV)<input type="file" id="csv-upload" accept=".csv"></label>
@@ -208,6 +223,15 @@
             <div class="subtitle">小判で聖剣の変化形を手に入れよ！</div>
             <div class="item-list" id="shop-list"></div>
             <button class="btn" style="width:200px;" onclick="showScreen('home-screen')">戻る</button>
+        </div>
+
+        <!-- 精霊図鑑画面 -->
+        <div id="encyclopedia-screen" class="screen hidden">
+            <h2 style="color: var(--n-yellow);">📖 精霊図鑑</h2>
+            <div class="subtitle">解放した漢字の精霊たち</div>
+            <div id="enc-progress" style="margin-bottom: 12px; color: var(--n-gold); font-weight: bold; text-shadow: 0 0 6px var(--n-gold);"></div>
+            <div id="enc-grid"></div>
+            <button class="btn" style="margin-top: 14px;" onclick="showScreen('home-screen')">戻る</button>
         </div>
 
         <!-- 復習画面 -->
@@ -257,7 +281,7 @@
             bow: { name: '聖剣・光子弓', color: 0xff00ff, w: 60, h: 60, price: 200, desc: '遠くから封印を撃ち抜ける（遠距離）' }
         };
 
-        let saveData = { koban: 0, unlockedWeapons: ['sword'], equippedWeapon: 'sword', highScore: 0, reviewList: [] };
+        let saveData = { koban: 0, unlockedWeapons: ['sword'], equippedWeapon: 'sword', highScore: 0, reviewList: [], releasedSpirits: {} };
         function loadSave() {
             const d = localStorage.getItem('kanjiSamuraiData');
             if(d) saveData = {...saveData, ...JSON.parse(d)};
@@ -267,6 +291,14 @@
         function updateKobanUI() { document.getElementById('koban-ui').innerText = `小判: ${saveData.koban}`; }
         function addWrongKanji(q) {
             if(!saveData.reviewList.find(r => r.kanji === q.kanji)) { saveData.reviewList.push(q); saveGame(); }
+        }
+        function recordSpirit(q) {
+            if(!q || !q.kanji) return;
+            if(!saveData.releasedSpirits) saveData.releasedSpirits = {};
+            const rec = saveData.releasedSpirits[q.kanji];
+            if(rec) { rec.count = (rec.count||0) + 1; }
+            else { saveData.releasedSpirits[q.kanji] = { kanji: q.kanji, yomi: q.yomi, sentence: q.sentence, count: 1 }; }
+            saveGame();
         }
 
         const kanjiData = {
@@ -422,6 +454,7 @@
             if(id) document.getElementById(id).classList.remove('hidden');
             if(id==='shop-screen') renderShop();
             if(id==='review-screen') renderReview();
+            if(id==='encyclopedia-screen') renderEncyclopedia();
             if(id) {
                 isPlaying = false;
                 if(snd && snd.stopBGM) snd.stopBGM();
@@ -465,6 +498,23 @@
         }
         function equip(key) { saveData.equippedWeapon = key; saveGame(); renderShop(); applyWeapon(); }
         function applyWeapon() { for(let w in weaponMeshes) weaponMeshes[w].visible = (w === saveData.equippedWeapon); }
+
+        function renderEncyclopedia() {
+            const released = saveData.releasedSpirits || {};
+            const map = {};
+            [...kanjiData.grade1, ...kanjiData.grade2].forEach(q => { if(!map[q.kanji]) map[q.kanji] = q; });
+            Object.values(released).forEach(r => { if(!map[r.kanji]) map[r.kanji] = r; });
+            const list = Object.values(map).sort((a,b)=>a.kanji.localeCompare(b.kanji,'ja'));
+            const relCount = list.filter(q => released[q.kanji]).length;
+            const total = Object.values(released).reduce((s,v)=>s+(v.count||0), 0);
+            document.getElementById('enc-progress').innerText =
+                `解放: ${relCount} / ${list.length}   通算: ${total}体`;
+            document.getElementById('enc-grid').innerHTML = list.map(q => {
+                const r = released[q.kanji];
+                if(r) return `<div class="enc-cell unlocked"><div class="k">${q.kanji}</div><div class="y">${r.yomi||q.yomi||''}</div><div class="c">×${r.count}</div></div>`;
+                return `<div class="enc-cell locked"><div class="k">？</div><div class="y">未解放</div></div>`;
+            }).join('');
+        }
 
         function renderReview() {
             const list = document.getElementById('review-list-ui'); list.innerHTML='';
@@ -867,6 +917,7 @@
                         if(o.isC) {
                             doSlash(); createExp(o.mesh.position, WEAPON_DATA[wq].color);
                             releaseSpirit(o.mesh.position.clone(), o.kanji || (currentQuestions[qIdx % currentQuestions.length] && currentQuestions[qIdx % currentQuestions.length].kanji));
+                            recordSpirit(currentQuestions[qIdx % currentQuestions.length]);
                             showPopup('✨精霊解放！', 0xffffcc);
                             scene.remove(o.mesh);
                             correctCnt++; combo++; updateHUD(); bSpeed+=0.02;
