@@ -26,6 +26,7 @@
                   pointer-events: auto; transition: opacity 0.3s ease; padding: 20px; box-sizing: border-box;
                   overflow-y: auto; z-index: 50; }
         .hidden { opacity: 0; pointer-events: none !important; }
+        .hidden, .hidden * { pointer-events: none !important; }
         h1 { font-size: clamp(2.5rem, 8vw, 4rem); color: var(--n-blue);
              text-shadow: 0 0 10px var(--n-blue), 0 0 20px var(--n-blue); margin-bottom: 0.5rem; text-align: center; }
         h2 { font-size: 2rem; color: var(--n-gold); text-shadow: 0 0 10px var(--n-gold); margin-bottom: 5px; }
@@ -114,12 +115,20 @@
                                50%{transform:translate(-50%,-50%) scale(1.5);opacity:1;}
                                100%{transform:translate(-50%,-50%) scale(3);opacity:0;} }
 
-        .touch-area { position: absolute; bottom: 0; width: 50vw; height: 65vh; height: 65dvh;
-                      pointer-events: auto; z-index: 15; touch-action: none;
+        .touch-area { position: absolute; top: 0; bottom: 0; width: 50vw;
+                      pointer-events: auto; z-index: 40; touch-action: none;
                       display: flex; align-items: flex-end; padding-bottom: 40px;
-                      box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-        #touch-left { left: 0; justify-content: flex-start; padding-left: 32px; }
-        #touch-right { right: 0; justify-content: flex-end; padding-right: 32px; }
+                      box-sizing: border-box; user-select: none; -webkit-user-select: none;
+                      -webkit-tap-highlight-color: transparent; }
+        #touch-left { left: 0; justify-content: flex-start; padding-left: 28px;
+                      background: linear-gradient(to right, rgba(0, 255, 255, 0.08), transparent 30%); }
+        #touch-right { right: 0; justify-content: flex-end; padding-right: 28px;
+                      background: linear-gradient(to left, rgba(255, 0, 255, 0.08), transparent 30%); }
+        #touch-right .touch-icon { color: var(--n-pink); border-color: rgba(255, 0, 255, 0.7);
+                                   text-shadow: 0 0 12px var(--n-pink);
+                                   box-shadow: 0 0 24px rgba(255, 0, 255, 0.35), inset 0 0 18px rgba(255, 0, 255, 0.2); }
+        #touch-right.pressing .touch-icon { background: rgba(255, 0, 255, 0.55);
+                                            box-shadow: 0 0 40px rgba(255, 0, 255, 0.9), inset 0 0 30px rgba(255, 255, 255, 0.5); }
         .touch-icon { width: 110px; height: 110px; border-radius: 50%;
                       background: rgba(0, 255, 255, 0.15);
                       border: 3px solid rgba(0, 255, 255, 0.7);
@@ -133,8 +142,8 @@
                       background: rgba(0, 255, 255, 0.55);
                       color: #000; transform: scale(1.18);
                       box-shadow: 0 0 40px rgba(0, 255, 255, 0.9), inset 0 0 30px rgba(255, 255, 255, 0.5); }
-        @media (hover: hover) and (pointer: fine) {
-            .touch-icon { display: none; }
+        @media (hover: hover) and (pointer: fine) and (min-width: 1024px) {
+            .touch-area { display: none !important; }
         }
         input[type="file"] { display: none; }
         .file-label { display: block; text-align: center; width: 100%; box-sizing: border-box; }
@@ -265,7 +274,12 @@
                 { kanji: '風', sentence: '〇がふく。', yomi: 'かぜ', wrong: ['雨', '雪', '空'] },
                 { kanji: '晴', sentence: '〇れの天気。', yomi: 'は', wrong: ['雨', '曇', '雪'] },
                 { kanji: '図', sentence: '〇をかく。', yomi: 'ず', wrong: ['絵', '書', '国'] },
-                { kanji: '書', sentence: '名まえを〇く。', yomi: 'か', wrong: ['画', '図', '言'] }
+                { kanji: '書', sentence: '名まえを〇く。', yomi: 'か', wrong: ['画', '図', '言'] },
+                { kanji: '早', sentence: '朝〇くおきる。', yomi: 'はや', wrong: ['速', '朝', '午'] },
+                { kanji: '人', sentence: '〇をたすける。', yomi: 'ひと', wrong: ['入', '大', '火'] },
+                { kanji: '正', sentence: '〇しいこたえ。', yomi: 'ただ', wrong: ['止', '足', '王'] },
+                { kanji: '竹', sentence: '〇のはやし。', yomi: 'たけ', wrong: ['木', '林', '草'] },
+                { kanji: '空', sentence: '〇がひろい。', yomi: 'そら', wrong: ['海', '雲', '青'] }
             ],
             custom: []
         };
@@ -501,7 +515,7 @@
         let thrusters = [];
         let objs=[], bGates=[], ptcls=[], isPlaying=false, currentQuestions=[], qIdx=0, correctCnt=0,
             combo=0, isFever=false, feverTimer=0;
-        let playMode='grade1', runDist=0, targetX=0, keys={l:false, r:false}, bSpeed=0.9,
+        let playMode='grade1', runDist=0, targetX=0, keys={l:false, r:false, boost:false}, bSpeed=0.9,
             phase=0, distCnt=0, nextSpawn=50, camShake=0;
         let isSlashing=false, slashProg=0, isBossPhase=false, bossHP=3;
         let weaponMeshes = {};
@@ -869,27 +883,38 @@
         window.addEventListener('keydown', e=>{
             if(e.key==='ArrowLeft'||e.key==='a') keys.l=true;
             if(e.key==='ArrowRight'||e.key==='d') keys.r=true;
+            if(e.key==='ArrowUp'||e.key==='w') keys.boost=true;
         });
         window.addEventListener('keyup', e=>{
             if(e.key==='ArrowLeft'||e.key==='a') keys.l=false;
             if(e.key==='ArrowRight'||e.key==='d') keys.r=false;
+            if(e.key==='ArrowUp'||e.key==='w') keys.boost=false;
         });
+        const updateTouchKeys = (e) => {
+            if (!isPlaying) return;
+            if (e.cancelable) e.preventDefault();
+            const tl = document.getElementById('touch-left');
+            const tr = document.getElementById('touch-right');
+            let lp = false, rp = false;
+            const touches = e.touches;
+            const half = window.innerWidth / 2;
+            for (let i = 0; i < touches.length; i++) {
+                if (touches[i].clientY < window.innerHeight * 0.15) continue;
+                if (touches[i].clientX < half) lp = true; else rp = true;
+            }
+            keys.l = lp; keys.r = rp; keys.boost = lp && rp;
+            if (tl) tl.classList.toggle('pressing', lp);
+            if (tr) tr.classList.toggle('pressing', rp);
+        };
+        document.addEventListener('touchstart', updateTouchKeys, { passive: false });
+        document.addEventListener('touchmove', updateTouchKeys, { passive: false });
+        document.addEventListener('touchend', updateTouchKeys, { passive: false });
+        document.addEventListener('touchcancel', updateTouchKeys, { passive: false });
+
         ['touch-left','touch-right'].forEach((id,i)=>{
             const el = document.getElementById(id), d = i===0 ? 'l' : 'r';
-            const press = (e) => {
-                if(e.cancelable) e.preventDefault();
-                keys[d] = true;
-                el.classList.add('pressing');
-            };
-            const release = (e) => {
-                if(e && e.cancelable) e.preventDefault();
-                keys[d] = false;
-                el.classList.remove('pressing');
-            };
-            el.addEventListener('touchstart', press, { passive: false });
-            el.addEventListener('touchend', release, { passive: false });
-            el.addEventListener('touchcancel', release, { passive: false });
-            el.addEventListener('touchmove', (e) => { if(e.cancelable) e.preventDefault(); }, { passive: false });
+            const press = () => { keys[d] = true; el.classList.add('pressing'); };
+            const release = () => { keys[d] = false; el.classList.remove('pressing'); };
             el.addEventListener('mousedown', press);
             el.addEventListener('mouseup', release);
             el.addEventListener('mouseleave', release);
@@ -897,13 +922,14 @@
 
         document.addEventListener('gesturestart', (e) => e.preventDefault());
         document.addEventListener('contextmenu', (e) => {
-            if(e.target.closest('.touch-area, canvas')) e.preventDefault();
+            if(isPlaying) e.preventDefault();
         });
 
         function animate() {
             requestAnimationFrame(animate);
             if(isPlaying) {
                 let s = bSpeed;
+                if(keys.boost && !isBossPhase) s *= 1.8;
                 if(pGrp.position.z<0){ pGrp.position.z+=0.2; s*=0.5; } else pGrp.position.z=0;
                 if(isFever) {
                     feverTimer-=0.016;
