@@ -7,7 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <meta name="theme-color" content="#050510">
-    <title>Kanji侍Racing アルティメット</title>
+    <title>漢字侍 聖剣伝説</title>
     <style>
         :root {
             --n-blue: #00ffff; --n-pink: #ff00ff; --n-red: #ff3333;
@@ -169,33 +169,51 @@
         <!-- ホーム画面 -->
         <div id="home-screen" class="screen">
             <a href="../" class="home-back">🏠 アーケードへ</a>
-            <h1>Kanji侍Racing<br><span style="font-size:0.5em; color:var(--n-pink);">アルティメット</span></h1>
+            <h1>漢字侍<br><span style="font-size:0.5em; color:var(--n-pink);">聖剣伝説</span></h1>
+            <div class="subtitle">〜 封印されし漢字の精霊を解き放て 〜</div>
             <div class="btn-container">
                 <div class="btn-row">
-                    <button class="btn" onclick="startGame('grade1')">1年生コース</button>
-                    <button class="btn btn-pink" onclick="startGame('grade2')">2年生コース</button>
+                    <button class="btn" onclick="startGame('grade1')">精霊の森（初級）</button>
+                    <button class="btn btn-pink" onclick="startGame('grade2')">武士の里（中級）</button>
                 </div>
-                <button class="btn" style="color:var(--n-green); border-color:var(--n-green);" onclick="startGame('endless')">∞ エンドレスモード</button>
-                <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 ショップ・装備</button>
+                <button class="btn" style="color:var(--n-green); border-color:var(--n-green);" onclick="startGame('endless')">∞ 時空の裂け目</button>
+                <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 鍛冶屋の万屋</button>
                 <div class="btn-row">
-                    <button class="btn" onclick="showScreen('review-screen')">📝 復習モード</button>
+                    <button class="btn" onclick="showScreen('review-screen')">📝 修行の道場</button>
                     <label class="btn file-label">📁 問題追加 (CSV)<input type="file" id="csv-upload" accept=".csv"></label>
                 </div>
+                <button class="btn" style="color:#fff; border-color:#fff; opacity:0.7;" onclick="showScreen('story-screen')">📜 物語を見る</button>
             </div>
+        </div>
+
+        <!-- 物語画面 -->
+        <div id="story-screen" class="screen hidden">
+            <h2 style="color:var(--n-pink);">物語の始まり</h2>
+            <div style="font-size:clamp(1rem, 3vw, 1.2rem); line-height:1.9; max-width:640px; padding:10px 20px; text-align:left; color:#eee; text-shadow: 0 0 4px rgba(0,0,0,0.8);">
+                永き平和の時代が終わり、<br>
+                電脳世界より現れし<span style="color:var(--n-red); font-weight:bold;">「虚文字大魔王（うそもじだいまおう）」</span>が、<br>
+                古（いにしえ）より日本を守りし<span style="color:var(--n-yellow);">漢字の精霊</span>たちを、<br>
+                次々と<span style="color:var(--n-pink);">御札（おふだ）</span>に封印していった。<br><br>
+                選ばれし若侍よ、<span style="color:var(--n-blue);">聖剣</span>を手に、<br>
+                愛馬の電脳バイクを駆り、<br>
+                封印の御札を斬り砕き、精霊たちを解放せよ！<br><br>
+                <span style="color:var(--n-gold);">✨ 正しき漢字を聖剣で斬れ。精霊は必ず目覚める。 ✨</span>
+            </div>
+            <button class="btn" onclick="showScreen('home-screen')">戻る</button>
         </div>
 
         <!-- ショップ画面 -->
         <div id="shop-screen" class="screen hidden">
-            <h2>万屋（よろずや）</h2>
-            <div class="subtitle">集めた小判で強力な武器を解放せよ！</div>
+            <h2>鍛冶屋の万屋</h2>
+            <div class="subtitle">小判で聖剣の変化形を手に入れよ！</div>
             <div class="item-list" id="shop-list"></div>
             <button class="btn" style="width:200px;" onclick="showScreen('home-screen')">戻る</button>
         </div>
 
         <!-- 復習画面 -->
         <div id="review-screen" class="screen hidden">
-            <h2>復習道場</h2>
-            <div class="subtitle">間違えた漢字を復習しよう</div>
+            <h2>修行の道場</h2>
+            <div class="subtitle">封印を解けなかった精霊と再び向き合え</div>
             <div class="review-list" id="review-list-ui">記録なし</div>
             <button class="btn btn-pink" id="btn-start-review" onclick="startGame('review')">復習コース開始</button>
             <button class="btn" style="margin-top:10px;" onclick="showScreen('home-screen')">戻る</button>
@@ -232,11 +250,11 @@
         // データ・セーブ管理
         // ==========================================
         const WEAPON_DATA = {
-            sword: { name: 'プラズマ刀', color: 0x00ffff, w: 200, h: 10, price: 0, desc: '標準的な刀' },
-            greatsword: { name: '剛大剣', color: 0xff0000, w: 300, h: 40, price: 50, desc: '障害物を破壊できる（無傷）' },
-            axe: { name: '重力斧', color: 0xffaa00, w: 250, h: 60, price: 100, desc: '障害物を破壊できる（無傷）' },
-            spear: { name: '音速槍', color: 0x00ff00, w: 50, h: 50, price: 150, desc: '遠くから正解を突ける（遠距離判定）' },
-            bow: { name: '光子弓', color: 0xff00ff, w: 60, h: 60, price: 200, desc: '遠くから正解を撃ち抜ける（遠距離判定）' }
+            sword: { name: '聖剣・初伝', color: 0x00ffff, w: 200, h: 10, price: 0, desc: '封印を解く基本の聖剣' },
+            greatsword: { name: '聖剣・剛大剣', color: 0xff0000, w: 300, h: 40, price: 50, desc: '障害物を破壊できる（無傷）' },
+            axe: { name: '聖剣・重力斧', color: 0xffaa00, w: 250, h: 60, price: 100, desc: '障害物を破壊できる（無傷）' },
+            spear: { name: '聖剣・音速槍', color: 0x00ff00, w: 50, h: 50, price: 150, desc: '遠くから精霊を解放できる（遠距離）' },
+            bow: { name: '聖剣・光子弓', color: 0xff00ff, w: 60, h: 60, price: 200, desc: '遠くから封印を撃ち抜ける（遠距離）' }
         };
 
         let saveData = { koban: 0, unlockedWeapons: ['sword'], equippedWeapon: 'sword', highScore: 0, reviewList: [] };
@@ -483,6 +501,7 @@
 
             objs.forEach(o=>scene.remove(o.mesh)); objs=[];
             ptcls.forEach(p=>scene.remove(p.sys)); ptcls=[];
+            spirits.forEach(sp=>scene.remove(sp.mesh)); spirits=[];
 
             showScreen(null);
             document.getElementById('hud').classList.remove('hidden');
@@ -513,7 +532,7 @@
         // ==========================================
         let scene, camera, renderer, pGrp, bGrp, sGrp, armRPivot, gridH, bossMesh;
         let thrusters = [];
-        let objs=[], bGates=[], ptcls=[], isPlaying=false, currentQuestions=[], qIdx=0, correctCnt=0,
+        let objs=[], bGates=[], ptcls=[], spirits=[], isPlaying=false, currentQuestions=[], qIdx=0, correctCnt=0,
             combo=0, isFever=false, feverTimer=0;
         let playMode='grade1', runDist=0, targetX=0, keys={l:false, r:false, boost:false}, bSpeed=0.9,
             phase=0, distCnt=0, nextSpawn=50, camShake=0;
@@ -685,15 +704,32 @@
                 let lW = trackWidth/optsCount;
                 opts.forEach((o,i)=>{
                     let c=document.createElement('canvas'); c.width=256; c.height=256; let ctx=c.getContext('2d');
-                    ctx.fillStyle='rgba(0,20,40,0.8)'; ctx.fillRect(0,0,256,256);
-                    ctx.strokeStyle='#0ff'; ctx.lineWidth=8; ctx.strokeRect(4,4,248,248);
+                    // 御札の紙地
+                    const grad = ctx.createLinearGradient(0,0,0,256);
+                    grad.addColorStop(0,'rgba(30,10,50,0.9)');
+                    grad.addColorStop(1,'rgba(10,0,30,0.9)');
+                    ctx.fillStyle=grad; ctx.fillRect(0,0,256,256);
+                    // 外枠（シアン）
+                    ctx.strokeStyle='#0ff'; ctx.lineWidth=6; ctx.strokeRect(4,4,248,248);
+                    // 四隅の封印符
+                    ctx.fillStyle='#ff2040';
+                    ctx.font='bold 22px "Hiragino Mincho ProN", serif';
+                    ctx.textAlign='center'; ctx.textBaseline='middle';
+                    ctx.fillText('封', 26, 26); ctx.fillText('印', 230, 26);
+                    ctx.fillText('印', 26, 230); ctx.fillText('封', 230, 230);
+                    // 封印の縄（赤い鎖状ライン）
+                    ctx.strokeStyle='rgba(255,50,70,0.55)'; ctx.lineWidth=4; ctx.lineCap='round';
+                    ctx.beginPath(); ctx.moveTo(40,20); ctx.lineTo(216,20); ctx.stroke();
+                    ctx.beginPath(); ctx.moveTo(40,236); ctx.lineTo(216,236); ctx.stroke();
+                    // 漢字本体（発光）
                     ctx.fillStyle='#fff'; ctx.font='bold 120px sans-serif';
-                    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(o,128,128);
+                    ctx.shadowColor='#ff99cc'; ctx.shadowBlur=18;
+                    ctx.fillText(o,128,128); ctx.shadowBlur=0;
                     let m=new THREE.Mesh(new THREE.PlaneGeometry(lW-0.5,12),
                         new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c), transparent:true, side:THREE.DoubleSide}));
                     m.position.set(-trackWidth/2+lW/2+i*lW, 4, -150);
                     scene.add(m);
-                    objs.push({type:'gate', mesh:m, w:lW, isC:(o===q.kanji), c:false, tex:c});
+                    objs.push({type:'gate', mesh:m, w:lW, isC:(o===q.kanji), c:false, tex:c, kanji:o});
                 });
                 document.getElementById('question-text').innerHTML =
                     q.sentence.replace('〇', `<ruby>〇<rt>${q.yomi}</rt></ruby>`);
@@ -728,7 +764,7 @@
 
                 group.position.set(-trackWidth/2+lW/2+i*lW, 4, bossMesh.position.z + 10);
                 scene.add(group);
-                objs.push({type:'shuriken', mesh:group, body:shurikenBody, w:lW, isC:(o===q.kanji), c:false});
+                objs.push({type:'shuriken', mesh:group, body:shurikenBody, w:lW, isC:(o===q.kanji), c:false, kanji:o});
             });
             document.getElementById('question-text').innerHTML =
                 q.sentence.replace('〇', `<ruby>〇<rt>${q.yomi}</rt></ruby>`);
@@ -759,6 +795,23 @@
                 el.classList.add('slashing');
                 el.style.width='200vw'; el.style.height='20px'; el.style.borderRadius='0';
             }
+        }
+
+        function releaseSpirit(pos, kanji) {
+            if(!kanji) return;
+            const c=document.createElement('canvas'); c.width=128; c.height=128;
+            const ctx=c.getContext('2d');
+            ctx.textAlign='center'; ctx.textBaseline='middle';
+            ctx.shadowColor='#ffffcc'; ctx.shadowBlur=24;
+            ctx.fillStyle='#ffffcc'; ctx.font='bold 96px sans-serif';
+            ctx.fillText(kanji, 64, 64);
+            const tex=new THREE.CanvasTexture(c);
+            const mat=new THREE.SpriteMaterial({ map:tex, transparent:true, blending:THREE.AdditiveBlending, depthTest:false });
+            const sp=new THREE.Sprite(mat);
+            sp.scale.set(5,5,1);
+            sp.position.copy(pos);
+            scene.add(sp);
+            spirits.push({ mesh:sp, life:1, vy:0.18, vz:0 });
         }
 
         function createExp(pos, col, cnt=100) {
@@ -812,7 +865,10 @@
                         objs.filter(x=>x.type===o.type && Math.abs(x.mesh.position.z-o.mesh.position.z)<10)
                             .forEach(x=>x.c=true);
                         if(o.isC) {
-                            doSlash(); createExp(o.mesh.position, WEAPON_DATA[wq].color); scene.remove(o.mesh);
+                            doSlash(); createExp(o.mesh.position, WEAPON_DATA[wq].color);
+                            releaseSpirit(o.mesh.position.clone(), o.kanji || (currentQuestions[qIdx % currentQuestions.length] && currentQuestions[qIdx % currentQuestions.length].kanji));
+                            showPopup('✨精霊解放！', 0xffffcc);
+                            scene.remove(o.mesh);
                             correctCnt++; combo++; updateHUD(); bSpeed+=0.02;
                             if(combo===5) triggerFever();
 
@@ -823,7 +879,7 @@
                                 if(bossHP<=0) {
                                     isPlaying=false;
                                     ['hud','touch-left','touch-right'].forEach(id => document.getElementById(id).classList.add('hidden'));
-                                    setTimeout(()=>{snd.playClear(); showClear("大将討ち取ったり！");}, 1000);
+                                    setTimeout(()=>{snd.playClear(); showClear(`精霊${correctCnt}体を解放し、虚文字大魔王を討ち取ったり！`);}, 1000);
                                     return;
                                 } else {
                                     qIdx++;
@@ -836,7 +892,7 @@
                                 if(playMode!=='endless' && qIdx >= currentQuestions.length && !isBossPhase) {
                                     isPlaying=false;
                                     ['hud','touch-left','touch-right'].forEach(id => document.getElementById(id).classList.add('hidden'));
-                                    setTimeout(()=>{snd.playClear(); showClear("全問正解！");}, 500);
+                                    setTimeout(()=>{snd.playClear(); showClear(`精霊${correctCnt}体、全て解放した！`);}, 500);
                                 }
                             }
                         } else {
@@ -848,7 +904,7 @@
                             setTimeout(()=>{
                                 showScreen('gameover-screen');
                                 document.getElementById('gameover-reason').innerHTML =
-                                    `正解は「<span style="color:var(--n-blue);">${currentQuestions[qIdx % currentQuestions.length].kanji}</span>」だ！`;
+                                    `虚文字に飲み込まれた…<br>正しき精霊は「<span style="color:var(--n-blue);">${currentQuestions[qIdx % currentQuestions.length].kanji}</span>」であった！<br><span style="font-size:1rem; color:#aaa;">解放した精霊: ${correctCnt}体</span>`;
                             }, 1500);
                         }
                     }
@@ -973,6 +1029,16 @@
                 camShake*=0.9;
                 if(camShake<0.01) camera.position.x=0;
             }
+            for(let i=spirits.length-1; i>=0; i--) {
+                const sp=spirits[i];
+                sp.mesh.position.y += sp.vy;
+                sp.mesh.position.z += isPlaying ? bSpeed*0.5 : 0.2;
+                sp.life -= 0.012;
+                sp.mesh.material.opacity = Math.max(0, sp.life);
+                const s2 = 5 + (1-sp.life)*3;
+                sp.mesh.scale.set(s2, s2, 1);
+                if(sp.life<=0){ scene.remove(sp.mesh); spirits.splice(i,1); }
+            }
             for(let i=ptcls.length-1; i>=0; i--) {
                 let p=ptcls[i], pa=p.sys.geometry.attributes.position.array;
                 for(let j=0; j<p.v.length; j++){
@@ -987,7 +1053,13 @@
             renderer.render(scene, camera);
         }
 
-        window.onload = () => { loadSave(); init3D(); };
+        window.onload = () => {
+            loadSave(); init3D();
+            if(!localStorage.getItem('kanjiSamuraiStorySeen')) {
+                localStorage.setItem('kanjiSamuraiStorySeen', '1');
+                showScreen('story-screen');
+            }
+        };
     </script>
 </body>
 </html>
