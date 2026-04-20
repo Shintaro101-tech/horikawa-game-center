@@ -183,6 +183,7 @@
             <a href="../" class="home-back">🏠 アーケードへ</a>
             <h1>漢字侍<br><span style="font-size:0.5em; color:var(--n-pink);">聖剣伝説</span></h1>
             <div class="subtitle">〜 封印されし漢字の精霊を解き放て 〜</div>
+            <div id="home-koban" style="color: var(--n-gold); font-size: clamp(1.1rem, 3.5vw, 1.5rem); font-weight: bold; text-shadow: 0 0 12px var(--n-gold); margin-bottom: 18px; background: rgba(0,0,0,0.55); padding: 8px 24px; border-radius: 999px; border: 2px solid var(--n-gold); box-shadow: 0 0 18px rgba(255,215,0,0.35);">🪙 小判 0</div>
             <div class="btn-container">
                 <div class="btn-row">
                     <button class="btn" onclick="startGame('grade1')">精霊の森（初級）</button>
@@ -288,7 +289,11 @@
             updateKobanUI();
         }
         function saveGame() { localStorage.setItem('kanjiSamuraiData', JSON.stringify(saveData)); updateKobanUI(); }
-        function updateKobanUI() { document.getElementById('koban-ui').innerText = `小判: ${saveData.koban}`; }
+        function updateKobanUI() {
+            document.getElementById('koban-ui').innerText = `小判: ${saveData.koban}`;
+            const hk = document.getElementById('home-koban');
+            if(hk) hk.innerText = `🪙 小判 ${saveData.koban}`;
+        }
         function addWrongKanji(q) {
             if(!saveData.reviewList.find(r => r.kanji === q.kanji)) { saveData.reviewList.push(q); saveGame(); }
         }
@@ -929,8 +934,10 @@
                                 bossMesh.position.z -= 20;
                                 if(bossHP<=0) {
                                     isPlaying=false;
+                                    saveData.koban += 10; updateKobanUI(); saveGame();
+                                    snd.playCoin();
                                     ['hud','touch-left','touch-right'].forEach(id => document.getElementById(id).classList.add('hidden'));
-                                    setTimeout(()=>{snd.playClear(); showClear(`精霊${correctCnt}体を解放し、虚文字大魔王を討ち取ったり！`);}, 1000);
+                                    setTimeout(()=>{snd.playClear(); showClear(`精霊${correctCnt}体を解放し、虚文字大魔王を討ち取ったり！\n🪙 ボス討伐報酬 +10 小判！`);}, 1000);
                                     return;
                                 } else {
                                     qIdx++;
