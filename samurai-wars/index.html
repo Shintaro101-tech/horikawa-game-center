@@ -1593,8 +1593,161 @@
         15: { name:'メカ怪獣',       yomi:'めかかいじゅう',       hp:19500, atk:810,  helmet:'mecha_kaiju',weapon:'laser_arm',     color:'#4a4a4a', scale:3.0, ranged:true },
         16: { name:'ロボット鬼',     yomi:'ろぼっとおに',         hp:22500, atk:945,  helmet:'robo_oni',   weapon:'laser_katana',  color:'#5a5a8a', scale:2.7 },
         17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:26250, atk:1150, helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:3.1, ranged:true, aoe:true },
-        18: { name:'天魔王',         yomi:'てんまおう',           hp:33000, atk:1460, helmet:'tenma',      weapon:'kyojin_blast',  color:'#600060', scale:3.4, ranged:true, aoe:true }
+        18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0 }
     };
+
+    // 暗黒大龍神 — 画面下から上まで届く三頭の超巨大ボス
+    function drawDarkDragon(c, u) {
+        const w = W(), h = H();
+        const baseX = u.x;
+        const baseY = u.y;
+        const topY = h * 0.06;
+        const totalH = baseY - topY;
+        const time = performance.now() * 0.0008;
+
+        // 体（らせん状にうねるトーラス連結）
+        const segments = 30;
+        for(let i = segments; i >= 0; i--) {
+            const t = i / segments;
+            const yy = baseY - t * totalH;
+            const wave = Math.sin(t * Math.PI * 4 + time * 1.6) * 70 * (1 - t * 0.2);
+            const xx = baseX + wave;
+            const r = 52 - t * 18;
+
+            // 闇のオーラ
+            c.fillStyle = `rgba(80,0,80,0.18)`;
+            c.beginPath(); c.arc(xx, yy, r + 14, 0, Math.PI*2); c.fill();
+            // 影
+            c.fillStyle = '#0a0008';
+            c.beginPath(); c.arc(xx, yy, r + 4, 0, Math.PI*2); c.fill();
+            // 本体
+            c.fillStyle = i % 2 === 0 ? '#1a0820' : '#220a28';
+            c.beginPath(); c.arc(xx, yy, r, 0, Math.PI*2); c.fill();
+            // 腹側ハイライト
+            c.fillStyle = '#3a1a3a';
+            c.beginPath(); c.ellipse(xx - r*0.2, yy + r*0.1, r*0.6, r*0.4, 0, 0, Math.PI*2); c.fill();
+            // 鱗（決定的、チラつかない）
+            for(let s = 0; s < 7; s++) {
+                const sa = (s/7) * Math.PI * 2 + (i * 0.45);
+                const sx = xx + Math.cos(sa) * r * 0.65;
+                const sy = yy + Math.sin(sa) * r * 0.65;
+                const isCyber = (i + s) % 4 === 0;
+                c.fillStyle = isCyber ? '#00f0ff' : ((i + s) % 3 === 0 ? '#ff3344' : '#aa1144');
+                if(isCyber) {
+                    c.fillRect(sx-3, sy-3, 6, 6);
+                } else {
+                    c.beginPath(); c.arc(sx, sy, 2.5, 0, Math.PI*2); c.fill();
+                }
+            }
+            // 回路リング（数セグメントごと）
+            if(i % 4 === 0) {
+                c.strokeStyle = 'rgba(0, 240, 255, 0.55)';
+                c.lineWidth = 2;
+                c.beginPath(); c.arc(xx, yy, r * 0.85, 0, Math.PI*2); c.stroke();
+            }
+        }
+
+        // 三頭（最上段）
+        const neckY = topY + 50;
+        const heads = [
+            { dx: -100, dy: 18,  side:-1, name:'fire',     auraColor:'255,80,40',   eye:'#ffeb3b', horn:'#ffd24a' },
+            { dx:    0, dy: -10, side: 0, name:'dark',     auraColor:'170,0,255',   eye:'#ff00ff', horn:'#ff00ff' },
+            { dx:  100, dy: 18,  side: 1, name:'lightning',auraColor:'255,235,60',  eye:'#ffffff', horn:'#ffeb3b' }
+        ];
+        // 首（neckからheadまでのライン）
+        heads.forEach((hd, idx) => {
+            const headX = baseX + hd.dx + Math.sin(time * 1.6 + idx) * 6;
+            const headY = neckY + hd.dy + Math.cos(time * 1.2 + idx) * 4;
+            // 首
+            c.strokeStyle = '#1a0820'; c.lineWidth = 32;
+            c.lineCap = 'round';
+            c.beginPath();
+            c.moveTo(baseX + Math.sin(time*1.6 - 0.5) * 10, neckY + 90);
+            c.quadraticCurveTo(baseX + hd.dx*0.6, neckY + 30, headX, headY);
+            c.stroke();
+            // 首の鱗
+            c.strokeStyle = 'rgba(170, 30, 60, 0.5)'; c.lineWidth = 2;
+            c.stroke();
+        });
+        // 頭（首より後に描画）
+        heads.forEach((hd, idx) => {
+            const headX = baseX + hd.dx + Math.sin(time * 1.6 + idx) * 6;
+            const headY = neckY + hd.dy + Math.cos(time * 1.2 + idx) * 4;
+
+            // 元素オーラ
+            const aura = c.createRadialGradient(headX, headY, 0, headX, headY, 90);
+            aura.addColorStop(0, `rgba(${hd.auraColor},0.7)`);
+            aura.addColorStop(0.5, `rgba(${hd.auraColor},0.3)`);
+            aura.addColorStop(1, `rgba(${hd.auraColor},0)`);
+            c.fillStyle = aura;
+            c.beginPath(); c.arc(headX, headY, 90, 0, Math.PI*2); c.fill();
+
+            // 頭の本体
+            c.fillStyle = '#1a0820';
+            c.beginPath(); c.ellipse(headX, headY, 56, 38, 0, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#0a0008'; c.lineWidth = 2;
+            c.stroke();
+            // 鼻先
+            c.fillStyle = '#220a28';
+            c.beginPath();
+            c.ellipse(headX + hd.side * 36, headY + 12, 28, 16, 0, 0, Math.PI*2); c.fill();
+            // 牙
+            c.fillStyle = '#fff';
+            const fangBase = headX + hd.side * 50;
+            c.beginPath();
+            c.moveTo(fangBase - hd.side * 6, headY + 14);
+            c.lineTo(fangBase + hd.side * 0, headY + 28);
+            c.lineTo(fangBase - hd.side * 12, headY + 18);
+            c.closePath(); c.fill();
+            c.beginPath();
+            c.moveTo(fangBase - hd.side * 18, headY + 14);
+            c.lineTo(fangBase - hd.side * 14, headY + 26);
+            c.lineTo(fangBase - hd.side * 24, headY + 18);
+            c.closePath(); c.fill();
+            // 角（2本）
+            c.fillStyle = hd.horn;
+            c.beginPath();
+            c.moveTo(headX - 22, headY - 30);
+            c.lineTo(headX - 32, headY - 64);
+            c.lineTo(headX - 12, headY - 36);
+            c.closePath(); c.fill();
+            c.beginPath();
+            c.moveTo(headX + 22, headY - 30);
+            c.lineTo(headX + 32, headY - 64);
+            c.lineTo(headX + 12, headY - 36);
+            c.closePath(); c.fill();
+            // 目（脈動発光）
+            const eyePulse = 1 + Math.sin(time * 6 + idx) * 0.3;
+            c.shadowColor = hd.eye; c.shadowBlur = 20 * eyePulse;
+            c.fillStyle = hd.eye;
+            const eyeOff = hd.side === 0 ? 14 : 18;
+            c.beginPath(); c.arc(headX - eyeOff + hd.side * 12, headY - 4, 7 * eyePulse, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(headX + eyeOff + hd.side * 12, headY - 4, 7 * eyePulse, 0, Math.PI*2); c.fill();
+            c.shadowBlur = 0;
+            // 額のサイバー核
+            c.fillStyle = '#00f0ff';
+            c.shadowColor = '#00f0ff'; c.shadowBlur = 14;
+            c.beginPath(); c.arc(headX, headY - 18, 4, 0, Math.PI*2); c.fill();
+            c.shadowBlur = 0;
+
+            // 元素のブレス粒子
+            if(Math.random() < 0.35) {
+                const breathColor = hd.name === 'fire' ? ['#ff3300','#ff6600','#ffaa00'][Math.floor(Math.random()*3)] :
+                                    hd.name === 'lightning' ? ['#ffffff','#ffeb3b'][Math.floor(Math.random()*2)] :
+                                    ['#aa00ff','#ff00ff','#cc66ff'][Math.floor(Math.random()*3)];
+                game.particles.push({
+                    x: headX + hd.side * 60,
+                    y: headY + 12,
+                    vx: hd.side * 1.8 + (Math.random()-0.5),
+                    vy: 0.2 + Math.random()*1.2,
+                    life: 1.4,
+                    color: breathColor,
+                    size: 4 + Math.random()*4,
+                    isFire: true
+                });
+            }
+        });
+    }
 
     function spawnBoss(stageId) {
         const b = STAGE_BOSSES[stageId];
@@ -3260,6 +3413,7 @@
     }
     function spawnSoul(u) {
         if(!game.souls) game.souls = [];
+        if(u.data && u.data.mega) return; // megaボスは別演出
         game.souls.push({
             x: u.x,
             y: u.y - 30,
@@ -3314,12 +3468,20 @@
         if(attacker.ranged) {
             const tgtX = target.x;
             const tgtY = target.y - 30;
+            // megaボスは三頭のいずれかから発射
+            let bx = attacker.x + (attacker.side==='p'?-15:15);
+            let by = attacker.y - 30;
+            if(attacker.data && attacker.data.mega) {
+                const headDx = [-100, 0, 100][Math.floor(Math.random()*3)];
+                bx = attacker.x + headDx;
+                by = H() * 0.06 + 60;
+            }
             game.bullets.push({
-                x: attacker.x + (attacker.side==='p'?-15:15),
-                y: attacker.y - 30,
+                x: bx,
+                y: by,
                 tx: tgtX, ty: tgtY,
-                vx: ((tgtX - attacker.x) / 25),
-                vy: ((tgtY - (attacker.y - 30)) / 25),
+                vx: ((tgtX - bx) / 30),
+                vy: ((tgtY - by) / 30),
                 dmg: atk,
                 side: attacker.side,
                 weapon: attacker.data.weapon,
@@ -3849,11 +4011,43 @@
             const yWalk = u.target ? 0 : Math.sin(performance.now()*0.01 + u.x*0.1) * 1.5;
             const fade = u.dead ? Math.max(0, 1 - (u.deadTimer/0.5)) : 1;
             ctx.globalAlpha = fade;
-            drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
+            if(u.data && u.data.mega) {
+                drawDarkDragon(ctx, u);
+            } else {
+                drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
+            }
             // ヒットフラッシュ
             if(u.hitFlash > 0) {
                 ctx.fillStyle = `rgba(255,255,255,${u.hitFlash*5})`;
-                ctx.fillRect(u.x-15, u.y-50, 30, 50);
+                if(u.data && u.data.mega) {
+                    ctx.fillRect(0, 0, w, H()*0.85);
+                } else {
+                    ctx.fillRect(u.x-15, u.y-50, 30, 50);
+                }
+            }
+            // megaボス専用HPバー（画面上部）
+            if(!u.dead && u.data && u.data.mega) {
+                const mw = Math.min(640, w * 0.78);
+                const mbx = w/2 - mw/2, mby = 56;
+                ctx.fillStyle = 'rgba(0,0,0,0.85)';
+                ctx.fillRect(mbx - 4, mby - 4, mw + 8, 22);
+                ctx.strokeStyle = '#ff3344'; ctx.lineWidth = 2;
+                ctx.strokeRect(mbx - 4, mby - 4, mw + 8, 22);
+                ctx.fillStyle = '#400010';
+                ctx.fillRect(mbx, mby, mw, 14);
+                const grd = ctx.createLinearGradient(mbx, 0, mbx + mw, 0);
+                grd.addColorStop(0, '#ff3344');
+                grd.addColorStop(0.5, '#ff66aa');
+                grd.addColorStop(1, '#aa00ff');
+                ctx.fillStyle = grd;
+                ctx.fillRect(mbx, mby, mw * Math.max(0, u.hp/u.maxHp), 14);
+                ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
+                ctx.lineWidth = 4; ctx.strokeStyle = '#000';
+                const hpTxt = `🐉 暗黒大龍神  ${Math.ceil(u.hp).toLocaleString()} / ${u.maxHp.toLocaleString()}`;
+                ctx.strokeText(hpTxt, w/2, mby - 8);
+                ctx.fillStyle = '#ffaaaa';
+                ctx.fillText(hpTxt, w/2, mby - 8);
+                continue;
             }
             // HPバー＋数値（スケールに応じて頭上に配置）
             if(!u.dead) {
