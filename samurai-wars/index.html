@@ -1596,6 +1596,12 @@
         18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0 }
     };
 
+    // ステージ18は二段階ボス戦
+    const STAGE_18_BOSSES = [
+        { name:'天空魔機神', yomi:'てんくうまきしん', hp:38000, atk:1500, helmet:'mechagod',  weapon:'kyojin_blast', color:'#5a2a10', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.7, range:400, speed:0.0, threshold:2/3, gold:1500 },
+        { name:'暗黒大龍神', yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast', color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0, threshold:1/3, gold:2000 }
+    ];
+
     // 暗黒大龍神 — 画面下から上まで届く三頭の超巨大ボス
     function drawDarkDragon(c, u) {
         const w = W(), h = H();
@@ -1749,24 +1755,230 @@
         });
     }
 
-    function spawnBoss(stageId) {
-        const b = STAGE_BOSSES[stageId];
+    // 天空魔機神 — 6本腕の浮遊メカ神
+    function drawMechaGod(c, u) {
+        const w = W(), h = H();
+        const baseX = u.x;
+        const baseY = u.y;
+        const topY = h * 0.05;
+        const time = performance.now() * 0.0008;
+
+        // 足元の浮遊オーラ
+        const auraY = baseY - 30;
+        const auraR = 90 + Math.sin(time*5) * 12;
+        const aura = c.createRadialGradient(baseX, auraY, 0, baseX, auraY, auraR);
+        aura.addColorStop(0, 'rgba(255, 220, 100, 0.85)');
+        aura.addColorStop(0.45, 'rgba(255, 100, 40, 0.55)');
+        aura.addColorStop(1, 'rgba(170, 0, 80, 0)');
+        c.fillStyle = aura;
+        c.beginPath(); c.arc(baseX, auraY, auraR, 0, Math.PI*2); c.fill();
+        if(Math.random() < 0.6) {
+            game.particles.push({
+                x: baseX + (Math.random()-0.5)*120,
+                y: auraY,
+                vx: (Math.random()-0.5)*0.3,
+                vy: -1 - Math.random()*1.5,
+                life: 1.5,
+                color: ['#ffd24a','#ff6600','#ff3344'][Math.floor(Math.random()*3)],
+                size: 3 + Math.random()*3, isFire: true
+            });
+        }
+
+        // 胴体（左：伝統鎧、右：機械）
+        const bodyTop = topY + 140;
+        const bodyBot = baseY - 100;
+        const bodyMidY = (bodyTop + bodyBot) / 2;
+        const bodyW = 140;
+        const bodyH = bodyBot - bodyTop;
+        // 影
+        c.fillStyle = '#000005';
+        c.fillRect(baseX - bodyW/2 - 5, bodyTop - 5, bodyW + 10, bodyH + 10);
+        // 左半身（伝統鎧）
+        c.fillStyle = '#5a2a10';
+        c.fillRect(baseX - bodyW/2, bodyTop, bodyW/2, bodyH);
+        c.fillStyle = '#3a1808';
+        for(let i = 0; i < 5; i++) c.fillRect(baseX - bodyW/2, bodyTop + i*bodyH/5, bodyW/2, 4);
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 2;
+        c.strokeRect(baseX - bodyW/2, bodyTop, bodyW/2, bodyH);
+        // 鎧の家紋
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.arc(baseX - 40, bodyMidY + 30, 14, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#5a2a10';
+        c.beginPath(); c.arc(baseX - 40, bodyMidY + 30, 8, 0, Math.PI*2); c.fill();
+
+        // 右半身（機械）
+        c.fillStyle = '#3a3a4a';
+        c.fillRect(baseX, bodyTop, bodyW/2, bodyH);
+        c.fillStyle = '#1a1a2a';
+        for(let i = 0; i < 5; i++) c.fillRect(baseX, bodyTop + i*bodyH/5, bodyW/2, 4);
+        c.strokeStyle = '#00f0ff'; c.lineWidth = 2;
+        c.strokeRect(baseX, bodyTop, bodyW/2, bodyH);
+        // 機械配管
+        c.beginPath(); c.moveTo(baseX + 22, bodyTop); c.lineTo(baseX + 22, bodyBot); c.stroke();
+        c.beginPath(); c.moveTo(baseX + 50, bodyTop); c.lineTo(baseX + 50, bodyBot); c.stroke();
+        // 配管の発光ノード
+        for(let i = 0; i < 4; i++) {
+            const ny = bodyTop + 30 + i*40;
+            c.fillStyle = '#00f0ff';
+            c.shadowColor = '#00f0ff'; c.shadowBlur = 10;
+            c.beginPath(); c.arc(baseX + 22, ny, 3, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(baseX + 50, ny, 3, 0, Math.PI*2); c.fill();
+            c.shadowBlur = 0;
+        }
+
+        // 中央のリアクターコア
+        const corePulse = 1 + Math.sin(time*7) * 0.18;
+        const coreR = 32 * corePulse;
+        const core = c.createRadialGradient(baseX, bodyMidY, 0, baseX, bodyMidY, coreR);
+        core.addColorStop(0, '#fff');
+        core.addColorStop(0.4, '#ffeb3b');
+        core.addColorStop(0.8, '#ff6600');
+        core.addColorStop(1, 'rgba(255,0,0,0)');
+        c.fillStyle = core;
+        c.beginPath(); c.arc(baseX, bodyMidY, coreR, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 3;
+        c.beginPath(); c.arc(baseX, bodyMidY, coreR + 6, 0, Math.PI*2); c.stroke();
+        // コアの六角リング
+        c.strokeStyle = 'rgba(255,210,74,0.5)'; c.lineWidth = 2;
+        c.save();
+        c.translate(baseX, bodyMidY);
+        c.rotate(time * 2);
+        c.beginPath();
+        for(let i = 0; i < 6; i++) {
+            const a = i * Math.PI / 3;
+            const px = Math.cos(a) * (coreR + 14);
+            const py = Math.sin(a) * (coreR + 14);
+            if(i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+        }
+        c.closePath(); c.stroke();
+        c.restore();
+
+        // 6本の腕（左右に3対）
+        const armOriginY = bodyMidY - 10;
+        const arms = [
+            { angleDeg:-145, len:120, weaponLen:80, weaponColor:'#dde', wpType:'sword',  side:-1 },
+            { angleDeg:-115, len:130, weaponLen:90, weaponColor:'#ddd', wpType:'spear',  side:-1 },
+            { angleDeg: -85, len:115, weaponLen:55, weaponColor:'#a05050', wpType:'club', side:-1 },
+            { angleDeg: -35, len:115, weaponLen:55, weaponColor:'#7a8a9a', wpType:'fist', side:1 },
+            { angleDeg: -65, len:130, weaponLen:80, weaponColor:'#5a6a7a', wpType:'laser', side:1 },
+            { angleDeg: -95, len:120, weaponLen:90, weaponColor:'#fff', wpType:'odachi', side:1 }
+        ];
+        // Right side fix: positive angles
+        arms[3].angleDeg = -35; arms[4].angleDeg = -55 + 0; arms[5].angleDeg = -85 + 0;
+        // Use side multiplier for x
+        arms.forEach((arm, idx) => {
+            const ang = (arm.side === -1 ? arm.angleDeg : 180 - arm.angleDeg) * Math.PI / 180;
+            const swayPhase = Math.sin(time*2 + idx) * 0.08;
+            const finalAng = ang + swayPhase;
+            const shoulderX = baseX + arm.side * 60;
+            const shoulderY = armOriginY - 50 + idx * 14;
+            const handX = shoulderX + Math.cos(finalAng) * arm.len;
+            const handY = shoulderY + Math.sin(finalAng) * arm.len;
+            // 肩
+            c.fillStyle = '#1a0808';
+            c.beginPath(); c.arc(shoulderX, shoulderY, 16, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#ffd24a'; c.lineWidth = 2; c.stroke();
+            // 上腕
+            c.strokeStyle = '#3a2010'; c.lineWidth = 18; c.lineCap = 'round';
+            c.beginPath(); c.moveTo(shoulderX, shoulderY); c.lineTo(handX, handY); c.stroke();
+            // 武器
+            c.save();
+            c.translate(handX, handY);
+            c.rotate(finalAng + Math.PI*0.5);
+            c.fillStyle = arm.weaponColor;
+            if(arm.wpType === 'laser') {
+                c.fillRect(-6, 0, 12, arm.weaponLen);
+                c.fillStyle = '#ff3344';
+                c.beginPath(); c.arc(0, arm.weaponLen, 6, 0, Math.PI*2); c.fill();
+            } else if(arm.wpType === 'fist') {
+                c.fillRect(-12, 0, 24, arm.weaponLen);
+            } else if(arm.wpType === 'club') {
+                c.fillRect(-5, 0, 10, arm.weaponLen);
+                c.beginPath(); c.arc(0, arm.weaponLen, 12, 0, Math.PI*2); c.fill();
+            } else {
+                c.fillRect(-3, 0, 6, arm.weaponLen);
+                c.beginPath();
+                c.moveTo(-6, arm.weaponLen);
+                c.lineTo(0, arm.weaponLen + 12);
+                c.lineTo(6, arm.weaponLen);
+                c.closePath(); c.fill();
+            }
+            c.restore();
+        });
+
+        // 頭部（中央上）— 鬼面 + 機械バイザー
+        const headY = bodyTop - 40;
+        // 影
+        c.fillStyle = '#000';
+        c.beginPath(); c.ellipse(baseX, headY, 65, 75, 0, 0, Math.PI*2); c.fill();
+        // 左半分（鬼面）
+        c.fillStyle = '#5a2a10';
+        c.beginPath(); c.arc(baseX, headY, 58, Math.PI*0.5, Math.PI*1.5); c.fill();
+        // 右半分（機械）
+        c.fillStyle = '#3a3a4a';
+        c.beginPath(); c.arc(baseX, headY, 58, Math.PI*1.5, Math.PI*0.5); c.fill();
+        // 大きな角（左右）
+        c.fillStyle = '#ffd24a';
+        c.beginPath();
+        c.moveTo(baseX - 42, headY - 28); c.lineTo(baseX - 70, headY - 100); c.lineTo(baseX - 22, headY - 38); c.closePath(); c.fill();
+        c.beginPath();
+        c.moveTo(baseX + 42, headY - 28); c.lineTo(baseX + 70, headY - 100); c.lineTo(baseX + 22, headY - 38); c.closePath(); c.fill();
+        // 中央の小さな角
+        c.beginPath();
+        c.moveTo(baseX - 8, headY - 50); c.lineTo(baseX, headY - 80); c.lineTo(baseX + 8, headY - 50); c.closePath(); c.fill();
+        // 鬼面の左目
+        c.fillStyle = '#ff3344';
+        c.shadowColor = '#ff3344'; c.shadowBlur = 14;
+        c.beginPath(); c.arc(baseX - 24, headY - 5, 11 * (1 + Math.sin(time*5)*0.2), 0, Math.PI*2); c.fill();
+        c.shadowBlur = 0;
+        c.fillStyle = '#fff';
+        c.fillRect(baseX - 28, headY - 9, 4, 4);
+        // 機械バイザーの右目（横長スリット）
+        c.fillStyle = '#000';
+        c.fillRect(baseX + 8, headY - 14, 38, 18);
+        c.shadowColor = '#00f0ff'; c.shadowBlur = 14;
+        c.fillStyle = '#00f0ff';
+        c.fillRect(baseX + 12, headY - 8, 30, 4);
+        c.shadowBlur = 0;
+        c.fillStyle = '#fff';
+        c.fillRect(baseX + 14, headY - 8, 4, 4);
+        // 顎
+        c.fillStyle = '#0a0008';
+        c.fillRect(baseX - 28, headY + 26, 56, 16);
+        c.fillStyle = '#fff';
+        for(let f = -3; f <= 3; f++) {
+            c.beginPath();
+            c.moveTo(baseX + f*8, headY + 26);
+            c.lineTo(baseX + f*8 + 3, headY + 42);
+            c.lineTo(baseX + f*8 - 3, headY + 42);
+            c.closePath(); c.fill();
+        }
+        // 額のサイバー核
+        c.fillStyle = '#ffeb3b';
+        c.shadowColor = '#ffeb3b'; c.shadowBlur = 12;
+        c.beginPath(); c.arc(baseX, headY - 30, 5, 0, Math.PI*2); c.fill();
+        c.shadowBlur = 0;
+    }
+
+    function spawnBossFromData(b) {
         if(!b) return;
         const data = {
             name: b.name, yomi: b.yomi, hp: b.hp, atk: b.atk,
             atkSpeed: b.atkSpeed || 1.8,
             range: b.range || (b.ranged ? 250 : 62),
-            speed: b.speed || 0.45,
+            speed: b.speed != null ? b.speed : 0.45,
             color: b.color, helmet: b.helmet, weapon: b.weapon,
             gold: b.gold || Math.floor(b.hp / 8),
             boss: true, scale: b.scale || 1.4,
-            ranged: b.ranged, aoe: b.aoe
+            ranged: b.ranged, aoe: b.aoe, mega: b.mega
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
         if(snd && snd.die) snd.die();
-        // 緊迫感のあるボス戦BGMに切り替え
         if(snd && snd.startBossBGM) snd.startBossBGM();
+    }
+    function spawnBoss(stageId) {
+        spawnBossFromData(STAGE_BOSSES[stageId]);
     }
 
     // 兜
@@ -3204,6 +3416,7 @@
         SAMURAI_DATA.forEach(u => game.cdMap[u.id] = 0);
         game.spawnState = s.spawns.map(sp => ({...sp, nextAt: sp.start}));
         game.bossSpawned = false;
+        game.boss18Idx = [];
         game.laserCharge = 0;
         game.laserAnim = 0;
         game.laserChargeUp = 0;
@@ -3607,9 +3820,21 @@
             }
         }
 
-        // 各ステージのボス（敵城HP1/3以下で1度だけ出現）
-        if(!game.bossSpawned) {
-            const ratio = game.enemyCastleHp / Math.max(1, game.enemyCastleMax);
+        // ボス出現
+        const ratio = game.enemyCastleHp / Math.max(1, game.enemyCastleMax);
+        if(game.stageId === 18) {
+            // ステージ18は二段階（2/3 → 1/3）
+            if(!game.boss18Idx) game.boss18Idx = [];
+            for(let i = 0; i < STAGE_18_BOSSES.length; i++) {
+                if(game.boss18Idx.includes(i)) continue;
+                const b = STAGE_18_BOSSES[i];
+                if(ratio <= b.threshold && ratio > 0) {
+                    game.boss18Idx.push(i);
+                    spawnBossFromData(b);
+                }
+            }
+        } else if(!game.bossSpawned) {
+            // 通常ステージは1/3で1回
             if(ratio <= 1/3 && ratio > 0) {
                 game.bossSpawned = true;
                 spawnBoss(game.stageId);
@@ -4012,7 +4237,8 @@
             const fade = u.dead ? Math.max(0, 1 - (u.deadTimer/0.5)) : 1;
             ctx.globalAlpha = fade;
             if(u.data && u.data.mega) {
-                drawDarkDragon(ctx, u);
+                if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
+                else drawDarkDragon(ctx, u);
             } else {
                 drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
             }
@@ -4043,7 +4269,8 @@
                 ctx.fillRect(mbx, mby, mw * Math.max(0, u.hp/u.maxHp), 14);
                 ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
                 ctx.lineWidth = 4; ctx.strokeStyle = '#000';
-                const hpTxt = `🐉 暗黒大龍神  ${Math.ceil(u.hp).toLocaleString()} / ${u.maxHp.toLocaleString()}`;
+                const icon = u.data.helmet === 'mechagod' ? '⚔️' : '🐉';
+                const hpTxt = `${icon} ${u.data.name}  ${Math.ceil(u.hp).toLocaleString()} / ${u.maxHp.toLocaleString()}`;
                 ctx.strokeText(hpTxt, w/2, mby - 8);
                 ctx.fillStyle = '#ffaaaa';
                 ctx.fillText(hpTxt, w/2, mby - 8);
