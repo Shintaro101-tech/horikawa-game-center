@@ -330,8 +330,15 @@
         .ucard .uname { font-size:0.7rem; color:#fff; text-align:center; margin-top:2px; }
         .ucard .ucost { font-size:0.7rem; color:var(--gold); font-weight:bold; }
         .ucard .ucd { position:absolute; left:0; right:0; bottom:0;
-                      background:rgba(0,0,0,0.7); color:#fff; font-weight:bold; text-align:center;
-                      font-size:0.85rem; pointer-events:none; transition:height 0.1s linear; height:0; }
+                      background:rgba(0,0,0,0.55);
+                      pointer-events:none; transition:height 0.1s linear; height:0; }
+        .ucard .ucdnum { position:absolute; top:1px; right:1px;
+                         background:rgba(255,210,74,0.92); color:#000;
+                         font-weight:bold; font-size:0.65rem;
+                         padding:1px 4px; border-radius:3px; line-height:1.1;
+                         pointer-events:none; min-width:18px; text-align:center;
+                         z-index:2; }
+        .ucard .ucdnum:empty { display:none; }
         .ucard.disabled-money { background:rgba(60,10,10,0.85); }
 
         #damage-text-layer { position:absolute; inset:0; pointer-events:none; z-index:9; overflow:hidden; }
@@ -537,16 +544,17 @@
                          font-size: 9px; letter-spacing: 1px; }
 
             /* ユニットカード — 半透明＋小型でゲーム画面を邪魔しない */
-            #unit-cards { padding: 3px 3px 5px; gap: 3px;
+            #unit-cards { padding: 2px 3px 3px; gap: 2px;
                           background: linear-gradient(to top,
-                                rgba(0,0,0,0.45), rgba(0,0,0,0.05) 60%, transparent); }
-            .ucard { width: 50px; min-height: 60px; padding: 1px;
-                     background: rgba(20,10,30,0.7);
+                                rgba(0,0,0,0.25), transparent 70%); }
+            .ucard { width: 48px; min-height: 56px; padding: 1px;
+                     background: rgba(20,10,30,0.55);
                      border-width: 1px; border-radius: 5px; }
-            .ucard canvas { width: 36px; height: 36px; }
+            .ucard canvas { width: 34px; height: 34px; }
             .ucard .uname { font-size: 0.48rem; line-height: 1; }
             .ucard .ucost { font-size: 0.48rem; line-height: 1; }
-            .ucard .ucd { font-size: 0.6rem; }
+            .ucard .ucdnum { font-size: 0.55rem; padding: 0 3px;
+                             min-width: 14px; }
         }
 
         /* 大画面（PC・タブレット） */
@@ -3485,6 +3493,7 @@
                 <div class="uname">${ruby(u.name,u.yomi)}</div>
                 <div class="ucost">💴${u.cost}</div>
                 <div class="ucd"></div>
+                <div class="ucdnum"></div>
             `;
             wrap.appendChild(div);
             const pc = div.querySelector('canvas').getContext('2d');
@@ -4219,7 +4228,8 @@
             const cdH = (cd / u.cooldown) * 100;
             const cdEl = card.querySelector('.ucd');
             cdEl.style.height = cdH + '%';
-            cdEl.innerText = cd > 0 ? cd.toFixed(1) : '';
+            const cdNum = card.querySelector('.ucdnum');
+            if(cdNum) cdNum.innerText = cd > 0 ? cd.toFixed(1) : '';
             const ready = cd <= 0 && game.money >= u.cost;
             card.classList.toggle('ready', ready);
             card.classList.toggle('disabled', cd > 0);
