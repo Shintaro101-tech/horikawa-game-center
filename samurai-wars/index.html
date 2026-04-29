@@ -1576,24 +1576,24 @@
 
     // 各ステージのボス（敵城HP50%以下で1度だけ出現）— 妖怪・怪獣・未来系のミックス
     const STAGE_BOSSES = {
-        1:  { name:'一つ目小僧',     yomi:'ひとつめこぞう',       hp:900,   atk:55,   helmet:'hitotsume',  weapon:'club',          color:'#88aa66', scale:1.9 },
-        2:  { name:'河童',           yomi:'かっぱ',               hp:1300,  atk:70,   helmet:'kappa',      weapon:'spear',         color:'#4a7a3a', scale:1.9 },
-        3:  { name:'ろくろ首',       yomi:'ろくろくび',           hp:1700,  atk:85,   helmet:'rokuro',     weapon:'kunai',         color:'#aa6090', scale:2.0 },
-        4:  { name:'猫又',           yomi:'ねこまた',             hp:2100,  atk:105,  helmet:'nekomata',   weapon:'kunai',         color:'#5a3a2a', scale:2.0 },
-        5:  { name:'鬼',             yomi:'おに',                 hp:2700,  atk:130,  helmet:'oni',        weapon:'kanabo',        color:'#aa3333', scale:2.1 },
-        6:  { name:'雪女',           yomi:'ゆきおんな',           hp:3300,  atk:145,  helmet:'yukionna',   weapon:'magic_circle',  color:'#cce0f0', scale:2.1, ranged:true },
-        7:  { name:'雷獣',           yomi:'らいじゅう',           hp:4000,  atk:175,  helmet:'raiju',      weapon:'thunder_bolt',  color:'#ddaa00', scale:2.2, ranged:true },
-        8:  { name:'鬼火',           yomi:'おにび',               hp:4600,  atk:200,  helmet:'onibi',      weapon:'fireball',      color:'#ff6600', scale:2.2, ranged:true },
-        9:  { name:'白狐',           yomi:'びゃっこ',             hp:5300,  atk:230,  helmet:'byakko',     weapon:'ofuda',         color:'#f0f0f0', scale:2.3, ranged:true },
-        10: { name:'九尾の狐',       yomi:'きゅうびのきつね',     hp:6200,  atk:270,  helmet:'kyubi',      weapon:'fireball',      color:'#ee9933', scale:2.4, ranged:true, aoe:true },
-        11: { name:'八岐大蛇',       yomi:'やまたのおろち',       hp:7400,  atk:320,  helmet:'orochi',     weapon:'fist',          color:'#5a8a3a', scale:2.6 },
-        12: { name:'蜘蛛の精',       yomi:'つちぐも',             hp:8500,  atk:370,  helmet:'tsuchigumo', weapon:'kunai',         color:'#3a1a3a', scale:2.5 },
-        13: { name:'ゴジラ',         yomi:'ごじら',               hp:10000, atk:440,  helmet:'godzilla',   weapon:'fist',          color:'#2a5a3a', scale:2.9 },
-        14: { name:'キングギドラ',   yomi:'きんぐぎどら',         hp:11500, atk:510,  helmet:'ghidorah',   weapon:'fireball',      color:'#ddaa00', scale:2.9, ranged:true, aoe:true },
-        15: { name:'メカ怪獣',       yomi:'めかかいじゅう',       hp:13000, atk:600,  helmet:'mecha_kaiju',weapon:'laser_arm',     color:'#4a4a4a', scale:3.0, ranged:true },
-        16: { name:'ロボット鬼',     yomi:'ろぼっとおに',         hp:15000, atk:700,  helmet:'robo_oni',   weapon:'laser_katana',  color:'#5a5a8a', scale:2.7 },
-        17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:17500, atk:850,  helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:3.1, ranged:true, aoe:true },
-        18: { name:'天魔王',         yomi:'てんまおう',           hp:22000, atk:1080, helmet:'tenma',      weapon:'kyojin_blast',  color:'#600060', scale:3.4, ranged:true, aoe:true }
+        1:  { name:'一つ目小僧',     yomi:'ひとつめこぞう',       hp:1350,  atk:75,   helmet:'hitotsume',  weapon:'club',          color:'#88aa66', scale:1.9 },
+        2:  { name:'河童',           yomi:'かっぱ',               hp:1950,  atk:95,   helmet:'kappa',      weapon:'spear',         color:'#4a7a3a', scale:1.9 },
+        3:  { name:'ろくろ首',       yomi:'ろくろくび',           hp:2550,  atk:115,  helmet:'rokuro',     weapon:'kunai',         color:'#aa6090', scale:2.0 },
+        4:  { name:'猫又',           yomi:'ねこまた',             hp:3150,  atk:140,  helmet:'nekomata',   weapon:'kunai',         color:'#5a3a2a', scale:2.0 },
+        5:  { name:'鬼',             yomi:'おに',                 hp:4050,  atk:175,  helmet:'oni',        weapon:'kanabo',        color:'#aa3333', scale:2.1 },
+        6:  { name:'雪女',           yomi:'ゆきおんな',           hp:4950,  atk:195,  helmet:'yukionna',   weapon:'magic_circle',  color:'#cce0f0', scale:2.1, ranged:true },
+        7:  { name:'雷獣',           yomi:'らいじゅう',           hp:6000,  atk:235,  helmet:'raiju',      weapon:'thunder_bolt',  color:'#ddaa00', scale:2.2, ranged:true },
+        8:  { name:'鬼火',           yomi:'おにび',               hp:6900,  atk:270,  helmet:'onibi',      weapon:'fireball',      color:'#ff6600', scale:2.2, ranged:true },
+        9:  { name:'白狐',           yomi:'びゃっこ',             hp:7950,  atk:310,  helmet:'byakko',     weapon:'ofuda',         color:'#f0f0f0', scale:2.3, ranged:true },
+        10: { name:'九尾の狐',       yomi:'きゅうびのきつね',     hp:9300,  atk:365,  helmet:'kyubi',      weapon:'fireball',      color:'#ee9933', scale:2.4, ranged:true, aoe:true },
+        11: { name:'八岐大蛇',       yomi:'やまたのおろち',       hp:11100, atk:430,  helmet:'orochi',     weapon:'fist',          color:'#5a8a3a', scale:2.6 },
+        12: { name:'蜘蛛の精',       yomi:'つちぐも',             hp:12750, atk:500,  helmet:'tsuchigumo', weapon:'kunai',         color:'#3a1a3a', scale:2.5 },
+        13: { name:'ゴジラ',         yomi:'ごじら',               hp:15000, atk:595,  helmet:'godzilla',   weapon:'fist',          color:'#2a5a3a', scale:2.9 },
+        14: { name:'キングギドラ',   yomi:'きんぐぎどら',         hp:17250, atk:690,  helmet:'ghidorah',   weapon:'fireball',      color:'#ddaa00', scale:2.9, ranged:true, aoe:true },
+        15: { name:'メカ怪獣',       yomi:'めかかいじゅう',       hp:19500, atk:810,  helmet:'mecha_kaiju',weapon:'laser_arm',     color:'#4a4a4a', scale:3.0, ranged:true },
+        16: { name:'ロボット鬼',     yomi:'ろぼっとおに',         hp:22500, atk:945,  helmet:'robo_oni',   weapon:'laser_katana',  color:'#5a5a8a', scale:2.7 },
+        17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:26250, atk:1150, helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:3.1, ranged:true, aoe:true },
+        18: { name:'天魔王',         yomi:'てんまおう',           hp:33000, atk:1460, helmet:'tenma',      weapon:'kyojin_blast',  color:'#600060', scale:3.4, ranged:true, aoe:true }
     };
 
     function spawnBoss(stageId) {
