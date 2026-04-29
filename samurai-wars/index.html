@@ -1027,10 +1027,44 @@
         return 4;
     }
 
-    // 終盤ステージのみ、敵城落城寸前に最終護衛が一度だけ出現
-    function getLateGiantType(stageId) {
-        if(stageId < 12) return null;            // 序盤・中盤は出現しない
-        return stageId >= 16 ? 'daikishin' : 'oni';
+    // 各ステージのボス（敵城HP50%以下で1度だけ出現）— 妖怪・怪獣・未来系のミックス
+    const STAGE_BOSSES = {
+        1:  { name:'一つ目小僧',     yomi:'ひとつめこぞう',       hp:900,   atk:55,   helmet:'hitotsume',  weapon:'club',          color:'#88aa66', scale:1.3 },
+        2:  { name:'河童',           yomi:'かっぱ',               hp:1300,  atk:70,   helmet:'kappa',      weapon:'spear',         color:'#4a7a3a', scale:1.2 },
+        3:  { name:'ろくろ首',       yomi:'ろくろくび',           hp:1700,  atk:85,   helmet:'rokuro',     weapon:'kunai',         color:'#aa6090', scale:1.3 },
+        4:  { name:'猫又',           yomi:'ねこまた',             hp:2100,  atk:105,  helmet:'nekomata',   weapon:'kunai',         color:'#5a3a2a', scale:1.3 },
+        5:  { name:'鬼',             yomi:'おに',                 hp:2700,  atk:130,  helmet:'oni',        weapon:'kanabo',        color:'#aa3333', scale:1.4 },
+        6:  { name:'雪女',           yomi:'ゆきおんな',           hp:3300,  atk:145,  helmet:'yukionna',   weapon:'magic_circle',  color:'#cce0f0', scale:1.3, ranged:true },
+        7:  { name:'雷獣',           yomi:'らいじゅう',           hp:4000,  atk:175,  helmet:'raiju',      weapon:'thunder_bolt',  color:'#ddaa00', scale:1.4, ranged:true },
+        8:  { name:'鬼火',           yomi:'おにび',               hp:4600,  atk:200,  helmet:'onibi',      weapon:'fireball',      color:'#ff6600', scale:1.3, ranged:true },
+        9:  { name:'白狐',           yomi:'びゃっこ',             hp:5300,  atk:230,  helmet:'byakko',     weapon:'ofuda',         color:'#f0f0f0', scale:1.3, ranged:true },
+        10: { name:'九尾の狐',       yomi:'きゅうびのきつね',     hp:6200,  atk:270,  helmet:'kyubi',      weapon:'fireball',      color:'#ee9933', scale:1.5, ranged:true, aoe:true },
+        11: { name:'八岐大蛇',       yomi:'やまたのおろち',       hp:7400,  atk:320,  helmet:'orochi',     weapon:'fist',          color:'#5a8a3a', scale:1.7 },
+        12: { name:'蜘蛛の精',       yomi:'つちぐも',             hp:8500,  atk:370,  helmet:'tsuchigumo', weapon:'kunai',         color:'#3a1a3a', scale:1.5 },
+        13: { name:'ゴジラ',         yomi:'ごじら',               hp:10000, atk:440,  helmet:'godzilla',   weapon:'fist',          color:'#2a5a3a', scale:2.0 },
+        14: { name:'キングギドラ',   yomi:'きんぐぎどら',         hp:11500, atk:510,  helmet:'ghidorah',   weapon:'fireball',      color:'#ddaa00', scale:2.0, ranged:true, aoe:true },
+        15: { name:'メカ怪獣',       yomi:'めかかいじゅう',       hp:13000, atk:600,  helmet:'mecha_kaiju',weapon:'laser_arm',     color:'#4a4a4a', scale:2.1, ranged:true },
+        16: { name:'ロボット鬼',     yomi:'ろぼっとおに',         hp:15000, atk:700,  helmet:'robo_oni',   weapon:'laser_katana',  color:'#5a5a8a', scale:1.8 },
+        17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:17500, atk:850,  helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:2.2, ranged:true, aoe:true },
+        18: { name:'天魔王',         yomi:'てんまおう',           hp:22000, atk:1080, helmet:'tenma',      weapon:'kyojin_blast',  color:'#600060', scale:2.5, ranged:true, aoe:true }
+    };
+
+    function spawnBoss(stageId) {
+        const b = STAGE_BOSSES[stageId];
+        if(!b) return;
+        const data = {
+            name: b.name, yomi: b.yomi, hp: b.hp, atk: b.atk,
+            atkSpeed: b.atkSpeed || 1.8,
+            range: b.range || (b.ranged ? 250 : 62),
+            speed: b.speed || 0.45,
+            color: b.color, helmet: b.helmet, weapon: b.weapon,
+            gold: b.gold || Math.floor(b.hp / 8),
+            boss: true, scale: b.scale || 1.4,
+            ranged: b.ranged, aoe: b.aoe
+        };
+        spawnUnit('e', data);
+        addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
+        if(snd && snd.die) snd.die();
     }
 
     // 兜
@@ -1477,6 +1511,268 @@
                 c.fillStyle = '#fff';
                 for(let i=-3;i<=3;i++){
                     c.beginPath(); c.moveTo(i*3*scale,-28*scale); c.lineTo(i*3*scale-1*scale,-22*scale); c.lineTo(i*3*scale+1*scale,-22*scale); c.closePath(); c.fill();
+                }
+                break;
+            // ===== ステージボス用 =====
+            case 'hitotsume':
+                c.fillStyle = '#88aa66';
+                c.beginPath(); c.arc(0,-16*scale,12*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#fff';
+                c.beginPath(); c.arc(0,-16*scale,7*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.beginPath(); c.arc(0,-16*scale,4*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#fff';
+                c.beginPath(); c.arc(-1*scale,-17*scale,1.5*scale,0,Math.PI*2); c.fill();
+                break;
+            case 'kappa':
+                c.fillStyle = '#4a7a3a';
+                c.beginPath(); c.arc(0,-15*scale,11*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.ellipse(0,-22*scale,8*scale,2.5*scale,0,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ffaa44';
+                c.beginPath(); c.moveTo(-3*scale,-12*scale); c.lineTo(3*scale,-12*scale); c.lineTo(0,-9*scale); c.closePath(); c.fill();
+                c.fillStyle = '#fff';
+                c.fillRect(-7*scale,-17*scale,3*scale,3*scale);
+                c.fillRect(4*scale,-17*scale,3*scale,3*scale);
+                c.fillStyle = '#000';
+                c.fillRect(-6*scale,-16*scale,1*scale,1*scale);
+                c.fillRect(5*scale,-16*scale,1*scale,1*scale);
+                break;
+            case 'rokuro':
+                c.fillStyle = '#f0d4a8';
+                c.fillRect(-2*scale,-22*scale,4*scale,18*scale);
+                c.beginPath(); c.arc(0,-26*scale,8*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#0a0a0a';
+                c.beginPath(); c.moveTo(-8*scale,-26*scale); c.lineTo(-14*scale,-12*scale); c.lineTo(-4*scale,-26*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(8*scale,-26*scale); c.lineTo(14*scale,-12*scale); c.lineTo(4*scale,-26*scale); c.closePath(); c.fill();
+                c.fillStyle = '#ff3344';
+                c.fillRect(-4*scale,-27*scale,2*scale,2*scale);
+                c.fillRect(2*scale,-27*scale,2*scale,2*scale);
+                c.strokeStyle = '#aa1010'; c.lineWidth = 1.2*scale;
+                c.beginPath(); c.arc(0,-23*scale,2*scale,0,Math.PI); c.stroke();
+                break;
+            case 'nekomata':
+                c.fillStyle = '#5a3a2a';
+                c.beginPath(); c.arc(0,-16*scale,11*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.moveTo(-9*scale,-22*scale); c.lineTo(-12*scale,-30*scale); c.lineTo(-4*scale,-23*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(9*scale,-22*scale); c.lineTo(12*scale,-30*scale); c.lineTo(4*scale,-23*scale); c.closePath(); c.fill();
+                c.fillStyle = '#ff99aa';
+                c.beginPath(); c.moveTo(-10*scale,-23*scale); c.lineTo(-11*scale,-27*scale); c.lineTo(-7*scale,-24*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(10*scale,-23*scale); c.lineTo(11*scale,-27*scale); c.lineTo(7*scale,-24*scale); c.closePath(); c.fill();
+                c.fillStyle = '#ffeb3b';
+                c.fillRect(-7*scale,-18*scale,4*scale,3*scale);
+                c.fillRect(3*scale,-18*scale,4*scale,3*scale);
+                c.fillStyle = '#000';
+                c.fillRect(-5*scale,-18*scale,1*scale,3*scale);
+                c.fillRect(5*scale,-18*scale,1*scale,3*scale);
+                break;
+            case 'yukionna':
+                c.fillStyle = '#cce0f0';
+                c.beginPath(); c.arc(0,-15*scale,10*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#1a1a2a';
+                c.beginPath(); c.moveTo(-10*scale,-15*scale); c.lineTo(-14*scale,8*scale); c.lineTo(-6*scale,-12*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(10*scale,-15*scale); c.lineTo(14*scale,8*scale); c.lineTo(6*scale,-12*scale); c.closePath(); c.fill();
+                c.fillStyle = '#88ccee';
+                c.fillRect(-6*scale,-17*scale,3*scale,2*scale);
+                c.fillRect(3*scale,-17*scale,3*scale,2*scale);
+                c.fillStyle = '#6688aa';
+                c.fillRect(-3*scale,-12*scale,6*scale,1.5*scale);
+                break;
+            case 'raiju':
+                c.fillStyle = '#ddaa00';
+                c.beginPath(); c.arc(0,-15*scale,11*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ffeb3b';
+                c.beginPath(); c.moveTo(-9*scale,-22*scale); c.lineTo(-7*scale,-30*scale); c.lineTo(-4*scale,-26*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(9*scale,-22*scale); c.lineTo(7*scale,-30*scale); c.lineTo(4*scale,-26*scale); c.closePath(); c.fill();
+                c.fillRect(-7*scale,-17*scale,4*scale,3*scale);
+                c.fillRect(3*scale,-17*scale,4*scale,3*scale);
+                c.fillStyle = '#fff';
+                c.beginPath(); c.moveTo(-3*scale,-9*scale); c.lineTo(-2*scale,-5*scale); c.lineTo(-4*scale,-5*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(3*scale,-9*scale); c.lineTo(2*scale,-5*scale); c.lineTo(4*scale,-5*scale); c.closePath(); c.fill();
+                break;
+            case 'onibi':
+                c.fillStyle = '#ff8800';
+                c.beginPath();
+                c.moveTo(0,-28*scale);
+                c.bezierCurveTo(-12*scale,-22*scale, -10*scale,-14*scale, -8*scale,-12*scale);
+                c.bezierCurveTo(-4*scale,-10*scale, -6*scale,-6*scale, 0,-6*scale);
+                c.bezierCurveTo(6*scale,-6*scale, 4*scale,-10*scale, 8*scale,-12*scale);
+                c.bezierCurveTo(10*scale,-14*scale, 12*scale,-22*scale, 0,-28*scale);
+                c.fill();
+                c.fillStyle = '#ffeb3b';
+                c.beginPath(); c.arc(0,-18*scale,5*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-4*scale,-20*scale,2*scale,3*scale);
+                c.fillRect(2*scale,-20*scale,2*scale,3*scale);
+                break;
+            case 'byakko':
+                c.fillStyle = '#f0f0f0';
+                c.beginPath(); c.arc(0,-15*scale,11*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.moveTo(-3*scale,-12*scale); c.lineTo(0,-7*scale); c.lineTo(3*scale,-12*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(-9*scale,-22*scale); c.lineTo(-12*scale,-30*scale); c.lineTo(-5*scale,-22*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(9*scale,-22*scale); c.lineTo(12*scale,-30*scale); c.lineTo(5*scale,-22*scale); c.closePath(); c.fill();
+                c.fillStyle = '#ffcccc';
+                c.beginPath(); c.moveTo(-9*scale,-23*scale); c.lineTo(-10*scale,-27*scale); c.lineTo(-7*scale,-23*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(9*scale,-23*scale); c.lineTo(10*scale,-27*scale); c.lineTo(7*scale,-23*scale); c.closePath(); c.fill();
+                c.fillStyle = '#88ccee';
+                c.fillRect(-7*scale,-17*scale,3*scale,3*scale);
+                c.fillRect(4*scale,-17*scale,3*scale,3*scale);
+                break;
+            case 'kyubi':
+                c.fillStyle = 'rgba(238,153,51,0.4)';
+                for(let i=0;i<9;i++){
+                    const a = -Math.PI/2 + (i-4)*0.3;
+                    const len = 16*scale;
+                    c.save();
+                    c.translate(0,-15*scale); c.rotate(a);
+                    c.beginPath(); c.ellipse(0,-len,2*scale,len*0.6,0,0,Math.PI*2); c.fill();
+                    c.restore();
+                }
+                c.fillStyle = '#ee9933';
+                c.beginPath(); c.arc(0,-15*scale,12*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#aa5500';
+                c.beginPath(); c.moveTo(-3*scale,-12*scale); c.lineTo(0,-7*scale); c.lineTo(3*scale,-12*scale); c.closePath(); c.fill();
+                c.fillStyle = '#ee9933';
+                c.beginPath(); c.moveTo(-10*scale,-22*scale); c.lineTo(-13*scale,-30*scale); c.lineTo(-5*scale,-22*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(10*scale,-22*scale); c.lineTo(13*scale,-30*scale); c.lineTo(5*scale,-22*scale); c.closePath(); c.fill();
+                c.fillStyle = '#ffeb3b';
+                c.fillRect(-7*scale,-17*scale,4*scale,3*scale);
+                c.fillRect(3*scale,-17*scale,4*scale,3*scale);
+                c.fillStyle = '#000';
+                c.fillRect(-5*scale,-17*scale,1*scale,3*scale);
+                c.fillRect(5*scale,-17*scale,1*scale,3*scale);
+                break;
+            case 'orochi':
+                for(let i=0;i<7;i++){
+                    const a = -Math.PI + (i+0.5)*Math.PI/4;
+                    const dx = Math.cos(a)*22*scale, dy = Math.sin(a)*18*scale - 18*scale;
+                    c.fillStyle = '#3a6a2a';
+                    c.beginPath(); c.arc(dx, dy, 6*scale, 0, Math.PI*2); c.fill();
+                    c.fillStyle = '#ff3344';
+                    c.beginPath(); c.arc(dx, dy, 1.6*scale, 0, Math.PI*2); c.fill();
+                }
+                c.fillStyle = '#5a8a3a';
+                c.beginPath(); c.arc(0,-18*scale,10*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ffeb3b';
+                c.fillRect(-6*scale,-20*scale,3*scale,3*scale);
+                c.fillRect(3*scale,-20*scale,3*scale,3*scale);
+                c.fillStyle = '#fff';
+                c.beginPath(); c.moveTo(-3*scale,-12*scale); c.lineTo(-2*scale,-7*scale); c.lineTo(-4*scale,-7*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(3*scale,-12*scale); c.lineTo(2*scale,-7*scale); c.lineTo(4*scale,-7*scale); c.closePath(); c.fill();
+                break;
+            case 'tsuchigumo':
+                c.fillStyle = '#3a1a3a';
+                c.beginPath(); c.arc(0,-15*scale,11*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ff3344';
+                [[-7,-19],[-3,-20],[3,-20],[7,-19],[-7,-13],[-3,-12],[3,-12],[7,-13]].forEach(p=>{
+                    c.beginPath(); c.arc(p[0]*scale, p[1]*scale, 1.3*scale, 0, Math.PI*2); c.fill();
+                });
+                c.fillStyle = '#fff';
+                c.beginPath(); c.moveTo(-3*scale,-9*scale); c.lineTo(-2*scale,-3*scale); c.lineTo(-4*scale,-3*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(3*scale,-9*scale); c.lineTo(2*scale,-3*scale); c.lineTo(4*scale,-3*scale); c.closePath(); c.fill();
+                c.strokeStyle = '#3a1a3a'; c.lineWidth = 1.5*scale;
+                for(let i=0;i<4;i++){
+                    c.beginPath();
+                    c.moveTo(-10*scale, -16*scale + i*2*scale);
+                    c.lineTo(-18*scale, -10*scale + i*4*scale); c.stroke();
+                    c.beginPath();
+                    c.moveTo(10*scale, -16*scale + i*2*scale);
+                    c.lineTo(18*scale, -10*scale + i*4*scale); c.stroke();
+                }
+                break;
+            case 'godzilla':
+                c.fillStyle = '#1a3a2a';
+                for(let i=-3;i<=3;i++){
+                    c.beginPath();
+                    c.moveTo(i*3*scale, -30*scale);
+                    c.lineTo(i*3*scale+1.5*scale, -38*scale);
+                    c.lineTo(i*3*scale+3*scale, -30*scale);
+                    c.closePath(); c.fill();
+                }
+                c.fillStyle = '#2a5a3a';
+                c.beginPath();
+                c.moveTo(-12*scale,-18*scale);
+                c.lineTo(-10*scale,-28*scale); c.lineTo(0,-32*scale); c.lineTo(10*scale,-28*scale);
+                c.lineTo(12*scale,-18*scale); c.lineTo(8*scale,-10*scale); c.lineTo(-8*scale,-10*scale);
+                c.closePath(); c.fill();
+                c.fillStyle = '#3a6a4a';
+                c.fillRect(-7*scale,-13*scale,14*scale,5*scale);
+                c.fillStyle = '#fff';
+                for(let i=-3;i<=3;i++){
+                    c.beginPath(); c.moveTo(i*2*scale, -8*scale); c.lineTo(i*2*scale+1*scale, -4*scale); c.lineTo(i*2*scale-1*scale, -4*scale); c.closePath(); c.fill();
+                }
+                c.fillStyle = '#ffeb3b';
+                c.fillRect(-8*scale,-22*scale,3*scale,3*scale);
+                c.fillRect(5*scale,-22*scale,3*scale,3*scale);
+                break;
+            case 'ghidorah':
+                for(let i=-1;i<=1;i++){
+                    const dx = i*11*scale;
+                    const dy = -22*scale;
+                    c.fillStyle = '#ddaa00';
+                    c.beginPath();
+                    c.moveTo(dx-5*scale, dy);
+                    c.lineTo(dx-3*scale, dy-10*scale);
+                    c.lineTo(dx+3*scale, dy-10*scale);
+                    c.lineTo(dx+5*scale, dy);
+                    c.closePath(); c.fill();
+                    c.fillStyle = '#ff3344';
+                    c.fillRect(dx-2*scale, dy-6*scale, 4*scale, 2*scale);
+                }
+                c.fillStyle = '#aa8800';
+                c.beginPath(); c.arc(0,-12*scale,10*scale,0,Math.PI*2); c.fill();
+                break;
+            case 'mecha_kaiju':
+                c.fillStyle = '#4a4a4a';
+                c.beginPath();
+                c.moveTo(-12*scale,-18*scale);
+                c.lineTo(-10*scale,-26*scale); c.lineTo(10*scale,-26*scale); c.lineTo(12*scale,-18*scale);
+                c.lineTo(8*scale,-10*scale); c.lineTo(-8*scale,-10*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#1a1a1a'; c.lineWidth = 1*scale;
+                c.strokeRect(-10*scale,-24*scale,20*scale,14*scale);
+                c.fillStyle = '#ff3344';
+                c.fillRect(-8*scale,-19*scale,16*scale,3*scale);
+                c.fillStyle = '#fff';
+                c.fillRect(-7*scale,-18*scale,2*scale,1*scale);
+                c.fillStyle = '#aaa';
+                c.fillRect(-2*scale,-32*scale,1*scale,6*scale);
+                c.fillRect(1*scale,-32*scale,1*scale,6*scale);
+                break;
+            case 'robo_oni':
+                c.fillStyle = '#5a5a8a';
+                c.beginPath(); c.arc(0,-16*scale,13*scale,Math.PI,0); c.fill();
+                c.fillStyle = '#aaaadd';
+                c.beginPath(); c.moveTo(-11*scale,-22*scale); c.lineTo(-15*scale,-32*scale); c.lineTo(-7*scale,-24*scale); c.closePath(); c.fill();
+                c.beginPath(); c.moveTo(11*scale,-22*scale); c.lineTo(15*scale,-32*scale); c.lineTo(7*scale,-24*scale); c.closePath(); c.fill();
+                c.fillStyle = '#0a0a1a';
+                c.fillRect(-10*scale,-18*scale,20*scale,4*scale);
+                c.fillStyle = '#ff3344';
+                c.fillRect(-9*scale,-17*scale,18*scale,1.5*scale);
+                c.fillStyle = '#3a3a5a';
+                c.fillRect(-7*scale,-12*scale,14*scale,4*scale);
+                c.fillStyle = '#aaaadd';
+                for(let i=-2;i<=2;i++){ c.fillRect(i*3*scale-0.5*scale,-12*scale,1*scale,3*scale); }
+                break;
+            case 'cyber_orochi':
+                for(let i=0;i<7;i++){
+                    const a = -Math.PI + (i+0.5)*Math.PI/4;
+                    const dx = Math.cos(a)*24*scale, dy = Math.sin(a)*20*scale - 18*scale;
+                    c.fillStyle = '#3a3a6a';
+                    c.beginPath(); c.arc(dx, dy, 6*scale, 0, Math.PI*2); c.fill();
+                    c.fillStyle = '#00f0ff';
+                    c.beginPath(); c.arc(dx, dy, 1.6*scale, 0, Math.PI*2); c.fill();
+                }
+                c.fillStyle = '#1a1a3a';
+                c.beginPath(); c.arc(0,-18*scale,10*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#00f0ff';
+                c.fillRect(-6*scale,-20*scale,3*scale,3*scale);
+                c.fillRect(3*scale,-20*scale,3*scale,3*scale);
+                c.fillStyle = '#0a0a2a';
+                c.fillRect(-7*scale,-12*scale,14*scale,3*scale);
+                c.fillStyle = '#ff00ff';
+                for(let i=-3;i<=3;i++){
+                    c.fillRect(i*2*scale, -12*scale, 1*scale, 3*scale);
                 }
                 break;
         }
@@ -2162,7 +2458,7 @@
         game.cdMap = {};
         SAMURAI_DATA.forEach(u => game.cdMap[u.id] = 0);
         game.spawnState = s.spawns.map(sp => ({...sp, nextAt: sp.start}));
-        game.lateGiantSpawned = false;
+        game.bossSpawned = false;
         game.laserCharge = 0;
         game.laserAnim = 0;
         game.laserChargeUp = 0;
@@ -2476,17 +2772,12 @@
             }
         }
 
-        // 終盤ステージ＆敵城がピンチの時のみ、敵巨大が一度だけ出現（最終護衛）
-        if(!game.lateGiantSpawned) {
-            const giantType = getLateGiantType(game.stageId);
-            if(giantType) {
-                const ratio = game.enemyCastleHp / Math.max(1, game.enemyCastleMax);
-                if(ratio < 0.25 && ratio > 0) {
-                    game.lateGiantSpawned = true;
-                    spawnUnit('e', ENEMY_DATA[giantType]);
-                    addFloat(W()/2, H()*0.18, '🏯 敵城最終護衛 出現！ 🏯', '#ff3344', true);
-                    if(snd && snd.die) snd.die();
-                }
+        // 各ステージのボス（敵城HP50%以下で1度だけ出現）
+        if(!game.bossSpawned) {
+            const ratio = game.enemyCastleHp / Math.max(1, game.enemyCastleMax);
+            if(ratio < 0.5 && ratio > 0) {
+                game.bossSpawned = true;
+                spawnBoss(game.stageId);
             }
         }
 
