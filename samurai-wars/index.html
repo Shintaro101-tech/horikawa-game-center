@@ -3432,10 +3432,10 @@
             }
         }
 
-        // 各ステージのボス（敵城HP50%以下で1度だけ出現）
+        // 各ステージのボス（敵城HP1/3以下で1度だけ出現）
         if(!game.bossSpawned) {
             const ratio = game.enemyCastleHp / Math.max(1, game.enemyCastleMax);
-            if(ratio < 0.5 && ratio > 0) {
+            if(ratio <= 1/3 && ratio > 0) {
                 game.bossSpawned = true;
                 spawnBoss(game.stageId);
             }
