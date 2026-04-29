@@ -206,72 +206,72 @@
     <div id="popup-text" class="hidden"></div>
 
     <div id="ui-layer">
-        <div class="koban-display" id="koban-ui">小判: 0</div>
+        <div class="koban-display" id="koban-ui"><ruby>小判<rt>こばん</rt></ruby>: 0</div>
 
         <!-- ホーム画面 -->
         <div id="home-screen" class="screen">
             <a href="../" class="home-back">🏠 アーケードへ</a>
-            <h1>漢字侍<br><span style="font-size:0.5em; color:var(--n-pink);">聖剣伝説</span></h1>
-            <div class="subtitle">〜 封印されし漢字の精霊を解き放て 〜</div>
-            <div id="home-koban" style="color: var(--n-gold); font-size: clamp(1.1rem, 3.5vw, 1.5rem); font-weight: bold; text-shadow: 0 0 12px var(--n-gold); margin-bottom: 18px; background: rgba(0,0,0,0.55); padding: 8px 24px; border-radius: 999px; border: 2px solid var(--n-gold); box-shadow: 0 0 18px rgba(255,215,0,0.35);">🪙 小判 0</div>
+            <h1><ruby>漢字侍<rt>かんじざむらい</rt></ruby><br><span style="font-size:0.5em; color:var(--n-pink);"><ruby>聖剣<rt>せいけん</rt></ruby><ruby>伝説<rt>でんせつ</rt></ruby></span></h1>
+            <div class="subtitle">〜 <ruby>封印<rt>ふういん</rt></ruby>されし<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>精霊<rt>せいれい</rt></ruby>を<ruby>解<rt>と</rt></ruby>き<ruby>放<rt>はな</rt></ruby>て 〜</div>
+            <div id="home-koban" style="color: var(--n-gold); font-size: clamp(1.1rem, 3.5vw, 1.5rem); font-weight: bold; text-shadow: 0 0 12px var(--n-gold); margin-bottom: 18px; background: rgba(0,0,0,0.55); padding: 8px 24px; border-radius: 999px; border: 2px solid var(--n-gold); box-shadow: 0 0 18px rgba(255,215,0,0.35);">🪙 <ruby>小判<rt>こばん</rt></ruby> 0</div>
             <div class="btn-container">
                 <div class="btn-row">
-                    <button class="btn" onclick="startGame('grade1')">精霊の森（初級）</button>
-                    <button class="btn btn-pink" onclick="startGame('grade2')">武士の里（中級）</button>
+                    <button class="btn" onclick="startGame('grade1')"><ruby>精霊<rt>せいれい</rt></ruby>の<ruby>森<rt>もり</rt></ruby>（<ruby>初級<rt>しょきゅう</rt></ruby>）</button>
+                    <button class="btn btn-pink" onclick="startGame('grade2')"><ruby>武士<rt>ぶし</rt></ruby>の<ruby>里<rt>さと</rt></ruby>（<ruby>中級<rt>ちゅうきゅう</rt></ruby>）</button>
                 </div>
-                <button class="btn" style="color:var(--n-green); border-color:var(--n-green);" onclick="startGame('endless')">∞ 時空の裂け目</button>
+                <button class="btn" style="color:var(--n-green); border-color:var(--n-green);" onclick="startGame('endless')">∞ <ruby>時空<rt>じくう</rt></ruby>の<ruby>裂<rt>さ</rt></ruby>け<ruby>目<rt>め</rt></ruby></button>
                 <div class="btn-row">
-                    <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 鍛冶屋の万屋</button>
-                    <button class="btn" style="color:var(--n-yellow); border-color:var(--n-yellow);" onclick="showScreen('encyclopedia-screen')">📖 精霊図鑑</button>
+                    <button class="btn btn-gold" onclick="showScreen('shop-screen')">🛒 <ruby>鍛冶屋<rt>かじや</rt></ruby>の<ruby>万屋<rt>よろずや</rt></ruby></button>
+                    <button class="btn" style="color:var(--n-yellow); border-color:var(--n-yellow);" onclick="showScreen('encyclopedia-screen')">📖 <ruby>精霊図鑑<rt>せいれいずかん</rt></ruby></button>
                 </div>
                 <div class="btn-row">
-                    <button class="btn" onclick="showScreen('review-screen')">📝 修行の道場</button>
-                    <label class="btn file-label">📁 問題追加 (CSV)<input type="file" id="csv-upload" accept=".csv"></label>
+                    <button class="btn" onclick="showScreen('review-screen')">📝 <ruby>修行<rt>しゅぎょう</rt></ruby>の<ruby>道場<rt>どうじょう</rt></ruby></button>
+                    <label class="btn file-label">📁 <ruby>問題<rt>もんだい</rt></ruby><ruby>追加<rt>ついか</rt></ruby> (CSV)<input type="file" id="csv-upload" accept=".csv"></label>
                 </div>
-                <button class="btn" style="color:#fff; border-color:#fff; opacity:0.7;" onclick="showScreen('story-screen')">📜 物語を見る</button>
+                <button class="btn" style="color:#fff; border-color:#fff; opacity:0.7;" onclick="showScreen('story-screen')">📜 <ruby>物語<rt>ものがたり</rt></ruby>を<ruby>見<rt>み</rt></ruby>る</button>
             </div>
         </div>
 
         <!-- 物語画面 -->
         <div id="story-screen" class="screen hidden">
-            <h2 style="color:var(--n-pink);">物語の始まり</h2>
+            <h2 style="color:var(--n-pink);"><ruby>物語<rt>ものがたり</rt></ruby>の<ruby>始<rt>はじ</rt></ruby>まり</h2>
             <div style="font-size:clamp(1rem, 3vw, 1.2rem); line-height:1.9; max-width:640px; padding:10px 20px; text-align:left; color:#eee; text-shadow: 0 0 4px rgba(0,0,0,0.8);">
-                永き平和の時代が終わり、<br>
-                電脳世界より現れし<span style="color:var(--n-red); font-weight:bold;">「虚文字大魔王（うそもじだいまおう）」</span>が、<br>
-                古（いにしえ）より日本を守りし<span style="color:var(--n-yellow);">漢字の精霊</span>たちを、<br>
-                次々と<span style="color:var(--n-pink);">御札（おふだ）</span>に封印していった。<br><br>
-                選ばれし若侍よ、<span style="color:var(--n-blue);">聖剣</span>を手に、<br>
-                愛馬の電脳バイクを駆り、<br>
-                封印の御札を斬り砕き、精霊たちを解放せよ！<br><br>
-                <span style="color:var(--n-gold);">✨ 正しき漢字を聖剣で斬れ。精霊は必ず目覚める。 ✨</span>
+                <ruby>永<rt>なが</rt></ruby>き<ruby>平和<rt>へいわ</rt></ruby>の<ruby>時代<rt>じだい</rt></ruby>が<ruby>終<rt>お</rt></ruby>わり、<br>
+                <ruby>電脳<rt>でんのう</rt></ruby><ruby>世界<rt>せかい</rt></ruby>より<ruby>現<rt>あらわ</rt></ruby>れし<span style="color:var(--n-red); font-weight:bold;">「<ruby>虚文字<rt>うそもじ</rt></ruby><ruby>大魔王<rt>だいまおう</rt></ruby>」</span>が、<br>
+                <ruby>古<rt>いにしえ</rt></ruby>より<ruby>日本<rt>にほん</rt></ruby>を<ruby>守<rt>まも</rt></ruby>りし<span style="color:var(--n-yellow);"><ruby>漢字<rt>かんじ</rt></ruby>の<ruby>精霊<rt>せいれい</rt></ruby></span>たちを、<br>
+                <ruby>次々<rt>つぎつぎ</rt></ruby>と<span style="color:var(--n-pink);"><ruby>御札<rt>おふだ</rt></ruby></span>に<ruby>封印<rt>ふういん</rt></ruby>していった。<br><br>
+                <ruby>選<rt>えら</rt></ruby>ばれし<ruby>若侍<rt>わかざむらい</rt></ruby>よ、<span style="color:var(--n-blue);"><ruby>聖剣<rt>せいけん</rt></ruby></span>を<ruby>手<rt>て</rt></ruby>に、<br>
+                <ruby>愛馬<rt>あいば</rt></ruby>の<ruby>電脳<rt>でんのう</rt></ruby>バイクを<ruby>駆<rt>か</rt></ruby>り、<br>
+                <ruby>封印<rt>ふういん</rt></ruby>の<ruby>御札<rt>おふだ</rt></ruby>を<ruby>斬<rt>き</rt></ruby>り<ruby>砕<rt>くだ</rt></ruby>き、<ruby>精霊<rt>せいれい</rt></ruby>たちを<ruby>解放<rt>かいほう</rt></ruby>せよ！<br><br>
+                <span style="color:var(--n-gold);">✨ <ruby>正<rt>ただ</rt></ruby>しき<ruby>漢字<rt>かんじ</rt></ruby>を<ruby>聖剣<rt>せいけん</rt></ruby>で<ruby>斬<rt>き</rt></ruby>れ。<ruby>精霊<rt>せいれい</rt></ruby>は<ruby>必<rt>かなら</rt></ruby>ず<ruby>目覚<rt>めざ</rt></ruby>める。 ✨</span>
             </div>
-            <button class="btn" onclick="showScreen('home-screen')">戻る</button>
+            <button class="btn" onclick="showScreen('home-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <!-- ショップ画面 -->
         <div id="shop-screen" class="screen hidden">
-            <h2>鍛冶屋の万屋</h2>
-            <div class="subtitle">小判で聖剣の変化形を手に入れよ！</div>
+            <h2><ruby>鍛冶屋<rt>かじや</rt></ruby>の<ruby>万屋<rt>よろずや</rt></ruby></h2>
+            <div class="subtitle"><ruby>小判<rt>こばん</rt></ruby>で<ruby>聖剣<rt>せいけん</rt></ruby>の<ruby>変化形<rt>へんかけい</rt></ruby>を<ruby>手<rt>て</rt></ruby>に<ruby>入<rt>い</rt></ruby>れよ！</div>
             <div class="item-list" id="shop-list"></div>
-            <button class="btn" style="width:200px;" onclick="showScreen('home-screen')">戻る</button>
+            <button class="btn" style="width:200px;" onclick="showScreen('home-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <!-- 精霊図鑑画面 -->
         <div id="encyclopedia-screen" class="screen hidden">
-            <h2 style="color: var(--n-yellow);">📖 精霊図鑑</h2>
-            <div class="subtitle">解放した漢字の精霊たち</div>
+            <h2 style="color: var(--n-yellow);">📖 <ruby>精霊図鑑<rt>せいれいずかん</rt></ruby></h2>
+            <div class="subtitle"><ruby>解放<rt>かいほう</rt></ruby>した<ruby>漢字<rt>かんじ</rt></ruby>の<ruby>精霊<rt>せいれい</rt></ruby>たち</div>
             <div id="enc-progress" style="margin-bottom: 12px; color: var(--n-gold); font-weight: bold; text-shadow: 0 0 6px var(--n-gold);"></div>
             <div id="enc-grid"></div>
-            <button class="btn" style="margin-top: 14px;" onclick="showScreen('home-screen')">戻る</button>
+            <button class="btn" style="margin-top: 14px;" onclick="showScreen('home-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <!-- 復習画面 -->
         <div id="review-screen" class="screen hidden">
-            <h2>修行の道場</h2>
-            <div class="subtitle">封印を解けなかった精霊と再び向き合え</div>
-            <div class="review-list" id="review-list-ui">記録なし</div>
-            <button class="btn btn-pink" id="btn-start-review" onclick="startGame('review')">復習コース開始</button>
-            <button class="btn" style="margin-top:10px;" onclick="showScreen('home-screen')">戻る</button>
+            <h2><ruby>修行<rt>しゅぎょう</rt></ruby>の<ruby>道場<rt>どうじょう</rt></ruby></h2>
+            <div class="subtitle"><ruby>封印<rt>ふういん</rt></ruby>を<ruby>解<rt>と</rt></ruby>けなかった<ruby>精霊<rt>せいれい</rt></ruby>と<ruby>再<rt>ふたた</rt></ruby>び<ruby>向<rt>む</rt></ruby>き<ruby>合<rt>あ</rt></ruby>え</div>
+            <div class="review-list" id="review-list-ui"><ruby>記録<rt>きろく</rt></ruby>なし</div>
+            <button class="btn btn-pink" id="btn-start-review" onclick="startGame('review')"><ruby>復習<rt>ふくしゅう</rt></ruby>コース<ruby>開始<rt>かいし</rt></ruby></button>
+            <button class="btn" style="margin-top:10px;" onclick="showScreen('home-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <!-- HUD -->
@@ -286,29 +286,29 @@
 
         <!-- ボスHPゲージ -->
         <div id="boss-hp-container" class="hidden">
-            <div id="boss-hp-label">虚文字大魔王</div>
+            <div id="boss-hp-label"><ruby>虚文字<rt>うそもじ</rt></ruby><ruby>大魔王<rt>だいまおう</rt></ruby></div>
             <div id="boss-hp-outer"><div id="boss-hp-bar"></div></div>
         </div>
 
         <!-- ボス登場バナー -->
         <div id="boss-banner" class="hidden">
-            <div class="boss-sub">〜 現 る 〜</div>
-            <div class="boss-name">虚文字<br>大魔王</div>
+            <div class="boss-sub">〜 <ruby>現<rt>あらわ</rt></ruby> る 〜</div>
+            <div class="boss-name"><ruby>虚文字<rt>うそもじ</rt></ruby><br><ruby>大魔王<rt>だいまおう</rt></ruby></div>
         </div>
 
         <div id="touch-left" class="touch-area hidden"><div class="touch-icon">◀</div></div>
         <div id="touch-right" class="touch-area hidden"><div class="touch-icon">▶</div></div>
 
         <div id="gameover-screen" class="screen hidden">
-            <h1 style="color: var(--n-red);">無念...！</h1>
+            <h1 style="color: var(--n-red);"><ruby>無念<rt>むねん</rt></ruby>...！</h1>
             <p id="gameover-reason" style="text-align: center; font-size:1.5rem;"></p>
-            <button class="btn" onclick="showScreen('home-screen')">ホームへ戻る</button>
+            <button class="btn" onclick="showScreen('home-screen')">ホームへ<ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <div id="clear-screen" class="screen hidden">
-            <h1 style="color: var(--n-green);">天晴（あっぱれ）！</h1>
+            <h1 style="color: var(--n-green);"><ruby>天晴<rt>あっぱれ</rt></ruby>！</h1>
             <p id="clear-msg" style="text-align: center; font-size:1.5rem;"></p>
-            <button class="btn" onclick="showScreen('home-screen')">ホームへ戻る</button>
+            <button class="btn" onclick="showScreen('home-screen')">ホームへ<ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
     </div>
 
