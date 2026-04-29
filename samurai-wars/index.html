@@ -60,6 +60,30 @@
                           gap:8px; width:100%; max-width:720px; max-height:50vh;
                           overflow-y:auto; padding:10px; background:rgba(0,0,0,0.4);
                           border:1px solid #333; border-radius:10px; }
+        #upgrade-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+                        gap:8px; width:100%; max-width:720px; max-height:55vh;
+                        overflow-y:auto; padding:10px; background:rgba(0,0,0,0.4);
+                        border:1px solid #333; border-radius:10px; }
+        .upgrade-card { background:rgba(20,10,30,0.85); border:2px solid #555; border-radius:8px;
+                        padding:8px; text-align:center; }
+        .upgrade-card canvas { width:50px; height:50px; }
+        .upgrade-card .uname { font-size:0.85rem; color:var(--gold); }
+        .upgrade-card .ulv { font-size:0.85rem; color:#fff; }
+        .upgrade-card .ustats { font-size:0.7rem; color:var(--cyan); margin:2px 0 6px; }
+        .upgrade-card .btn { min-width:0; padding:6px 10px; font-size:0.75rem; min-height:32px; margin:0; }
+
+        #ach-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+                    gap:6px; width:100%; max-width:720px; max-height:60vh;
+                    overflow-y:auto; padding:8px; background:rgba(0,0,0,0.4);
+                    border:1px solid #333; border-radius:10px; }
+        .ach-card { background:rgba(20,10,30,0.85); border:2px solid #555; border-radius:8px;
+                    padding:8px 12px; display:flex; align-items:center; gap:10px; }
+        .ach-card.done { border-color:var(--gold); box-shadow:0 0 12px rgba(255,210,74,0.4);
+                         background:rgba(40,30,10,0.85); }
+        .ach-card .ach-icon { font-size:1.6rem; }
+        .ach-card .ach-name { font-size:0.95rem; font-weight:bold; color:var(--gold); }
+        .ach-card.done .ach-name { color:#ffeb3b; }
+        .ach-card .ach-desc { font-size:0.72rem; color:#bbb; margin-top:2px; }
         .fcard { background:rgba(20,10,30,0.85); border:2px solid #555; border-radius:8px;
                  padding:6px; cursor:pointer; pointer-events:auto; text-align:center;
                  transition:transform 0.1s, border-color 0.1s, box-shadow 0.1s; }
@@ -402,6 +426,9 @@
             <div class="title-btns">
                 <button class="btn btn-red" onclick="goStageSelect()">⚔️ <ruby>出陣<rt>しゅつじん</rt></ruby></button>
                 <button class="btn btn-cyan" onclick="showScreen('formation-screen'); renderFormation();">🛡 <ruby>編成<rt>へんせい</rt></ruby></button>
+                <button class="btn" onclick="showScreen('upgrade-screen'); renderUpgradeList();">⚒ <ruby>強化<rt>きょうか</rt></ruby><ruby>道場<rt>どうじょう</rt></ruby></button>
+                <button class="btn btn-gold" onclick="showScreen('gacha-screen'); document.getElementById('gacha-result').innerHTML='';">🎲 ガチャ</button>
+                <button class="btn" onclick="showScreen('achievement-screen'); renderAchievements();">🏆 <ruby>勲章<rt>くんしょう</rt></ruby></button>
                 <button class="btn" onclick="showScreen('roster-screen'); renderRoster();">📜 <ruby>侍<rt>さむらい</rt></ruby><ruby>名簿<rt>めいぼ</rt></ruby></button>
             </div>
             <div style="margin-top:14px; color:var(--gold); font-size:0.9rem;">
@@ -434,6 +461,33 @@
                 <ruby>選<rt>えら</rt></ruby>んでいる<ruby>戦士<rt>せんし</rt></ruby>: <span id="formation-count">0</span>
             </div>
             <button class="btn" onclick="showScreen('title-screen')"><ruby>決定<rt>けってい</rt></ruby>して<ruby>戻<rt>もど</rt></ruby>る</button>
+        </div>
+
+        <!-- 強化道場 -->
+        <div id="upgrade-screen" class="screen hidden">
+            <h2>⚒ <ruby>強化<rt>きょうか</rt></ruby><ruby>道場<rt>どうじょう</rt></ruby></h2>
+            <div class="subtitle"><ruby>軍資金<rt>ぐんしきん</rt></ruby>で<ruby>戦士<rt>せんし</rt></ruby>を<ruby>恒久<rt>こうきゅう</rt></ruby><ruby>強化<rt>きょうか</rt></ruby>（HP/<ruby>攻撃<rt>こうげき</rt></ruby> +20%/Lv）</div>
+            <div style="color:var(--gold); font-weight:bold; margin-bottom:8px;">💴 <span id="upg-koban">0</span><ruby>円<rt>えん</rt></ruby></div>
+            <div id="upgrade-list"></div>
+            <button class="btn" onclick="showScreen('title-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
+        </div>
+
+        <!-- ガチャ -->
+        <div id="gacha-screen" class="screen hidden">
+            <h2>🎲 ガチャ</h2>
+            <div class="subtitle">500<ruby>円<rt>えん</rt></ruby>で<ruby>運命<rt>うんめい</rt></ruby>の<ruby>戦士<rt>せんし</rt></ruby>を<ruby>引<rt>ひ</rt></ruby>け！</div>
+            <div style="color:var(--gold); font-weight:bold; margin-bottom:8px;">💴 <span id="gacha-koban">0</span><ruby>円<rt>えん</rt></ruby></div>
+            <div id="gacha-result" style="font-size:1rem; margin: 16px 0; min-height: 80px; max-width:380px; text-align:center;"></div>
+            <button class="btn btn-gold" onclick="gachaPull()">🎲 ガチャを<ruby>引<rt>ひ</rt></ruby>く（💴500）</button>
+            <button class="btn" onclick="showScreen('title-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
+        </div>
+
+        <!-- アチーブメント -->
+        <div id="achievement-screen" class="screen hidden">
+            <h2>🏆 <ruby>勲章<rt>くんしょう</rt></ruby></h2>
+            <div class="subtitle"><ruby>達成<rt>たっせい</rt></ruby>した<ruby>偉業<rt>いぎょう</rt></ruby>の<ruby>記録<rt>きろく</rt></ruby></div>
+            <div id="ach-list"></div>
+            <button class="btn" onclick="showScreen('title-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <!-- 出陣前 -->
@@ -607,6 +661,49 @@
         17:'onyudo',       18:'daitengu'
     };
 
+    // ガチャ専用の隠し3キャラ（既存の兜/武器を流用）
+    SAMURAI_DATA.push(
+        { id:'kaizoku', name:'海賊', yomi:'かいぞく', cost:550, hp:700, atk:90, atkSpeed:0.9, range:42, speed:1.4,
+          cooldown:9.0, color:'#5a2a1a', helmet:'hood', weapon:'katana', rarity:3, secret:true,
+          desc:'七つの海を渡った無頼の戦士' },
+        { id:'fuma', name:'風魔', yomi:'ふうま', cost:650, hp:400, atk:100, atkSpeed:0.3, range:38, speed:3.0,
+          cooldown:14.0, color:'#3a4a3a', helmet:'hood', weapon:'kunai', rarity:4, secret:true,
+          desc:'風のように疾走する伝説の忍' },
+        { id:'yagumo', name:'八雲', yomi:'やぐも', cost:1700, hp:2800, atk:330, atkSpeed:1.1, range:55, speed:1.0,
+          cooldown:42.0, color:'#1a4a8a', helmet:'taisho', weapon:'odachi', rarity:5, secret:true,
+          desc:'神霊の力を宿す伝説の武士' }
+    );
+
+    // アチーブメント
+    const ACHIEVEMENTS = [
+        { id:'first_win',  name:'初陣',         desc:'初めてステージをクリア',   check:() => saveData.clearedStages.length >= 1 },
+        { id:'win_5',      name:'歴戦の指揮官', desc:'5ステージクリア',           check:() => saveData.clearedStages.length >= 5 },
+        { id:'win_10',     name:'武勇の名将',   desc:'10ステージクリア',          check:() => saveData.clearedStages.length >= 10 },
+        { id:'all_clear',  name:'天下統一',     desc:'全18ステージクリア',        check:() => saveData.clearedStages.length >= 18 },
+        { id:'combo_10',   name:'連撃の使い手', desc:'1試合で10コンボ',          check:() => saveData.maxCombo >= 10 },
+        { id:'combo_30',   name:'連撃の達人',   desc:'1試合で30コンボ',          check:() => saveData.maxCombo >= 30 },
+        { id:'wallet_max', name:'大金持ち',     desc:'財布Lvを最大強化',         check:() => saveData.walletLv >= 7 },
+        { id:'rich',       name:'軍資金1万',    desc:'軍資金10,000以上を保有',   check:() => saveData.koban >= 10000 },
+        { id:'unlock_all', name:'軍勢結集',     desc:'全戦士を解放',             check:() => saveData.unlockedSamurai.length >= SAMURAI_DATA.length },
+        { id:'boss_5',     name:'妖怪退治',     desc:'ボスを5体撃破',            check:() => saveData.bossKills >= 5 },
+        { id:'boss_18',   name:'伝説の侍',     desc:'ボスを18体撃破',           check:() => saveData.bossKills >= 18 },
+        { id:'kills_500',  name:'千人斬り',     desc:'累計500体撃破',            check:() => saveData.totalKills >= 500 },
+        { id:'star_3x10',  name:'完璧な勝利',   desc:'10ステージで★3を獲得',     check:() => Object.values(saveData.stars).filter(s => s >= 3).length >= 10 }
+    ];
+    function checkAchievements() {
+        let newOnes = [];
+        for(const a of ACHIEVEMENTS) {
+            if(saveData.achievements.includes(a.id)) continue;
+            if(a.check()) { saveData.achievements.push(a.id); newOnes.push(a); }
+        }
+        if(newOnes.length > 0) {
+            saveGame();
+            newOnes.forEach((a,i) => {
+                setTimeout(() => addFloat(W()/2, H()*0.4 + i*30, `🏆 ${a.name}！`, '#ffd24a', true), i*400);
+            });
+        }
+    }
+
     // 表示順序（開始キャラ → ステージクリア順）
     // これにより一覧グリッドで「左→右・上→下」の自然な順番でアンロックされていく
     const CHARACTER_ORDER = [
@@ -615,7 +712,9 @@
         'sohei', 'laser_turret', 'teppo', 'kaen',
         'heavy_robo', 'cyber_ninja', 'taisho', 'raijin',
         'missile_tank', 'akaoni', 'kishin',
-        'daidarabocchi', 'onyudo', 'daitengu'
+        'daidarabocchi', 'onyudo', 'daitengu',
+        // ガチャ専用秘伝
+        'kaizoku', 'fuma', 'yagumo'
     ];
     SAMURAI_DATA.sort((a, b) => {
         const ai = CHARACTER_ORDER.indexOf(a.id);
@@ -726,13 +825,21 @@
     // ==========================================
     let saveData = { koban:0, clearedStages:[], walletLv:0,
         unlockedSamurai:['ashigaru','bushi','yumi','miko','ninja','robo_basic'],
-        formation:['ashigaru','bushi','yumi','miko','ninja','robo_basic'] };
+        formation:['ashigaru','bushi','yumi','miko','ninja','robo_basic'],
+        upgrades:{}, stars:{}, achievements:[],
+        maxCombo:0, bossKills:0, totalKills:0 };
     function loadSave() {
         const d = localStorage.getItem('samuraiWarsData');
         if(d) { try { saveData = {...saveData, ...JSON.parse(d)}; } catch(e){} }
         if(!saveData.formation || saveData.formation.length === 0) {
             saveData.formation = [...saveData.unlockedSamurai];
         }
+        if(!saveData.upgrades) saveData.upgrades = {};
+        if(!saveData.stars) saveData.stars = {};
+        if(!saveData.achievements) saveData.achievements = [];
+        if(saveData.maxCombo == null) saveData.maxCombo = 0;
+        if(saveData.bossKills == null) saveData.bossKills = 0;
+        if(saveData.totalKills == null) saveData.totalKills = 0;
     }
     function saveGame() { localStorage.setItem('samuraiWarsData', JSON.stringify(saveData)); }
     function resetGame() {
@@ -743,7 +850,9 @@
         try { localStorage.removeItem('samuraiWarsData'); } catch(e){}
         saveData = { koban:0, clearedStages:[], walletLv:0,
             unlockedSamurai:['ashigaru','bushi','yumi','miko','ninja','robo_basic'],
-            formation:['ashigaru','bushi','yumi','miko','ninja','robo_basic'] };
+            formation:['ashigaru','bushi','yumi','miko','ninja','robo_basic'],
+            upgrades:{}, stars:{}, achievements:[],
+            maxCombo:0, bossKills:0, totalKills:0 };
         saveGame();
         document.getElementById('title-koban').innerText = saveData.koban;
         renderUnitCards();
@@ -811,6 +920,44 @@
             };
             this.bgm=setTimeout(sch,0);
         }
+        // 中盤ステージ（7-12）用 — 雅楽風で緊張感
+        startMidBGM() {
+            this.stopBGM();
+            if(!this.ctx) return;
+            let next=this.ctx.currentTime, beat=0;
+            const mel = [392, 466, 392, 349, 392, 466, 523, 466];
+            const sch=()=>{
+                if(!this.bgm && beat>0) return;
+                while(next<this.ctx.currentTime+0.1) {
+                    if(beat%4===0) this._o(98,0.01,0.4,0.22,next,'sawtooth');
+                    if([1,0,1,0,1,0,1,0][beat%8]) this._o(65,65,0.12,0.16,next,'square');
+                    if(beat%4===0) this._o(mel[Math.floor(beat/4)%mel.length], mel[Math.floor(beat/4)%mel.length], 0.15, 0.3, next, 'triangle');
+                    if(beat%16===8) this._o(523, 523, 0.18, 0.25, next, 'sine');
+                    next+=0.16; beat++;
+                }
+                this.bgm=setTimeout(sch,30);
+            };
+            this.bgm=setTimeout(sch,0);
+        }
+        // 終盤ステージ（13-18）用 — シンセ重低音
+        startHardBGM() {
+            this.stopBGM();
+            if(!this.ctx) return;
+            let next=this.ctx.currentTime, beat=0;
+            const mel = [220, 277, 247, 196, 220, 277, 311, 277];
+            const sch=()=>{
+                if(!this.bgm && beat>0) return;
+                while(next<this.ctx.currentTime+0.1) {
+                    if(beat%2===0) this._o(73,0.01,0.5,0.16,next,'sawtooth');
+                    if([1,0,1,1,1,0,1,0][beat%8]) this._o(55,55,0.12,0.14,next,'square');
+                    if(beat%2===0) this._o(mel[Math.floor(beat/2)%mel.length], mel[Math.floor(beat/2)%mel.length], 0.14, 0.18, next, 'sawtooth');
+                    if(beat%16===0) this._o(110, 110, 0.4, 0.3, next, 'triangle');
+                    next+=0.14; beat++;
+                }
+                this.bgm=setTimeout(sch,30);
+            };
+            this.bgm=setTimeout(sch,0);
+        }
         // ボス戦用 — 速いテンポ・低音強化・短調メロディで緊迫感を演出
         startBossBGM() {
             this.stopBGM();
@@ -859,6 +1006,8 @@
             snd.stopBGM();
         }
         document.getElementById('title-koban').innerText = saveData.koban;
+        const gk = document.getElementById('gacha-koban');
+        if(gk) gk.innerText = saveData.koban.toLocaleString();
     }
     function goStageSelect() { showScreen('stage-select'); renderStageList(); }
     function renderStageList() {
@@ -869,10 +1018,13 @@
         STAGE_DATA.forEach((s, i) => {
             const unlocked = (i===0) || saveData.clearedStages.includes(STAGE_DATA[i-1].id);
             const cleared = saveData.clearedStages.includes(s.id);
+            const sc = saveData.stars[s.id] || 0;
+            const starStr = '★'.repeat(sc) + '☆'.repeat(3-sc);
             const card = document.createElement('div');
             card.className = 'stage-card' + (unlocked ? '' : ' locked');
             card.innerHTML = `
                 <div class="stage-name">${cleared?'⭐ ':''}<ruby>第${s.id}戦<rt>だい${s.id}せん</rt></ruby> ${ruby(s.name,s.yomi)}</div>
+                <div style="color:var(--gold); font-size:0.85rem; letter-spacing:2px;">${starStr}</div>
                 <div class="stage-info"><ruby>敵城<rt>てきじょう</rt></ruby>HP ${s.enemyCastleHp.toLocaleString()} / <ruby>自城<rt>じじょう</rt></ruby>HP ${s.castleHp.toLocaleString()}</div>
                 <div class="stage-info"><ruby>報酬<rt>ほうしゅう</rt></ruby>: 💴 ${s.reward}<ruby>円<rt>えん</rt></ruby></div>
             `;
@@ -952,6 +1104,102 @@
                    pc.fillStyle='#555'; pc.font='32px sans-serif'; pc.textAlign='center';
                    pc.fillText('?', 32, 44); }
         });
+    }
+
+    // 強化道場
+    function upgradeCost(lv) { return 500 + lv * 500; }  // 500, 1000, 1500, ...
+    function renderUpgradeList() {
+        const list = document.getElementById('upgrade-list');
+        list.innerHTML = '';
+        document.getElementById('upg-koban').innerText = saveData.koban.toLocaleString();
+        SAMURAI_DATA.filter(u => saveData.unlockedSamurai.includes(u.id)).forEach(u => {
+            const lv = saveData.upgrades[u.id] || 0;
+            const cost = upgradeCost(lv);
+            const max = lv >= 10;
+            const can = !max && saveData.koban >= cost;
+            const card = document.createElement('div');
+            card.className = 'upgrade-card';
+            card.innerHTML = `
+                <canvas width="50" height="50"></canvas>
+                <div class="uname">${ruby(u.name, u.yomi)}</div>
+                <div class="ulv">Lv.${lv}/10</div>
+                <div class="ustats">HP +${lv*20}% / 攻 +${lv*20}%</div>
+                <button class="btn ${can?'btn-gold':''}" data-id="${u.id}" ${can?'':'disabled'}>
+                    ${max ? 'MAX' : `LvUP（💴${cost}）`}
+                </button>
+            `;
+            list.appendChild(card);
+            const pc = card.querySelector('canvas').getContext('2d');
+            drawSamuraiCanvas(pc, 25, 42, u, 1, 0, 0.7);
+            const btn = card.querySelector('button');
+            if(can) btn.onclick = () => upgradeUnit(u.id);
+        });
+    }
+    function upgradeUnit(id) {
+        const lv = saveData.upgrades[id] || 0;
+        if(lv >= 10) return;
+        const cost = upgradeCost(lv);
+        if(saveData.koban < cost) return;
+        saveData.koban -= cost;
+        saveData.upgrades[id] = lv + 1;
+        saveGame();
+        snd.coin && snd.coin();
+        document.getElementById('title-koban').innerText = saveData.koban;
+        renderUpgradeList();
+        checkAchievements();
+    }
+
+    // アチーブメント
+    function renderAchievements() {
+        const list = document.getElementById('ach-list');
+        list.innerHTML = '';
+        ACHIEVEMENTS.forEach(a => {
+            const done = saveData.achievements.includes(a.id);
+            const card = document.createElement('div');
+            card.className = 'ach-card' + (done ? ' done' : '');
+            card.innerHTML = `
+                <div class="ach-icon">${done ? '🏆' : '🔒'}</div>
+                <div>
+                    <div class="ach-name">${a.name}</div>
+                    <div class="ach-desc">${a.desc}</div>
+                </div>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    // ガチャ
+    function gachaPull() {
+        const result = document.getElementById('gacha-result');
+        if(saveData.koban < 500) {
+            result.innerHTML = '<div style="color:#ff8888;">軍資金が足りない！</div>';
+            return;
+        }
+        saveData.koban -= 500;
+        const locked = SAMURAI_DATA.filter(u => !saveData.unlockedSamurai.includes(u.id));
+        if(locked.length === 0) {
+            saveData.koban += 700;
+            result.innerHTML = '<div style="color:var(--cyan);">全戦士解放済！💴 +200 のおまけ！</div>';
+        } else {
+            const pick = locked[Math.floor(Math.random()*locked.length)];
+            saveData.unlockedSamurai.push(pick.id);
+            if(!saveData.formation.includes(pick.id) && saveData.formation.length < 10) {
+                saveData.formation.push(pick.id);
+            }
+            const rarity = '★'.repeat(pick.rarity);
+            const isSecret = pick.secret ? '<div style="color:var(--pink); font-size:0.85rem;">🌟 秘伝の戦士！</div>' : '';
+            result.innerHTML = `
+                <div style="color:var(--gold); font-size:1.4rem; font-weight:bold;">${rarity}</div>
+                <div style="color:#fff; font-size:1.3rem; margin:6px 0;">${ruby(pick.name, pick.yomi)} 加入！</div>
+                <div style="font-size:0.85rem; color:#ccc;">${pick.desc}</div>
+                ${isSecret}
+            `;
+            snd.coin && snd.coin();
+            checkAchievements();
+        }
+        saveGame();
+        document.getElementById('title-koban').innerText = saveData.koban;
+        document.getElementById('gacha-koban').innerText = saveData.koban.toLocaleString();
     }
 
     function renderFormation() {
@@ -2472,6 +2720,33 @@
         for(let i=0;i<3;i++){
             ctx.beginPath(); ctx.moveTo(0, gy+10+i*16); ctx.lineTo(w, gy+10+i*16); ctx.stroke();
         }
+        // 天候エフェクト（テーマ別）
+        const wnow = performance.now();
+        if(t.id === 'sea' || t.id === 'river') {
+            // 軽い雨
+            ctx.strokeStyle = 'rgba(180,210,240,0.45)'; ctx.lineWidth = 1;
+            for(let i=0; i<40; i++) {
+                const rx = ((i*137 + wnow*0.5)%w);
+                const ry = ((i*71 + wnow*1.4)%gy);
+                ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx-2, ry+10); ctx.stroke();
+            }
+        } else if(t.id === 'hell') {
+            // 灰の降下
+            ctx.fillStyle = 'rgba(220,170,160,0.45)';
+            for(let i=0; i<24; i++) {
+                const ax = ((i*173)%w + Math.sin(wnow*0.001+i)*30);
+                const ay = ((i*91 + wnow*0.18)%gy);
+                ctx.fillRect(ax, ay, 2, 2);
+            }
+        } else if(t.id === 'cyber') {
+            // ネオン雨
+            ctx.strokeStyle = 'rgba(0,240,255,0.5)'; ctx.lineWidth = 1.5;
+            for(let i=0; i<30; i++) {
+                const rx = ((i*101 + wnow*0.7)%w);
+                const ry = ((i*47 + wnow*1.6)%gy);
+                ctx.beginPath(); ctx.moveTo(rx, ry); ctx.lineTo(rx, ry+14); ctx.stroke();
+            }
+        }
     }
 
     // ==========================================
@@ -2487,7 +2762,9 @@
         floats:[],    // damage/koban floats
         cdMap:{},     // unitId -> cooldownLeft
         spawnState:[],// per spawn entry next spawn time
-        laserCharge:0, laserMax:30, laserAnim:0, laserChargeUp:0
+        laserCharge:0, laserMax:30, laserAnim:0, laserChargeUp:0,
+        combo:0, comboTimer:0, slowMoTimer:0, stageBgm:'startBGM',
+        clearTime:0
     };
 
     function startBattle(stageId) {
@@ -2508,7 +2785,14 @@
         game.laserAnim = 0;
         game.laserChargeUp = 0;
         game.castleDestroyed = null;
-        snd.init(); snd.startBGM();
+        game.combo = 0;
+        game.comboTimer = 0;
+        game.slowMoTimer = 0;
+        game.clearTime = 0;
+        // ステージ別BGM（1-6:軽快 / 7-12:雅楽 / 13-18:シンセ）
+        game.stageBgm = stageId <= 6 ? 'startBGM' : stageId <= 12 ? 'startMidBGM' : 'startHardBGM';
+        snd.init();
+        if(snd[game.stageBgm]) snd[game.stageBgm](); else snd.startBGM();
         document.getElementById('stage-title').innerText = s.name;
         showScreen(null);
         document.getElementById('battle-hud').classList.remove('hidden');
@@ -2621,14 +2905,24 @@
     function spawnUnit(side, data) {
         const isP = side === 'p';
         const x = isP ? W() - 100 : 100;
+        // 味方のみ強化倍率を適用（Lvあたり+20% HP/ATK）
+        const upLv = (isP && saveData.upgrades && saveData.upgrades[data.id]) || 0;
+        const mult = 1 + upLv * 0.2;
+        const hp = Math.round(data.hp * mult);
+        const atk = Math.round(data.atk * mult);
         const u = {
             side, data,
             x, y: groundY(),
-            hp: data.hp, maxHp: data.hp,
-            atk: data.atk, atkSpeed: data.atkSpeed, range: data.range,
+            hp, maxHp: hp,
+            atk, atkSpeed: data.atkSpeed, range: data.range,
             speed: data.speed, atkCd: 0, swing: 0, hitFlash: 0,
             ranged: data.ranged, aoe: data.aoe, scale: data.scale || 1, dead: false,
-            target: null
+            target: null,
+            // 必殺技用攻撃カウント
+            attackCount: 0,
+            // ステータス異常タイマー
+            frozen: 0, stunned: 0, burning: 0, burnTick: 0,
+            upgradeLv: upLv
         };
         game.units.push(u);
     }
@@ -2649,6 +2943,35 @@
             if(u.side === 'e' && u.data.gold) {
                 game.money = Math.min(game.money + u.data.gold, WALLET_LEVELS[game.walletLv].max);
                 addFloat(u.x, u.y - 60, '💴+' + u.data.gold, '#ffd24a');
+            }
+            if(u.side === 'e') {
+                // コンボ加算
+                game.combo++;
+                game.comboTimer = 5;
+                if(game.combo > saveData.maxCombo) saveData.maxCombo = game.combo;
+                saveData.totalKills = (saveData.totalKills||0) + 1;
+                if(game.combo >= 5) {
+                    const bonus = Math.floor(game.combo) * 3;
+                    game.money = Math.min(game.money + bonus, WALLET_LEVELS[game.walletLv].max);
+                }
+                // ボス撃破時のスローモ＋ステージBGM復帰
+                if(u.data.boss) {
+                    saveData.bossKills = (saveData.bossKills||0) + 1;
+                    game.slowMoTimer = 1.4;
+                    addFloat(W()/2, H()/2 - 40, '★ BOSS DEFEATED! ★', '#ffd24a', true);
+                    if(snd && snd[game.stageBgm]) snd[game.stageBgm]();
+                    // 派手な爆散
+                    for(let k=0;k<40;k++){
+                        game.particles.push({
+                            x:u.x + (Math.random()-0.5)*40,
+                            y:u.y - Math.random()*60,
+                            vx:(Math.random()-0.5)*6, vy:-Math.random()*5-1,
+                            life:1.4, color:['#ffd24a','#ff6600','#fff','#ff3344'][Math.floor(Math.random()*4)],
+                            size:4+Math.random()*4, isFire:true
+                        });
+                    }
+                }
+                saveGame();
             }
         }
     }
@@ -2685,16 +3008,26 @@
     // 戦闘ロジック
     // ==========================================
     function attackTarget(attacker, target) {
+        attacker.attackCount = (attacker.attackCount||0) + 1;
+        const isSpecial = attacker.attackCount % 8 === 0;
+        const dmgMult = isSpecial ? 2.0 : 1.0;
+        const atk = attacker.atk * dmgMult;
         if(target.isCastle) {
             attacker.swing = 1;
             target.side === 'enemy'
-                ? game.enemyCastleHp = Math.max(0, game.enemyCastleHp - attacker.atk)
-                : game.playerCastleHp = Math.max(0, game.playerCastleHp - attacker.atk);
+                ? game.enemyCastleHp = Math.max(0, game.enemyCastleHp - atk)
+                : game.playerCastleHp = Math.max(0, game.playerCastleHp - atk);
             addParticles(target.x, groundY()-60, 6, '#ffaa44');
             snd.hit();
             return;
         }
         attacker.swing = 1;
+        // 必殺技時の派手な演出
+        if(isSpecial) {
+            addFloat(attacker.x, attacker.y - 60, '✨ 必殺！', '#ffd24a');
+            addParticles(attacker.x, attacker.y - 30, 12, '#ffd24a');
+            addParticles(target.x, target.y - 30, 18, '#ff6600');
+        }
         if(attacker.ranged) {
             const tgtX = target.x;
             const tgtY = target.y - 30;
@@ -2704,24 +3037,25 @@
                 tx: tgtX, ty: tgtY,
                 vx: ((tgtX - attacker.x) / 25),
                 vy: ((tgtY - (attacker.y - 30)) / 25),
-                dmg: attacker.atk,
+                dmg: atk,
                 side: attacker.side,
                 weapon: attacker.data.weapon,
                 hit: false,
-                aoe: attacker.aoe
+                aoe: attacker.aoe || isSpecial
             });
             snd.slash();
         } else {
             // 範囲攻撃
-            if(attacker.aoe) {
+            if(attacker.aoe || isSpecial) {
+                const aoeR = isSpecial ? 100 : 80;
                 game.units.forEach(t => {
-                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - target.x) < 80) {
-                        damageUnit(t, attacker.atk);
+                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - target.x) < aoeR) {
+                        damageUnit(t, atk);
                     }
                 });
-                addSlashEffect(target.x, target.y - 30, '#ffaa44', 80);
+                addSlashEffect(target.x, target.y - 30, isSpecial ? '#ffd24a' : '#ffaa44', isSpecial ? 100 : 80);
             } else {
-                damageUnit(target, attacker.atk);
+                damageUnit(target, atk);
                 addSlashEffect(target.x, target.y - 30, '#fff', 30);
             }
             snd.slash();
@@ -2766,6 +3100,17 @@
 
     function updateBattle(dt) {
         if(!game.active) return;
+        // スローモーション（ボス撃破時）
+        if(game.slowMoTimer > 0) {
+            game.slowMoTimer -= dt;
+            dt *= 0.3;
+        }
+        // コンボタイマー
+        if(game.comboTimer > 0) {
+            game.comboTimer -= dt;
+            if(game.comboTimer <= 0) game.combo = 0;
+        }
+        game.clearTime += dt;
         game.time += dt;
         // お金回復
         const wl = WALLET_LEVELS[game.walletLv];
@@ -2832,6 +3177,20 @@
             if(u.hitFlash > 0) u.hitFlash -= dt;
             if(u.swing > 0) u.swing = Math.max(0, u.swing - dt * 4);
 
+            // ステータス異常タイマー
+            if(u.frozen > 0) u.frozen -= dt;
+            if(u.stunned > 0) u.stunned -= dt;
+            if(u.burning > 0) {
+                u.burning -= dt;
+                u.burnTick = (u.burnTick || 0) + dt;
+                if(u.burnTick >= 0.5) {
+                    u.burnTick = 0;
+                    damageUnit(u, Math.max(2, u.maxHp * 0.03));
+                }
+            }
+            // 凍結・スタン中は行動不可
+            if(u.frozen > 0 || u.stunned > 0) continue;
+
             const target = findEnemyInRange(u);
             if(target) {
                 u.target = target;
@@ -2868,11 +3227,20 @@
                 }
                 if(target && best < 60) {
                     const aoeRange = (b.weapon === 'fireball' || b.weapon === 'thunder_bolt') ? 80 : 50;
+                    // ステータス異常付与
+                    const applyStatus = (t) => {
+                        if(b.weapon === 'thunder_bolt') t.stunned = Math.max(t.stunned||0, 1.0);
+                        else if(b.weapon === 'fireball') t.burning = Math.max(t.burning||0, 3.0);
+                        else if(b.weapon === 'magic_circle') t.frozen = Math.max(t.frozen||0, 1.5);
+                    };
                     if(b.aoe) {
                         game.units.forEach(t => {
-                            if(t.side !== b.side && !t.dead && Math.abs(t.x - target.x) < aoeRange) damageUnit(t, b.dmg);
+                            if(t.side !== b.side && !t.dead && Math.abs(t.x - target.x) < aoeRange) {
+                                damageUnit(t, b.dmg);
+                                applyStatus(t);
+                            }
                         });
-                    } else damageUnit(target, b.dmg);
+                    } else { damageUnit(target, b.dmg); applyStatus(target); }
                     // 魔法別の派手な着弾演出
                     if(b.weapon === 'fireball') {
                         // 巨大火炎爆発
@@ -2988,7 +3356,14 @@
                         if(!saveData.formation.includes(u)) saveData.formation.push(u);
                     }
                 }
+                // 星評価（残HP割合）
+                const hpRatio = game.playerCastleHp / Math.max(1, game.playerCastleMax);
+                let stars = 1;
+                if(hpRatio > 0.5) stars = 2;
+                if(hpRatio > 0.8) stars = 3;
+                if((saveData.stars[game.stageId] || 0) < stars) saveData.stars[game.stageId] = stars;
                 saveData.koban += stage.reward; saveGame();
+                checkAchievements();
                 game.castleDestroyed = { side:'e', timer:0, stage, unlockedNew };
                 triggerCastleFall(100);
             } else if(game.playerCastleHp <= 0) {
@@ -3212,6 +3587,42 @@
                 ctx.strokeText(hpText, u.x, u.y-62);
                 ctx.fillStyle = u.side==='p' ? '#aafff7' : '#ffbbbb';
                 ctx.fillText(hpText, u.x, u.y-62);
+                // 必殺技ゲージ（毎8回攻撃でMAX）
+                const sp = (u.attackCount||0) % 8 / 8;
+                if(sp > 0) {
+                    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                    ctx.fillRect(u.x-bw/2, u.y-52, bw, 2);
+                    ctx.fillStyle = sp >= 1 ? '#ffd24a' : '#ffaa44';
+                    ctx.fillRect(u.x-bw/2, u.y-52, bw*sp, 2);
+                }
+                // ステータス異常表示
+                if(u.frozen > 0) {
+                    ctx.fillStyle = `rgba(180,230,255,${Math.min(0.55, u.frozen*0.4)})`;
+                    ctx.fillRect(u.x-15, u.y-50, 30, 50);
+                }
+                if(u.stunned > 0) {
+                    ctx.fillStyle = `rgba(255,235,100,${Math.min(0.45, u.stunned*0.35)})`;
+                    ctx.fillRect(u.x-15, u.y-50, 30, 50);
+                }
+                if(u.burning > 0) {
+                    if(Math.random() < 0.4) {
+                        game.particles.push({
+                            x: u.x + (Math.random()-0.5)*16,
+                            y: u.y - 20 - Math.random()*30,
+                            vx: (Math.random()-0.5)*0.3,
+                            vy: -Math.random()*1.5 - 0.5,
+                            life: 0.5,
+                            color: ['#ff4400','#ff8800','#ffaa00'][Math.floor(Math.random()*3)],
+                            size: 3, isFire: true
+                        });
+                    }
+                }
+                // 強化Lv表示（味方のみ）
+                if(u.upgradeLv > 0) {
+                    ctx.fillStyle = '#ffd24a';
+                    ctx.font = 'bold 9px sans-serif';
+                    ctx.fillText(`+${u.upgradeLv}`, u.x + bw/2 + 4, u.y - 56);
+                }
             }
             ctx.globalAlpha = 1;
         }
@@ -3493,6 +3904,29 @@
                 const r = 30 + Math.random() * 70;
                 ctx.fillRect(cannonX + Math.cos(a)*r, cannonY + Math.sin(a)*r, 3, 3);
             }
+        }
+
+        // コンボ表示
+        if(game.combo >= 3) {
+            ctx.save();
+            const tCombo = Math.min(1, game.comboTimer / 5);
+            ctx.globalAlpha = 0.4 + tCombo * 0.6;
+            ctx.font = `bold ${24 + Math.min(20, game.combo)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.lineWidth = 5; ctx.strokeStyle = '#000';
+            const txt = `${game.combo} COMBO!`;
+            ctx.strokeText(txt, w/2, h*0.13);
+            ctx.fillStyle = game.combo >= 20 ? '#ff00ff' : game.combo >= 10 ? '#ff6600' : '#ffd24a';
+            ctx.fillText(txt, w/2, h*0.13);
+            ctx.restore();
+        }
+        // スローモーション時の縁暗化
+        if(game.slowMoTimer > 0) {
+            const v = ctx.createRadialGradient(w/2, h/2, w*0.3, w/2, h/2, w*0.7);
+            v.addColorStop(0, 'rgba(0,0,0,0)');
+            v.addColorStop(1, 'rgba(0,0,30,0.55)');
+            ctx.fillStyle = v;
+            ctx.fillRect(0, 0, w, h);
         }
 
         // フロート
