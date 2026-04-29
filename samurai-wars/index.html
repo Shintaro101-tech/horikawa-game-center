@@ -3197,8 +3197,21 @@
         game.units.push(u);
     }
 
+    // 雑魚はステージが進むほど強く（ボスは spawnBoss で別管理なので影響しない）
+    function getEnemyStageMult(stageId) {
+        const k = Math.max(0, (stageId || 1) - 1);
+        return { hp: 1 + k * 0.18, atk: 1 + k * 0.15 };
+    }
     function spawnEnemy(type) {
-        spawnUnit('e', ENEMY_DATA[type]);
+        const base = ENEMY_DATA[type];
+        if(!base) return;
+        const m = getEnemyStageMult(game.stageId);
+        const data = Object.assign({}, base, {
+            hp:   Math.round(base.hp  * m.hp),
+            atk:  Math.round(base.atk * m.atk),
+            gold: Math.round((base.gold || 0) * Math.sqrt(m.hp))
+        });
+        spawnUnit('e', data);
     }
 
     function damageUnit(u, dmg) {
