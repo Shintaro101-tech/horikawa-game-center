@@ -150,6 +150,15 @@
         }
         .game-card.race:hover { box-shadow: 0 0 50px rgba(233, 30, 99, 0.5); }
 
+        .game-card.war {
+            border-color: #ff3344;
+            box-shadow: 0 0 30px rgba(255, 51, 68, 0.3);
+        }
+        .game-card.war::before {
+            background: linear-gradient(135deg, #4a0010 0%, #ff3344 100%);
+        }
+        .game-card.war:hover { box-shadow: 0 0 50px rgba(255, 51, 68, 0.55); }
+
         .emoji {
             font-size: 64px;
             line-height: 1;
@@ -225,6 +234,12 @@
                 <div class="emoji">⚔️</div>
                 <h2>漢字侍 聖剣伝説</h2>
                 <p class="desc">聖剣で封印を斬り、精霊を解放せよ！</p>
+                <span class="arrow">▶ プレイ</span>
+            </a>
+            <a href="samurai-wars/" class="game-card war">
+                <div class="emoji">🏯</div>
+                <h2>過去・未来大戦争</h2>
+                <p class="desc">侍とロボットを率いて敵城を落とせ！</p>
                 <span class="arrow">▶ プレイ</span>
             </a>
         </div>
