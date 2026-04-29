@@ -408,12 +408,12 @@
         /* ========== レスポンシブ調整 ========== */
         /* スマホ縦（≤600px） */
         @media (max-width: 600px) {
-            /* HUD最上段：HPバーのみ表示。HP数値はキャンバス上で表示済みなので非表示 */
+            /* HUD最上段：HPバー＋HP数値をコンパクトに表示 */
             #top-bar { padding: 3px 6px; gap: 4px; }
             .castle-bar-outer { height: 7px; }
             .castle-label { font-size: 0.58rem; letter-spacing: 0.5px;
                             white-space: nowrap; margin-bottom: 1px; }
-            #enemy-hp-text, #player-hp-text { display: none; }
+            #enemy-hp-text, #player-hp-text { font-size: 0.58rem; }
             #stage-title { font-size: 0.6rem; letter-spacing: 1px;
                            white-space: nowrap; overflow: hidden;
                            text-overflow: ellipsis; max-width: 26vw; }
@@ -505,19 +505,48 @@
 
         /* 横向きスマホ（高さ小） */
         @media (max-height: 500px) and (orientation: landscape) {
-            #top-bar { padding: 2px 6px; }
-            .castle-bar-outer { height: 6px; }
-            .castle-label { font-size: 0.58rem; margin-bottom: 1px; }
-            #enemy-hp-text, #player-hp-text { display: none; }
-            #money-panel { top: 28px; padding: 3px 8px; font-size: 0.7rem; }
-            #laser-panel { top: 28px; padding: 3px 6px; min-width: 92px; }
-            #laser-btn { min-height: 26px; padding: 3px 6px; font-size: 0.68rem; }
-            #laser-bar-outer { height: 4px; }
-            .ucard { width: 56px; min-height: 68px; padding: 2px; }
-            .ucard canvas { width: 40px; height: 40px; }
-            .ucard .uname { font-size: 0.55rem; }
-            .ucard .ucost { font-size: 0.55rem; }
-            #unit-cards { padding: 4px 4px 6px; gap: 3px; }
+            /* 最上段HUDをスリム化、HP数値も超小型で表示 */
+            #top-bar { padding: 2px 6px; gap: 4px; }
+            .castle-bar-outer { height: 5px; }
+            .castle-label { font-size: 0.5rem; letter-spacing: 0.5px;
+                            margin-bottom: 1px; white-space: nowrap; }
+            #enemy-hp-text, #player-hp-text { font-size: 0.5rem; }
+            #stage-title { font-size: 0.55rem; max-width: 18vw;
+                           letter-spacing: 0.5px; }
+            .castle-hp { max-width: 28vw; }
+
+            /* 財布パネル — コンパクトに */
+            #money-panel { top: 22px; left: 4px; padding: 2px 6px;
+                           font-size: 0.62rem; gap: 4px;
+                           border-radius: 5px; border-width: 1px; }
+            #wallet-btn { padding: 2px 5px; font-size: 0.55rem;
+                          border-width: 1px; }
+
+            /* レーザーパネル — チップサイズに */
+            #laser-panel { top: 22px; right: 4px; padding: 2px 5px;
+                           min-width: 84px; gap: 1px; border-radius: 5px;
+                           border-width: 1px; }
+            #laser-panel > div:first-child { font-size: 0.48rem !important;
+                                              line-height: 1; margin-bottom: 0; letter-spacing: 0; }
+            #laser-btn { min-height: 22px; padding: 2px 5px;
+                         font-size: 0.6rem; border-width: 1px; }
+            #laser-bar-outer { height: 3px; }
+
+            /* ホーム戻るリンク — 最小化 */
+            .home-back { top: 3px; right: 3px; padding: 2px 6px;
+                         font-size: 9px; letter-spacing: 1px; }
+
+            /* ユニットカード — 半透明＋小型でゲーム画面を邪魔しない */
+            #unit-cards { padding: 3px 3px 5px; gap: 3px;
+                          background: linear-gradient(to top,
+                                rgba(0,0,0,0.45), rgba(0,0,0,0.05) 60%, transparent); }
+            .ucard { width: 50px; min-height: 60px; padding: 1px;
+                     background: rgba(20,10,30,0.7);
+                     border-width: 1px; border-radius: 5px; }
+            .ucard canvas { width: 36px; height: 36px; }
+            .ucard .uname { font-size: 0.48rem; line-height: 1; }
+            .ucard .ucost { font-size: 0.48rem; line-height: 1; }
+            .ucard .ucd { font-size: 0.6rem; }
         }
 
         /* 大画面（PC・タブレット） */
@@ -4219,15 +4248,7 @@
         }
         drawWithShake('e', 100, false, game.enemyCastleHp / Math.max(1,game.enemyCastleMax));
         drawWithShake('p', w - 100, true, game.playerCastleHp / Math.max(1,game.playerCastleMax));
-        // 城のHP数値（城の頭上）
-        ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
-        ctx.lineWidth = 4; ctx.strokeStyle = '#000';
-        const eHpStr = `${Math.ceil(game.enemyCastleHp)}/${game.enemyCastleMax}`;
-        ctx.strokeText(eHpStr, 100, groundY()-220);
-        ctx.fillStyle = '#ff8888'; ctx.fillText(eHpStr, 100, groundY()-220);
-        const pHpStr = `${Math.ceil(game.playerCastleHp)}/${game.playerCastleMax}`;
-        ctx.strokeText(pHpStr, w-100, groundY()-220);
-        ctx.fillStyle = '#aafff7'; ctx.fillText(pHpStr, w-100, groundY()-220);
+        // ※ 城HPの数値は HUD top-bar に集約（キャンバス描画は廃止して HUD と重ならないように）
 
         // ユニット
         const sorted = [...game.units].sort((a,b)=>a.x - b.x);
