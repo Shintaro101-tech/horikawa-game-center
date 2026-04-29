@@ -86,32 +86,84 @@
         .ach-card .ach-desc { font-size:0.72rem; color:#bbb; margin-top:2px; }
 
         /* ===== ガチャ演出 ===== */
-        .gacha-orb { position:relative; width:140px; height:140px; margin:24px auto;
-            animation: gachaShake 0.35s ease-in-out infinite; }
-        .gacha-orb-core { position:absolute; inset:36px; border-radius:50%;
-            background:radial-gradient(circle, #fff 0%, #ffd24a 35%, #ff6600 70%, #ff3344 100%);
-            box-shadow:0 0 40px #ffd24a, 0 0 80px #ff6600, 0 0 120px #ff3344;
-            animation: gachaPulse 0.5s ease-in-out infinite alternate; }
-        .gacha-orb-ring { position:absolute; inset:0; border:3px solid #ffd24a;
-            border-radius:50%; border-top-color:transparent;
-            animation: gachaRotate 1.4s linear infinite;
-            box-shadow:0 0 14px #ffd24a inset, 0 0 14px #ffd24a; }
-        .gacha-orb-ring.r2 { inset:12px; border:2px solid #00f0ff;
-            border-bottom-color:transparent; animation-duration:0.9s; animation-direction:reverse; }
-        .gacha-orb-ring.r3 { inset:24px; border:2px dashed #ff00ff;
-            border-left-color:transparent; animation-duration:0.65s; }
-        @keyframes gachaShake {
-            0%,100% { transform:translateX(0) rotate(0deg); }
-            25% { transform:translateX(-4px) rotate(-2deg); }
-            75% { transform:translateX(4px) rotate(2deg); }
+        .gacha-stage { position:relative; min-height:280px; display:flex;
+            flex-direction:column; align-items:center; justify-content:center; }
+        .gacha-stage.shake { animation:gachaStageShake 0.18s ease-in-out infinite; }
+        @keyframes gachaStageShake {
+            0%,100% { transform:translate(0,0) rotate(0); }
+            25% { transform:translate(-4px, 2px) rotate(-0.8deg); }
+            50% { transform:translate(4px, -2px) rotate(0.8deg); }
+            75% { transform:translate(-2px, 3px) rotate(-0.4deg); }
         }
-        @keyframes gachaPulse {
-            from { transform:scale(0.85); filter:brightness(0.9); }
-            to   { transform:scale(1.2);  filter:brightness(1.6); }
+        /* 宝箱 */
+        .gacha-chest { position:relative; width:180px; height:170px; }
+        .gacha-chest-body { position:absolute; bottom:0; left:0; right:0; height:100px;
+            background:linear-gradient(180deg, #a05a20 0%, #5a2a08 100%);
+            border:3px solid #ffd24a; border-radius:6px 6px 10px 10px;
+            box-shadow:0 0 30px rgba(255,210,74,0.7), inset 0 0 16px rgba(0,0,0,0.5); }
+        .gacha-chest-body::before {
+            content:''; position:absolute; left:50%; top:24px; transform:translateX(-50%);
+            width:32px; height:32px; background:radial-gradient(circle, #fff, #ffd24a 70%);
+            border-radius:50%; box-shadow:0 0 18px #ffd24a;
+            animation:gachaLockPulse 0.6s ease-in-out infinite alternate;
         }
-        @keyframes gachaRotate {
-            from { transform:rotate(0deg); }
-            to   { transform:rotate(360deg); }
+        @keyframes gachaLockPulse {
+            from { box-shadow:0 0 18px #ffd24a; }
+            to   { box-shadow:0 0 36px #ffd24a, 0 0 60px #ff6600; }
+        }
+        .gacha-chest-lid { position:absolute; top:30px; left:0; right:0; height:50px;
+            background:linear-gradient(180deg, #b56822 0%, #7a3a10 100%);
+            border:3px solid #ffd24a; border-radius:80px 80px 8px 8px / 60px 60px 8px 8px;
+            box-shadow:0 0 24px rgba(255,210,74,0.7);
+            transform-origin:bottom center;
+            animation:gachaChestRattle 0.18s ease-in-out infinite alternate; }
+        @keyframes gachaChestRattle {
+            0% { transform:rotate(-4deg) translateY(0); }
+            100% { transform:rotate(4deg) translateY(-2px); }
+        }
+        .gacha-chest-glow { position:absolute; top:30px; left:50%; transform:translateX(-50%);
+            width:140px; height:140px; border-radius:50%; pointer-events:none;
+            background:radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,210,74,0.6) 30%, rgba(255,80,40,0.3) 60%, transparent 80%);
+            animation:gachaChestGlow 0.4s ease-in-out infinite alternate;
+            mix-blend-mode:screen; }
+        @keyframes gachaChestGlow {
+            from { opacity:0.4; transform:translateX(-50%) scale(0.7); }
+            to   { opacity:1;   transform:translateX(-50%) scale(1.4); }
+        }
+        /* スロットマシン風の名前回転 */
+        .gacha-slot { font-size:1.5rem; font-weight:bold; color:var(--gold);
+            text-shadow:0 0 14px var(--gold), 0 0 28px var(--red);
+            letter-spacing:2px; margin-top:14px; min-height:1.5em;
+            filter:blur(0.5px); animation:gachaSlotShake 0.08s ease-in-out infinite; }
+        @keyframes gachaSlotShake {
+            0%,100% { transform:translateY(0); }
+            50%     { transform:translateY(-2px); }
+        }
+        /* 宝箱バースト時 */
+        .gacha-chest.burst .gacha-chest-lid {
+            animation:gachaLidFly 0.7s cubic-bezier(0.2,0.8,0.2,1.2) forwards; }
+        @keyframes gachaLidFly {
+            0%   { transform:rotate(0) translateY(0); }
+            100% { transform:rotate(-150deg) translate(-50px,-300px); opacity:0; }
+        }
+        .gacha-chest.burst .gacha-chest-body {
+            animation:gachaBodyFade 0.8s ease-out forwards; }
+        @keyframes gachaBodyFade {
+            0%   { transform:scale(1) translateY(0); opacity:1; }
+            100% { transform:scale(0.5) translateY(40px); opacity:0; }
+        }
+        /* 光柱 */
+        .gacha-light-beam { position:absolute; left:50%; top:-100vh;
+            transform:translateX(-50%); width:80px; height:200vh; pointer-events:none;
+            background:linear-gradient(180deg, transparent 0%, rgba(255,255,200,0.85) 30%, rgba(255,210,74,1) 50%, rgba(255,80,40,0.85) 70%, transparent 100%);
+            box-shadow:0 0 100px rgba(255,210,74,0.9), 0 0 200px rgba(255,80,40,0.6);
+            mix-blend-mode:screen;
+            animation:gachaBeamRise 0.9s ease-out forwards; z-index:53; }
+        @keyframes gachaBeamRise {
+            0%   { opacity:0; transform:translateX(-50%) scaleY(0) scaleX(0.3); }
+            25%  { opacity:1; transform:translateX(-50%) scaleY(1) scaleX(1); }
+            70%  { opacity:1; transform:translateX(-50%) scaleY(1) scaleX(1.4); }
+            100% { opacity:0; transform:translateX(-50%) scaleY(1) scaleX(2); }
         }
         .gacha-build-text { color:var(--gold); font-size:1.05rem; letter-spacing:4px;
             text-shadow:0 0 10px var(--gold); margin-top:10px;
@@ -1281,57 +1333,84 @@
         const btns = document.querySelectorAll('#gacha-screen button');
         btns.forEach(b => b.disabled = true);
 
-        // フェーズ1: チャージ演出（魔法陣＋光球）
-        result.innerHTML = `
-            <div class="gacha-orb">
-                <div class="gacha-orb-core"></div>
-                <div class="gacha-orb-ring"></div>
-                <div class="gacha-orb-ring r2"></div>
-                <div class="gacha-orb-ring r3"></div>
-            </div>
-            <div class="gacha-build-text">⚡ チャージ中… ⚡</div>
-        `;
-        // チャージ音を連打
-        if(snd && snd.coin) {
-            snd.coin();
-            setTimeout(()=>snd.coin(), 250);
-            setTimeout(()=>snd.coin(), 500);
-            setTimeout(()=>snd.coin(), 750);
-            setTimeout(()=>snd.coin(), 1000);
-        }
-        // レアリティ高いほど長く溜める
         const isHighRare = pick && pick.rarity >= 4;
         const isJackpot  = pick && pick.rarity >= 5;
-        const buildMs = isJackpot ? 2400 : isHighRare ? 1800 : 1300;
-        // チャージ後半でテキスト変更
+        const buildMs = isJackpot ? 3600 : isHighRare ? 2800 : 2000;
+
+        // フェーズ1: 宝箱が震えながら光り、スロットで戦士名がぐるぐる回転
+        result.innerHTML = `
+            <div class="gacha-stage shake">
+                <div class="gacha-chest">
+                    <div class="gacha-chest-glow"></div>
+                    <div class="gacha-chest-body"></div>
+                    <div class="gacha-chest-lid"></div>
+                </div>
+                <div class="gacha-slot" id="gacha-slot">？？？</div>
+                <div class="gacha-build-text">⚡ チャージ中… ⚡</div>
+            </div>
+        `;
+        // 名前を高速で回転
+        const allNames = SAMURAI_DATA.map(u => u.name);
+        let slotIdx = 0;
+        const slotInterval = setInterval(() => {
+            const slotEl = document.getElementById('gacha-slot');
+            if(slotEl) {
+                slotIdx = (slotIdx + Math.floor(Math.random()*5) + 1) % allNames.length;
+                slotEl.innerText = allNames[slotIdx];
+            }
+        }, 70);
+
+        // チャージ音を断続的に再生
+        if(snd && snd.coin) {
+            for(let i=0; i<8; i++) setTimeout(()=>snd.coin(), i * (buildMs/9));
+        }
+
+        // 中盤でテキスト変更（レアリティに応じて）
         setTimeout(() => {
             const t = result.querySelector('.gacha-build-text');
             if(t) {
                 if(isJackpot) { t.innerText = '🌟 何かが目覚める…！ 🌟'; t.style.color = '#ff00ff'; t.style.textShadow = '0 0 14px #ff00ff'; }
                 else if(isHighRare) { t.innerText = '✨ 強き気配… ✨'; t.style.color = '#ffd24a'; }
             }
-        }, buildMs * 0.55);
+        }, buildMs * 0.5);
 
-        // フェーズ2: リビール
-        setTimeout(() => {
-            // 大当たりなら虹色フラッシュ＋画面紙吹雪
-            if(isJackpot) {
+        // 終盤: ジャックポットなら虹色フラッシュ
+        if(isJackpot) {
+            setTimeout(() => {
                 const bg = document.createElement('div');
                 bg.className = 'gacha-jackpot-bg';
                 document.body.appendChild(bg);
                 setTimeout(()=> bg.remove(), 1300);
-                spawnGachaConfetti(5);
-            } else if(isHighRare) {
-                spawnGachaConfetti(4);
-            } else if(pick) {
-                spawnGachaConfetti(3);
-            }
-            if(snd && snd.win) snd.win();
-            if(snd && snd.explode && isHighRare) snd.explode();
+            }, buildMs - 600);
+        }
 
+        // フェーズ2: 宝箱バースト（蓋が吹き飛び光柱が立つ）
+        setTimeout(() => {
+            clearInterval(slotInterval);
+            // 宝箱バースト用に書き換え
+            result.innerHTML = `
+                <div class="gacha-stage">
+                    <div class="gacha-chest burst">
+                        <div class="gacha-chest-glow"></div>
+                        <div class="gacha-chest-body"></div>
+                        <div class="gacha-chest-lid"></div>
+                    </div>
+                </div>
+                <div class="gacha-light-beam"></div>
+            `;
+            if(snd && snd.explode) snd.explode();
+            // 紙吹雪／花火
+            if(isJackpot) spawnGachaConfetti(5);
+            else if(isHighRare) spawnGachaConfetti(4);
+            else if(pick) spawnGachaConfetti(3);
+        }, buildMs);
+
+        // フェーズ3: キャラお披露目
+        setTimeout(() => {
+            if(snd && snd.win) snd.win();
             if(allDone) {
                 result.innerHTML = `
-                    <div class="gacha-reveal" style="color:var(--cyan); font-size:1.2rem; line-height:1.6;">
+                    <div class="gacha-reveal" style="color:var(--cyan); font-size:1.2rem; line-height:1.6; padding:30px 0;">
                         ✨ 全戦士 解放済 ✨<br>
                         <span style="color:var(--gold);">💴 +200円 のおまけ！</span>
                     </div>`;
@@ -1342,19 +1421,19 @@
                 result.innerHTML = `
                     <div class="gacha-reveal">
                         <div class="gacha-rarity" style="color:${rarColor};">${rarity}</div>
-                        <canvas id="gacha-portrait" width="120" height="120"></canvas>
+                        <canvas id="gacha-portrait" width="140" height="140"></canvas>
                         <div class="gacha-name">${ruby(pick.name, pick.yomi)} <span style="font-size:0.7em; color:var(--cyan);">加入！</span></div>
                         <div class="gacha-desc">${pick.desc}</div>
                         ${secret}
                     </div>`;
                 const pc = document.getElementById('gacha-portrait').getContext('2d');
-                pc.clearRect(0,0,120,120);
-                drawSamuraiCanvas(pc, 60, 105, pick, 1, 0, 1.65);
+                pc.clearRect(0,0,140,140);
+                drawSamuraiCanvas(pc, 70, 122, pick, 1, 0, 1.85);
                 checkAchievements();
             }
             btns.forEach(b => b.disabled = false);
             _gachaRolling = false;
-        }, buildMs);
+        }, buildMs + 700);
     }
 
     function spawnGachaConfetti(rarity) {
