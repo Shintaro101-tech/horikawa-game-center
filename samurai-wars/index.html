@@ -246,6 +246,92 @@
             10%  { transform:translate(0,-40px) scale(1.4) rotate(60deg); opacity:1; }
             100% { transform:translate(var(--fx, 100px), var(--fy, 800px)) scale(0.4) rotate(720deg); opacity:0; }
         }
+
+        /* ========== レスポンシブ調整 ========== */
+        /* 小画面（スマホ縦） */
+        @media (max-width: 600px) {
+            #top-bar { padding: 4px 8px; gap: 6px; }
+            .castle-bar-outer { height: 10px; }
+            .castle-label { font-size: 0.66rem; letter-spacing: 1px; }
+            #stage-title { font-size: 0.72rem; letter-spacing: 1px; }
+
+            #money-panel { top: 44px; left: 8px; padding: 4px 10px; font-size: 0.78rem; gap: 6px; }
+            #wallet-btn { padding: 4px 8px; font-size: 0.66rem; }
+
+            #laser-panel { top: 44px; right: 8px; padding: 4px 8px; min-width: 108px; }
+            #laser-panel > div:first-child { font-size: 0.62rem !important; letter-spacing:1px; }
+            #laser-btn { padding: 6px 10px; font-size: 0.78rem; min-height: 36px; letter-spacing:1px; }
+            #laser-bar-outer { height: 6px; }
+
+            #unit-cards { padding: 8px 4px 12px; gap: 4px; }
+            .ucard { width: 64px; min-height: 84px; padding: 3px; }
+            .ucard canvas { width: 48px; height: 48px; }
+            .ucard .uname { font-size: 0.6rem; line-height: 1.1; }
+            .ucard .ucost { font-size: 0.6rem; }
+            .ucard .ucd { font-size: 0.7rem; }
+
+            .stage-card, .roster-card { min-width: 0; max-width: none; padding: 10px 12px; }
+            .stage-name { font-size: 1rem; letter-spacing: 1px; }
+            .stage-info { font-size: 0.72rem; }
+            #stage-list { max-width: 92vw !important; }
+
+            .btn { min-width: 0; padding: 12px 16px; min-height: 48px;
+                   font-size: clamp(0.95rem, 4.2vw, 1.15rem); }
+
+            #formation-list, #prebattle-list {
+                grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+                gap: 6px; padding: 8px; }
+            .fcard { padding: 4px; }
+            .fcard canvas { width: 50px; height: 50px; }
+            .fcard .fname { font-size: 0.7rem; }
+            .fcard .fcost { font-size: 0.65rem; }
+
+            #roster-list { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                           gap: 6px; padding: 6px; }
+            .roster-card { padding: 6px; }
+            .roster-portrait { width: 50px; height: 50px; }
+
+            h1.title-main { letter-spacing: 4px !important; font-size: clamp(2rem, 9vw, 3.5rem) !important; }
+            .title-crest { font-size: clamp(2.2rem, 11vw, 4rem); }
+            .home-back { top: 8px; right: 8px; padding: 4px 10px; font-size: 11px; letter-spacing: 1px; }
+
+            #unlock-banner { padding: 12px 16px; min-width: 200px; }
+            #unlock-banner canvas { width: 110px !important; height: 110px !important; }
+            #unlock-banner .ub-name { font-size: 1.25rem; letter-spacing: 2px; }
+            #unlock-banner .ub-desc { font-size: 0.78rem; }
+        }
+
+        /* 横向きスマホ（高さ小） */
+        @media (max-height: 500px) and (orientation: landscape) {
+            #top-bar { padding: 2px 6px; }
+            .castle-bar-outer { height: 8px; }
+            .castle-label { font-size: 0.62rem; margin-bottom: 1px; }
+            #money-panel { top: 36px; padding: 3px 8px; font-size: 0.74rem; }
+            #laser-panel { top: 36px; padding: 3px 8px; min-width: 100px; }
+            #laser-btn { min-height: 30px; padding: 4px 8px; font-size: 0.74rem; }
+            .ucard { width: 56px; min-height: 70px; padding: 2px; }
+            .ucard canvas { width: 40px; height: 40px; }
+            .ucard .uname { font-size: 0.55rem; }
+            .ucard .ucost { font-size: 0.55rem; }
+            #unit-cards { padding: 4px 4px 6px; gap: 3px; }
+        }
+
+        /* 大画面（PC・タブレット） */
+        @media (min-width: 1100px) {
+            #top-bar { padding: 12px 20px; gap: 16px; }
+            .castle-bar-outer { height: 22px; }
+            #stage-title { font-size: 1.1rem; }
+            #money-panel { top: 80px; left: 20px; padding: 10px 18px; font-size: 1.1rem; }
+            #laser-panel { top: 80px; right: 20px; padding: 10px 18px; min-width: 180px; }
+            .ucard { width: 96px; min-height: 110px; }
+            .ucard canvas { width: 72px; height: 72px; }
+            .ucard .uname { font-size: 0.85rem; }
+        }
+
+        /* 超大画面（4K等）— 中央寄せの広すぎない HUD */
+        @media (min-width: 1600px) {
+            #money-panel, #laser-panel { font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>
