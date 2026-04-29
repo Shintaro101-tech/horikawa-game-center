@@ -589,7 +589,7 @@
         <!-- 編成（タイトルから） -->
         <div id="formation-screen" class="screen hidden">
             <h2>🛡 <ruby>編成<rt>へんせい</rt></ruby></h2>
-            <div class="subtitle"><ruby>出陣<rt>しゅつじん</rt></ruby>させる<ruby>戦士<rt>せんし</rt></ruby>を<ruby>選<rt>えら</rt></ruby>べ（<ruby>最大<rt>さいだい</rt></ruby>10<ruby>名<rt>めい</rt></ruby>）</div>
+            <div class="subtitle"><ruby>出陣<rt>しゅつじん</rt></ruby>させる<ruby>戦士<rt>せんし</rt></ruby>を<ruby>選<rt>えら</rt></ruby>べ（<ruby>何人<rt>なんにん</rt></ruby>でもOK）</div>
             <div id="formation-list"></div>
             <div style="margin-top:10px; color:var(--cyan); font-size:0.85rem;">
                 <ruby>選<rt>えら</rt></ruby>んでいる<ruby>戦士<rt>せんし</rt></ruby>: <span id="formation-count">0</span>
@@ -633,7 +633,7 @@
             </div>
             <div id="prebattle-list"></div>
             <div style="margin-top:10px; color:var(--cyan); font-size:0.85rem;">
-                <ruby>選<rt>えら</rt></ruby>んでいる<ruby>戦士<rt>せんし</rt></ruby>: <span id="prebattle-count">0</span> / 10
+                <ruby>選<rt>えら</rt></ruby>んでいる<ruby>戦士<rt>せんし</rt></ruby>: <span id="prebattle-count">0</span><ruby>名<rt>めい</rt></ruby>
             </div>
             <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:10px;">
                 <button class="btn" onclick="showScreen('stage-select')"><ruby>戻<rt>もど</rt></ruby>る</button>
@@ -1200,7 +1200,6 @@
                     if(saveData.formation.includes(u.id)) {
                         saveData.formation = saveData.formation.filter(x=>x!==u.id);
                     } else {
-                        if(saveData.formation.length >= 10) return;
                         saveData.formation.push(u.id);
                     }
                     saveGame(); renderPrebattleList();
@@ -1321,7 +1320,7 @@
         } else {
             pick = locked[Math.floor(Math.random()*locked.length)];
             saveData.unlockedSamurai.push(pick.id);
-            if(!saveData.formation.includes(pick.id) && saveData.formation.length < 10) {
+            if(!saveData.formation.includes(pick.id)) {
                 saveData.formation.push(pick.id);
             }
         }
@@ -1496,7 +1495,6 @@
                     if(saveData.formation.includes(u.id)) {
                         saveData.formation = saveData.formation.filter(x=>x!==u.id);
                     } else {
-                        if(saveData.formation.length >= 10) return;
                         saveData.formation.push(u.id);
                     }
                     saveGame(); renderFormation(); renderUnitCards();
@@ -3844,37 +3842,44 @@
                 ctx.fillStyle = `rgba(255,255,255,${u.hitFlash*5})`;
                 ctx.fillRect(u.x-15, u.y-50, 30, 50);
             }
-            // HPバー＋数値
+            // HPバー＋数値（スケールに応じて頭上に配置）
             if(!u.dead) {
-                const bw = 36; const bh = 4;
+                const sc = u.scale || 1;
+                const headTop = u.y - 56 * sc - 6;     // 頭の少し上
+                const bodyTop = u.y - 50 * sc;          // 体の上端
+                const bodyH   = 50 * sc;                // 体の高さ
+                const bw = Math.max(36, 36 * Math.min(1.6, sc));
+                const bh = Math.max(4, sc >= 1.8 ? 6 : 4);
                 ctx.fillStyle = 'rgba(0,0,0,0.75)';
-                ctx.fillRect(u.x-bw/2, u.y-58, bw, bh);
+                ctx.fillRect(u.x-bw/2, headTop, bw, bh);
                 ctx.fillStyle = u.side==='p' ? '#00f0ff' : '#ff3344';
-                ctx.fillRect(u.x-bw/2, u.y-58, bw * (u.hp/u.maxHp), bh);
+                ctx.fillRect(u.x-bw/2, headTop, bw * (u.hp/u.maxHp), bh);
                 // HP数値
-                ctx.font = 'bold 11px sans-serif';
+                const hpFont = sc >= 1.8 ? 13 : 11;
+                ctx.font = `bold ${hpFont}px sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.lineWidth = 3; ctx.strokeStyle = '#000';
                 const hpText = `${Math.ceil(u.hp)}`;
-                ctx.strokeText(hpText, u.x, u.y-62);
+                ctx.strokeText(hpText, u.x, headTop - 4);
                 ctx.fillStyle = u.side==='p' ? '#aafff7' : '#ffbbbb';
-                ctx.fillText(hpText, u.x, u.y-62);
-                // 必殺技ゲージ（毎8回攻撃でMAX）
+                ctx.fillText(hpText, u.x, headTop - 4);
+                // 必殺技ゲージ（HPバーの直下）
                 const sp = (u.attackCount||0) % 8 / 8;
                 if(sp > 0) {
+                    const gy = headTop + bh + 1;
                     ctx.fillStyle = 'rgba(0,0,0,0.5)';
-                    ctx.fillRect(u.x-bw/2, u.y-52, bw, 2);
+                    ctx.fillRect(u.x-bw/2, gy, bw, 2);
                     ctx.fillStyle = sp >= 1 ? '#ffd24a' : '#ffaa44';
-                    ctx.fillRect(u.x-bw/2, u.y-52, bw*sp, 2);
+                    ctx.fillRect(u.x-bw/2, gy, bw*sp, 2);
                 }
-                // ステータス異常表示
+                // ステータス異常表示（体全体に被せる）
                 if(u.frozen > 0) {
                     ctx.fillStyle = `rgba(180,230,255,${Math.min(0.55, u.frozen*0.4)})`;
-                    ctx.fillRect(u.x-15, u.y-50, 30, 50);
+                    ctx.fillRect(u.x-15*sc, bodyTop, 30*sc, bodyH);
                 }
                 if(u.stunned > 0) {
                     ctx.fillStyle = `rgba(255,235,100,${Math.min(0.45, u.stunned*0.35)})`;
-                    ctx.fillRect(u.x-15, u.y-50, 30, 50);
+                    ctx.fillRect(u.x-15*sc, bodyTop, 30*sc, bodyH);
                 }
                 if(u.burning > 0) {
                     if(Math.random() < 0.4) {
@@ -3892,8 +3897,8 @@
                 // 強化Lv表示（味方のみ）
                 if(u.upgradeLv > 0) {
                     ctx.fillStyle = '#ffd24a';
-                    ctx.font = 'bold 9px sans-serif';
-                    ctx.fillText(`+${u.upgradeLv}`, u.x + bw/2 + 4, u.y - 56);
+                    ctx.font = `bold ${sc >= 1.8 ? 11 : 9}px sans-serif`;
+                    ctx.fillText(`+${u.upgradeLv}`, u.x + bw/2 + 6, headTop + bh - 1);
                 }
             }
             ctx.globalAlpha = 1;
