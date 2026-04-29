@@ -811,6 +811,35 @@
             };
             this.bgm=setTimeout(sch,0);
         }
+        // ボス戦用 — 速いテンポ・低音強化・短調メロディで緊迫感を演出
+        startBossBGM() {
+            this.stopBGM();
+            if(!this.ctx) return;
+            let next=this.ctx.currentTime, beat=0;
+            const melody = [294, 277, 247, 277, 294, 311, 247, 220];
+            const sch=()=>{
+                if(!this.bgm && beat>0) return;
+                while(next<this.ctx.currentTime+0.1) {
+                    // ヘビーキック（毎拍）
+                    if(beat%2===0) this._o(82,0.01,0.5,0.14,next,'sawtooth');
+                    // ハット風ノイズ（裏拍）
+                    if(beat%2===1) this._n(2400, 0.35, 0.05, next);
+                    // 緊張感のある短調メロディ
+                    if(beat%2===0) {
+                        const f = melody[Math.floor(beat/2)%melody.length];
+                        this._o(f, f, 0.14, 0.12, next, 'square');
+                    }
+                    // ベースリフ
+                    if(beat%8===0) this._o(110, 110, 0.4, 0.22, next, 'sawtooth');
+                    if(beat%8===4) this._o(82, 82, 0.4, 0.22, next, 'sawtooth');
+                    // 太鼓のドロン
+                    if(beat%16===0) this._o(55, 55, 0.6, 0.24, next, 'triangle');
+                    next+=0.12; beat++;
+                }
+                this.bgm=setTimeout(sch,30);
+            };
+            this.bgm=setTimeout(sch,0);
+        }
         stopBGM() { if(this.bgm){ clearTimeout(this.bgm); this.bgm=null; } }
     }
     const snd = new Snd();
@@ -1065,6 +1094,8 @@
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
         if(snd && snd.die) snd.die();
+        // 緊迫感のあるボス戦BGMに切り替え
+        if(snd && snd.startBossBGM) snd.startBossBGM();
     }
 
     // 兜
@@ -2267,14 +2298,28 @@
                 ctx.beginPath(); ctx.arc(cx, cy, 18+i*4, 0, Math.PI*2); ctx.stroke();
             }
         } else if(t.id === 'hell') {
-            ctx.fillStyle = 'rgba(255,30,30,0.18)';
-            for(let i=0;i<5;i++){
+            // 静的な赤い瘴気（チラつかない）
+            ctx.fillStyle = 'rgba(255,40,60,0.10)';
+            const fogs = [
+                [0.05, 0.18, 0.18, 0.08, 0.14, 0.22],
+                [0.30, 0.42, 0.46, 0.30, 0.40, 0.50],
+                [0.62, 0.20, 0.78, 0.16, 0.70, 0.30],
+                [0.82, 0.55, 0.95, 0.48, 0.86, 0.62]
+            ];
+            fogs.forEach(f => {
                 ctx.beginPath();
-                ctx.moveTo(w*Math.random(), gy*Math.random());
-                ctx.lineTo(w*Math.random(), gy*Math.random());
-                ctx.lineTo(w*Math.random(), gy*Math.random());
+                ctx.moveTo(f[0]*w, f[1]*gy);
+                ctx.lineTo(f[2]*w, f[3]*gy);
+                ctx.lineTo(f[4]*w, f[5]*gy);
                 ctx.fill();
-            }
+            });
+            // ゆっくり脈動する遠景の光（時間ベース・なめらか）
+            const pulse = 0.06 + Math.sin(performance.now()*0.0015)*0.04;
+            const glow = ctx.createRadialGradient(w*0.5, gy*0.6, 0, w*0.5, gy*0.6, w*0.5);
+            glow.addColorStop(0, `rgba(180,30,30,${pulse})`);
+            glow.addColorStop(1, 'rgba(180,30,30,0)');
+            ctx.fillStyle = glow;
+            ctx.fillRect(0, 0, w, gy);
         } else if(t.id === 'sea') {
             // 鳥居シルエット
             ctx.fillStyle = 'rgba(220,40,50,0.55)';
