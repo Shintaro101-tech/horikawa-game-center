@@ -215,6 +215,20 @@
             color: #607D8B;
             letter-spacing: 2px;
         }
+
+        .visitor-counter {
+            margin-top: 14px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #18FFFF;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .visitor-counter .label { color: #607D8B; margin-right: 6px; }
+        .visitor-counter .num {
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 6px rgba(24,255,255,0.45);
+        }
     </style>
 </head>
 <body>
@@ -249,6 +263,31 @@
             </a>
         </div>
         <footer>© HORIKAWA FAMILY · MADE WITH VIBES</footer>
+        <div class="visitor-counter" id="visitor-counter" aria-live="polite">
+            <span class="label">のべ訪問者数</span><span class="num" id="visitor-count">—</span>
+        </div>
     </main>
+    <script>
+        (async () => {
+            const wrap = document.getElementById('visitor-counter');
+            const numEl = document.getElementById('visitor-count');
+            if (!wrap || !numEl) return;
+            const alreadyHit = sessionStorage.getItem('horikawa-arcade-hit') === '1';
+            const base = 'https://api.counterapi.dev/v1/horikawa-arcade/home';
+            const url = alreadyHit ? `${base}/` : `${base}/up`;
+            try {
+                const res = await fetch(url, { cache: 'no-store' });
+                if (!res.ok) throw new Error('counter http ' + res.status);
+                const data = await res.json();
+                const count = typeof data.count === 'number' ? data.count : null;
+                if (count === null) throw new Error('counter shape');
+                if (!alreadyHit) sessionStorage.setItem('horikawa-arcade-hit', '1');
+                numEl.textContent = count.toLocaleString('ja-JP');
+                wrap.style.opacity = '0.85';
+            } catch {
+                wrap.remove();
+            }
+        })();
+    </script>
 </body>
 </html>
