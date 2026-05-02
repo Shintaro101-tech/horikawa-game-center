@@ -171,6 +171,22 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去・未来大戦争: スサノオに「十拳剣の横一閃」攻撃を実装（味方/ボス両方）
+  - 武器を `odachi` → `slash_wave`、range を 60→200/240 に拡張
+  - 画面縦断の金色斬撃波が travel.dir 方向にスピード9で進む
+  - 同じ波は1ユニットにつき1回だけヒット（`hitUnits` で追跡）
+  - 城も範囲内なら直撃。射程内のすべての地上ユニットを貫く
+  - `game.slashWaves` 配列、`drawSlashWave()` 関数追加
+  - 必殺技時は「⚔神剣一閃⚔」演出
+- 過去・未来大戦争: ゴーレムを「苔むした古代（案C）+ 自爆突進（案⑥）」に変更
+  - 体色 `#5a5a5a`→`#5a6a5a`（グリーンがかった灰）
+  - 兜 `stone_block` に苔・葉・体側面の苔を追加、目を緑グロー（古代の魔力）
+  - 武器 `fist`→`self_destruct`、range 46→140、atkSpeed 1.7→2.4 に
+  - 自爆突進: 0-0.3s チャージ赤光 → 0.3-0.7s 突進ゴースト → 0.7s 大爆発
+  - ダメージ: AOE 130px に attacker.atk × 2.0
+  - 自分にも `maxHp × 18%` のダメージ（ノックバックなし）
+  - `game.kamikazes` 配列、`drawKamikazeRush()` 関数追加
+  - 必殺技時は「💥大爆発💥」演出
 - デザインプレビュー追加:
   - `samurai-wars/susanoo-attack-preview.html`（スサノオ攻撃6案）
   - `samurai-wars/golem-preview.html`（ゴーレム デザイン6案 + 攻撃6案）

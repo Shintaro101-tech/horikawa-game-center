@@ -917,10 +917,10 @@
         { id:'sp_sandworm', name:'サンドワーム', yomi:'さんどわーむ', cost:1600, hp:6000, atk:420, atkSpeed:2.0, range:130, speed:0.6,
           cooldown:36.0, color:'#a07040', helmet:'worm_head', weapon:'fist', rarity:4, scale:1.6, antiAir:true,
           desc:'砂漠の超巨大みみず。体を伸ばして空にも届く' },
-        // Stage 106: ゴーレム
-        { id:'sp_golem', name:'ゴーレム', yomi:'ごーれむ', cost:1500, hp:9000, atk:300, atkSpeed:1.7, range:46, speed:0.45,
-          cooldown:34.0, color:'#5a5a5a', helmet:'stone_block', weapon:'fist', rarity:4, scale:1.55,
-          desc:'石の巨人。圧倒的な耐久で戦線を支える' },
+        // Stage 106: ゴーレム（苔むした古代 + 自爆突進）
+        { id:'sp_golem', name:'ゴーレム', yomi:'ごーれむ', cost:1500, hp:9000, atk:300, atkSpeed:2.4, range:140, speed:0.45,
+          cooldown:34.0, color:'#5a6a5a', helmet:'stone_block', weapon:'self_destruct', rarity:4, scale:1.55,
+          desc:'苔むした古代の番人。自爆突進で全てを巻き込む' },
         // Stage 107: ティタノボア
         { id:'sp_titanoboa', name:'ティタノボア', yomi:'てぃたのぼあ', cost:1350, hp:5200, atk:370, atkSpeed:1.0, range:60, speed:1.0,
           cooldown:28.0, color:'#3a5a2a', helmet:'snake_giant', weapon:'fist', rarity:4, scale:1.55,
@@ -968,10 +968,10 @@
           cooldown:62.0, color:'#3a8a5a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
           flying:true, antiAir:true, ranged:true, aoe:true, noWings:true,
           desc:'神獣の如く宙を舞う中華龍。火炎で全てを焼き尽くす' },
-        // Stage 117: スサノオ（金の神将・仏神風）
-        { id:'sp_susanoo', name:'スサノオ', yomi:'すさのお', cost:3000, hp:11500, atk:900, atkSpeed:1.4, range:60, speed:1.1,
-          cooldown:60.0, color:'#ffd24a', helmet:'susanoo_helm', weapon:'odachi', rarity:5, scale:1.6,
-          desc:'金鎧と光輪を纏う神将。聖剣で地上を一閃する' },
+        // Stage 117: スサノオ（金の神将・仏神風 + 十拳剣の横一閃）
+        { id:'sp_susanoo', name:'スサノオ', yomi:'すさのお', cost:3000, hp:11500, atk:900, atkSpeed:1.5, range:200, speed:1.1,
+          cooldown:60.0, color:'#ffd24a', helmet:'susanoo_helm', weapon:'slash_wave', rarity:5, scale:1.6,
+          desc:'金鎧と光輪を纏う神将。十拳剣の一閃が画面横断' },
         // Stage 118: ゼウス（最終、対空、範囲、天雷柱）
         { id:'sp_zeus', name:'ゼウス', yomi:'ぜうす', cost:4200, hp:9000, atk:1300, atkSpeed:1.7, range:340, speed:1.0,
           cooldown:90.0, color:'#3a4a8a', helmet:'zeus_crown', weapon:'thunder_pillar', rarity:5, scale:1.5,
@@ -2019,8 +2019,8 @@
         104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'tusk', color:'#5a3a20', scale:2.3 },
         // Stage 105 — Sandworm (anti-air via stretch)
         105: { name:'サンドワーム', yomi:'さんどわーむ', hp:7500, atk:380, helmet:'worm_head', weapon:'fist', color:'#a07040', scale:2.1, range:140, antiAir:true },
-        // Stage 106
-        106: { name:'ゴーレム', yomi:'ごーれむ', hp:11000, atk:330, helmet:'stone_block', weapon:'fist', color:'#5a5a5a', scale:2.0 },
+        // Stage 106 — ゴーレム（苔むした古代 + 自爆突進）
+        106: { name:'ゴーレム', yomi:'ごーれむ', hp:11000, atk:330, helmet:'stone_block', weapon:'self_destruct', color:'#5a6a5a', scale:2.0, range:140, atkSpeed:2.5 },
         // Stage 107
         107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_giant', weapon:'fist', color:'#3a5a2a', scale:2.0, range:70 },
         // Stage 108 — Hercules beetle (flying + anti-air)
@@ -2041,8 +2041,8 @@
         115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'clone_rush', color:'#cc6600', scale:1.9, antiAir:true, range:160, clones:2 },
         // Stage 116 — Illuyanka (Eastern dragon, flying + anti-air + AOE fire)
         116: { name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', hp:28000, atk:1100, helmet:'dragon_head', weapon:'fire_breath', color:'#3a8a5a', scale:2.6, flying:true, antiAir:true, ranged:true, aoe:true, range:300, noWings:true },
-        // Stage 117
-        117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'odachi', color:'#ffd24a', scale:2.3 },
+        // Stage 117 — スサノオ（十拳剣の横一閃）
+        117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'slash_wave', color:'#ffd24a', scale:2.3, range:240 },
         // Stage 118 — Zeus (final megaboss: storm god with thunder pillar attack)
         118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.0 }
     };
@@ -2510,6 +2510,133 @@
             c.closePath(); c.fill();
             c.fillStyle = 'rgba(255,234,34,0.45)';
             c.beginPath(); c.arc(sx, sy+6, 8, 0, Math.PI*2); c.fill();
+        }
+    }
+
+    // 十拳剣の横一閃（スサノオ専用）
+    function drawSlashWave(c, sw) {
+        const x = sw.x;
+        const dir = sw.dir;
+        const fadeOut = Math.max(0, 1 - sw.traveled / sw.maxRange);
+        const fadeIn = Math.min(1, sw.traveled / 30);
+        const alpha = fadeIn * fadeOut;
+        const top = 30;
+        const bot = groundY() + 8;
+        const mid = (top + bot) / 2;
+        c.save();
+        c.globalAlpha = Math.max(0, Math.min(1, alpha));
+        // 残像（後方に5枚）
+        for(let k = 1; k <= 5; k++) {
+            const tx = x - dir * k * 12;
+            const a = Math.max(0, 1 - k*0.18);
+            c.strokeStyle = `rgba(255,210,74,${a*0.55})`;
+            c.lineWidth = 16 - k*1.8;
+            c.beginPath();
+            c.moveTo(tx, top);
+            c.lineTo(tx + dir*8, mid);
+            c.lineTo(tx, bot);
+            c.stroke();
+        }
+        // メインの斬撃（金）
+        c.strokeStyle = '#ffd24a';
+        c.lineWidth = 12;
+        c.beginPath();
+        c.moveTo(x, top);
+        c.lineTo(x + dir*14, mid);
+        c.lineTo(x, bot);
+        c.stroke();
+        // 中間の黄金光
+        c.strokeStyle = '#ffea22';
+        c.lineWidth = 6;
+        c.beginPath();
+        c.moveTo(x, top);
+        c.lineTo(x + dir*12, mid);
+        c.lineTo(x, bot);
+        c.stroke();
+        // コア（白）
+        c.strokeStyle = '#ffffff';
+        c.lineWidth = 3;
+        c.beginPath();
+        c.moveTo(x, top);
+        c.lineTo(x + dir*10, mid);
+        c.lineTo(x, bot);
+        c.stroke();
+        c.restore();
+    }
+
+    // 自爆突進（ゴーレム専用）
+    function drawKamikazeRush(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        if(t < 0.3) {
+            // フェーズ1: 赤く光ってチャージ
+            const tt = t / 0.3;
+            const flash = 0.4 + Math.sin(t*40)*0.3;
+            c.fillStyle = `rgba(255,80,40,${flash * tt * 0.7})`;
+            c.beginPath(); c.arc(k.startX, gy - 30, 30 + tt*12, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${tt*0.3})`;
+            c.beginPath(); c.arc(k.startX, gy - 30, 18 + tt*4, 0, Math.PI*2); c.fill();
+            // 赤い亀裂が体に走る視覚（startX 周辺）
+            c.strokeStyle = `rgba(255,40,20,${tt})`; c.lineWidth = 2;
+            c.beginPath();
+            c.moveTo(k.startX - 14, gy - 6);
+            c.lineTo(k.startX - 8, gy - 30);
+            c.lineTo(k.startX + 6, gy - 50);
+            c.stroke();
+        } else if(t < 0.7) {
+            // フェーズ2: 突進（モーションブラーの岩塊）
+            const tt = (t - 0.3) / 0.4;
+            // 残像
+            for(let i = 0; i < 8; i++) {
+                const ti = Math.max(0, tt - i*0.06);
+                const tx = k.startX + (k.targetX - k.startX) * ti;
+                c.fillStyle = `rgba(255,80,40,${0.45 - i*0.05})`;
+                c.fillRect(tx - 16, gy - 50, 32, 50);
+            }
+            // 飛んでいる岩の塊（簡易ゴーレム）
+            c.fillStyle = '#5a6a5a';
+            c.fillRect(k.x - 14, gy - 50, 28, 50);
+            c.fillStyle = '#aa3300';
+            c.fillRect(k.x - 12, gy - 45, 24, 8);
+            c.fillStyle = '#5a6a5a';
+            c.fillRect(k.x - 10, gy - 64, 20, 16);
+            c.strokeStyle = '#1a0a00'; c.lineWidth = 1;
+            c.strokeRect(k.x - 14, gy - 50, 28, 50);
+            c.strokeRect(k.x - 10, gy - 64, 20, 16);
+            // 苔（少し残ってる）
+            c.fillStyle = '#3a6a3a';
+            c.fillRect(k.x - 10, gy - 64, 8, 2);
+            // 赤い目
+            c.fillStyle = '#ff5544';
+            c.fillRect(k.x - 6, gy - 58, 4, 4);
+            c.fillRect(k.x + 2, gy - 58, 4, 4);
+            // 赤いオーラ
+            c.fillStyle = `rgba(255,40,20,${0.5 + Math.sin(tt*20)*0.2})`;
+            c.beginPath(); c.arc(k.x, gy - 25, 28, 0, Math.PI*2); c.fill();
+        } else {
+            // フェーズ3: 大爆発
+            const tt = (t - 0.7) / 0.5;
+            const r = tt * 110;
+            // 外側の炎
+            c.fillStyle = `rgba(255,80,40,${(1-tt)*0.7})`;
+            c.beginPath(); c.arc(k.x, gy - 30, r + 30, 0, Math.PI*2); c.fill();
+            // 中側の炎
+            c.fillStyle = `rgba(255,170,0,${(1-tt)*0.8})`;
+            c.beginPath(); c.arc(k.x, gy - 30, r * 0.7, 0, Math.PI*2); c.fill();
+            // コア（白）
+            c.fillStyle = `rgba(255,255,255,${1-tt})`;
+            c.beginPath(); c.arc(k.x, gy - 30, r * 0.4, 0, Math.PI*2); c.fill();
+            // 衝撃波リング
+            c.strokeStyle = `rgba(255,170,0,${1-tt})`; c.lineWidth = 5;
+            c.beginPath(); c.arc(k.x, gy - 30, r * 1.3, 0, Math.PI*2); c.stroke();
+            c.strokeStyle = `rgba(255,255,255,${1-tt})`; c.lineWidth = 2;
+            c.beginPath(); c.arc(k.x, gy - 30, r * 1.3, 0, Math.PI*2); c.stroke();
+            // 飛び散る石片
+            for(let kk = 0; kk < 14; kk++) {
+                const a = kk * Math.PI*2 / 14;
+                c.fillStyle = '#5a3a20';
+                c.fillRect(k.x + Math.cos(a)*r*0.9, gy - 30 + Math.sin(a)*r*0.7, 4, 4);
+            }
         }
     }
 
@@ -3913,17 +4040,44 @@
                 c.beginPath(); c.arc(-3*scale,-34*scale,1.5*scale,0,Math.PI*2); c.fill();
                 c.beginPath(); c.arc(3*scale,-34*scale,1.5*scale,0,Math.PI*2); c.fill();
                 break;
-            case 'stone_block': // ゴーレム
+            case 'stone_block': // ゴーレム（苔むした古代）
+                // 灰岩の頭
                 c.fillStyle = '#5a5a5a';
                 c.fillRect(-9*scale,-44*scale,18*scale,16*scale);
                 c.strokeStyle = '#2a2a2a'; c.lineWidth = 1.5*scale;
                 c.strokeRect(-9*scale,-44*scale,18*scale,16*scale);
                 // 亀裂
-                c.beginPath(); c.moveTo(-3*scale,-44*scale); c.lineTo(0,-38*scale); c.lineTo(3*scale,-30*scale); c.stroke();
-                // 光る目
-                c.fillStyle = '#ffaa00';
+                c.beginPath();
+                c.moveTo(-3*scale,-44*scale); c.lineTo(0,-38*scale); c.lineTo(3*scale,-30*scale);
+                c.stroke();
+                // 苔（頭の上）
+                c.fillStyle = '#3a6a3a';
+                c.fillRect(-9*scale, -44*scale, 7*scale, 2.5*scale);
+                c.fillRect(2*scale, -44*scale, 5*scale, 2*scale);
+                c.fillStyle = '#5aaa44';
+                c.fillRect(-7*scale, -43*scale, 3*scale, 1.5*scale);
+                // 苔の小さな葉（頭頂）
+                c.fillStyle = '#5aaa44';
+                c.beginPath();
+                c.moveTo(-6*scale, -44*scale); c.lineTo(-4*scale, -50*scale); c.lineTo(-2*scale, -44*scale);
+                c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(3*scale, -44*scale); c.lineTo(5*scale, -49*scale); c.lineTo(7*scale, -44*scale);
+                c.closePath(); c.fill();
+                // 苔（体側面・装飾的に）
+                c.fillStyle = '#3a6a3a';
+                c.fillRect(-10*scale, -22*scale, 4*scale, 3*scale);
+                c.fillRect(7*scale, -16*scale, 4*scale, 2*scale);
+                c.fillStyle = '#5aaa44';
+                c.fillRect(-9*scale, -21*scale, 2*scale, 1.5*scale);
+                // 光る目（緑寄り、古代の魔力）
+                c.fillStyle = '#88dd66';
                 c.fillRect(-5*scale,-38*scale,3*scale,3*scale);
                 c.fillRect(2*scale,-38*scale,3*scale,3*scale);
+                // 目のグロー
+                c.fillStyle = 'rgba(136,221,102,0.5)';
+                c.fillRect(-6*scale,-39*scale,5*scale,5*scale);
+                c.fillRect(1*scale,-39*scale,5*scale,5*scale);
                 break;
             case 'worm_head': // サンドワーム
                 c.fillStyle = '#a07040';
@@ -4084,6 +4238,7 @@
                 c.moveTo(40*scale, -16*scale); c.quadraticCurveTo(54*scale,-30*scale, 56*scale,-22*scale);
                 c.quadraticCurveTo(48*scale,-12*scale, 40*scale,-16*scale); c.fill();
                 break;
+            case 'slash_wave': // スサノオ十拳剣（見た目は odachi と同じ）
             case 'odachi':
                 c.strokeStyle = '#fff'; c.lineWidth = 4*scale;
                 c.beginPath(); c.moveTo(0,0); c.lineTo(44*scale, -22*scale); c.stroke();
@@ -4151,6 +4306,7 @@
                 c.fillStyle = '#fff';
                 c.beginPath(); c.arc(43*scale,-1*scale,1.5*scale,0,Math.PI*2); c.fill();
                 break;
+            case 'self_destruct': // ゴーレム自爆突進（見た目は fist と同じ）
             case 'fist':
                 c.fillStyle = '#7a8a9a';
                 c.fillRect(0,-6*scale,18*scale,12*scale);
@@ -4821,7 +4977,7 @@
         game.walletLv = saveData.walletLv || 0;
         game.playerCastleHp = game.playerCastleMax = s.castleHp;
         game.enemyCastleHp = game.enemyCastleMax = s.enemyCastleHp;
-        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = [];
+        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = []; game.slashWaves = []; game.kamikazes = [];
         game.cdMap = {};
         SAMURAI_DATA.forEach(u => game.cdMap[u.id] = 0);
         game.spawnState = s.spawns.map(sp => ({...sp, nextAt: sp.start}));
@@ -5107,6 +5263,58 @@
         const isSpecial = attacker.attackCount % 8 === 0;
         const dmgMult = isSpecial ? 2.0 : 1.0;
         const atk = attacker.atk * dmgMult;
+        // 十拳剣の横一閃（スサノオ専用）— 画面横断のスラッシュ波
+        if(attacker.data && attacker.data.weapon === 'slash_wave') {
+            attacker.swing = 1;
+            if(!game.slashWaves) game.slashWaves = [];
+            game.slashWaves.push({
+                x: attacker.x,
+                startX: attacker.x,
+                dir: attacker.side === 'p' ? -1 : 1,
+                speed: 9,
+                damage: atk,
+                side: attacker.side,
+                maxRange: 700,
+                traveled: 0,
+                hitUnits: [],
+                castleHit: false,
+                antiAir: !!attacker.data.antiAir,
+                fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial
+            });
+            if(isSpecial) {
+                addFloat(attacker.x, attacker.y - 60, '⚔ 神剣一閃 ⚔', '#ffd24a', true);
+            }
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 自爆突進（ゴーレム専用）— 自分のHPを削って大爆発
+        if(attacker.data && attacker.data.weapon === 'self_destruct') {
+            attacker.swing = 1;
+            const tx = target.isCastle
+                ? (target.side === 'enemy' ? 100 : W() - 100)
+                : target.x;
+            if(!game.kamikazes) game.kamikazes = [];
+            game.kamikazes.push({
+                startX: attacker.x,
+                x: attacker.x,
+                targetX: tx,
+                timer: 0,
+                damage: atk * 2.0,
+                selfDamage: Math.round(attacker.maxHp * 0.18),
+                side: attacker.side,
+                attackerRef: attacker,
+                damageApplied: false,
+                antiAir: !!attacker.data.antiAir,
+                fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial
+            });
+            if(isSpecial) {
+                addFloat(attacker.x, attacker.y - 60, '💥 大爆発 💥', '#ff5544', true);
+            }
+            if(snd && snd.explode) snd.explode();
+            return;
+        }
         // 分身ラッシュ（孫悟空専用）— 3体の分身が時間差で攻撃
         if(attacker.data && attacker.data.weapon === 'clone_rush') {
             attacker.swing = 1;
@@ -5536,6 +5744,83 @@
             }
         }
         game.cloneStrikes = game.cloneStrikes.filter(cs => cs.timer < cs.delay + 0.45);
+
+        // 十拳剣の横一閃（スサノオのスラッシュ波）の更新
+        if(!game.slashWaves) game.slashWaves = [];
+        for(const sw of game.slashWaves) {
+            sw.x += sw.dir * sw.speed * 60 * dt;
+            sw.traveled += sw.speed * 60 * dt;
+            const canHitFly = sw.antiAir || sw.fromFlying;
+            game.units.forEach(t => {
+                if(t.side === sw.side || t.dead) return;
+                if(t.data.flying && !canHitFly) return;
+                if(sw.hitUnits.indexOf(t) >= 0) return;
+                if(Math.abs(t.x - sw.x) < 36) {
+                    sw.hitUnits.push(t);
+                    damageUnit(t, sw.damage);
+                    addParticles(t.x, t.y - 20, 8, '#ffd24a');
+                }
+            });
+            const castleX = sw.side === 'p' ? 100 : W() - 100;
+            if(!sw.castleHit && Math.abs(sw.x - castleX) < 36) {
+                sw.castleHit = true;
+                if(sw.side === 'p') {
+                    game.enemyCastleHp = Math.max(0, game.enemyCastleHp - sw.damage);
+                } else {
+                    game.playerCastleHp = Math.max(0, game.playerCastleHp - sw.damage);
+                }
+                addParticles(castleX, groundY()-60, 14, '#ffd24a');
+            }
+        }
+        game.slashWaves = game.slashWaves.filter(sw => sw.traveled < sw.maxRange);
+
+        // 自爆突進（ゴーレム）の更新
+        if(!game.kamikazes) game.kamikazes = [];
+        for(const k of game.kamikazes) {
+            k.timer += dt;
+            // フェーズ2 (0.3-0.7): 突進中
+            if(k.timer >= 0.3 && k.timer < 0.7) {
+                const tt = (k.timer - 0.3) / 0.4;
+                k.x = k.startX + (k.targetX - k.startX) * tt;
+            }
+            // フェーズ3 (0.7s): 大爆発 + ダメージ
+            if(!k.damageApplied && k.timer >= 0.7) {
+                k.damageApplied = true;
+                k.x = k.targetX;
+                const aoeR = 130;
+                const canHitFly = k.antiAir || k.fromFlying;
+                game.units.forEach(t => {
+                    if(t.side !== k.side && !t.dead && Math.abs(t.x - k.x) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, k.damage);
+                    }
+                });
+                const castleX = k.side === 'p' ? 100 : W() - 100;
+                if(Math.abs(k.x - castleX) < aoeR) {
+                    if(k.side === 'p') {
+                        game.enemyCastleHp = Math.max(0, game.enemyCastleHp - k.damage);
+                    } else {
+                        game.playerCastleHp = Math.max(0, game.playerCastleHp - k.damage);
+                    }
+                    addParticles(castleX, groundY()-60, 20, '#ff5544');
+                }
+                // 自分にダメージ（直接適用、ノックバックなし）
+                if(k.attackerRef && !k.attackerRef.dead) {
+                    k.attackerRef.hp -= k.selfDamage;
+                    k.attackerRef.hitFlash = 0.15;
+                    addFloat(k.attackerRef.x, k.attackerRef.y - 50, '-' + k.selfDamage, '#ff5544');
+                    if(k.attackerRef.hp <= 0) {
+                        k.attackerRef.dead = true;
+                        if(snd && snd.die) snd.die();
+                        addParticles(k.attackerRef.x, k.attackerRef.y - 20, 18, '#ff3344');
+                    }
+                }
+                addParticles(k.x, groundY()-30, 30, '#ff5544');
+                addParticles(k.x, groundY()-30, 20, '#ffaa44');
+                if(snd && snd.explode) snd.explode();
+            }
+        }
+        game.kamikazes = game.kamikazes.filter(k => k.timer < 1.2);
 
         // 死体除去（少し遅延）
         game.units = game.units.filter(u => {
@@ -6122,6 +6407,14 @@
         // 分身ラッシュ（孫悟空）
         if(game.cloneStrikes && game.cloneStrikes.length) {
             for(const cs of game.cloneStrikes) drawCloneStrike(ctx, cs);
+        }
+        // 十拳剣の横一閃（スサノオ）
+        if(game.slashWaves && game.slashWaves.length) {
+            for(const sw of game.slashWaves) drawSlashWave(ctx, sw);
+        }
+        // 自爆突進（ゴーレム）
+        if(game.kamikazes && game.kamikazes.length) {
+            for(const k of game.kamikazes) drawKamikazeRush(ctx, k);
         }
 
         // パーティクル
