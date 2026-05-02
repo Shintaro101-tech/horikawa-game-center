@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ナーガ デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background: radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                        radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                        linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed; min-height: 100vh; padding: 24px 16px 40px; }
+        h1 { text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4); letter-spacing: 2px; margin-bottom: 6px; }
+        h3.section { text-align:center; font-size:1.2rem; color:#18FFFF; letter-spacing:4px; margin: 32px 0 16px; text-shadow: 0 0 12px rgba(24,255,255,0.5); }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card { background: rgba(20,10,30,0.7); border: 2px solid var(--c, #ffd24a);
+                border-radius: 14px; padding: 16px; box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25)); }
+        .canv-wrap { display:flex; justify-content:center; align-items:center;
+                     background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+                     border-radius: 10px; padding: 8px; margin-bottom: 12px; min-height: 260px; }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🐍 ナーガ デザイン & 攻撃 候補</h1>
+    <div class="sub">NAGA DESIGN AND ATTACK CANDIDATES</div>
+
+    <h3 class="section">— キャラデザイン6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#3a8a5a; --g:rgba(58,138,90,0.5);">
+            <div class="canv-wrap"><canvas id="ch-a" width="220" height="280"></canvas></div>
+            <h2>案A. 王道緑のナーガ（女性）</h2>
+            <p>緑の肌に蛇の下半身、神秘的な女神様の佇まい。</p>
+            <div class="meta">配色: 緑肌 + 金装飾</div>
+        </div>
+        <div class="card" style="--c:#5a3a8a; --g:rgba(90,58,138,0.5);">
+            <div class="canv-wrap"><canvas id="ch-b" width="220" height="280"></canvas></div>
+            <h2>案B. 男性の王ナーガ</h2>
+            <p>逞しい男性、王冠を被った蛇王。古代王の威厳。</p>
+            <div class="meta">配色: 紫黒 + 金冠</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="ch-c" width="220" height="280"></canvas></div>
+            <h2>案C. 金の女神ナーガ</h2>
+            <p>金の鱗を纏い、後光が差す神聖な女神。</p>
+            <div class="meta">配色: 金 + 朱</div>
+        </div>
+        <div class="card" style="--c:#aa44ff; --g:rgba(170,68,255,0.5);">
+            <div class="canv-wrap"><canvas id="ch-d" width="220" height="280"></canvas></div>
+            <h2>案D. 紫の毒女王</h2>
+            <p>紫黒の肌に毒の鱗、邪悪な妖艶さ。毒蛇の女王。</p>
+            <div class="meta">配色: 紫黒 + 毒緑</div>
+        </div>
+        <div class="card" style="--c:#ff3344; --g:rgba(255,51,68,0.5);">
+            <div class="canv-wrap"><canvas id="ch-e" width="220" height="280"></canvas></div>
+            <h2>案E. 赤の戦士ナーガ</h2>
+            <p>赤い鎧と双剣を持つ戦闘型ナーガ。攻撃的。</p>
+            <div class="meta">配色: 赤 + 銀剣</div>
+        </div>
+        <div class="card" style="--c:#aaccee; --g:rgba(170,204,238,0.5);">
+            <div class="canv-wrap"><canvas id="ch-f" width="220" height="280"></canvas></div>
+            <h2>案F. 氷の青ナーガ</h2>
+            <p>氷の鱗を纏い冷気を放つ。雪山の蛇神。</p>
+            <div class="meta">配色: 青氷 + 白</div>
+        </div>
+    </div>
+
+    <h3 class="section">— 派手な攻撃方法6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#88dd66; --g:rgba(136,221,102,0.5);">
+            <div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div>
+            <h2>案① 蛇神の弓矢</h2>
+            <p>緑に光る矢を放つ。複数連射で精密射撃。</p>
+            <div class="meta">スタイル: 遠距離・矢</div>
+        </div>
+        <div class="card" style="--c:#aaff44; --g:rgba(170,255,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div>
+            <h2>案② 毒霧吐き</h2>
+            <p>口から猛毒の霧。範囲継続ダメージ。</p>
+            <div class="meta">スタイル: 範囲・毒</div>
+        </div>
+        <div class="card" style="--c:#aa44ff; --g:rgba(170,68,255,0.5);">
+            <div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div>
+            <h2>案③ 御札投擲（蛇神札）</h2>
+            <p>蛇の意匠の御札を放つ。複数体に着弾。</p>
+            <div class="meta">スタイル: 遠距離・御札</div>
+        </div>
+        <div class="card" style="--c:#ff5544; --g:rgba(255,85,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div>
+            <h2>案④ 双剣斬り</h2>
+            <p>左右の双剣で連続斬り。二刀流の早業。</p>
+            <div class="meta">スタイル: 連撃・近接</div>
+        </div>
+        <div class="card" style="--c:#88ddaa; --g:rgba(136,221,170,0.5);">
+            <div class="canv-wrap"><canvas id="at-e" width="280" height="200"></canvas></div>
+            <h2>案⑤ 蛇の召喚</h2>
+            <p>小蛇を召喚、敵に飛びかかって噛みつく。</p>
+            <div class="meta">スタイル: 召喚・複数</div>
+        </div>
+        <div class="card" style="--c:#aaaaff; --g:rgba(170,170,255,0.5);">
+            <div class="canv-wrap"><canvas id="at-f" width="280" height="200"></canvas></div>
+            <h2>案⑥ 催眠術</h2>
+            <p>蛇の眼差しで敵を魅了、長時間スタン+大ダメージ。</p>
+            <div class="meta">スタイル: 単発・スタン</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+
+// 共通ナーガ（上半身人間+下半身蛇）
+function drawNaga(c, p) {
+    const cx = 110, cy = 200;
+    if(p.aura) aura(c, cx, cy - 30, p.aura, 130);
+    // 蛇の下半身（とぐろ）
+    c.fillStyle = p.snakeBody;
+    c.beginPath();
+    c.moveTo(cx - 30, cy + 30);
+    c.bezierCurveTo(cx - 60, cy + 60, cx + 60, cy + 60, cx + 30, cy + 30);
+    c.lineTo(cx + 16, cy);
+    c.lineTo(cx - 16, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.4; c.stroke();
+    // 蛇の節の縞
+    c.strokeStyle = p.scale; c.lineWidth = 1.5;
+    for(let k=0; k<5; k++){
+        c.beginPath();
+        c.arc(cx, cy + 30 + k*5, 30 - k*4, Math.PI, 0);
+        c.stroke();
+    }
+    // 胴体（女性的）
+    c.fillStyle = p.body;
+    c.fillRect(cx - 16, cy - 50, 32, 50);
+    c.strokeStyle = p.outline; c.lineWidth = 1.4; c.strokeRect(cx - 16, cy - 50, 32, 50);
+    if(p.bodyHl) {
+        c.fillStyle = p.bodyHl;
+        c.fillRect(cx - 14, cy - 48, 8, 12);
+    }
+    // 腰の帯
+    c.fillStyle = p.belt;
+    c.fillRect(cx - 16, cy - 8, 32, 6);
+    // 腕
+    c.fillStyle = p.body;
+    c.fillRect(cx - 24, cy - 46, 8, 30);
+    c.fillRect(cx + 16, cy - 46, 8, 30);
+    c.strokeRect(cx - 24, cy - 46, 8, 30);
+    c.strokeRect(cx + 16, cy - 46, 8, 30);
+    // 顔
+    c.fillStyle = p.skin;
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1; c.stroke();
+    // フード/頭飾り
+    if(p.hood) {
+        c.fillStyle = p.hood;
+        c.beginPath(); c.arc(cx, cy - 64, 12, Math.PI, 0); c.fill();
+        c.strokeStyle = p.outline; c.stroke();
+    }
+    // 蛇の冠（コブラ風）
+    if(p.cobra) {
+        c.fillStyle = p.cobra;
+        c.beginPath();
+        c.moveTo(cx - 14, cy - 70); c.quadraticCurveTo(cx - 16, cy - 80, cx - 8, cy - 78);
+        c.lineTo(cx - 8, cy - 70); c.closePath(); c.fill();
+        c.beginPath();
+        c.moveTo(cx + 14, cy - 70); c.quadraticCurveTo(cx + 16, cy - 80, cx + 8, cy - 78);
+        c.lineTo(cx + 8, cy - 70); c.closePath(); c.fill();
+        c.beginPath();
+        c.moveTo(cx, cy - 72); c.lineTo(cx, cy - 84); c.lineTo(cx + 4, cy - 74);
+        c.closePath(); c.fill();
+    }
+    // 王冠
+    if(p.crown) {
+        c.fillStyle = p.crown;
+        c.fillRect(cx - 10, cy - 72, 20, 4);
+        for(let k=-1; k<=1; k++){
+            c.beginPath();
+            c.moveTo(cx + k*5 - 1, cy - 72); c.lineTo(cx + k*5, cy - 80); c.lineTo(cx + k*5 + 1, cy - 72);
+            c.closePath(); c.fill();
+        }
+    }
+    // 後光（オプション）
+    if(p.halo) {
+        c.strokeStyle = p.halo; c.lineWidth = 3; c.globalAlpha = 0.6;
+        c.beginPath(); c.arc(cx, cy - 60, 18, 0, Math.PI*2); c.stroke();
+        c.globalAlpha = 1;
+    }
+    // 目
+    c.fillStyle = p.eye;
+    c.fillRect(cx - 4, cy - 60, 1.5, 2);
+    c.fillRect(cx + 2, cy - 60, 1.5, 2);
+    if(p.eyeGlow) {
+        c.fillStyle = p.eyeGlow;
+        c.fillRect(cx - 5, cy - 61, 4, 4);
+        c.fillRect(cx + 1, cy - 61, 4, 4);
+    }
+    // 双剣（オプション）
+    if(p.dualSwords) {
+        c.fillStyle = '#dde8f0';
+        c.fillRect(cx - 36, cy - 30, 4, 32);
+        c.fillRect(cx + 32, cy - 30, 4, 32);
+        c.fillStyle = p.crown || '#ffd24a';
+        c.fillRect(cx - 38, cy - 32, 8, 4);
+        c.fillRect(cx + 30, cy - 32, 8, 4);
+    }
+}
+
+// 案A. 緑女神
+drawNaga(document.getElementById('ch-a').getContext('2d'), {
+    aura: 'rgba(58,138,90,0.4)',
+    body: '#5aaa66', bodyHl: '#88cc88', outline: '#1a4030',
+    skin: '#88cc88', belt: '#ffd24a',
+    snakeBody: '#3a8a5a', scale: '#1a4030',
+    cobra: '#3a8a5a', eye: '#ffd24a'
+});
+// 案B. 男性王
+drawNaga(document.getElementById('ch-b').getContext('2d'), {
+    aura: 'rgba(90,58,138,0.4)',
+    body: '#3a1a4a', bodyHl: '#5a3a6a', outline: '#0a0010',
+    skin: '#aa6688', belt: '#ffd24a',
+    snakeBody: '#3a1a4a', scale: '#0a0010',
+    crown: '#ffd24a', eye: '#000'
+});
+// 案C. 金女神
+drawNaga(document.getElementById('ch-c').getContext('2d'), {
+    aura: 'rgba(255,210,74,0.45)',
+    body: '#ffd24a', bodyHl: '#fff5cc', outline: '#aa6600',
+    skin: '#ffd24a', belt: '#aa1010',
+    snakeBody: '#ffd24a', scale: '#aa6600',
+    cobra: '#ffd24a', halo: '#fff', eye: '#aa1010'
+});
+// 案D. 紫毒女王
+drawNaga(document.getElementById('ch-d').getContext('2d'), {
+    aura: 'rgba(170,68,255,0.45)',
+    body: '#3a1a4a', bodyHl: '#5a3a6a', outline: '#0a0010',
+    skin: '#aa66aa', belt: '#88dd66',
+    snakeBody: '#5a2a6a', scale: '#88dd66',
+    cobra: '#5a2a6a', eye: '#88dd66', eyeGlow: 'rgba(136,221,102,0.5)',
+    crown: '#88dd66'
+});
+// 案E. 赤戦士
+drawNaga(document.getElementById('ch-e').getContext('2d'), {
+    aura: 'rgba(255,51,68,0.45)',
+    body: '#aa1010', bodyHl: '#ff3344', outline: '#3a0000',
+    skin: '#cc8866', belt: '#ffd24a',
+    snakeBody: '#aa1010', scale: '#3a0000',
+    eye: '#ffea22', dualSwords: true
+});
+// 案F. 氷青
+drawNaga(document.getElementById('ch-f').getContext('2d'), {
+    aura: 'rgba(170,204,238,0.4)',
+    body: '#aaccee', bodyHl: '#ddf0ff', outline: '#3a5a8a',
+    skin: '#aaccee', belt: '#fff',
+    snakeBody: '#88aacc', scale: '#3a5a8a',
+    cobra: '#aaccee', eye: '#003366'
+});
+
+// ======================================================
+// 攻撃案
+// ======================================================
+function startAnim(canvasId, drawFn, durationMs) {
+    const cv = document.getElementById(canvasId);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % durationMs) / durationMs;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        drawFn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+function drawScene(c, w, h) {
+    const sky = c.createLinearGradient(0, 0, 0, h*0.7);
+    sky.addColorStop(0, '#0a0820'); sky.addColorStop(1, '#1a1850');
+    c.fillStyle = sky; c.fillRect(0, 0, w, h*0.7);
+    c.fillStyle = '#3a2818'; c.fillRect(0, h*0.7, w, h*0.3);
+    c.fillStyle = '#1a1208'; c.fillRect(0, h*0.7, w, 3);
+    // 簡易ナーガ
+    const zx = 30, zy = h*0.7;
+    c.fillStyle = '#3a8a5a';
+    c.beginPath(); c.ellipse(zx, zy - 5, 16, 10, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#5aaa66';
+    c.fillRect(zx - 7, zy - 50, 14, 35);
+    c.fillStyle = '#88cc88';
+    c.beginPath(); c.arc(zx, zy - 56, 6, 0, Math.PI*2); c.fill();
+}
+function drawEnemyAt(c, x, y, color='#5a1a1a') {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle = '#3a0808';
+    c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+}
+
+// ① 蛇神の弓矢
+startAnim('at-a', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 25, target.y);
+    if(t < 0.2) {
+        // チャージ
+        const tt = t/0.2;
+        c.strokeStyle = `rgba(136,221,102,${tt*0.7})`; c.lineWidth = 2;
+        c.beginPath(); c.arc(40, h*0.55, 14, -Math.PI*0.4, Math.PI*0.4); c.stroke();
+    } else if(t < 0.85) {
+        const tt = (t-0.2)/0.65;
+        const x = 40 + tt * (target.x - 50);
+        // 矢
+        c.fillStyle = '#88dd66';
+        c.fillRect(x - 16, h*0.55 - 1, 32, 3);
+        c.fillStyle = '#fff';
+        c.fillRect(x - 16, h*0.55 - 0.5, 32, 1.5);
+        // 矢じり
+        c.fillStyle = '#88dd66';
+        c.beginPath();
+        c.moveTo(x + 16, h*0.55 - 4); c.lineTo(x + 24, h*0.55); c.lineTo(x + 16, h*0.55 + 4);
+        c.closePath(); c.fill();
+        // 残光
+        for(let k=0; k<4; k++){
+            const tk = Math.max(0, tt - k*0.04);
+            const xk = 40 + tk * (target.x - 50);
+            c.fillStyle = `rgba(136,221,102,${0.4 - k*0.08})`;
+            c.fillRect(xk - 16, h*0.55 - 1, 32, 3);
+        }
+    } else {
+        // 着弾
+        const tt = (t-0.85)/0.15;
+        c.fillStyle = `rgba(136,221,102,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 14 + tt*16, 0, Math.PI*2); c.fill();
+        // 突き刺さった矢
+        c.fillStyle = '#88dd66';
+        c.fillRect(target.x - 6, target.y - 20, 24, 3);
+    }
+}, 2000);
+
+// ② 毒霧
+startAnim('at-b', (c, t, w, h) => {
+    const enemies = [{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.2) {
+        const tt = t/0.2;
+        c.fillStyle = `rgba(170,255,68,${tt*0.5})`;
+        c.beginPath(); c.arc(40, h*0.55, 14, 0, Math.PI*2); c.fill();
+    } else {
+        const tt = (t-0.2)/0.8;
+        const time = tt * 600;
+        for(let k=0; k<60; k++){
+            const sx = 50 + ((k*47 + time) % (w-80));
+            const sy = h*0.55 + ((k*31 + time*0.7) % 100);
+            c.fillStyle = `rgba(136,221,68,0.4)`;
+            c.beginPath(); c.arc(sx, sy, 4, 0, Math.PI*2); c.fill();
+        }
+        if(tt > 0.3) {
+            enemies.forEach(e => {
+                c.fillStyle = '#88dd66'; c.font = 'bold 14px sans-serif'; c.textAlign = 'center';
+                c.fillText('☠', e.x, e.y - 30);
+            });
+        }
+    }
+}, 2500);
+
+// ③ 御札投擲
+startAnim('at-c', (c, t, w, h) => {
+    const enemies = [{x:w*0.5,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    enemies.forEach((e, i) => {
+        const elapsed = t - i*0.15;
+        if(elapsed < 0 || elapsed > 0.6) return;
+        if(elapsed < 0.5) {
+            const tt = elapsed/0.5;
+            const x = 40 + tt * (e.x - 40);
+            const y = h*0.55 + Math.sin(tt*Math.PI)*-20;
+            // 御札（紫の四角形）
+            c.save();
+            c.translate(x, y);
+            c.rotate(elapsed*5);
+            c.fillStyle = '#fff';
+            c.fillRect(-8, -10, 16, 20);
+            c.strokeStyle = '#aa44ff'; c.lineWidth = 2; c.strokeRect(-8, -10, 16, 20);
+            c.fillStyle = '#aa44ff';
+            c.font = 'bold 11px serif'; c.textAlign = 'center';
+            c.fillText('蛇', 0, 4);
+            c.restore();
+        } else {
+            const tt = (elapsed-0.5)/0.1;
+            c.fillStyle = `rgba(170,68,255,${1-tt})`;
+            c.beginPath(); c.arc(e.x, e.y - 16, 18 + tt*8, 0, Math.PI*2); c.fill();
+        }
+    });
+}, 2200);
+
+// ④ 双剣斬り
+startAnim('at-d', (c, t, w, h) => {
+    const target = {x: w*0.5, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x + 25, target.y);
+    const ntimes = 6;
+    const phase = t * ntimes;
+    const idx = Math.floor(phase);
+    const sub = phase - idx;
+    // 連続斬撃残像
+    for(let k=0; k<5; k++){
+        const a = (idx + k) * 0.5;
+        c.strokeStyle = `rgba(255,85,68,${0.5 - k*0.08})`; c.lineWidth = 4 - k*0.5;
+        c.beginPath();
+        c.moveTo(target.x - 30 + Math.cos(a)*12, target.y - 16 + Math.sin(a)*12);
+        c.lineTo(target.x + 10 + Math.cos(a)*-12, target.y - 16 + Math.sin(a)*-12);
+        c.stroke();
+    }
+    // 中央フラッシュ
+    if(sub < 0.4) {
+        c.fillStyle = `rgba(255,255,200,${(1-sub*2.5)*0.6})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 18, 0, Math.PI*2); c.fill();
+    }
+    c.fillStyle = '#ff5544'; c.font = 'bold 22px sans-serif'; c.textAlign = 'center';
+    c.fillText(idx + ' HIT!', target.x, h*0.95);
+}, 2200);
+
+// ⑤ 蛇の召喚
+startAnim('at-e', (c, t, w, h) => {
+    const enemies = [{x:w*0.5,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.25) {
+        // 召喚陣
+        const tt = t/0.25;
+        c.strokeStyle = `rgba(136,221,170,${tt})`; c.lineWidth = 2;
+        c.beginPath(); c.arc(40, h*0.6, 24*tt, 0, Math.PI*2); c.stroke();
+        c.beginPath(); c.arc(40, h*0.6, 16*tt, 0, Math.PI*2); c.stroke();
+    } else {
+        const tt = (t-0.25)/0.75;
+        // 3匹の蛇が飛んでいく
+        enemies.forEach((e, i) => {
+            const elapsed = tt - i*0.15;
+            if(elapsed < 0 || elapsed > 0.7) return;
+            const x = 40 + elapsed * (e.x - 40)/0.6;
+            const y = h*0.6 + Math.sin(elapsed*Math.PI*3)*8;
+            // 蛇（緑のうねり）
+            for(let k=0; k<5; k++){
+                const sx = x - k*8;
+                const sy = y + Math.sin(elapsed*8 + k*0.5)*6;
+                c.fillStyle = `rgba(136,221,170,${1 - k*0.15})`;
+                c.beginPath(); c.arc(sx, sy, 5 - k*0.5, 0, Math.PI*2); c.fill();
+            }
+            // 頭
+            c.fillStyle = '#3a8a5a';
+            c.beginPath(); c.arc(x, y, 6, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#ffd24a';
+            c.fillRect(x - 1, y - 1, 1.5, 1.5);
+            // ヒット
+            if(elapsed > 0.55) {
+                c.fillStyle = `rgba(136,221,170,0.6)`;
+                c.beginPath(); c.arc(e.x, e.y - 16, 14, 0, Math.PI*2); c.fill();
+            }
+        });
+    }
+}, 2500);
+
+// ⑥ 催眠術
+startAnim('at-f', (c, t, w, h) => {
+    const target = {x: w*0.65, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.4) {
+        // 大きな目が表示される
+        const tt = t/0.4;
+        c.fillStyle = `rgba(170,170,255,${tt*0.5})`;
+        c.beginPath(); c.arc(target.x, target.y - 30, 30 + tt*10, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        c.beginPath(); c.arc(target.x, target.y - 30, 18, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#aaaaff';
+        c.beginPath(); c.arc(target.x, target.y - 30, 12, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#000';
+        c.beginPath(); c.arc(target.x, target.y - 30, 5, 0, Math.PI*2); c.fill();
+        // 渦巻き
+        c.strokeStyle = 'rgba(255,255,255,0.7)'; c.lineWidth = 1;
+        for(let k=0; k<3; k++){
+            const a = tt*Math.PI*4 + k*Math.PI*2/3;
+            c.beginPath();
+            c.arc(target.x, target.y - 30, 8 + k*3, a, a + Math.PI);
+            c.stroke();
+        }
+    } else if(t < 0.7) {
+        // 目を閉じる/星マーク
+        c.fillStyle = '#aaaaff'; c.font = 'bold 24px sans-serif'; c.textAlign = 'center';
+        c.fillText('💫', target.x, target.y - 40);
+        c.fillText('💫', target.x - 16, target.y - 30);
+        c.fillText('💫', target.x + 16, target.y - 30);
+    } else {
+        // 大ダメージ
+        const tt = (t-0.7)/0.3;
+        c.fillStyle = `rgba(255,255,200,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 28, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#aaaaff'; c.font = 'bold 18px sans-serif'; c.textAlign = 'center';
+        c.fillText('STUN!', target.x, target.y - 40);
+    }
+}, 2400);
+</script>
+</body>
+</html>

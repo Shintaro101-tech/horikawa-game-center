@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ベオウルフ デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background: radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                        radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                        linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed; min-height: 100vh; padding: 24px 16px 40px; }
+        h1 { text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4); letter-spacing: 2px; margin-bottom: 6px; }
+        h3.section { text-align:center; font-size:1.2rem; color:#18FFFF; letter-spacing:4px; margin: 32px 0 16px; text-shadow: 0 0 12px rgba(24,255,255,0.5); }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card { background: rgba(20,10,30,0.7); border: 2px solid var(--c, #ffd24a);
+                border-radius: 14px; padding: 16px; box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25)); }
+        .canv-wrap { display:flex; justify-content:center; align-items:center;
+                     background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+                     border-radius: 10px; padding: 8px; margin-bottom: 12px; min-height: 260px; }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>⚔️ ベオウルフ デザイン & 攻撃 候補</h1>
+    <div class="sub">BEOWULF DESIGN AND ATTACK CANDIDATES</div>
+
+    <h3 class="section">— キャラデザイン6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#aaccaa; --g:rgba(170,204,170,0.45);">
+            <div class="canv-wrap"><canvas id="ch-a" width="220" height="280"></canvas></div>
+            <h2>案A. 王道北欧戦士</h2>
+            <p>角付きの兜と鎧、長剣を持つヴァイキング戦士。最も「ベオウルフ」な王道。</p>
+            <div class="meta">配色: 茶 + 銀剣</div>
+        </div>
+        <div class="card" style="--c:#444444; --g:rgba(120,120,120,0.45);">
+            <div class="canv-wrap"><canvas id="ch-b" width="220" height="280"></canvas></div>
+            <h2>案B. 黒鎧の戦士</h2>
+            <p>漆黒の鎧、銀の角兜、赤い眼。重装の闇戦士。</p>
+            <div class="meta">配色: 黒 + 銀 + 赤目</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="ch-c" width="220" height="280"></canvas></div>
+            <h2>案C. 金鎧の英雄</h2>
+            <p>輝く金鎧と勇者の威厳。神話の英雄ベオウルフ。</p>
+            <div class="meta">配色: 金 + 朱マント</div>
+        </div>
+        <div class="card" style="--c:#7a4a30; --g:rgba(122,74,48,0.5);">
+            <div class="canv-wrap"><canvas id="ch-d" width="220" height="280"></canvas></div>
+            <h2>案D. 狼の獣戦士（ベルセルク）</h2>
+            <p>狼の毛皮を被った獣戦士。野性と狂気をまとう。</p>
+            <div class="meta">配色: 茶毛 + 狼頭</div>
+        </div>
+        <div class="card" style="--c:#ffea22; --g:rgba(255,234,34,0.5);">
+            <div class="canv-wrap"><canvas id="ch-e" width="220" height="280"></canvas></div>
+            <h2>案E. 雷の戦士</h2>
+            <p>稲妻が走る武具、雷の力を宿した英雄。</p>
+            <div class="meta">配色: 灰 + 黄電撃</div>
+        </div>
+        <div class="card" style="--c:#cccccc; --g:rgba(204,204,204,0.5);">
+            <div class="canv-wrap"><canvas id="ch-f" width="220" height="280"></canvas></div>
+            <h2>案F. 銀鎧の貴族騎士</h2>
+            <p>磨き上げた銀鎧、白いマント。気品ある騎士道。</p>
+            <div class="meta">配色: 銀 + 白マント</div>
+        </div>
+    </div>
+
+    <h3 class="section">— 派手な攻撃方法6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#dde8f0; --g:rgba(221,232,240,0.5);">
+            <div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div>
+            <h2>案① 剣の一閃</h2>
+            <p>大きく振りかぶって縦の単発強斬り。重い一撃。</p>
+            <div class="meta">スタイル: 単発・縦斬</div>
+        </div>
+        <div class="card" style="--c:#ff5544; --g:rgba(255,85,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div>
+            <h2>案② 双剣連撃</h2>
+            <p>左右の双剣で連続斬り。素早い5連撃。</p>
+            <div class="meta">スタイル: 連撃</div>
+        </div>
+        <div class="card" style="--c:#ffaa44; --g:rgba(255,170,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div>
+            <h2>案③ 突進斬り</h2>
+            <p>剣を前に突き出して走り込む。直線貫通。</p>
+            <div class="meta">スタイル: 突進・貫通</div>
+        </div>
+        <div class="card" style="--c:#aacc44; --g:rgba(170,204,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div>
+            <h2>案④ 盾突き</h2>
+            <p>大盾で前方の敵を吹き飛ばす。ノックバック特化。</p>
+            <div class="meta">スタイル: 単発・ノックバック</div>
+        </div>
+        <div class="card" style="--c:#88ccff; --g:rgba(136,204,255,0.5);">
+            <div class="canv-wrap"><canvas id="at-e" width="280" height="200"></canvas></div>
+            <h2>案⑤ 跳躍斬り</h2>
+            <p>高く跳んで剣を振り下ろす。広範囲衝撃。</p>
+            <div class="meta">スタイル: 空中・範囲</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="at-f" width="280" height="200"></canvas></div>
+            <h2>案⑥ 戦旗召喚（バフ）</h2>
+            <p>戦旗を立てて周囲の味方を強化。同時に剣で斬る。</p>
+            <div class="meta">スタイル: 攻撃+味方バフ</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+function shadow(c, x, y, w, h) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+
+// 共通ベオウルフ（戦士）
+function drawWarrior(c, p) {
+    const cx = 110, cy = 200;
+    if(p.aura) aura(c, cx, cy - 30, p.aura, 130);
+    shadow(c, cx, cy + 38, 26, 5);
+    // 脚
+    c.fillStyle = p.legs;
+    c.fillRect(cx - 12, cy - 12, 8, 36);
+    c.fillRect(cx + 4, cy - 12, 8, 36);
+    c.strokeStyle = p.outline; c.lineWidth = 1.2; c.strokeRect(cx - 12, cy - 12, 8, 36);
+    c.strokeRect(cx + 4, cy - 12, 8, 36);
+    // 足
+    c.fillStyle = '#1a1a1a';
+    c.fillRect(cx - 14, cy + 22, 12, 5);
+    c.fillRect(cx + 2, cy + 22, 12, 5);
+    // 胴鎧
+    c.fillStyle = p.body;
+    c.fillRect(cx - 22, cy - 50, 44, 42);
+    c.strokeStyle = p.outline; c.lineWidth = 1.4; c.strokeRect(cx - 22, cy - 50, 44, 42);
+    if(p.bodyHl) {
+        c.fillStyle = p.bodyHl;
+        c.fillRect(cx - 20, cy - 48, 8, 8);
+    }
+    // 帯
+    if(p.belt) {
+        c.fillStyle = p.belt;
+        c.fillRect(cx - 22, cy - 22, 44, 6);
+    }
+    // 鎖帷子模様
+    if(p.chain) {
+        c.strokeStyle = p.chain; c.lineWidth = 0.8;
+        for(let i=-1; i<=1; i++) for(let j=0; j<3; j++){
+            c.beginPath(); c.arc(cx + i*10, cy - 40 + j*8, 2, 0, Math.PI*2); c.stroke();
+        }
+    }
+    // 腕
+    c.fillStyle = p.body;
+    c.fillRect(cx - 30, cy - 46, 8, 28);
+    c.fillRect(cx + 22, cy - 46, 8, 28);
+    c.strokeRect(cx - 30, cy - 46, 8, 28);
+    c.strokeRect(cx + 22, cy - 46, 8, 28);
+    // マント（オプション）
+    if(p.cape) {
+        c.fillStyle = p.cape;
+        c.beginPath();
+        c.moveTo(cx - 22, cy - 50);
+        c.lineTo(cx - 30, cy + 12);
+        c.lineTo(cx + 30, cy + 12);
+        c.lineTo(cx + 22, cy - 50);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.stroke();
+    }
+    // 顔
+    c.fillStyle = p.skin;
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1; c.stroke();
+    // 髭
+    if(p.beard) {
+        c.fillStyle = p.beard;
+        c.beginPath();
+        c.moveTo(cx - 6, cy - 56); c.lineTo(cx - 3, cy - 46); c.lineTo(cx + 3, cy - 46); c.lineTo(cx + 6, cy - 56);
+        c.closePath(); c.fill();
+    }
+    // 兜
+    if(p.helm) {
+        c.fillStyle = p.helm;
+        c.beginPath(); c.arc(cx, cy - 64, 12, Math.PI, 0); c.fill();
+        c.strokeStyle = p.outline; c.lineWidth = 1; c.stroke();
+        c.fillStyle = p.helm;
+        c.fillRect(cx - 12, cy - 60, 24, 4);
+        // 角（オプション）
+        if(p.horns) {
+            c.fillStyle = p.horns;
+            c.beginPath();
+            c.moveTo(cx - 9, cy - 70); c.quadraticCurveTo(cx - 18, cy - 80, cx - 14, cy - 84);
+            c.lineTo(cx - 8, cy - 72); c.closePath(); c.fill();
+            c.beginPath();
+            c.moveTo(cx + 9, cy - 70); c.quadraticCurveTo(cx + 18, cy - 80, cx + 14, cy - 84);
+            c.lineTo(cx + 8, cy - 72); c.closePath(); c.fill();
+        }
+        // T字バイザー
+        if(p.tVisor) {
+            c.fillStyle = '#000';
+            c.fillRect(cx - 1, cy - 64, 2, 6);
+            c.fillRect(cx - 6, cy - 64, 12, 2);
+        }
+    }
+    // 目
+    c.fillStyle = p.eye || '#000';
+    c.fillRect(cx - 4, cy - 60, 1.5, 2);
+    c.fillRect(cx + 2, cy - 60, 1.5, 2);
+    if(p.eyeGlow) {
+        c.fillStyle = p.eyeGlow;
+        c.fillRect(cx - 5, cy - 61, 4, 4);
+        c.fillRect(cx + 1, cy - 61, 4, 4);
+    }
+    // 剣
+    if(p.sword !== false) {
+        c.save();
+        c.translate(cx + 30, cy - 30);
+        c.rotate(-0.3);
+        c.fillStyle = p.swordGuard || '#1a1a1a';
+        c.fillRect(-3, -4, 14, 8);
+        c.fillStyle = p.swordHilt || '#aa6600';
+        c.fillRect(11, -7, 4, 14);
+        c.fillStyle = p.swordBlade || '#dde8f0';
+        c.fillRect(15, -3, 50, 6);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(15, -3, 50, 6);
+        c.fillStyle = p.swordBlade || '#dde8f0';
+        c.beginPath(); c.moveTo(65, -3); c.lineTo(74, 0); c.lineTo(65, 3); c.closePath(); c.fill();
+        c.fillStyle = 'rgba(255,255,255,0.5)';
+        c.fillRect(17, -2, 46, 1.5);
+        c.restore();
+    }
+    // 盾（オプション）
+    if(p.shield) {
+        c.fillStyle = p.shield;
+        c.beginPath(); c.ellipse(cx - 36, cy - 30, 8, 14, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 1.5; c.stroke();
+        c.fillStyle = p.shieldEm || '#aa1010';
+        c.beginPath(); c.arc(cx - 36, cy - 30, 3, 0, Math.PI*2); c.fill();
+    }
+}
+
+// 案A. 王道
+drawWarrior(document.getElementById('ch-a').getContext('2d'), {
+    aura: 'rgba(170,204,170,0.3)',
+    body: '#5a4030', bodyHl: '#7a5a40', outline: '#1a0808',
+    legs: '#3a2010', belt: '#aa1010',
+    chain: '#3a2a1a', skin: '#f0d4a8',
+    helm: '#5a4030', horns: '#e8d8b8',
+    eye: '#000', beard: '#3a2010',
+    swordBlade: '#dde8f0',
+    shield: '#5a3a30'
+});
+// 案B. 黒鎧
+drawWarrior(document.getElementById('ch-b').getContext('2d'), {
+    aura: 'rgba(120,120,120,0.3)',
+    body: '#1a1a1a', bodyHl: '#3a3a3a', outline: '#000',
+    legs: '#0a0a0a', belt: '#5a0808',
+    skin: '#aa8866',
+    helm: '#1a1a1a', horns: '#888888', tVisor: true,
+    eye: '#ff2244', eyeGlow: 'rgba(255,40,60,0.5)',
+    swordBlade: '#5a5a5a'
+});
+// 案C. 金英雄
+drawWarrior(document.getElementById('ch-c').getContext('2d'), {
+    aura: 'rgba(255,210,74,0.4)',
+    body: '#ffd24a', bodyHl: '#fff5cc', outline: '#aa6600',
+    legs: '#aa6600', belt: '#aa1010',
+    skin: '#f0d4a8', cape: '#aa1010',
+    helm: '#ffd24a', horns: '#fff5cc',
+    eye: '#000',
+    swordBlade: '#fff', swordHilt: '#aa1010'
+});
+// 案D. 狼戦士
+(function(){
+    const c = document.getElementById('ch-d').getContext('2d');
+    drawWarrior(c, {
+        aura: 'rgba(122,74,48,0.4)',
+        body: '#5a3a20', bodyHl: '#7a5030', outline: '#1a0808',
+        legs: '#3a2010', belt: '#aa1010',
+        skin: '#cc8866', beard: '#1a0808',
+        eye: '#ffea22', sword: false
+    });
+    // 狼の頭をかぶる
+    const cx = 110, cy = 200;
+    c.fillStyle = '#3a2010';
+    c.beginPath(); c.arc(cx, cy - 64, 14, Math.PI, 0); c.fill();
+    // 狼の耳
+    c.beginPath();
+    c.moveTo(cx - 10, cy - 70); c.lineTo(cx - 13, cy - 82); c.lineTo(cx - 5, cy - 72);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 10, cy - 70); c.lineTo(cx + 13, cy - 82); c.lineTo(cx + 5, cy - 72);
+    c.closePath(); c.fill();
+    // 狼の歯
+    c.fillStyle = '#fff';
+    c.beginPath();
+    c.moveTo(cx - 4, cy - 50); c.lineTo(cx - 3, cy - 44); c.lineTo(cx - 2, cy - 50);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 2, cy - 50); c.lineTo(cx + 3, cy - 44); c.lineTo(cx + 4, cy - 50);
+    c.closePath(); c.fill();
+    // 斧/槌
+    c.save(); c.translate(cx + 30, cy - 30); c.rotate(-0.3);
+    c.fillStyle = '#3a2010';
+    c.fillRect(-3, -4, 50, 8);
+    c.fillStyle = '#5a5a5a';
+    c.beginPath();
+    c.moveTo(34, -16); c.lineTo(54, -8); c.lineTo(54, 8); c.lineTo(34, 16);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.stroke();
+    c.restore();
+})();
+// 案E. 雷
+(function(){
+    const c = document.getElementById('ch-e').getContext('2d');
+    drawWarrior(c, {
+        aura: 'rgba(255,234,34,0.4)',
+        body: '#5a5a5a', bodyHl: '#7a7a7a', outline: '#1a1a1a',
+        legs: '#3a3a3a', belt: '#ffea22',
+        skin: '#f0d4a8',
+        helm: '#5a5a5a', horns: '#ffea22',
+        eye: '#ffea22', eyeGlow: 'rgba(255,234,34,0.5)',
+        swordBlade: '#fff', swordHilt: '#ffea22'
+    });
+    // 鎧に走る稲妻
+    const cx = 110, cy = 200;
+    c.strokeStyle = '#ffea22'; c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 48); c.lineTo(cx - 10, cy - 36); c.lineTo(cx - 14, cy - 24);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 18, cy - 48); c.lineTo(cx + 10, cy - 36); c.lineTo(cx + 14, cy - 24);
+    c.stroke();
+    // 剣の周りに稲妻
+    c.strokeStyle = 'rgba(255,234,34,0.6)'; c.lineWidth = 2;
+    c.save(); c.translate(cx + 30, cy - 30); c.rotate(-0.3);
+    c.beginPath();
+    c.moveTo(20, -8); c.lineTo(30, -2); c.lineTo(40, -8); c.lineTo(50, -2); c.lineTo(60, -8);
+    c.stroke();
+    c.restore();
+})();
+// 案F. 銀貴族
+drawWarrior(document.getElementById('ch-f').getContext('2d'), {
+    aura: 'rgba(204,204,204,0.4)',
+    body: '#cccccc', bodyHl: '#ffffff', outline: '#3a3a3a',
+    legs: '#5a5a5a', belt: '#aa1010',
+    skin: '#f0d4a8', cape: '#ffffff',
+    helm: '#cccccc',
+    eye: '#3a8aff',
+    swordBlade: '#fff', swordHilt: '#3a3a3a',
+    shield: '#cccccc', shieldEm: '#3a8aff'
+});
+
+// ======================================================
+// 攻撃案
+// ======================================================
+function startAnim(canvasId, drawFn, durationMs) {
+    const cv = document.getElementById(canvasId);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % durationMs) / durationMs;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        drawFn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+function drawScene(c, w, h) {
+    const sky = c.createLinearGradient(0, 0, 0, h*0.7);
+    sky.addColorStop(0, '#0a0820'); sky.addColorStop(1, '#1a1850');
+    c.fillStyle = sky; c.fillRect(0, 0, w, h*0.7);
+    c.fillStyle = '#3a2818'; c.fillRect(0, h*0.7, w, h*0.3);
+    c.fillStyle = '#1a1208'; c.fillRect(0, h*0.7, w, 3);
+    const zx = 30, zy = h*0.7;
+    c.fillStyle = '#5a4030';
+    c.fillRect(zx - 8, zy - 44, 16, 44);
+    c.fillStyle = '#f0d4a8';
+    c.beginPath(); c.arc(zx, zy - 50, 8, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#5a4030';
+    c.beginPath(); c.arc(zx, zy - 56, 10, Math.PI, 0); c.fill();
+}
+function drawEnemyAt(c, x, y, color='#5a1a1a') {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle = '#3a0808';
+    c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+}
+
+// ① 剣の一閃
+startAnim('at-a', (c, t, w, h) => {
+    const target = {x: w*0.5, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.45) {
+        // 振りかぶり
+        const tt = t/0.45;
+        c.save(); c.translate(40, h*0.55); c.rotate(-Math.PI/2 - tt*0.6);
+        c.fillStyle = '#dde8f0';
+        c.fillRect(0, -3, 60, 6);
+        c.restore();
+        c.fillStyle = `rgba(255,255,200,${tt*0.4})`;
+        c.beginPath(); c.arc(40, h*0.45, 24, 0, Math.PI*2); c.fill();
+    } else if(t < 0.65) {
+        // 振り下ろし
+        const tt = (t-0.45)/0.2;
+        c.save(); c.translate(40, h*0.55); c.rotate(-Math.PI/2 + tt*Math.PI*1.3);
+        c.fillStyle = '#dde8f0';
+        c.fillRect(0, -4, 70, 8);
+        c.restore();
+        // 斬撃線
+        c.strokeStyle = `rgba(255,255,200,0.7)`; c.lineWidth = 6;
+        c.beginPath();
+        c.arc(40, h*0.55, 64, -Math.PI*0.5 + tt*0.5, -Math.PI*0.5 + tt*1.4);
+        c.stroke();
+    } else {
+        // 着弾
+        const tt = (t-0.65)/0.35;
+        c.fillStyle = `rgba(255,255,200,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 22 + tt*16, 0, Math.PI*2); c.fill();
+        // 縦の斬痕
+        c.strokeStyle = `rgba(255,170,68,${1-tt})`; c.lineWidth = 4;
+        c.beginPath(); c.moveTo(target.x - 14, target.y - 30); c.lineTo(target.x + 14, target.y); c.stroke();
+    }
+}, 2000);
+
+// ② 双剣連撃
+startAnim('at-b', (c, t, w, h) => {
+    const target = {x: w*0.5, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x + 25, target.y);
+    const ntimes = 5;
+    const phase = t * ntimes;
+    const idx = Math.floor(phase);
+    const sub = phase - idx;
+    // 双剣のX字斬撃
+    for(let k=0; k<5; k++){
+        const a = (idx + k*0.3) * Math.PI * 0.8;
+        c.strokeStyle = `rgba(255,85,68,${0.5 - k*0.08})`; c.lineWidth = 4 - k*0.4;
+        c.beginPath();
+        c.moveTo(target.x - 24, target.y - 30); c.lineTo(target.x + 16, target.y - 4);
+        c.stroke();
+        c.beginPath();
+        c.moveTo(target.x - 24, target.y - 4); c.lineTo(target.x + 16, target.y - 30);
+        c.stroke();
+    }
+    // 中央フラッシュ
+    if(sub < 0.4) {
+        c.fillStyle = `rgba(255,255,200,${(1-sub*2.5)*0.7})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 18, 0, Math.PI*2); c.fill();
+    }
+    c.fillStyle = '#ff5544'; c.font = 'bold 22px sans-serif'; c.textAlign = 'center';
+    c.fillText(idx + ' HIT', target.x, h*0.95);
+}, 1800);
+
+// ③ 突進斬り
+startAnim('at-c', (c, t, w, h) => {
+    const enemies = [{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.78,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.2) {
+        // チャージ
+        const tt = t/0.2;
+        c.fillStyle = `rgba(255,170,68,${tt*0.4})`;
+        c.beginPath(); c.arc(40, h*0.6, 26, 0, Math.PI*2); c.fill();
+    } else if(t < 0.7) {
+        // 突進
+        const tt = (t-0.2)/0.5;
+        const x = 40 + tt * (w*0.7);
+        // 残像
+        for(let k=0; k<6; k++){
+            const tk = Math.max(0, tt - k*0.05);
+            const xk = 40 + tk * (w*0.7);
+            c.fillStyle = `rgba(90,64,48,${0.45 - k*0.06})`;
+            c.fillRect(xk - 8, h*0.6 - 30, 16, 30);
+        }
+        // 戦士本体
+        c.fillStyle = '#5a4030';
+        c.fillRect(x - 8, h*0.6 - 30, 16, 30);
+        c.fillStyle = '#f0d4a8';
+        c.beginPath(); c.arc(x, h*0.6 - 36, 7, 0, Math.PI*2); c.fill();
+        // 突き出る剣
+        c.fillStyle = '#dde8f0';
+        c.fillRect(x, h*0.6 - 14, 50, 8);
+        c.fillStyle = '#aa6600';
+        c.fillRect(x - 4, h*0.6 - 16, 6, 12);
+        // 速度線
+        c.strokeStyle = `rgba(255,170,68,0.6)`; c.lineWidth = 2;
+        for(let k=0; k<5; k++){
+            c.beginPath();
+            c.moveTo(x - 30 - k*12, h*0.6 - 20 + k*6);
+            c.lineTo(x - 14 - k*8, h*0.6 - 14 + k*5);
+            c.stroke();
+        }
+    } else {
+        // 抜けた後の余韻
+        const tt = (t-0.7)/0.3;
+        // 倒れる敵
+        enemies.forEach(e => {
+            c.save(); c.translate(e.x, e.y); c.rotate(Math.PI/3 * tt);
+            c.fillStyle = '#5a1a1a';
+            c.fillRect(-6, -22, 12, 22);
+            c.restore();
+        });
+        c.fillStyle = '#5a4030';
+        c.fillRect(w*0.78 - 8, h*0.6 - 30, 16, 30);
+    }
+}, 2500);
+
+// ④ 盾突き
+startAnim('at-d', (c, t, w, h) => {
+    const target = {x: w*0.5, y: h*0.7};
+    if(t < 0.85) drawEnemyAt(c, target.x, target.y);
+    if(t < 0.3) {
+        // 構え
+        const tt = t/0.3;
+        c.fillStyle = `rgba(170,204,68,${tt*0.4})`;
+        c.beginPath(); c.arc(40, h*0.6, 28, 0, Math.PI*2); c.fill();
+    } else if(t < 0.55) {
+        // 突進
+        const tt = (t-0.3)/0.25;
+        const x = 40 + tt * (target.x - 60);
+        // 戦士+大盾
+        c.fillStyle = '#5a4030';
+        c.fillRect(x - 8, h*0.6 - 30, 16, 30);
+        c.fillStyle = '#5a4030';
+        c.beginPath(); c.ellipse(x + 14, h*0.6 - 14, 10, 18, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 2; c.stroke();
+        c.fillStyle = '#aa1010';
+        c.beginPath(); c.arc(x + 14, h*0.6 - 14, 4, 0, Math.PI*2); c.fill();
+    } else {
+        // 衝撃で吹き飛ばす
+        const tt = (t-0.55)/0.45;
+        c.fillStyle = '#5a4030';
+        c.fillRect(target.x - 50, h*0.6 - 30, 16, 30);
+        c.beginPath(); c.ellipse(target.x - 36, h*0.6 - 14, 10, 18, 0, 0, Math.PI*2); c.fill();
+        // 衝撃波
+        c.strokeStyle = `rgba(255,200,68,${1-tt})`; c.lineWidth = 5;
+        c.beginPath(); c.arc(target.x - 26, h*0.6 - 14, tt*40 + 10, 0, Math.PI*2); c.stroke();
+        // 吹き飛ぶ敵
+        const ex = target.x + tt*120;
+        const ey = target.y - 10 - Math.sin(tt*Math.PI)*30;
+        c.save(); c.translate(ex, ey); c.rotate(tt*Math.PI*2);
+        drawEnemyAt(c, 0, 0);
+        c.restore();
+    }
+}, 2200);
+
+// ⑤ 跳躍斬り
+startAnim('at-e', (c, t, w, h) => {
+    const target = {x: w*0.65, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 25, target.y);
+    drawEnemyAt(c, target.x + 25, target.y);
+    if(t < 0.4) {
+        // 上昇
+        const tt = t/0.4;
+        const x = 30 + (target.x - 30) * tt;
+        const y = h*0.7 - tt * 100;
+        c.fillStyle = '#5a4030';
+        c.fillRect(x - 8, y - 30, 16, 30);
+        c.fillStyle = '#f0d4a8';
+        c.beginPath(); c.arc(x, y - 36, 7, 0, Math.PI*2); c.fill();
+        // 剣を上に振りかぶる
+        c.save(); c.translate(x, y - 20); c.rotate(-Math.PI/2 - tt*0.5);
+        c.fillStyle = '#dde8f0'; c.fillRect(0, -3, 50, 6);
+        c.restore();
+    } else if(t < 0.7) {
+        // 急降下＋振り下ろし
+        const tt = (t-0.4)/0.3;
+        const x = target.x;
+        const y = h*0.3 + tt * (h*0.4);
+        c.fillStyle = '#5a4030';
+        c.fillRect(x - 8, y - 30, 16, 30);
+        c.fillStyle = '#f0d4a8';
+        c.beginPath(); c.arc(x, y - 36, 7, 0, Math.PI*2); c.fill();
+        // 振り下ろす剣
+        c.save(); c.translate(x, y - 20); c.rotate(Math.PI/2 + tt*0.5);
+        c.fillStyle = '#dde8f0'; c.fillRect(0, -4, 60, 8);
+        c.restore();
+        // 速度線
+        c.strokeStyle = `rgba(136,204,255,${tt*0.6})`; c.lineWidth = 3;
+        for(let k=0; k<3; k++){
+            c.beginPath(); c.moveTo(x - 8 + k*8, h*0.3); c.lineTo(x - 8 + k*8, y - 30); c.stroke();
+        }
+    } else {
+        // 着地衝撃
+        const tt = (t-0.7)/0.3;
+        c.fillStyle = '#5a4030';
+        c.fillRect(target.x - 8, h*0.7 - 30, 16, 30);
+        c.fillStyle = `rgba(136,204,255,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x, h*0.7, tt*60 + 20, 0, Math.PI*2); c.fill();
+        c.strokeStyle = `rgba(255,255,200,${1-tt})`; c.lineWidth = 4;
+        c.beginPath(); c.ellipse(target.x, h*0.7, tt*80, tt*20, 0, 0, Math.PI*2); c.stroke();
+    }
+}, 2400);
+
+// ⑥ 戦旗召喚（バフ）
+startAnim('at-f', (c, t, w, h) => {
+    const enemies = [{x:w*0.7,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    // 味方
+    drawEnemyAt(c, w*0.3, h*0.7, '#3a5a8a');
+    drawEnemyAt(c, w*0.45, h*0.7, '#3a5a8a');
+    if(t < 0.3) {
+        // 戦旗を立てる
+        const tt = t/0.3;
+        c.fillStyle = '#5a3a18';
+        c.fillRect(45, h*0.7 - 50*tt, 4, 50*tt);
+        // 旗
+        if(tt > 0.5) {
+            c.fillStyle = '#aa1010';
+            c.fillRect(49, h*0.7 - 50, 30, 18);
+            c.fillStyle = '#ffd24a';
+            c.font = 'bold 14px serif'; c.textAlign = 'center';
+            c.fillText('☆', 64, h*0.7 - 36);
+        }
+    } else {
+        const tt = (t-0.3)/0.7;
+        // 戦旗
+        c.fillStyle = '#5a3a18';
+        c.fillRect(45, h*0.7 - 50, 4, 50);
+        c.fillStyle = '#aa1010';
+        c.fillRect(49, h*0.7 - 50, 30, 18);
+        c.fillStyle = '#ffd24a';
+        c.font = 'bold 14px serif'; c.textAlign = 'center';
+        c.fillText('☆', 64, h*0.7 - 36);
+        // 味方バフのオーラ
+        c.strokeStyle = `rgba(255,210,74,${0.7 - tt*0.5})`; c.lineWidth = 2;
+        c.beginPath(); c.arc(w*0.3, h*0.7 - 12, 22 + tt*8, 0, Math.PI*2); c.stroke();
+        c.beginPath(); c.arc(w*0.45, h*0.7 - 12, 22 + tt*8, 0, Math.PI*2); c.stroke();
+        // バフテキスト
+        c.fillStyle = `rgba(255,210,74,${1 - tt*0.5})`;
+        c.font = 'bold 14px sans-serif'; c.textAlign = 'center';
+        c.fillText('ATK+', w*0.3, h*0.7 - 32);
+        c.fillText('ATK+', w*0.45, h*0.7 - 32);
+        // 同時に剣で斬る
+        if(tt > 0.3 && tt < 0.7) {
+            const ex = enemies[0].x;
+            c.fillStyle = `rgba(255,255,200,0.6)`;
+            c.beginPath(); c.arc(ex, h*0.7 - 16, 16, 0, Math.PI*2); c.fill();
+            c.strokeStyle = `rgba(255,170,68,1)`; c.lineWidth = 4;
+            c.beginPath(); c.moveTo(ex - 14, h*0.7 - 30); c.lineTo(ex + 14, h*0.7); c.stroke();
+        }
+    }
+}, 2800);
+</script>
+</body>
+</html>

@@ -183,6 +183,11 @@
   - `samurai-wars/procoptodon-preview.html`（プロコプトドン 6+6）
   - `samurai-wars/titanoboa-preview.html`（ティタノボア 6+6）
   - `samurai-wars/sandworm-preview.html`（サンドワーム 6+6）
+- デザインプレビュー追加（人型系4キャラ）:
+  - `samurai-wars/naga-preview.html`（ナーガ 6+6）
+  - `samurai-wars/beowulf-preview.html`（ベオウルフ 6+6）
+  - `samurai-wars/balor-preview.html`（バロール 6+6）
+  - `samurai-wars/tenagaashinaga-preview.html`（手長足長 6+6）
 - 過去・未来大戦争: フロストジャイアントを「氷結晶魔法使い + 吹雪」に変更
   - 体色 `#aaccdd`→`#aaeeff`、兜 frost_crown を結晶パターン+大きなジェム角+シアン光目に書き換え
   - 武器 `magic_circle`→`blizzard`、range 240→280/320、atkSpeed 1.8→2.2/2.4
