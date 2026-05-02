@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>スサノオ デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:flex-end;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 14px 4px 4px;
+            margin-bottom: 12px;
+            min-height: 280px;
+        }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>⚔️ スサノオ デザイン候補</h1>
+    <div class="sub">SUSANOO DESIGN CANDIDATES</div>
+    <div class="grid">
+        <div class="card" style="--c:#5a8aff; --g:rgba(90,138,255,0.4);">
+            <div class="canv-wrap"><canvas id="cv-a" width="220" height="280"></canvas></div>
+            <h2>案A. 紺鎧の戦神（王道）</h2>
+            <p>深紺の鎧に鬼角の兜、月の輝き。現行に近い王道の戦神スタイル。</p>
+            <div class="meta">配色: 紺 + 銀 + 金月</div>
+        </div>
+        <div class="card" style="--c:#ffffff; --g:rgba(255,255,255,0.4);">
+            <div class="canv-wrap"><canvas id="cv-b" width="220" height="280"></canvas></div>
+            <h2>案B. 白装束の英雄神</h2>
+            <p>純白の狩衣に長く流れる黒髪、金の帯。兜なしで神話の英雄神らしい優雅な姿。</p>
+            <div class="meta">配色: 白 + 朱 + 金</div>
+        </div>
+        <div class="card" style="--c:#ff3344; --g:rgba(255,51,68,0.45);">
+            <div class="canv-wrap"><canvas id="cv-c" width="220" height="280"></canvas></div>
+            <h2>案C. 黒鎧の鬼神</h2>
+            <p>漆黒の鎧に深紅のアクセント、巨大な鬼角の兜、燃える赤い目。威圧的な闇の戦神。</p>
+            <div class="meta">配色: 黒 + 深紅 + 銀</div>
+        </div>
+        <div class="card" style="--c:#ffea22; --g:rgba(255,234,34,0.5);">
+            <div class="canv-wrap"><canvas id="cv-d" width="220" height="280"></canvas></div>
+            <h2>案D. 稲妻のスサノオ</h2>
+            <p>水色と電撃黄、髪に走る稲妻の縞。剣にも雷。嵐神のパワー全開バージョン。</p>
+            <div class="meta">配色: 水色 + 黄電撃</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="cv-e" width="220" height="280"></canvas></div>
+            <h2>案E. 金の神将（仏神風）</h2>
+            <p>金の鎧に朱の衣、頭部に光輪。仏教の天部の神将のような神々しさ。</p>
+            <div class="meta">配色: 金 + 朱 + 翡翠</div>
+        </div>
+        <div class="card" style="--c:#aa8866; --g:rgba(170,136,102,0.45);">
+            <div class="canv-wrap"><canvas id="cv-f" width="220" height="280"></canvas></div>
+            <h2>案F. 荒ぶる原始神</h2>
+            <p>毛皮と鹿の頭骨を被った原始的な神。野生の力、超過去編らしい原始の威厳。</p>
+            <div class="meta">配色: 茶 + 骨白 + 朱</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function drawShadow(c, x, y, w=46, h=8) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+function drawAura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+
+// 共通の戦士ベース：体・腕・脚を描く
+function drawWarriorBody(c, p) {
+    const cx = 110, cy = 180;
+    // 脚
+    c.fillStyle = p.legs;
+    c.fillRect(cx - 12, cy - 12, 8, 36);
+    c.fillRect(cx + 4,  cy - 12, 8, 36);
+    c.strokeStyle = '#000'; c.lineWidth = 1.2;
+    c.strokeRect(cx - 12, cy - 12, 8, 36);
+    c.strokeRect(cx + 4,  cy - 12, 8, 36);
+    // 足
+    c.fillStyle = '#1a1a1a';
+    c.fillRect(cx - 14, cy + 22, 12, 5);
+    c.fillRect(cx + 2, cy + 22, 12, 5);
+    // 胴鎧
+    c.fillStyle = p.body;
+    c.fillRect(cx - 22, cy - 50, 44, 42);
+    c.strokeStyle = '#000'; c.lineWidth = 1.4;
+    c.strokeRect(cx - 22, cy - 50, 44, 42);
+    if(p.bodyHl) {
+        c.fillStyle = p.bodyHl;
+        c.fillRect(cx - 20, cy - 48, 8, 8);
+    }
+    // 帯（オプション）
+    if(p.belt) {
+        c.fillStyle = p.belt;
+        c.fillRect(cx - 22, cy - 22, 44, 6);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(cx - 22, cy - 22, 44, 6);
+    }
+    // 腕
+    c.fillStyle = p.body;
+    c.fillRect(cx - 30, cy - 46, 8, 28);
+    c.fillRect(cx + 22, cy - 46, 8, 28);
+    c.strokeStyle = '#000'; c.lineWidth = 1;
+    c.strokeRect(cx - 30, cy - 46, 8, 28);
+    c.strokeRect(cx + 22, cy - 46, 8, 28);
+    // 肩当て
+    if(p.shoulder) {
+        c.fillStyle = p.shoulder;
+        c.beginPath(); c.ellipse(cx - 26, cy - 48, 10, 8, 0, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.ellipse(cx + 26, cy - 48, 10, 8, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    }
+}
+
+// 共通の刀（基本：右手に持つ）
+function drawSword(c, p) {
+    const cx = 110, cy = 180;
+    // 鞘または刃
+    c.save();
+    c.translate(cx + 30, cy - 30);
+    c.rotate(-0.3);
+    // 柄
+    c.fillStyle = p.hiltColor || '#1a1a1a';
+    c.fillRect(-3, -4, 14, 8);
+    // 鍔
+    c.fillStyle = p.guardColor || '#ffd24a';
+    c.fillRect(11, -7, 4, 14);
+    // 刃
+    c.fillStyle = p.bladeColor || '#dde8f0';
+    c.fillRect(15, -3, 50, 6);
+    c.strokeStyle = '#000'; c.lineWidth = 1;
+    c.strokeRect(15, -3, 50, 6);
+    // 刃先のシャープなトリ
+    c.fillStyle = p.bladeColor || '#dde8f0';
+    c.beginPath(); c.moveTo(65, -3); c.lineTo(74, 0); c.lineTo(65, 3); c.closePath(); c.fill();
+    c.strokeStyle = '#000'; c.stroke();
+    // 刃のハイライト
+    c.fillStyle = 'rgba(255,255,255,0.5)';
+    c.fillRect(17, -2, 46, 1.5);
+    c.restore();
+    // 刃のオーラ（オプション）
+    if(p.bladeAura) {
+        c.strokeStyle = p.bladeAura; c.lineWidth = 3;
+        c.globalAlpha = 0.55;
+        c.save(); c.translate(cx + 30, cy - 30); c.rotate(-0.3);
+        c.beginPath(); c.moveTo(15, -5); c.lineTo(75, -2); c.stroke();
+        c.beginPath(); c.moveTo(15, 5); c.lineTo(75, 2); c.stroke();
+        c.restore();
+        c.globalAlpha = 1;
+    }
+}
+
+// =============================
+// 案A. 紺鎧の戦神（王道）
+// =============================
+(function drawA(){
+    const c = document.getElementById('cv-a').getContext('2d');
+    const cx = 110, cy = 180;
+    drawAura(c, cx, cy - 30, 'rgba(90,138,255,0.3)', 110);
+    drawShadow(c, cx, 256);
+    drawWarriorBody(c, {
+        body: '#1a3a5a', bodyHl: '#3a5a8a',
+        legs: '#0a1830',
+        belt: '#ffd24a',
+        shoulder: '#0a1a30'
+    });
+    drawSword(c, { hiltColor:'#1a1a1a', guardColor:'#ffd24a', bladeColor:'#dde8f0' });
+    // 顔
+    c.fillStyle = '#f0d4a8';
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 兜（紺・鬼角）
+    c.fillStyle = '#1a3a5a';
+    c.beginPath(); c.arc(cx, cy - 64, 11, Math.PI, 0); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 鉢巻
+    c.fillStyle = '#2a4a8a';
+    c.fillRect(cx - 11, cy - 60, 22, 4);
+    // 鬼角（左右）
+    c.fillStyle = '#0a1030';
+    c.beginPath();
+    c.moveTo(cx - 8, cy - 70); c.lineTo(cx - 14, cy - 84); c.lineTo(cx - 4, cy - 72); c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 8, cy - 70); c.lineTo(cx + 14, cy - 84); c.lineTo(cx + 4, cy - 72); c.closePath(); c.fill();
+    // 月の輝き
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(cx, cy - 76, 3, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#fff5cc'; c.lineWidth = 1.5;
+    c.beginPath(); c.arc(cx, cy - 76, 4, 0, Math.PI*2); c.stroke();
+    // 目
+    c.fillStyle = '#000';
+    c.fillRect(cx - 4, cy - 60, 1.5, 2);
+    c.fillRect(cx + 2.5, cy - 60, 1.5, 2);
+    // 髭
+    c.strokeStyle = '#000'; c.lineWidth = 1.4;
+    c.beginPath(); c.moveTo(cx - 4, cy - 53); c.lineTo(cx + 4, cy - 53); c.stroke();
+})();
+
+// =============================
+// 案B. 白装束の英雄神
+// =============================
+(function drawB(){
+    const c = document.getElementById('cv-b').getContext('2d');
+    const cx = 110, cy = 180;
+    drawAura(c, cx, cy - 30, 'rgba(255,255,255,0.4)', 110);
+    drawShadow(c, cx, 256);
+    // 流れる黒髪（背中まで）
+    c.fillStyle = '#0a0a0a';
+    c.beginPath();
+    c.moveTo(cx - 14, cy - 60);
+    c.quadraticCurveTo(cx - 28, cy - 20, cx - 24, cy + 16);
+    c.lineTo(cx - 12, cy + 14);
+    c.quadraticCurveTo(cx - 14, cy - 20, cx - 4, cy - 56);
+    c.closePath(); c.fill();
+    // 体（白い狩衣）
+    drawWarriorBody(c, {
+        body: '#f5f5f5', bodyHl: '#ffffff',
+        legs: '#e0e0e0',
+        belt: '#aa1010',
+        shoulder: null
+    });
+    // 衣の紋様（朱）
+    c.strokeStyle = '#aa1010'; c.lineWidth = 1.5;
+    for(let i=0; i<3; i++){
+        c.beginPath();
+        c.moveTo(cx - 22 + i*15, cy - 50);
+        c.lineTo(cx - 22 + i*15, cy - 24);
+        c.stroke();
+    }
+    // 金の帯飾り
+    c.fillStyle = '#ffd24a';
+    c.fillRect(cx - 4, cy - 22, 8, 16);
+    c.strokeStyle = '#aa6600'; c.lineWidth = 0.8;
+    c.strokeRect(cx - 4, cy - 22, 8, 16);
+    // 刀
+    drawSword(c, { hiltColor:'#aa1010', guardColor:'#ffd24a', bladeColor:'#dde8f0' });
+    // 顔
+    c.fillStyle = '#f0d4a8';
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 髪の前部分
+    c.fillStyle = '#0a0a0a';
+    c.beginPath();
+    c.moveTo(cx - 9, cy - 64); c.lineTo(cx - 4, cy - 56);
+    c.lineTo(cx, cy - 58); c.lineTo(cx + 4, cy - 56);
+    c.lineTo(cx + 9, cy - 64);
+    c.closePath(); c.fill();
+    // 朱の鉢巻
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx - 11, cy - 64, 22, 3);
+    // 鉢巻の結び目（後ろに垂れる）
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx - 14, cy - 62, 3, 8);
+    // 目
+    c.fillStyle = '#000';
+    c.fillRect(cx - 4, cy - 60, 1.5, 2);
+    c.fillRect(cx + 2.5, cy - 60, 1.5, 2);
+})();
+
+// =============================
+// 案C. 黒鎧の鬼神
+// =============================
+(function drawC(){
+    const c = document.getElementById('cv-c').getContext('2d');
+    const cx = 110, cy = 180;
+    drawAura(c, cx, cy - 30, 'rgba(255,40,60,0.4)', 110);
+    drawShadow(c, cx, 256);
+    drawWarriorBody(c, {
+        body: '#0a0a0a', bodyHl: '#3a3a3a',
+        legs: '#000',
+        belt: '#aa1010',
+        shoulder: '#5a0808'
+    });
+    // 鎧の朱の縁飾り
+    c.strokeStyle = '#aa1010'; c.lineWidth = 1.5;
+    c.strokeRect(cx - 22, cy - 50, 44, 42);
+    // 鎧の鬼の意匠（胸の朱の鬼面）
+    c.fillStyle = '#aa1010';
+    c.beginPath();
+    c.moveTo(cx - 8, cy - 42); c.lineTo(cx - 12, cy - 36); c.lineTo(cx, cy - 32);
+    c.lineTo(cx + 12, cy - 36); c.lineTo(cx + 8, cy - 42);
+    c.closePath(); c.fill();
+    c.fillStyle = '#ffd24a';
+    c.fillRect(cx - 5, cy - 39, 2, 2);
+    c.fillRect(cx + 3, cy - 39, 2, 2);
+    // 朱オーラの刀
+    drawSword(c, { hiltColor:'#5a0808', guardColor:'#aaa088', bladeColor:'#5a5a5a', bladeAura:'#ff3344' });
+    // 顔（陰）
+    c.fillStyle = '#5a3a30';
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 兜（黒・巨大鬼角）
+    c.fillStyle = '#000';
+    c.beginPath(); c.arc(cx, cy - 64, 12, Math.PI, 0); c.fill();
+    c.strokeStyle = '#3a3a3a'; c.lineWidth = 1; c.stroke();
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx - 12, cy - 58, 24, 3);
+    // 巨大鬼角（左右）
+    c.fillStyle = '#1a1a1a';
+    c.beginPath();
+    c.moveTo(cx - 9, cy - 70); c.lineTo(cx - 18, cy - 92); c.lineTo(cx - 4, cy - 72); c.closePath(); c.fill();
+    c.strokeStyle = '#aa1010'; c.lineWidth = 1; c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 9, cy - 70); c.lineTo(cx + 18, cy - 92); c.lineTo(cx + 4, cy - 72); c.closePath(); c.fill();
+    c.stroke();
+    // 燃える赤い目
+    c.fillStyle = '#ff2244';
+    c.beginPath(); c.arc(cx - 3, cy - 60, 1.6, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 3, cy - 60, 1.6, 0, Math.PI*2); c.fill();
+    // 目から漏れる赤い光
+    c.fillStyle = 'rgba(255,40,60,0.4)';
+    c.beginPath(); c.arc(cx - 3, cy - 60, 4, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 3, cy - 60, 4, 0, Math.PI*2); c.fill();
+})();
+
+// =============================
+// 案D. 稲妻のスサノオ
+// =============================
+(function drawD(){
+    const c = document.getElementById('cv-d').getContext('2d');
+    const cx = 110, cy = 180;
+    drawAura(c, cx, cy - 30, 'rgba(120,180,255,0.45)', 120);
+    drawShadow(c, cx, 256);
+    // 稲妻のパーティクル（背景）
+    c.strokeStyle = '#ffea22'; c.lineWidth = 2;
+    for(let i=0; i<3; i++) {
+        const sx = cx - 50 + i*70;
+        c.beginPath();
+        c.moveTo(sx, cy - 90); c.lineTo(sx + 6, cy - 70);
+        c.lineTo(sx - 4, cy - 60); c.lineTo(sx + 8, cy - 40);
+        c.stroke();
+    }
+    drawWarriorBody(c, {
+        body: '#3a7acc', bodyHl: '#aaccff',
+        legs: '#1a3a8a',
+        belt: '#ffea22',
+        shoulder: '#1a3a8a'
+    });
+    // 鎧の稲妻紋様
+    c.strokeStyle = '#ffea22'; c.lineWidth = 1.5;
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 48); c.lineTo(cx - 12, cy - 38); c.lineTo(cx - 16, cy - 32);
+    c.lineTo(cx - 10, cy - 22); c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 18, cy - 48); c.lineTo(cx + 12, cy - 38); c.lineTo(cx + 16, cy - 32);
+    c.lineTo(cx + 10, cy - 22); c.stroke();
+    // 雷光るブレード
+    drawSword(c, { hiltColor:'#1a3a8a', guardColor:'#ffea22', bladeColor:'#aaccff', bladeAura:'#ffea22' });
+    // 刀身に走る稲妻
+    c.strokeStyle = '#fff'; c.lineWidth = 1;
+    c.save(); c.translate(cx + 30, cy - 30); c.rotate(-0.3);
+    c.beginPath();
+    c.moveTo(20, 0); c.lineTo(28, -2); c.lineTo(36, 1); c.lineTo(46, -1); c.lineTo(56, 0); c.stroke();
+    c.restore();
+    // 顔
+    c.fillStyle = '#f0d4a8';
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 逆立つ稲妻髪（青と黄）
+    c.fillStyle = '#1a3a8a';
+    for(let i=-3; i<=3; i++){
+        const hx = cx + i*4;
+        c.beginPath();
+        c.moveTo(hx - 2, cy - 64); c.lineTo(hx, cy - 78 - Math.abs(i)*1.5); c.lineTo(hx + 2, cy - 64);
+        c.closePath(); c.fill();
+    }
+    c.fillStyle = '#ffea22';
+    for(let i=-2; i<=2; i++){
+        const hx = cx + i*4;
+        c.beginPath();
+        c.moveTo(hx - 1, cy - 70); c.lineTo(hx, cy - 76 - Math.abs(i)); c.lineTo(hx + 1, cy - 70);
+        c.closePath(); c.fill();
+    }
+    // 黄色く光る目
+    c.fillStyle = '#ffea22';
+    c.beginPath(); c.arc(cx - 3, cy - 60, 1.8, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 3, cy - 60, 1.8, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#fff';
+    c.fillRect(cx - 3.5, cy - 60.5, 0.8, 0.8);
+    c.fillRect(cx + 2.5, cy - 60.5, 0.8, 0.8);
+})();
+
+// =============================
+// 案E. 金の神将（仏神風）
+// =============================
+(function drawE(){
+    const c = document.getElementById('cv-e').getContext('2d');
+    const cx = 110, cy = 180;
+    drawAura(c, cx, cy - 30, 'rgba(255,210,74,0.4)', 120);
+    drawShadow(c, cx, 256);
+    // 光輪
+    c.strokeStyle = '#ffd24a'; c.lineWidth = 4; c.globalAlpha = 0.6;
+    c.beginPath(); c.arc(cx, cy - 64, 22, 0, Math.PI*2); c.stroke();
+    c.lineWidth = 2; c.globalAlpha = 0.9;
+    c.beginPath(); c.arc(cx, cy - 64, 22, 0, Math.PI*2); c.stroke();
+    c.globalAlpha = 1;
+    // 光輪から放射する光線
+    c.strokeStyle = 'rgba(255,210,74,0.6)'; c.lineWidth = 1.5;
+    for(let i=0; i<8; i++){
+        const a = i/8 * Math.PI*2;
+        c.beginPath();
+        c.moveTo(cx + Math.cos(a)*24, cy - 64 + Math.sin(a)*24);
+        c.lineTo(cx + Math.cos(a)*32, cy - 64 + Math.sin(a)*32);
+        c.stroke();
+    }
+    drawWarriorBody(c, {
+        body: '#ffd24a', bodyHl: '#fff5cc',
+        legs: '#aa6600',
+        belt: '#aa1010',
+        shoulder: '#aa6600'
+    });
+    // 鎧の朱の下衣
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx - 22, cy - 8, 44, 4);
+    // 鎧の翡翠縁
+    c.strokeStyle = '#3a8a5a'; c.lineWidth = 2;
+    c.strokeRect(cx - 22, cy - 50, 44, 42);
+    // 金属の鎖
+    c.strokeStyle = '#fff5cc'; c.lineWidth = 1.5;
+    for(let i=0; i<3; i++){
+        c.beginPath(); c.arc(cx - 12 + i*12, cy - 30, 2, 0, Math.PI*2); c.stroke();
+    }
+    // 金の刀
+    drawSword(c, { hiltColor:'#aa1010', guardColor:'#3a8a5a', bladeColor:'#fff5cc', bladeAura:'#ffd24a' });
+    // 顔
+    c.fillStyle = '#f0d4a8';
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 仏神風の冠
+    c.fillStyle = '#ffd24a';
+    c.fillRect(cx - 11, cy - 66, 22, 4);
+    c.strokeStyle = '#aa6600'; c.lineWidth = 0.8;
+    c.strokeRect(cx - 11, cy - 66, 22, 4);
+    // 冠の中央装飾
+    c.fillStyle = '#aa1010';
+    c.beginPath();
+    c.moveTo(cx - 4, cy - 66); c.lineTo(cx, cy - 74); c.lineTo(cx + 4, cy - 66);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#aa6600'; c.stroke();
+    // 目（穏やかな）
+    c.fillStyle = '#000';
+    c.fillRect(cx - 4, cy - 60, 1.5, 1.5);
+    c.fillRect(cx + 2.5, cy - 60, 1.5, 1.5);
+    // 鼻髭
+    c.strokeStyle = '#000'; c.lineWidth = 1.4;
+    c.beginPath(); c.moveTo(cx - 5, cy - 53); c.lineTo(cx - 1, cy - 55); c.stroke();
+    c.beginPath(); c.moveTo(cx + 1, cy - 55); c.lineTo(cx + 5, cy - 53); c.stroke();
+})();
+
+// =============================
+// 案F. 荒ぶる原始神
+// =============================
+(function drawF(){
+    const c = document.getElementById('cv-f').getContext('2d');
+    const cx = 110, cy = 180;
+    drawAura(c, cx, cy - 30, 'rgba(170,136,102,0.35)', 110);
+    drawShadow(c, cx, 256);
+    drawWarriorBody(c, {
+        body: '#5a3a20', bodyHl: '#7a5030',
+        legs: '#3a2010',
+        belt: '#aa1010',
+        shoulder: null
+    });
+    // 毛皮のマント（全体に毛のテクスチャ）
+    c.fillStyle = '#3a2010';
+    c.beginPath();
+    c.moveTo(cx - 28, cy - 50); c.lineTo(cx - 36, cy + 6); c.lineTo(cx - 22, cy + 6);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 28, cy - 50); c.lineTo(cx + 36, cy + 6); c.lineTo(cx + 22, cy + 6);
+    c.closePath(); c.fill();
+    // 毛の質感
+    c.strokeStyle = '#1a0808'; c.lineWidth = 0.8;
+    for(let i=0; i<8; i++){
+        const sy = cy - 44 + i*7;
+        c.beginPath(); c.moveTo(cx - 32, sy); c.lineTo(cx - 28, sy - 2); c.stroke();
+        c.beginPath(); c.moveTo(cx + 32, sy); c.lineTo(cx + 28, sy - 2); c.stroke();
+    }
+    // 朱の縄帯
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx - 22, cy - 22, 44, 5);
+    // 縄の結び目
+    c.fillStyle = '#3a0a0a';
+    c.beginPath(); c.arc(cx, cy - 19, 3, 0, Math.PI*2); c.fill();
+    // 石の剣
+    c.save();
+    c.translate(cx + 30, cy - 30); c.rotate(-0.3);
+    c.fillStyle = '#3a2010';
+    c.fillRect(-3, -4, 14, 8);
+    // 石の刃
+    c.fillStyle = '#9a8870';
+    c.beginPath();
+    c.moveTo(14, -5); c.lineTo(58, -3); c.lineTo(72, 0); c.lineTo(58, 3); c.lineTo(14, 5);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#3a2a1a'; c.lineWidth = 1.5; c.stroke();
+    // 石の質感
+    c.strokeStyle = '#5a4a3a'; c.lineWidth = 0.8;
+    c.beginPath(); c.moveTo(20, -2); c.lineTo(60, -1); c.stroke();
+    c.beginPath(); c.moveTo(22, 2); c.lineTo(62, 1); c.stroke();
+    c.restore();
+    // 顔（日焼けした肌）
+    c.fillStyle = '#aa7a50';
+    c.beginPath(); c.arc(cx, cy - 60, 9, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+    // 鹿の頭骨（兜代わり）
+    c.fillStyle = '#e8dcb8';
+    c.beginPath(); c.arc(cx, cy - 66, 11, Math.PI, 0); c.fill();
+    c.strokeStyle = '#7a6a44'; c.lineWidth = 1; c.stroke();
+    // 鹿の角（左右に枝分かれ）
+    c.strokeStyle = '#e8dcb8'; c.lineWidth = 3; c.lineCap = 'round';
+    c.beginPath();
+    c.moveTo(cx - 8, cy - 72); c.lineTo(cx - 14, cy - 86);
+    c.moveTo(cx - 11, cy - 80); c.lineTo(cx - 18, cy - 84);
+    c.moveTo(cx - 12, cy - 84); c.lineTo(cx - 14, cy - 92);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 8, cy - 72); c.lineTo(cx + 14, cy - 86);
+    c.moveTo(cx + 11, cy - 80); c.lineTo(cx + 18, cy - 84);
+    c.moveTo(cx + 12, cy - 84); c.lineTo(cx + 14, cy - 92);
+    c.stroke();
+    c.lineCap = 'butt';
+    // 鹿頭骨の眼窩
+    c.fillStyle = '#3a2a1a';
+    c.beginPath(); c.arc(cx - 4, cy - 66, 2, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 4, cy - 66, 2, 0, Math.PI*2); c.fill();
+    // 自分の目（頭骨の下から覗く）
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(cx - 3, cy - 58, 1.4, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 3, cy - 58, 1.4, 0, Math.PI*2); c.fill();
+    // 髭（もじゃもじゃ）
+    c.strokeStyle = '#3a2010'; c.lineWidth = 1.4;
+    for(let i=-3; i<=3; i++){
+        c.beginPath();
+        c.moveTo(cx + i*1.5, cy - 53);
+        c.lineTo(cx + i*2, cy - 47 + Math.abs(i));
+        c.stroke();
+    }
+})();
+</script>
+</body>
+</html>

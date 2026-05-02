@@ -3176,24 +3176,43 @@
                 c.strokeStyle = '#5a3a20'; c.lineWidth = 4*scale;
                 c.beginPath(); c.moveTo(0,-32*scale); c.quadraticCurveTo(8*scale,-26*scale,4*scale,-18*scale); c.stroke();
                 break;
-            case 'beetle_horn': // ヘラクレスオオカブト
-                c.fillStyle = '#1a1004';
+            case 'beetle_horn': // ヘラクレスオオカブト（黒銀王道）
+                // 漆黒の頭
+                c.fillStyle = '#0a0604';
                 c.beginPath(); c.arc(0,-36*scale,10*scale,0,Math.PI*2); c.fill();
-                // 上角
-                c.fillStyle = '#3a2010';
+                c.strokeStyle = '#000'; c.lineWidth = 0.8*scale; c.stroke();
+                // 銀光沢の上角（メイン・弧を描く）
+                c.fillStyle = '#5a4a3a';
                 c.beginPath();
-                c.moveTo(-2*scale,-44*scale); c.lineTo(0,-58*scale); c.lineTo(2*scale,-44*scale); c.closePath(); c.fill();
+                c.moveTo(-3*scale,-44*scale);
+                c.lineTo(-1*scale,-62*scale);
+                c.quadraticCurveTo(0,-66*scale, 3*scale,-62*scale);
+                c.lineTo(3*scale,-44*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#000'; c.lineWidth = 0.7*scale; c.stroke();
+                // 上角の側枝
+                c.fillStyle = '#5a4a3a';
                 c.beginPath();
-                c.moveTo(-4*scale,-50*scale); c.lineTo(-7*scale,-54*scale); c.lineTo(-2*scale,-46*scale); c.closePath(); c.fill();
+                c.moveTo(-3*scale,-52*scale); c.lineTo(-9*scale,-56*scale); c.lineTo(-2*scale,-48*scale); c.closePath(); c.fill();
+                c.stroke();
                 c.beginPath();
-                c.moveTo(4*scale,-50*scale); c.lineTo(7*scale,-54*scale); c.lineTo(2*scale,-46*scale); c.closePath(); c.fill();
-                // 下角
-                c.fillStyle = '#2a1a08';
+                c.moveTo(3*scale,-52*scale); c.lineTo(9*scale,-56*scale); c.lineTo(2*scale,-48*scale); c.closePath(); c.fill();
+                c.stroke();
+                // メタリック銀ハイライト（角の中央線）
+                c.fillStyle = '#aaa088';
+                c.fillRect(-0.5*scale, -60*scale, 1*scale, 16*scale);
+                // 下の小さな角
+                c.fillStyle = '#3a2a1a';
                 c.beginPath();
-                c.moveTo(-2*scale,-30*scale); c.lineTo(0,-22*scale); c.lineTo(2*scale,-30*scale); c.closePath(); c.fill();
-                // 体表光沢
-                c.fillStyle = '#5a3a10';
-                c.fillRect(-6*scale,-38*scale,3*scale,2*scale);
+                c.moveTo(-3*scale,-30*scale); c.lineTo(0,-20*scale); c.lineTo(3*scale,-30*scale); c.closePath(); c.fill();
+                c.strokeStyle = '#000'; c.lineWidth = 0.6*scale; c.stroke();
+                // オレンジに光る複眼
+                c.fillStyle = '#ff6600';
+                c.beginPath(); c.arc(-3.5*scale,-37*scale, 1.8*scale, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(3.5*scale,-37*scale, 1.8*scale, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#ffd24a';
+                c.fillRect(-4*scale,-37.6*scale,0.8*scale,0.8*scale);
+                c.fillRect(3*scale,-37.6*scale,0.8*scale,0.8*scale);
                 break;
             case 'dragon_head': // イルルヤンカシュ（青と緑の龍）
                 // 大きな頭
