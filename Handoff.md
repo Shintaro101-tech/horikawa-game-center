@@ -171,6 +171,16 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去・未来大戦争: 残り4キャラ実装（人型系）
+  - **ナーガ**: 案A（王道緑女神）+ 攻撃⑤蛇の召喚。武器`snake_summon`（jumpCombosに `style:'snake'`）。3体の小蛇が3敵に放物線で飛びかかる。各 atk×0.7、合計2.1倍。
+  - **ベオウルフ**: 案E（雷の戦士）+ 攻撃⑤跳躍斬り。兜 bone_helm を「銀色+金角+額の稲妻+雷光る目」に書き換え、体色`#5a5a5a`。武器`leap_slash`（kamikazes に `style:'leap'`）。空高くに弧を描いて急降下、着地で衝撃波+稲妻パターン。ダメ atk×1.4、自己ダメージなし。
+  - **バロール**: 案C（苔むした古代）+ 攻撃②邪眼の光線。兜 green_giant に苔・葉・古い灰髪、体色`#5a6a5a`、単眼にグロー。武器`evil_eye`（slashWaves に `style:'eye'`）。赤い水平レーザーで貫通、range 360/400。
+  - **手長足長**: 案C（闇の妖怪）+ 攻撃⑤渦巻き攻撃。兜 twin_yokai を紫黒+赤目+黒笠に書き換え、体色`#3a1a4a`。武器`spin_attack`（quakes に `style:'spin'`）。攻撃者周囲に360°の紫の渦と二色の腕の高速回転、AOE 140/160px。
+- 描画関数の style 対応:
+  - `drawSlashWave` に `'eye'`（赤レーザー）追加
+  - `drawJumpCombo` に `'snake'`（緑の小蛇）追加
+  - `drawKamikazeOrSlam` に `'leap'`（ベオウルフ跳躍）追加 → 新関数 `drawLeapSlash`
+  - `drawQuake` に `'spin'`（紫渦）追加
 - 過去・未来大戦争: 4キャラ実装
   - **プルスサウルス**: 案A（王道緑茶のまま）+ 攻撃④水鉄砲。武器`water_shot`（slashWavesに `style:'water'` で青い水流の見た目）。range 280に拡張、貫通。
   - **プロコプトドン**: 案A + 攻撃⑤ジャンプ連打。武器`jump_combo`、新配列`game.jumpCombos`。3体までターゲット選定し時間差で跳躍→着地ダメージ（各 atk×0.6、合計1.8倍）。

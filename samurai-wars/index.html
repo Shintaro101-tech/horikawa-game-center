@@ -930,29 +930,29 @@
           cooldown:32.0, color:'#1a1004', helmet:'beetle_horn', weapon:'beetle_horn_attack', rarity:4, scale:1.4,
           flying:true, antiAir:true, wingColor:'#3a2010',
           desc:'人の十倍の甲虫。空を飛び角で串刺しにする' },
-        // Stage 109: ナーガ
-        { id:'sp_naga', name:'ナーガ', yomi:'なーが', cost:1500, hp:3500, atk:340, atkSpeed:1.4, range:230, speed:0.95,
-          cooldown:28.0, color:'#3a6a4a', helmet:'snake_giant', weapon:'magic_circle', rarity:4, ranged:true,
-          desc:'半人半蛇の幻獣。蛇神の呪術で敵を狙撃する' },
+        // Stage 109: ナーガ（王道緑女神 + 蛇の召喚）
+        { id:'sp_naga', name:'ナーガ', yomi:'なーが', cost:1500, hp:3500, atk:340, atkSpeed:1.7, range:240, speed:0.95,
+          cooldown:28.0, color:'#5aaa66', helmet:'snake_giant', weapon:'snake_summon', rarity:4, ranged:true,
+          desc:'緑の蛇神。三体の小蛇を召喚して敵を襲わせる' },
         // Stage 110: サンダーバード（飛行 + 対空 + 範囲）
         { id:'sp_phoenix', name:'サンダーバード', yomi:'さんだーばーど', cost:2300, hp:4800, atk:540, atkSpeed:1.7, range:260, speed:1.1,
           cooldown:46.0, color:'#ffd24a', helmet:'phoenix_crest', weapon:'fire_breath', rarity:5, scale:1.45,
           flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#ddaa22',
           desc:'黄金の翼で天空を制する伝説の神鳥' },
-        // Stage 111: ベオウルフ
-        { id:'sp_beowulf', name:'ベオウルフ', yomi:'べおうるふ', cost:1900, hp:7200, atk:520, atkSpeed:1.2, range:48, speed:1.05,
-          cooldown:36.0, color:'#5a4030', helmet:'bone_helm', weapon:'odachi', rarity:4, scale:1.3,
-          desc:'古代北欧の戦士。剣と鎧で正面突破する' },
-        // Stage 112: バロール（対空：石を投げる）
-        { id:'sp_balor', name:'バロール', yomi:'ばろーる', cost:2100, hp:6800, atk:560, atkSpeed:2.1, range:280, speed:0.5,
-          cooldown:42.0, color:'#3a6a3a', helmet:'green_giant', weapon:'big_stone', rarity:5, scale:1.7,
+        // Stage 111: ベオウルフ（雷の戦士 + 跳躍斬り）
+        { id:'sp_beowulf', name:'ベオウルフ', yomi:'べおうるふ', cost:1900, hp:7200, atk:520, atkSpeed:2.2, range:200, speed:1.05,
+          cooldown:36.0, color:'#5a5a5a', helmet:'bone_helm', weapon:'leap_slash', rarity:4, scale:1.3,
+          desc:'雷を纏う北欧戦士。空高く跳んで叩き斬る' },
+        // Stage 112: バロール（苔むした古代 + 邪眼の光線）
+        { id:'sp_balor', name:'バロール', yomi:'ばろーる', cost:2100, hp:6800, atk:560, atkSpeed:2.0, range:360, speed:0.5,
+          cooldown:42.0, color:'#5a6a5a', helmet:'green_giant', weapon:'evil_eye', rarity:5, scale:1.7,
           ranged:true, antiAir:true,
-          desc:'隻眼の緑の巨人。巨石を投げ地空を打つ' },
-        // Stage 113: 手長足長（対空：手で空中攻撃）
-        { id:'sp_tenagaashinaga', name:'手長足長', yomi:'てながあしなが', cost:1900, hp:5400, atk:480, atkSpeed:1.3, range:200, speed:0.85,
-          cooldown:38.0, color:'#886644', helmet:'twin_yokai', weapon:'spear', rarity:4, scale:1.35,
-          ranged:true, antiAir:true,
-          desc:'長い手で空、長い足で地を制する妖怪コンビ' },
+          desc:'苔むした古代の隻眼巨人。邪眼から赤い光線を放つ' },
+        // Stage 113: 手長足長（闇の妖怪 + 渦巻き攻撃）
+        { id:'sp_tenagaashinaga', name:'手長足長', yomi:'てながあしなが', cost:1900, hp:5400, atk:480, atkSpeed:2.0, range:140, speed:0.85,
+          cooldown:38.0, color:'#3a1a4a', helmet:'twin_yokai', weapon:'spin_attack', rarity:4, scale:1.35,
+          antiAir:true,
+          desc:'闇に潜む二人組の妖怪。背中合わせの渦巻き攻撃' },
         // Stage 114: フロストジャイアント（氷結晶の魔法使い + 吹雪）
         { id:'sp_frost', name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', cost:2400, hp:8800, atk:620, atkSpeed:2.2, range:280, speed:0.55,
           cooldown:48.0, color:'#aaeeff', helmet:'frost_crown', weapon:'blizzard', rarity:5, scale:1.75,
@@ -2025,16 +2025,16 @@
         107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_poison', weapon:'poison_fog', color:'#3a1a4a', scale:2.0, range:280, atkSpeed:2.2 },
         // Stage 108 — Hercules beetle (flying + anti-air)
         108: { name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', hp:9500, atk:480, helmet:'beetle_horn', weapon:'beetle_horn_attack', color:'#1a1004', scale:1.9, flying:true, antiAir:true, wingColor:'#3a2010' },
-        // Stage 109
-        109: { name:'ナーガ', yomi:'なーが', hp:10500, atk:460, helmet:'snake_giant', weapon:'magic_circle', color:'#3a6a4a', scale:2.0, ranged:true, range:240 },
+        // Stage 109 — ナーガ（蛇の召喚）
+        109: { name:'ナーガ', yomi:'なーが', hp:10500, atk:460, helmet:'snake_giant', weapon:'snake_summon', color:'#5aaa66', scale:2.0, ranged:true, range:280, atkSpeed:1.9 },
         // Stage 110 — Thunderbird / 黄金鳳凰 (flying + anti-air + AOE)
         110: { name:'サンダーバード', yomi:'さんだーばーど', hp:12500, atk:560, helmet:'phoenix_crest', weapon:'fire_breath', color:'#ffd24a', scale:2.1, flying:true, antiAir:true, ranged:true, aoe:true, range:260, wingColor:'#ddaa22' },
-        // Stage 111
-        111: { name:'ベオウルフ', yomi:'べおうるふ', hp:16000, atk:680, helmet:'bone_helm', weapon:'odachi', color:'#5a4030', scale:2.0 },
-        // Stage 112 — Balor (anti-air via stones)
-        112: { name:'バロール', yomi:'ばろーる', hp:17500, atk:760, helmet:'green_giant', weapon:'big_stone', color:'#3a6a3a', scale:2.4, ranged:true, antiAir:true, range:300 },
-        // Stage 113 — Tenagaashinaga (anti-air via long arms)
-        113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'spear', color:'#886644', scale:2.1, ranged:true, antiAir:true, range:200 },
+        // Stage 111 — ベオウルフ（雷の戦士・跳躍斬り）
+        111: { name:'ベオウルフ', yomi:'べおうるふ', hp:16000, atk:680, helmet:'bone_helm', weapon:'leap_slash', color:'#5a5a5a', scale:2.0, range:240, atkSpeed:2.4 },
+        // Stage 112 — Balor (苔むした古代・邪眼の光線)
+        112: { name:'バロール', yomi:'ばろーる', hp:17500, atk:760, helmet:'green_giant', weapon:'evil_eye', color:'#5a6a5a', scale:2.4, ranged:true, antiAir:true, range:400, atkSpeed:2.2 },
+        // Stage 113 — Tenagaashinaga (闇の妖怪・渦巻き攻撃)
+        113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'spin_attack', color:'#3a1a4a', scale:2.1, antiAir:true, range:160, atkSpeed:2.2 },
         // Stage 114 — Frost Giant (氷結晶魔法使い・吹雪)
         114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'blizzard', color:'#aaeeff', scale:2.5, ranged:true, antiAir:true, range:320, atkSpeed:2.4 },
         // Stage 115 — Sun Wukong (clone rush + anti-air)
@@ -2569,12 +2569,61 @@
         c.restore();
     }
 
-    // 足踏み地震（マンモス専用）
+    // 足踏み地震（マンモス）/ 渦巻き攻撃（手長足長） 振り分け描画
     function drawQuake(c, q) {
         const t = q.timer;
         const gy = groundY();
+        if(q.style === 'spin') {
+            // 渦巻き攻撃（手長足長）— 攻撃者周辺に紫の渦
+            if(t < 0.2) {
+                // チャージ
+                const tt = t / 0.2;
+                c.fillStyle = `rgba(170,68,255,${tt * 0.5})`;
+                c.beginPath(); c.arc(q.x, gy - 40, 26 + tt*6, 0, Math.PI*2); c.fill();
+            } else {
+                const tt = (t - 0.2) / 1.1;
+                const angle = tt * Math.PI*10;
+                // 二つの腕/槍が高速回転
+                for(let arm=0; arm<2; arm++){
+                    const a = angle + arm*Math.PI;
+                    const r = q.range * (0.7 + Math.sin(tt*8)*0.1);
+                    c.strokeStyle = arm === 0 ? '#aa44ff' : '#ff3344';
+                    c.lineWidth = 5;
+                    c.beginPath();
+                    c.moveTo(q.x, gy - 30);
+                    c.lineTo(q.x + Math.cos(a)*r, gy - 30 + Math.sin(a)*r*0.5);
+                    c.stroke();
+                    // 残像
+                    for(let k=1; k<=4; k++){
+                        const a2 = a - k*0.3;
+                        c.strokeStyle = arm === 0 ? `rgba(170,68,255,${0.5 - k*0.1})` : `rgba(255,51,68,${0.5 - k*0.1})`;
+                        c.lineWidth = 4 - k*0.5;
+                        c.beginPath();
+                        c.moveTo(q.x, gy - 30);
+                        c.lineTo(q.x + Math.cos(a2)*r, gy - 30 + Math.sin(a2)*r*0.5);
+                        c.stroke();
+                    }
+                }
+                // 中心の紫オーラ
+                c.fillStyle = `rgba(170,68,255,${0.5})`;
+                c.beginPath(); c.arc(q.x, gy - 30, 14, 0, Math.PI*2); c.fill();
+                // 範囲のリング
+                c.strokeStyle = `rgba(170,68,255,${0.4})`; c.lineWidth = 1.5;
+                c.beginPath(); c.ellipse(q.x, gy - 20, q.range, q.range*0.5, 0, 0, Math.PI*2); c.stroke();
+                // 渦の粒
+                for(let k=0; k<10; k++){
+                    const a3 = angle*0.5 + k*Math.PI/5;
+                    const rr = q.range * 0.85;
+                    c.fillStyle = '#ff3344';
+                    c.beginPath();
+                    c.arc(q.x + Math.cos(a3)*rr, gy - 20 + Math.sin(a3)*rr*0.5, 2, 0, Math.PI*2);
+                    c.fill();
+                }
+            }
+            return;
+        }
+        // 既存マンモス足踏み
         if(t < 0.3) {
-            // フェーズ1: 足を上げる（簡易示唆）
             const tt = t / 0.3;
             c.fillStyle = `rgba(255,170,68,${tt * 0.4})`;
             c.beginPath(); c.arc(q.x, gy, 30, 0, Math.PI*2); c.fill();
@@ -2627,7 +2676,22 @@
         const alpha = fadeIn * fadeOut;
         c.save();
         c.globalAlpha = Math.max(0, Math.min(1, alpha));
-        if(sw.style === 'water') {
+        if(sw.style === 'eye') {
+            // 邪眼の光線: 赤いレーザー
+            const sy = groundY() - 50;
+            // 太い外グロー
+            c.strokeStyle = `rgba(255,40,60,0.7)`; c.lineWidth = 18;
+            c.beginPath(); c.moveTo(x - dir*40, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // 中
+            c.strokeStyle = '#ff3344'; c.lineWidth = 8;
+            c.beginPath(); c.moveTo(x - dir*40, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // コア
+            c.strokeStyle = '#fff'; c.lineWidth = 3;
+            c.beginPath(); c.moveTo(x - dir*40, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // 先端の閃光
+            c.fillStyle = `rgba(255,255,200,0.7)`;
+            c.beginPath(); c.arc(x + dir*4, sy, 12, 0, Math.PI*2); c.fill();
+        } else if(sw.style === 'water') {
             // 水鉄砲: 水平の高圧水流
             const sy = groundY() - 30;
             // 残像（横長の水しぶき）
@@ -2676,18 +2740,56 @@
         c.restore();
     }
 
-    // ジャンプ連打（プロコプトドン）
+    // ジャンプ連打（プロコプトドン）/ 蛇の召喚（ナーガ）
     function drawJumpCombo(c, jc) {
         const elapsed = jc.timer - jc.delay;
         if(elapsed < 0 || elapsed > 0.6) return;
         const p = Math.min(1, elapsed / 0.6);
         const gy = groundY();
+        if(jc.style === 'snake') {
+            // 蛇の弧（小さい蛇が放物線で飛ぶ）
+            if(p < 0.7) {
+                const tt = p / 0.7;
+                const x = jc.startX + (jc.targetX - jc.startX) * tt;
+                const y = gy - Math.sin(tt * Math.PI) * 50 - 20;
+                // 蛇の体（うねる残像）
+                for(let k = 0; k < 6; k++){
+                    const tk = Math.max(0, tt - k*0.04);
+                    const xk = jc.startX + (jc.targetX - jc.startX) * tk;
+                    const yk = gy - Math.sin(tk * Math.PI) * 50 - 20;
+                    c.fillStyle = `rgba(136,221,170,${0.7 - k*0.1})`;
+                    c.beginPath(); c.arc(xk, yk + Math.sin(tk*15 + k)*4, 6 - k*0.6, 0, Math.PI*2); c.fill();
+                }
+                // 蛇の頭
+                c.fillStyle = '#3a8a5a';
+                c.beginPath(); c.arc(x, y, 7, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#1a4030'; c.lineWidth = 1; c.stroke();
+                // 牙
+                c.fillStyle = '#fff';
+                c.fillRect(x + 4, y, 1.2, 3);
+                c.fillRect(x + 6, y, 1.2, 3);
+                // 目
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(x + 1, y - 2, 1.5, 0, Math.PI*2); c.fill();
+            } else {
+                // 着弾噛みつき
+                const tt = (p - 0.7) / 0.3;
+                c.fillStyle = `rgba(136,221,170,${(1-tt)*0.7})`;
+                c.beginPath(); c.arc(jc.targetX, jc.targetY - 16, 18 + tt*14, 0, Math.PI*2); c.fill();
+                // 緑の毒霧
+                for(let k=0; k<6; k++){
+                    const a = k*Math.PI/3;
+                    c.fillStyle = `rgba(170,255,102,${(1-tt)*0.6})`;
+                    c.beginPath(); c.arc(jc.targetX + Math.cos(a)*tt*22, jc.targetY - 16 + Math.sin(a)*tt*14, 3, 0, Math.PI*2); c.fill();
+                }
+            }
+            return;
+        }
+        // 既存のカンガルー版
         if(p < 0.7) {
-            // ジャンプ弧（startXからtargetXへ放物線）
             const tt = p / 0.7;
             const x = jc.startX + (jc.targetX - jc.startX) * tt;
             const y = gy - Math.sin(tt * Math.PI) * 60 - 30;
-            // 残像
             for(let k = 0; k < 4; k++) {
                 const tk = Math.max(0, tt - k*0.08);
                 const xk = jc.startX + (jc.targetX - jc.startX) * tk;
@@ -2695,25 +2797,21 @@
                 c.fillStyle = `rgba(168,112,64,${0.45 - k*0.08})`;
                 c.fillRect(xk - 8, yk - 14, 16, 30);
             }
-            // 簡易カンガルー
             c.fillStyle = '#a87040';
             c.fillRect(x - 8, y - 14, 16, 30);
             c.beginPath(); c.arc(x, y - 22, 7, 0, Math.PI*2); c.fill();
             c.strokeStyle = '#3a1a08'; c.lineWidth = 1;
             c.strokeRect(x - 8, y - 14, 16, 30);
-            // 振り下ろす後脚（着地時近く）
             if(tt > 0.65) {
                 c.fillStyle = '#a87040';
                 c.fillRect(x - 4, y + 14, 8, 12);
             }
         } else {
-            // 着地衝撃
             const tt = (p - 0.7) / 0.3;
             c.fillStyle = `rgba(255,170,68,${(1-tt)*0.7})`;
             c.beginPath(); c.arc(jc.targetX, jc.targetY, 22 + tt*16, 0, Math.PI*2); c.fill();
             c.fillStyle = `rgba(255,255,200,${(1-tt)*0.6})`;
             c.beginPath(); c.arc(jc.targetX, jc.targetY - 16, 14 + tt*8, 0, Math.PI*2); c.fill();
-            // 飛び散る土
             for(let k=0; k<6; k++){
                 const a = k*Math.PI/3;
                 c.fillStyle = '#aa6633';
@@ -2782,9 +2880,84 @@
         }
     }
 
-    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム） 振り分け
+    // 跳躍斬り（ベオウルフ）
+    function drawLeapSlash(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        if(t < 0.25) {
+            // 構え（チャージ）
+            const tt = t / 0.25;
+            c.fillStyle = `rgba(255,234,34,${tt * 0.45})`;
+            c.beginPath(); c.arc(k.startX, gy - 30, 28 + tt*8, 0, Math.PI*2); c.fill();
+        } else if(t < 0.7) {
+            // 上昇 + 急降下（弧）
+            const tt = (t - 0.25) / 0.45;
+            const x = k.startX + (k.targetX - k.startX) * tt;
+            const y = gy - 30 - Math.sin(tt * Math.PI) * 130;
+            // 残像（速度線）
+            for(let i = 0; i < 5; i++) {
+                const ti = Math.max(0, tt - i*0.06);
+                const xi = k.startX + (k.targetX - k.startX) * ti;
+                const yi = gy - 30 - Math.sin(ti * Math.PI) * 130;
+                c.fillStyle = `rgba(90,90,90,${0.45 - i*0.07})`;
+                c.fillRect(xi - 8, yi - 30, 16, 30);
+            }
+            // ベオウルフ本体
+            c.fillStyle = '#5a5a5a';
+            c.fillRect(x - 8, y - 30, 16, 30);
+            c.fillStyle = '#f0d4a8';
+            c.beginPath(); c.arc(x, y - 36, 7, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#888';
+            c.beginPath(); c.arc(x, y - 38, 9, Math.PI, 0); c.fill();
+            // 振りかぶった剣
+            const swordAngle = -Math.PI/2 + tt * Math.PI*1.4;
+            c.save(); c.translate(x, y - 22); c.rotate(swordAngle);
+            c.fillStyle = '#dde8f0';
+            c.fillRect(0, -3, 60, 6);
+            c.fillStyle = '#aa6600';
+            c.fillRect(-4, -5, 6, 10);
+            c.restore();
+            // 雷オーラ
+            c.strokeStyle = `rgba(255,234,34,0.7)`; c.lineWidth = 2;
+            c.beginPath();
+            c.moveTo(x - 14, y - 30); c.lineTo(x - 8, y - 20); c.lineTo(x - 16, y - 10);
+            c.stroke();
+            c.beginPath();
+            c.moveTo(x + 14, y - 30); c.lineTo(x + 8, y - 20); c.lineTo(x + 16, y - 10);
+            c.stroke();
+        } else {
+            // 着地衝撃
+            const tt = (t - 0.7) / 0.3;
+            c.fillStyle = '#5a5a5a';
+            c.fillRect(k.targetX - 8, gy - 30, 16, 30);
+            c.fillStyle = `rgba(255,234,34,${(1-tt)*0.85})`;
+            c.beginPath(); c.arc(k.targetX, gy, tt*70 + 30, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${(1-tt)*0.6})`;
+            c.beginPath(); c.arc(k.targetX, gy, tt*40 + 16, 0, Math.PI*2); c.fill();
+            // 衝撃波リング
+            c.strokeStyle = `rgba(255,234,34,${1-tt})`; c.lineWidth = 4;
+            c.beginPath(); c.ellipse(k.targetX, gy, tt*100, tt*22, 0, 0, Math.PI*2); c.stroke();
+            // 飛び散る土＋稲妻
+            for(let kk=0; kk<10; kk++){
+                const a = kk*Math.PI/5;
+                c.fillStyle = '#aa6633';
+                c.fillRect(k.targetX + Math.cos(a)*tt*40, gy + Math.sin(a)*tt*15, 3, 3);
+            }
+            for(let kk=0; kk<6; kk++){
+                const a = -Math.PI*0.3 + kk*Math.PI*0.12;
+                c.strokeStyle = `rgba(255,234,34,${1-tt})`; c.lineWidth = 2;
+                c.beginPath();
+                c.moveTo(k.targetX, gy);
+                c.lineTo(k.targetX + Math.cos(a)*tt*60, gy - Math.sin(a)*tt*40);
+                c.stroke();
+            }
+        }
+    }
+
+    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ） 振り分け
     function drawKamikazeOrSlam(c, k) {
         if(k.style === 'slam') drawSlamDown(c, k);
+        else if(k.style === 'leap') drawLeapSlash(c, k);
         else drawKamikazeRush(c, k);
     }
 
@@ -4410,52 +4583,108 @@
                     c.closePath(); c.fill();
                 }
                 break;
-            case 'bone_helm': // ベオウルフ
-                c.fillStyle = '#5a4030';
+            case 'bone_helm': // ベオウルフ（雷の戦士）
+                // 銀色の頭
+                c.fillStyle = '#888888';
                 c.beginPath(); c.arc(0,-36*scale,9*scale,0,Math.PI*2); c.fill();
-                c.fillStyle = '#7a5a40';
+                c.strokeStyle = '#3a3a3a'; c.lineWidth = 0.7*scale; c.stroke();
+                // 額のバンド
+                c.fillStyle = '#5a5a5a';
                 c.fillRect(-9*scale,-36*scale,18*scale,4*scale);
-                // 角
-                c.fillStyle = '#e8d8b8';
+                // 角（金）
+                c.fillStyle = '#ffea22';
                 c.beginPath();
                 c.moveTo(-7*scale,-40*scale); c.lineTo(-12*scale,-48*scale); c.lineTo(-3*scale,-42*scale); c.closePath(); c.fill();
                 c.beginPath();
                 c.moveTo(7*scale,-40*scale); c.lineTo(12*scale,-48*scale); c.lineTo(3*scale,-42*scale); c.closePath(); c.fill();
-                // 鎖帷子
-                c.strokeStyle = '#3a2a1a'; c.lineWidth = 1*scale;
-                for(let i=-2;i<=2;i++){
-                    c.beginPath(); c.arc(i*3*scale, -32*scale, 1.2*scale, 0, Math.PI*2); c.stroke();
-                }
+                // 額の稲妻
+                c.strokeStyle = '#ffea22'; c.lineWidth = 1.5*scale;
+                c.beginPath();
+                c.moveTo(-3*scale,-38*scale); c.lineTo(0,-35*scale); c.lineTo(-2*scale,-32*scale);
+                c.stroke();
+                // 周りに走る稲妻スパーク
+                c.strokeStyle = 'rgba(255,234,34,0.7)'; c.lineWidth = 1*scale;
+                c.beginPath();
+                c.moveTo(-12*scale,-44*scale); c.lineTo(-9*scale,-42*scale); c.lineTo(-12*scale,-40*scale);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(12*scale,-44*scale); c.lineTo(9*scale,-42*scale); c.lineTo(12*scale,-40*scale);
+                c.stroke();
+                // 雷光る目
+                c.fillStyle = '#ffea22';
+                c.beginPath(); c.arc(-3*scale,-37*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(3*scale,-37*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#fff';
+                c.beginPath(); c.arc(-3*scale,-37*scale,0.6*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(3*scale,-37*scale,0.6*scale,0,Math.PI*2); c.fill();
                 break;
-            case 'green_giant': // バロール（緑の巨人・隻眼）
-                c.fillStyle = '#3a6a3a';
+            case 'green_giant': // バロール（苔むした古代巨人・隻眼）
+                // 灰緑の頭（苔っぽい色）
+                c.fillStyle = '#5a6a5a';
                 c.beginPath(); c.arc(0,-34*scale,10*scale,0,Math.PI*2); c.fill();
-                c.fillStyle = '#5a8a4a';
+                c.strokeStyle = '#1a2a18'; c.lineWidth = 0.6*scale; c.stroke();
+                c.fillStyle = '#7a8a7a';
                 c.beginPath(); c.arc(2*scale,-34*scale,7*scale,0,Math.PI*2); c.fill();
-                // 単眼
+                // 苔（頭の上）
+                c.fillStyle = '#3a6a3a';
+                c.fillRect(-9*scale, -44*scale, 8*scale, 3*scale);
+                c.fillStyle = '#5aaa44';
+                c.fillRect(-7*scale, -43*scale, 4*scale, 1.5*scale);
+                // 苔の葉（小さい）
+                c.fillStyle = '#5aaa44';
+                c.beginPath();
+                c.moveTo(-6*scale, -44*scale); c.lineTo(-4*scale, -50*scale); c.lineTo(-2*scale, -44*scale);
+                c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(3*scale, -44*scale); c.lineTo(5*scale, -49*scale); c.lineTo(7*scale, -44*scale);
+                c.closePath(); c.fill();
+                // 体側面の苔
+                c.fillStyle = '#3a6a3a';
+                c.fillRect(-12*scale, -22*scale, 4*scale, 2.5*scale);
+                c.fillRect(8*scale, -16*scale, 4*scale, 2*scale);
+                // 単眼（赤、グロー）
+                c.fillStyle = 'rgba(255,51,68,0.5)';
+                c.beginPath(); c.arc(0,-34*scale,5*scale,0,Math.PI*2); c.fill();
                 c.fillStyle = '#ff3344';
                 c.beginPath(); c.arc(0,-34*scale,3*scale,0,Math.PI*2); c.fill();
                 c.fillStyle = '#000';
                 c.fillRect(-0.8*scale,-35*scale,1.5*scale,3*scale);
-                // 髪
-                c.fillStyle = '#1a3a1a';
+                // 古い灰色の髪
+                c.fillStyle = '#5a5a5a';
                 c.fillRect(-9*scale,-44*scale,18*scale,4*scale);
                 break;
-            case 'twin_yokai': // 手長足長
-                // 細長の頭（足長）
-                c.fillStyle = '#aa8866';
+            case 'twin_yokai': // 手長足長（闇の妖怪）
+                // 細長の頭（足長・暗い紫黒）
+                c.fillStyle = '#3a1a4a';
                 c.beginPath(); c.ellipse(-4*scale,-40*scale,4*scale,8*scale,0,0,Math.PI*2); c.fill();
+                c.strokeStyle = '#0a0010'; c.lineWidth = 0.5*scale; c.stroke();
                 // 大きな頭（手長）
-                c.fillStyle = '#886644';
+                c.fillStyle = '#5a3a6a';
                 c.beginPath(); c.arc(4*scale,-34*scale,6*scale,0,Math.PI*2); c.fill();
-                // 笠
-                c.fillStyle = '#3a2a1a';
+                c.stroke();
+                // 闇の笠（黒）
+                c.fillStyle = '#0a0010';
                 c.beginPath();
                 c.moveTo(-12*scale,-44*scale); c.lineTo(0,-54*scale); c.lineTo(12*scale,-44*scale); c.closePath(); c.fill();
-                // 目（白）
-                c.fillStyle = '#fff';
-                c.fillRect(-5*scale,-40*scale,1.5*scale,1.5*scale);
-                c.fillRect(3*scale,-34*scale,1.5*scale,1.5*scale);
+                c.strokeStyle = '#5a3a6a'; c.lineWidth = 0.5*scale; c.stroke();
+                // 笠の縁の紫光
+                c.strokeStyle = '#aa44ff'; c.lineWidth = 0.7*scale;
+                c.beginPath();
+                c.moveTo(-12*scale,-44*scale); c.lineTo(12*scale,-44*scale); c.stroke();
+                // 赤い目（足長）
+                c.fillStyle = '#ff3344';
+                c.beginPath(); c.arc(-4.2*scale,-40*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-4.7*scale,-40.5*scale,0.6*scale,1.5*scale);
+                // 赤い目（手長）
+                c.fillStyle = '#ff3344';
+                c.beginPath(); c.arc(3.5*scale,-34*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(3*scale,-34.5*scale,0.6*scale,1.5*scale);
+                // 目のグロー
+                c.fillStyle = 'rgba(255,40,60,0.5)';
+                c.fillRect(-5.4*scale,-41*scale,2.5*scale,2*scale);
+                c.fillRect(2.2*scale,-35*scale,2.5*scale,2*scale);
                 break;
             case 'susanoo_helm': // スサノオ（金の神将・仏神風）
                 // 背後の光輪
@@ -4553,6 +4782,7 @@
                 c.moveTo(40*scale, -16*scale); c.quadraticCurveTo(54*scale,-30*scale, 56*scale,-22*scale);
                 c.quadraticCurveTo(48*scale,-12*scale, 40*scale,-16*scale); c.fill();
                 break;
+            case 'leap_slash': // ベオウルフ跳躍斬り（見た目は odachi と同じ）
             case 'slash_wave': // スサノオ十拳剣（見た目は odachi と同じ）
             case 'odachi':
                 c.strokeStyle = '#fff'; c.lineWidth = 4*scale;
@@ -4626,6 +4856,9 @@
             case 'jump_combo':    // プロコプトドンジャンプ連打
             case 'poison_fog':    // ティタノボア毒霧
             case 'slam_down':     // サンドワーム巨体叩きつけ
+            case 'snake_summon':  // ナーガ蛇の召喚
+            case 'evil_eye':      // バロール邪眼の光線
+            case 'spin_attack':   // 手長足長渦巻き攻撃
             case 'fist':
                 c.fillStyle = '#7a8a9a';
                 c.fillRect(0,-6*scale,18*scale,12*scale);
@@ -5584,6 +5817,91 @@
         const isSpecial = attacker.attackCount % 8 === 0;
         const dmgMult = isSpecial ? 2.0 : 1.0;
         const atk = attacker.atk * dmgMult;
+        // 蛇の召喚（ナーガ専用）— 3体の小蛇を3つのターゲットへ
+        if(attacker.data && attacker.data.weapon === 'snake_summon') {
+            attacker.swing = 1;
+            const targets = [target];
+            const nearby = [];
+            for(const t of game.units) {
+                if(t === target || t.side === attacker.side || t.dead) continue;
+                if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                const d = Math.abs(t.x - attacker.x);
+                if(d <= attacker.range) nearby.push({u: t, d: d});
+            }
+            nearby.sort((a, b) => a.d - b.d);
+            targets.push(...nearby.slice(0, 2).map(n => n.u));
+            while(targets.length < 3) targets.push(target);
+            if(!game.jumpCombos) game.jumpCombos = [];
+            targets.forEach((tg, i) => {
+                const ty = (tg && !tg.isCastle) ? tg.y : groundY();
+                const tx = tg.isCastle
+                    ? (target.side === 'enemy' ? 100 : W() - 100)
+                    : tg.x;
+                game.jumpCombos.push({
+                    startX: attacker.x, targetX: tx, targetY: ty,
+                    timer: 0, delay: i * 0.18,
+                    damage: atk * 0.7,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: isSpecial,
+                    style: 'snake'
+                });
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🐍 三蛇召喚 🐍', '#88dd66', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 跳躍斬り（ベオウルフ専用）— 空高く跳び降下斬撃
+        if(attacker.data && attacker.data.weapon === 'leap_slash') {
+            attacker.swing = 1;
+            const tx = target.isCastle
+                ? (target.side === 'enemy' ? 100 : W() - 100)
+                : target.x;
+            if(!game.kamikazes) game.kamikazes = [];
+            game.kamikazes.push({
+                startX: attacker.x, x: attacker.x, targetX: tx,
+                timer: 0, damage: atk * 1.4, selfDamage: 0,
+                side: attacker.side, attackerRef: null,
+                damageApplied: false,
+                antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial, style: 'leap'
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '⚡ 雷斬一閃 ⚡', '#ffea22', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 邪眼の光線（バロール専用）— 一直線の赤いレーザー
+        if(attacker.data && attacker.data.weapon === 'evil_eye') {
+            attacker.swing = 1;
+            if(!game.slashWaves) game.slashWaves = [];
+            game.slashWaves.push({
+                x: attacker.x, startX: attacker.x,
+                dir: attacker.side === 'p' ? -1 : 1,
+                speed: 14, damage: atk, side: attacker.side,
+                maxRange: attacker.range || 360, traveled: 0,
+                hitUnits: [], castleHit: false,
+                antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial, style: 'eye'
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '👁 邪眼凝視 👁', '#ff3344', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 渦巻き攻撃（手長足長専用）— 攻撃者の周囲全方位AOE
+        if(attacker.data && attacker.data.weapon === 'spin_attack') {
+            attacker.swing = 1;
+            if(!game.quakes) game.quakes = [];
+            game.quakes.push({
+                x: attacker.x, timer: 0, damage: atk,
+                side: attacker.side, damageApplied: false,
+                antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial, range: attacker.range || 140,
+                style: 'spin'
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🌀 妖怪渦巻 🌀', '#aa44ff', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
         // 水鉄砲（プルスサウルス専用）— 一直線の高圧水流
         if(attacker.data && attacker.data.weapon === 'water_shot') {
             attacker.swing = 1;
