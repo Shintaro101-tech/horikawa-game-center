@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>巫女 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>⛩ 巫女 デザイン & 攻撃 候補</h1>
+<div class="sub">MIKO DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#f8b8c8;--g:rgba(248,184,200,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 王道桃の巫女（現行）</h2><p>桃色の千早と白い袴、最も「巫女」らしい姿。</p><div class="meta">配色:桃+白</div></div>
+<div class="card" style="--c:#ffffff;--g:rgba(255,255,255,0.45)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 白装束の聖巫女</h2><p>純白に金の刺繍、神聖な高位巫女。</p><div class="meta">配色:白+金</div></div>
+<div class="card" style="--c:#3a1a4a;--g:rgba(58,26,74,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黒装束の闇巫女</h2><p>黒い千早、紫の袴、邪な力を扱う影の巫女。</p><div class="meta">配色:黒+紫</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 朱の高位巫女</h2><p>朱の千早に金の頭飾り、高位の巫女。神主格。</p><div class="meta">配色:朱+金</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.45)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 御札投擲（現行）</h2><p>御札を放って敵に着弾。基本動作。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 神楽舞い（範囲）</h2><p>舞いながら御札の渦を周囲に展開。範囲攻撃。</p></div>
+<div class="card" style="--c:#ffea22;--g:rgba(255,234,34,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 聖光線</h2><p>御札から白い聖光線を発射、一直線に貫通。</p></div>
+<div class="card" style="--c:#88ccff;--g:rgba(136,204,255,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 鈴の音波</h2><p>神楽鈴を鳴らして音波の波紋を広げる範囲スタン。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawMiko(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,22,5);
+  // 袴
+  c.fillStyle=p.hakama;c.beginPath();
+  c.moveTo(cx-22,cy-8);c.lineTo(cx-26,cy+30);c.lineTo(cx+26,cy+30);c.lineTo(cx+22,cy-8);c.closePath();c.fill();
+  c.strokeStyle=p.outline;c.lineWidth=1.2;c.stroke();
+  // 千早（上着）
+  c.fillStyle=p.chihaya;c.fillRect(cx-22,cy-50,44,42);c.strokeRect(cx-22,cy-50,44,42);
+  // 千早の縁
+  if(p.chihayaTrim){c.fillStyle=p.chihayaTrim;c.fillRect(cx-22,cy-50,44,3);c.fillRect(cx-22,cy-12,44,3);}
+  // 帯
+  c.fillStyle=p.belt||'#aa1010';c.fillRect(cx-22,cy-12,44,4);
+  // 腕（袂が広がる）
+  c.fillStyle=p.chihaya;c.beginPath();
+  c.moveTo(cx-22,cy-46);c.lineTo(cx-32,cy-30);c.lineTo(cx-30,cy-12);c.lineTo(cx-22,cy-18);c.closePath();c.fill();
+  c.beginPath();
+  c.moveTo(cx+22,cy-46);c.lineTo(cx+32,cy-30);c.lineTo(cx+30,cy-12);c.lineTo(cx+22,cy-18);c.closePath();c.fill();
+  c.strokeStyle=p.outline;c.lineWidth=1; c.stroke();
+  // 顔
+  c.fillStyle=p.skin;c.beginPath();c.arc(cx,cy-60,9,0,Math.PI*2);c.fill();c.strokeStyle=p.outline;c.lineWidth=1;c.stroke();
+  // 髪（長い黒髪）
+  c.fillStyle=p.hair;c.beginPath();
+  c.moveTo(cx-9,cy-58);c.quadraticCurveTo(cx-20,cy-30,cx-16,cy);c.lineTo(cx-6,cy);c.quadraticCurveTo(cx-12,cy-30,cx-3,cy-56);c.closePath();c.fill();
+  // 前髪
+  c.fillStyle=p.hair;c.beginPath();c.moveTo(cx-9,cy-66);c.lineTo(cx,cy-64);c.lineTo(cx+9,cy-66);c.lineTo(cx+8,cy-58);c.lineTo(cx-8,cy-58);c.closePath();c.fill();
+  // 頭飾り（リボンや前飾）
+  if(p.headOrnament){c.fillStyle=p.headOrnament;c.fillRect(cx-7,cy-69,14,3);
+    c.beginPath();c.moveTo(cx-9,cy-66);c.lineTo(cx-3,cy-72);c.lineTo(cx+3,cy-72);c.lineTo(cx+9,cy-66);c.closePath();c.fill();}
+  c.fillStyle='#000';c.fillRect(cx-4,cy-60,1.5,2);c.fillRect(cx+2,cy-60,1.5,2);
+  // 御札（手に持つ）
+  c.save();c.translate(cx+24,cy-30);c.rotate(0.2);
+  c.fillStyle='#fff';c.fillRect(0,-8,12,18);c.strokeStyle='#aa1010';c.lineWidth=1.5;c.strokeRect(0,-8,12,18);
+  c.fillStyle='#aa1010';c.font='bold 10px serif';c.textAlign='center';c.fillText('式',6,4);
+  c.restore();
+}
+drawMiko(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(248,184,200,0.4)',chihaya:'#f8b8c8',hakama:'#aa1010',belt:'#fff',outline:'#5a1010',skin:'#f0d4a8',hair:'#1a1a1a',chihayaTrim:'#fff'});
+drawMiko(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(255,255,255,0.45)',chihaya:'#ffffff',hakama:'#aa1010',belt:'#ffd24a',outline:'#aa6600',skin:'#f0d4a8',hair:'#1a1a1a',chihayaTrim:'#ffd24a',headOrnament:'#ffd24a'});
+drawMiko(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,68,255,0.4)',chihaya:'#1a1a1a',hakama:'#3a1a4a',belt:'#aa44ff',outline:'#0a0010',skin:'#cc8866',hair:'#1a1a1a',chihayaTrim:'#aa44ff'});
+drawMiko(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.4)',chihaya:'#aa1010',hakama:'#3a0000',belt:'#ffd24a',outline:'#3a0000',skin:'#f0d4a8',hair:'#1a1a1a',chihayaTrim:'#ffd24a',headOrnament:'#ffd24a'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.7;c.fillStyle='#aa1010';c.fillRect(zx-9,zy-20,18,20);c.fillStyle='#f8b8c8';c.fillRect(zx-9,zy-44,18,24);c.fillStyle='#f0d4a8';c.beginPath();c.arc(zx,zy-50,7,0,Math.PI*2);c.fill();c.fillStyle='#1a1a1a';c.fillRect(zx-7,zy-54,14,3);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 御札投擲
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.7){const tt=t/0.7;const x=40+tt*(tg.x-50);const y=h*0.55+Math.sin(tt*Math.PI)*-15;
+    c.save();c.translate(x,y);c.rotate(t*8);
+    c.fillStyle='#fff';c.fillRect(-7,-9,14,18);c.strokeStyle='#aa1010';c.lineWidth=1.5;c.strokeRect(-7,-9,14,18);
+    c.fillStyle='#aa1010';c.font='bold 11px serif';c.textAlign='center';c.fillText('式',0,4);c.restore();
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,16+tt*16,0,Math.PI*2);c.fill();}
+},2000);
+// ② 神楽舞い
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(170,68,255,${tt*0.5})`;c.beginPath();c.arc(40,h*0.6,30,0,Math.PI*2);c.fill();}
+  else{const tt=(t-0.2)/0.8;
+    // 御札の渦巻き
+    for(let k=0;k<10;k++){const a=tt*Math.PI*4+k*Math.PI/5;const r=80*(0.3+tt*0.7);
+      const x=40+Math.cos(a)*r;const y=h*0.6+Math.sin(a)*r*0.5;
+      c.save();c.translate(x,y);c.rotate(a);
+      c.fillStyle='#fff';c.fillRect(-5,-7,10,14);c.strokeStyle='#aa44ff';c.lineWidth=1;c.strokeRect(-5,-7,10,14);c.restore();}
+    enemies.forEach(e=>{c.fillStyle=`rgba(170,68,255,0.5)`;c.beginPath();c.arc(e.x,e.y-16,14,0,Math.PI*2);c.fill();});
+  }
+},2400);
+// ③ 聖光線
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x-25,tg.y);
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(255,234,34,${tt*0.6})`;c.beginPath();c.arc(40,h*0.55,16,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.fillRect(33,h*0.55-9,14,18);c.strokeStyle='#aa1010';c.lineWidth=1.5;c.strokeRect(33,h*0.55-9,14,18);}
+  else if(t<0.85){const tt=(t-0.2)/0.65;
+    c.strokeStyle=`rgba(255,234,34,0.7)`;c.lineWidth=18;c.beginPath();c.moveTo(48,h*0.55);c.lineTo(48+tt*(w-60),h*0.55);c.stroke();
+    c.strokeStyle='#fff';c.lineWidth=8;c.stroke();
+    c.strokeStyle='#ffd24a';c.lineWidth=3;c.stroke();
+  }else{const tt=(t-0.85)/0.15;c.strokeStyle=`rgba(255,234,34,${(1-tt)*0.5})`;c.lineWidth=10;c.beginPath();c.moveTo(48,h*0.55);c.lineTo(w,h*0.55);c.stroke();}
+},2200);
+// ④ 鈴の音波
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.2){const tt=t/0.2;c.fillStyle='#ffd24a';c.beginPath();c.arc(40,h*0.55,8,0,Math.PI*2);c.fill();c.strokeStyle='#aa6600';c.lineWidth=1.5;c.stroke();
+    // 鈴の音
+    c.fillStyle=`rgba(136,204,255,${tt*0.7})`;c.beginPath();c.arc(40,h*0.55,16+tt*4,0,Math.PI*2);c.fill();}
+  else{const tt=(t-0.2)/0.8;c.fillStyle='#ffd24a';c.beginPath();c.arc(40,h*0.55,8,0,Math.PI*2);c.fill();
+    // 同心円の音波
+    for(let k=0;k<4;k++){const tk=Math.max(0,tt-k*0.15);if(tk<=0)continue;const r=tk*280;const a=Math.max(0,1-tk);
+      c.strokeStyle=`rgba(136,204,255,${a})`;c.lineWidth=4;c.beginPath();c.arc(40,h*0.55,r,0,Math.PI*2);c.stroke();
+      c.strokeStyle=`rgba(255,255,255,${a*0.7})`;c.lineWidth=1.5;c.stroke();}
+    enemies.forEach(e=>{const dx=Math.abs(e.x-40);if(tt*280>dx){c.fillStyle='#88ccff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('💫',e.x,e.y-30);}});
+  }
+},2400);
+</script></body></html>

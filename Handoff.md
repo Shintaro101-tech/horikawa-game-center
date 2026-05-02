@@ -171,6 +171,12 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去編 デザインプレビュー追加（Batch 1: スタート時保有5体）— 4案+4案の簡易版
+  - `samurai-wars/ashigaru-preview.html`（足軽 4+4）
+  - `samurai-wars/bushi-preview.html`（侍 4+4）
+  - `samurai-wars/ninja-preview.html`（忍者 4+4）
+  - `samurai-wars/yumi-preview.html`（弓兵 4+4）
+  - `samurai-wars/miko-preview.html`（巫女 4+4）
 - 過去・未来大戦争: 残り4キャラ実装（人型系）
   - **ナーガ**: 案A（王道緑女神）+ 攻撃⑤蛇の召喚。武器`snake_summon`（jumpCombosに `style:'snake'`）。3体の小蛇が3敵に放物線で飛びかかる。各 atk×0.7、合計2.1倍。
   - **ベオウルフ**: 案E（雷の戦士）+ 攻撃⑤跳躍斬り。兜 bone_helm を「銀色+金角+額の稲妻+雷光る目」に書き換え、体色`#5a5a5a`。武器`leap_slash`（kamikazes に `style:'leap'`）。空高くに弧を描いて急降下、着地で衝撃波+稲妻パターン。ダメ atk×1.4、自己ダメージなし。

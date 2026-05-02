@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>弓兵 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🏹 弓兵 デザイン & 攻撃 候補</h1>
+<div class="sub">YUMI ARCHER DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#3a7a3a;--g:rgba(58,122,58,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 王道緑の弓兵（現行）</h2><p>緑の鉢巻と装束、和弓を構える素朴な兵。</p><div class="meta">配色:緑+茶</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,80,80,0.45)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒装束の暗殺弓兵</h2><p>黒い装束に黒弓、影の暗殺者然とした弓使い。</p><div class="meta">配色:黒+紫弦</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 朱の女弓兵（巴御前風）</h2><p>朱の装束に長い髪、優雅な女武者。</p><div class="meta">配色:朱+黒髪</div></div>
+<div class="card" style="--c:#aaccee;--g:rgba(170,204,238,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 銀の精霊弓兵</h2><p>銀色の装束に光る弓、エルフのような精霊弓使い。</p><div class="meta">配色:銀+水色光</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#dde8f0;--g:rgba(221,232,240,0.45)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 通常射撃（現行）</h2><p>狙いを定めて単発の矢を放つ。基本動作。</p></div>
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 三連射</h2><p>3本の矢を一度に発射。広がりつつ前方へ。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 火矢</h2><p>火を纏った矢で着弾時に範囲爆発。</p></div>
+<div class="card" style="--c:#aaccee;--g:rgba(170,204,238,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 矢の雨</h2><p>空に向けて放った無数の矢が雨のように降る広範囲。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawYumi(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,22,5);
+  c.fillStyle=p.legs;c.fillRect(cx-12,cy-12,8,36);c.fillRect(cx+4,cy-12,8,36);
+  c.strokeStyle=p.outline;c.lineWidth=1.2;c.strokeRect(cx-12,cy-12,8,36);c.strokeRect(cx+4,cy-12,8,36);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-14,cy+22,12,5);c.fillRect(cx+2,cy+22,12,5);
+  c.fillStyle=p.body;c.fillRect(cx-20,cy-50,40,42);c.strokeRect(cx-20,cy-50,40,42);
+  c.fillStyle=p.belt||'#3a2010';c.fillRect(cx-22,cy-22,44,5);c.strokeRect(cx-22,cy-22,44,5);
+  c.fillStyle=p.body;c.fillRect(cx-28,cy-46,8,28);c.fillRect(cx+20,cy-46,8,28);
+  c.strokeRect(cx-28,cy-46,8,28);c.strokeRect(cx+20,cy-46,8,28);
+  c.fillStyle=p.skin;c.beginPath();c.arc(cx,cy-60,9,0,Math.PI*2);c.fill();c.strokeStyle=p.outline;c.stroke();
+  // 鉢巻
+  if(p.hachimaki){c.fillStyle=p.hachimaki;c.fillRect(cx-10,cy-64,20,3);
+    // 結び目
+    c.fillRect(cx-13,cy-62,3,8);}
+  // 長い髪
+  if(p.longHair){c.fillStyle=p.longHair;c.beginPath();
+    c.moveTo(cx-9,cy-58);c.quadraticCurveTo(cx-18,cy-30,cx-14,cy);c.lineTo(cx-6,cy);c.quadraticCurveTo(cx-10,cy-30,cx-3,cy-56);c.closePath();c.fill();}
+  c.fillStyle='#000';c.fillRect(cx-4,cy-60,1.5,2);c.fillRect(cx+2,cy-60,1.5,2);
+  // 弓
+  c.save();c.translate(cx-32,cy-30);
+  c.strokeStyle=p.bowColor||'#5a3a18';c.lineWidth=3;c.lineCap='round';
+  c.beginPath();c.arc(0,0,30,-Math.PI*0.65,Math.PI*0.65);c.stroke();
+  c.lineCap='butt';
+  // 弓弦
+  c.strokeStyle=p.bowString||'#dde8f0';c.lineWidth=1;
+  c.beginPath();c.moveTo(0+30*Math.cos(-Math.PI*0.65),30*Math.sin(-Math.PI*0.65));
+  c.lineTo(0+30*Math.cos(Math.PI*0.65),30*Math.sin(Math.PI*0.65));c.stroke();
+  c.restore();
+  // 矢筒（背中）
+  if(p.quiver){c.fillStyle=p.quiver;c.fillRect(cx+12,cy-46,6,20);c.strokeStyle='#1a1a1a';c.lineWidth=1;c.strokeRect(cx+12,cy-46,6,20);
+    // 矢の羽
+    c.fillStyle='#fff';for(let k=0;k<3;k++){c.fillRect(cx+13+k*1.5,cy-50,1,3);}}
+}
+drawYumi(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(58,122,58,0.3)',body:'#3a7a3a',outline:'#1a3a18',legs:'#3a2010',belt:'#5a3a18',skin:'#f0d4a8',hachimaki:'#3a7a3a',quiver:'#5a3a18'});
+drawYumi(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(60,60,60,0.3)',body:'#1a1a1a',outline:'#000',legs:'#000',belt:'#3a3a3a',skin:'#cc8866',bowColor:'#1a1a1a',bowString:'#aa44ff',quiver:'#3a3a3a',hachimaki:'#aa44ff'});
+drawYumi(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',outline:'#3a0000',legs:'#3a0000',belt:'#000',skin:'#f0d4a8',longHair:'#1a1a1a',quiver:'#5a3a18'});
+drawYumi(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(170,204,238,0.4)',body:'#cccccc',outline:'#5a5a5a',legs:'#888',belt:'#aaccee',skin:'#f0d4a8',bowColor:'#aaccee',bowString:'#fff',hachimaki:'#22ddff',quiver:'#aaccee'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.7;c.fillStyle='#3a7a3a';c.fillRect(zx-7,zy-44,14,44);c.fillStyle='#f0d4a8';c.beginPath();c.arc(zx,zy-50,7,0,Math.PI*2);c.fill();
+  c.strokeStyle='#5a3a18';c.lineWidth=2.5;c.beginPath();c.arc(zx-12,zy-30,18,-Math.PI*0.5,Math.PI*0.5);c.stroke();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 通常射撃
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.3){const tt=t/0.3;c.strokeStyle='#5a3a18';c.lineWidth=3;c.beginPath();c.arc(40,h*0.55,16+tt*4,-Math.PI*0.6,Math.PI*0.6);c.stroke();
+    // 引き絞られた弦
+    c.strokeStyle='#dde8f0';c.lineWidth=1;c.beginPath();c.moveTo(40+16*Math.cos(-Math.PI*0.6),h*0.55+16*Math.sin(-Math.PI*0.6));
+    c.lineTo(40+16+tt*8,h*0.55);c.lineTo(40+16*Math.cos(Math.PI*0.6),h*0.55+16*Math.sin(Math.PI*0.6));c.stroke();
+    // 矢
+    c.fillStyle='#5a3a18';c.fillRect(40+16-tt*5,h*0.55-1,30,2);
+  }else if(t<0.85){const tt=(t-0.3)/0.55;const x=60+tt*(tg.x-60);
+    c.fillStyle='#5a3a18';c.fillRect(x-15,h*0.55-1,28,2);
+    c.fillStyle='#fff';c.fillRect(x-18,h*0.55-2,3,4);
+    c.fillStyle='#dde8f0';c.beginPath();c.moveTo(x+13,h*0.55-3);c.lineTo(x+18,h*0.55);c.lineTo(x+13,h*0.55+3);c.closePath();c.fill();
+  }else{c.fillStyle=`rgba(255,255,200,${1-(t-0.85)/0.15})`;c.beginPath();c.arc(tg.x,tg.y-16,16,0,Math.PI*2);c.fill();
+    c.fillStyle='#5a3a18';c.fillRect(tg.x-12,tg.y-26,24,2);}
+},2200);
+// ② 三連射
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x-25,tg.y-10,'#5a1a1a');
+  if(t<0.85){const tt=t/0.85;
+    [-12,0,12].forEach(dy=>{const x=60+tt*(tg.x-60);
+      c.fillStyle='#5a3a18';c.fillRect(x-15,h*0.55+dy*0.5,28,2);
+      c.fillStyle='#88dd66';c.beginPath();c.moveTo(x+13,h*0.55+dy*0.5-3);c.lineTo(x+20,h*0.55+dy*0.5);c.lineTo(x+13,h*0.55+dy*0.5+3);c.closePath();c.fill();});
+  }else{const tt=(t-0.85)/0.15;c.fillStyle=`rgba(136,221,102,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();}
+},1800);
+// ③ 火矢
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x+25,tg.y);
+  if(t<0.65){const tt=t/0.65;const x=50+tt*(tg.x-60);
+    c.fillStyle='#5a3a18';c.fillRect(x-15,h*0.55-1,30,2);
+    c.fillStyle='#ff5544';c.beginPath();c.arc(x+15,h*0.55,8,0,Math.PI*2);c.fill();
+    c.fillStyle='#ffaa44';c.beginPath();c.arc(x+15,h*0.55,5,0,Math.PI*2);c.fill();
+    c.fillStyle='#ffea22';c.beginPath();c.arc(x+13,h*0.55-2,2,0,Math.PI*2);c.fill();
+    // 軌跡の火炎
+    for(let k=0;k<6;k++){const xk=x-12-k*8;c.fillStyle=`rgba(255,85,68,${0.5-k*0.07})`;c.beginPath();c.arc(xk,h*0.55+(k%2)*3,4,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.65)/0.35;
+    c.fillStyle=`rgba(255,85,68,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*30,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,170,0,${(1-tt)*0.6})`;c.beginPath();c.arc(tg.x,tg.y-16,12+tt*18,0,Math.PI*2);c.fill();
+    for(let k=0;k<10;k++){const a=k*Math.PI/5;c.fillStyle='#ffea22';c.fillRect(tg.x+Math.cos(a)*tt*30,tg.y-16+Math.sin(a)*tt*22,3,3);}}
+},2400);
+// ④ 矢の雨
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.2){const tt=t/0.2;c.strokeStyle='#5a3a18';c.lineWidth=3;c.beginPath();c.arc(40,h*0.55,18,-Math.PI*0.5,Math.PI*0.5);c.stroke();
+    c.fillStyle='#5a3a18';c.fillRect(35-tt*10,h*0.45-1,30,2);}
+  else{const tt=(t-0.2)/0.8;
+    // 多数の矢が雨のように降る
+    for(let k=0;k<14;k++){const fx=80+k*((w-100)/13);const phase=(tt*1.5+k*0.07)%1;
+      if(phase<0.7){c.fillStyle='#5a3a18';c.fillRect(fx-8,phase*h*0.7-1,18,2);
+        c.fillStyle='#dde8f0';c.beginPath();c.moveTo(fx+10,phase*h*0.7-3);c.lineTo(fx+16,phase*h*0.7);c.lineTo(fx+10,phase*h*0.7+3);c.closePath();c.fill();}
+      else{const e=(phase-0.7)/0.3;c.fillStyle=`rgba(255,255,200,${1-e})`;c.beginPath();c.arc(fx,h*0.7,8+e*4,0,Math.PI*2);c.fill();
+        c.fillStyle='#5a3a18';c.fillRect(fx-2,h*0.7-12,2,12);}}
+  }
+},2800);
+</script></body></html>
