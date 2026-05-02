@@ -171,6 +171,9 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- デザインプレビュー追加:
+  - `samurai-wars/frostgiant-preview.html`（フロストジャイアント デザイン6 + 攻撃6）
+  - `samurai-wars/mammoth-preview.html`（マンモス デザイン6 + 攻撃6）
 - 過去・未来大戦争: スサノオに「十拳剣の横一閃」攻撃を実装（味方/ボス両方）
   - 武器を `odachi` → `slash_wave`、range を 60→200/240 に拡張
   - 画面縦断の金色斬撃波が travel.dir 方向にスピード9で進む
