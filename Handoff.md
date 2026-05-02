@@ -25,15 +25,15 @@
 過去編の味方27キャラに対し、**デザイン4案 + 攻撃4案** のプレビューHTMLを順次作成中。
 デザイン+攻撃を選択してもらい、**通常攻撃は現行のまま、必殺技（8回ごと）のみ新攻撃**として実装する流れ。
 
-### 進捗（10/27 完了 / プレビュー 15/27）
+### 進捗（15/27 完了）
 - ✅ Batch 1（5体）: 足軽 / 侍 / 忍者 / 弓兵 / 巫女 — プレビュー作成 + 必殺技実装済
   - 足軽: A+③横薙ぎ払い / 侍: A+④飛刀斬り / 忍者: C紫装束+④火遁の術 / 弓兵: A+③火矢 / 巫女: A+②神楽舞い
 - ✅ Batch 2（5体）: 戦闘ロボ / ドローン / メカ侍 / レーザー砲台 / 重装甲ロボ — プレビュー作成 + 必殺技実装済
   - 戦闘ロボ: A+②バルカン乱射 / ドローン: D緑+③上空爆撃 / メカ侍: B赤備え+③ブースト突進斬り / レーザー砲台: C緑+③チャージビーム / 重装甲ロボ: C黒+②ロケットパンチ
-- 🟡 Batch 3（5体）: 弁慶 / 陰陽師 / 僧兵 / 鉄砲足軽 / 炎魔導士 — **プレビュー作成済、選択待ち**
+- ✅ Batch 3（5体）: 弁慶 / 陰陽師 / 僧兵 / 鉄砲足軽 / 炎魔導士 — プレビュー作成 + 必殺技実装済
+  - 弁慶: C朱赤+④立ち往生回転連撃 / 陰陽師: C紫闇+③結界封印 / 僧兵: A橙袈裟（現行）+②念仏黄金光波 / 鉄砲足軽: D黒装束+②三段撃ち / 炎魔導士: A朱赤フード（現行）+④灼熱の極炎
 
-### 残り（17/27 未着手）
-- 🟡 **Batch 3: 中盤5体** — `benkei`（弁慶）/ `onmyouji`（陰陽師）/ `sohei`（僧兵）/ `teppo`（鉄砲足軽）/ `kaen`（炎魔導士）— プレビュー作成済、ユーザの選択待ち
+### 残り（12/27 未着手）
 - ⏳ **Batch 4: 中後半4体** — `cyber_ninja`（サイボーグ忍者）/ `taisho`（侍大将）/ `raijin`（雷神）/ `missile_tank`（ミサイル戦車）
 - ⏳ **Batch 5: 後半3体** — `akaoni`（赤鬼侍）/ `kishin`（超合金鬼神）/ `daidarabocchi`（ダイダラボッチ）
 - ⏳ **Batch 6: 終盤5体** — `onyudo`（大入道）/ `daitengu`（大天狗）/ `kaizoku`（海賊）/ `fuma`（風魔）/ `yagumo`（八雲）
@@ -218,6 +218,17 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去編: 中盤5キャラに**必殺技（8回ごと）専用攻撃**を実装（通常攻撃はそのまま）
+  - **弁慶 (benkei)**: 案C（朱赤の戦闘僧）+ ④立ち往生 回転連撃 — 体色`#3a2050`→`#aa1010`、helmet `benkei` を `color` 連動化、quakes に `style:'naginata_spin'`、3連ヒット (0.3/0.7/1.1秒) で AOE 130px、各 atk×0.7
+  - **陰陽師 (onmyouji)**: 案C（紫の闇陰陽師）+ ③結界封印 — 体色`#1a1a40`→`#7a3a8a`、helmet `onmyouji_hat` を `color` 連動化、quakes に `style:'binding_seal'`、ターゲット位置に魔法陣展開、AOE 110px + 1.2秒スタン
+  - **僧兵 (sohei)**: 案A（現行）+ ②念仏 黄金光波 — slashWaves に `style:'golden_light'`、画面縦断の黄金光柱（speed 12, range 600）、貫通、漂う梵字
+  - **鉄砲足軽 (teppo)**: 案D（黒装束の忍鉄砲）+ ②三段撃ち — 体色`#5a4a3a`→`#1a1a1a`、helmet `jingasa` を `color` 連動化、新配列 `pendingShots` で 0.18秒間隔の3連射 (各 atk×0.55)
+  - **炎魔導士 (kaen)**: 案A（現行）+ ④灼熱の極炎 — slashWaves に `style:'mega_flame'`、画面横断の極太炎ビーム（speed 14, range 800、damage atk×1.2）、火粒+渦巻き煙の演出
+- helmet `jingasa` / `benkei` / `onmyouji_hat` を固定色から `color` 引数連動に変更（体色変更だけで衣装も自動連動）
+- 新配列 `game.pendingShots` を追加（時間差発射用、`game` 初期化に含める）
+- `drawQuake` に `'naginata_spin'`（回転薙刀）+ `'binding_seal'`（魔法陣）を style 追加
+- `drawSlashWave` に `'golden_light'`（黄金光柱）+ `'mega_flame'`（極炎ビーム）を style 追加
+- quake update logic を style 別に拡張: naginata_spin は `hitsApplied` カウンタで多段ヒット、binding_seal は dmgTime 0.3秒+1.2秒スタン、lifeTime も style 別
 - 過去編 デザインプレビュー追加（Batch 3: 中盤5体）— 4案+4案
   - `samurai-wars/benkei-preview.html`（弁慶）— A紫頭巾/B黒衣/C朱赤/D金鎧 + ①薙刀振下/②七つ道具乱投/③仁王立ち反撃/④立ち往生回転連撃
   - `samurai-wars/onmyouji-preview.html`（陰陽師）— A黒衣/B白聖/C紫闇/D蒼星詠 + ①五芒星/②式神召喚3体/③結界封印/④御札連投
