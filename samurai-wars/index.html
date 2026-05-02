@@ -72,6 +72,78 @@
         .upgrade-card .ustats { font-size:0.7rem; color:var(--cyan); margin:2px 0 6px; }
         .upgrade-card .btn { min-width:0; padding:6px 10px; font-size:0.75rem; min-height:32px; margin:0; }
 
+        /* レベルアップ演出 */
+        @keyframes lvup-card-pulse {
+            0%   { transform: scale(1);    box-shadow: 0 0 0   rgba(255,210,74,0); border-color:#555; }
+            15%  { transform: scale(1.18); box-shadow: 0 0 36px rgba(255,210,74,0.95); border-color:var(--gold); }
+            45%  { transform: scale(1.06); box-shadow: 0 0 56px rgba(255,210,74,0.7);  border-color:var(--gold); }
+            100% { transform: scale(1);    box-shadow: 0 0 12px rgba(255,210,74,0.45); border-color:var(--gold); }
+        }
+        @keyframes lvup-card-shine {
+            0%   { transform: translateX(-150%) skewX(-25deg); opacity:0; }
+            30%  { opacity:0.85; }
+            100% { transform: translateX(160%)  skewX(-25deg); opacity:0; }
+        }
+        @keyframes lvup-stat-pop {
+            0%   { transform: scale(1); color:#fff; }
+            30%  { transform: scale(1.6); color:#FFEB3B; text-shadow:0 0 14px rgba(255,210,74,0.95); }
+            100% { transform: scale(1); color:#fff; }
+        }
+        .upgrade-card { position:relative; overflow:hidden; transition: border-color 0.3s; }
+        .upgrade-card.lvup { animation: lvup-card-pulse 1.0s cubic-bezier(0.2,0.8,0.4,1); }
+        .upgrade-card.lvup::before {
+            content:''; position:absolute; top:0; left:0; bottom:0; width:60%;
+            background:linear-gradient(90deg, transparent 0%, rgba(255,255,200,0.85) 50%, transparent 100%);
+            animation: lvup-card-shine 0.9s ease-out;
+            pointer-events:none;
+        }
+        .upgrade-card.lvup .ulv { display:inline-block; animation: lvup-stat-pop 1.0s cubic-bezier(0.2,0.8,0.4,1); }
+        .upgrade-card.lvup .ustats { color:#FFEB3B !important; text-shadow:0 0 10px rgba(255,210,74,0.7); }
+
+        @keyframes lvup-banner-pop {
+            0%   { opacity:0; transform: translate(-50%, -50%) scale(0.2)   rotate(-8deg); }
+            18%  { opacity:1; transform: translate(-50%, -50%) scale(1.25)  rotate(2deg); }
+            55%  { opacity:1; transform: translate(-50%, -50%) scale(1.0)   rotate(0deg); }
+            100% { opacity:0; transform: translate(-50%, -50%) scale(1.05)  rotate(0deg); }
+        }
+        .lvup-banner {
+            position:fixed; left:50%; top:38%;
+            transform: translate(-50%, -50%);
+            pointer-events:none; z-index:1000; text-align:center;
+            font-weight:900; letter-spacing:6px;
+            animation: lvup-banner-pop 1.5s cubic-bezier(0.2,0.9,0.4,1) forwards;
+        }
+        .lvup-banner .lvup-title {
+            font-size:3rem;
+            background:linear-gradient(180deg,#FFEB3B 0%, #FF6B00 60%, #aa1010 100%);
+            -webkit-background-clip:text; background-clip:text;
+            -webkit-text-fill-color:transparent;
+            text-shadow:0 0 30px rgba(255,210,74,0.9);
+            filter: drop-shadow(0 4px 0 rgba(0,0,0,0.5));
+        }
+        .lvup-banner .lvup-sub {
+            font-size:1.6rem; color:#fff; margin-top:6px; letter-spacing:3px;
+            text-shadow:0 0 14px rgba(24,255,255,0.85), 0 2px 0 #000;
+        }
+
+        @keyframes lvup-ring {
+            0%   { transform: translate(-50%, -50%) scale(0.2); opacity:0.9; }
+            100% { transform: translate(-50%, -50%) scale(2.6); opacity:0; }
+        }
+        .lvup-ring {
+            position:fixed; pointer-events:none; z-index:998;
+            border:4px solid #FFEB3B; border-radius:50%;
+            box-shadow: 0 0 24px rgba(255,210,74,0.8), inset 0 0 20px rgba(255,210,74,0.6);
+            animation: lvup-ring 0.9s ease-out forwards;
+        }
+
+        .lvup-confetti {
+            position:fixed; pointer-events:none; z-index:999;
+            width:8px; height:14px; opacity:1;
+            transition: transform 1.4s cubic-bezier(0.2,0.8,0.4,1), opacity 1.4s ease-out;
+            will-change: transform, opacity;
+        }
+
         #ach-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
                     gap:6px; width:100%; max-width:720px; max-height:60vh;
                     overflow-y:auto; padding:8px; background:rgba(0,0,0,0.4);
@@ -1358,6 +1430,12 @@
             this._n(100,0.4,0.3,t); this._o(80,40,0.18,0.3,t,'sawtooth'); }
         win()   { if(!this.ctx) return; const t=this.ctx.currentTime;
             [523,659,784,1046].forEach((f,i)=>this._o(f,f,0.25,0.5,t+i*0.12,'triangle')); }
+        levelup() { if(!this.ctx) return; const t=this.ctx.currentTime;
+            // 上昇する華やかなアルペジオ + 高音のキラキラ
+            [523,659,784,1046,1318,1568].forEach((f,i)=>this._o(f,f*1.05,0.32,0.16,t+i*0.06,'triangle'));
+            [2093,2637].forEach((f,i)=>this._o(f,f,0.22,0.45,t+0.40+i*0.08,'sine'));
+            // 着地のドンと響き
+            this._o(180,90,0.45,0.35,t+0.45,'sawtooth'); }
         startBGM() {
             this.stopBGM();
             if(!this.ctx) return;
@@ -1625,6 +1703,7 @@
             const can = !max && saveData.koban >= cost;
             const card = document.createElement('div');
             card.className = 'upgrade-card';
+            card.setAttribute('data-id', u.id);
             card.innerHTML = `
                 <canvas width="50" height="50"></canvas>
                 <div class="uname">${ruby(u.name, u.yomi)}</div>
@@ -1647,12 +1726,96 @@
         const cost = upgradeCost(lv);
         if(saveData.koban < cost) return;
         saveData.koban -= cost;
-        saveData.upgrades[id] = lv + 1;
+        const newLv = lv + 1;
+        saveData.upgrades[id] = newLv;
         saveGame();
-        snd.coin && snd.coin();
         document.getElementById('title-koban').innerText = saveData.koban;
-        renderUpgradeList();
-        checkAchievements();
+        document.getElementById('upg-koban').innerText = saveData.koban.toLocaleString();
+
+        // 該当カードの位置を取得して演出開始
+        const card = document.querySelector(`.upgrade-card[data-id="${id}"]`);
+        if(card) {
+            // カード内の表示を即座に新Lv反映（リスト全体は再描画しない）
+            const lvEl = card.querySelector('.ulv');
+            const statsEl = card.querySelector('.ustats');
+            if(lvEl) lvEl.textContent = `Lv.${newLv}/10`;
+            if(statsEl) statsEl.textContent = `HP +${newLv*20}% / 攻 +${newLv*20}%`;
+            // クラス付け直しでアニメ再起動
+            card.classList.remove('lvup');
+            void card.offsetWidth;
+            card.classList.add('lvup');
+            setTimeout(() => card.classList.remove('lvup'), 1100);
+            // 紙吹雪 + リング
+            const rect = card.getBoundingClientRect();
+            const cx = rect.left + rect.width/2;
+            const cy = rect.top + rect.height/2;
+            spawnLvUpRing(cx, cy);
+            spawnLvUpConfetti(cx, cy);
+        }
+
+        // バナー表示
+        const u = SAMURAI_DATA.find(x => x.id === id);
+        spawnLvUpBanner(u, newLv);
+
+        // 効果音
+        snd.coin && snd.coin();
+        if(snd.levelup) setTimeout(() => snd.levelup(), 60);
+
+        // 1.0秒後に他カードのコスト/ボタン状態を更新（レンダー再生成）
+        setTimeout(() => {
+            renderUpgradeList();
+            checkAchievements();
+        }, 1100);
+    }
+
+    function spawnLvUpBanner(unit, lv) {
+        const banner = document.createElement('div');
+        banner.className = 'lvup-banner';
+        const name = unit ? ruby(unit.name, unit.yomi) : '';
+        banner.innerHTML = `
+            <div class="lvup-title">⚒ LEVEL UP! ⚒</div>
+            <div class="lvup-sub">${name} Lv.${lv}</div>
+        `;
+        document.body.appendChild(banner);
+        setTimeout(() => banner.remove(), 1500);
+    }
+
+    function spawnLvUpRing(cx, cy) {
+        const sizes = [80, 130, 180];
+        sizes.forEach((s, i) => {
+            setTimeout(() => {
+                const ring = document.createElement('div');
+                ring.className = 'lvup-ring';
+                ring.style.left = (cx - s/2) + 'px';
+                ring.style.top  = (cy - s/2) + 'px';
+                ring.style.width = s + 'px';
+                ring.style.height = s + 'px';
+                document.body.appendChild(ring);
+                setTimeout(() => ring.remove(), 1000);
+            }, i * 110);
+        });
+    }
+
+    function spawnLvUpConfetti(cx, cy) {
+        const colors = ['#FFEB3B','#FF6B00','#18FFFF','#FF44FF','#88dd66','#fff','#aa1010'];
+        for(let i = 0; i < 32; i++) {
+            const piece = document.createElement('div');
+            piece.className = 'lvup-confetti';
+            piece.style.background = colors[i % colors.length];
+            piece.style.left = (cx - 4) + 'px';
+            piece.style.top  = (cy - 6) + 'px';
+            const ang = Math.random() * Math.PI * 2;
+            const dist = 100 + Math.random() * 220;
+            const dx = Math.cos(ang) * dist;
+            const dy = Math.sin(ang) * dist - 80; // 上向きに少しバイアス
+            const rot = (Math.random() - 0.5) * 720;
+            document.body.appendChild(piece);
+            requestAnimationFrame(() => {
+                piece.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+                piece.style.opacity = '0';
+            });
+            setTimeout(() => piece.remove(), 1500);
+        }
     }
 
     // アチーブメント
