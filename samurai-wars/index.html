@@ -899,8 +899,8 @@
     SAMURAI_DATA.push(
         // Stage 101: T-Rex（対空：体格で空にも届く）
         { id:'sp_trex', name:'ティラノサウルス', yomi:'てぃらのさうるす', cost:1400, hp:5500, atk:380, atkSpeed:1.5, range:70, speed:0.7,
-          cooldown:30.0, color:'#3a5a30', helmet:'rex_jaw', weapon:'fist', rarity:4, scale:1.7, antiAir:true,
-          desc:'巨大すぎて空中の敵にも噛みつく恐竜の王' },
+          cooldown:30.0, color:'#aa6644', helmet:'rex_jaw', weapon:'fist', rarity:4, scale:1.7, antiAir:true,
+          desc:'赤茶の巨体で空にも届く恐竜の王' },
         // Stage 102: プルスサウルス
         { id:'sp_pulrus', name:'プルスサウルス', yomi:'ぷるすさうるす', cost:1100, hp:4200, atk:330, atkSpeed:1.3, range:48, speed:0.8,
           cooldown:24.0, color:'#3a4030', helmet:'croc_jaw', weapon:'fist', rarity:3, scale:1.5,
@@ -2010,7 +2010,7 @@
         18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0 },
         // ===== 超過去編 ボス（クリアで仲間に） =====
         // Stage 101 — T-Rex (anti-air via size, opens up flying enemies for stage 2+)
-        101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'fist', color:'#3a5a30', scale:2.1, antiAir:true },
+        101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'fist', color:'#aa6644', scale:2.1, antiAir:true },
         // Stage 102
         102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'fist', color:'#3a4030', scale:2.0 },
         // Stage 103
@@ -3414,23 +3414,62 @@
                 }
                 break;
             // ===== 超過去編 =====
-            case 'rex_jaw': // ティラノサウルス
-                c.fillStyle = '#3a5a30';
+            case 'rex_jaw': // ティラノサウルス（赤茶リアル・前方左向き）
+                // 頭（赤茶）
+                c.fillStyle = '#aa6644';
                 c.beginPath(); c.arc(0,-36*scale,11*scale,0,Math.PI*2); c.fill();
-                c.fillStyle = '#5a8a3a';
+                c.strokeStyle = '#4a2010'; c.lineWidth = 0.7*scale; c.stroke();
+                // 鼻先（左に伸びる長い顎）
+                c.fillStyle = '#aa6644';
                 c.beginPath();
-                c.moveTo(-2*scale, -36*scale);
-                c.lineTo(20*scale, -34*scale);
-                c.lineTo(22*scale, -28*scale);
-                c.lineTo(0*scale, -28*scale);
+                c.moveTo(2*scale, -36*scale);
+                c.lineTo(-22*scale, -34*scale);
+                c.lineTo(-22*scale, -28*scale);
+                c.lineTo(0, -28*scale);
                 c.closePath(); c.fill();
-                c.fillStyle = '#fff';
+                c.stroke();
+                // 顎の境界線（上下の唇のあいだ）
+                c.strokeStyle = '#4a2010'; c.lineWidth = 0.5*scale;
+                c.beginPath();
+                c.moveTo(-22*scale, -31*scale); c.lineTo(0, -31*scale); c.stroke();
+                // 上の鋭い歯（左向き、5本）
+                c.fillStyle = '#fff5cc';
                 for(let i=0;i<5;i++){
-                    c.fillRect((4+i*3)*scale, -32*scale, 1.2*scale, 3*scale);
-                    c.fillRect((4+i*3)*scale, -29*scale, 1.2*scale, -2*scale);
+                    c.beginPath();
+                    c.moveTo((-4-i*3)*scale, -28*scale);
+                    c.lineTo((-3-i*3)*scale, -25*scale);
+                    c.lineTo((-2-i*3)*scale, -28*scale);
+                    c.closePath(); c.fill();
                 }
-                c.fillStyle = '#ffaa00';
-                c.beginPath(); c.arc(-3*scale, -38*scale, 1.5*scale, 0, Math.PI*2); c.fill();
+                // 鼻孔
+                c.fillStyle = '#000';
+                c.beginPath(); c.arc(-19*scale, -33*scale, 0.8*scale, 0, Math.PI*2); c.fill();
+                // 眉の凸（厳つい・左眉）
+                c.fillStyle = '#774422';
+                c.beginPath();
+                c.moveTo(-9*scale, -42*scale); c.lineTo(-1*scale, -41*scale);
+                c.lineTo(-3*scale, -39*scale); c.lineTo(-9*scale, -40*scale);
+                c.closePath(); c.fill();
+                // 目（鋭い赤茶）
+                c.fillStyle = '#fff5cc';
+                c.beginPath(); c.arc(-4*scale, -39*scale, 2*scale, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#aa3300';
+                c.beginPath(); c.arc(-5*scale, -39*scale, 1.2*scale, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-5.5*scale, -40*scale, 1*scale, 2.5*scale);
+                // 鱗の質感（小さい斑点）
+                c.fillStyle = '#4a2010';
+                for(let i=0; i<4; i++){
+                    c.beginPath();
+                    c.arc((-4 - i*4)*scale, (-32 + (i%2)*2)*scale, 0.7*scale, 0, Math.PI*2);
+                    c.fill();
+                }
+                // 頭頂部の鱗
+                c.beginPath(); c.arc(2*scale, -42*scale, 0.7*scale, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(6*scale, -39*scale, 0.7*scale, 0, Math.PI*2); c.fill();
+                // 顎下の影
+                c.fillStyle = '#774422';
+                c.fillRect(-21*scale, -29*scale, 21*scale, 1*scale);
                 break;
             case 'mammoth_tusk': // マンモス
                 c.fillStyle = '#5a3a20';
