@@ -792,8 +792,8 @@
           cooldown:25.0, color:'#d97706', helmet:'cowl', weapon:'naginata', rarity:3, aoe:true,
           desc:'薙刀で薙ぎ払う範囲攻撃' },
         { id:'taisho', name:'侍大将', yomi:'さむらいたいしょう', cost:1200, hp:2200, atk:240, atkSpeed:1.0, range:48, speed:1.0,
-          cooldown:35.0, color:'#c01010', helmet:'taisho', weapon:'odachi', rarity:4,
-          desc:'一騎当千の赤備え大将' },
+          cooldown:35.0, color:'#1a3a8a', helmet:'taisho', weapon:'odachi', rarity:4,
+          desc:'紺地金鎧の上杉大将。必殺は騎馬突撃' },
         { id:'akaoni', name:'赤鬼侍', yomi:'あかおにざむらい', cost:2000, hp:7000, atk:600, atkSpeed:1.6, range:60, speed:0.7,
           cooldown:80.0, color:'#dc2626', helmet:'oni', weapon:'kanabo', rarity:5,
           desc:'鬼の血を引く伝説の侍' },
@@ -837,8 +837,8 @@
           cooldown:18.0, color:'#aa1010', helmet:'benkei', weapon:'naginata', rarity:3,
           desc:'朱赤の戦闘僧。必殺は立ち往生 回転連撃' },
         { id:'cyber_ninja', name:'サイボーグ忍者', yomi:'さいぼーぐにんじゃ', cost:850, hp:850, atk:200, atkSpeed:0.3, range:42, speed:2.7,
-          cooldown:22.0, color:'#0a3a5a', helmet:'cyber_hood', weapon:'plasma_kunai', rarity:4, robot:true,
-          desc:'電脳化された未来の影' },
+          cooldown:22.0, color:'#ddccaa', helmet:'cyber_hood', weapon:'plasma_kunai', rarity:4, robot:true,
+          desc:'銀白の高速プロトタイプ。必殺は瞬間移動連撃' },
         // 魔法系
         { id:'onmyouji', name:'陰陽師', yomi:'おんみょうじ', cost:380, hp:380, atk:80, atkSpeed:1.4, range:260, speed:1.0,
           cooldown:11.0, color:'#7a3a8a', helmet:'onmyouji_hat', weapon:'magic_circle', rarity:2, ranged:true,
@@ -847,8 +847,8 @@
           cooldown:16.0, color:'#a02020', helmet:'mahou_robe', weapon:'fireball', rarity:3, ranged:true, aoe:true,
           desc:'巨大な火球で敵を焼き尽くす炎の魔導士' },
         { id:'raijin', name:'雷神', yomi:'らいじん', cost:950, hp:750, atk:280, atkSpeed:1.9, range:280, speed:0.85,
-          cooldown:22.0, color:'#1060a0', helmet:'raijin_horns', weapon:'thunder_bolt', rarity:4, ranged:true, aoe:true,
-          desc:'天より雷を呼び寄せる雷の神' }
+          cooldown:22.0, color:'#ddaa00', helmet:'raijin_horns', weapon:'thunder_bolt', rarity:4, ranged:true, aoe:true,
+          desc:'黄金の電雷神。必殺は神鳴 雷雲呼び' }
     ];
 
     const ENEMY_DATA = {
@@ -3332,12 +3332,112 @@
         }
     }
 
-    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ）/ ブースト突進（メカ侍） 振り分け
+    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ）/ ブースト突進（メカ侍）/ 騎馬突撃（侍大将） 振り分け
     function drawKamikazeOrSlam(c, k) {
         if(k.style === 'slam') drawSlamDown(c, k);
         else if(k.style === 'leap') drawLeapSlash(c, k);
         else if(k.style === 'mecha_charge') drawMechaCharge(c, k);
+        else if(k.style === 'horse_charge') drawHorseCharge(c, k);
         else drawKamikazeRush(c, k);
+    }
+
+    // 騎馬突撃（侍大将）— 愛馬で直線突進、貫通槍
+    function drawHorseCharge(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        const dir = k.targetX > k.startX ? 1 : -1;
+        if(t < 0.18) {
+            // 構え（馬がいななく）
+            const tt = t / 0.18;
+            c.fillStyle = `rgba(255,170,68,${tt * 0.5})`;
+            c.beginPath(); c.arc(k.startX, gy - 30, 28 + tt*4, 0, Math.PI*2); c.fill();
+            // 土埃が散る
+            for(let i = 0; i < 6; i++){
+                c.fillStyle = `rgba(170,140,90,${tt * 0.5})`;
+                c.beginPath(); c.arc(k.startX - dir*(8 + i*5), gy - 4 - i, 3, 0, Math.PI*2); c.fill();
+            }
+        } else if(t < 0.7) {
+            // 突進
+            const tt = (t - 0.18) / 0.52;
+            const x = k.startX + (k.targetX - k.startX) * tt;
+            const y = gy;
+            // 土埃の尾
+            for(let i = 0; i < 10; i++){
+                c.fillStyle = `rgba(180,140,90,${0.5 - i*0.04})`;
+                c.beginPath(); c.arc(x - dir*(20 + i*9), y - 4 - Math.random()*8, 4, 0, Math.PI*2); c.fill();
+            }
+            // 馬の影
+            c.fillStyle = 'rgba(0,0,0,0.45)';
+            c.beginPath(); c.ellipse(x, y + 2, 32, 5, 0, 0, Math.PI*2); c.fill();
+            // 残像（馬+大将）
+            for(let i = 0; i < 4; i++){
+                const ti = Math.max(0, tt - i*0.05);
+                const xi = k.startX + (k.targetX - k.startX) * ti;
+                c.fillStyle = `rgba(58,32,8,${0.4 - i*0.08})`;
+                c.fillRect(xi - 22, y - 22, 44, 18);
+                c.fillStyle = `rgba(26,58,138,${0.4 - i*0.08})`;
+                c.fillRect(xi - 8, y - 50, 16, 28);
+            }
+            // 馬本体
+            c.fillStyle = '#3a2008';
+            c.fillRect(x - 22, y - 22, 44, 18);
+            // 脚（4本、走るアニメ）
+            const stride = Math.sin(t * 30) * 3;
+            c.fillRect(x - 18, y - 6, 4, 10 + stride);
+            c.fillRect(x - 8, y - 6, 4, 10 - stride);
+            c.fillRect(x + 2, y - 6, 4, 10 + stride);
+            c.fillRect(x + 12, y - 6, 4, 10 - stride);
+            // 馬の頭
+            c.beginPath(); c.arc(x + dir*16, y - 18, 8, 0, Math.PI*2); c.fill();
+            // たてがみ（風になびく）
+            c.fillStyle = '#1a1000';
+            c.fillRect(x + dir*4 - 4, y - 26, 10, 5);
+            // 大将（騎乗）— 紺鎧
+            c.fillStyle = '#1a3a8a';
+            c.fillRect(x - 8, y - 50, 16, 28);
+            c.strokeStyle = '#0a1830'; c.lineWidth = 1;
+            c.strokeRect(x - 8, y - 50, 16, 28);
+            // 顔
+            c.fillStyle = '#f0c890';
+            c.beginPath(); c.arc(x, y - 56, 7, 0, Math.PI*2); c.fill();
+            // 兜（紺）
+            c.fillStyle = '#0a1830';
+            c.beginPath(); c.arc(x, y - 60, 9, Math.PI, 0); c.fill();
+            // 大鍬形（金）
+            c.fillStyle = '#ffd24a';
+            c.beginPath(); c.moveTo(x - 8, y - 64); c.lineTo(x - 14, y - 78); c.lineTo(x - 4, y - 68); c.closePath(); c.fill();
+            c.beginPath(); c.moveTo(x + 8, y - 64); c.lineTo(x + 14, y - 78); c.lineTo(x + 4, y - 68); c.closePath(); c.fill();
+            // 突き出る大太刀/槍
+            c.fillStyle = '#3a2008';
+            c.fillRect(x + dir*8, y - 38, dir*36, 4);
+            c.fillStyle = '#dddddd';
+            c.beginPath();
+            c.moveTo(x + dir*44, y - 41); c.lineTo(x + dir*58, y - 36); c.lineTo(x + dir*44, y - 31); c.closePath(); c.fill();
+            c.fillStyle = '#fff';
+            c.beginPath();
+            c.moveTo(x + dir*44, y - 39); c.lineTo(x + dir*55, y - 36); c.lineTo(x + dir*44, y - 33); c.closePath(); c.fill();
+            // 速度線
+            c.strokeStyle = `rgba(255,210,74,0.7)`; c.lineWidth = 2;
+            for(let i = 0; i < 5; i++) {
+                c.beginPath();
+                c.moveTo(x - dir*(34 + i*14), y - 24 + i*4);
+                c.lineTo(x - dir*(18 + i*10), y - 18 + i*3);
+                c.stroke();
+            }
+        } else {
+            // 着弾後フラッシュ
+            const tt = (t - 0.7) / 0.3;
+            c.fillStyle = `rgba(255,170,68,${(1-tt)*0.7})`;
+            c.beginPath(); c.arc(k.targetX, gy - 30, 28 + tt*30, 0, Math.PI*2); c.fill();
+            c.strokeStyle = `rgba(255,210,74,${1-tt})`; c.lineWidth = 4;
+            c.beginPath(); c.ellipse(k.targetX, gy - 30, tt*70, tt*22, 0, 0, Math.PI*2); c.stroke();
+            // 飛び散る土
+            for(let kk = 0; kk < 8; kk++){
+                const a = -Math.PI/2 - dir*0.2 + (kk - 4)*0.2;
+                c.fillStyle = '#aa6633';
+                c.fillRect(k.targetX + Math.cos(a)*tt*40, gy - 10 + Math.sin(a)*tt*22, 3, 3);
+            }
+        }
     }
 
     // 自爆突進（ゴーレム専用）
@@ -3423,11 +3523,78 @@
         const p = Math.min(1, elapsed / 0.45);
         const alpha = p < 0.5 ? p*2 : (1-p)*2.2;
         const dir = cs.side === 'p' ? 1 : -1;
+        c.save();
+        c.globalAlpha = Math.max(0, Math.min(1, alpha));
+        if(cs.style === 'teleport') {
+            // 瞬間移動連撃（サイボーグ忍者）— 銀白の影が瞬間出現してクナイ斬り
+            const fx = cs.x;
+            const fy = cs.y;
+            // 出現時の電子的なグリッチ
+            if(p < 0.25) {
+                const tt = p / 0.25;
+                c.fillStyle = `rgba(136,221,255,${1-tt})`;
+                c.fillRect(fx - 12, fy - 36, 24, 30);
+                for(let k = 0; k < 4; k++) {
+                    c.fillStyle = `rgba(255,255,255,${(1-tt)*0.7})`;
+                    c.fillRect(fx - 12 + (k%2)*12, fy - 36 + Math.floor(k/2)*15, 12, 2);
+                }
+            }
+            // 銀白の忍者影
+            c.fillStyle = '#ddccaa';
+            c.fillRect(fx - 6, fy - 28, 12, 28);
+            c.strokeStyle = '#88dd66'; c.lineWidth = 1;
+            c.strokeRect(fx - 6, fy - 28, 12, 28);
+            // 頭（フード）
+            c.fillStyle = '#aaaaaa';
+            c.beginPath(); c.arc(fx, fy - 34, 6, Math.PI, 0); c.fill();
+            c.fillRect(fx - 6, fy - 34, 12, 3);
+            // バイザー
+            c.fillStyle = '#88dd66';
+            c.fillRect(fx - 5, fy - 33, 10, 2);
+            // クナイ斬撃（短くて鋭い）
+            if(p > 0.15 && p < 0.55) {
+                const tt = (p - 0.15) / 0.4;
+                const len = 22;
+                const rot = -dir * (Math.PI/3 - tt * Math.PI*0.7);
+                c.save(); c.translate(fx + dir*4, fy - 22); c.rotate(rot);
+                c.fillStyle = '#1a1a1a';
+                c.fillRect(0, -2, 4, 4);
+                c.fillStyle = '#88dd66';
+                c.shadowColor = '#88dd66'; c.shadowBlur = 8;
+                c.fillRect(4, -2, len, 4);
+                c.shadowBlur = 0;
+                c.fillStyle = '#fff';
+                c.fillRect(4, -1, len, 2);
+                c.restore();
+                // 斬撃の弧
+                c.strokeStyle = `rgba(170,255,170,${1-tt})`;
+                c.lineWidth = 4;
+                c.beginPath();
+                c.arc(fx + dir*4, fy - 22, 22, -Math.PI/3, -Math.PI/3 + tt * Math.PI*0.7);
+                c.stroke();
+            }
+            // 着弾フラッシュ
+            if(p > 0.4 && p < 0.8) {
+                const tt = (p - 0.4) / 0.4;
+                c.fillStyle = `rgba(170,255,170,${(1-tt)*0.7})`;
+                c.beginPath(); c.arc(cs.x, cs.y - 18, 14 + tt*8, 0, Math.PI*2); c.fill();
+                c.strokeStyle = `rgba(255,255,255,${1-tt})`;
+                c.lineWidth = 2;
+                for(let k = 0; k < 3; k++) {
+                    const a = k * Math.PI*2/3 + tt*5;
+                    c.beginPath();
+                    c.moveTo(cs.x, cs.y - 18);
+                    c.lineTo(cs.x + Math.cos(a)*22, cs.y - 18 + Math.sin(a)*22);
+                    c.stroke();
+                }
+            }
+            c.restore();
+            return;
+        }
+        // 既存：孫悟空の分身ラッシュ
         const fy = cs.y;
         const fxOffset = (cs.side === 'p' ? 32 : -32);
         const fx = cs.x + fxOffset;
-        c.save();
-        c.globalAlpha = Math.max(0, Math.min(1, alpha));
         // 体（小さい分身）
         c.fillStyle = cs.cloneColor;
         c.fillRect(fx - 6, fy - 26, 12, 26);
@@ -3466,8 +3633,9 @@
         c.restore();
     }
 
-    // 雷柱（ゼウス専用攻撃）
+    // 雷柱（ゼウス専用攻撃 / 雷神の神鳴雷雲）
     function drawThunderPillar(c, p) {
+        if(p.timer < 0) return; // delay中は描画スキップ
         const x = p.x;
         const gy = groundY();
         const t = p.timer / 1.4;
@@ -4097,8 +4265,8 @@
                 c.fillRect(-7*scale,-14*scale,14*scale,3*scale);
                 break;
             case 'raijin_horns':
-                // 雷神の髪と角
-                c.fillStyle = '#1a1a30';
+                // 雷神の髪と角（髪は体色と連動）
+                c.fillStyle = color;
                 c.beginPath(); c.arc(0,-15*scale,11*scale,Math.PI,0); c.fill();
                 // 角（雷形）
                 c.shadowColor = '#ffeb3b'; c.shadowBlur = 12*scale;
@@ -4146,8 +4314,8 @@
                 }
                 break;
             case 'cyber_hood':
-                // 黒いサイバーフード
-                c.fillStyle = '#0a1a2a';
+                // サイバーフード（体色と連動）
+                c.fillStyle = color;
                 c.beginPath(); c.arc(0,-15*scale,11*scale,Math.PI,0); c.fill();
                 c.fillStyle = '#00f0ff';
                 c.fillRect(-9*scale,-15*scale,18*scale,2*scale);
@@ -6768,6 +6936,101 @@
                 if(snd && snd.explode) snd.explode();
                 return;
             }
+            // ===== 中後半4キャラの必殺技 =====
+            if(aid === 'cyber_ninja') {
+                // 瞬間移動連撃 — ターゲット周辺に5体の分身を時間差で出現させ斬撃
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                const ty = target.isCastle ? (groundY() - 30) : target.y;
+                if(!game.cloneStrikes) game.cloneStrikes = [];
+                const offsets = [-40, 30, -25, 35, 0];
+                const yOffs = [0, -20, -40, -10, -50];
+                for(let i = 0; i < 5; i++) {
+                    game.cloneStrikes.push({
+                        x: tx + offsets[i],
+                        y: ty + yOffs[i],
+                        timer: 0, delay: i * 0.1,
+                        damage: atk * 0.5,
+                        side: attacker.side, damageApplied: false,
+                        cloneColor: '#aaffaa',
+                        antiAir: !!attacker.data.antiAir,
+                        fromFlying: !!attacker.data.flying,
+                        isSpecial: true,
+                        style: 'teleport'
+                    });
+                }
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⚡ 瞬間連撃 ⚡', '#88ddff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'taisho') {
+                // 騎馬突撃 — 直線突進、貫通、kamikaze形式
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tx,
+                    timer: 0, damage: atk * 1.5, selfDamage: 0,
+                    side: attacker.side, attackerRef: null,
+                    damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'horse_charge'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🐎 騎馬突撃 🐎', '#ffaa44', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'raijin') {
+                // 神鳴 雷雲呼び — 5本の落雷を広範囲に
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                if(!game.pillars) game.pillars = [];
+                const baseSpread = 200;
+                for(let i = 0; i < 5; i++) {
+                    const px = tx + (i - 2) * (baseSpread / 4) + (Math.random() - 0.5) * 30;
+                    game.pillars.push({
+                        x: px, timer: -i * 0.13, damage: atk * 0.6,
+                        side: attacker.side, damageApplied: false,
+                        isSpecial: true
+                    });
+                }
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⚡ 神鳴雷雲 ⚡', '#88ddff', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            if(aid === 'missile_tank') {
+                // 自動追尾ミサイル — 3発の誘導弾を別々の敵にロックオン発射
+                const targets = [target];
+                const nearby = [];
+                for(const t of game.units) {
+                    if(t === target || t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    const d = Math.abs(t.x - attacker.x);
+                    if(d <= attacker.range + 100) nearby.push({u: t, d: d});
+                }
+                nearby.sort((a, b) => a.d - b.d);
+                targets.push(...nearby.slice(0, 2).map(n => n.u));
+                while(targets.length < 3) targets.push(target);
+                const bx = attacker.x + fwdDir*15;
+                const by = attacker.y - 30;
+                targets.forEach((tg, i) => {
+                    const tgtX = tg.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : tg.x;
+                    const tgtY = tg.isCastle ? (groundY() - 30) : (tg.y - 30);
+                    game.bullets.push({
+                        x: bx, y: by - i * 6,
+                        tx: tgtX, ty: tgtY,
+                        vx: ((tgtX - bx) / 30),
+                        vy: ((tgtY - by) / 30),
+                        dmg: atk * 0.7, side: attacker.side,
+                        weapon: 'rocket', hit: false, aoe: true,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🎯 追尾ミサイル 🎯', '#88dd66', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
         }
         if(target.isCastle) {
             attacker.swing = 1;
@@ -7180,10 +7443,37 @@
         }
         game.slashWaves = game.slashWaves.filter(sw => sw.traveled < sw.maxRange);
 
-        // 自爆突進（ゴーレム）の更新
+        // 自爆突進（ゴーレム）/ 騎馬突撃（侍大将） の更新
         if(!game.kamikazes) game.kamikazes = [];
         for(const k of game.kamikazes) {
             k.timer += dt;
+            // 騎馬突撃: 貫通モード（突進中に通過する敵全員をヒット）
+            if(k.style === 'horse_charge') {
+                if(!k.hitUnits) k.hitUnits = [];
+                if(k.timer >= 0.18 && k.timer < 0.7) {
+                    const tt = (k.timer - 0.18) / 0.52;
+                    k.x = k.startX + (k.targetX - k.startX) * tt;
+                    const canHitFly = k.antiAir || k.fromFlying;
+                    game.units.forEach(t => {
+                        if(t.side === k.side || t.dead) return;
+                        if(t.data.flying && !canHitFly) return;
+                        if(k.hitUnits.indexOf(t) >= 0) return;
+                        if(Math.abs(t.x - k.x) < 50) {
+                            k.hitUnits.push(t);
+                            damageUnit(t, k.damage);
+                            addParticles(t.x, t.y - 20, 8, '#ffd24a');
+                        }
+                    });
+                    const castleX = k.side === 'p' ? 100 : W() - 100;
+                    if(!k.castleHit && Math.abs(k.x - castleX) < 50) {
+                        k.castleHit = true;
+                        if(k.side === 'p') game.enemyCastleHp = Math.max(0, game.enemyCastleHp - k.damage);
+                        else game.playerCastleHp = Math.max(0, game.playerCastleHp - k.damage);
+                        addParticles(castleX, groundY()-60, 14, '#ffd24a');
+                    }
+                }
+                continue;
+            }
             // フェーズ2 (0.3-0.7): 突進中
             if(k.timer >= 0.3 && k.timer < 0.7) {
                 const tt = (k.timer - 0.3) / 0.4;
