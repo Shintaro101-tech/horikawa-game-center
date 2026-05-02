@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ゼウス デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        h3.section {
+            text-align:center; font-size:1.2rem;
+            color:#18FFFF; letter-spacing:4px; margin: 32px 0 16px;
+            text-shadow: 0 0 12px rgba(24,255,255,0.5);
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:center;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 12px;
+            min-height: 240px;
+        }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>⚡ ゼウス デザイン & 攻撃 候補</h1>
+    <div class="sub">ZEUS DESIGN AND ATTACK CANDIDATES</div>
+
+    <h3 class="section">— キャラデザイン6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="ch-a" width="220" height="320"></canvas></div>
+            <h2>案A. 王道ギリシャ神（現行）</h2>
+            <p>白い長衣に金鎧、月桂冠、長い白髭、左手に雷バトン。神々しい王者。</p>
+            <div class="meta">配色: 白 + 金 + 朱</div>
+        </div>
+        <div class="card" style="--c:#ff3344; --g:rgba(255,51,68,0.5);">
+            <div class="canv-wrap"><canvas id="ch-b" width="220" height="320"></canvas></div>
+            <h2>案B. 怒れる赤神</h2>
+            <p>怒りに燃える深紅の衣、燃え盛る髭、赤い稲妻。激情の戦神スタイル。</p>
+            <div class="meta">配色: 深紅 + 金 + 黒</div>
+        </div>
+        <div class="card" style="--c:#aaaaff; --g:rgba(170,170,255,0.45);">
+            <div class="canv-wrap"><canvas id="ch-c" width="220" height="320"></canvas></div>
+            <h2>案C. 闇神ハデス系（黒銀）</h2>
+            <p>漆黒の衣に銀の鎧、青白い稲妻、冷たい目。冥府の王のような威圧感。</p>
+            <div class="meta">配色: 黒 + 銀 + 紫雷</div>
+        </div>
+        <div class="card" style="--c:#88ccff; --g:rgba(136,204,255,0.5);">
+            <div class="canv-wrap"><canvas id="ch-d" width="220" height="320"></canvas></div>
+            <h2>案D. 若神ゼウス（無髭）</h2>
+            <p>無髭で金髪、若々しい神。空色の衣、躍動感のあるポーズ。</p>
+            <div class="meta">配色: 空色 + 金髪</div>
+        </div>
+        <div class="card" style="--c:#22aaee; --g:rgba(34,170,238,0.45);">
+            <div class="canv-wrap"><canvas id="ch-e" width="220" height="320"></canvas></div>
+            <h2>案E. 嵐神（竜巻に包まれる）</h2>
+            <p>体の周りに渦巻く竜巻と稲妻、雨。荒ぶる嵐そのものを纏う。</p>
+            <div class="meta">配色: 紺 + 銀 + 雷</div>
+        </div>
+        <div class="card" style="--c:#ddaa44; --g:rgba(221,170,68,0.5);">
+            <div class="canv-wrap"><canvas id="ch-f" width="220" height="320"></canvas></div>
+            <h2>案F. 巨神タイタン化</h2>
+            <p>筋骨隆々の超巨大体躯、岩のような肌、4本腕の超絶威圧。最強感MAX。</p>
+            <div class="meta">配色: 銅金 + 茶 + 雷</div>
+        </div>
+    </div>
+
+    <h3 class="section">— 派手な攻撃方法6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#ffea22; --g:rgba(255,234,34,0.5);">
+            <div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div>
+            <h2>案① 多重落雷ラッシュ</h2>
+            <p>空から複数の稲妻が次々と落下。広範囲を電撃の雨で焼き尽くす。</p>
+            <div class="meta">スタイル: 範囲・連続</div>
+        </div>
+        <div class="card" style="--c:#ffaa00; --g:rgba(255,170,0,0.5);">
+            <div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div>
+            <h2>案② 巨大雷球（ボールライトニング）</h2>
+            <p>巨大な雷の球を発射、ターゲットで爆発し電撃の衝撃波を放つ。</p>
+            <div class="meta">スタイル: 単発・大爆発</div>
+        </div>
+        <div class="card" style="--c:#22ddff; --g:rgba(34,221,255,0.5);">
+            <div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div>
+            <h2>案③ 雷バトン投擲</h2>
+            <p>持っている雷の槍を投擲。地面に突き刺さり大電撃を放出。</p>
+            <div class="meta">スタイル: 槍投げ・着弾爆発</div>
+        </div>
+        <div class="card" style="--c:#ff66ff; --g:rgba(255,102,255,0.5);">
+            <div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div>
+            <h2>案④ 電撃チェーン（連鎖雷）</h2>
+            <p>稲妻が敵から敵へ次々と跳ねて連鎖。複数体を一気に貫く。</p>
+            <div class="meta">スタイル: 連鎖・複数体貫通</div>
+        </div>
+        <div class="card" style="--c:#88ffaa; --g:rgba(136,255,170,0.5);">
+            <div class="canv-wrap"><canvas id="at-e" width="280" height="200"></canvas></div>
+            <h2>案⑤ 天雷柱（落雷ピラー）</h2>
+            <p>ターゲット位置に巨大な雷の柱が天から降臨。地面が裂ける。</p>
+            <div class="meta">スタイル: 単発・縦の太い柱</div>
+        </div>
+        <div class="card" style="--c:#ff6644; --g:rgba(255,102,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-f" width="280" height="200"></canvas></div>
+            <h2>案⑥ 稲妻の波動（雷の衝撃波）</h2>
+            <p>足元から雷の衝撃波が同心円状に広がる。回避不能の全方位攻撃。</p>
+            <div class="meta">スタイル: 全方位・同心円</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+// ======================================================
+// 共通ヘルパ
+// ======================================================
+function aura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+function shadow(c, x, y, w, h) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+function lightningPath(c, x1, y1, x2, y2, jitter=14, segments=8) {
+    const points = [];
+    for(let i=0;i<=segments;i++){
+        const t = i/segments;
+        const x = x1 + (x2-x1)*t + (i>0 && i<segments ? (Math.random()-0.5)*jitter : 0);
+        const y = y1 + (y2-y1)*t + (i>0 && i<segments ? (Math.random()-0.5)*jitter : 0);
+        points.push([x,y]);
+    }
+    return points;
+}
+function drawBolt(c, pts, glowColor='rgba(255,234,34,0.55)', mainColor='#ffea22', coreColor='#fff', glowW=14, mainW=5, coreW=2) {
+    const stroke = (color, w) => {
+        c.strokeStyle = color; c.lineWidth = w;
+        c.beginPath();
+        pts.forEach((p,i)=> i ? c.lineTo(p[0],p[1]) : c.moveTo(p[0],p[1]));
+        c.stroke();
+    };
+    stroke(glowColor, glowW);
+    stroke(mainColor, mainW);
+    stroke(coreColor, coreW);
+}
+
+// ======================================================
+// キャラ案 — 縦長キャンバス（220x320）
+//   ゼウスは画面縦断ボスなので縦長で描く
+// ======================================================
+function drawZeusBase(c, p) {
+    const cx = 110, cy = 250;
+    // 背景オーラ
+    if(p.aura) aura(c, cx, 160, p.aura, 130);
+    shadow(c, cx, 308, 60, 8);
+    // 体（A字形の長衣）
+    const robeTop = 180, robeBottom = 290;
+    c.fillStyle = p.robe;
+    c.beginPath();
+    c.moveTo(cx - 26, robeTop);
+    c.lineTo(cx - 60, robeBottom);
+    c.lineTo(cx + 60, robeBottom);
+    c.lineTo(cx + 26, robeTop);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.robeEdge; c.lineWidth = 1.6; c.stroke();
+    // 衣の縁
+    c.fillStyle = p.trim;
+    c.fillRect(cx - 60, robeBottom - 6, 120, 4);
+    c.strokeRect(cx - 60, robeBottom - 6, 120, 4);
+    // ドレープ
+    c.strokeStyle = p.drape; c.lineWidth = 1.2;
+    for(let i=-3;i<=3;i++){
+        c.beginPath();
+        c.moveTo(cx + i*6, robeTop);
+        c.lineTo(cx + i*15, robeBottom - 8);
+        c.stroke();
+    }
+    // 帯
+    c.fillStyle = p.belt;
+    c.fillRect(cx - 38, 220, 76, 8);
+    c.strokeStyle = p.beltEdge; c.lineWidth = 1; c.strokeRect(cx - 38, 220, 76, 8);
+    // 胸鎧
+    c.fillStyle = p.armor;
+    c.beginPath();
+    c.moveTo(cx - 26, robeTop);
+    c.lineTo(cx - 30, 130);
+    c.lineTo(cx + 30, 130);
+    c.lineTo(cx + 26, robeTop);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.armorEdge; c.lineWidth = 1.6; c.stroke();
+    // 胸鎧の雷紋
+    c.strokeStyle = p.boltMark; c.lineWidth = 2.5;
+    c.beginPath();
+    c.moveTo(cx - 12, 150); c.lineTo(cx + 4, 165); c.lineTo(cx - 6, 175); c.lineTo(cx + 12, 195);
+    c.stroke();
+    // 左腕（雷を掲げる）
+    c.fillStyle = p.skin;
+    c.fillRect(cx - 38, 130, 8, 30);
+    c.strokeStyle = p.armorEdge; c.lineWidth = 1; c.strokeRect(cx - 38, 130, 8, 30);
+    // 上腕の延長（雷を掲げて上に）
+    c.fillStyle = p.skin;
+    c.fillRect(cx - 38, 80, 8, 50);
+    c.strokeRect(cx - 38, 80, 8, 50);
+    c.beginPath(); c.arc(cx - 34, 80, 6, 0, Math.PI*2); c.fill();
+    c.stroke();
+    // 雷バトン（手から上に）
+    const boltX = cx - 34;
+    const pts = [];
+    for(let i=0;i<=6;i++){
+        const t = i/6;
+        const xx = boltX + Math.sin(t*Math.PI*3)*8 * (1-t*0.5);
+        const yy = 78 - t*70;
+        pts.push([xx, yy]);
+    }
+    drawBolt(c, pts, p.boltGlow, p.boltMain, p.boltCore, 16, 6, 2.5);
+
+    // 右腕（横）
+    c.fillStyle = p.skin;
+    c.fillRect(cx + 30, 130, 8, 32);
+    c.strokeStyle = p.armorEdge; c.strokeRect(cx + 30, 130, 8, 32);
+    c.beginPath(); c.arc(cx + 34, 168, 6, 0, Math.PI*2); c.fill();
+    c.stroke();
+
+    // 頭
+    c.fillStyle = p.skin;
+    c.beginPath(); c.arc(cx, 110, 16, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.armorEdge; c.lineWidth = 1.4; c.stroke();
+    // 髭
+    if(p.beard) {
+        c.fillStyle = p.beard;
+        c.beginPath();
+        c.moveTo(cx - 12, 116); c.lineTo(cx - 5, 152); c.lineTo(cx + 5, 152); c.lineTo(cx + 12, 116);
+        c.closePath(); c.fill();
+        c.strokeStyle = p.beardEdge; c.lineWidth = 1; c.stroke();
+        // 髭の質感
+        c.strokeStyle = p.beardLines; c.lineWidth = 0.8;
+        for(let i=-2;i<=2;i++){
+            c.beginPath();
+            c.moveTo(cx + i*3, 122);
+            c.lineTo(cx + i*2.5, 150);
+            c.stroke();
+        }
+    } else if(p.hair) {
+        // 髪（無髭の場合は髪を表現）
+        c.fillStyle = p.hair;
+        c.beginPath();
+        c.moveTo(cx - 16, 100); c.lineTo(cx - 22, 96); c.lineTo(cx - 14, 88);
+        c.lineTo(cx, 84); c.lineTo(cx + 14, 88); c.lineTo(cx + 22, 96); c.lineTo(cx + 16, 100);
+        c.closePath(); c.fill();
+        c.strokeStyle = p.hairEdge; c.lineWidth = 1; c.stroke();
+    }
+    // 月桂冠 or 冠
+    if(p.crown === 'laurel') {
+        c.fillStyle = p.crownColor;
+        for(let i=-4;i<=4;i++){
+            const a = i*0.18;
+            c.save();
+            c.translate(cx + Math.sin(a)*16, 95 + (1-Math.cos(a))*5);
+            c.rotate(a);
+            c.beginPath();
+            c.moveTo(0,0); c.lineTo(5,-8); c.lineTo(0,-5); c.lineTo(-5,-8);
+            c.closePath(); c.fill();
+            c.restore();
+        }
+        c.fillStyle = p.crownGem || '#aa1010';
+        c.beginPath(); c.arc(cx, 92, 3, 0, Math.PI*2); c.fill();
+    } else if(p.crown === 'spiky') {
+        c.fillStyle = p.crownColor;
+        for(let i=-3;i<=3;i++){
+            const sx = cx + i*5;
+            c.beginPath();
+            c.moveTo(sx-2, 96); c.lineTo(sx, 80); c.lineTo(sx+2, 96);
+            c.closePath(); c.fill();
+        }
+    }
+    // 目
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(cx - 6, 110, 2.5, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 6, 110, 2.5, 0, Math.PI*2); c.fill();
+    c.fillStyle = p.eye || '#000';
+    c.beginPath(); c.arc(cx - 6, 110, 1.4, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 6, 110, 1.4, 0, Math.PI*2); c.fill();
+}
+
+// 案A. 王道ギリシャ神
+drawZeusBase(document.getElementById('ch-a').getContext('2d'), {
+    aura: 'rgba(255,210,74,0.4)',
+    robe: '#f5f5f0', robeEdge: '#aa6600', drape: '#aaaaa0', trim: '#ffd24a',
+    belt: '#aa1010', beltEdge: '#5a0808',
+    armor: '#ffd24a', armorEdge: '#aa6600', boltMark: '#aa1010',
+    skin: '#f0d4a8',
+    beard: '#f5f5f0', beardEdge: '#aaaaa0', beardLines: '#cccccc',
+    crown: 'laurel', crownColor: '#ffd24a', crownGem: '#aa1010',
+    boltGlow: 'rgba(255,234,34,0.55)', boltMain: '#ffea22', boltCore: '#fff'
+});
+
+// 案B. 怒れる赤神
+drawZeusBase(document.getElementById('ch-b').getContext('2d'), {
+    aura: 'rgba(255,51,68,0.5)',
+    robe: '#aa1a10', robeEdge: '#3a0808', drape: '#5a0a0a', trim: '#ffd24a',
+    belt: '#0a0a0a', beltEdge: '#5a0808',
+    armor: '#ffd24a', armorEdge: '#5a3000', boltMark: '#ff3344',
+    skin: '#cc8866',
+    beard: '#5a1a0a', beardEdge: '#3a0808', beardLines: '#aa3300',
+    crown: 'laurel', crownColor: '#ff3344', crownGem: '#000',
+    boltGlow: 'rgba(255,51,68,0.55)', boltMain: '#ff3344', boltCore: '#ffaa44',
+    eye: '#ff2244'
+});
+
+// 案C. 闇神（黒銀）
+drawZeusBase(document.getElementById('ch-c').getContext('2d'), {
+    aura: 'rgba(120,120,180,0.45)',
+    robe: '#1a1a2a', robeEdge: '#000', drape: '#3a3a4a', trim: '#aaaaff',
+    belt: '#5a5a8a', beltEdge: '#000',
+    armor: '#888888', armorEdge: '#1a1a1a', boltMark: '#aaaaff',
+    skin: '#bba090',
+    beard: '#3a3a4a', beardEdge: '#1a1a1a', beardLines: '#5a5a8a',
+    crown: 'laurel', crownColor: '#888888', crownGem: '#aaaaff',
+    boltGlow: 'rgba(170,170,255,0.55)', boltMain: '#aaaaff', boltCore: '#fff',
+    eye: '#aaaaff'
+});
+
+// 案D. 若神（無髭）
+drawZeusBase(document.getElementById('ch-d').getContext('2d'), {
+    aura: 'rgba(136,204,255,0.5)',
+    robe: '#aaccee', robeEdge: '#3a5a8a', drape: '#88aacc', trim: '#ffd24a',
+    belt: '#ffd24a', beltEdge: '#aa6600',
+    armor: '#ffd24a', armorEdge: '#aa6600', boltMark: '#3a8aff',
+    skin: '#f0d4a8',
+    hair: '#ffd24a', hairEdge: '#aa6600',
+    crown: 'laurel', crownColor: '#ffd24a',
+    boltGlow: 'rgba(136,204,255,0.55)', boltMain: '#aaccee', boltCore: '#fff',
+    eye: '#3a8aff'
+});
+
+// 案E. 嵐神（竜巻に包まれる）
+(function(){
+    const c = document.getElementById('ch-e').getContext('2d');
+    drawZeusBase(c, {
+        aura: 'rgba(60,90,180,0.45)',
+        robe: '#3a4a8a', robeEdge: '#0a1030', drape: '#5a6aaa', trim: '#aaaaff',
+        belt: '#aaaaff', beltEdge: '#1a1a4a',
+        armor: '#888aaa', armorEdge: '#1a1a4a', boltMark: '#ffea22',
+        skin: '#ddccaa',
+        beard: '#aaaaff', beardEdge: '#5a5a8a', beardLines: '#ccccff',
+        crown: 'spiky', crownColor: '#aaaaff',
+        boltGlow: 'rgba(255,234,34,0.55)', boltMain: '#ffea22', boltCore: '#fff',
+        eye: '#fff'
+    });
+    // 周囲の竜巻
+    c.strokeStyle = 'rgba(170,200,255,0.6)'; c.lineWidth = 1.5;
+    for(let r=80; r>20; r-=10){
+        const cx = 110, cy = 220;
+        c.beginPath();
+        c.ellipse(cx, cy + (80-r)*1.5, r, r*0.3, 0, 0, Math.PI*2);
+        c.stroke();
+    }
+    // 雨
+    c.strokeStyle = 'rgba(180,210,240,0.5)'; c.lineWidth = 1;
+    for(let i=0; i<20; i++) {
+        const x = 20 + (i*11) % 200;
+        const y = 50 + (i*23) % 250;
+        c.beginPath(); c.moveTo(x, y); c.lineTo(x-2, y+8); c.stroke();
+    }
+})();
+
+// 案F. 巨神タイタン（4本腕）
+(function(){
+    const c = document.getElementById('ch-f').getContext('2d');
+    // 巨大化版を独自に描画
+    const cx = 110, cy = 250;
+    aura(c, cx, 160, 'rgba(221,170,68,0.5)', 140);
+    shadow(c, cx, 312, 70, 9);
+    // 体（巨大）
+    c.fillStyle = '#aa7a30';
+    c.beginPath();
+    c.moveTo(cx - 36, 175); c.lineTo(cx - 70, 290); c.lineTo(cx + 70, 290); c.lineTo(cx + 36, 175);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#3a2010'; c.lineWidth = 1.8; c.stroke();
+    // 帯
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx - 44, 220, 88, 10);
+    c.strokeRect(cx - 44, 220, 88, 10);
+    // 胸鎧
+    c.fillStyle = '#ddaa44';
+    c.beginPath();
+    c.moveTo(cx - 36, 175); c.lineTo(cx - 42, 130); c.lineTo(cx + 42, 130); c.lineTo(cx + 36, 175);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#3a2010'; c.stroke();
+    // 4本腕（左2、右2）
+    const skin = '#cc9966';
+    [
+        // 左上腕（雷）
+        [cx - 48, 130, cx - 60, 80],
+        // 左下腕
+        [cx - 42, 165, cx - 64, 200],
+        // 右上腕（雷）
+        [cx + 48, 130, cx + 60, 80],
+        // 右下腕
+        [cx + 42, 165, cx + 64, 200],
+    ].forEach((arm, i) => {
+        c.strokeStyle = skin; c.lineWidth = 9; c.lineCap = 'round';
+        c.beginPath(); c.moveTo(arm[0], arm[1]); c.lineTo(arm[2], arm[3]); c.stroke();
+        c.strokeStyle = '#3a2010'; c.lineWidth = 1.5;
+        c.beginPath(); c.arc(arm[2], arm[3], 5, 0, Math.PI*2); c.stroke();
+        c.fillStyle = skin;
+        c.beginPath(); c.arc(arm[2], arm[3], 5, 0, Math.PI*2); c.fill();
+    });
+    c.lineCap = 'butt';
+    // 上腕からの雷（4本それぞれ）
+    [[cx - 60, 78], [cx + 60, 78]].forEach(([bx, by]) => {
+        const pts = [];
+        for(let i=0;i<=6;i++){
+            const t = i/6;
+            const xx = bx + Math.sin(t*Math.PI*3)*8;
+            const yy = by - t*70;
+            pts.push([xx, yy]);
+        }
+        drawBolt(c, pts, 'rgba(255,234,34,0.55)', '#ffea22', '#fff', 14, 5, 2);
+    });
+    // 頭（大きい）
+    c.fillStyle = skin;
+    c.beginPath(); c.arc(cx, 110, 22, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#3a2010'; c.lineWidth = 1.6; c.stroke();
+    // 髭（巨大）
+    c.fillStyle = '#5a3a20';
+    c.beginPath();
+    c.moveTo(cx - 18, 118); c.lineTo(cx - 8, 170); c.lineTo(cx + 8, 170); c.lineTo(cx + 18, 118);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 額の雷
+    c.strokeStyle = '#ffea22'; c.lineWidth = 2.5;
+    c.beginPath();
+    c.moveTo(cx - 8, 96); c.lineTo(cx + 4, 108); c.lineTo(cx - 4, 116);
+    c.stroke();
+    // 目（赤く光る）
+    c.fillStyle = '#ff2244';
+    c.beginPath(); c.arc(cx - 8, 110, 3, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 8, 110, 3, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(cx - 8.5, 109.5, 1.2, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 7.5, 109.5, 1.2, 0, Math.PI*2); c.fill();
+})();
+
+// ======================================================
+// 攻撃案 — 横長キャンバス（280x200）
+//   ループアニメーション
+// ======================================================
+function startAnim(canvasId, drawFn, durationMs) {
+    const cv = document.getElementById(canvasId);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % durationMs) / durationMs;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        drawFn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+// 共通の戦場シーン（背景）
+function drawScene(c, w, h) {
+    // 空グラデ
+    const sky = c.createLinearGradient(0, 0, 0, h*0.7);
+    sky.addColorStop(0, '#0a0820');
+    sky.addColorStop(1, '#1a1850');
+    c.fillStyle = sky;
+    c.fillRect(0, 0, w, h*0.7);
+    // 地面
+    c.fillStyle = '#3a2818';
+    c.fillRect(0, h*0.7, w, h*0.3);
+    c.fillStyle = '#1a1208';
+    c.fillRect(0, h*0.7, w, 3);
+    // ゼウスの位置（左、影だけ）
+    const zx = 30, zy = h*0.7;
+    c.fillStyle = 'rgba(255,210,74,0.3)';
+    c.beginPath(); c.ellipse(zx, zy, 20, 6, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#ffd24a';
+    c.fillRect(zx-8, zy-50, 16, 50); // 簡易ゼウス（縦長黄柱）
+    c.fillStyle = '#fff5cc';
+    c.beginPath(); c.arc(zx, zy-50, 8, 0, Math.PI*2); c.fill();
+    // 敵の位置（複数体、右側）
+    return [
+        {x: w*0.5, y: h*0.7},
+        {x: w*0.65, y: h*0.7},
+        {x: w*0.8, y: h*0.7}
+    ];
+}
+function drawEnemyAt(c, x, y, color='#5a1a1a') {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle = '#3a0808';
+    c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+}
+
+// 攻撃① 多重落雷ラッシュ
+startAnim('at-a', (c, t, w, h) => {
+    const enemies = [{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.75,y:h*0.7},{x:w*0.88,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    // 4本の落雷を時間差で
+    const strikes = [
+        {x: w*0.45, time: 0.1},
+        {x: w*0.7,  time: 0.25},
+        {x: w*0.55, time: 0.4},
+        {x: w*0.85, time: 0.55},
+    ];
+    strikes.forEach(s => {
+        const elapsed = t - s.time;
+        if(elapsed < 0 || elapsed > 0.4) return;
+        const intensity = elapsed < 0.1 ? elapsed*10 : Math.max(0, 1 - (elapsed-0.1)/0.3);
+        // 落雷（空から地面へ）
+        const pts = lightningPath(c, s.x, 0, s.x, h*0.7, 16, 8);
+        c.globalAlpha = intensity;
+        drawBolt(c, pts, 'rgba(255,234,34,0.6)', '#ffea22', '#fff', 18, 7, 3);
+        // 着弾フラッシュ
+        if(elapsed < 0.15) {
+            c.fillStyle = `rgba(255,255,200,${intensity*0.6})`;
+            c.beginPath(); c.arc(s.x, h*0.7, 30 + intensity*30, 0, Math.PI*2); c.fill();
+        }
+        c.globalAlpha = 1;
+    });
+}, 2500);
+
+// 攻撃② 巨大雷球
+startAnim('at-b', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 30, target.y);
+    drawEnemyAt(c, target.x + 30, target.y);
+    if(t < 0.3) {
+        // チャージ（左で球が育つ）
+        const r = 4 + t*60;
+        const x = 35, y = h*0.55;
+        c.fillStyle = `rgba(255,170,0,${0.3 + Math.sin(t*40)*0.2})`;
+        c.beginPath(); c.arc(x, y, r+10, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#ffaa00';
+        c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        c.beginPath(); c.arc(x-r*0.3, y-r*0.3, r*0.5, 0, Math.PI*2); c.fill();
+    } else if(t < 0.7) {
+        // 飛翔
+        const tt = (t-0.3)/0.4;
+        const x = 35 + (target.x - 35) * tt;
+        const y = h*0.55 + (target.y - h*0.55 - 30) * tt;
+        // 軌跡
+        for(let k=0; k<5; k++){
+            const tk = Math.max(0, tt - k*0.1);
+            const xx = 35 + (target.x - 35) * tk;
+            const yy = h*0.55 + (target.y - h*0.55 - 30) * tk;
+            c.fillStyle = `rgba(255,170,0,${0.3 - k*0.05})`;
+            c.beginPath(); c.arc(xx, yy, 22 - k*3, 0, Math.PI*2); c.fill();
+        }
+        c.fillStyle = '#ffaa00';
+        c.beginPath(); c.arc(x, y, 22, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.arc(x, y, 16, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        c.beginPath(); c.arc(x-4, y-4, 8, 0, Math.PI*2); c.fill();
+        // 雷の輪
+        c.strokeStyle = '#ffea22'; c.lineWidth = 1.5;
+        for(let k=0; k<4; k++){
+            const a = tt*Math.PI*4 + k*Math.PI/2;
+            c.beginPath();
+            c.arc(x, y, 28 + Math.sin(t*30+k)*4, a, a+0.6);
+            c.stroke();
+        }
+    } else {
+        // 爆発
+        const tt = (t-0.7)/0.3;
+        const radius = tt * 70;
+        c.strokeStyle = `rgba(255,170,0,${1-tt})`; c.lineWidth = 6;
+        c.beginPath(); c.arc(target.x, target.y - 20, radius, 0, Math.PI*2); c.stroke();
+        c.strokeStyle = `rgba(255,234,34,${1-tt})`; c.lineWidth = 3;
+        c.beginPath(); c.arc(target.x, target.y - 20, radius*0.6, 0, Math.PI*2); c.stroke();
+        // 火花
+        for(let k=0; k<10; k++){
+            const a = k*Math.PI*0.2;
+            const r = radius * 0.8;
+            const sx = target.x + Math.cos(a)*r;
+            const sy = target.y - 20 + Math.sin(a)*r;
+            c.fillStyle = '#ffea22';
+            c.fillRect(sx, sy, 3, 3);
+        }
+    }
+}, 3000);
+
+// 攻撃③ 雷バトン投擲
+startAnim('at-c', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 28, target.y);
+    if(t < 0.3) {
+        // チャージ（左で雷バトン振り上げ）
+        const cx = 30, cy = h*0.55;
+        const len = 70;
+        const top = cy - len;
+        c.strokeStyle = `rgba(34,221,255,${0.5 + Math.sin(t*30)*0.3})`; c.lineWidth = 16;
+        c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx, top); c.stroke();
+        c.strokeStyle = '#22ddff'; c.lineWidth = 8;
+        c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx, top); c.stroke();
+        c.strokeStyle = '#fff'; c.lineWidth = 3;
+        c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx, top); c.stroke();
+    } else if(t < 0.6) {
+        // 投擲
+        const tt = (t-0.3)/0.3;
+        const x = 30 + (target.x - 30) * tt;
+        const y = h*0.55 - 30 + (target.y - 30 - (h*0.55 - 30)) * tt;
+        // 軌跡（残光）
+        for(let k=0; k<6; k++){
+            const tk = Math.max(0, tt - k*0.06);
+            const xk = 30 + (target.x - 30) * tk;
+            const yk = h*0.55 - 30 + (target.y - 30 - (h*0.55 - 30)) * tk;
+            c.strokeStyle = `rgba(34,221,255,${0.5 - k*0.08})`; c.lineWidth = 4;
+            c.beginPath();
+            c.moveTo(xk - 20, yk - 20); c.lineTo(xk + 20, yk + 20);
+            c.stroke();
+        }
+        // 雷バトン本体（傾いた槍）
+        c.save(); c.translate(x, y); c.rotate(Math.PI/4);
+        c.strokeStyle = 'rgba(34,221,255,0.6)'; c.lineWidth = 18;
+        c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke();
+        c.strokeStyle = '#22ddff'; c.lineWidth = 8;
+        c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke();
+        c.strokeStyle = '#fff'; c.lineWidth = 3;
+        c.beginPath(); c.moveTo(-26, 0); c.lineTo(26, 0); c.stroke();
+        // 槍先
+        c.fillStyle = '#22ddff';
+        c.beginPath();
+        c.moveTo(26, -6); c.lineTo(36, 0); c.lineTo(26, 6); c.closePath(); c.fill();
+        c.restore();
+    } else {
+        // 着弾
+        const tt = (t-0.6)/0.4;
+        // 突き刺さった槍
+        c.save(); c.translate(target.x, target.y); c.rotate(Math.PI/3);
+        c.strokeStyle = '#22ddff'; c.lineWidth = 8;
+        c.beginPath(); c.moveTo(0, 0); c.lineTo(0, -50); c.stroke();
+        c.strokeStyle = '#fff'; c.lineWidth = 3;
+        c.beginPath(); c.moveTo(0, 0); c.lineTo(0, -50); c.stroke();
+        c.restore();
+        // 衝撃波
+        c.strokeStyle = `rgba(34,221,255,${1-tt})`; c.lineWidth = 6;
+        c.beginPath(); c.arc(target.x, target.y, tt*60, 0, Math.PI*2); c.stroke();
+        c.strokeStyle = `rgba(255,255,255,${1-tt})`; c.lineWidth = 2;
+        c.beginPath(); c.arc(target.x, target.y, tt*45, 0, Math.PI*2); c.stroke();
+        // 火花
+        for(let k=0; k<8; k++){
+            const a = k*Math.PI/4;
+            c.strokeStyle = '#22ddff'; c.lineWidth = 2;
+            c.beginPath();
+            c.moveTo(target.x + Math.cos(a)*tt*60, target.y + Math.sin(a)*tt*60);
+            c.lineTo(target.x + Math.cos(a)*tt*70, target.y + Math.sin(a)*tt*70);
+            c.stroke();
+        }
+    }
+}, 2500);
+
+// 攻撃④ 電撃チェーン
+startAnim('at-d', (c, t, w, h) => {
+    const enemies = [
+        {x: w*0.45, y: h*0.7},
+        {x: w*0.6, y: h*0.7},
+        {x: w*0.75, y: h*0.7},
+        {x: w*0.88, y: h*0.7}
+    ];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    // チェーン雷（時間で進む）
+    const segments = 4;
+    const stage = Math.min(segments, Math.floor(t * (segments+1)));
+    for(let i=0; i<stage; i++){
+        const start = i === 0 ? {x: 30, y: h*0.55} : {x: enemies[i-1].x, y: enemies[i-1].y - 20};
+        const end = {x: enemies[i].x, y: enemies[i].y - 20};
+        const pts = lightningPath(c, start.x, start.y, end.x, end.y, 12, 6);
+        drawBolt(c, pts, 'rgba(255,102,255,0.6)', '#ff66ff', '#fff', 12, 5, 2);
+    }
+    // 各敵にスパーク
+    for(let i=0; i<stage; i++){
+        c.fillStyle = `rgba(255,102,255,${0.7})`;
+        c.beginPath(); c.arc(enemies[i].x, enemies[i].y - 20, 14, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        c.beginPath(); c.arc(enemies[i].x, enemies[i].y - 20, 6, 0, Math.PI*2); c.fill();
+    }
+}, 2200);
+
+// 攻撃⑤ 天雷柱
+startAnim('at-e', (c, t, w, h) => {
+    const target = {x: w*0.7, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 20, target.y);
+    drawEnemyAt(c, target.x + 20, target.y);
+    if(t < 0.2) {
+        // ターゲッティングサークル
+        const tt = t/0.2;
+        c.strokeStyle = `rgba(136,255,170,${tt})`; c.lineWidth = 2;
+        for(let r=0; r<3; r++){
+            c.beginPath();
+            c.arc(target.x, target.y, 20 + r*8, 0, Math.PI*2);
+            c.stroke();
+        }
+        // 十字線
+        c.beginPath(); c.moveTo(target.x - 36, target.y); c.lineTo(target.x + 36, target.y); c.stroke();
+        c.beginPath(); c.moveTo(target.x, target.y - 36); c.lineTo(target.x, target.y + 36); c.stroke();
+    } else if(t < 0.7) {
+        // 巨大雷柱降下
+        const tt = (t-0.2)/0.5;
+        const intensity = tt < 0.3 ? tt*3 : Math.max(0, 1 - (tt-0.3)/0.7);
+        const colW = 32 + Math.sin(tt*30)*6;
+        // 外炎
+        c.fillStyle = `rgba(136,255,170,${0.4*intensity})`;
+        c.fillRect(target.x - colW, 0, colW*2, target.y);
+        // 中
+        c.fillStyle = `rgba(136,255,170,${0.7*intensity})`;
+        c.fillRect(target.x - colW*0.6, 0, colW*1.2, target.y);
+        // コア
+        c.fillStyle = `rgba(255,255,255,${intensity})`;
+        c.fillRect(target.x - 6, 0, 12, target.y);
+        // 内部のうねるライン
+        for(let k=0; k<3; k++){
+            const xs = target.x - 10 + k*10;
+            const pts = [];
+            for(let i=0;i<=8;i++){
+                pts.push([xs + Math.sin(i*0.7 + tt*8 + k)*8, i/8 * target.y]);
+            }
+            c.strokeStyle = `rgba(255,255,255,${intensity*0.6})`; c.lineWidth = 1.5;
+            c.beginPath();
+            pts.forEach((p,i)=> i ? c.lineTo(p[0],p[1]) : c.moveTo(p[0],p[1]));
+            c.stroke();
+        }
+        // 着弾フラッシュ
+        if(tt < 0.4) {
+            c.fillStyle = `rgba(255,255,255,${(0.4-tt)*1.5})`;
+            c.beginPath(); c.arc(target.x, target.y, 50, 0, Math.PI*2); c.fill();
+        }
+    } else {
+        // 余韻（地面の電撃）
+        const tt = (t-0.7)/0.3;
+        c.strokeStyle = `rgba(136,255,170,${0.5*(1-tt)})`; c.lineWidth = 2;
+        for(let i=0; i<6; i++){
+            const a = i*Math.PI/3;
+            const x = target.x + Math.cos(a) * 30 * (1+tt);
+            const y = target.y + Math.sin(a) * 8 * (1+tt);
+            c.beginPath();
+            c.moveTo(target.x, target.y); c.lineTo(x, y);
+            c.stroke();
+        }
+    }
+}, 2200);
+
+// 攻撃⑥ 稲妻の波動
+startAnim('at-f', (c, t, w, h) => {
+    const enemies = [
+        {x: w*0.4, y: h*0.7},
+        {x: w*0.55, y: h*0.7},
+        {x: w*0.7, y: h*0.7},
+        {x: w*0.85, y: h*0.7}
+    ];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.2) {
+        // チャージ
+        const tt = t/0.2;
+        const r = tt * 14;
+        c.fillStyle = `rgba(255,102,68,${0.6 + Math.sin(t*40)*0.3})`;
+        c.beginPath(); c.arc(30, h*0.55, r+8, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#ff6644';
+        c.beginPath(); c.arc(30, h*0.55, r, 0, Math.PI*2); c.fill();
+    } else {
+        // 衝撃波が広がる（複数のリング）
+        const tt = (t-0.2)/0.8;
+        for(let k=0; k<3; k++){
+            const tk = Math.max(0, tt - k*0.15);
+            if(tk <= 0) continue;
+            const r = tk * 280;
+            const alpha = Math.max(0, 1 - tk);
+            // 横長の楕円（地面に這うように）
+            c.strokeStyle = `rgba(255,102,68,${alpha * 0.8})`; c.lineWidth = 6;
+            c.beginPath(); c.ellipse(30, h*0.7, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+            c.strokeStyle = `rgba(255,234,34,${alpha})`; c.lineWidth = 3;
+            c.beginPath(); c.ellipse(30, h*0.7, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+            c.strokeStyle = `rgba(255,255,255,${alpha})`; c.lineWidth = 1.5;
+            c.beginPath(); c.ellipse(30, h*0.7, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+        }
+        // 上昇する電撃ライン（背景）
+        for(let k=0; k<6; k++){
+            const xx = 30 + tt*280 * (k/6);
+            if(xx > w) continue;
+            const ts = (tt*4 + k*0.4) % 1;
+            c.strokeStyle = `rgba(255,234,34,${1-ts})`; c.lineWidth = 1.5;
+            c.beginPath();
+            c.moveTo(xx, h*0.7);
+            c.lineTo(xx + (Math.random()-0.5)*4, h*0.7 - ts*30);
+            c.stroke();
+        }
+    }
+}, 2500);
+</script>
+</body>
+</html>
