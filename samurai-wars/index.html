@@ -934,11 +934,11 @@
         { id:'sp_naga', name:'ナーガ', yomi:'なーが', cost:1500, hp:3500, atk:340, atkSpeed:1.4, range:230, speed:0.95,
           cooldown:28.0, color:'#3a6a4a', helmet:'snake_giant', weapon:'magic_circle', rarity:4, ranged:true,
           desc:'半人半蛇の幻獣。蛇神の呪術で敵を狙撃する' },
-        // Stage 110: 火の鳥（飛行 + 対空 + 範囲）
-        { id:'sp_phoenix', name:'火の鳥', yomi:'ひのとり', cost:2300, hp:4800, atk:540, atkSpeed:1.7, range:260, speed:1.1,
-          cooldown:46.0, color:'#aa1a00', helmet:'phoenix_crest', weapon:'fire_breath', rarity:5, scale:1.45,
-          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#ff3300',
-          desc:'炎の伝説の鳥。地にも空にも炎を吐く' },
+        // Stage 110: サンダーバード（飛行 + 対空 + 範囲）
+        { id:'sp_phoenix', name:'サンダーバード', yomi:'さんだーばーど', cost:2300, hp:4800, atk:540, atkSpeed:1.7, range:260, speed:1.1,
+          cooldown:46.0, color:'#ffd24a', helmet:'phoenix_crest', weapon:'fire_breath', rarity:5, scale:1.45,
+          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#ddaa22',
+          desc:'黄金の翼で天空を制する伝説の神鳥' },
         // Stage 111: ベオウルフ
         { id:'sp_beowulf', name:'ベオウルフ', yomi:'べおうるふ', cost:1900, hp:7200, atk:520, atkSpeed:1.2, range:48, speed:1.05,
           cooldown:36.0, color:'#5a4030', helmet:'bone_helm', weapon:'odachi', rarity:4, scale:1.3,
@@ -2027,8 +2027,8 @@
         108: { name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', hp:9500, atk:480, helmet:'beetle_horn', weapon:'beetle_horn_attack', color:'#1a1004', scale:1.9, flying:true, antiAir:true, wingColor:'#3a2010' },
         // Stage 109
         109: { name:'ナーガ', yomi:'なーが', hp:10500, atk:460, helmet:'snake_giant', weapon:'magic_circle', color:'#3a6a4a', scale:2.0, ranged:true, range:240 },
-        // Stage 110 — Phoenix (flying + anti-air + AOE)
-        110: { name:'火の鳥', yomi:'ひのとり', hp:12500, atk:560, helmet:'phoenix_crest', weapon:'fire_breath', color:'#aa1a00', scale:2.1, flying:true, antiAir:true, ranged:true, aoe:true, range:260, wingColor:'#ff3300' },
+        // Stage 110 — Thunderbird / 黄金鳳凰 (flying + anti-air + AOE)
+        110: { name:'サンダーバード', yomi:'さんだーばーど', hp:12500, atk:560, helmet:'phoenix_crest', weapon:'fire_breath', color:'#ffd24a', scale:2.1, flying:true, antiAir:true, ranged:true, aoe:true, range:260, wingColor:'#ddaa22' },
         // Stage 111
         111: { name:'ベオウルフ', yomi:'べおうるふ', hp:16000, atk:680, helmet:'bone_helm', weapon:'odachi', color:'#5a4030', scale:2.0 },
         // Stage 112 — Balor (anti-air via stones)
@@ -3221,32 +3221,47 @@
                 c.fillStyle = '#000';
                 c.fillRect(-0.5*scale,-39*scale,1*scale,3*scale);
                 break;
-            case 'phoenix_crest': // 火の鳥
-                // 燃える頭
-                c.fillStyle = '#aa1a00';
-                c.beginPath(); c.arc(0,-36*scale,9*scale,0,Math.PI*2); c.fill();
-                c.fillStyle = '#ff6600';
-                c.beginPath(); c.arc(0,-36*scale,7*scale,0,Math.PI*2); c.fill();
+            case 'phoenix_crest': // サンダーバード（黄金鳳凰）
+                // 金の頭
                 c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(0,-36*scale,9*scale,0,Math.PI*2); c.fill();
+                c.strokeStyle = '#aa6600'; c.lineWidth = 1*scale; c.stroke();
+                c.fillStyle = '#fff5cc';
                 c.beginPath(); c.arc(-2*scale,-37*scale,4*scale,0,Math.PI*2); c.fill();
-                // くちばし
-                c.fillStyle = '#ffaa00';
+                // 朱赤のくちばし
+                c.fillStyle = '#aa1010';
                 c.beginPath();
-                c.moveTo(8*scale,-36*scale); c.lineTo(16*scale,-34*scale); c.lineTo(8*scale,-32*scale); c.closePath(); c.fill();
-                // 炎の冠
-                c.fillStyle = '#ff3300';
-                for(let i=0;i<5;i++){
-                    const a = -Math.PI*0.85 + i*Math.PI*0.35;
-                    const fx = Math.cos(a)*10*scale, fy = Math.sin(a)*10*scale - 36*scale;
-                    c.beginPath();
-                    c.moveTo(fx, fy);
-                    c.lineTo(fx + Math.cos(a)*8*scale, fy + Math.sin(a)*8*scale);
-                    c.lineTo(fx + Math.cos(a+0.3)*4*scale, fy + Math.sin(a+0.3)*4*scale);
-                    c.closePath(); c.fill();
-                }
-                // 目
-                c.fillStyle = '#fff';
-                c.fillRect(-2*scale,-37*scale,1.5*scale,1.5*scale);
+                c.moveTo(8*scale,-36*scale); c.lineTo(18*scale,-34*scale); c.lineTo(8*scale,-32*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#5a0808'; c.lineWidth = 0.6*scale; c.stroke();
+                // 後頭部から長く垂れる飾り羽（金）×3
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 2.5*scale;
+                c.lineCap = 'round';
+                c.beginPath();
+                c.moveTo(-4*scale, -42*scale);
+                c.quadraticCurveTo(-18*scale, -56*scale, -24*scale, -44*scale);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(-2*scale, -44*scale);
+                c.quadraticCurveTo(-12*scale, -60*scale, -16*scale, -50*scale);
+                c.stroke();
+                c.beginPath();
+                c.moveTo(0, -42*scale);
+                c.quadraticCurveTo(-6*scale, -54*scale, -8*scale, -46*scale);
+                c.stroke();
+                // 翡翠緑の縁取り（一番外側の羽）
+                c.strokeStyle = '#3a8a5a'; c.lineWidth = 1*scale;
+                c.beginPath();
+                c.moveTo(-4*scale, -42*scale);
+                c.quadraticCurveTo(-18*scale, -56*scale, -24*scale, -44*scale);
+                c.stroke();
+                c.lineCap = 'butt';
+                // 朱の頭頂飾り
+                c.fillStyle = '#aa1010';
+                c.beginPath(); c.arc(0,-44*scale,2*scale,0,Math.PI*2); c.fill();
+                // 鋭い目
+                c.fillStyle = '#000';
+                c.fillRect(-2*scale,-37*scale,1.5*scale,1.8*scale);
                 break;
             case 'zeus_crown': // ゼウス
                 // 神々しい頭
