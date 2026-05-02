@@ -901,30 +901,30 @@
         { id:'sp_trex', name:'ティラノサウルス', yomi:'てぃらのさうるす', cost:1400, hp:5500, atk:380, atkSpeed:1.5, range:70, speed:0.7,
           cooldown:30.0, color:'#aa6644', helmet:'rex_jaw', weapon:'fist', rarity:4, scale:1.7, antiAir:true,
           desc:'赤茶の巨体で空にも届く恐竜の王' },
-        // Stage 102: プルスサウルス
-        { id:'sp_pulrus', name:'プルスサウルス', yomi:'ぷるすさうるす', cost:1100, hp:4200, atk:330, atkSpeed:1.3, range:48, speed:0.8,
-          cooldown:24.0, color:'#3a4030', helmet:'croc_jaw', weapon:'fist', rarity:3, scale:1.5,
-          desc:'古代の超巨大ワニ。地上を這う者を噛み砕く' },
-        // Stage 103: プロコプトドン
-        { id:'sp_kangaroo', name:'プロコプトドン', yomi:'ぷろこぷとどん', cost:850, hp:2400, atk:240, atkSpeed:0.6, range:42, speed:2.4,
-          cooldown:18.0, color:'#a87040', helmet:'kangaroo_head', weapon:'fist', rarity:3, scale:1.2,
-          desc:'史上最大級のカンガルー。跳躍と蹴りで戦う' },
+        // Stage 102: プルスサウルス（王道緑茶 + 水鉄砲）
+        { id:'sp_pulrus', name:'プルスサウルス', yomi:'ぷるすさうるす', cost:1100, hp:4200, atk:330, atkSpeed:1.6, range:280, speed:0.8,
+          cooldown:24.0, color:'#3a4030', helmet:'croc_jaw', weapon:'water_shot', rarity:3, scale:1.5,
+          desc:'古代の超巨大ワニ。高圧の水鉄砲で一直線に貫く' },
+        // Stage 103: プロコプトドン（王道 + ジャンプ連打）
+        { id:'sp_kangaroo', name:'プロコプトドン', yomi:'ぷろこぷとどん', cost:850, hp:2400, atk:240, atkSpeed:1.4, range:200, speed:2.4,
+          cooldown:18.0, color:'#a87040', helmet:'kangaroo_head', weapon:'jump_combo', rarity:3, scale:1.2,
+          desc:'史上最大級のカンガルー。跳ねて連続攻撃' },
         // Stage 104: マンモス（王道毛深い + 足踏み地震）
         { id:'sp_mammoth', name:'マンモス', yomi:'まんもす', cost:1800, hp:8500, atk:480, atkSpeed:2.4, range:200, speed:0.5,
           cooldown:38.0, color:'#aa6644', helmet:'mammoth_tusk', weapon:'foot_quake', rarity:4, scale:1.8,
           desc:'氷河期を支配した巨象。足踏み地震で範囲制圧' },
-        // Stage 105: サンドワーム（対空: 体を伸ばして）
-        { id:'sp_sandworm', name:'サンドワーム', yomi:'さんどわーむ', cost:1600, hp:6000, atk:420, atkSpeed:2.0, range:130, speed:0.6,
-          cooldown:36.0, color:'#a07040', helmet:'worm_head', weapon:'fist', rarity:4, scale:1.6, antiAir:true,
-          desc:'砂漠の超巨大みみず。体を伸ばして空にも届く' },
+        // Stage 105: サンドワーム（王道 + 巨体ジャンプ叩きつけ）
+        { id:'sp_sandworm', name:'サンドワーム', yomi:'さんどわーむ', cost:1600, hp:6000, atk:420, atkSpeed:2.5, range:280, speed:0.6,
+          cooldown:36.0, color:'#a07040', helmet:'worm_head', weapon:'slam_down', rarity:4, scale:1.6, antiAir:true,
+          desc:'砂漠の超巨大みみず。空高く跳び上がって叩きつける' },
         // Stage 106: ゴーレム（苔むした古代 + 自爆突進）
         { id:'sp_golem', name:'ゴーレム', yomi:'ごーれむ', cost:1500, hp:9000, atk:300, atkSpeed:2.4, range:140, speed:0.45,
           cooldown:34.0, color:'#5a6a5a', helmet:'stone_block', weapon:'self_destruct', rarity:4, scale:1.55,
           desc:'苔むした古代の番人。自爆突進で全てを巻き込む' },
-        // Stage 107: ティタノボア
-        { id:'sp_titanoboa', name:'ティタノボア', yomi:'てぃたのぼあ', cost:1350, hp:5200, atk:370, atkSpeed:1.0, range:60, speed:1.0,
-          cooldown:28.0, color:'#3a5a2a', helmet:'snake_giant', weapon:'fist', rarity:4, scale:1.55,
-          desc:'人の十倍の蛇。長大な体で敵を巻き取る' },
+        // Stage 107: ティタノボア（紫黒の毒蛇 + 毒霧吐き）
+        { id:'sp_titanoboa', name:'ティタノボア', yomi:'てぃたのぼあ', cost:1350, hp:5200, atk:370, atkSpeed:2.0, range:240, speed:1.0,
+          cooldown:28.0, color:'#3a1a4a', helmet:'snake_poison', weapon:'poison_fog', rarity:4, scale:1.55,
+          desc:'紫黒の毒蛇。前方一帯に猛毒の霧を吐く' },
         // Stage 108: ヘラクレスオオカブト（飛行 + 対空）
         { id:'sp_hercules', name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', cost:1700, hp:3800, atk:420, atkSpeed:1.4, range:50, speed:1.3,
           cooldown:32.0, color:'#1a1004', helmet:'beetle_horn', weapon:'beetle_horn_attack', rarity:4, scale:1.4,
@@ -2011,18 +2011,18 @@
         // ===== 超過去編 ボス（クリアで仲間に） =====
         // Stage 101 — T-Rex (anti-air via size, opens up flying enemies for stage 2+)
         101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'fist', color:'#aa6644', scale:2.1, antiAir:true },
-        // Stage 102
-        102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'fist', color:'#3a4030', scale:2.0 },
-        // Stage 103
-        103: { name:'プロコプトドン', yomi:'ぷろこぷとどん', hp:4600, atk:280, helmet:'kangaroo_head', weapon:'fist', color:'#a87040', scale:1.9 },
+        // Stage 102 — プルスサウルス（水鉄砲）
+        102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'water_shot', color:'#3a4030', scale:2.0, range:320, atkSpeed:1.7 },
+        // Stage 103 — プロコプトドン（ジャンプ連打）
+        103: { name:'プロコプトドン', yomi:'ぷろこぷとどん', hp:4600, atk:280, helmet:'kangaroo_head', weapon:'jump_combo', color:'#a87040', scale:1.9, range:220, atkSpeed:1.5 },
         // Stage 104 — マンモス（王道 + 足踏み地震）
         104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'foot_quake', color:'#aa6644', scale:2.3, range:220, atkSpeed:2.5 },
-        // Stage 105 — Sandworm (anti-air via stretch)
-        105: { name:'サンドワーム', yomi:'さんどわーむ', hp:7500, atk:380, helmet:'worm_head', weapon:'fist', color:'#a07040', scale:2.1, range:140, antiAir:true },
+        // Stage 105 — Sandworm（巨体ジャンプ叩きつけ）
+        105: { name:'サンドワーム', yomi:'さんどわーむ', hp:7500, atk:380, helmet:'worm_head', weapon:'slam_down', color:'#a07040', scale:2.1, range:300, antiAir:true, atkSpeed:2.6 },
         // Stage 106 — ゴーレム（苔むした古代 + 自爆突進）
         106: { name:'ゴーレム', yomi:'ごーれむ', hp:11000, atk:330, helmet:'stone_block', weapon:'self_destruct', color:'#5a6a5a', scale:2.0, range:140, atkSpeed:2.5 },
-        // Stage 107
-        107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_giant', weapon:'fist', color:'#3a5a2a', scale:2.0, range:70 },
+        // Stage 107 — ティタノボア（紫黒の毒蛇 + 毒霧）
+        107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_poison', weapon:'poison_fog', color:'#3a1a4a', scale:2.0, range:280, atkSpeed:2.2 },
         // Stage 108 — Hercules beetle (flying + anti-air)
         108: { name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', hp:9500, atk:480, helmet:'beetle_horn', weapon:'beetle_horn_attack', color:'#1a1004', scale:1.9, flying:true, antiAir:true, wingColor:'#3a2010' },
         // Stage 109
@@ -2513,7 +2513,7 @@
         }
     }
 
-    // 吹雪攻撃（フロストジャイアント専用）
+    // 吹雪攻撃（フロストジャイアント）/ 毒霧（ティタノボア）
     function drawBlizzard(c, bz) {
         const t = bz.timer;
         const fadeIn = Math.min(1, t / 0.15);
@@ -2525,38 +2525,46 @@
         const minX = Math.min(startX, endX);
         const maxX = Math.max(startX, endX);
         const gy = groundY();
+        const isPoison = bz.style === 'poison';
+        const overlay = isPoison ? 'rgba(120,200,90,0.30)' : 'rgba(220,240,255,0.28)';
+        const tint = isPoison ? 'rgba(170,255,68,0.10)' : 'rgba(34,221,255,0.10)';
+        const particle = isPoison ? '170,255,102' : '255,255,255';
+        const bigParticle = isPoison ? '136,221,68' : '255,255,255';
+        const wind = isPoison ? 'rgba(170,255,102,0.5)' : 'rgba(170,238,255,0.45)';
         c.save();
-        // 青白いオーバーレイ
-        c.fillStyle = `rgba(220,240,255,${alpha * 0.28})`;
+        c.fillStyle = overlay.replace('0.30', alpha*0.30+'').replace('0.28', alpha*0.28+'');
         c.fillRect(minX, 0, maxX - minX, gy);
-        // シアンのチルト
-        c.fillStyle = `rgba(34,221,255,${alpha * 0.10})`;
+        c.fillStyle = tint.replace('0.10', alpha*0.10+'');
         c.fillRect(minX, 0, maxX - minX, gy);
-        // 雪の粒（決定的・タイマーベース）
         const time = t * 800;
         for(let k = 0; k < 90; k++) {
             const sx = minX + ((k * 173 + time) % (maxX - minX));
             const sy = (k * 91 + time*1.5) % gy;
             const sz = 1 + (k % 4);
-            c.fillStyle = `rgba(255,255,255,${alpha * (0.45 + (k%3)*0.15)})`;
+            c.fillStyle = `rgba(${particle},${alpha * (0.45 + (k%3)*0.15)})`;
             c.fillRect(sx, sy, sz, sz);
         }
-        // 大きな雪片
         for(let k = 0; k < 18; k++) {
             const sx = minX + ((k * 73 + time*0.7) % (maxX - minX));
             const sy = (k * 131 + time) % gy;
-            c.fillStyle = `rgba(255,255,255,${alpha * 0.85})`;
+            c.fillStyle = `rgba(${bigParticle},${alpha * 0.85})`;
             c.beginPath(); c.arc(sx, sy, 2.5, 0, Math.PI*2); c.fill();
         }
-        // 風の流線（全体に水平）
-        c.strokeStyle = `rgba(170,238,255,${alpha * 0.45})`;
+        c.strokeStyle = wind.replace('0.5', alpha*0.5+'').replace('0.45', alpha*0.45+'');
         c.lineWidth = 1.2;
         for(let k = 0; k < 6; k++) {
             const sy = ((k * 37 + time*0.3) % gy);
-            c.beginPath();
-            c.moveTo(minX, sy);
-            c.lineTo(maxX, sy + 4);
-            c.stroke();
+            c.beginPath(); c.moveTo(minX, sy); c.lineTo(maxX, sy + 4); c.stroke();
+        }
+        // 毒の場合: 髑髏マークが浮く
+        if(isPoison) {
+            c.fillStyle = `rgba(170,255,102,${alpha * 0.7})`;
+            c.font = 'bold 16px sans-serif'; c.textAlign = 'center';
+            for(let k=0; k<3; k++){
+                const sx = minX + ((k*150 + time*0.4) % (maxX - minX));
+                const sy = gy * 0.4 + Math.sin(time*0.005 + k) * 20;
+                c.fillText('☠', sx, sy);
+            }
         }
         c.restore();
     }
@@ -2610,55 +2618,174 @@
         }
     }
 
-    // 十拳剣の横一閃（スサノオ専用）
+    // 十拳剣の横一閃（スサノオ）/ 水鉄砲（プルスサウルス）
     function drawSlashWave(c, sw) {
         const x = sw.x;
         const dir = sw.dir;
         const fadeOut = Math.max(0, 1 - sw.traveled / sw.maxRange);
         const fadeIn = Math.min(1, sw.traveled / 30);
         const alpha = fadeIn * fadeOut;
-        const top = 30;
-        const bot = groundY() + 8;
-        const mid = (top + bot) / 2;
         c.save();
         c.globalAlpha = Math.max(0, Math.min(1, alpha));
-        // 残像（後方に5枚）
-        for(let k = 1; k <= 5; k++) {
-            const tx = x - dir * k * 12;
-            const a = Math.max(0, 1 - k*0.18);
-            c.strokeStyle = `rgba(255,210,74,${a*0.55})`;
-            c.lineWidth = 16 - k*1.8;
-            c.beginPath();
-            c.moveTo(tx, top);
-            c.lineTo(tx + dir*8, mid);
-            c.lineTo(tx, bot);
-            c.stroke();
+        if(sw.style === 'water') {
+            // 水鉄砲: 水平の高圧水流
+            const sy = groundY() - 30;
+            // 残像（横長の水しぶき）
+            for(let k = 1; k <= 5; k++) {
+                const tx = x - dir * k * 18;
+                c.fillStyle = `rgba(34,221,255,${(1-k*0.18) * 0.5})`;
+                c.beginPath();
+                c.ellipse(tx, sy, 24 - k*2, 14 - k, 0, 0, Math.PI*2);
+                c.fill();
+            }
+            // メイン水流
+            c.fillStyle = 'rgba(34,221,255,0.85)';
+            c.beginPath(); c.ellipse(x, sy, 28, 16, 0, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#aaeeff';
+            c.beginPath(); c.ellipse(x, sy, 22, 12, 0, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#ffffff';
+            c.beginPath(); c.ellipse(x, sy, 14, 7, 0, 0, Math.PI*2); c.fill();
+            // 水しぶき（ランダム決定的）
+            for(let k=0; k<6; k++){
+                const sx2 = x - dir*(k*5);
+                const sy2 = sy + Math.sin(k*1.5 + sw.traveled*0.05) * 18;
+                c.fillStyle = `rgba(170,238,255,0.7)`;
+                c.beginPath(); c.arc(sx2, sy2, 3, 0, Math.PI*2); c.fill();
+            }
+        } else {
+            // 斬撃波（金・スサノオ）
+            const top = 30;
+            const bot = groundY() + 8;
+            const mid = (top + bot) / 2;
+            for(let k = 1; k <= 5; k++) {
+                const tx = x - dir * k * 12;
+                const a = Math.max(0, 1 - k*0.18);
+                c.strokeStyle = `rgba(255,210,74,${a*0.55})`;
+                c.lineWidth = 16 - k*1.8;
+                c.beginPath();
+                c.moveTo(tx, top); c.lineTo(tx + dir*8, mid); c.lineTo(tx, bot);
+                c.stroke();
+            }
+            c.strokeStyle = '#ffd24a'; c.lineWidth = 12;
+            c.beginPath(); c.moveTo(x, top); c.lineTo(x + dir*14, mid); c.lineTo(x, bot); c.stroke();
+            c.strokeStyle = '#ffea22'; c.lineWidth = 6;
+            c.beginPath(); c.moveTo(x, top); c.lineTo(x + dir*12, mid); c.lineTo(x, bot); c.stroke();
+            c.strokeStyle = '#ffffff'; c.lineWidth = 3;
+            c.beginPath(); c.moveTo(x, top); c.lineTo(x + dir*10, mid); c.lineTo(x, bot); c.stroke();
         }
-        // メインの斬撃（金）
-        c.strokeStyle = '#ffd24a';
-        c.lineWidth = 12;
-        c.beginPath();
-        c.moveTo(x, top);
-        c.lineTo(x + dir*14, mid);
-        c.lineTo(x, bot);
-        c.stroke();
-        // 中間の黄金光
-        c.strokeStyle = '#ffea22';
-        c.lineWidth = 6;
-        c.beginPath();
-        c.moveTo(x, top);
-        c.lineTo(x + dir*12, mid);
-        c.lineTo(x, bot);
-        c.stroke();
-        // コア（白）
-        c.strokeStyle = '#ffffff';
-        c.lineWidth = 3;
-        c.beginPath();
-        c.moveTo(x, top);
-        c.lineTo(x + dir*10, mid);
-        c.lineTo(x, bot);
-        c.stroke();
         c.restore();
+    }
+
+    // ジャンプ連打（プロコプトドン）
+    function drawJumpCombo(c, jc) {
+        const elapsed = jc.timer - jc.delay;
+        if(elapsed < 0 || elapsed > 0.6) return;
+        const p = Math.min(1, elapsed / 0.6);
+        const gy = groundY();
+        if(p < 0.7) {
+            // ジャンプ弧（startXからtargetXへ放物線）
+            const tt = p / 0.7;
+            const x = jc.startX + (jc.targetX - jc.startX) * tt;
+            const y = gy - Math.sin(tt * Math.PI) * 60 - 30;
+            // 残像
+            for(let k = 0; k < 4; k++) {
+                const tk = Math.max(0, tt - k*0.08);
+                const xk = jc.startX + (jc.targetX - jc.startX) * tk;
+                const yk = gy - Math.sin(tk * Math.PI) * 60 - 30;
+                c.fillStyle = `rgba(168,112,64,${0.45 - k*0.08})`;
+                c.fillRect(xk - 8, yk - 14, 16, 30);
+            }
+            // 簡易カンガルー
+            c.fillStyle = '#a87040';
+            c.fillRect(x - 8, y - 14, 16, 30);
+            c.beginPath(); c.arc(x, y - 22, 7, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#3a1a08'; c.lineWidth = 1;
+            c.strokeRect(x - 8, y - 14, 16, 30);
+            // 振り下ろす後脚（着地時近く）
+            if(tt > 0.65) {
+                c.fillStyle = '#a87040';
+                c.fillRect(x - 4, y + 14, 8, 12);
+            }
+        } else {
+            // 着地衝撃
+            const tt = (p - 0.7) / 0.3;
+            c.fillStyle = `rgba(255,170,68,${(1-tt)*0.7})`;
+            c.beginPath(); c.arc(jc.targetX, jc.targetY, 22 + tt*16, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,200,${(1-tt)*0.6})`;
+            c.beginPath(); c.arc(jc.targetX, jc.targetY - 16, 14 + tt*8, 0, Math.PI*2); c.fill();
+            // 飛び散る土
+            for(let k=0; k<6; k++){
+                const a = k*Math.PI/3;
+                c.fillStyle = '#aa6633';
+                c.fillRect(jc.targetX + Math.cos(a)*tt*30, jc.targetY + Math.sin(a)*tt*15, 3, 3);
+            }
+        }
+    }
+
+    // 巨体ジャンプ叩きつけ（サンドワーム）
+    function drawSlamDown(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        if(t < 0.2) {
+            // 地面の盛り上がり（突き上げ準備）
+            const tt = t / 0.2;
+            c.fillStyle = `rgba(170,136,85,${tt*0.7})`;
+            c.beginPath(); c.ellipse(k.startX, gy, 24 + tt*8, 6, 0, 0, Math.PI*2); c.fill();
+            // 砂塵
+            for(let i=0; i<8; i++){
+                c.fillStyle = '#aa8855';
+                c.fillRect(k.startX - 20 + i*5, gy - tt*15, 3, 3);
+            }
+        } else if(t < 0.7) {
+            // 上昇→飛行→落下（弧）
+            const tt = (t - 0.2) / 0.5;
+            const arcX = k.startX + (k.targetX - k.startX) * tt;
+            const arcY = gy - Math.sin(tt * Math.PI) * 200;
+            // 巨大なワーム本体（複数の節）
+            for(let i = 7; i >= 0; i--) {
+                const seg = i / 7;
+                const sy = arcY + seg * 60;
+                const r = 20 - i * 2;
+                c.fillStyle = (i % 2 === 0) ? '#a07040' : '#704020';
+                c.beginPath(); c.arc(arcX, sy, r, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#3a1a08'; c.lineWidth = 1; c.stroke();
+            }
+            // 大口（先端）
+            c.fillStyle = '#3a0a08';
+            c.beginPath(); c.arc(arcX, arcY, 14, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#fff';
+            for(let kk=0; kk<6; kk++){
+                const a = kk * Math.PI/3;
+                c.beginPath(); c.arc(arcX + Math.cos(a)*10, arcY + Math.sin(a)*10, 2, 0, Math.PI*2); c.fill();
+            }
+            // 着地予告（地面の影が大きくなる）
+            c.fillStyle = `rgba(0,0,0,${0.2 + tt*0.3})`;
+            c.beginPath(); c.ellipse(k.targetX, gy, 30 + tt*30, 8, 0, 0, Math.PI*2); c.fill();
+        } else {
+            // 大爆発
+            const tt = (t - 0.7) / 0.5;
+            const r = tt * 120;
+            c.fillStyle = `rgba(170,136,85,${(1-tt)*0.8})`;
+            c.beginPath(); c.arc(k.targetX, gy - 30, r + 30, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,170,68,${(1-tt)*0.7})`;
+            c.beginPath(); c.arc(k.targetX, gy - 30, r * 0.7, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 30, r * 0.4, 0, Math.PI*2); c.fill();
+            c.strokeStyle = `rgba(170,136,85,${1-tt})`; c.lineWidth = 5;
+            c.beginPath(); c.arc(k.targetX, gy - 30, r * 1.3, 0, Math.PI*2); c.stroke();
+            // 飛び散る砂・石片
+            for(let kk = 0; kk < 16; kk++) {
+                const a = kk * Math.PI*2 / 16;
+                c.fillStyle = '#5a3a18';
+                c.fillRect(k.targetX + Math.cos(a)*r*0.9, gy - 30 + Math.sin(a)*r*0.7, 4, 4);
+            }
+        }
+    }
+
+    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム） 振り分け
+    function drawKamikazeOrSlam(c, k) {
+        if(k.style === 'slam') drawSlamDown(c, k);
+        else drawKamikazeRush(c, k);
     }
 
     // 自爆突進（ゴーレム専用）
@@ -4148,7 +4275,35 @@
                 c.beginPath(); c.arc(-7*scale,-34*scale,2.5*scale,0,Math.PI*2); c.fill();
                 c.beginPath(); c.arc(7*scale,-34*scale,2.5*scale,0,Math.PI*2); c.fill();
                 break;
-            case 'snake_giant': // ティタノボア / ナーガ
+            case 'snake_poison': // ティタノボア（紫黒の毒蛇）
+                // 紫黒の頭
+                c.fillStyle = '#3a1a4a';
+                c.beginPath(); c.ellipse(0,-32*scale,12*scale,7*scale,0,0,Math.PI*2); c.fill();
+                c.fillStyle = '#5a3a6a';
+                c.beginPath(); c.ellipse(2*scale,-31*scale,10*scale,5*scale,0,0,Math.PI*2); c.fill();
+                // 鱗模様（紫の斑点）
+                c.fillStyle = '#88dd66';
+                c.beginPath(); c.arc(-4*scale,-32*scale,1*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(2*scale,-30*scale,0.8*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(8*scale,-32*scale,0.8*scale,0,Math.PI*2); c.fill();
+                // 毒の牙（緑）
+                c.fillStyle = '#88dd66';
+                c.fillRect(8*scale,-29*scale,1*scale,5*scale);
+                c.fillRect(11*scale,-29*scale,1*scale,5*scale);
+                // 牙先端の毒滴
+                c.fillStyle = '#aaff44';
+                c.beginPath(); c.arc(8.5*scale,-23*scale,1*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(11.5*scale,-23*scale,1*scale,0,Math.PI*2); c.fill();
+                // 緑に光る目
+                c.fillStyle = '#88dd66';
+                c.beginPath(); c.arc(-2*scale,-34*scale,2.4*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-3*scale,-35.5*scale,1*scale,3*scale);
+                // 目のグロー
+                c.fillStyle = 'rgba(136,221,102,0.5)';
+                c.fillRect(-4.5*scale,-36*scale,5*scale,4*scale);
+                break;
+            case 'snake_giant': // ナーガ（緑大蛇）
                 c.fillStyle = '#3a5a2a';
                 c.beginPath(); c.ellipse(0,-32*scale,12*scale,7*scale,0,0,Math.PI*2); c.fill();
                 c.fillStyle = '#5a8a3a';
@@ -4466,7 +4621,11 @@
                 c.fillStyle = '#fff';
                 c.beginPath(); c.arc(43*scale,-1*scale,1.5*scale,0,Math.PI*2); c.fill();
                 break;
-            case 'self_destruct': // ゴーレム自爆突進（見た目は fist と同じ）
+            case 'self_destruct': // ゴーレム自爆突進
+            case 'water_shot':    // プルスサウルス水鉄砲
+            case 'jump_combo':    // プロコプトドンジャンプ連打
+            case 'poison_fog':    // ティタノボア毒霧
+            case 'slam_down':     // サンドワーム巨体叩きつけ
             case 'fist':
                 c.fillStyle = '#7a8a9a';
                 c.fillRect(0,-6*scale,18*scale,12*scale);
@@ -5139,7 +5298,7 @@
         game.walletLv = saveData.walletLv || 0;
         game.playerCastleHp = game.playerCastleMax = s.castleHp;
         game.enemyCastleHp = game.enemyCastleMax = s.enemyCastleHp;
-        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = []; game.slashWaves = []; game.kamikazes = []; game.blizzards = []; game.quakes = [];
+        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = []; game.slashWaves = []; game.kamikazes = []; game.blizzards = []; game.quakes = []; game.jumpCombos = [];
         game.cdMap = {};
         SAMURAI_DATA.forEach(u => game.cdMap[u.id] = 0);
         game.spawnState = s.spawns.map(sp => ({...sp, nextAt: sp.start}));
@@ -5425,6 +5584,92 @@
         const isSpecial = attacker.attackCount % 8 === 0;
         const dmgMult = isSpecial ? 2.0 : 1.0;
         const atk = attacker.atk * dmgMult;
+        // 水鉄砲（プルスサウルス専用）— 一直線の高圧水流
+        if(attacker.data && attacker.data.weapon === 'water_shot') {
+            attacker.swing = 1;
+            if(!game.slashWaves) game.slashWaves = [];
+            game.slashWaves.push({
+                x: attacker.x, startX: attacker.x,
+                dir: attacker.side === 'p' ? -1 : 1,
+                speed: 11, damage: atk, side: attacker.side,
+                maxRange: attacker.range || 280, traveled: 0,
+                hitUnits: [], castleHit: false,
+                antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial, style: 'water'
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '💧 高圧噴流 💧', '#22ddff', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 毒霧（ティタノボア専用）— 前方一帯に毒霧
+        if(attacker.data && attacker.data.weapon === 'poison_fog') {
+            attacker.swing = 1;
+            const dir = attacker.side === 'p' ? -1 : 1;
+            if(!game.blizzards) game.blizzards = [];
+            game.blizzards.push({
+                x: attacker.x, dir: dir, timer: 0, damage: atk,
+                side: attacker.side, ticksApplied: 0,
+                antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial, range: attacker.range || 220,
+                style: 'poison'
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '☠ 猛毒の霧 ☠', '#88dd66', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 巨体叩きつけ（サンドワーム専用）— 上空からのジャンプ攻撃
+        if(attacker.data && attacker.data.weapon === 'slam_down') {
+            attacker.swing = 1;
+            const tx = target.isCastle
+                ? (target.side === 'enemy' ? 100 : W() - 100)
+                : target.x;
+            if(!game.kamikazes) game.kamikazes = [];
+            game.kamikazes.push({
+                startX: attacker.x, x: attacker.x, targetX: tx,
+                timer: 0, damage: atk * 1.6, selfDamage: 0,
+                side: attacker.side, attackerRef: null,
+                damageApplied: false,
+                antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial, style: 'slam'
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🌪 大叩きつけ 🌪', '#aa6633', true);
+            if(snd && snd.explode) snd.explode();
+            return;
+        }
+        // ジャンプ連打（プロコプトドン専用）— 3体に連続蹴り
+        if(attacker.data && attacker.data.weapon === 'jump_combo') {
+            attacker.swing = 1;
+            // 3体までターゲット選定（プライマリ + 近い順2体）
+            const targets = [target];
+            const nearby = [];
+            for(const t of game.units) {
+                if(t === target || t.side === attacker.side || t.dead) continue;
+                if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                const d = Math.abs(t.x - attacker.x);
+                if(d <= attacker.range) nearby.push({u: t, d: d});
+            }
+            nearby.sort((a, b) => a.d - b.d);
+            targets.push(...nearby.slice(0, 2).map(n => n.u));
+            while(targets.length < 3) targets.push(target);
+            if(!game.jumpCombos) game.jumpCombos = [];
+            targets.forEach((tg, i) => {
+                const ty = (tg && !tg.isCastle) ? tg.y : groundY();
+                const tx = tg.isCastle
+                    ? (target.side === 'enemy' ? 100 : W() - 100)
+                    : tg.x;
+                game.jumpCombos.push({
+                    startX: attacker.x, targetX: tx, targetY: ty,
+                    timer: 0, delay: i * 0.22,
+                    damage: atk * 0.6,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: isSpecial
+                });
+            });
+            if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🦘 三連蹴り 🦘', '#ffaa44', true);
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
         // 吹雪攻撃（フロストジャイアント専用）— 前方一帯に吹雪
         if(attacker.data && attacker.data.weapon === 'blizzard') {
             attacker.swing = 1;
@@ -6042,11 +6287,16 @@
                 const maxX = Math.max(startX, endX);
                 const tickDmg = bz.damage * 0.4;
                 const canHitFly = bz.antiAir || bz.fromFlying;
+                const isPoison = bz.style === 'poison';
                 game.units.forEach(t => {
                     if(t.side !== bz.side && !t.dead && t.x >= minX && t.x <= maxX) {
                         if(t.data.flying && !canHitFly) return;
                         damageUnit(t, tickDmg);
-                        t.frozen = Math.max(t.frozen||0, 1.0);
+                        if(isPoison) {
+                            t.burning = Math.max(t.burning||0, 2.5);
+                        } else {
+                            t.frozen = Math.max(t.frozen||0, 1.0);
+                        }
                     }
                 });
                 const castleX = bz.side === 'p' ? 100 : W() - 100;
@@ -6084,6 +6334,33 @@
             }
         }
         game.quakes = game.quakes.filter(q => q.timer < 1.3);
+
+        // ジャンプ連打（プロコプトドン）の更新
+        if(!game.jumpCombos) game.jumpCombos = [];
+        for(const jc of game.jumpCombos) {
+            jc.timer += dt;
+            const elapsed = jc.timer - jc.delay;
+            // 0.4秒で着地ダメージ
+            if(elapsed >= 0.4 && !jc.damageApplied) {
+                jc.damageApplied = true;
+                const aoeR = 38;
+                const canHitFly = jc.antiAir || jc.fromFlying;
+                game.units.forEach(t => {
+                    if(t.side !== jc.side && !t.dead && Math.abs(t.x - jc.targetX) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, jc.damage);
+                    }
+                });
+                const castleX = jc.side === 'p' ? 100 : W() - 100;
+                if(Math.abs(jc.targetX - castleX) < aoeR) {
+                    if(jc.side === 'p') game.enemyCastleHp = Math.max(0, game.enemyCastleHp - jc.damage);
+                    else game.playerCastleHp = Math.max(0, game.playerCastleHp - jc.damage);
+                }
+                addParticles(jc.targetX, jc.targetY - 16, 6, '#ffaa44');
+                if(snd && snd.hit) snd.hit();
+            }
+        }
+        game.jumpCombos = game.jumpCombos.filter(jc => jc.timer < jc.delay + 0.65);
 
         // 死体除去（少し遅延）
         game.units = game.units.filter(u => {
@@ -6675,9 +6952,13 @@
         if(game.slashWaves && game.slashWaves.length) {
             for(const sw of game.slashWaves) drawSlashWave(ctx, sw);
         }
-        // 自爆突進（ゴーレム）
+        // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）
         if(game.kamikazes && game.kamikazes.length) {
-            for(const k of game.kamikazes) drawKamikazeRush(ctx, k);
+            for(const k of game.kamikazes) drawKamikazeOrSlam(ctx, k);
+        }
+        // ジャンプ連打（プロコプトドン）
+        if(game.jumpCombos && game.jumpCombos.length) {
+            for(const jc of game.jumpCombos) drawJumpCombo(ctx, jc);
         }
         // 吹雪攻撃（フロストジャイアント）
         if(game.blizzards && game.blizzards.length) {

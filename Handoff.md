@@ -171,6 +171,13 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去・未来大戦争: 4キャラ実装
+  - **プルスサウルス**: 案A（王道緑茶のまま）+ 攻撃④水鉄砲。武器`water_shot`（slashWavesに `style:'water'` で青い水流の見た目）。range 280に拡張、貫通。
+  - **プロコプトドン**: 案A + 攻撃⑤ジャンプ連打。武器`jump_combo`、新配列`game.jumpCombos`。3体までターゲット選定し時間差で跳躍→着地ダメージ（各 atk×0.6、合計1.8倍）。
+  - **ティタノボア**: 案B（紫黒の毒蛇）+ 攻撃④毒霧。新ヘルメット`snake_poison`（紫黒+緑の毒目+毒滴の牙）、体色`#3a1a4a`。武器`poison_fog`（blizzards に `style:'poison'`、緑霧+☠マーク+`burning`状態を付与）。
+  - **サンドワーム**: 案A + 攻撃⑥巨体ジャンプ叩きつけ。武器`slam_down`（kamikazes に `style:'slam'`、上空への弧→巨大爆発、ダメージ atk×1.6、自分にダメなし）。
+- 新関数: `drawSlamDown`, `drawJumpCombo`, `drawKamikazeOrSlam`(振り分け)
+- `drawSlashWave` / `drawBlizzard` を `style` 対応にして見た目を分岐
 - デザインプレビュー追加（動物系4キャラ）:
   - `samurai-wars/pulrussaurus-preview.html`（プルスサウルス 6+6）
   - `samurai-wars/procoptodon-preview.html`（プロコプトドン 6+6）
