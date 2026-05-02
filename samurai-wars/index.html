@@ -817,12 +817,12 @@
           cooldown:32.0, color:'#3a4a3a', helmet:'turret', weapon:'rocket', rarity:4, ranged:true, aoe:true, robot:true,
           desc:'広範囲を爆撃する戦車型ロボ' },
         { id:'kishin', name:'超合金鬼神', yomi:'ちょうごうきんきしん', cost:2800, hp:11000, atk:850, atkSpeed:1.4, range:65, speed:0.7,
-          cooldown:95.0, color:'#a02050', helmet:'kishin', weapon:'mega_blade', rarity:5, robot:true,
-          desc:'伝説の合金で作られた超戦闘ロボ' },
+          cooldown:95.0, color:'#aaaaaa', helmet:'kishin', weapon:'mega_blade', rarity:5, robot:true,
+          desc:'蒼銀のクリスタル鬼神。必殺はファイナルクラッシュ' },
         // 妖怪系巨大ユニット（プレイヤー）
         { id:'daidarabocchi', name:'ダイダラボッチ', yomi:'だいだらぼっち', cost:5500, hp:24000, atk:1400, atkSpeed:2.2, range:85, speed:0.42,
-          cooldown:150.0, color:'#a8946a', helmet:'daidara', weapon:'fist', rarity:5, scale:2.5, aoe:true,
-          desc:'山を蹴り飛ばす伝説の巨人妖怪' },
+          cooldown:150.0, color:'#ddaa00', helmet:'daidara', weapon:'fist', rarity:5, scale:2.5, aoe:true,
+          desc:'黄金の天巨神。必殺は山投げ' },
         { id:'onyudo', name:'大入道', yomi:'おおにゅうどう', cost:4500, hp:20000, atk:1100, atkSpeed:1.6, range:55, speed:0.55,
           cooldown:130.0, color:'#3a3a30', helmet:'onyudo', weapon:'fist', rarity:5, scale:2.2,
           desc:'夜道に現れる巨大な妖怪僧（近距離）' },
@@ -3332,13 +3332,161 @@
         }
     }
 
-    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ）/ ブースト突進（メカ侍）/ 騎馬突撃（侍大将） 振り分け
+    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ）/ ブースト突進（メカ侍）/ 騎馬突撃（侍大将）/ ファイナルクラッシュ（鬼神）/ 山投げ（ダイダラボッチ） 振り分け
     function drawKamikazeOrSlam(c, k) {
         if(k.style === 'slam') drawSlamDown(c, k);
         else if(k.style === 'leap') drawLeapSlash(c, k);
         else if(k.style === 'mecha_charge') drawMechaCharge(c, k);
         else if(k.style === 'horse_charge') drawHorseCharge(c, k);
+        else if(k.style === 'final_crash') drawFinalCrash(c, k);
+        else if(k.style === 'mountain_throw') drawMountainThrow(c, k);
         else drawKamikazeRush(c, k);
+    }
+
+    // ファイナルクラッシュ（超合金鬼神）— 跳び上がって地に叩きつける
+    function drawFinalCrash(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        if(t < 0.4) {
+            // 跳躍（チャージ）
+            const tt = t / 0.4;
+            const x = k.startX + (k.targetX - k.startX) * tt;
+            const y = gy - 30 - Math.sin(tt * Math.PI) * 140;
+            // エネルギーチャージオーラ
+            c.fillStyle = `rgba(170,68,255,${tt * 0.6})`;
+            c.beginPath(); c.arc(x, y, 50 + tt*10, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,68,255,${tt * 0.4})`;
+            c.beginPath(); c.arc(x, y, 30 + tt*8, 0, Math.PI*2); c.fill();
+            // 鬼神シルエット（蒼銀）
+            c.fillStyle = '#aaaaaa';
+            c.fillRect(x - 18, y - 30, 36, 50);
+            c.fillStyle = '#22ddff';
+            c.beginPath(); c.arc(x, y - 12, 7, 0, Math.PI*2); c.fill();
+            // 振りかぶる大ブレード
+            c.save(); c.translate(x, y - 10); c.rotate(-Math.PI*0.7 + tt*0.5);
+            c.fillStyle = '#aaeeff'; c.shadowColor = '#aaeeff'; c.shadowBlur = 16;
+            c.fillRect(-7, -80, 14, 80); c.shadowBlur = 0;
+            c.restore();
+            // 残光
+            for(let i = 0; i < 4; i++){
+                const ti = Math.max(0, tt - i*0.06);
+                const xi = k.startX + (k.targetX - k.startX) * ti;
+                const yi = gy - 30 - Math.sin(ti * Math.PI) * 140;
+                c.fillStyle = `rgba(170,238,255,${0.4 - i*0.08})`;
+                c.beginPath(); c.arc(xi, yi, 18, 0, Math.PI*2); c.fill();
+            }
+        } else if(t < 0.55) {
+            // 振り下ろし（落下）
+            const tt = (t - 0.4) / 0.15;
+            const y = gy - 140*(1-tt) - 30;
+            c.fillStyle = '#aaaaaa';
+            c.fillRect(k.targetX - 18, y, 36, 50);
+            c.fillStyle = '#22ddff';
+            c.beginPath(); c.arc(k.targetX, y + 18, 7, 0, Math.PI*2); c.fill();
+            c.save(); c.translate(k.targetX, y + 20); c.rotate(-Math.PI*0.2 + tt*Math.PI*0.7);
+            c.fillStyle = '#aaeeff'; c.shadowColor = '#aaeeff'; c.shadowBlur = 16;
+            c.fillRect(-7, -80, 14, 80); c.shadowBlur = 0;
+            c.restore();
+            // 着弾予兆リング
+            c.strokeStyle = `rgba(170,68,255,${tt*0.7})`; c.lineWidth = 4;
+            c.beginPath(); c.arc(k.targetX, gy, 50 + tt*40, 0, Math.PI*2); c.stroke();
+        } else {
+            // 超AOE爆発
+            const tt = (t - 0.55) / 0.65;
+            // 多重爆発
+            c.fillStyle = `rgba(170,68,255,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 70 + tt*140, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,68,255,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 50 + tt*110, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(170,238,255,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 30 + tt*80, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${(1-tt)*0.85})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 18 + tt*50, 0, Math.PI*2); c.fill();
+            // 衝撃波リング
+            c.strokeStyle = `rgba(255,255,255,${1-tt})`; c.lineWidth = 8;
+            c.beginPath(); c.ellipse(k.targetX, gy, 90 + tt*140, 30 + tt*40, 0, 0, Math.PI*2); c.stroke();
+            // 雷パターン
+            for(let i = 0; i < 10; i++) {
+                const ang = i / 10 * Math.PI*2 + t*2;
+                c.strokeStyle = '#ff44ff'; c.lineWidth = 3;
+                c.shadowColor = '#ff44ff'; c.shadowBlur = 10;
+                c.beginPath();
+                c.moveTo(k.targetX, gy - 20);
+                c.lineTo(k.targetX + Math.cos(ang)*120*(1-tt), gy - 20 + Math.sin(ang)*70*(1-tt));
+                c.stroke();
+                c.shadowBlur = 0;
+            }
+            // 飛び散る破片
+            for(let kk = 0; kk < 14; kk++) {
+                const a = kk * Math.PI*2/14;
+                c.fillStyle = '#aaeeff';
+                c.fillRect(k.targetX + Math.cos(a)*tt*120, gy - 10 + Math.sin(a)*tt*40, 4, 4);
+            }
+        }
+    }
+
+    // 山投げ（ダイダラボッチ）— 山を持ち上げて投擲、巨大爆発
+    function drawMountainThrow(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        const dir = k.targetX > k.startX ? 1 : -1;
+        if(t < 0.7) {
+            // 山が放物線で飛ぶ
+            const tt = t / 0.7;
+            const x = k.startX + (k.targetX - k.startX) * tt;
+            const y = gy - 50 - Math.sin(tt * Math.PI) * 160;
+            c.save(); c.translate(x, y); c.rotate(tt * Math.PI * 1.5 * dir);
+            // 山（三角形）
+            c.fillStyle = '#5a3a18';
+            c.beginPath();
+            c.moveTo(-44, 44); c.lineTo(0, -56); c.lineTo(44, 44); c.closePath(); c.fill();
+            // 中段（茶色）
+            c.fillStyle = '#aa6633';
+            c.beginPath();
+            c.moveTo(-22, 14); c.lineTo(0, -28); c.lineTo(22, 14); c.closePath(); c.fill();
+            // 雪冠
+            c.fillStyle = '#fff';
+            c.beginPath();
+            c.moveTo(-12, -20); c.lineTo(0, -42); c.lineTo(12, -20); c.closePath(); c.fill();
+            // 木々
+            c.fillStyle = '#3a8a3a';
+            c.fillRect(-30, 10, 4, 8); c.fillRect(20, 14, 4, 8); c.fillRect(-10, 28, 4, 8); c.fillRect(14, 32, 4, 8);
+            c.restore();
+            // 軌跡の土埃
+            for(let i = 1; i <= 6; i++) {
+                const ti = Math.max(0, tt - i*0.06);
+                const xi = k.startX + (k.targetX - k.startX) * ti;
+                const yi = gy - 50 - Math.sin(ti * Math.PI) * 160;
+                c.fillStyle = `rgba(170,140,90,${0.5 - i*0.07})`;
+                c.beginPath(); c.arc(xi, yi + 30, 20 - i*2, 0, Math.PI*2); c.fill();
+            }
+        } else {
+            // 着弾大爆発
+            const tt = (t - 0.7) / 0.5;
+            // 多重爆発
+            c.fillStyle = `rgba(170,102,51,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 60 + tt*140, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,170,68,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 45 + tt*110, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,210,74,${1-tt})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 28 + tt*80, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${(1-tt)*0.8})`;
+            c.beginPath(); c.arc(k.targetX, gy - 20, 16 + tt*40, 0, Math.PI*2); c.fill();
+            // 衝撃波
+            c.strokeStyle = `rgba(170,102,51,${1-tt})`; c.lineWidth = 8;
+            c.beginPath(); c.ellipse(k.targetX, gy, 80 + tt*150, 26 + tt*40, 0, 0, Math.PI*2); c.stroke();
+            // 散らばる岩・土
+            for(let kk = 0; kk < 18; kk++) {
+                const a = kk / 18 * Math.PI*2;
+                c.fillStyle = kk % 3 === 0 ? '#fff' : (kk % 2 === 0 ? '#aa6633' : '#5a3a18');
+                c.fillRect(k.targetX + Math.cos(a)*tt*130, gy - 14 + Math.sin(a)*tt*45, 5, 5);
+            }
+            // キノコ煙
+            c.fillStyle = `rgba(160,120,80,${(1-tt)*0.7})`;
+            c.beginPath();
+            c.ellipse(k.targetX, gy - 80*tt - 30, 30 + tt*30, 14 + tt*8, 0, 0, Math.PI*2);
+            c.fill();
+        }
     }
 
     // 騎馬突撃（侍大将）— 愛馬で直線突進、貫通槍
@@ -4087,7 +4235,7 @@
                 c.fillRect(3*scale,-42*scale,1*scale,2*scale);
                 break;
             case 'kishin':
-                c.fillStyle = '#a02050';
+                c.fillStyle = color;
                 c.beginPath(); c.arc(0,-36*scale,13*scale,Math.PI,0); c.fill();
                 c.fillStyle = '#ffd24a'; // 巨大角
                 c.beginPath(); c.moveTo(-11*scale,-44*scale); c.lineTo(-18*scale,-58*scale); c.lineTo(-5*scale,-46*scale); c.closePath(); c.fill();
@@ -4106,8 +4254,8 @@
                 break;
             // ===== 妖怪系巨大ユニット =====
             case 'daidara':
-                // 巨大な肌色の禿頭
-                c.fillStyle = '#d8b88a';
+                // 巨大な禿頭（体色と連動）
+                c.fillStyle = color;
                 c.beginPath(); c.arc(0,-32*scale,16*scale,0,Math.PI*2); c.fill();
                 // 耳
                 c.fillStyle = '#c8a87a';
@@ -6362,7 +6510,8 @@
     function attackTarget(attacker, target) {
         attacker.attackCount = (attacker.attackCount||0) + 1;
         const isSpecial = attacker.attackCount % 8 === 0;
-        const dmgMult = isSpecial ? 2.0 : 1.0;
+        const kishinkaBuff = (attacker.kishinka || 0) > 0;
+        const dmgMult = (isSpecial ? 2.0 : 1.0) * (kishinkaBuff ? 2.0 : 1.0);
         const atk = attacker.atk * dmgMult;
         // 蛇の召喚（ナーガ専用）— 3体の小蛇を3つのターゲットへ
         if(attacker.data && attacker.data.weapon === 'snake_summon') {
@@ -6998,6 +7147,51 @@
                 if(snd && snd.explode) snd.explode();
                 return;
             }
+            if(aid === 'akaoni') {
+                // 鬼神化 巨大化 — 3秒の自己バフ。タイマーをセットしてHP回復、その後通常攻撃に合流
+                attacker.kishinka = 3.0;
+                const heal = Math.round(attacker.maxHp * 0.3);
+                attacker.hp = Math.min(attacker.maxHp, attacker.hp + heal);
+                addFloat(attacker.x, attacker.y - 60, '👹 鬼神化! 👹', '#ff44ff', true);
+                addFloat(attacker.x, attacker.y - 90, '+' + heal, '#88dd66');
+                addParticles(attacker.x, attacker.y - 30, 24, '#ff44ff');
+                if(snd && snd.explode) snd.explode();
+                // returnしないで通常攻撃に合流（kishinkaBuffで dmgMult 4倍 + AOE化）
+            }
+            if(aid === 'kishin') {
+                // ファイナルクラッシュ — 跳び上がって地に叩きつける超AOE爆発
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tx,
+                    timer: 0, damage: atk * 2.5, selfDamage: 0,
+                    side: attacker.side, attackerRef: null,
+                    damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'final_crash'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '💥 ファイナルクラッシュ 💥', '#aa44ff', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            if(aid === 'daidarabocchi') {
+                // 山投げ — 山を持ち上げて投擲、巨大爆発
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tx,
+                    timer: 0, damage: atk * 2.5, selfDamage: 0,
+                    side: attacker.side, attackerRef: null,
+                    damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'mountain_throw'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🗻 山投げ 🗻', '#ddaa00', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
             if(aid === 'missile_tank') {
                 // 自動追尾ミサイル — 3発の誘導弾を別々の敵にロックオン発射
                 const targets = [target];
@@ -7076,14 +7270,14 @@
             snd.slash();
         } else {
             // 範囲攻撃
-            if(attacker.aoe || isSpecial) {
-                const aoeR = isSpecial ? 100 : 80;
+            if(attacker.aoe || isSpecial || kishinkaBuff) {
+                const aoeR = kishinkaBuff ? 140 : (isSpecial ? 100 : 80);
                 game.units.forEach(t => {
                     if(t.side !== attacker.side && !t.dead && Math.abs(t.x - target.x) < aoeR && canHitTarget(attacker, t)) {
                         damageUnit(t, atk);
                     }
                 });
-                addSlashEffect(target.x, target.y - 30, isSpecial ? '#ffd24a' : '#ffaa44', isSpecial ? 100 : 80);
+                addSlashEffect(target.x, target.y - 30, kishinkaBuff ? '#ff44ff' : (isSpecial ? '#ffd24a' : '#ffaa44'), aoeR);
             } else {
                 damageUnit(target, atk);
                 addSlashEffect(target.x, target.y - 30, '#fff', 30);
@@ -7223,6 +7417,7 @@
             // ステータス異常タイマー
             if(u.frozen > 0) u.frozen -= dt;
             if(u.stunned > 0) u.stunned -= dt;
+            if(u.kishinka > 0) u.kishinka -= dt;
             if(u.burning > 0) {
                 u.burning -= dt;
                 u.burnTick = (u.burnTick || 0) + dt;
@@ -7474,16 +7669,17 @@
                 }
                 continue;
             }
-            // フェーズ2 (0.3-0.7): 突進中
-            if(k.timer >= 0.3 && k.timer < 0.7) {
+            // フェーズ2 (0.3-0.7): 突進中（mountain_throw/final_crash は別タイミング）
+            if(k.timer >= 0.3 && k.timer < 0.7 && k.style !== 'mountain_throw' && k.style !== 'final_crash') {
                 const tt = (k.timer - 0.3) / 0.4;
                 k.x = k.startX + (k.targetX - k.startX) * tt;
             }
-            // フェーズ3 (0.7s): 大爆発 + ダメージ
-            if(!k.damageApplied && k.timer >= 0.7) {
+            // フェーズ3: 大爆発 + ダメージ
+            const dmgTime = k.style === 'mountain_throw' ? 0.7 : (k.style === 'final_crash' ? 0.55 : 0.7);
+            if(!k.damageApplied && k.timer >= dmgTime) {
                 k.damageApplied = true;
                 k.x = k.targetX;
-                const aoeR = 130;
+                const aoeR = (k.style === 'mountain_throw' || k.style === 'final_crash') ? 200 : 130;
                 const canHitFly = k.antiAir || k.fromFlying;
                 game.units.forEach(t => {
                     if(t.side !== k.side && !t.dead && Math.abs(t.x - k.x) < aoeR) {
@@ -7516,7 +7712,10 @@
                 if(snd && snd.explode) snd.explode();
             }
         }
-        game.kamikazes = game.kamikazes.filter(k => k.timer < 1.2);
+        game.kamikazes = game.kamikazes.filter(k => {
+            const lifeTime = (k.style === 'mountain_throw' || k.style === 'final_crash') ? 1.4 : 1.2;
+            return k.timer < lifeTime;
+        });
 
         // 吹雪攻撃（フロストジャイアント）の更新
         if(!game.blizzards) game.blizzards = [];
@@ -8010,16 +8209,37 @@
                         ctx.restore();
                     }
                 }
+                // 鬼神化中の紫オーラ（脈動）
+                const kishinkaScale = (u.kishinka > 0) ? 1.4 : 1;
+                if(u.kishinka > 0) {
+                    const t = performance.now() * 0.012;
+                    const baseR = 50 * u.scale;
+                    const pulse = baseR + Math.sin(t)*8;
+                    const grad = ctx.createRadialGradient(u.x, u.y - 30*u.scale*kishinkaScale, 4, u.x, u.y - 30*u.scale*kishinkaScale, pulse);
+                    grad.addColorStop(0, 'rgba(255,68,255,0.6)');
+                    grad.addColorStop(0.5, 'rgba(170,68,255,0.35)');
+                    grad.addColorStop(1, 'transparent');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath(); ctx.arc(u.x, u.y - 30*u.scale*kishinkaScale, pulse, 0, Math.PI*2); ctx.fill();
+                    // 周回する紫の閃光
+                    for(let k = 0; k < 4; k++) {
+                        const a = t*1.5 + k * Math.PI/2;
+                        ctx.fillStyle = 'rgba(255,234,34,0.85)';
+                        ctx.beginPath();
+                        ctx.arc(u.x + Math.cos(a)*baseR*0.85, u.y - 30*u.scale*kishinkaScale + Math.sin(a)*baseR*0.4, 3, 0, Math.PI*2);
+                        ctx.fill();
+                    }
+                }
                 if(u.knockback) {
                     // ノックバック中は後ろに少し傾く
                     const tilt = u.knockback.vx * 0.05;
                     ctx.save();
                     ctx.translate(u.x, u.y + yWalk);
                     ctx.rotate(tilt);
-                    drawSamuraiCanvas(ctx, 0, 0, u.data, dir, u.swing, u.scale);
+                    drawSamuraiCanvas(ctx, 0, 0, u.data, dir, u.swing, u.scale * kishinkaScale);
                     ctx.restore();
                 } else {
-                    drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
+                    drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale * kishinkaScale);
                 }
             }
             // ヒットフラッシュ（メガボスは目に優しい控えめ表示）
