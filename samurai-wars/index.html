@@ -958,11 +958,11 @@
           cooldown:48.0, color:'#aaccdd', helmet:'frost_crown', weapon:'magic_circle', rarity:5, scale:1.75,
           ranged:true, antiAir:true,
           desc:'北欧の氷の巨人。氷の魔法と棍棒で空地を制す' },
-        // Stage 115: 孫悟空（対空：如意棒）
-        { id:'sp_gokuu', name:'孫悟空', yomi:'そんごくう', cost:2600, hp:6500, atk:780, atkSpeed:0.8, range:140, speed:1.6,
-          cooldown:50.0, color:'#aa6644', helmet:'monkey_circlet', weapon:'ruyibo', rarity:5, scale:1.25,
-          antiAir:true,
-          desc:'如意棒を伸ばして空にも届く西遊記の英雄' },
+        // Stage 115: 孫悟空（七十二変化＋分身ラッシュ・対空）
+        { id:'sp_gokuu', name:'孫悟空', yomi:'そんごくう', cost:2600, hp:6500, atk:780, atkSpeed:0.9, range:160, speed:1.6,
+          cooldown:50.0, color:'#cc6600', helmet:'monkey_circlet', weapon:'clone_rush', rarity:5, scale:1.25,
+          antiAir:true, clones:2,
+          desc:'三体の分身が同時に襲いかかる西遊記の英雄' },
         // Stage 116: イルルヤンカシュ（東洋青龍・飛行 + 対空 + 範囲）
         { id:'sp_irullu', name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', cost:3200, hp:9500, atk:850, atkSpeed:2.0, range:280, speed:0.85,
           cooldown:62.0, color:'#3a8a5a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
@@ -972,11 +972,11 @@
         { id:'sp_susanoo', name:'スサノオ', yomi:'すさのお', cost:3000, hp:11500, atk:900, atkSpeed:1.4, range:60, speed:1.1,
           cooldown:60.0, color:'#ffd24a', helmet:'susanoo_helm', weapon:'odachi', rarity:5, scale:1.6,
           desc:'金鎧と光輪を纏う神将。聖剣で地上を一閃する' },
-        // Stage 118: ゼウス（最終、対空、範囲、雷）
+        // Stage 118: ゼウス（最終、対空、範囲、天雷柱）
         { id:'sp_zeus', name:'ゼウス', yomi:'ぜうす', cost:4200, hp:9000, atk:1300, atkSpeed:1.7, range:340, speed:1.0,
-          cooldown:90.0, color:'#3a4a8a', helmet:'zeus_crown', weapon:'thunder_bolt', rarity:5, scale:1.5,
+          cooldown:90.0, color:'#3a4a8a', helmet:'zeus_crown', weapon:'thunder_pillar', rarity:5, scale:1.5,
           ranged:true, antiAir:true, aoe:true,
-          desc:'嵐を纏う神々の王。天より雷を落とし全てを撃つ' }
+          desc:'嵐を纏う神々の王。標的に天雷柱を落とす' }
     );
 
     // アチーブメント
@@ -2037,8 +2037,8 @@
         113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'spear', color:'#886644', scale:2.1, ranged:true, antiAir:true, range:200 },
         // Stage 114 — Frost Giant (anti-air via ice)
         114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'magic_circle', color:'#aaccdd', scale:2.5, ranged:true, antiAir:true, range:240 },
-        // Stage 115 — Sun Wukong (anti-air via ruyibo)
-        115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'ruyibo', color:'#aa6644', scale:1.9, antiAir:true, range:140 },
+        // Stage 115 — Sun Wukong (clone rush + anti-air)
+        115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'clone_rush', color:'#cc6600', scale:1.9, antiAir:true, range:160, clones:2 },
         // Stage 116 — Illuyanka (Eastern dragon, flying + anti-air + AOE fire)
         116: { name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', hp:28000, atk:1100, helmet:'dragon_head', weapon:'fire_breath', color:'#3a8a5a', scale:2.6, flying:true, antiAir:true, ranged:true, aoe:true, range:300, noWings:true },
         // Stage 117
@@ -2513,6 +2513,56 @@
         }
     }
 
+    // 分身ラッシュ（孫悟空専用攻撃）
+    function drawCloneStrike(c, cs) {
+        const elapsed = cs.timer - cs.delay;
+        if(elapsed < 0 || elapsed > 0.45) return;
+        const p = Math.min(1, elapsed / 0.45);
+        const alpha = p < 0.5 ? p*2 : (1-p)*2.2;
+        const dir = cs.side === 'p' ? 1 : -1;
+        const fy = cs.y;
+        const fxOffset = (cs.side === 'p' ? 32 : -32);
+        const fx = cs.x + fxOffset;
+        c.save();
+        c.globalAlpha = Math.max(0, Math.min(1, alpha));
+        // 体（小さい分身）
+        c.fillStyle = cs.cloneColor;
+        c.fillRect(fx - 6, fy - 26, 12, 26);
+        c.strokeStyle = 'rgba(0,0,0,0.4)'; c.lineWidth = 1;
+        c.strokeRect(fx - 6, fy - 26, 12, 26);
+        // 頭
+        c.fillStyle = '#cc8866';
+        c.beginPath(); c.arc(fx, fy - 32, 6, 0, Math.PI*2); c.fill();
+        c.stroke();
+        // 金の輪
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 1.5;
+        c.beginPath(); c.arc(fx, fy - 35, 5, Math.PI, Math.PI*2); c.stroke();
+        // 棒（攻撃中）
+        if(p > 0.2 && p < 0.65) {
+            const tt = (p - 0.2) / 0.45;
+            const len = tt * 32;
+            c.fillStyle = '#ffd24a';
+            c.fillRect(fx - dir*4, fy - 25, len * (-dir), 4);
+            c.fillStyle = '#aa3300';
+            c.fillRect(fx - dir*4 + len*(-dir) - dir*4, fy - 26, dir*4, 6);
+        }
+        // 着弾エフェクト
+        if(p > 0.4 && p < 0.75) {
+            const tt = (p - 0.4) / 0.35;
+            c.fillStyle = `rgba(255,255,255,${(1-tt)*0.7})`;
+            c.beginPath(); c.arc(cs.x, cs.y - 20, 14 + tt*6, 0, Math.PI*2); c.fill();
+            c.strokeStyle = `rgba(255,234,34,${1-tt})`; c.lineWidth = 2;
+            for(let k=0; k<4; k++){
+                const a = k*Math.PI/2 + tt*4;
+                c.beginPath();
+                c.moveTo(cs.x, cs.y - 20);
+                c.lineTo(cs.x + Math.cos(a)*22, cs.y - 20 + Math.sin(a)*22);
+                c.stroke();
+            }
+        }
+        c.restore();
+    }
+
     // 雷柱（ゼウス専用攻撃）
     function drawThunderPillar(c, p) {
         const x = p.x;
@@ -2808,7 +2858,9 @@
             boss: true, scale: b.scale || 1.4,
             ranged: b.ranged, aoe: b.aoe, mega: b.mega,
             // 空中・対空属性
-            flying: b.flying, antiAir: b.antiAir, wingColor: b.wingColor, noWings: b.noWings
+            flying: b.flying, antiAir: b.antiAir, wingColor: b.wingColor, noWings: b.noWings,
+            // 分身（孫悟空）
+            clones: b.clones
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
@@ -4250,6 +4302,7 @@
                 break;
             // ===== 超過去編 =====
             case 'ruyibo': // 如意棒（伸びる棒）
+            case 'clone_rush': // 分身ラッシュ（武器の見た目は如意棒と同じ）
                 c.fillStyle = '#ffd24a';
                 c.fillRect(0, -2*scale, 38*scale, 4*scale);
                 c.strokeStyle = '#aa5500'; c.lineWidth = 1*scale;
@@ -4768,7 +4821,7 @@
         game.walletLv = saveData.walletLv || 0;
         game.playerCastleHp = game.playerCastleMax = s.castleHp;
         game.enemyCastleHp = game.enemyCastleMax = s.enemyCastleHp;
-        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = [];
+        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = [];
         game.cdMap = {};
         SAMURAI_DATA.forEach(u => game.cdMap[u.id] = 0);
         game.spawnState = s.spawns.map(sp => ({...sp, nextAt: sp.start}));
@@ -5054,6 +5107,36 @@
         const isSpecial = attacker.attackCount % 8 === 0;
         const dmgMult = isSpecial ? 2.0 : 1.0;
         const atk = attacker.atk * dmgMult;
+        // 分身ラッシュ（孫悟空専用）— 3体の分身が時間差で攻撃
+        if(attacker.data && attacker.data.weapon === 'clone_rush') {
+            attacker.swing = 1;
+            const ty = target.isCastle ? (groundY() - 30) : target.y;
+            const tx = target.isCastle
+                ? (target.side === 'enemy' ? 100 : W() - 100)
+                : target.x;
+            if(!game.cloneStrikes) game.cloneStrikes = [];
+            const cloneCols = ['#cc6600','#5aaa44','#88dd66'];
+            for(let i = 0; i < 3; i++) {
+                game.cloneStrikes.push({
+                    x: tx + (i-1) * 18,
+                    y: ty,
+                    timer: 0,
+                    delay: i * 0.16,
+                    damage: atk * 0.7,
+                    side: attacker.side,
+                    damageApplied: false,
+                    cloneColor: cloneCols[i],
+                    antiAir: !!attacker.data.antiAir,
+                    fromFlying: !!attacker.data.flying,
+                    isSpecial: isSpecial
+                });
+            }
+            if(isSpecial) {
+                addFloat(attacker.x, attacker.y - 60, '✨ 七十二変化 ✨', '#88dd66', true);
+            }
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
         // 雷柱攻撃（ゼウス専用）— 標準フローを使わず、ピラーエフェクトをスポーン
         if(attacker.data && attacker.data.weapon === 'thunder_pillar') {
             attacker.swing = 1;
@@ -5425,6 +5508,35 @@
         }
         game.pillars = game.pillars.filter(p => p.timer < 1.4);
 
+        // 分身ラッシュ（孫悟空）の更新
+        if(!game.cloneStrikes) game.cloneStrikes = [];
+        for(const cs of game.cloneStrikes) {
+            cs.timer += dt;
+            const elapsed = cs.timer - cs.delay;
+            if(elapsed >= 0.18 && !cs.damageApplied) {
+                cs.damageApplied = true;
+                const aoeR = 50;
+                const canHitFly = cs.antiAir || cs.fromFlying;
+                game.units.forEach(t => {
+                    if(t.side !== cs.side && !t.dead && Math.abs(t.x - cs.x) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, cs.damage);
+                    }
+                });
+                const castleX = cs.side === 'p' ? 100 : W() - 100;
+                if(Math.abs(cs.x - castleX) < aoeR) {
+                    if(cs.side === 'p') {
+                        game.enemyCastleHp = Math.max(0, game.enemyCastleHp - cs.damage);
+                    } else {
+                        game.playerCastleHp = Math.max(0, game.playerCastleHp - cs.damage);
+                    }
+                }
+                addParticles(cs.x, cs.y - 20, 4, '#fff');
+                if(snd && snd.hit) snd.hit();
+            }
+        }
+        game.cloneStrikes = game.cloneStrikes.filter(cs => cs.timer < cs.delay + 0.45);
+
         // 死体除去（少し遅延）
         game.units = game.units.filter(u => {
             if(!u.dead) return true;
@@ -5742,6 +5854,20 @@
                     ctx.stroke();
                     ctx.restore();
                 }
+                // 分身（孫悟空など clones プロパティ持ち）— 本体の左右に半透明で描画
+                if(u.data && u.data.clones && !u.dead) {
+                    const cloneCols = ['#5aaa44', '#88dd66', '#aaee88'];
+                    for(let i = 1; i <= u.data.clones; i++) {
+                        const sign = i % 2 === 0 ? 1 : -1;
+                        const offX = 14 + (i-1)*4;
+                        const offY = -i*3;
+                        ctx.save();
+                        ctx.globalAlpha = (0.50 - (i-1)*0.10) * fade;
+                        const cloneData = Object.assign({}, u.data, {color: cloneCols[(i-1) % cloneCols.length]});
+                        drawSamuraiCanvas(ctx, u.x + sign*offX, u.y + yWalk + offY, cloneData, dir, u.swing, u.scale);
+                        ctx.restore();
+                    }
+                }
                 if(u.knockback) {
                     // ノックバック中は後ろに少し傾く
                     const tilt = u.knockback.vx * 0.05;
@@ -5754,12 +5880,14 @@
                     drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
                 }
             }
-            // ヒットフラッシュ
+            // ヒットフラッシュ（メガボスは目に優しい控えめ表示）
             if(u.hitFlash > 0) {
-                ctx.fillStyle = `rgba(255,255,255,${u.hitFlash*5})`;
                 if(u.data && u.data.mega) {
-                    ctx.fillRect(0, 0, w, H()*0.85);
+                    // 全画面ではなくボス周辺の縦帯のみ、アルファも控えめ
+                    ctx.fillStyle = `rgba(255,255,255,${Math.min(0.18, u.hitFlash*1.2)})`;
+                    ctx.fillRect(u.x - 130, 0, 260, H()*0.85);
                 } else {
+                    ctx.fillStyle = `rgba(255,255,255,${u.hitFlash*5})`;
                     ctx.fillRect(u.x-15, u.y-50, 30, 50);
                 }
             }
@@ -5990,6 +6118,10 @@
         // 雷柱（ゼウスの天雷柱攻撃）
         if(game.pillars && game.pillars.length) {
             for(const p of game.pillars) drawThunderPillar(ctx, p);
+        }
+        // 分身ラッシュ（孫悟空）
+        if(game.cloneStrikes && game.cloneStrikes.length) {
+            for(const cs of game.cloneStrikes) drawCloneStrike(ctx, cs);
         }
 
         // パーティクル
