@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>重装甲ロボ デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:260px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🦾 重装甲ロボ デザイン & 攻撃 候補</h1>
+<div class="sub">HEAVY ROBO DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#6a6a72;--g:rgba(106,106,114,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="260"></canvas></div><h2>案A. 王道灰の重装甲ロボ（現行）</h2><p>灰色の分厚い装甲、巨大な肩、リアクター。動く要塞。</p><div class="meta">配色:灰+青リアクター</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="260"></canvas></div><h2>案B. 朱の対魔ロボ</h2><p>朱の重装甲、神道的な意匠、対妖魔特化のアンチマジックロボ。</p><div class="meta">配色:朱+金</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="260"></canvas></div><h2>案C. 黒の鬼ロボ</h2><p>黒鉄の鎧に鬼のような角、悪鬼のごとき威圧感。</p><div class="meta">配色:黒+赤目</div></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="260"></canvas></div><h2>案D. 金の英雄ロボ</h2><p>金の装甲とV字フィン、スーパーロボ風の英雄機。</p><div class="meta">配色:金+朱</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#888888;--g:rgba(180,180,180,0.45)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 重拳一撃（現行）</h2><p>ゆっくり振りかぶって超重い拳。基本動作。</p></div>
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② ロケットパンチ</h2><p>腕を発射する遠距離パンチ。爆炎を引きながら飛ぶ。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 衝撃地震</h2><p>両手で地面を叩いて衝撃波。同心円状の範囲攻撃。</p></div>
+<div class="card" style="--c:#88ccff;--g:rgba(136,204,255,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ ガード突進</h2><p>大盾を構えて高速突進、敵を弾き飛ばす。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawHeavyRobo(c,p){
+  const cx=110,cy=200;
+  if(p.aura)aura(c,cx,cy-30,p.aura,130);shadow(c,cx,cy+38,32,6);
+  // 太い脚
+  c.fillStyle=p.body;c.fillRect(cx-16,cy-8,12,38);c.fillRect(cx+4,cy-8,12,38);
+  c.strokeStyle=p.outline;c.lineWidth=1.4;c.strokeRect(cx-16,cy-8,12,38);c.strokeRect(cx+4,cy-8,12,38);
+  // 足
+  c.fillStyle=p.body;c.fillRect(cx-18,cy+24,16,8);c.fillRect(cx+2,cy+24,16,8);
+  c.strokeRect(cx-18,cy+24,16,8);c.strokeRect(cx+2,cy+24,16,8);
+  // 巨大な胴体
+  c.fillStyle=p.body;c.fillRect(cx-28,cy-58,56,50);c.strokeRect(cx-28,cy-58,56,50);
+  if(p.bodyHl){c.fillStyle=p.bodyHl;c.fillRect(cx-24,cy-54,12,14);}
+  // 装甲の継ぎ目
+  c.strokeStyle=p.outline;c.lineWidth=1;
+  c.beginPath();c.moveTo(cx-28,cy-30);c.lineTo(cx+28,cy-30);c.stroke();
+  c.beginPath();c.moveTo(cx,cy-58);c.lineTo(cx,cy-8);c.stroke();
+  // リアクター（胸の中央）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-7,cy-44,14,12);
+  c.fillStyle=p.reactor;c.beginPath();c.arc(cx,cy-38,5,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy-38,2,0,Math.PI*2);c.fill();
+  // 巨大な肩
+  c.fillStyle=p.body;c.beginPath();c.ellipse(cx-30,cy-50,12,10,0,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(cx+30,cy-50,12,10,0,0,Math.PI*2);c.fill();
+  c.strokeStyle=p.outline;c.lineWidth=1.4;c.stroke();
+  c.beginPath();c.ellipse(cx-30,cy-50,12,10,0,0,Math.PI*2);c.stroke();
+  if(p.shoulderTrim){c.fillStyle=p.shoulderTrim;c.fillRect(cx-36,cy-52,12,3);c.fillRect(cx+24,cy-52,12,3);}
+  // 太い腕
+  c.fillStyle=p.body;c.fillRect(cx-38,cy-46,12,42);c.fillRect(cx+26,cy-46,12,42);
+  c.strokeRect(cx-38,cy-46,12,42);c.strokeRect(cx+26,cy-46,12,42);
+  // 拳
+  c.fillStyle=p.body;c.beginPath();c.arc(cx-32,cy-2,11,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+32,cy-2,11,0,Math.PI*2);c.fill();
+  c.strokeStyle=p.outline;c.lineWidth=1.2;
+  c.beginPath();c.arc(cx-32,cy-2,11,0,Math.PI*2);c.stroke();
+  c.beginPath();c.arc(cx+32,cy-2,11,0,Math.PI*2);c.stroke();
+  // 頭（小さめだが分厚い）
+  c.fillStyle=p.body;c.beginPath();c.arc(cx,cy-72,12,Math.PI,0);c.fill();c.fillRect(cx-12,cy-72,24,5);
+  c.strokeStyle=p.outline;c.lineWidth=1.2;c.stroke();
+  // バイザー
+  c.fillStyle=p.eye;c.fillRect(cx-9,cy-72,18,3);
+  // V字フィン or 角
+  if(p.vFin){c.fillStyle=p.vFin;
+    c.beginPath();c.moveTo(cx-10,cy-80);c.lineTo(cx-16,cy-92);c.lineTo(cx-4,cy-82);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+10,cy-80);c.lineTo(cx+16,cy-92);c.lineTo(cx+4,cy-82);c.closePath();c.fill();}
+  if(p.horns){c.fillStyle=p.horns;
+    c.beginPath();c.moveTo(cx-10,cy-80);c.lineTo(cx-16,cy-94);c.lineTo(cx-4,cy-82);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+10,cy-80);c.lineTo(cx+16,cy-94);c.lineTo(cx+4,cy-82);c.closePath();c.fill();}
+  // 胸の文字（対魔的紋）
+  if(p.charm){c.fillStyle=p.charm;c.font='bold 12px serif';c.textAlign='center';c.fillText('魔',cx,cy-22);}
+}
+drawHeavyRobo(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(106,106,114,0.3)',body:'#6a6a72',bodyHl:'#9aaab2',outline:'#1a1a1a',reactor:'#22ddff',eye:'#22ddff',vFin:'#aaaaaa',shoulderTrim:'#3a3a3a'});
+drawHeavyRobo(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',bodyHl:'#cc3030',outline:'#3a0000',reactor:'#ffea22',eye:'#ffea22',vFin:'#ffd24a',shoulderTrim:'#ffd24a',charm:'#ffd24a'});
+drawHeavyRobo(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(120,40,40,0.4)',body:'#1a1a1a',bodyHl:'#3a3a3a',outline:'#000',reactor:'#ff3344',eye:'#ff3344',horns:'#5a0808',shoulderTrim:'#5a0808'});
+drawHeavyRobo(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.4)',body:'#ffd24a',bodyHl:'#fff5cc',outline:'#aa6600',reactor:'#aa1010',eye:'#aa1010',vFin:'#aa1010',shoulderTrim:'#aa1010'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=35,zy=h*0.7;c.fillStyle='#6a6a72';c.fillRect(zx-12,zy-50,24,50);c.beginPath();c.arc(zx,zy-60,10,Math.PI,0);c.fill();c.fillRect(zx-10,zy-60,20,4);c.fillStyle='#22ddff';c.fillRect(zx-7,zy-60,14,2);
+  c.fillStyle='#22ddff';c.beginPath();c.arc(zx,zy-30,3,0,Math.PI*2);c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 重拳一撃
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.5,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.5){const tt=t/0.5;c.save();c.translate(50,h*0.55);c.rotate(-tt*1.4);
+    c.fillStyle='#6a6a72';c.beginPath();c.arc(0,0,18,0,Math.PI*2);c.fill();c.strokeStyle='#1a1a1a';c.lineWidth=2;c.stroke();c.restore();
+    c.fillStyle=`rgba(180,180,180,${tt*0.4})`;c.beginPath();c.arc(50,h*0.55,30,0,Math.PI*2);c.fill();
+  }else if(t<0.7){const tt=(t-0.5)/0.2;const x=50+(tg.x-65)*tt;
+    for(let k=0;k<5;k++){c.fillStyle=`rgba(180,180,180,${0.5-k*0.08})`;c.beginPath();c.arc(50+(tg.x-65)*Math.max(0,tt-k*0.08),h*0.55+k*4,16,0,Math.PI*2);c.fill();}
+    c.fillStyle='#6a6a72';c.beginPath();c.arc(x,h*0.6,18,0,Math.PI*2);c.fill();c.strokeStyle='#1a1a1a';c.lineWidth=2;c.stroke();
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,170,68,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,30+tt*30,0,Math.PI*2);c.fill();
+    for(let k=0;k<10;k++){const a=k*Math.PI/5;c.fillStyle='#aa6633';c.fillRect(tg.x+Math.cos(a)*tt*40,tg.y-16+Math.sin(a)*tt*30,4,4);}}
+},2400);
+// ② ロケットパンチ
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x-25,tg.y);
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(255,170,68,${tt*0.5})`;c.beginPath();c.arc(48,h*0.6,22,0,Math.PI*2);c.fill();}
+  else if(t<0.7){const tt=(t-0.2)/0.5;const x=50+tt*(tg.x-60);
+    // 推進炎
+    c.fillStyle='#ff5544';c.fillRect(x-32,h*0.6-5,18,10);
+    c.fillStyle='#ffea22';c.fillRect(x-26,h*0.6-3,12,6);
+    c.fillStyle='#fff';c.fillRect(x-22,h*0.6-2,8,4);
+    // 拳
+    c.fillStyle='#6a6a72';c.beginPath();c.arc(x,h*0.6,16,0,Math.PI*2);c.fill();c.strokeStyle='#1a1a1a';c.lineWidth=2;c.stroke();
+    c.fillStyle='#9aaab2';c.fillRect(x-2,h*0.6-3,8,6);
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,170,68,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,20+tt*20,0,Math.PI*2);c.fill();
+    c.fillStyle='#6a6a72';c.beginPath();c.arc(tg.x,tg.y-16,14,0,Math.PI*2);c.fill();
+    for(let k=0;k<8;k++){const a=k*Math.PI/4;c.fillStyle='#ffea22';c.fillRect(tg.x+Math.cos(a)*tt*30,tg.y-16+Math.sin(a)*tt*22,3,3);}}
+},2400);
+// ③ 衝撃地震
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.3){const tt=t/0.3;c.save();c.translate(50,h*0.55);c.rotate(-tt*0.6);
+    c.fillStyle='#6a6a72';c.beginPath();c.arc(-10,-tt*20,15,0,Math.PI*2);c.fill();c.beginPath();c.arc(10,-tt*20,15,0,Math.PI*2);c.fill();c.restore();}
+  else if(t<0.45){c.fillStyle='#6a6a72';c.beginPath();c.arc(40,h*0.7,15,0,Math.PI*2);c.fill();c.beginPath();c.arc(60,h*0.7,15,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,170,68,0.7)`;c.beginPath();c.arc(50,h*0.7,30,0,Math.PI*2);c.fill();}
+  else{const tt=(t-0.45)/0.55;
+    c.fillStyle='#6a6a72';c.beginPath();c.arc(40,h*0.7,15,0,Math.PI*2);c.fill();c.beginPath();c.arc(60,h*0.7,15,0,Math.PI*2);c.fill();
+    for(let k=0;k<3;k++){const tk=Math.max(0,tt-k*0.18);if(tk<=0)continue;const r=tk*280;const a=Math.max(0,1-tk);
+      c.strokeStyle=`rgba(255,170,68,${a})`;c.lineWidth=6;c.beginPath();c.ellipse(50,h*0.7,r,r*0.3,0,0,Math.PI*2);c.stroke();
+      c.strokeStyle=`rgba(255,255,200,${a*0.6})`;c.lineWidth=2;c.beginPath();c.ellipse(50,h*0.7,r,r*0.3,0,0,Math.PI*2);c.stroke();}
+    for(let k=0;k<10;k++){const x=50+k*22;c.fillStyle='#aa6633';c.fillRect(x,h*0.7-Math.sin(tt*Math.PI+k*0.3)*14,3,3);}
+  }
+},2400);
+// ④ ガード突進
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(136,204,255,${tt*0.5})`;c.beginPath();c.arc(50,h*0.6,28,0,Math.PI*2);c.fill();}
+  else if(t<0.75){const tt=(t-0.2)/0.55;const x=50+tt*(w*0.7);
+    // 残像
+    for(let k=0;k<6;k++){const tk=Math.max(0,tt-k*0.05);const xk=50+tk*(w*0.7);
+      c.fillStyle=`rgba(106,106,114,${0.45-k*0.06})`;c.fillRect(xk-12,h*0.6-30,24,30);}
+    // 重装ロボ本体
+    c.fillStyle='#6a6a72';c.fillRect(x-12,h*0.6-30,24,30);
+    // 大盾
+    c.fillStyle='#888888';c.fillRect(x-22,h*0.6-32,8,34);c.strokeStyle='#1a1a1a';c.lineWidth=1.5;c.strokeRect(x-22,h*0.6-32,8,34);
+    c.fillStyle='#aa1010';c.beginPath();c.arc(x-18,h*0.6-15,4,0,Math.PI*2);c.fill();
+    // ヒット衝撃
+    enemies.forEach(e=>{if(x+10>e.x-10){c.fillStyle=`rgba(136,204,255,0.6)`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();}});
+  }else{const tt=(t-0.75)/0.25;
+    enemies.forEach(e=>{c.save();c.translate(e.x,e.y);c.rotate(Math.PI/4*tt);c.fillStyle='#5a1a1a';c.fillRect(-6,-22,12,22);c.restore();});
+    c.fillStyle='#6a6a72';c.fillRect(w*0.78-12,h*0.6-30,24,30);}
+},2400);
+</script></body></html>

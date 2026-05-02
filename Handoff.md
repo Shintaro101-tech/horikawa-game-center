@@ -180,6 +180,12 @@
 - attackTarget の構造に「キャラID別の必殺技分岐」セクションを追加（`isSpecial` && id チェック）
 - drawSlashWave に `'wind'`、drawBlizzard に `'fire'`、drawQuake に `'sweep'` `'kagura'` を style 追加
 - quake 更新ロジックを style 別に dmgTime / lifeTime / 方向フィルタ対応
+- 過去編 デザインプレビュー追加（Batch 2: ロボ系4体 + 戦闘ロボ）— 4案+4案
+  - `samurai-wars/robo_basic-preview.html`（戦闘ロボ）
+  - `samurai-wars/drone-preview.html`（ドローン）
+  - `samurai-wars/mecha_samurai-preview.html`（メカ侍）
+  - `samurai-wars/laser_turret-preview.html`（レーザー砲台）
+  - `samurai-wars/heavy_robo-preview.html`（重装甲ロボ）
 - 過去編 デザインプレビュー追加（Batch 1: スタート時保有5体）— 4案+4案の簡易版
   - `samurai-wars/ashigaru-preview.html`（足軽 4+4）
   - `samurai-wars/bushi-preview.html`（侍 4+4）

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ドローン デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🛸 ドローン デザイン & 攻撃 候補</h1>
+<div class="sub">DRONE DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#5a7aa0;--g:rgba(90,122,160,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 王道青の偵察ドローン（現行）</h2><p>青いドーム、4枚の小さな羽。基本的な偵察機。</p><div class="meta">配色:青+水色LED</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒の暗殺ドローン</h2><p>黒い機体に赤いカメラ。サイレントキラー。</p><div class="meta">配色:黒+赤目</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 赤の戦闘ドローン</h2><p>赤い機体に重武装、大型化した戦闘特化型。</p><div class="meta">配色:赤+橙LED</div></div>
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 緑のサポートドローン</h2><p>緑色の医療/補給型。味方を回復するヒーラー風。</p><div class="meta">配色:緑+白十字</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#22ddff;--g:rgba(34,221,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① ビーム射撃（現行）</h2><p>ドームから青いビームを発射。基本動作。</p></div>
+<div class="card" style="--c:#ffea22;--g:rgba(255,234,34,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 連射ガトリング</h2><p>機関砲の連射。多数の小弾を撒く。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 上空からの爆撃</h2><p>上昇して爆弾を投下。広範囲AOE。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 自爆突撃</h2><p>標的に体当たりし爆発。自分も自爆する。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawDrone(c,p){
+  const cx=110,cy=140;
+  if(p.aura)aura(c,cx,cy+30,p.aura,110);shadow(c,cx,cy+90,30,5);
+  // 4枚プロペラ
+  c.strokeStyle='rgba(255,255,255,0.4)';c.lineWidth=1;
+  for(let k=0;k<4;k++){const a=k*Math.PI/2;c.fillStyle=p.body;
+    c.beginPath();c.ellipse(cx+Math.cos(a)*22,cy+Math.sin(a)*16-8,8,3,a,0,Math.PI*2);c.fill();
+    c.fillStyle='rgba(170,170,170,0.4)';c.beginPath();c.ellipse(cx+Math.cos(a)*22,cy+Math.sin(a)*16-8,12,5,a,0,Math.PI*2);c.fill();}
+  // 本体（中央のドーム）
+  c.fillStyle=p.body;c.beginPath();c.arc(cx,cy,18,Math.PI,0);c.fill();
+  c.strokeStyle=p.outline;c.lineWidth=1.4;c.stroke();
+  c.fillStyle=p.body;c.fillRect(cx-18,cy,36,8);c.strokeRect(cx-18,cy,36,8);
+  if(p.bodyHl){c.fillStyle=p.bodyHl;c.beginPath();c.arc(cx-6,cy-4,6,0,Math.PI*2);c.fill();}
+  // ドームのカメラ/眼
+  c.fillStyle=p.cameraGlass||'rgba(34,221,255,0.6)';c.beginPath();c.arc(cx,cy-6,8,0,Math.PI*2);c.fill();
+  c.fillStyle=p.led;c.beginPath();c.arc(cx,cy-6,4,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx-1,cy-7,1.5,0,Math.PI*2);c.fill();
+  // アンテナ
+  c.strokeStyle=p.body;c.lineWidth=2;c.beginPath();c.moveTo(cx,cy-18);c.lineTo(cx,cy-26);c.stroke();
+  c.fillStyle=p.led;c.beginPath();c.arc(cx,cy-28,2,0,Math.PI*2);c.fill();
+  // 下部のビーム発射口
+  c.fillStyle=p.barrel||'#3a3a3a';c.fillRect(cx-4,cy+8,8,4);
+  // 装飾
+  if(p.cross){c.fillStyle=p.cross;c.fillRect(cx-7,cy+1,14,2);c.fillRect(cx-1,cy-3,2,10);}
+  if(p.gun){c.fillStyle=p.gun;c.fillRect(cx-12,cy+6,4,6);c.fillRect(cx+8,cy+6,4,6);}
+}
+drawDrone(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(90,122,160,0.3)',body:'#5a7aa0',bodyHl:'#88aacc',outline:'#1a2030',led:'#22ddff',cameraGlass:'rgba(34,221,255,0.6)'});
+drawDrone(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(120,120,120,0.3)',body:'#1a1a1a',bodyHl:'#3a3a3a',outline:'#000',led:'#ff3344',cameraGlass:'rgba(255,40,60,0.6)'});
+drawDrone(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',bodyHl:'#cc3030',outline:'#3a0000',led:'#ffaa44',cameraGlass:'rgba(255,170,0,0.6)',gun:'#1a1a1a'});
+drawDrone(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(136,221,102,0.4)',body:'#88dd66',bodyHl:'#aaee88',outline:'#1a4030',led:'#fff',cameraGlass:'rgba(255,255,255,0.6)',cross:'#ffffff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.5;c.fillStyle='#5a7aa0';c.beginPath();c.arc(zx,zy,12,Math.PI,0);c.fill();c.fillRect(zx-12,zy,24,6);c.fillStyle='#22ddff';c.beginPath();c.arc(zx,zy-3,5,0,Math.PI*2);c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① ビーム射撃
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.85){const tt=t/0.85;const x=40+tt*(tg.x-50);
+    c.strokeStyle='rgba(34,221,255,0.7)';c.lineWidth=8;c.beginPath();c.moveTo(36,h*0.5);c.lineTo(x,h*0.5+(tg.y-h*0.5)*tt);c.stroke();
+    c.strokeStyle='#22ddff';c.lineWidth=3;c.stroke();c.strokeStyle='#fff';c.lineWidth=1;c.stroke();
+  }else{c.fillStyle=`rgba(34,221,255,${(1-(t-0.85)/0.15)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,16,0,Math.PI*2);c.fill();}
+},1800);
+// ② 連射ガトリング
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x+25,tg.y);
+  for(let k=0;k<6;k++){const phase=(t*8+k*0.15)%1;if(phase>0.7)continue;const x=42+phase*(tg.x-42);const dy=(k-3)*5;
+    c.fillStyle='#ffea22';c.beginPath();c.arc(x,h*0.5+dy+(tg.y-h*0.5-dy)*phase*0.5,2,0,Math.PI*2);c.fill();}
+  if(Math.floor(t*16)%2===0){c.fillStyle='rgba(255,234,34,0.7)';c.beginPath();c.arc(38,h*0.5,8,0,Math.PI*2);c.fill();}
+  c.fillStyle='rgba(255,234,34,0.5)';c.beginPath();c.arc(tg.x,tg.y-16,12,0,Math.PI*2);c.fill();
+  for(let k=0;k<3;k++){c.fillStyle='#ffea22';c.fillRect(tg.x+(k-1)*8,tg.y-30+(k%2)*4,2,2);}
+},1600);
+// ③ 上空爆撃
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.75,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.25){const tt=t/0.25;const y=h*0.5-tt*60;
+    // ドローン上昇
+    c.fillStyle='#5a7aa0';c.beginPath();c.arc(40,y,12,Math.PI,0);c.fill();c.fillRect(28,y,24,6);
+    c.fillStyle='#22ddff';c.beginPath();c.arc(40,y-3,5,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.25)/0.75;
+    // 上空のドローン
+    c.fillStyle='#5a7aa0';c.beginPath();c.arc(40,h*0.2,12,Math.PI,0);c.fill();c.fillRect(28,h*0.2,24,6);
+    // 爆弾投下
+    enemies.forEach((e,i)=>{const elapsed=tt-i*0.15;if(elapsed<0||elapsed>0.5)return;
+      if(elapsed<0.3){const fall=elapsed/0.3;const y=h*0.2+fall*(h*0.7-h*0.2-10);
+        c.fillStyle='#3a3a3a';c.beginPath();c.arc(e.x,y,6,0,Math.PI*2);c.fill();
+        c.fillStyle='#aa1010';c.fillRect(e.x-2,y+5,4,3);}
+      else{const ee=(elapsed-0.3)/0.2;c.fillStyle=`rgba(255,170,0,${(1-ee)*0.7})`;c.beginPath();c.arc(e.x,e.y-16,20+ee*15,0,Math.PI*2);c.fill();
+        c.fillStyle=`rgba(255,255,255,${(1-ee)*0.6})`;c.beginPath();c.arc(e.x,e.y-16,12+ee*8,0,Math.PI*2);c.fill();
+        for(let k=0;k<6;k++){const a=k*Math.PI/3;c.fillStyle='#5a3a18';c.fillRect(e.x+Math.cos(a)*ee*30,e.y-16+Math.sin(a)*ee*20,3,3);}}
+    });
+  }
+},2400);
+// ④ 自爆突撃
+startAnim('at-d',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x-25,tg.y);
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(170,68,255,${0.4+Math.sin(t*40)*0.3})`;c.beginPath();c.arc(40,h*0.5,18,0,Math.PI*2);c.fill();}
+  else if(t<0.7){const tt=(t-0.2)/0.5;const x=40+tt*(tg.x-50);const y=h*0.5+(tg.y-h*0.5-30)*tt;
+    for(let k=0;k<5;k++){const tk=Math.max(0,tt-k*0.06);const xk=40+tk*(tg.x-50);const yk=h*0.5+(tg.y-h*0.5-30)*tk;
+      c.fillStyle=`rgba(170,68,255,${0.5-k*0.08})`;c.beginPath();c.arc(xk,yk,12,Math.PI,0);c.fill();c.fillRect(xk-12,yk,24,5);}
+    c.fillStyle='#5a7aa0';c.beginPath();c.arc(x,y,12,Math.PI,0);c.fill();c.fillRect(x-12,y,24,6);
+    c.fillStyle='#aa44ff';c.beginPath();c.arc(x,y-3,5,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(170,68,255,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,30+tt*30,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,16+tt*15,0,Math.PI*2);c.fill();
+    for(let k=0;k<10;k++){const a=k*Math.PI/5;c.fillStyle='#5a7aa0';c.fillRect(tg.x+Math.cos(a)*tt*40,tg.y-16+Math.sin(a)*tt*30,3,3);}}
+},2400);
+</script></body></html>

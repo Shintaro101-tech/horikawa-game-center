@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>戦闘ロボ デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🤖 戦闘ロボ デザイン & 攻撃 候補</h1>
+<div class="sub">BATTLE ROBO DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#7a8ba0;--g:rgba(122,139,160,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 王道シルバーロボ（現行）</h2><p>銀色の量産型戦闘ロボ。アンテナと丸い頭が特徴。</p><div class="meta">配色:銀+青LED</div></div>
+<div class="card" style="--c:#3a3a3a;--g:rgba(120,120,120,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒装甲ステルス機</h2><p>黒い装甲、赤いカメラ。隠密任務用。</p><div class="meta">配色:黒+赤眼</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 赤の戦闘特化型</h2><p>赤い装甲に攻撃用パーツ追加。火力重視。</p><div class="meta">配色:赤+黄LED</div></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 金の試作機</h2><p>金色のプロトタイプ、貴重な実験機。</p><div class="meta">配色:金+赤帯</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#22ddff;--g:rgba(34,221,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① レーザーアーム射撃（現行）</h2><p>腕から青いレーザーを発射。基本動作。</p></div>
+<div class="card" style="--c:#ffea22;--g:rgba(255,234,34,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② バルカン砲乱射</h2><p>連射式の機関砲。高速で多数の弾を撒き散らす。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ パンチコンボ</h2><p>左右の鉄拳で連続パンチ。3連撃。</p></div>
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ ロケットパンチ</h2><p>腕を発射する遠距離パンチ攻撃。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawRobo(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,22,5);
+  c.fillStyle=p.legs;c.fillRect(cx-12,cy-12,8,36);c.fillRect(cx+4,cy-12,8,36);
+  c.strokeStyle=p.outline;c.lineWidth=1.2;c.strokeRect(cx-12,cy-12,8,36);c.strokeRect(cx+4,cy-12,8,36);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-14,cy+22,12,5);c.fillRect(cx+2,cy+22,12,5);
+  // 胴体（メカ）
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-50,44,42);c.strokeRect(cx-22,cy-50,44,42);
+  if(p.bodyHl){c.fillStyle=p.bodyHl;c.fillRect(cx-20,cy-48,8,10);}
+  // 継ぎ目
+  c.strokeStyle=p.outline;c.lineWidth=0.8;
+  c.beginPath();c.moveTo(cx-22,cy-30);c.lineTo(cx+22,cy-30);c.stroke();
+  c.beginPath();c.moveTo(cx,cy-50);c.lineTo(cx,cy-8);c.stroke();
+  // LED/胸の装飾
+  c.fillStyle=p.led;c.fillRect(cx-3,cy-26,6,4);
+  // 腕
+  c.fillStyle=p.body;c.fillRect(cx-30,cy-46,8,28);c.fillRect(cx+22,cy-46,8,28);
+  c.strokeRect(cx-30,cy-46,8,28);c.strokeRect(cx+22,cy-46,8,28);
+  // レーザーアーム（右腕の砲口）
+  c.fillStyle=p.barrel||'#3a3a3a';c.fillRect(cx+30,cy-20,8,8);
+  c.fillStyle=p.led;c.beginPath();c.arc(cx+38,cy-16,2,0,Math.PI*2);c.fill();
+  // 頭（丸）
+  c.fillStyle=p.body;c.beginPath();c.arc(cx,cy-60,10,0,Math.PI*2);c.fill();c.strokeStyle=p.outline;c.lineWidth=1;c.stroke();
+  if(p.bodyHl){c.fillStyle=p.bodyHl;c.beginPath();c.arc(cx-3,cy-62,3,0,Math.PI*2);c.fill();}
+  // バイザー/眼
+  c.fillStyle=p.eye;c.fillRect(cx-7,cy-62,14,3);
+  // アンテナ
+  c.strokeStyle=p.body;c.lineWidth=2;c.beginPath();c.moveTo(cx,cy-70);c.lineTo(cx,cy-78);c.stroke();
+  c.fillStyle=p.led;c.beginPath();c.arc(cx,cy-80,2.5,0,Math.PI*2);c.fill();
+  // アクセント帯
+  if(p.accent){c.fillStyle=p.accent;c.fillRect(cx-22,cy-22,44,3);}
+}
+drawRobo(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(122,139,160,0.3)',body:'#7a8ba0',bodyHl:'#a0b0c8',outline:'#1a2030',legs:'#3a4050',led:'#22ddff',eye:'#22ddff'});
+drawRobo(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(120,120,120,0.3)',body:'#1a1a1a',bodyHl:'#3a3a3a',outline:'#000',legs:'#000',led:'#ff3344',eye:'#ff3344'});
+drawRobo(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',bodyHl:'#cc3030',outline:'#3a0000',legs:'#3a0000',led:'#ffea22',eye:'#ffea22',accent:'#ffd24a'});
+drawRobo(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.4)',body:'#ffd24a',bodyHl:'#fff5cc',outline:'#aa6600',legs:'#aa6600',led:'#aa1010',eye:'#aa1010',accent:'#aa1010'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.7;c.fillStyle='#7a8ba0';c.fillRect(zx-7,zy-44,14,44);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#22ddff';c.fillRect(zx-5,zy-52,10,2);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① レーザーアーム
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(34,221,255,${tt*0.7})`;c.beginPath();c.arc(40,h*0.55,12+tt*4,0,Math.PI*2);c.fill();}
+  else if(t<0.85){const tt=(t-0.2)/0.65;const x=50+tt*(tg.x-60);
+    c.strokeStyle='rgba(34,221,255,0.7)';c.lineWidth=10;c.beginPath();c.moveTo(45,h*0.55);c.lineTo(x,h*0.55);c.stroke();
+    c.strokeStyle='#22ddff';c.lineWidth=4;c.stroke();c.strokeStyle='#fff';c.lineWidth=1.5;c.stroke();
+  }else{c.fillStyle=`rgba(34,221,255,${(1-(t-0.85)/0.15)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,16,0,Math.PI*2);c.fill();}
+},2000);
+// ② バルカン
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x-25,tg.y);
+  // 連射
+  for(let k=0;k<5;k++){const phase=(t*8+k*0.2)%1;if(phase>0.7)continue;const x=45+phase*(tg.x-45);const dy=(k-2)*3;
+    c.fillStyle='#ffea22';c.fillRect(x-3,h*0.55+dy,6,2);}
+  // マズルフラッシュ
+  if((Math.floor(t*20)%2===0)){c.fillStyle='rgba(255,234,34,0.7)';c.beginPath();c.arc(45,h*0.55,10,0,Math.PI*2);c.fill();}
+  // 着弾エフェクト
+  c.fillStyle=`rgba(255,234,34,0.5)`;c.beginPath();c.arc(tg.x,tg.y-16,12,0,Math.PI*2);c.fill();
+  for(let k=0;k<3;k++){c.fillStyle='#ffea22';c.fillRect(tg.x+(k-1)*8,tg.y-30+(k%2)*4,3,3);}
+},1800);
+// ③ パンチコンボ
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.5,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  const punches=[{time:0,side:-1},{time:0.3,side:1},{time:0.6,side:0}];
+  punches.forEach(p=>{const e=t-p.time;if(e<0||e>0.3)return;const tt=e/0.3;const x=50+tt*(tg.x-65);
+    c.fillStyle='#7a8ba0';c.beginPath();c.arc(x,h*0.6+p.side*8,12,0,Math.PI*2);c.fill();c.strokeStyle='#1a2030';c.lineWidth=1.5;c.stroke();
+    if(tt>0.7){c.fillStyle='rgba(255,255,200,0.7)';c.beginPath();c.arc(tg.x,tg.y-16,16,0,Math.PI*2);c.fill();}
+  });
+  c.fillStyle='#ff5544';c.font='bold 18px sans-serif';c.textAlign='center';c.fillText(Math.min(3,Math.floor(t*4))+' HIT!',tg.x,h*0.95);
+},1800);
+// ④ ロケットパンチ
+startAnim('at-d',(c,t,w,h)=>{const tg={x:w*0.78,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.2){const tt=t/0.2;c.fillStyle=`rgba(255,170,68,${tt*0.5})`;c.beginPath();c.arc(40,h*0.6,18,0,Math.PI*2);c.fill();}
+  else if(t<0.7){const tt=(t-0.2)/0.5;const x=45+tt*(tg.x-55);
+    // 推進炎
+    c.fillStyle='#ff5544';c.fillRect(x-30,h*0.6-4,15,8);
+    c.fillStyle='#ffea22';c.fillRect(x-26,h*0.6-3,10,6);
+    // 拳本体
+    c.fillStyle='#7a8ba0';c.beginPath();c.arc(x,h*0.6,14,0,Math.PI*2);c.fill();c.strokeStyle='#1a2030';c.lineWidth=2;c.stroke();
+    c.fillStyle='#a0b0c8';c.fillRect(x-3,h*0.6-3,8,6);
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,170,68,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,16+tt*16,0,Math.PI*2);c.fill();
+    c.fillStyle='#7a8ba0';c.beginPath();c.arc(tg.x,tg.y-16,12,0,Math.PI*2);c.fill();}
+},2200);
+</script></body></html>
