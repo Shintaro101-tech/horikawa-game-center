@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鉄砲足軽 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🔫 鉄砲足軽 デザイン & 攻撃 候補</h1>
+<div class="sub">TEPPO ASHIGARU DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#5a4a3a;--g:rgba(90,74,58,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 茶具足の鉄砲足軽（現行）</h2><p>茶色の胴丸、陣笠、種子島火縄銃。雑賀衆の標準装備。</p><div class="meta">配色:茶+黒</div></div>
+<div class="card" style="--c:#1a3a5a;--g:rgba(26,58,90,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 紺の精鋭狙撃手</h2><p>紺の具足、長銃身、片目を眇める狙撃の達人。</p><div class="meta">配色:紺+銀</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 朱備えの鉄砲頭</h2><p>朱の具足、金の陣笠、二丁拳銃。雑賀孫一風の指揮官。</p><div class="meta">配色:朱+金</div></div>
+<div class="card" style="--c:#3a3a3a;--g:rgba(58,58,58,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 黒装束の忍鉄砲</h2><p>黒装束、黒筒銃、覆面。隠密の暗殺型鉄砲手。</p><div class="meta">配色:黒+赤目</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 火縄銃 単発（現行）</h2><p>火薬の閃光と煙、鉛弾を1発。基本動作。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 三段撃ち</h2><p>連射不可の問題を解決した長篠戦法。前後3列で時間差3連射。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 大筒 ぶっ放し</h2><p>巨大砲身、強烈な反動、着弾で爆発するAOE弾。</p></div>
+<div class="card" style="--c:#aaaaaa;--g:rgba(170,170,170,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 散弾の早撃ち</h2><p>1発で5発の散弾が拡散。近距離強力＋遠距離弱体型。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawTeppo(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,22,4);
+  // 脚
+  c.fillStyle=p.legs;c.fillRect(cx-10,cy-8,8,30);c.fillRect(cx+2,cy-8,8,30);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-12,cy+18,12,5);c.fillRect(cx,cy+18,12,5);
+  // 草摺り（脚部装甲）
+  c.fillStyle=p.armor||p.body;c.fillRect(cx-14,cy-12,28,8);
+  // 胴丸
+  c.fillStyle=p.body;c.fillRect(cx-20,cy-44,40,36);
+  // 帯
+  c.fillStyle=p.belt||'#1a1a1a';c.fillRect(cx-20,cy-16,40,4);
+  // 装甲線
+  c.strokeStyle=p.outline||'#3a2008';c.lineWidth=1;
+  c.beginPath();c.moveTo(cx-20,cy-30);c.lineTo(cx+20,cy-30);c.stroke();
+  c.beginPath();c.moveTo(cx-20,cy-22);c.lineTo(cx+20,cy-22);c.stroke();
+  // 紋
+  if(p.crest){c.fillStyle=p.crest;c.beginPath();c.arc(cx,cy-32,4,0,Math.PI*2);c.fill();}
+  // 腕
+  c.fillStyle=p.body;c.fillRect(cx-30,cy-42,8,24);c.fillRect(cx+22,cy-42,8,24);
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-56,9,0,Math.PI*2);c.fill();
+  // 覆面（あり）
+  if(p.mask){c.fillStyle=p.mask;c.fillRect(cx-9,cy-54,18,7);}
+  // 目（眇め目or赤目）
+  c.fillStyle=p.eyeColor||'#000';
+  if(p.snipe){c.fillRect(cx-5,cy-58,3,1);c.fillRect(cx+2,cy-58,3,2);}else{c.fillRect(cx-5,cy-57,3,2);c.fillRect(cx+2,cy-57,3,2);}
+  // 陣笠
+  c.fillStyle=p.hat;c.beginPath();c.moveTo(cx-15,cy-62);c.lineTo(cx+15,cy-62);c.lineTo(cx+13,cy-66);c.lineTo(cx-13,cy-66);c.closePath();c.fill();
+  c.beginPath();c.arc(cx,cy-66,10,Math.PI,0);c.fill();
+  // 笠紋
+  if(p.hatCrest){c.fillStyle=p.hatCrest;c.beginPath();c.arc(cx,cy-66,2.5,0,Math.PI*2);c.fill();}
+  // 火縄銃（右手で構える）
+  c.save();c.translate(cx+30,cy-32);c.rotate(0.05);
+  c.fillStyle='#3a2008';c.fillRect(-6,-3,16,6);
+  c.fillStyle=p.gunBarrel||'#1a1a1a';c.fillRect(10,-2,p.gunLong?52:38,4);
+  c.fillStyle='#aa6600';c.fillRect(-6,-1,8,2);
+  // 銃口
+  c.fillStyle='#0a0a0a';c.fillRect(p.gunLong?60:46,-2,2,4);
+  c.restore();
+  // 火縄煙
+  if(p.smoke){c.fillStyle='rgba(200,200,200,0.5)';c.beginPath();c.arc(cx+50,cy-34,3,0,Math.PI*2);c.fill();}
+}
+drawTeppo(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(90,74,58,0.4)',body:'#5a4a3a',legs:'#3a2a18',hat:'#3a2a18',belt:'#1a1a1a',crest:'#ffd24a',skin:'#f0c890',gunBarrel:'#1a1a1a',smoke:true});
+drawTeppo(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(40,80,120,0.4)',body:'#1a3a5a',legs:'#0a1830',hat:'#0a1830',belt:'#aaaaaa',crest:'#aaaaaa',hatCrest:'#aaaaaa',skin:'#f0c890',snipe:true,gunBarrel:'#3a3a4a',gunLong:true});
+drawTeppo(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',legs:'#3a0000',hat:'#ffd24a',belt:'#ffd24a',crest:'#ffd24a',hatCrest:'#aa1010',skin:'#f0c890',gunBarrel:'#3a2008'});
+drawTeppo(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(80,80,80,0.3)',body:'#1a1a1a',legs:'#000',hat:'#000',belt:'#aa0000',crest:'#aa0000',hatCrest:'#aa0000',mask:'#1a1a1a',skin:'#d8b070',eyeColor:'#ff3030',gunBarrel:'#0a0a0a'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.7;c.fillStyle='#5a4a3a';c.fillRect(zx-7,zy-44,14,44);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#3a2a18';c.fillRect(zx-9,zy-58,18,4);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 火縄銃 単発
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.2){const tt=t/0.2;
+    // 構え
+    c.fillStyle='#3a2008';c.fillRect(38,h*0.55-3,16,6);
+    c.fillStyle='#1a1a1a';c.fillRect(54,h*0.55-2,40,4);
+    // 火薬の小さな火花
+    c.fillStyle=`rgba(255,210,74,${tt*0.7})`;c.beginPath();c.arc(50,h*0.55-3,3,0,Math.PI*2);c.fill();
+  }else if(t<0.35){const tt=(t-0.2)/0.15;
+    // 発射閃光
+    c.fillStyle='#3a2008';c.fillRect(38,h*0.55-3,16,6);
+    c.fillStyle='#1a1a1a';c.fillRect(54,h*0.55-2,40,4);
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(96,h*0.55,16+tt*10,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(96,h*0.55,8,0,Math.PI*2);c.fill();
+    // 煙
+    for(let k=0;k<5;k++){c.fillStyle=`rgba(200,200,200,${0.5-k*0.08})`;c.beginPath();c.arc(96+k*4,h*0.55-k*3,5+k,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.35)/0.65;
+    // 弾道
+    const x=96+tt*(tg.x-96);
+    c.fillStyle='#aaaaaa';c.beginPath();c.arc(x,h*0.55,3,0,Math.PI*2);c.fill();
+    // 軌跡
+    for(let k=1;k<=4;k++){c.fillStyle=`rgba(255,210,74,${0.3-k*0.06})`;c.beginPath();c.arc(x-k*8,h*0.55,3-k*0.5,0,Math.PI*2);c.fill();}
+    // 残煙
+    c.fillStyle=`rgba(180,180,180,${0.6*(1-tt)})`;c.beginPath();c.arc(96,h*0.55,12,0,Math.PI*2);c.fill();
+    // ヒット
+    if(x>tg.x-10){c.fillStyle=`rgba(255,210,74,${1})`;c.beginPath();c.arc(tg.x,tg.y-16,12+tt*8,0,Math.PI*2);c.fill();}
+  }
+},2000);
+
+// ② 三段撃ち
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.7,y:h*0.7},{x:w*0.8,y:h*0.65},{x:w*0.6,y:h*0.78}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 3列の鉄砲足軽
+  const rows=[{y:h*0.5,delay:0.0},{y:h*0.6,delay:0.25},{y:h*0.7,delay:0.5}];
+  rows.forEach((r,idx)=>{
+    // 足軽
+    c.fillStyle='#5a4a3a';c.fillRect(35,r.y-15,14,15);c.beginPath();c.arc(42,r.y-22,6,0,Math.PI*2);c.fill();
+    // 銃
+    c.fillStyle='#3a2008';c.fillRect(48,r.y-12,8,4);c.fillStyle='#1a1a1a';c.fillRect(56,r.y-11,30,2);
+    // 発射タイミング
+    const local=(t-r.delay+1)%1;
+    if(local>0&&local<0.15){
+      c.fillStyle=`rgba(255,85,68,${1-local/0.15})`;c.beginPath();c.arc(88,r.y-10,12,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,255,200,${1-local/0.15})`;c.beginPath();c.arc(88,r.y-10,6,0,Math.PI*2);c.fill();
+    }else if(local>=0.15&&local<0.5){
+      const tt=(local-0.15)/0.35;const x=88+tt*(enemies[idx].x-88);
+      c.fillStyle='#fff';c.beginPath();c.arc(x,r.y-10,3,0,Math.PI*2);c.fill();
+      // 軌跡
+      c.strokeStyle=`rgba(255,210,74,0.6)`;c.lineWidth=2;c.beginPath();c.moveTo(88,r.y-10);c.lineTo(x,r.y-10);c.stroke();
+    }
+  });
+  c.fillStyle='#ff5544';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('三段撃ち!',w*0.5,28);
+},2000);
+
+// ③ 大筒 ぶっ放し
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 大筒（巨大砲身）
+  c.save();c.translate(40,h*0.55);
+  // 反動
+  if(t>=0.2&&t<0.4){c.translate(-6,0);}
+  c.fillStyle='#3a2008';c.fillRect(-8,-6,16,12);
+  c.fillStyle='#1a1a1a';c.fillRect(8,-8,52,16);
+  c.fillStyle='#3a3a3a';c.beginPath();c.arc(60,0,8,-Math.PI/2,Math.PI/2);c.fill();
+  c.restore();
+  if(t<0.2){const tt=t/0.2;
+    // 着火
+    c.fillStyle=`rgba(255,210,74,${tt*0.6})`;c.beginPath();c.arc(34,h*0.55-6,4+tt*4,0,Math.PI*2);c.fill();
+  }else if(t<0.4){const tt=(t-0.2)/0.2;
+    // 発射閃光（巨大）
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(94,h*0.55,30+tt*15,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(94,h*0.55,18,0,Math.PI*2);c.fill();
+    // 大煙
+    for(let k=0;k<8;k++){c.fillStyle=`rgba(200,200,200,${0.6-k*0.06})`;c.beginPath();c.arc(94+k*5,h*0.55-k*3,8+k*2,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.4)/0.6;const x=94+tt*(w*0.65-94);
+    // 巨大砲弾
+    c.fillStyle='#1a1a1a';c.beginPath();c.arc(x,h*0.55-Math.sin(tt*Math.PI)*30,7,0,Math.PI*2);c.fill();
+    c.fillStyle='#aa6600';c.beginPath();c.arc(x,h*0.55-Math.sin(tt*Math.PI)*30,4,0,Math.PI*2);c.fill();
+    // 着弾爆発
+    if(tt>0.7){const tt2=(tt-0.7)/0.3;
+      c.fillStyle=`rgba(255,150,50,${1-tt2})`;c.beginPath();c.arc(w*0.65,h*0.7-16,30+tt2*40,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,210,74,${1-tt2})`;c.beginPath();c.arc(w*0.65,h*0.7-16,15+tt2*30,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,255,255,${(1-tt2)*0.7})`;c.beginPath();c.arc(w*0.65,h*0.7-16,8,0,Math.PI*2);c.fill();}
+  }
+  c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('💥大筒💥',w*0.5,28);
+},2400);
+
+// ④ 散弾の早撃ち
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.55,y:h*0.65},{x:w*0.6,y:h*0.75},{x:w*0.7,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.15){
+    // 構え+閃光
+    c.fillStyle='#3a2008';c.fillRect(38,h*0.55-3,16,6);
+    c.fillStyle='#1a1a1a';c.fillRect(54,h*0.55-2,28,4);
+    c.fillStyle=`rgba(255,210,74,${t/0.15})`;c.beginPath();c.arc(82,h*0.55,12,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.15)/0.85;
+    // 5発の散弾
+    for(let i=0;i<5;i++){
+      const angle=(i-2)*0.18;
+      const x=82+tt*Math.cos(angle)*(w-100);
+      const y=h*0.55+tt*Math.sin(angle)*(w-100);
+      c.fillStyle='#aaaaaa';c.beginPath();c.arc(x,y,3,0,Math.PI*2);c.fill();
+      // 軌跡
+      c.strokeStyle=`rgba(170,170,170,0.4)`;c.lineWidth=1.5;c.beginPath();c.moveTo(82,h*0.55);c.lineTo(x,y);c.stroke();
+    }
+    // 発射煙
+    c.fillStyle=`rgba(200,200,200,${0.6*(1-tt)})`;c.beginPath();c.arc(82,h*0.55,10,0,Math.PI*2);c.fill();
+    // ヒット
+    enemies.forEach(e=>{c.fillStyle=`rgba(255,210,74,${0.4+0.4*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(e.x,e.y-16,8,0,Math.PI*2);c.fill();});
+  }
+  c.fillStyle='#aaaaaa';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('散弾!',w*0.5,28);
+},1800);
+</script></body></html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陰陽師 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🌀 陰陽師 デザイン & 攻撃 候補</h1>
+<div class="sub">ONMYOJI DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#1a1a40;--g:rgba(26,26,64,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 黒衣の陰陽師（現行）</h2><p>黒い狩衣、烏帽子、五芒星の符。安倍晴明 王道スタイル。</p><div class="meta">配色:黒+金</div></div>
+<div class="card" style="--c:#fff5e0;--g:rgba(255,245,224,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 白の聖陰陽師</h2><p>白い狩衣、紫の烏帽子。神聖な巫覡タイプ。</p><div class="meta">配色:白+紫</div></div>
+<div class="card" style="--c:#7a3a8a;--g:rgba(122,58,138,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 紫の闇陰陽師</h2><p>紫の狩衣、骸骨符、赤目。蘆屋道満 黒陰陽道スタイル。</p><div class="meta">配色:紫+赤</div></div>
+<div class="card" style="--c:#1080dd;--g:rgba(16,128,221,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 蒼の星詠み</h2><p>蒼の狩衣、星座の符、銀髪。天文方の陰陽師。</p><div class="meta">配色:蒼+銀</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 五芒星の式神（現行）</h2><p>金の五芒星を放つ単体直線弾。</p></div>
+<div class="card" style="--c:#aaaaff;--g:rgba(170,170,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 式神召喚 三体</h2><p>白い人形（ひとがた）の式神を3体召喚し、敵を追尾して斬る。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 結界封印</h2><p>敵足元に魔法陣を展開、3秒のスタン+継続ダメージの結界。</p></div>
+<div class="card" style="--c:#ff5566;--g:rgba(255,85,102,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 御札連投</h2><p>朱色の呪符（おふだ）を6枚連射、扇状に拡散する。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function star5(c,x,y,r,col){c.fillStyle=col;c.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i/5*Math.PI*2;c.lineTo(x+Math.cos(a)*r,y+Math.sin(a)*r);const a2=a+Math.PI/5;c.lineTo(x+Math.cos(a2)*r*0.4,y+Math.sin(a2)*r*0.4);}c.closePath();c.fill();}
+function drawOnmyouji(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,22,4);
+  // 脚
+  c.fillStyle=p.legs;c.fillRect(cx-10,cy-6,8,28);c.fillRect(cx+2,cy-6,8,28);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-12,cy+18,12,5);c.fillRect(cx,cy+18,12,5);
+  // 狩衣（広い袖）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-32,cy-44);c.lineTo(cx-22,cy-50);c.lineTo(cx+22,cy-50);c.lineTo(cx+32,cy-44);c.lineTo(cx+24,cy-6);c.lineTo(cx-24,cy-6);c.closePath();c.fill();
+  // 装飾の縁
+  c.strokeStyle=p.trim||'#ffd24a';c.lineWidth=1.5;
+  c.beginPath();c.moveTo(cx-32,cy-44);c.lineTo(cx-24,cy-6);c.stroke();
+  c.beginPath();c.moveTo(cx+32,cy-44);c.lineTo(cx+24,cy-6);c.stroke();
+  // 帯
+  c.fillStyle=p.belt||'#ffd24a';c.fillRect(cx-24,cy-22,48,4);
+  // 五芒星紋章
+  if(p.crest)star5(c,cx,cy-32,7,p.crest);
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-58,11,0,Math.PI*2);c.fill();
+  // 目
+  c.fillStyle=p.eyeColor||'#000';c.fillRect(cx-5,cy-60,3,2);c.fillRect(cx+2,cy-60,3,2);
+  // 髪（後ろに流れる）
+  c.fillStyle=p.hair||'#1a1a1a';c.fillRect(cx-11,cy-52,4,16);c.fillRect(cx+7,cy-52,4,16);
+  // 烏帽子
+  c.fillStyle=p.hat;c.fillRect(cx-7,cy-72,14,4);
+  c.beginPath();c.moveTo(cx-7,cy-72);c.lineTo(cx-3,cy-90);c.lineTo(cx+3,cy-90);c.lineTo(cx+7,cy-72);c.closePath();c.fill();
+  // 烏帽子の宝石
+  c.fillStyle=p.gem||'#ffd24a';c.beginPath();c.arc(cx,cy-82,2,0,Math.PI*2);c.fill();
+  // 御札（左手）
+  c.fillStyle=p.ofuda||'#fff5cc';c.fillRect(cx-38,cy-30,8,18);
+  c.fillStyle='#aa1010';c.fillRect(cx-37,cy-29,6,4);
+  // 持ってる五芒星オーラ（右手）
+  if(p.spell){c.fillStyle=`rgba(${p.spellRgb||'255,210,74'},0.5)`;c.beginPath();c.arc(cx+34,cy-22,11,0,Math.PI*2);c.fill();
+    star5(c,cx+34,cy-22,7,p.spell);}
+}
+drawOnmyouji(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(40,40,100,0.4)',body:'#1a1a40',legs:'#0a0a20',hat:'#0a0a18',belt:'#ffd24a',trim:'#ffd24a',crest:'#ffd24a',spell:'#ffd24a',spellRgb:'255,210,74',ofuda:'#fff5cc'});
+drawOnmyouji(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(255,255,255,0.3)',body:'#fff5e0',legs:'#aaaaaa',hat:'#7a3a8a',belt:'#aa44aa',trim:'#aa44aa',crest:'#aa44aa',spell:'#aaaaff',spellRgb:'170,170,255',skin:'#f8d8b0'});
+drawOnmyouji(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,68,255,0.4)',body:'#7a3a8a',legs:'#3a1a4a',hat:'#3a1a4a',belt:'#aa1010',trim:'#aa1010',crest:'#aa1010',spell:'#aa1010',spellRgb:'170,16,16',eyeColor:'#ff3030',hair:'#0a0a0a',ofuda:'#1a1a1a'});
+drawOnmyouji(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(20,128,200,0.4)',body:'#1080dd',legs:'#053a78',hat:'#053a78',belt:'#88ddff',trim:'#88ddff',crest:'#aaeeff',spell:'#aaeeff',spellRgb:'170,238,255',hair:'#cccccc',gem:'#aaeeff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.7;c.fillStyle='#1a1a40';c.fillRect(zx-7,zy-44,14,44);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#0a0a18';c.fillRect(zx-4,zy-66,8,16);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function star5s(c,x,y,r,col,rot){c.save();c.translate(x,y);c.rotate(rot||0);c.fillStyle=col;c.beginPath();for(let i=0;i<5;i++){const a=-Math.PI/2+i/5*Math.PI*2;c.lineTo(Math.cos(a)*r,Math.sin(a)*r);const a2=a+Math.PI/5;c.lineTo(Math.cos(a2)*r*0.4,Math.sin(a2)*r*0.4);}c.closePath();c.fill();c.restore();}
+
+// ① 五芒星の式神（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.7){const tt=t/0.7;const x=40+tt*(w*0.55);const y=h*0.55;
+    star5s(c,x,y,12,'#ffd24a',tt*Math.PI*4);
+    c.strokeStyle='#fff';c.lineWidth=1.5;c.beginPath();
+    for(let i=0;i<5;i++){const a=-Math.PI/2+i/5*Math.PI*2+tt*Math.PI*4;const a2=-Math.PI/2+(i+2)%5/5*Math.PI*2+tt*Math.PI*4;c.moveTo(x+Math.cos(a)*10,y+Math.sin(a)*10);c.lineTo(x+Math.cos(a2)*10,y+Math.sin(a2)*10);}c.stroke();
+    // 軌跡
+    for(let k=1;k<=4;k++){const xt=x-k*15;c.fillStyle=`rgba(255,210,74,${0.4-k*0.08})`;c.beginPath();c.arc(xt,y,8-k,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*16,0,Math.PI*2);c.fill();}
+},2000);
+
+// ② 式神召喚 三体
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 3体の人形式神
+  for(let i=0;i<3;i++){
+    const phase=Math.min(1,t*1.2);
+    const sx=50+phase*(enemies[i].x-50);
+    const sy=h*0.55-Math.sin(phase*Math.PI)*30;
+    // 人形（ひとがた）
+    c.fillStyle='#fff5cc';c.fillRect(sx-5,sy-10,10,16);
+    c.beginPath();c.arc(sx,sy-12,4,0,Math.PI*2);c.fill();
+    // 影
+    c.fillStyle='rgba(170,170,255,0.5)';c.fillRect(sx-7,sy-12,14,18);
+    // 朱の紋
+    c.fillStyle='#aa1010';c.fillRect(sx-1,sy-8,2,10);
+    // 軌跡光
+    for(let k=1;k<=3;k++){c.fillStyle=`rgba(170,170,255,${0.4-k*0.1})`;c.beginPath();c.arc(sx-k*8,sy+k*4,3,0,Math.PI*2);c.fill();}
+    // 着弾後ダメージ
+    if(t>0.8){c.fillStyle=`rgba(255,255,255,${1-(t-0.8)/0.2})`;c.beginPath();c.arc(enemies[i].x,enemies[i].y-16,16,0,Math.PI*2);c.fill();}
+  }
+  c.fillStyle='#aaaaff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('式神召喚!',w*0.5,28);
+},2200);
+
+// ③ 結界封印
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.25){const tt=t/0.25;
+    // 詠唱光
+    c.fillStyle=`rgba(170,68,255,${tt*0.5})`;c.beginPath();c.arc(40,h*0.55,20+tt*10,0,Math.PI*2);c.fill();
+  }else{const tt=Math.min(1,(t-0.25)/0.3);
+    // 魔法陣展開
+    c.save();c.translate(tg.x,tg.y);c.rotate(t*Math.PI*2);
+    c.strokeStyle=`rgba(170,68,255,${0.7+0.3*Math.sin(t*Math.PI*8)})`;c.lineWidth=3;
+    c.beginPath();c.arc(0,0,40*tt,0,Math.PI*2);c.stroke();
+    c.lineWidth=2;c.beginPath();c.arc(0,0,32*tt,0,Math.PI*2);c.stroke();
+    // 五芒星
+    c.fillStyle=`rgba(170,68,255,${0.5*tt})`;c.beginPath();
+    for(let i=0;i<5;i++){const a=-Math.PI/2+i/5*Math.PI*2;c.lineTo(Math.cos(a)*36*tt,Math.sin(a)*36*tt);const a2=a+Math.PI/5;c.lineTo(Math.cos(a2)*14*tt,Math.sin(a2)*14*tt);}
+    c.closePath();c.fill();
+    // 札
+    c.restore();
+    for(let i=0;i<6;i++){const ang=i/6*Math.PI*2+t*Math.PI;
+      const fx=tg.x+Math.cos(ang)*36;const fy=tg.y-8+Math.sin(ang)*16;
+      c.save();c.translate(fx,fy);c.rotate(ang);
+      c.fillStyle='#fff5cc';c.fillRect(-3,-6,6,12);c.fillStyle='#aa1010';c.fillRect(-2,-5,4,3);c.restore();}
+    // スタン表示
+    if(tt>0.5){c.fillStyle='#ffd24a';c.font='bold 16px sans-serif';c.textAlign='center';c.fillText('💫スタン!',tg.x,tg.y-50);}
+  }
+},2400);
+
+// ④ 御札連投
+startAnim('at-d',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x-30,tg.y);drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x+25,tg.y);
+  // 6枚の御札
+  for(let i=0;i<6;i++){
+    const phase=(t+i*0.06)%1;
+    if(phase>0.85)continue;
+    const angle=(i-2.5)*0.15;
+    const dist=phase*(w-70);
+    const x=40+Math.cos(angle)*dist;
+    const y=h*0.55+Math.sin(angle)*dist;
+    c.save();c.translate(x,y);c.rotate(phase*Math.PI*2+i);
+    c.fillStyle='#fff5cc';c.fillRect(-4,-8,8,16);
+    c.fillStyle='#ff5566';c.fillRect(-3,-7,6,3);
+    c.fillStyle='#000';c.font='bold 6px sans-serif';c.textAlign='center';c.fillText('呪',0,0);
+    c.restore();
+  }
+  // ヒット
+  [tg.x-30,tg.x,tg.x+25].forEach(ex=>{
+    c.fillStyle=`rgba(255,85,102,${0.4+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(ex,tg.y-16,12,0,Math.PI*2);c.fill();
+  });
+  c.fillStyle='#ff5566';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('御札連投!',w*0.5,28);
+},1800);
+</script></body></html>

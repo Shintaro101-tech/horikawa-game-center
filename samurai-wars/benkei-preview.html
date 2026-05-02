@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>弁慶 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🪓 弁慶 デザイン & 攻撃 候補</h1>
+<div class="sub">BENKEI DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#3a2050;--g:rgba(58,32,80,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 紫頭巾の僧兵（現行）</h2><p>紫の頭巾、金鉢巻、背中に七つ道具。仁王立ちの豪傑。</p><div class="meta">配色:紫+金</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒衣の影僧</h2><p>漆黒の衣、銀の鉢巻、無数の刀を背負う影僧兵。</p><div class="meta">配色:黒+銀</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 朱赤の戦闘僧</h2><p>朱赤の衣、髑髏の念珠、金の薙刀。攻撃的な仏敵討伐者。</p><div class="meta">配色:朱+金</div></div>
+<div class="card" style="--c:#dcb060;--g:rgba(220,176,96,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 黄金鎧の大法師</h2><p>黄金の重鎧、白い髭、巨大薙刀。武蔵坊弁慶 上位形態。</p><div class="meta">配色:金+白</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 薙刀振り下ろし（現行）</h2><p>大薙刀を上段から振り下ろす単発打撃。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 七つ道具乱れ投げ</h2><p>背中の七つ道具（弓・刀・斧・鎌等）を一斉に投げる多体攻撃。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 仁王立ち反撃</h2><p>0.5秒の構え→敵の攻撃を弾き、薙刀で大反撃。前方広範囲AOE。</p></div>
+<div class="card" style="--c:#ff6622;--g:rgba(255,102,34,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 弁慶の立ち往生</h2><p>地に根を張り、薙刀を振り回す回転連撃。0.8秒の周囲AOE 3連発。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawBenkei(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,28,5);
+  // 背中の七つ道具（刀の柄群）
+  c.strokeStyle=p.tools||'#dddddd';c.lineWidth=2;
+  for(let i=0;i<5;i++){
+    c.beginPath();c.moveTo(cx-4-i*3,cy-6);c.lineTo(cx-22-i*4,cy-46);c.stroke();
+    c.fillStyle=p.tools||'#dddddd';c.beginPath();c.arc(cx-22-i*4,cy-46,2,0,Math.PI*2);c.fill();
+  }
+  // 念珠
+  if(p.beads){c.fillStyle=p.beads;
+    for(let i=0;i<8;i++){const ang=i/8*Math.PI*2;c.beginPath();c.arc(cx+Math.cos(ang)*16,cy-22+Math.sin(ang)*4,2.2,0,Math.PI*2);c.fill();}
+  }
+  // 脚
+  c.fillStyle=p.legs;c.fillRect(cx-12,cy-10,8,32);c.fillRect(cx+4,cy-10,8,32);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-14,cy+20,12,5);c.fillRect(cx+2,cy+20,12,5);
+  // 胴衣（袈裟）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-26,cy-50);c.lineTo(cx+26,cy-50);c.lineTo(cx+22,cy-10);c.lineTo(cx-22,cy-10);c.closePath();c.fill();
+  // 袈裟の縦帯
+  c.fillStyle=p.sash||'#ffd24a';c.fillRect(cx-4,cy-50,8,40);
+  // 帯
+  c.fillStyle=p.belt||'#1a1a1a';c.fillRect(cx-26,cy-22,52,5);
+  // 腕
+  c.fillStyle=p.body;c.fillRect(cx-32,cy-46,8,24);c.fillRect(cx+24,cy-46,8,24);
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-58,11,0,Math.PI*2);c.fill();
+  // 髭
+  if(p.beard){c.fillStyle=p.beard;c.fillRect(cx-7,cy-50,14,5);
+    c.beginPath();c.arc(cx,cy-46,4,0,Math.PI);c.fill();}
+  // 目（鋭い）
+  c.fillStyle='#000';c.fillRect(cx-5,cy-60,3,2);c.fillRect(cx+2,cy-60,3,2);
+  // 頭巾
+  c.fillStyle=p.hood;c.beginPath();c.arc(cx,cy-66,13,Math.PI,0);c.fill();
+  c.fillRect(cx-13,cy-66,26,4);
+  // 鉢巻き
+  c.fillStyle=p.band||'#ffd24a';c.fillRect(cx-13,cy-65,26,3);
+  // 大薙刀
+  c.save();c.translate(cx+34,cy-50);c.rotate(0.3);
+  c.fillStyle='#3a2008';c.fillRect(-2,0,4,80);
+  c.fillStyle=p.bladeColor||'#ddeeee';c.beginPath();c.moveTo(-3,-22);c.lineTo(8,-2);c.lineTo(2,2);c.lineTo(-3,-2);c.closePath();c.fill();
+  c.fillStyle=p.bladeEdge||'#fff';c.beginPath();c.moveTo(-3,-22);c.lineTo(6,-4);c.lineTo(-1,-4);c.closePath();c.fill();
+  c.restore();
+}
+drawBenkei(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(170,80,255,0.4)',body:'#3a2050',legs:'#1a0a30',hood:'#3a2050',band:'#ffd24a',sash:'#ffd24a',belt:'#1a1a1a',tools:'#dddddd',skin:'#f0c890',bladeColor:'#ddeeee'});
+drawBenkei(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(80,80,100,0.3)',body:'#1a1a1a',legs:'#000',hood:'#1a1a1a',band:'#aaaaaa',sash:'#888',belt:'#000',tools:'#cccccc',skin:'#d8b070',beard:'#1a1a1a',bladeColor:'#aaaaff'});
+drawBenkei(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(220,30,30,0.4)',body:'#aa1010',legs:'#3a0000',hood:'#1a0000',band:'#ffd24a',sash:'#ffd24a',belt:'#000',tools:'#ddaa22',beads:'#ffeecc',skin:'#f0c890',beard:'#3a1a08',bladeColor:'#ffeecc',bladeEdge:'#ffd24a'});
+drawBenkei(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#dcb060',legs:'#7a5020',hood:'#aa6600',band:'#fff5cc',sash:'#aa1010',belt:'#3a2008',tools:'#fff5cc',beads:'#ffeb3b',skin:'#f0c890',beard:'#fff',bladeColor:'#fff5cc',bladeEdge:'#ffd24a'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#1a0830');sky.addColorStop(1,'#3a1860');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 弁慶
+  const zx=30,zy=h*0.7;c.fillStyle='#3a2050';c.fillRect(zx-7,zy-44,14,44);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#ffd24a';c.fillRect(zx-7,zy-52,14,2);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 薙刀振り下ろし
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.45,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.45){const tt=t/0.45;c.save();c.translate(40,h*0.55);c.rotate(-Math.PI/2-tt*0.3);
+    c.fillStyle='#3a2008';c.fillRect(-2,0,4,70);c.fillStyle='#ddeeee';c.beginPath();c.moveTo(-3,-20);c.lineTo(8,-2);c.lineTo(-3,2);c.closePath();c.fill();c.restore();
+  }else if(t<0.65){const tt=(t-0.45)/0.2;c.save();c.translate(40,h*0.55);c.rotate(-Math.PI/2+tt*Math.PI*0.95);
+    c.fillStyle='#3a2008';c.fillRect(-2,0,4,70);c.fillStyle='#ddeeee';c.beginPath();c.moveTo(-3,-20);c.lineTo(8,-2);c.lineTo(-3,2);c.closePath();c.fill();c.restore();
+    c.strokeStyle='rgba(220,220,255,0.6)';c.lineWidth=8;c.beginPath();c.arc(40,h*0.55,68,-Math.PI/2,-Math.PI/2+tt*Math.PI*0.95);c.stroke();
+  }else{const tt=(t-0.65)/0.35;c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,22+tt*14,0,Math.PI*2);c.fill();
+    c.strokeStyle='#fff';c.lineWidth=4;c.beginPath();c.moveTo(tg.x-16,tg.y-32);c.lineTo(tg.x+10,tg.y);c.stroke();}
+},2200);
+
+// ② 七つ道具乱れ投げ
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 7つの飛び道具
+  const tools=['🗡','🪓','🏹','⛏','🔨','🗡','🪓'];
+  for(let i=0;i<7;i++){
+    const phase=(t*1.2+i*0.13)%1;
+    const x=40+phase*(w-50);const yc=h*0.55-20+(i-3)*8+Math.sin(phase*Math.PI)*-30;
+    c.save();c.translate(x,yc);c.rotate(phase*Math.PI*4);
+    c.font='18px sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(tools[i],0,0);c.restore();
+    // 軌跡
+    c.fillStyle=`rgba(255,210,74,${0.4*(1-phase)})`;c.beginPath();c.arc(x,yc,3,0,Math.PI*2);c.fill();
+  }
+  enemies.forEach(e=>{c.fillStyle=`rgba(255,210,74,${0.5+0.3*Math.sin(t*Math.PI*6)})`;c.beginPath();c.arc(e.x,e.y-16,12,0,Math.PI*2);c.fill();});
+  c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('七つ道具!',w*0.6,28);
+},2200);
+
+// ③ 仁王立ち反撃
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.45,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.35){const tt=t/0.35;
+    // 構え（紫オーラ）
+    c.fillStyle=`rgba(170,68,255,${tt*0.4})`;c.beginPath();c.arc(40,h*0.6,30+tt*15,0,Math.PI*2);c.fill();
+    c.fillStyle='#aa44ff';c.fillRect(36,h*0.6-30,8,30);
+    c.font='bold 12px sans-serif';c.fillStyle='#fff';c.textAlign='center';c.fillText('構え…',40,h*0.5);
+  }else if(t<0.6){const tt=(t-0.35)/0.25;
+    // 反撃の輝き
+    c.save();c.translate(40,h*0.55);c.rotate(-0.5+tt*Math.PI);
+    c.fillStyle='#3a2008';c.fillRect(-2,0,4,80);c.fillStyle='#aa44ff';c.beginPath();c.moveTo(-4,-22);c.lineTo(10,-2);c.lineTo(-4,2);c.closePath();c.fill();
+    c.fillStyle='#fff';c.beginPath();c.moveTo(-3,-20);c.lineTo(8,-2);c.lineTo(-3,-2);c.closePath();c.fill();c.restore();
+    // AOE円
+    c.strokeStyle=`rgba(170,68,255,${1-tt})`;c.lineWidth=6;c.beginPath();c.arc(80,h*0.6,40+tt*60,0,Math.PI*2);c.stroke();
+  }else{const tt=(t-0.6)/0.4;
+    c.fillStyle=`rgba(170,68,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,28,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('反撃!',tg.x,tg.y-40);}
+},2400);
+
+// ④ 弁慶の立ち往生（回転連撃）
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.65,y:h*0.65},{x:w*0.5,y:h*0.78}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 中心は弁慶（敵の中央）
+  const bcx=w*0.55,bcy=h*0.7;
+  // 立ち往生（根を生やす）
+  c.fillStyle='#3a2008';
+  for(let i=0;i<5;i++){const ang=Math.PI+i/4*Math.PI;c.beginPath();c.moveTo(bcx,bcy);c.lineTo(bcx+Math.cos(ang)*20,bcy+Math.sin(ang)*8);c.lineWidth=2;c.strokeStyle='#3a2008';c.stroke();}
+  // 弁慶
+  c.fillStyle='#3a2050';c.fillRect(bcx-7,bcy-44,14,44);c.beginPath();c.arc(bcx,bcy-50,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#ffd24a';c.fillRect(bcx-7,bcy-52,14,2);
+  // 回転する薙刀
+  const rot=t*Math.PI*8;
+  c.save();c.translate(bcx,bcy-32);c.rotate(rot);
+  c.fillStyle='#3a2008';c.fillRect(-2,-50,4,100);
+  c.fillStyle='#ff6622';c.beginPath();c.moveTo(-4,-72);c.lineTo(8,-52);c.lineTo(-4,-48);c.closePath();c.fill();
+  c.fillStyle='#fff5cc';c.beginPath();c.moveTo(-3,-70);c.lineTo(6,-54);c.lineTo(-3,-54);c.closePath();c.fill();
+  c.restore();
+  // 回転オーラ
+  c.strokeStyle=`rgba(255,102,34,${0.5+0.3*Math.sin(t*Math.PI*6)})`;c.lineWidth=4;c.beginPath();c.arc(bcx,bcy-32,55,0,Math.PI*2);c.stroke();
+  // 連撃ヒット
+  enemies.forEach(e=>{const d=Math.hypot(e.x-bcx,e.y-bcy+16);if(d<70){c.fillStyle=`rgba(255,150,50,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();}});
+  c.fillStyle='#ff6622';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('立ち往生!',bcx,28);
+},2400);
+</script></body></html>

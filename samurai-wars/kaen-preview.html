@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>炎魔導士 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🔥 炎魔導士 デザイン & 攻撃 候補</h1>
+<div class="sub">FIRE MAGE DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#a02020;--g:rgba(160,32,32,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 朱赤フードの炎魔導士（現行）</h2><p>朱赤のフード、火の宝石、影で目を隠す。王道タイプ。</p><div class="meta">配色:朱+橙</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,30,10,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒衣の炎業師</h2><p>黒い長衣、燃える両手、紅蓮の眼。闇炎魔法使い。</p><div class="meta">配色:黒+紅</div></div>
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黄金のフェニックス術士</h2><p>金色の長衣、不死鳥の翼飾り、白い炎。聖炎タイプ。</p><div class="meta">配色:金+白炎</div></div>
+<div class="card" style="--c:#4a2a1a;--g:rgba(74,42,26,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 茶仙人の業火使い</h2><p>茶色の道服、長い白髭、業火の杖。修験者タイプの炎の達人。</p><div class="meta">配色:茶+白</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff6622;--g:rgba(255,102,34,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 火球（現行）</h2><p>巨大な火球を投げる、着弾でAOE爆発。</p></div>
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 火炎放射</h2><p>口や手から長い炎の流れを連続噴射。前方に持続ダメージの炎の道。</p></div>
+<div class="card" style="--c:#ff8844;--g:rgba(255,136,68,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 隕石召喚</h2><p>空から3つの炎の隕石が降ってくる。広範囲爆撃。</p></div>
+<div class="card" style="--c:#ddaa00;--g:rgba(221,170,0,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 灼熱の極炎</h2><p>3秒チャージ→画面横断の極太炎ビーム。最強の単発技。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawKaen(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,24,5);
+  // 脚（ローブが広がる）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-32,cy+22);c.lineTo(cx-22,cy-50);c.lineTo(cx+22,cy-50);c.lineTo(cx+32,cy+22);c.closePath();c.fill();
+  // 装飾の縁
+  c.strokeStyle=p.trim||'#ffd24a';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-32,cy+22);c.lineTo(cx+32,cy+22);c.stroke();
+  c.beginPath();c.moveTo(cx-32,cy+22);c.lineTo(cx-22,cy-50);c.stroke();
+  c.beginPath();c.moveTo(cx+32,cy+22);c.lineTo(cx+22,cy-50);c.stroke();
+  // 帯
+  c.fillStyle=p.belt||'#ffd24a';c.fillRect(cx-26,cy-22,52,5);
+  // 火炎紋章
+  if(p.crest){c.fillStyle=p.crest;c.beginPath();c.moveTo(cx,cy-38);c.lineTo(cx-5,cy-30);c.lineTo(cx,cy-26);c.lineTo(cx+5,cy-30);c.closePath();c.fill();}
+  // 腕（広がる袖）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-32,cy-44);c.lineTo(cx-40,cy-20);c.lineTo(cx-22,cy-20);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+32,cy-44);c.lineTo(cx+40,cy-20);c.lineTo(cx+22,cy-20);c.closePath();c.fill();
+  // 手
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx-31,cy-22,4,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+31,cy-22,4,0,Math.PI*2);c.fill();
+  // 杖（あり）
+  if(p.staff){c.save();c.translate(cx+34,cy-20);c.rotate(0.1);
+    c.fillStyle='#3a2008';c.fillRect(-2,-50,4,80);
+    // 杖頭の宝石
+    c.fillStyle=p.staffGem||'#ff6600';c.shadowColor=p.staffGem||'#ff6600';c.shadowBlur=12;
+    c.beginPath();c.arc(0,-54,7,0,Math.PI*2);c.fill();c.shadowBlur=0;
+    c.fillStyle='#fff';c.beginPath();c.arc(-2,-56,2,0,Math.PI*2);c.fill();c.restore();}
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-58,10,0,Math.PI*2);c.fill();
+  // 髭
+  if(p.beard){c.fillStyle=p.beard;c.fillRect(cx-7,cy-50,14,5);
+    c.beginPath();c.arc(cx,cy-44,5,0,Math.PI);c.fill();
+    c.beginPath();c.arc(cx,cy-40,4,0,Math.PI);c.fill();}
+  // 目を隠す影 or 紅眼
+  if(p.glowEyes){c.fillStyle=p.glowEyes;c.shadowColor=p.glowEyes;c.shadowBlur=8;
+    c.fillRect(cx-6,cy-60,4,2);c.fillRect(cx+2,cy-60,4,2);c.shadowBlur=0;
+  }else{c.fillStyle='#000';c.fillRect(cx-7,cy-60,14,3);}
+  // フード
+  c.fillStyle=p.hood;c.beginPath();c.arc(cx,cy-58,13,Math.PI,0);c.fill();
+  c.beginPath();c.moveTo(cx-13,cy-58);c.lineTo(cx-9,cy-72);c.lineTo(cx,cy-78);c.lineTo(cx+9,cy-72);c.lineTo(cx+13,cy-58);c.closePath();c.fill();
+  // 火の宝石
+  c.fillStyle=p.gem||'#ff6600';c.shadowColor=p.gem||'#ff6600';c.shadowBlur=10;
+  c.beginPath();c.arc(cx,cy-66,3,0,Math.PI*2);c.fill();c.shadowBlur=0;
+  // 翼飾り（フェニックス系）
+  if(p.wings){c.fillStyle=p.wings;
+    c.beginPath();c.moveTo(cx-13,cy-66);c.lineTo(cx-26,cy-72);c.lineTo(cx-22,cy-60);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+13,cy-66);c.lineTo(cx+26,cy-72);c.lineTo(cx+22,cy-60);c.closePath();c.fill();}
+  // 燃える両手の炎（あり）
+  if(p.fireHands){
+    [cx-31,cx+31].forEach(hx=>{
+      c.fillStyle=p.fireHands;c.beginPath();c.moveTo(hx-5,cy-22);c.lineTo(hx,cy-34);c.lineTo(hx+5,cy-22);c.closePath();c.fill();
+      c.fillStyle='#ffea22';c.beginPath();c.moveTo(hx-3,cy-24);c.lineTo(hx,cy-30);c.lineTo(hx+3,cy-24);c.closePath();c.fill();
+    });}
+}
+drawKaen(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(160,32,32,0.4)',body:'#a02020',hood:'#a02020',belt:'#ffd24a',trim:'#ffd24a',crest:'#ffd24a',gem:'#ff6600',skin:'#f0c890'});
+drawKaen(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(255,30,30,0.4)',body:'#1a1a1a',hood:'#0a0a0a',belt:'#aa0000',trim:'#aa0000',crest:'#aa0000',gem:'#ff3344',skin:'#d8b070',glowEyes:'#ff3030',fireHands:'#ff3030'});
+drawKaen(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#ffaa44',hood:'#dcb060',belt:'#fff5cc',trim:'#fff5cc',crest:'#fff5cc',gem:'#fff5cc',skin:'#f0c890',wings:'#ffd24a',fireHands:'#ffeecc'});
+drawKaen(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(160,90,30,0.4)',body:'#4a2a1a',hood:'#4a2a1a',belt:'#aa6600',trim:'#aa6600',crest:'#ff8844',gem:'#ff6600',skin:'#f0c890',beard:'#fff',staff:true,staffGem:'#ff6600'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#2a0a10');sky.addColorStop(1,'#5a1810');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a1818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a0808';c.fillRect(0,h*0.7,w,3);
+  const zx=30,zy=h*0.7;c.fillStyle='#a02020';c.beginPath();c.moveTo(zx-12,zy);c.lineTo(zx-7,zy-44);c.lineTo(zx+7,zy-44);c.lineTo(zx+12,zy);c.closePath();c.fill();
+  c.fillStyle='#a02020';c.beginPath();c.arc(zx,zy-50,8,Math.PI,0);c.fill();c.fillRect(zx-8,zy-50,16,3);
+  c.fillStyle='#000';c.fillRect(zx-5,zy-46,10,2);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 火球（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.65,y:h*0.7};drawEnemy(c,tg.x-15,tg.y);drawEnemy(c,tg.x,tg.y);drawEnemy(c,tg.x+18,tg.y);
+  if(t<0.7){const tt=t/0.7;const x=50+tt*(tg.x-60);const y=h*0.55-Math.sin(tt*Math.PI)*15;
+    // 火球
+    const r=14+2*Math.sin(t*Math.PI*8);
+    c.fillStyle='rgba(255,102,34,0.4)';c.beginPath();c.arc(x,y,r+10,0,Math.PI*2);c.fill();
+    c.fillStyle='#ff6622';c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();
+    c.fillStyle='#ffaa22';c.beginPath();c.arc(x,y,r*0.7,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(x-3,y-3,r*0.3,0,Math.PI*2);c.fill();
+    // 軌跡
+    for(let k=1;k<=4;k++){c.fillStyle=`rgba(255,102,34,${0.4-k*0.08})`;c.beginPath();c.arc(x-k*8,y+k*2,r-k*2,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.7)/0.3;
+    // 爆発
+    c.fillStyle=`rgba(255,102,34,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,30+tt*40,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*30,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,8,0,Math.PI*2);c.fill();
+  }
+},2200);
+
+// ② 火炎放射
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 杖から噴射
+  const reach=Math.min(1,t*1.5)*(w-80);
+  // 炎の流れ
+  for(let i=0;i<reach/4;i++){
+    const x=50+i*4;const wave=Math.sin(t*Math.PI*8+i*0.3)*8;
+    const yc=h*0.55+wave;
+    const op=0.6+0.3*Math.sin(t*Math.PI*6+i);
+    const sz=12-i*0.05;
+    c.fillStyle=`rgba(255,51,68,${op*0.3})`;c.beginPath();c.arc(x,yc,sz+4,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,102,34,${op*0.6})`;c.beginPath();c.arc(x,yc,sz,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,210,74,${op})`;c.beginPath();c.arc(x,yc,sz*0.5,0,Math.PI*2);c.fill();
+  }
+  // ヒット
+  enemies.forEach(e=>{if(50+reach>e.x){c.fillStyle=`rgba(255,150,50,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();
+    // 燃焼
+    c.fillStyle='#ff5566';c.font='bold 12px sans-serif';c.textAlign='center';c.fillText('🔥',e.x,e.y-32);}});
+  c.fillStyle='#ff3344';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('火炎放射!',w*0.5,28);
+},2200);
+
+// ③ 隕石召喚
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.8,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.2){const tt=t/0.2;
+    // 詠唱光
+    c.fillStyle=`rgba(255,136,68,${tt*0.6})`;c.beginPath();c.arc(40,h*0.45,18+tt*10,0,Math.PI*2);c.fill();
+    c.fillStyle='#ff8844';c.font='bold 12px sans-serif';c.textAlign='center';c.fillText('召喚…',40,h*0.4);
+  }
+  // 3つの隕石
+  const targets=[w*0.4,w*0.6,w*0.8];
+  targets.forEach((tx,i)=>{
+    const td=0.2+i*0.15;
+    if(t<td)return;
+    const local=Math.min(1,(t-td)/0.55);
+    const sx=tx-50+local*50;
+    const sy=-30+local*(h*0.7+30);
+    // 隕石本体
+    const r=8+local*4;
+    c.fillStyle='#3a1808';c.beginPath();c.arc(sx,sy,r,0,Math.PI*2);c.fill();
+    c.fillStyle='#ff6622';c.beginPath();c.arc(sx-1,sy-1,r-2,0,Math.PI*2);c.fill();
+    c.fillStyle='#ffaa22';c.beginPath();c.arc(sx-2,sy-2,r-4,0,Math.PI*2);c.fill();
+    // 炎の尾
+    for(let k=1;k<=8;k++){c.fillStyle=`rgba(255,102,34,${0.5-k*0.05})`;c.beginPath();c.arc(sx-k*6,sy-k*7,r-k*0.5,0,Math.PI*2);c.fill();}
+    // 着弾爆発
+    if(local>=1){const tt2=Math.min(1,(t-td-0.55)/0.4);
+      c.fillStyle=`rgba(255,136,68,${1-tt2})`;c.beginPath();c.arc(tx,h*0.7-10,30+tt2*40,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,210,74,${1-tt2})`;c.beginPath();c.arc(tx,h*0.7-10,15+tt2*30,0,Math.PI*2);c.fill();}
+  });
+  c.fillStyle='#ff8844';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('☄隕石召喚☄',w*0.5,28);
+},2800);
+
+// ④ 灼熱の極炎（チャージビーム）
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.75,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.5){const tt=t/0.5;
+    // チャージ（巨大な火球）
+    const r=10+tt*20;
+    c.fillStyle=`rgba(221,170,0,${tt*0.5})`;c.beginPath();c.arc(50,h*0.55,r+15,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,102,34,${tt*0.7})`;c.beginPath();c.arc(50,h*0.55,r,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,210,74,${tt})`;c.beginPath();c.arc(50,h*0.55,r*0.6,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(50,h*0.55,r*0.3,0,Math.PI*2);c.fill();
+    // 周囲の渦巻く火粒
+    for(let i=0;i<10;i++){const ang=i/10*Math.PI*2+t*Math.PI*8;const dr=r+10;
+      c.fillStyle=`rgba(255,150,50,${tt*0.7})`;c.beginPath();c.arc(50+Math.cos(ang)*dr,h*0.55+Math.sin(ang)*dr,3,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.5)/0.5;
+    // 極太炎ビーム（画面横断）
+    const beamW=44+10*Math.sin(t*Math.PI*16);
+    // 外層赤
+    c.fillStyle=`rgba(170,16,16,0.6)`;c.fillRect(50,h*0.55-beamW/2-6,w-50,beamW+12);
+    // 中層橙
+    c.fillStyle=`rgba(255,102,34,0.9)`;c.fillRect(50,h*0.55-beamW/2,w-50,beamW);
+    // 内層黄
+    c.fillStyle=`rgba(255,210,74,1)`;c.fillRect(50,h*0.55-beamW/3,w-50,beamW*0.7);
+    // 芯白
+    c.fillStyle='#fff';c.fillRect(50,h*0.55-beamW/6,w-50,beamW/3);
+    // 火粒
+    for(let i=0;i<25;i++){const x=50+(t*1300+i*60)%(w-50);
+      c.fillStyle='#ffea22';c.beginPath();c.arc(x,h*0.55+(Math.random()-0.5)*beamW*0.8,3,0,Math.PI*2);c.fill();}
+    // ヒット
+    enemies.forEach(e=>{c.fillStyle=`rgba(255,255,255,${0.7+0.3*Math.sin(t*Math.PI*16)})`;c.beginPath();c.arc(e.x,e.y-16,22,0,Math.PI*2);c.fill();});
+  }
+  c.fillStyle='#ddaa00';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🔥灼熱の極炎🔥',w*0.5,28);
+},3000);
+</script></body></html>
