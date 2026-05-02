@@ -18,6 +18,52 @@
 
 ---
 
+## 📍 現在進行中：過去編キャラ デザイン+必殺技プレビュー作成（Batch 3 から再開）
+
+**新セッションで再開する場合、ここから続けて**
+
+過去編の味方27キャラに対し、**デザイン4案 + 攻撃4案** のプレビューHTMLを順次作成中。
+デザイン+攻撃を選択してもらい、**通常攻撃は現行のまま、必殺技（8回ごと）のみ新攻撃**として実装する流れ。
+
+### 進捗（10/27 完了）
+- ✅ Batch 1（5体）: 足軽 / 侍 / 忍者 / 弓兵 / 巫女 — プレビュー作成 + 必殺技実装済
+  - 足軽: A+③横薙ぎ払い / 侍: A+④飛刀斬り / 忍者: C紫装束+④火遁の術 / 弓兵: A+③火矢 / 巫女: A+②神楽舞い
+- ✅ Batch 2（5体）: 戦闘ロボ / ドローン / メカ侍 / レーザー砲台 / 重装甲ロボ — プレビュー作成 + 必殺技実装済
+  - 戦闘ロボ: A+②バルカン乱射 / ドローン: D緑+③上空爆撃 / メカ侍: B赤備え+③ブースト突進斬り / レーザー砲台: C緑+③チャージビーム / 重装甲ロボ: C黒+②ロケットパンチ
+
+### 残り（17/27 未着手）
+- ⏳ **Batch 3: 中盤5体** — `benkei`（弁慶）/ `onmyouji`（陰陽師）/ `sohei`（僧兵）/ `teppo`（鉄砲足軽）/ `kaen`（炎魔導士）
+- ⏳ **Batch 4: 中後半4体** — `cyber_ninja`（サイボーグ忍者）/ `taisho`（侍大将）/ `raijin`（雷神）/ `missile_tank`（ミサイル戦車）
+- ⏳ **Batch 5: 後半3体** — `akaoni`（赤鬼侍）/ `kishin`（超合金鬼神）/ `daidarabocchi`（ダイダラボッチ）
+- ⏳ **Batch 6: 終盤5体** — `onyudo`（大入道）/ `daitengu`（大天狗）/ `kaizoku`（海賊）/ `fuma`（風魔）/ `yagumo`（八雲）
+
+### 各バッチの作業フロー
+1. **プレビュー作成**: バッチ内の各キャラに対し `samurai-wars/{id}-preview.html` を作成（デザイン4案 + 攻撃4案、4×4の8カード）
+2. **コミット & プッシュ**: 1バッチ分まとめて push、ユーザに URL を提示
+3. **ユーザの選択を待つ**（例: 「弁慶: B+②」のように指定）
+4. **必殺技を実装**:
+   - SAMURAI_DATA の該当キャラの `color` を選んだデザインに合わせて変更（必要なら `helmet` も）
+   - `attackTarget` 内の `if(isSpecial)` ブロックに `if(aid === '<id>') { ... return; }` を追加
+   - 通常攻撃は触らない。必殺技のみカスタム
+   - 視覚効果は基本的に既存の `slashWaves` / `blizzards` / `quakes` / `kamikazes` / `bullets` 配列に `style` フラグで分岐させて再利用
+   - 描画関数（`drawSlashWave` / `drawBlizzard` / `drawQuake` / `drawKamikazeOrSlam`）に新 style の分岐を追加
+5. **コミット & プッシュ**
+
+### 必殺技攻撃のテンプレ参考（既に実装済の代表例）
+- 線形貫通弾 → `slashWaves` + `style:'wind'`/`'water'`/`'eye'`/`'charge_beam'`
+- 範囲広域DoT → `blizzards` + `style:'fire'`/`'poison'`
+- 範囲AOE+スタン → `quakes` + `style:'sweep'`(前方)/`'kagura'`(放射状)/`'spin'`(高速回転)
+- 突進系 → `kamikazes` + `style:'leap'`/`'slam'`/`'mecha_charge'`
+- 多体ターゲット → `jumpCombos` + `style:'snake'`(蛇召喚) など
+- 単発高威力 → `bullets` に `weapon:'fireball'` + `aoe:true` でエフェクト流用
+
+### 注意点
+- 通常攻撃は変更しない（ユーザの強い要望）
+- 必殺技フロート表示は `addFloat(attacker.x, attacker.y - 60, '⚡ 技名 ⚡', 'color', true)` の形式
+- 全キャラ実装完了後にこの「現在進行中」セクションを削除する
+
+---
+
 ## 概要
 
 家族向けの3ゲーム入りWeb arcade。GitHub Pagesで公開。
@@ -180,6 +226,13 @@
 - attackTarget の構造に「キャラID別の必殺技分岐」セクションを追加（`isSpecial` && id チェック）
 - drawSlashWave に `'wind'`、drawBlizzard に `'fire'`、drawQuake に `'sweep'` `'kagura'` を style 追加
 - quake 更新ロジックを style 別に dmgTime / lifeTime / 方向フィルタ対応
+- 過去編 ロボ系5キャラに**必殺技専用攻撃**を実装（通常攻撃はそのまま）
+  - **戦闘ロボ (robo_basic)**: 案A（現行）+ ② バルカン乱射 — 5発の laser_arm 弾を扇状（dy=±10px）に発射、各 atk×0.35
+  - **ドローン (drone)**: 案D（緑のサポート）+ ③ 上空爆撃 — 体色`#5a7aa0`→`#88dd66`、3発の `fireball` 爆弾が空（y=30）から落下、各 atk×0.6 AOE
+  - **メカ侍 (mecha_samurai)**: 案B（赤備え）+ ③ ブースト突進斬り — 体色`#3a5a7a`→`#aa1010`、kamikazes に `style:'mecha_charge'`、新関数 `drawMechaCharge`、damage atk×1.5
+  - **レーザー砲台 (laser_turret)**: 案C（緑の対空砲）+ ③ チャージビーム — 体色`#404a5a`→`#3a5a3a`、slashWaves に `style:'charge_beam'`、極太赤レーザー、speed 18, range 700
+  - **重装甲ロボ (heavy_robo)**: 案C（黒の鬼ロボ）+ ② ロケットパンチ — 体色`#6a6a72`→`#1a1a1a`、`fireball` bullet（aoe）で atk×1.4
+- drawSlashWave に `'charge_beam'` style 追加
 - 過去編 デザインプレビュー追加（Batch 2: ロボ系4体 + 戦闘ロボ）— 4案+4案
   - `samurai-wars/robo_basic-preview.html`（戦闘ロボ）
   - `samurai-wars/drone-preview.html`（ドローン）

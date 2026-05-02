@@ -802,17 +802,17 @@
           cooldown:3.0, color:'#7a8ba0', helmet:'antenna', weapon:'laser_arm', rarity:1, robot:true,
           desc:'軽量型の量産戦闘ロボ' },
         { id:'mecha_samurai', name:'メカ侍', yomi:'めかざむらい', cost:320, hp:650, atk:90, atkSpeed:0.9, range:42, speed:1.2,
-          cooldown:7.0, color:'#3a5a7a', helmet:'visor', weapon:'laser_katana', rarity:2, robot:true,
-          desc:'刀と機械を融合した未来の侍' },
+          cooldown:7.0, color:'#aa1010', helmet:'visor', weapon:'laser_katana', rarity:2, robot:true,
+          desc:'赤備えのメカ侍。必殺はブースト突進斬り' },
         { id:'drone', name:'ドローン', yomi:'どろーん', cost:260, hp:200, atk:40, atkSpeed:0.4, range:140, speed:2.2,
-          cooldown:8.0, color:'#5a7aa0', helmet:'dome', weapon:'beam', rarity:2, ranged:true, robot:true,
-          desc:'高速で飛び回る無人機' },
+          cooldown:8.0, color:'#88dd66', helmet:'dome', weapon:'beam', rarity:2, ranged:true, robot:true,
+          desc:'緑のサポートドローン。必殺は上空からの爆撃' },
         { id:'laser_turret', name:'レーザー砲台', yomi:'れーざーほうだい', cost:550, hp:420, atk:180, atkSpeed:2.2, range:320, speed:0.7,
-          cooldown:16.0, color:'#404a5a', helmet:'cannon', weapon:'big_laser', rarity:3, ranged:true, robot:true,
-          desc:'高出力レーザーで狙撃する自走砲' },
+          cooldown:16.0, color:'#3a5a3a', helmet:'cannon', weapon:'big_laser', rarity:3, ranged:true, robot:true,
+          desc:'迷彩緑の対空砲。必殺はチャージビーム' },
         { id:'heavy_robo', name:'重装甲ロボ', yomi:'じゅうそうこうろぼ', cost:900, hp:3500, atk:140, atkSpeed:1.5, range:46, speed:0.55,
-          cooldown:24.0, color:'#6a6a72', helmet:'reactor', weapon:'fist', rarity:3, robot:true,
-          desc:'動く要塞のような戦闘兵器' },
+          cooldown:24.0, color:'#1a1a1a', helmet:'reactor', weapon:'fist', rarity:3, robot:true,
+          desc:'黒鉄の鬼ロボ。必殺はロケットパンチ' },
         { id:'missile_tank', name:'ミサイル戦車', yomi:'みさいるせんしゃ', cost:1300, hp:1600, atk:300, atkSpeed:2.5, range:280, speed:0.55,
           cooldown:32.0, color:'#3a4a3a', helmet:'turret', weapon:'rocket', rarity:4, ranged:true, aoe:true, robot:true,
           desc:'広範囲を爆撃する戦車型ロボ' },
@@ -2760,7 +2760,25 @@
         const alpha = fadeIn * fadeOut;
         c.save();
         c.globalAlpha = Math.max(0, Math.min(1, alpha));
-        if(sw.style === 'wind') {
+        if(sw.style === 'charge_beam') {
+            // チャージビーム: 極太の赤い貫通レーザー
+            const sy = groundY() - 30;
+            // 外グロー（最も太い）
+            c.strokeStyle = `rgba(255,85,68,0.6)`; c.lineWidth = 28;
+            c.beginPath(); c.moveTo(x - dir*60, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // 中
+            c.strokeStyle = '#ff5544'; c.lineWidth = 16;
+            c.beginPath(); c.moveTo(x - dir*60, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // 黄
+            c.strokeStyle = '#ffea22'; c.lineWidth = 8;
+            c.beginPath(); c.moveTo(x - dir*60, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // コア
+            c.strokeStyle = '#fff'; c.lineWidth = 3;
+            c.beginPath(); c.moveTo(x - dir*60, sy); c.lineTo(x + dir*8, sy); c.stroke();
+            // 先端の閃光
+            c.fillStyle = `rgba(255,255,200,0.8)`;
+            c.beginPath(); c.arc(x + dir*4, sy, 18, 0, Math.PI*2); c.fill();
+        } else if(sw.style === 'wind') {
             // 飛刀斬り: 緑の三日月飛び刃
             const sy = groundY() - 30;
             // 残像
@@ -3073,10 +3091,81 @@
         }
     }
 
-    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ） 振り分け
+    // ブースト突進斬り（メカ侍）— 横に走り抜けながら斬る
+    function drawMechaCharge(c, k) {
+        const t = k.timer;
+        const gy = groundY();
+        const dir = k.targetX > k.startX ? 1 : -1;
+        if(t < 0.2) {
+            // 構え（ブースト準備）
+            const tt = t / 0.2;
+            c.fillStyle = `rgba(255,85,68,${tt * 0.5})`;
+            c.beginPath(); c.arc(k.startX, gy - 30, 30 + tt*4, 0, Math.PI*2); c.fill();
+        } else if(t < 0.6) {
+            // 突進（横方向）
+            const tt = (t - 0.2) / 0.4;
+            const x = k.startX + (k.targetX - k.startX) * tt;
+            const y = gy - 30;
+            // ブースター炎
+            c.fillStyle = '#ff5544';
+            c.fillRect(x - dir*30, y - 5, dir*16, 10);
+            c.fillStyle = '#ffea22';
+            c.fillRect(x - dir*22, y - 3, dir*10, 6);
+            // 残像
+            for(let i = 0; i < 6; i++) {
+                const ti = Math.max(0, tt - i*0.04);
+                const xi = k.startX + (k.targetX - k.startX) * ti;
+                c.fillStyle = `rgba(170,16,16,${0.45 - i*0.06})`;
+                c.fillRect(xi - 8, y - 30, 16, 30);
+            }
+            // メカ侍本体（赤）
+            c.fillStyle = '#aa1010';
+            c.fillRect(x - 8, y - 30, 16, 30);
+            c.fillStyle = '#ffd24a';
+            c.beginPath(); c.arc(x, y - 36, 7, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#ffea22';
+            c.fillRect(x - 5, y - 38, 10, 2);
+            // 突き出るレーザー刀
+            c.fillStyle = '#22ddff';
+            c.fillRect(x + dir*4, y - 14, dir*46, 8);
+            c.fillStyle = '#fff';
+            c.fillRect(x + dir*4, y - 13, dir*46, 3);
+            // 速度線
+            c.strokeStyle = `rgba(255,170,68,0.6)`;
+            c.lineWidth = 2;
+            for(let i = 0; i < 5; i++) {
+                c.beginPath();
+                c.moveTo(x - dir*(30 + i*12), y - 20 + i*6);
+                c.lineTo(x - dir*(14 + i*8), y - 14 + i*5);
+                c.stroke();
+            }
+        } else {
+            // 着弾後の斬撃エフェクト
+            const tt = (t - 0.6) / 0.4;
+            // メカ侍は標的位置で停止
+            c.fillStyle = '#aa1010';
+            c.fillRect(k.targetX - 8, gy - 30, 16, 30);
+            c.fillStyle = `rgba(34,221,255,${(1-tt)*0.85})`;
+            c.beginPath(); c.arc(k.targetX, gy - 30, tt*40 + 22, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${(1-tt)*0.6})`;
+            c.beginPath(); c.arc(k.targetX, gy - 30, tt*22 + 10, 0, Math.PI*2); c.fill();
+            // 衝撃波
+            c.strokeStyle = `rgba(255,255,255,${1-tt})`; c.lineWidth = 4;
+            c.beginPath(); c.ellipse(k.targetX, gy - 30, tt*70, tt*30, 0, 0, Math.PI*2); c.stroke();
+            // 飛び散る火花
+            for(let kk = 0; kk < 8; kk++) {
+                const a = kk * Math.PI / 4;
+                c.fillStyle = '#ffea22';
+                c.fillRect(k.targetX + Math.cos(a)*tt*40, gy - 30 + Math.sin(a)*tt*30, 3, 3);
+            }
+        }
+    }
+
+    // 自爆突進（ゴーレム）/ 巨体叩きつけ（サンドワーム）/ 跳躍斬り（ベオウルフ）/ ブースト突進（メカ侍） 振り分け
     function drawKamikazeOrSlam(c, k) {
         if(k.style === 'slam') drawSlamDown(c, k);
         else if(k.style === 'leap') drawLeapSlash(c, k);
+        else if(k.style === 'mecha_charge') drawMechaCharge(c, k);
         else drawKamikazeRush(c, k);
     }
 
@@ -6328,6 +6417,103 @@
                 attacker.swing = 1;
                 addFloat(attacker.x, attacker.y - 60, '⛩ 神楽舞 ⛩', '#aa44ff', true);
                 if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // ===== ロボ系5キャラの必殺技 =====
+            if(aid === 'robo_basic') {
+                // バルカン砲乱射 — 5発の弾を扇状に発射
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                const ty = target.isCastle ? (groundY() - 30) : (target.y - 30);
+                const bx = attacker.x + fwdDir*15;
+                const by = attacker.y - 30;
+                for(let i = 0; i < 5; i++) {
+                    const dy = (i - 2) * 5;
+                    game.bullets.push({
+                        x: bx, y: by + dy * 0.4,
+                        tx: tx, ty: ty + dy,
+                        vx: ((tx - bx) / 30),
+                        vy: ((ty + dy - by - dy*0.4) / 30),
+                        dmg: atk * 0.35, side: attacker.side,
+                        weapon: 'laser_arm', hit: false, aoe: false,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🔫 バルカン乱射 🔫', '#ffea22', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'drone') {
+                // 上空からの爆撃 — 3発の爆弾が空から落下
+                const ty = groundY() - 30;
+                for(let i = 0; i < 3; i++) {
+                    const tgx = (target.isCastle
+                        ? (target.side === 'enemy' ? 100 : W() - 100)
+                        : target.x) + (i - 1) * fwdDir * 50;
+                    game.bullets.push({
+                        x: tgx, y: 30,
+                        tx: tgx, ty: ty,
+                        vx: 0, vy: 6 + i * 0.4,
+                        dmg: atk * 0.6, side: attacker.side,
+                        weapon: 'fireball', hit: false, aoe: true,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '💣 上空爆撃 💣', '#ff5544', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            if(aid === 'mecha_samurai') {
+                // ブースト突進斬り — kamikaze形式で敵に突進
+                const tx = target.isCastle
+                    ? (target.side === 'enemy' ? 100 : W() - 100)
+                    : target.x;
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tx,
+                    timer: 0, damage: atk * 1.5, selfDamage: 0,
+                    side: attacker.side, attackerRef: null,
+                    damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'mecha_charge'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⚔ ブースト突進 ⚔', '#ff5544', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'laser_turret') {
+                // チャージビーム — 太く長距離の貫通レーザー
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 18, damage: atk, side: attacker.side,
+                    maxRange: 700, traveled: 0, hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'charge_beam'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⚡ チャージビーム ⚡', '#ff5544', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'heavy_robo') {
+                // ロケットパンチ — 拳が炎をまとって飛ぶ
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                const ty = target.isCastle ? (groundY() - 30) : (target.y - 30);
+                const bx = attacker.x + fwdDir*15;
+                const by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tx, ty: ty,
+                    vx: ((tx - bx) / 30), vy: ((ty - by) / 30),
+                    dmg: atk * 1.4, side: attacker.side,
+                    weapon: 'fireball', hit: false, aoe: true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🤜 ロケットパンチ 🤜', '#ffaa44', true);
+                if(snd && snd.explode) snd.explode();
                 return;
             }
         }
