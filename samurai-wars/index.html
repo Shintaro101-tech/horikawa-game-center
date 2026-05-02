@@ -909,10 +909,10 @@
         { id:'sp_kangaroo', name:'プロコプトドン', yomi:'ぷろこぷとどん', cost:850, hp:2400, atk:240, atkSpeed:0.6, range:42, speed:2.4,
           cooldown:18.0, color:'#a87040', helmet:'kangaroo_head', weapon:'fist', rarity:3, scale:1.2,
           desc:'史上最大級のカンガルー。跳躍と蹴りで戦う' },
-        // Stage 104: マンモス
-        { id:'sp_mammoth', name:'マンモス', yomi:'まんもす', cost:1800, hp:8500, atk:480, atkSpeed:1.9, range:55, speed:0.5,
-          cooldown:38.0, color:'#5a3a20', helmet:'mammoth_tusk', weapon:'tusk', rarity:4, scale:1.8,
-          desc:'氷河期を支配した巨象。地上を踏み砕く' },
+        // Stage 104: マンモス（王道毛深い + 足踏み地震）
+        { id:'sp_mammoth', name:'マンモス', yomi:'まんもす', cost:1800, hp:8500, atk:480, atkSpeed:2.4, range:200, speed:0.5,
+          cooldown:38.0, color:'#aa6644', helmet:'mammoth_tusk', weapon:'foot_quake', rarity:4, scale:1.8,
+          desc:'氷河期を支配した巨象。足踏み地震で範囲制圧' },
         // Stage 105: サンドワーム（対空: 体を伸ばして）
         { id:'sp_sandworm', name:'サンドワーム', yomi:'さんどわーむ', cost:1600, hp:6000, atk:420, atkSpeed:2.0, range:130, speed:0.6,
           cooldown:36.0, color:'#a07040', helmet:'worm_head', weapon:'fist', rarity:4, scale:1.6, antiAir:true,
@@ -953,11 +953,11 @@
           cooldown:38.0, color:'#886644', helmet:'twin_yokai', weapon:'spear', rarity:4, scale:1.35,
           ranged:true, antiAir:true,
           desc:'長い手で空、長い足で地を制する妖怪コンビ' },
-        // Stage 114: フロストジャイアント（対空）
-        { id:'sp_frost', name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', cost:2400, hp:8800, atk:620, atkSpeed:1.8, range:240, speed:0.55,
-          cooldown:48.0, color:'#aaccdd', helmet:'frost_crown', weapon:'magic_circle', rarity:5, scale:1.75,
+        // Stage 114: フロストジャイアント（氷結晶の魔法使い + 吹雪）
+        { id:'sp_frost', name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', cost:2400, hp:8800, atk:620, atkSpeed:2.2, range:280, speed:0.55,
+          cooldown:48.0, color:'#aaeeff', helmet:'frost_crown', weapon:'blizzard', rarity:5, scale:1.75,
           ranged:true, antiAir:true,
-          desc:'北欧の氷の巨人。氷の魔法と棍棒で空地を制す' },
+          desc:'氷結晶の魔法使い。前方一帯を吹雪で凍らせる' },
         // Stage 115: 孫悟空（七十二変化＋分身ラッシュ・対空）
         { id:'sp_gokuu', name:'孫悟空', yomi:'そんごくう', cost:2600, hp:6500, atk:780, atkSpeed:0.9, range:160, speed:1.6,
           cooldown:50.0, color:'#cc6600', helmet:'monkey_circlet', weapon:'clone_rush', rarity:5, scale:1.25,
@@ -2015,8 +2015,8 @@
         102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'fist', color:'#3a4030', scale:2.0 },
         // Stage 103
         103: { name:'プロコプトドン', yomi:'ぷろこぷとどん', hp:4600, atk:280, helmet:'kangaroo_head', weapon:'fist', color:'#a87040', scale:1.9 },
-        // Stage 104
-        104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'tusk', color:'#5a3a20', scale:2.3 },
+        // Stage 104 — マンモス（王道 + 足踏み地震）
+        104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'foot_quake', color:'#aa6644', scale:2.3, range:220, atkSpeed:2.5 },
         // Stage 105 — Sandworm (anti-air via stretch)
         105: { name:'サンドワーム', yomi:'さんどわーむ', hp:7500, atk:380, helmet:'worm_head', weapon:'fist', color:'#a07040', scale:2.1, range:140, antiAir:true },
         // Stage 106 — ゴーレム（苔むした古代 + 自爆突進）
@@ -2035,8 +2035,8 @@
         112: { name:'バロール', yomi:'ばろーる', hp:17500, atk:760, helmet:'green_giant', weapon:'big_stone', color:'#3a6a3a', scale:2.4, ranged:true, antiAir:true, range:300 },
         // Stage 113 — Tenagaashinaga (anti-air via long arms)
         113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'spear', color:'#886644', scale:2.1, ranged:true, antiAir:true, range:200 },
-        // Stage 114 — Frost Giant (anti-air via ice)
-        114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'magic_circle', color:'#aaccdd', scale:2.5, ranged:true, antiAir:true, range:240 },
+        // Stage 114 — Frost Giant (氷結晶魔法使い・吹雪)
+        114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'blizzard', color:'#aaeeff', scale:2.5, ranged:true, antiAir:true, range:320, atkSpeed:2.4 },
         // Stage 115 — Sun Wukong (clone rush + anti-air)
         115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'clone_rush', color:'#cc6600', scale:1.9, antiAir:true, range:160, clones:2 },
         // Stage 116 — Illuyanka (Eastern dragon, flying + anti-air + AOE fire)
@@ -2510,6 +2510,103 @@
             c.closePath(); c.fill();
             c.fillStyle = 'rgba(255,234,34,0.45)';
             c.beginPath(); c.arc(sx, sy+6, 8, 0, Math.PI*2); c.fill();
+        }
+    }
+
+    // 吹雪攻撃（フロストジャイアント専用）
+    function drawBlizzard(c, bz) {
+        const t = bz.timer;
+        const fadeIn = Math.min(1, t / 0.15);
+        const fadeOut = Math.max(0, 1 - (t - 0.85) / 0.25);
+        const alpha = fadeIn * fadeOut;
+        if(alpha <= 0) return;
+        const startX = bz.x + bz.dir * 30;
+        const endX = bz.x + bz.dir * bz.range;
+        const minX = Math.min(startX, endX);
+        const maxX = Math.max(startX, endX);
+        const gy = groundY();
+        c.save();
+        // 青白いオーバーレイ
+        c.fillStyle = `rgba(220,240,255,${alpha * 0.28})`;
+        c.fillRect(minX, 0, maxX - minX, gy);
+        // シアンのチルト
+        c.fillStyle = `rgba(34,221,255,${alpha * 0.10})`;
+        c.fillRect(minX, 0, maxX - minX, gy);
+        // 雪の粒（決定的・タイマーベース）
+        const time = t * 800;
+        for(let k = 0; k < 90; k++) {
+            const sx = minX + ((k * 173 + time) % (maxX - minX));
+            const sy = (k * 91 + time*1.5) % gy;
+            const sz = 1 + (k % 4);
+            c.fillStyle = `rgba(255,255,255,${alpha * (0.45 + (k%3)*0.15)})`;
+            c.fillRect(sx, sy, sz, sz);
+        }
+        // 大きな雪片
+        for(let k = 0; k < 18; k++) {
+            const sx = minX + ((k * 73 + time*0.7) % (maxX - minX));
+            const sy = (k * 131 + time) % gy;
+            c.fillStyle = `rgba(255,255,255,${alpha * 0.85})`;
+            c.beginPath(); c.arc(sx, sy, 2.5, 0, Math.PI*2); c.fill();
+        }
+        // 風の流線（全体に水平）
+        c.strokeStyle = `rgba(170,238,255,${alpha * 0.45})`;
+        c.lineWidth = 1.2;
+        for(let k = 0; k < 6; k++) {
+            const sy = ((k * 37 + time*0.3) % gy);
+            c.beginPath();
+            c.moveTo(minX, sy);
+            c.lineTo(maxX, sy + 4);
+            c.stroke();
+        }
+        c.restore();
+    }
+
+    // 足踏み地震（マンモス専用）
+    function drawQuake(c, q) {
+        const t = q.timer;
+        const gy = groundY();
+        if(t < 0.3) {
+            // フェーズ1: 足を上げる（簡易示唆）
+            const tt = t / 0.3;
+            c.fillStyle = `rgba(255,170,68,${tt * 0.4})`;
+            c.beginPath(); c.arc(q.x, gy, 30, 0, Math.PI*2); c.fill();
+        } else if(t < 0.5) {
+            // フェーズ2: 踏みつけフラッシュ
+            const tt = (t - 0.3) / 0.2;
+            c.fillStyle = `rgba(255,170,68,${(1-tt)*0.7})`;
+            c.beginPath(); c.arc(q.x, gy, 40 + tt*10, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,255,255,${(1-tt)*0.6})`;
+            c.beginPath(); c.arc(q.x, gy, 24, 0, Math.PI*2); c.fill();
+        } else {
+            // フェーズ3: 衝撃波が広がる
+            const tt = (t - 0.5) / 0.8;
+            for(let k = 0; k < 3; k++) {
+                const tk = Math.max(0, tt - k*0.18);
+                if(tk <= 0) continue;
+                const r = tk * q.range * 1.2;
+                const a = Math.max(0, 1 - tk);
+                c.strokeStyle = `rgba(255,170,68,${a*0.85})`; c.lineWidth = 6;
+                c.beginPath(); c.ellipse(q.x, gy, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+                c.strokeStyle = `rgba(255,234,34,${a*0.6})`; c.lineWidth = 2.5;
+                c.beginPath(); c.ellipse(q.x, gy, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+            }
+            // 地面の亀裂
+            c.strokeStyle = '#1a0a00'; c.lineWidth = 2;
+            for(let k = 0; k < 8; k++) {
+                const dx = (k - 4) * (q.range * 0.25) * tt;
+                const x = q.x + dx;
+                c.beginPath();
+                c.moveTo(x, gy);
+                c.lineTo(x + 5, gy + 3); c.lineTo(x - 3, gy + 5);
+                c.stroke();
+            }
+            // 跳ねる土
+            for(let k = 0; k < 14; k++) {
+                const x = q.x + ((k - 7) * (q.range * 0.16));
+                const y = gy - Math.sin(tt * Math.PI + k*0.3) * 14;
+                c.fillStyle = '#aa6633';
+                c.fillRect(x, y, 3, 3);
+            }
         }
     }
 
@@ -3764,20 +3861,56 @@
                 c.fillStyle = '#774422';
                 c.fillRect(-21*scale, -29*scale, 21*scale, 1*scale);
                 break;
-            case 'mammoth_tusk': // マンモス
+            case 'mammoth_tusk': // マンモス（王道毛深い）
+                // 頭
                 c.fillStyle = '#5a3a20';
                 c.beginPath(); c.arc(0,-36*scale,12*scale,0,Math.PI*2); c.fill();
+                // 頭頂部の盛り上がり
                 c.fillStyle = '#7a5a30';
                 c.beginPath(); c.ellipse(0,-46*scale,14*scale,8*scale,0,0,Math.PI*2); c.fill();
-                // 牙
+                // 頭頂のふさふさ毛（王道感）
+                c.fillStyle = '#3a2010';
+                for(let k=0; k<5; k++){
+                    const fx = (-6 + k*3)*scale;
+                    c.beginPath();
+                    c.moveTo(fx, -50*scale);
+                    c.lineTo(fx + 1*scale, -56*scale);
+                    c.lineTo(fx + 2*scale, -50*scale);
+                    c.closePath(); c.fill();
+                }
+                // 体表の毛皮テクスチャ（頬・首回り）
+                c.fillStyle = '#3a2010';
+                c.fillRect(-12*scale, -32*scale, 3*scale, 4*scale);
+                c.fillRect(9*scale, -32*scale, 3*scale, 4*scale);
+                // 牙（より大きく湾曲）
                 c.fillStyle = '#f0e0c0';
                 c.beginPath();
-                c.moveTo(-8*scale,-32*scale); c.quadraticCurveTo(-14*scale,-22*scale,-6*scale,-18*scale); c.lineTo(-7*scale,-30*scale); c.closePath(); c.fill();
+                c.moveTo(-8*scale,-32*scale);
+                c.quadraticCurveTo(-15*scale,-22*scale,-7*scale,-16*scale);
+                c.quadraticCurveTo(-9*scale,-26*scale,-7*scale,-30*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#aa9966'; c.lineWidth = 0.7*scale; c.stroke();
+                c.fillStyle = '#f0e0c0';
                 c.beginPath();
-                c.moveTo(8*scale,-32*scale); c.quadraticCurveTo(14*scale,-22*scale,6*scale,-18*scale); c.lineTo(7*scale,-30*scale); c.closePath(); c.fill();
-                // 鼻
-                c.strokeStyle = '#5a3a20'; c.lineWidth = 4*scale;
-                c.beginPath(); c.moveTo(0,-32*scale); c.quadraticCurveTo(8*scale,-26*scale,4*scale,-18*scale); c.stroke();
+                c.moveTo(8*scale,-32*scale);
+                c.quadraticCurveTo(15*scale,-22*scale,7*scale,-16*scale);
+                c.quadraticCurveTo(9*scale,-26*scale,7*scale,-30*scale);
+                c.closePath(); c.fill();
+                c.stroke();
+                // 鼻（湾曲・毛皮色）
+                c.strokeStyle = '#5a3a20'; c.lineWidth = 4*scale; c.lineCap = 'round';
+                c.beginPath();
+                c.moveTo(0,-32*scale); c.quadraticCurveTo(8*scale,-26*scale,4*scale,-16*scale);
+                c.stroke();
+                c.lineCap = 'butt';
+                // 鼻のシワ
+                c.strokeStyle = '#3a2010'; c.lineWidth = 0.6*scale;
+                c.beginPath(); c.arc(5*scale,-24*scale,3*scale,-Math.PI*0.7,-Math.PI*0.3); c.stroke();
+                c.beginPath(); c.arc(5*scale,-20*scale,3*scale,-Math.PI*0.7,-Math.PI*0.3); c.stroke();
+                // 目
+                c.fillStyle = '#000';
+                c.fillRect(-4*scale, -38*scale, 1.5*scale, 2*scale);
+                c.fillRect(2.5*scale, -38*scale, 1.5*scale, 2*scale);
                 break;
             case 'beetle_horn': // ヘラクレスオオカブト（黒銀王道）
                 // 漆黒の頭
@@ -3954,23 +4087,50 @@
                 c.fillRect(-3.5*scale,-35*scale,1.4*scale,1.4*scale);
                 c.fillRect(2*scale,-35*scale,1.4*scale,1.4*scale);
                 break;
-            case 'frost_crown': // フロストジャイアント
-                c.fillStyle = '#aaccdd';
+            case 'frost_crown': // フロストジャイアント（氷結晶の魔法使い）
+                // 結晶のような半透明な頭
+                c.fillStyle = '#aaeeff';
                 c.beginPath(); c.arc(0,-34*scale,8*scale,0,Math.PI*2); c.fill();
-                c.fillStyle = '#88aacc';
-                c.fillRect(-7*scale,-30*scale,14*scale,4*scale);
-                // 氷の角
-                c.fillStyle = '#e0f0ff';
+                // 透明感のハイライト
+                c.fillStyle = 'rgba(255,255,255,0.55)';
+                c.beginPath(); c.arc(-2*scale,-35*scale,4*scale,0,Math.PI*2); c.fill();
+                // 内部の結晶パターン
+                c.strokeStyle = '#88ccff'; c.lineWidth = 0.8*scale;
                 c.beginPath();
-                c.moveTo(-7*scale,-40*scale); c.lineTo(-10*scale,-50*scale); c.lineTo(-3*scale,-42*scale); c.closePath(); c.fill();
+                c.moveTo(-4*scale, -36*scale); c.lineTo(0, -28*scale); c.lineTo(4*scale, -36*scale);
+                c.lineTo(0, -40*scale); c.closePath();
+                c.stroke();
+                // 結晶の角（ジェム風・3本）
+                c.fillStyle = '#ffffff';
                 c.beginPath();
-                c.moveTo(7*scale,-40*scale); c.lineTo(10*scale,-50*scale); c.lineTo(3*scale,-42*scale); c.closePath(); c.fill();
+                c.moveTo(-7*scale,-40*scale); c.lineTo(-12*scale,-54*scale); c.lineTo(-3*scale,-42*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#5acccc'; c.lineWidth = 1*scale; c.stroke();
+                c.fillStyle = '#ffffff';
                 c.beginPath();
-                c.moveTo(0,-42*scale); c.lineTo(0,-54*scale); c.lineTo(3*scale,-44*scale); c.closePath(); c.fill();
-                // 凍った目
-                c.fillStyle = '#003366';
-                c.fillRect(-3*scale,-35*scale,1.5*scale,2*scale);
-                c.fillRect(2*scale,-35*scale,1.5*scale,2*scale);
+                c.moveTo(7*scale,-40*scale); c.lineTo(12*scale,-54*scale); c.lineTo(3*scale,-42*scale);
+                c.closePath(); c.fill();
+                c.stroke();
+                c.fillStyle = '#ffffff';
+                c.beginPath();
+                c.moveTo(-2*scale,-42*scale); c.lineTo(0,-58*scale); c.lineTo(2*scale,-42*scale);
+                c.closePath(); c.fill();
+                c.stroke();
+                // 結晶の側面光（横ライン）
+                c.strokeStyle = 'rgba(34,221,255,0.7)'; c.lineWidth = 0.6*scale;
+                c.beginPath(); c.moveTo(-9*scale, -45*scale); c.lineTo(-4*scale, -45*scale); c.stroke();
+                c.beginPath(); c.moveTo(4*scale, -45*scale); c.lineTo(9*scale, -45*scale); c.stroke();
+                // 光るシアン目
+                c.fillStyle = '#22ddff';
+                c.beginPath(); c.arc(-3*scale, -34*scale, 1.8*scale, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(3*scale, -34*scale, 1.8*scale, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#ffffff';
+                c.beginPath(); c.arc(-3*scale, -34*scale, 0.8*scale, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(3*scale, -34*scale, 0.8*scale, 0, Math.PI*2); c.fill();
+                // 目のグロー
+                c.fillStyle = 'rgba(34,221,255,0.5)';
+                c.fillRect(-4.5*scale, -35.5*scale, 3*scale, 3*scale);
+                c.fillRect(1.5*scale, -35.5*scale, 3*scale, 3*scale);
                 break;
             case 'monkey_circlet': // 孫悟空
                 c.fillStyle = '#aa6644';
@@ -4359,6 +4519,7 @@
                 c.beginPath(); c.arc(cx0, cy0, 4*scale, 0, Math.PI*2); c.fill();
                 break;
             // ===== 魔法系武器（手持ち時の見た目） =====
+            case 'blizzard': // フロストジャイアント吹雪（見た目は magic_circle）
             case 'magic_circle':
                 // 御札を持つ
                 c.fillStyle = '#fff';
@@ -4468,6 +4629,7 @@
                 c.fillRect(0, -3*scale, 3*scale, 6*scale);
                 c.fillRect(35*scale, -3*scale, 3*scale, 6*scale);
                 break;
+            case 'foot_quake': // マンモス足踏み地震（見た目は tusk と同じ）
             case 'tusk': // 牙の一撃
                 c.fillStyle = '#f0e0c0';
                 c.beginPath();
@@ -4977,7 +5139,7 @@
         game.walletLv = saveData.walletLv || 0;
         game.playerCastleHp = game.playerCastleMax = s.castleHp;
         game.enemyCastleHp = game.enemyCastleMax = s.enemyCastleHp;
-        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = []; game.slashWaves = []; game.kamikazes = [];
+        game.units = []; game.bullets = []; game.particles = []; game.floats = []; game.souls = []; game.pillars = []; game.cloneStrikes = []; game.slashWaves = []; game.kamikazes = []; game.blizzards = []; game.quakes = [];
         game.cdMap = {};
         SAMURAI_DATA.forEach(u => game.cdMap[u.id] = 0);
         game.spawnState = s.spawns.map(sp => ({...sp, nextAt: sp.start}));
@@ -5263,6 +5425,50 @@
         const isSpecial = attacker.attackCount % 8 === 0;
         const dmgMult = isSpecial ? 2.0 : 1.0;
         const atk = attacker.atk * dmgMult;
+        // 吹雪攻撃（フロストジャイアント専用）— 前方一帯に吹雪
+        if(attacker.data && attacker.data.weapon === 'blizzard') {
+            attacker.swing = 1;
+            const dir = attacker.side === 'p' ? -1 : 1;
+            if(!game.blizzards) game.blizzards = [];
+            game.blizzards.push({
+                x: attacker.x,
+                dir: dir,
+                timer: 0,
+                damage: atk,
+                side: attacker.side,
+                ticksApplied: 0,
+                antiAir: !!attacker.data.antiAir,
+                fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial,
+                range: attacker.range || 280
+            });
+            if(isSpecial) {
+                addFloat(attacker.x, attacker.y - 60, '❄ 絶対零度 ❄', '#22ddff', true);
+            }
+            if(snd && snd.slash) snd.slash();
+            return;
+        }
+        // 足踏み地震（マンモス専用）— 範囲AOE+スタン
+        if(attacker.data && attacker.data.weapon === 'foot_quake') {
+            attacker.swing = 1;
+            if(!game.quakes) game.quakes = [];
+            game.quakes.push({
+                x: attacker.x,
+                timer: 0,
+                damage: atk,
+                side: attacker.side,
+                damageApplied: false,
+                antiAir: !!attacker.data.antiAir,
+                fromFlying: !!attacker.data.flying,
+                isSpecial: isSpecial,
+                range: attacker.range || 200
+            });
+            if(isSpecial) {
+                addFloat(attacker.x, attacker.y - 60, '🌍 大地震 🌍', '#ffaa44', true);
+            }
+            if(snd && snd.explode) snd.explode();
+            return;
+        }
         // 十拳剣の横一閃（スサノオ専用）— 画面横断のスラッシュ波
         if(attacker.data && attacker.data.weapon === 'slash_wave') {
             attacker.swing = 1;
@@ -5821,6 +6027,63 @@
             }
         }
         game.kamikazes = game.kamikazes.filter(k => k.timer < 1.2);
+
+        // 吹雪攻撃（フロストジャイアント）の更新
+        if(!game.blizzards) game.blizzards = [];
+        for(const bz of game.blizzards) {
+            bz.timer += dt;
+            // 0.2秒ごとに3回ダメージ（合計1.2倍）
+            const expectedTicks = Math.min(3, Math.floor((bz.timer - 0.15) / 0.25) + 1);
+            if(expectedTicks > bz.ticksApplied && bz.timer >= 0.15) {
+                bz.ticksApplied = expectedTicks;
+                const startX = bz.x + bz.dir * 30;
+                const endX = bz.x + bz.dir * bz.range;
+                const minX = Math.min(startX, endX);
+                const maxX = Math.max(startX, endX);
+                const tickDmg = bz.damage * 0.4;
+                const canHitFly = bz.antiAir || bz.fromFlying;
+                game.units.forEach(t => {
+                    if(t.side !== bz.side && !t.dead && t.x >= minX && t.x <= maxX) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, tickDmg);
+                        t.frozen = Math.max(t.frozen||0, 1.0);
+                    }
+                });
+                const castleX = bz.side === 'p' ? 100 : W() - 100;
+                if(castleX >= minX && castleX <= maxX) {
+                    if(bz.side === 'p') game.enemyCastleHp = Math.max(0, game.enemyCastleHp - tickDmg);
+                    else game.playerCastleHp = Math.max(0, game.playerCastleHp - tickDmg);
+                }
+            }
+        }
+        game.blizzards = game.blizzards.filter(bz => bz.timer < 1.1);
+
+        // 足踏み地震（マンモス）の更新
+        if(!game.quakes) game.quakes = [];
+        for(const q of game.quakes) {
+            q.timer += dt;
+            if(!q.damageApplied && q.timer >= 0.45) {
+                q.damageApplied = true;
+                const aoeR = q.range;
+                const canHitFly = q.antiAir || q.fromFlying;
+                game.units.forEach(t => {
+                    if(t.side !== q.side && !t.dead && Math.abs(t.x - q.x) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, q.damage);
+                        t.stunned = Math.max(t.stunned||0, 0.5);
+                    }
+                });
+                const castleX = q.side === 'p' ? 100 : W() - 100;
+                if(Math.abs(q.x - castleX) < aoeR) {
+                    if(q.side === 'p') game.enemyCastleHp = Math.max(0, game.enemyCastleHp - q.damage);
+                    else game.playerCastleHp = Math.max(0, game.playerCastleHp - q.damage);
+                    addParticles(castleX, groundY()-60, 14, '#ffaa44');
+                }
+                addParticles(q.x, groundY()-10, 24, '#aa6633');
+                if(snd && snd.hit) snd.hit();
+            }
+        }
+        game.quakes = game.quakes.filter(q => q.timer < 1.3);
 
         // 死体除去（少し遅延）
         game.units = game.units.filter(u => {
@@ -6415,6 +6678,14 @@
         // 自爆突進（ゴーレム）
         if(game.kamikazes && game.kamikazes.length) {
             for(const k of game.kamikazes) drawKamikazeRush(ctx, k);
+        }
+        // 吹雪攻撃（フロストジャイアント）
+        if(game.blizzards && game.blizzards.length) {
+            for(const bz of game.blizzards) drawBlizzard(ctx, bz);
+        }
+        // 足踏み地震（マンモス）
+        if(game.quakes && game.quakes.length) {
+            for(const q of game.quakes) drawQuake(ctx, q);
         }
 
         // パーティクル
