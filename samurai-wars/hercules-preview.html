@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ヘラクレスオオカブト デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid {
+            display:grid; gap:18px;
+            grid-template-columns: 1fr;
+            max-width: 1100px; margin: 0 auto;
+        }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:center;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 14px 4px;
+            margin-bottom: 12px;
+            min-height: 260px;
+        }
+        canvas { display:block; }
+        h2 {
+            font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🪲 ヘラクレスオオカブト デザイン候補</h1>
+    <div class="sub">HERCULES BEETLE DESIGN CANDIDATES</div>
+    <div class="grid">
+        <div class="card" style="--c:#888888; --g:rgba(180,180,180,0.45);">
+            <div class="canv-wrap"><canvas id="cv-a" width="220" height="240"></canvas></div>
+            <h2>案A. 王道 黒銀ヘラクレス</h2>
+            <p>漆黒の鞘翅に銀色の角。最も王道で本物のヘラクレスに近い、シックで強そうな配色。</p>
+            <div class="meta">配色: 黒 + 銀 + ダークブラウン</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="cv-b" width="220" height="240"></canvas></div>
+            <h2>案B. 黄金王 ヘラクレス</h2>
+            <p>全身メタリック金。文字通りの「王者」感、太陽の下で輝く豪華絢爛な姿。</p>
+            <div class="meta">配色: 金一色（メタリック）</div>
+        </div>
+        <div class="card" style="--c:#5aaa44; --g:rgba(90,170,68,0.45);">
+            <div class="canv-wrap"><canvas id="cv-c" width="220" height="240"></canvas></div>
+            <h2>案C. 熱帯ジャングル種</h2>
+            <p>南米コスタリカの実物に近い、緑の鞘翅にオレンジの縞。リアルな自然色。</p>
+            <div class="meta">配色: 緑 + オレンジ縞 + 茶</div>
+        </div>
+        <div class="card" style="--c:#dd2222; --g:rgba(221,34,34,0.5);">
+            <div class="canv-wrap"><canvas id="cv-d" width="220" height="240"></canvas></div>
+            <h2>案D. 赤の戦甲虫</h2>
+            <p>深紅メタリックの鎧、武士の赤備えのような威圧感。攻撃的で派手。</p>
+            <div class="meta">配色: 深紅 + 黒 + 金縁</div>
+        </div>
+        <div class="card" style="--c:#22ddaa; --g:rgba(34,221,170,0.5);">
+            <div class="canv-wrap"><canvas id="cv-e" width="220" height="240"></canvas></div>
+            <h2>案E. 玉虫色（メタリック・レインボー）</h2>
+            <p>角度で色が変わる玉虫のような輝き。神秘的で超レア感。</p>
+            <div class="meta">配色: 青→緑→紫グラデ（玉虫色）</div>
+        </div>
+        <div class="card" style="--c:#aa44ff; --g:rgba(170,68,255,0.5);">
+            <div class="canv-wrap"><canvas id="cv-f" width="220" height="240"></canvas></div>
+            <h2>案F. 闇の魔甲虫</h2>
+            <p>紫黒の体に赤く光る目。毒々しい邪悪な甲虫、完全に異形系の悪役風。</p>
+            <div class="meta">配色: 紫黒 + 赤目</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+// ============================================================
+// 共通甲虫ドロー
+//   palette: { shell, shellHl, shellEdge, horn, hornHl, legs, eye, accent, wings }
+// ============================================================
+function drawShadow(c, x, y, w=46, h=8) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+function drawAura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color);
+    g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+
+function drawBeetle(c, p) {
+    const cx = 110, cy = 130;
+    drawAura(c, cx, cy, p.aura || 'rgba(120,80,40,0.3)', 95);
+    drawShadow(c, cx, 224);
+
+    // ===== 翼（飛行）：体の後ろに半透明 =====
+    if(p.wings) {
+        c.fillStyle = p.wings;
+        // 左翼
+        c.beginPath();
+        c.moveTo(cx - 4, cy - 6);
+        c.lineTo(cx - 60, cy - 28);
+        c.lineTo(cx - 64, cy + 12);
+        c.lineTo(cx - 16, cy + 8);
+        c.closePath(); c.fill();
+        c.strokeStyle = p.shellEdge; c.lineWidth = 1; c.stroke();
+        // 右翼
+        c.beginPath();
+        c.moveTo(cx + 4, cy - 6);
+        c.lineTo(cx + 60, cy - 28);
+        c.lineTo(cx + 64, cy + 12);
+        c.lineTo(cx + 16, cy + 8);
+        c.closePath(); c.fill();
+        c.stroke();
+        // 翼の脈
+        c.strokeStyle = p.shellEdge; c.lineWidth = 0.8;
+        for(let i=0; i<3; i++){
+            c.beginPath(); c.moveTo(cx - 16, cy - 4 + i*4);
+            c.lineTo(cx - 56 + i*4, cy - 16 + i*8); c.stroke();
+            c.beginPath(); c.moveTo(cx + 16, cy - 4 + i*4);
+            c.lineTo(cx + 56 - i*4, cy - 16 + i*8); c.stroke();
+        }
+    }
+
+    // ===== 6本の脚 =====
+    c.strokeStyle = p.legs; c.lineWidth = 4; c.lineCap = 'round';
+    for(let i=-1; i<=1; i++) {
+        const yy = cy - 18 + i*18;
+        c.beginPath(); c.moveTo(cx - 22, yy); c.lineTo(cx - 42, yy + 14); c.lineTo(cx - 46, yy + 24); c.stroke();
+        c.beginPath(); c.moveTo(cx + 22, yy); c.lineTo(cx + 42, yy + 14); c.lineTo(cx + 46, yy + 24); c.stroke();
+    }
+    c.lineCap = 'butt';
+
+    // ===== 鞘翅（背中の硬い殻） =====
+    if(p.shellGradient) {
+        const g = c.createLinearGradient(cx - 30, cy - 40, cx + 30, cy + 40);
+        p.shellGradient.forEach(([pos, col]) => g.addColorStop(pos, col));
+        c.fillStyle = g;
+    } else {
+        c.fillStyle = p.shell;
+    }
+    c.beginPath(); c.ellipse(cx, cy, 30, 40, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.shellEdge; c.lineWidth = 1.6; c.stroke();
+    // ハイライト
+    c.fillStyle = p.shellHl;
+    c.beginPath(); c.ellipse(cx - 8, cy - 14, 10, 22, 0, 0, Math.PI*2); c.fill();
+    // 中心線
+    c.strokeStyle = p.shellEdge; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(cx, cy - 36); c.lineTo(cx, cy + 36); c.stroke();
+    // アクセント縞（オプション）
+    if(p.stripes) {
+        c.fillStyle = p.stripes;
+        for(let i=0; i<3; i++){
+            const sy = cy - 22 + i*16;
+            c.fillRect(cx - 26, sy, 6, 5);
+            c.fillRect(cx + 20, sy, 6, 5);
+        }
+    }
+
+    // ===== 頭（鞘翅の上に小さい黒い頭） =====
+    c.fillStyle = p.shellEdge;
+    c.beginPath(); c.ellipse(cx, cy - 36, 14, 10, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+
+    // ===== 大きな上の角（ヘラクレスの最大の特徴） =====
+    c.fillStyle = p.horn;
+    // メインの上角（弧を描く）
+    c.beginPath();
+    c.moveTo(cx - 4, cy - 44);
+    c.lineTo(cx - 5, cy - 70);
+    c.quadraticCurveTo(cx - 4, cy - 88, cx + 6, cy - 86);
+    c.quadraticCurveTo(cx + 14, cy - 80, cx + 14, cy - 70);
+    c.lineTo(cx + 4, cy - 44);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 1.6; c.stroke();
+    // 角の上の小さな突起（ヘラクレス特有）
+    c.fillStyle = p.horn;
+    c.beginPath();
+    c.moveTo(cx + 1, cy - 60); c.lineTo(cx - 8, cy - 64);
+    c.lineTo(cx - 12, cy - 56); c.lineTo(cx - 1, cy - 54);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 角のハイライト
+    c.fillStyle = p.hornHl;
+    c.fillRect(cx - 2, cy - 80, 1.5, 32);
+
+    // ===== 下の小さな角（マンディブル） =====
+    c.fillStyle = p.horn;
+    c.beginPath();
+    c.moveTo(cx - 3, cy - 30);
+    c.lineTo(cx - 2, cy - 16);
+    c.lineTo(cx + 4, cy - 16);
+    c.lineTo(cx + 3, cy - 30);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 下角の歯
+    c.fillStyle = p.horn;
+    c.beginPath();
+    c.moveTo(cx - 2, cy - 22); c.lineTo(cx - 6, cy - 20); c.lineTo(cx - 1, cy - 16); c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 2, cy - 22); c.lineTo(cx + 6, cy - 20); c.lineTo(cx + 1, cy - 16); c.closePath(); c.fill();
+
+    // ===== 触角 =====
+    c.strokeStyle = p.legs; c.lineWidth = 1.6;
+    c.beginPath(); c.moveTo(cx - 8, cy - 42); c.lineTo(cx - 18, cy - 52); c.stroke();
+    c.beginPath(); c.moveTo(cx + 8, cy - 42); c.lineTo(cx + 18, cy - 52); c.stroke();
+    c.fillStyle = p.legs;
+    c.beginPath(); c.arc(cx - 18, cy - 52, 1.6, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 18, cy - 52, 1.6, 0, Math.PI*2); c.fill();
+
+    // ===== 目 =====
+    c.fillStyle = p.eye;
+    c.beginPath(); c.arc(cx - 7, cy - 36, 2.4, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 7, cy - 36, 2.4, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(cx - 7.5, cy - 36.5, 0.8, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 6.5, cy - 36.5, 0.8, 0, Math.PI*2); c.fill();
+}
+
+// ============================================================
+// 案A. 王道 黒銀
+// ============================================================
+drawBeetle(document.getElementById('cv-a').getContext('2d'), {
+    aura: 'rgba(120,80,40,0.25)',
+    shell: '#1a1004',
+    shellHl: '#3a2010',
+    shellEdge: '#000',
+    horn: '#5a4a3a',
+    hornHl: '#aaa088',
+    legs: '#0a0604',
+    eye: '#ff6600',
+    wings: 'rgba(80,60,40,0.85)'
+});
+
+// ============================================================
+// 案B. 黄金王
+// ============================================================
+drawBeetle(document.getElementById('cv-b').getContext('2d'), {
+    aura: 'rgba(255,210,74,0.4)',
+    shellGradient: [[0,'#fff5cc'],[0.5,'#ffd24a'],[1,'#aa6600']],
+    shell: '#ffd24a',
+    shellHl: '#fff5cc',
+    shellEdge: '#aa6600',
+    horn: '#ffd24a',
+    hornHl: '#fff5cc',
+    legs: '#aa6600',
+    eye: '#aa1010',
+    wings: 'rgba(255,210,74,0.55)'
+});
+
+// ============================================================
+// 案C. 熱帯ジャングル
+// ============================================================
+drawBeetle(document.getElementById('cv-c').getContext('2d'), {
+    aura: 'rgba(120,200,80,0.3)',
+    shell: '#5aaa44',
+    shellHl: '#88dd66',
+    shellEdge: '#1a4a18',
+    horn: '#3a2a18',
+    hornHl: '#aa8866',
+    legs: '#1a3a1a',
+    eye: '#ffaa00',
+    accent: '#ff6600',
+    stripes: '#ff8822',
+    wings: 'rgba(120,180,90,0.85)'
+});
+
+// ============================================================
+// 案D. 赤の戦甲虫
+// ============================================================
+drawBeetle(document.getElementById('cv-d').getContext('2d'), {
+    aura: 'rgba(255,80,80,0.35)',
+    shellGradient: [[0,'#ff6644'],[0.6,'#dd2222'],[1,'#5a0808']],
+    shell: '#dd2222',
+    shellHl: '#ff8866',
+    shellEdge: '#5a0808',
+    horn: '#1a0a0a',
+    hornHl: '#ffd24a',
+    legs: '#0a0000',
+    eye: '#ffd24a',
+    wings: 'rgba(180,40,40,0.85)'
+});
+
+// ============================================================
+// 案E. 玉虫色（メタリックレインボー）
+// ============================================================
+drawBeetle(document.getElementById('cv-e').getContext('2d'), {
+    aura: 'rgba(120,200,255,0.35)',
+    shellGradient: [[0,'#22ddaa'],[0.4,'#3399ff'],[0.7,'#7744ff'],[1,'#3a1a5a']],
+    shell: '#22ddaa',
+    shellHl: '#aaffee',
+    shellEdge: '#1a1040',
+    horn: '#3a2a6a',
+    hornHl: '#aaccff',
+    legs: '#1a1040',
+    eye: '#ffea22',
+    wings: 'rgba(60,100,180,0.7)'
+});
+// 案E用に追加の虹色光沢
+(function addPrism(){
+    const c = document.getElementById('cv-e').getContext('2d');
+    const cx = 110, cy = 130;
+    const colors = ['#ff66ff','#22aaff','#22ddaa','#ffea22'];
+    for(let i=0;i<4;i++){
+        c.strokeStyle = colors[i]; c.globalAlpha = 0.55; c.lineWidth = 1.4;
+        c.beginPath();
+        c.ellipse(cx-4, cy-4, 24-i*5, 30-i*6, 0, 0, Math.PI*2);
+        c.stroke();
+    }
+    c.globalAlpha = 1;
+})();
+
+// ============================================================
+// 案F. 闇の魔甲虫
+// ============================================================
+drawBeetle(document.getElementById('cv-f').getContext('2d'), {
+    aura: 'rgba(150,40,200,0.4)',
+    shellGradient: [[0,'#5a1a6a'],[0.6,'#2a0830'],[1,'#0a0010']],
+    shell: '#2a0830',
+    shellHl: '#5a1a6a',
+    shellEdge: '#1a0020',
+    horn: '#0a0010',
+    hornHl: '#aa44ff',
+    legs: '#1a0020',
+    eye: '#ff2244',
+    wings: 'rgba(80,20,120,0.85)'
+});
+// 案F用に呪詛の紫オーラ追加
+(function addCurse(){
+    const c = document.getElementById('cv-f').getContext('2d');
+    const cx = 110, cy = 130;
+    for(let i=0; i<8; i++){
+        const a = i/8 * Math.PI * 2;
+        const r = 56 + i;
+        c.fillStyle = i%2 ? '#aa44ff' : '#ff2244';
+        c.globalAlpha = 0.6;
+        c.beginPath();
+        c.arc(cx + Math.cos(a)*r, cy + Math.sin(a)*r, 1.6, 0, Math.PI*2);
+        c.fill();
+    }
+    c.globalAlpha = 1;
+})();
+</script>
+</body>
+</html>
