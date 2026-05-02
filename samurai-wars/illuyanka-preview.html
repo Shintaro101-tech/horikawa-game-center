@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>イルルヤンカシュ デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:center;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 14px 4px;
+            margin-bottom: 12px;
+            min-height: 280px;
+        }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🐉 イルルヤンカシュ デザイン候補</h1>
+    <div class="sub">ILLUYANKA DESIGN CANDIDATES (DRAGON · FIRE BREATH)</div>
+    <div class="grid">
+        <div class="card" style="--c:#3a8a5a; --g:rgba(58,138,90,0.45);">
+            <div class="canv-wrap"><canvas id="cv-a" width="240" height="280"></canvas></div>
+            <h2>案A. 東洋青龍（細長型）</h2>
+            <p>中華龍のように細長く曲がりくねる体、ヒゲ、4本足。優雅で神獣感の強い伝統的なドラゴン。</p>
+            <div class="meta">配色: 青緑 + 翡翠</div>
+        </div>
+        <div class="card" style="--c:#22aa88; --g:rgba(34,170,136,0.45);">
+            <div class="canv-wrap"><canvas id="cv-b" width="240" height="280"></canvas></div>
+            <h2>案B. 西洋ドラゴン（重戦闘型）</h2>
+            <p>大きな翼を広げた西洋ドラゴン。四つ足のがっちりした体、口から炎を吐く正面構え。</p>
+            <div class="meta">配色: 緑青 + 朱の腹</div>
+        </div>
+        <div class="card" style="--c:#88dd44; --g:rgba(136,221,68,0.45);">
+            <div class="canv-wrap"><canvas id="cv-c" width="240" height="280"></canvas></div>
+            <h2>案C. 双頭龍</h2>
+            <p>同じ体に2つの頭。それぞれの口から炎を吐き、2倍の威圧感。</p>
+            <div class="meta">配色: 緑 + 黄炎</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="cv-d" width="240" height="280"></canvas></div>
+            <h2>案D. 三頭金龍（神格型）</h2>
+            <p>キングギドラを彷彿とさせる三頭龍。金色の鱗、それぞれの首から火炎ブレス。最強感。</p>
+            <div class="meta">配色: 金 + 朱</div>
+        </div>
+        <div class="card" style="--c:#ff4422; --g:rgba(255,68,34,0.5);">
+            <div class="canv-wrap"><canvas id="cv-e" width="240" height="280"></canvas></div>
+            <h2>案E. 業火の赤龍</h2>
+            <p>真紅の鱗、全身を炎が包む。火炎ブレスがメインらしい燃え盛るドラゴン。</p>
+            <div class="meta">配色: 赤 + 橙炎</div>
+        </div>
+        <div class="card" style="--c:#aa44ff; --g:rgba(170,68,255,0.45);">
+            <div class="canv-wrap"><canvas id="cv-f" width="240" height="280"></canvas></div>
+            <h2>案F. 闇の禁忌龍（骸骨龍）</h2>
+            <p>紫黒の鱗に骨が透ける、不吉なアンデッドドラゴン。紫炎を吐く。</p>
+            <div class="meta">配色: 紫黒 + 紫炎</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function drawShadow(c, x, y, w=70, h=10) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+function drawAura(c, x, y, color, r=100) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+function drawFireBreath(c, x, y, dir, scale, colors) {
+    // 火炎ブレス（口から伸びる火炎）
+    const len = 70 * scale;
+    // 外炎
+    c.fillStyle = colors[0];
+    c.beginPath();
+    c.moveTo(x, y);
+    c.quadraticCurveTo(x + dir*len*0.6, y - 14*scale, x + dir*len, y - 4*scale);
+    c.quadraticCurveTo(x + dir*len*1.05, y, x + dir*len, y + 4*scale);
+    c.quadraticCurveTo(x + dir*len*0.6, y + 14*scale, x, y);
+    c.closePath(); c.fill();
+    // 中炎
+    c.fillStyle = colors[1];
+    c.beginPath();
+    c.moveTo(x + dir*4, y);
+    c.quadraticCurveTo(x + dir*len*0.55, y - 9*scale, x + dir*len*0.85, y - 3*scale);
+    c.quadraticCurveTo(x + dir*len*0.9, y, x + dir*len*0.85, y + 3*scale);
+    c.quadraticCurveTo(x + dir*len*0.55, y + 9*scale, x + dir*4, y);
+    c.closePath(); c.fill();
+    // 内炎
+    c.fillStyle = colors[2];
+    c.beginPath();
+    c.moveTo(x + dir*8, y);
+    c.quadraticCurveTo(x + dir*len*0.5, y - 5*scale, x + dir*len*0.7, y - 2*scale);
+    c.quadraticCurveTo(x + dir*len*0.75, y, x + dir*len*0.7, y + 2*scale);
+    c.quadraticCurveTo(x + dir*len*0.5, y + 5*scale, x + dir*8, y);
+    c.closePath(); c.fill();
+}
+
+// =============================
+// 案A. 東洋青龍（細長型）
+// =============================
+(function drawA(){
+    const c = document.getElementById('cv-a').getContext('2d');
+    const cx = 120, cy = 160;
+    drawAura(c, cx, cy, 'rgba(58,138,90,0.35)', 130);
+    drawShadow(c, cx, 264);
+    // 細長い体（うねる）
+    const bodyPts = [];
+    for(let i=0; i<20; i++){
+        const t = i/19;
+        const xx = cx - 90 + t*180 + Math.sin(t*Math.PI*2.5)*16;
+        const yy = cy + Math.cos(t*Math.PI*2.5)*22 + (1-t)*30;
+        bodyPts.push([xx, yy, 16 - Math.abs(t-0.5)*16]);
+    }
+    // 体の影
+    for(const [x,y,r] of bodyPts){
+        c.fillStyle = '#1a4030';
+        c.beginPath(); c.arc(x, y, r+2, 0, Math.PI*2); c.fill();
+    }
+    // 体
+    for(const [x,y,r] of bodyPts){
+        c.fillStyle = '#3a8a5a';
+        c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+    }
+    // 腹側ハイライト
+    for(const [x,y,r] of bodyPts){
+        c.fillStyle = '#88cc88';
+        c.beginPath(); c.arc(x, y+r*0.3, r*0.5, 0, Math.PI*2); c.fill();
+    }
+    // 鱗（決定的）
+    for(let i=0; i<bodyPts.length; i++){
+        const [x,y,r] = bodyPts[i];
+        c.fillStyle = '#1a5a3a';
+        for(let s=0; s<4; s++){
+            const sa = (s/4)*Math.PI*2 + i*0.6;
+            c.beginPath();
+            c.arc(x + Math.cos(sa)*r*0.65, y + Math.sin(sa)*r*0.65, 1.6, 0, Math.PI*2);
+            c.fill();
+        }
+    }
+    // 4本足（短い爪足）
+    [[-50, cy+34], [-10, cy+44], [30, cy+38], [70, cy+30]].forEach(([dx, fy])=>{
+        const fx = cx + dx;
+        c.fillStyle = '#1a4030';
+        c.fillRect(fx-3, fy-12, 6, 16);
+        c.fillStyle = '#ffd24a';
+        // 爪
+        for(let k=0; k<3; k++){
+            c.beginPath();
+            c.moveTo(fx - 4 + k*4, fy + 4);
+            c.lineTo(fx - 4 + k*4, fy + 8);
+            c.stroke();
+        }
+    });
+    // 頭（先端）
+    const head = bodyPts[bodyPts.length-1];
+    const hx = head[0] + 22, hy = head[1];
+    c.fillStyle = '#3a8a5a';
+    c.beginPath(); c.ellipse(hx, hy, 22, 16, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#1a5a3a'; c.lineWidth = 1.5; c.stroke();
+    // 鼻先
+    c.fillStyle = '#3a8a5a';
+    c.beginPath();
+    c.moveTo(hx + 16, hy - 4); c.lineTo(hx + 30, hy - 2);
+    c.lineTo(hx + 30, hy + 6); c.lineTo(hx + 14, hy + 8);
+    c.closePath(); c.fill();
+    c.stroke();
+    // ヒゲ（中華龍の特徴）
+    c.strokeStyle = '#aa6600'; c.lineWidth = 1.8;
+    c.beginPath();
+    c.moveTo(hx + 16, hy + 4);
+    c.quadraticCurveTo(hx + 30, hy + 24, hx + 50, hy + 16);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(hx + 16, hy);
+    c.quadraticCurveTo(hx + 32, hy + 14, hx + 56, hy + 4);
+    c.stroke();
+    // 角
+    c.fillStyle = '#ffd24a';
+    c.beginPath();
+    c.moveTo(hx - 6, hy - 12); c.lineTo(hx - 14, hy - 30); c.lineTo(hx - 2, hy - 14);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(hx + 4, hy - 12); c.lineTo(hx - 4, hy - 30); c.lineTo(hx + 8, hy - 14);
+    c.closePath(); c.fill();
+    // 牙
+    c.fillStyle = '#fff';
+    c.fillRect(hx + 22, hy + 2, 1.5, 4);
+    c.fillRect(hx + 26, hy + 2, 1.5, 4);
+    // 目
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(hx, hy - 4, 3, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(hx - 0.5, hy - 5, 1, 3);
+    // 火炎ブレス
+    drawFireBreath(c, hx + 30, hy + 2, 1, 1, ['#aa1a00','#ff6600','#ffd24a']);
+})();
+
+// =============================
+// 案B. 西洋ドラゴン（重戦闘型）
+// =============================
+(function drawB(){
+    const c = document.getElementById('cv-b').getContext('2d');
+    const cx = 120, cy = 160;
+    drawAura(c, cx, cy, 'rgba(34,170,136,0.4)', 130);
+    drawShadow(c, cx, 264);
+    // 翼（広げた）
+    c.fillStyle = '#1a4040';
+    c.beginPath();
+    c.moveTo(cx - 20, cy - 20);
+    c.lineTo(cx - 90, cy - 70);
+    c.lineTo(cx - 100, cy - 30);
+    c.lineTo(cx - 80, cy - 10);
+    c.lineTo(cx - 90, cy + 10);
+    c.lineTo(cx - 30, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#0a2020'; c.lineWidth = 1.5; c.stroke();
+    c.fillStyle = '#1a4040';
+    c.beginPath();
+    c.moveTo(cx + 20, cy - 20);
+    c.lineTo(cx + 90, cy - 70);
+    c.lineTo(cx + 100, cy - 30);
+    c.lineTo(cx + 80, cy - 10);
+    c.lineTo(cx + 90, cy + 10);
+    c.lineTo(cx + 30, cy);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 翼の脈
+    c.strokeStyle = '#22aa88'; c.lineWidth = 1.2;
+    for(let i=0; i<4; i++){
+        c.beginPath();
+        c.moveTo(cx - 20 - i*4, cy - 20 + i*4);
+        c.lineTo(cx - 90 + i*5, cy - 60 + i*15);
+        c.stroke();
+        c.beginPath();
+        c.moveTo(cx + 20 + i*4, cy - 20 + i*4);
+        c.lineTo(cx + 90 - i*5, cy - 60 + i*15);
+        c.stroke();
+    }
+    // 体（がっしり）
+    c.fillStyle = '#22aa88';
+    c.beginPath(); c.ellipse(cx, cy, 38, 44, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#0a4030'; c.lineWidth = 1.8; c.stroke();
+    // 腹（朱）
+    c.fillStyle = '#ffaa44';
+    c.beginPath(); c.ellipse(cx, cy + 14, 22, 24, 0, 0, Math.PI*2); c.fill();
+    // 腹のうろこ
+    c.strokeStyle = '#aa6600'; c.lineWidth = 1;
+    for(let i=-2; i<=2; i++){
+        c.beginPath();
+        c.moveTo(cx - 18, cy + 4 + i*8);
+        c.quadraticCurveTo(cx, cy + 8 + i*8, cx + 18, cy + 4 + i*8);
+        c.stroke();
+    }
+    // 鱗
+    c.fillStyle = '#0a4030';
+    for(let r=0; r<3; r++){
+        for(let i=-3; i<=3; i++){
+            const sx = cx + i*9;
+            const sy = cy - 28 + r*16;
+            c.beginPath(); c.arc(sx, sy, 2, 0, Math.PI*2); c.fill();
+        }
+    }
+    // 4本足
+    c.fillStyle = '#22aa88';
+    c.fillRect(cx - 32, cy + 24, 12, 28);
+    c.fillRect(cx + 20, cy + 24, 12, 28);
+    c.fillRect(cx - 22, cy + 30, 10, 22);
+    c.fillRect(cx + 12, cy + 30, 10, 22);
+    c.strokeStyle = '#0a4030'; c.lineWidth = 1.4;
+    c.strokeRect(cx - 32, cy + 24, 12, 28);
+    c.strokeRect(cx + 20, cy + 24, 12, 28);
+    // 爪
+    c.fillStyle = '#ffd24a';
+    [[-30, cy+54], [-18, cy+54], [-26, cy+58], [22, cy+54], [28, cy+54], [25, cy+58]].forEach(([dx, fy])=>{
+        c.beginPath();
+        c.moveTo(cx+dx, fy); c.lineTo(cx+dx-2, fy+5); c.lineTo(cx+dx+2, fy+5); c.closePath(); c.fill();
+    });
+    // 尾
+    c.fillStyle = '#22aa88';
+    c.beginPath();
+    c.moveTo(cx, cy + 44);
+    c.quadraticCurveTo(cx + 50, cy + 60, cx + 70, cy + 30);
+    c.lineTo(cx + 64, cy + 26);
+    c.quadraticCurveTo(cx + 40, cy + 50, cx, cy + 36);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#0a4030'; c.stroke();
+    // 尾の先（矢じり）
+    c.fillStyle = '#ffd24a';
+    c.beginPath();
+    c.moveTo(cx + 70, cy + 30); c.lineTo(cx + 80, cy + 22); c.lineTo(cx + 76, cy + 18); c.lineTo(cx + 64, cy + 26); c.closePath(); c.fill();
+    // 頭
+    c.fillStyle = '#22aa88';
+    c.beginPath(); c.ellipse(cx, cy - 50, 22, 18, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#0a4030'; c.lineWidth = 1.5; c.stroke();
+    // 鼻先（突き出る）
+    c.fillStyle = '#22aa88';
+    c.beginPath();
+    c.moveTo(cx - 6, cy - 50); c.lineTo(cx - 32, cy - 40); c.lineTo(cx - 30, cy - 30); c.lineTo(cx - 4, cy - 42);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 角（湾曲した2本）
+    c.fillStyle = '#0a2020';
+    c.beginPath();
+    c.moveTo(cx - 14, cy - 60); c.quadraticCurveTo(cx - 28, cy - 80, cx - 16, cy - 86); c.quadraticCurveTo(cx - 8, cy - 76, cx - 12, cy - 60);
+    c.closePath(); c.fill();
+    c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 4, cy - 60); c.quadraticCurveTo(cx + 18, cy - 80, cx + 6, cy - 86); c.quadraticCurveTo(cx - 2, cy - 76, cx + 2, cy - 60);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 牙
+    c.fillStyle = '#fff';
+    c.fillRect(cx - 22, cy - 36, 1.5, 4);
+    c.fillRect(cx - 16, cy - 36, 1.5, 4);
+    // 目
+    c.fillStyle = '#ffaa00';
+    c.beginPath(); c.arc(cx + 4, cy - 52, 3, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(cx + 3.5, cy - 53, 1, 3);
+    // 火炎ブレス（左方向に）
+    drawFireBreath(c, cx - 32, cy - 36, -1, 0.9, ['#aa1a00','#ff6600','#ffd24a']);
+})();
+
+// =============================
+// 案C. 双頭龍
+// =============================
+(function drawC(){
+    const c = document.getElementById('cv-c').getContext('2d');
+    const cx = 120, cy = 170;
+    drawAura(c, cx, cy, 'rgba(136,221,68,0.4)', 130);
+    drawShadow(c, cx, 264);
+    // 体（中央）
+    c.fillStyle = '#5aaa44';
+    c.beginPath(); c.ellipse(cx, cy + 10, 36, 38, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#1a4a18'; c.lineWidth = 1.6; c.stroke();
+    c.fillStyle = '#88dd66';
+    c.beginPath(); c.ellipse(cx, cy + 22, 22, 24, 0, 0, Math.PI*2); c.fill();
+    // 鱗
+    c.fillStyle = '#1a4a18';
+    for(let r=0; r<3; r++){
+        for(let i=-2; i<=2; i++){
+            const sx = cx + i*10;
+            const sy = cy - 16 + r*16;
+            c.beginPath(); c.arc(sx, sy, 1.8, 0, Math.PI*2); c.fill();
+        }
+    }
+    // 4本足（後ろ脚は見えない、前脚2本）
+    c.fillStyle = '#5aaa44';
+    c.fillRect(cx - 28, cy + 32, 10, 24);
+    c.fillRect(cx + 18, cy + 32, 10, 24);
+    c.strokeStyle = '#1a4a18'; c.lineWidth = 1.4;
+    c.strokeRect(cx - 28, cy + 32, 10, 24);
+    c.strokeRect(cx + 18, cy + 32, 10, 24);
+    // 爪
+    c.fillStyle = '#ffd24a';
+    [[-26, cy+58], [-20, cy+58], [22, cy+58], [28, cy+58]].forEach(([dx, fy])=>{
+        c.beginPath();
+        c.moveTo(cx+dx, fy); c.lineTo(cx+dx-2, fy+5); c.lineTo(cx+dx+2, fy+5); c.closePath(); c.fill();
+    });
+    // 尾
+    c.fillStyle = '#5aaa44';
+    c.beginPath();
+    c.moveTo(cx, cy + 40);
+    c.quadraticCurveTo(cx - 30, cy + 70, cx - 60, cy + 50);
+    c.lineTo(cx - 56, cy + 44);
+    c.quadraticCurveTo(cx - 24, cy + 60, cx, cy + 30);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 左の首
+    function drawNeckHead(neckX1, neckX2, hx, hy, dir){
+        // 首（ベジェ曲線）
+        c.fillStyle = '#5aaa44';
+        c.beginPath();
+        c.moveTo(neckX1 - 8, cy - 18);
+        c.quadraticCurveTo(neckX2 - 4, cy - 50, hx - 14*dir, hy + 6);
+        c.lineTo(hx - 6*dir, hy + 14);
+        c.quadraticCurveTo(neckX2 + 4, cy - 40, neckX1 + 8, cy - 14);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#1a4a18'; c.lineWidth = 1.5; c.stroke();
+        // 頭
+        c.fillStyle = '#5aaa44';
+        c.beginPath(); c.ellipse(hx, hy, 18, 14, 0, 0, Math.PI*2); c.fill();
+        c.stroke();
+        // 鼻先
+        c.fillStyle = '#5aaa44';
+        c.beginPath();
+        c.moveTo(hx + dir*10, hy - 4); c.lineTo(hx + dir*24, hy - 2);
+        c.lineTo(hx + dir*24, hy + 6); c.lineTo(hx + dir*8, hy + 6);
+        c.closePath(); c.fill();
+        c.stroke();
+        // 角
+        c.fillStyle = '#1a3010';
+        c.beginPath();
+        c.moveTo(hx - 4*dir, hy - 10); c.lineTo(hx - 10*dir, hy - 24); c.lineTo(hx - 1*dir, hy - 12);
+        c.closePath(); c.fill();
+        c.beginPath();
+        c.moveTo(hx + 4*dir, hy - 10); c.lineTo(hx + 1*dir, hy - 24); c.lineTo(hx + 8*dir, hy - 12);
+        c.closePath(); c.fill();
+        // 目
+        c.fillStyle = '#ffea22';
+        c.beginPath(); c.arc(hx + 2*dir, hy - 4, 2.5, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#000';
+        c.fillRect(hx + 1.5*dir, hy - 5, 1, 2.5);
+        // 牙
+        c.fillStyle = '#fff';
+        c.fillRect(hx + dir*16, hy + 2, 1.4, 4);
+        c.fillRect(hx + dir*20, hy + 2, 1.4, 4);
+        // 火炎ブレス
+        drawFireBreath(c, hx + dir*24, hy + 2, dir, 0.7, ['#aa6600','#ffaa00','#ffea22']);
+    }
+    drawNeckHead(cx - 24, cx - 50, 60, 70, -1);
+    drawNeckHead(cx + 24, cx + 50, 180, 70, 1);
+})();
+
+// =============================
+// 案D. 三頭金龍
+// =============================
+(function drawD(){
+    const c = document.getElementById('cv-d').getContext('2d');
+    const cx = 120, cy = 180;
+    drawAura(c, cx, cy, 'rgba(255,210,74,0.4)', 140);
+    drawShadow(c, cx, 264);
+    // 翼
+    c.fillStyle = 'rgba(255,210,74,0.5)';
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 10);
+    c.lineTo(cx - 90, cy - 50);
+    c.lineTo(cx - 96, cy - 20);
+    c.lineTo(cx - 70, cy);
+    c.lineTo(cx - 30, cy + 10);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 18, cy - 10);
+    c.lineTo(cx + 90, cy - 50);
+    c.lineTo(cx + 96, cy - 20);
+    c.lineTo(cx + 70, cy);
+    c.lineTo(cx + 30, cy + 10);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#aa6600'; c.lineWidth = 1.5;
+    // 体
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.ellipse(cx, cy + 10, 32, 36, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#aa6600'; c.lineWidth = 1.8; c.stroke();
+    c.fillStyle = '#fff5cc';
+    c.beginPath(); c.ellipse(cx - 4, cy + 4, 14, 18, 0, 0, Math.PI*2); c.fill();
+    // 鱗
+    c.fillStyle = '#aa6600';
+    for(let r=0; r<3; r++){
+        for(let i=-2; i<=2; i++){
+            const sx = cx + i*10;
+            const sy = cy - 12 + r*14;
+            c.beginPath(); c.arc(sx, sy, 1.8, 0, Math.PI*2); c.fill();
+        }
+    }
+    // 朱の腹
+    c.fillStyle = '#aa1010';
+    c.beginPath();
+    c.moveTo(cx - 10, cy + 22); c.lineTo(cx + 10, cy + 22); c.lineTo(cx + 16, cy + 38); c.lineTo(cx - 16, cy + 38); c.closePath(); c.fill();
+    // 4本足
+    c.fillStyle = '#ffd24a';
+    c.fillRect(cx - 26, cy + 30, 10, 24);
+    c.fillRect(cx + 16, cy + 30, 10, 24);
+    c.strokeStyle = '#aa6600'; c.lineWidth = 1.4;
+    c.strokeRect(cx - 26, cy + 30, 10, 24);
+    c.strokeRect(cx + 16, cy + 30, 10, 24);
+    // 3つの首と頭
+    function drawHead3(neckX1, neckX2, hx, hy, dir){
+        // 首
+        c.fillStyle = '#ffd24a';
+        c.beginPath();
+        c.moveTo(neckX1 - 6, cy - 16);
+        c.quadraticCurveTo(neckX2 - 4, cy - 40, hx - 12*dir, hy + 4);
+        c.lineTo(hx - 6*dir, hy + 12);
+        c.quadraticCurveTo(neckX2 + 4, cy - 32, neckX1 + 6, cy - 14);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#aa6600'; c.lineWidth = 1.4; c.stroke();
+        // 頭
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.ellipse(hx, hy, 16, 12, 0, 0, Math.PI*2); c.fill();
+        c.stroke();
+        // 鼻先
+        c.beginPath();
+        c.moveTo(hx + dir*8, hy - 4); c.lineTo(hx + dir*22, hy - 2);
+        c.lineTo(hx + dir*22, hy + 6); c.lineTo(hx + dir*6, hy + 6);
+        c.closePath(); c.fill();
+        c.stroke();
+        // 角
+        c.fillStyle = '#aa1010';
+        c.beginPath();
+        c.moveTo(hx - 4*dir, hy - 8); c.lineTo(hx - 10*dir, hy - 22); c.lineTo(hx - 1*dir, hy - 10);
+        c.closePath(); c.fill();
+        c.beginPath();
+        c.moveTo(hx + 4*dir, hy - 8); c.lineTo(hx + 1*dir, hy - 22); c.lineTo(hx + 8*dir, hy - 10);
+        c.closePath(); c.fill();
+        // 目
+        c.fillStyle = '#aa1010';
+        c.beginPath(); c.arc(hx + 2*dir, hy - 4, 2.5, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#000';
+        c.fillRect(hx + 1.5*dir, hy - 5, 1, 2.5);
+        // 火炎ブレス
+        drawFireBreath(c, hx + dir*22, hy + 2, dir, 0.7, ['#aa1a00','#ff6600','#ffd24a']);
+    }
+    drawHead3(cx - 16, cx - 36, 50, 80, -1);
+    drawHead3(cx + 16, cx + 36, 190, 80, 1);
+    // 中央の頭（少し大きい）
+    c.fillStyle = '#ffd24a';
+    c.beginPath();
+    c.moveTo(cx - 8, cy - 18); c.quadraticCurveTo(cx - 4, cy - 60, cx, cy - 80);
+    c.lineTo(cx + 8, cy - 78); c.quadraticCurveTo(cx + 8, cy - 50, cx + 8, cy - 18);
+    c.closePath(); c.fill();
+    c.stroke();
+    c.beginPath(); c.ellipse(cx, cy - 90, 18, 14, 0, 0, Math.PI*2); c.fill();
+    c.stroke();
+    // 中央頭の角（前向き）
+    c.fillStyle = '#aa1010';
+    c.beginPath();
+    c.moveTo(cx - 6, cy - 100); c.lineTo(cx - 14, cy - 116); c.lineTo(cx - 2, cy - 102);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 6, cy - 100); c.lineTo(cx + 14, cy - 116); c.lineTo(cx + 2, cy - 102);
+    c.closePath(); c.fill();
+    // 中央頭の目
+    c.fillStyle = '#aa1010';
+    c.beginPath(); c.arc(cx - 5, cy - 90, 2.5, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 5, cy - 90, 2.5, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(cx - 5.5, cy - 91, 1, 2.5);
+    c.fillRect(cx + 4.5, cy - 91, 1, 2.5);
+})();
+
+// =============================
+// 案E. 業火の赤龍
+// =============================
+(function drawE(){
+    const c = document.getElementById('cv-e').getContext('2d');
+    const cx = 120, cy = 160;
+    // 燃える背景アウラ
+    drawAura(c, cx, cy, 'rgba(255,68,34,0.5)', 140);
+    drawShadow(c, cx, 264);
+    // 体（西洋型）
+    c.fillStyle = '#aa1a00';
+    c.beginPath(); c.ellipse(cx, cy, 36, 42, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#5a0808'; c.lineWidth = 1.6; c.stroke();
+    c.fillStyle = '#ff4422';
+    c.beginPath(); c.ellipse(cx, cy + 6, 22, 26, 0, 0, Math.PI*2); c.fill();
+    // 体表に走る溶岩の亀裂
+    c.strokeStyle = '#ffea22'; c.lineWidth = 1.5;
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 20); c.lineTo(cx - 8, cy - 8); c.lineTo(cx - 16, cy + 4); c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 16, cy - 16); c.lineTo(cx + 6, cy - 4); c.lineTo(cx + 14, cy + 8); c.stroke();
+    // 翼（炎をまとう）
+    c.fillStyle = '#5a0808';
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 20); c.lineTo(cx - 80, cy - 60); c.lineTo(cx - 90, cy - 30); c.lineTo(cx - 70, cy - 10); c.lineTo(cx - 30, cy);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 18, cy - 20); c.lineTo(cx + 80, cy - 60); c.lineTo(cx + 90, cy - 30); c.lineTo(cx + 70, cy - 10); c.lineTo(cx + 30, cy);
+    c.closePath(); c.fill();
+    // 翼の縁の炎
+    c.strokeStyle = '#ff6600'; c.lineWidth = 3;
+    c.beginPath(); c.moveTo(cx - 80, cy - 60); c.lineTo(cx - 90, cy - 30); c.stroke();
+    c.beginPath(); c.moveTo(cx + 80, cy - 60); c.lineTo(cx + 90, cy - 30); c.stroke();
+    // 体周りに炎パーティクル
+    for(let i=0; i<14; i++){
+        const a = i*Math.PI*2/14;
+        const r = 50 + Math.sin(i)*8;
+        const fx = cx + Math.cos(a)*r;
+        const fy = cy + Math.sin(a)*r;
+        c.fillStyle = ['#ff3300','#ff6600','#ffd24a'][i%3];
+        c.beginPath();
+        c.moveTo(fx, fy);
+        c.lineTo(fx + Math.cos(a)*8, fy + Math.sin(a)*8);
+        c.lineTo(fx + Math.cos(a+0.3)*4, fy + Math.sin(a+0.3)*4);
+        c.closePath(); c.fill();
+    }
+    // 4本足
+    c.fillStyle = '#aa1a00';
+    c.fillRect(cx - 30, cy + 28, 12, 26);
+    c.fillRect(cx + 18, cy + 28, 12, 26);
+    c.strokeStyle = '#5a0808'; c.lineWidth = 1.4; c.strokeRect(cx - 30, cy + 28, 12, 26);
+    c.strokeRect(cx + 18, cy + 28, 12, 26);
+    // 爪
+    c.fillStyle = '#ffd24a';
+    [[-28, cy+54], [-20, cy+54], [20, cy+54], [28, cy+54]].forEach(([dx, fy])=>{
+        c.beginPath();
+        c.moveTo(cx+dx, fy); c.lineTo(cx+dx-2, fy+5); c.lineTo(cx+dx+2, fy+5); c.closePath(); c.fill();
+    });
+    // 尾
+    c.fillStyle = '#aa1a00';
+    c.beginPath();
+    c.moveTo(cx, cy + 40); c.quadraticCurveTo(cx + 50, cy + 60, cx + 70, cy + 30);
+    c.lineTo(cx + 64, cy + 26); c.quadraticCurveTo(cx + 40, cy + 50, cx, cy + 36);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#5a0808'; c.stroke();
+    // 尾の先の炎
+    drawFireBreath(c, cx + 70, cy + 30, 1, 0.5, ['#aa1a00','#ff6600','#ffd24a']);
+    // 頭
+    c.fillStyle = '#aa1a00';
+    c.beginPath(); c.ellipse(cx, cy - 50, 22, 18, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#5a0808'; c.lineWidth = 1.5; c.stroke();
+    c.fillStyle = '#aa1a00';
+    c.beginPath();
+    c.moveTo(cx - 6, cy - 50); c.lineTo(cx - 32, cy - 40); c.lineTo(cx - 30, cy - 30); c.lineTo(cx - 4, cy - 42);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 角
+    c.fillStyle = '#1a0000';
+    c.beginPath();
+    c.moveTo(cx - 14, cy - 60); c.quadraticCurveTo(cx - 28, cy - 80, cx - 16, cy - 86); c.quadraticCurveTo(cx - 8, cy - 76, cx - 12, cy - 60);
+    c.closePath(); c.fill();
+    c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 4, cy - 60); c.quadraticCurveTo(cx + 18, cy - 80, cx + 6, cy - 86); c.quadraticCurveTo(cx - 2, cy - 76, cx + 2, cy - 60);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 燃える目
+    c.fillStyle = '#ffea22';
+    c.beginPath(); c.arc(cx + 4, cy - 52, 3, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(cx + 3.5, cy - 53, 1, 3);
+    // 火炎ブレス（左方向に大きく）
+    drawFireBreath(c, cx - 32, cy - 36, -1, 1.1, ['#aa1a00','#ff3300','#ffd24a']);
+    // ブレスの追加スパーク
+    for(let i=0; i<8; i++){
+        c.fillStyle = '#ffea22';
+        c.beginPath(); c.arc(cx - 60 - i*5, cy - 36 + (i%3-1)*4, 1.5, 0, Math.PI*2); c.fill();
+    }
+})();
+
+// =============================
+// 案F. 闇の禁忌龍（骸骨龍）
+// =============================
+(function drawF(){
+    const c = document.getElementById('cv-f').getContext('2d');
+    const cx = 120, cy = 160;
+    drawAura(c, cx, cy, 'rgba(170,68,255,0.4)', 130);
+    drawShadow(c, cx, 264);
+    // 翼（破れた）
+    c.fillStyle = '#1a0020';
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 20);
+    c.lineTo(cx - 80, cy - 60);
+    c.lineTo(cx - 70, cy - 40);
+    c.lineTo(cx - 90, cy - 30);
+    c.lineTo(cx - 75, cy - 10);
+    c.lineTo(cx - 30, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#aa44ff'; c.lineWidth = 1; c.stroke();
+    c.fillStyle = '#1a0020';
+    c.beginPath();
+    c.moveTo(cx + 18, cy - 20);
+    c.lineTo(cx + 80, cy - 60);
+    c.lineTo(cx + 70, cy - 40);
+    c.lineTo(cx + 90, cy - 30);
+    c.lineTo(cx + 75, cy - 10);
+    c.lineTo(cx + 30, cy);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 翼の脈
+    c.strokeStyle = '#aa44ff'; c.lineWidth = 1;
+    for(let i=0; i<3; i++){
+        c.beginPath(); c.moveTo(cx - 20 - i*4, cy - 20 + i*4); c.lineTo(cx - 80 + i*5, cy - 50 + i*15); c.stroke();
+        c.beginPath(); c.moveTo(cx + 20 + i*4, cy - 20 + i*4); c.lineTo(cx + 80 - i*5, cy - 50 + i*15); c.stroke();
+    }
+    // 体
+    c.fillStyle = '#2a0830';
+    c.beginPath(); c.ellipse(cx, cy, 36, 42, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#0a0010'; c.lineWidth = 1.5; c.stroke();
+    // 体内に透ける骨
+    c.strokeStyle = 'rgba(220,200,180,0.55)'; c.lineWidth = 1.4;
+    // あばら骨
+    for(let i=-2; i<=2; i++){
+        c.beginPath();
+        c.moveTo(cx - 18, cy - 20 + i*10);
+        c.quadraticCurveTo(cx, cy - 16 + i*10, cx + 18, cy - 20 + i*10);
+        c.stroke();
+    }
+    // 背骨
+    c.beginPath(); c.moveTo(cx, cy - 30); c.lineTo(cx, cy + 36); c.stroke();
+    // 鱗（黒）
+    c.fillStyle = '#0a0010';
+    for(let r=0; r<3; r++){
+        for(let i=-2; i<=2; i++){
+            const sx = cx + i*10;
+            const sy = cy - 26 + r*16;
+            c.beginPath(); c.arc(sx, sy, 1.6, 0, Math.PI*2); c.fill();
+        }
+    }
+    // 4本足
+    c.fillStyle = '#2a0830';
+    c.fillRect(cx - 30, cy + 28, 12, 26);
+    c.fillRect(cx + 18, cy + 28, 12, 26);
+    c.strokeStyle = '#0a0010'; c.lineWidth = 1.4;
+    c.strokeRect(cx - 30, cy + 28, 12, 26);
+    c.strokeRect(cx + 18, cy + 28, 12, 26);
+    // 骨の爪
+    c.fillStyle = '#ddccaa';
+    [[-28, cy+54], [-20, cy+54], [20, cy+54], [28, cy+54]].forEach(([dx, fy])=>{
+        c.beginPath();
+        c.moveTo(cx+dx, fy); c.lineTo(cx+dx-2, fy+6); c.lineTo(cx+dx+2, fy+6); c.closePath(); c.fill();
+    });
+    // 尾
+    c.fillStyle = '#2a0830';
+    c.beginPath();
+    c.moveTo(cx, cy + 40); c.quadraticCurveTo(cx + 50, cy + 60, cx + 70, cy + 30);
+    c.lineTo(cx + 64, cy + 26); c.quadraticCurveTo(cx + 40, cy + 50, cx, cy + 36);
+    c.closePath(); c.fill();
+    // 尾骨が透ける
+    c.strokeStyle = 'rgba(220,200,180,0.55)'; c.lineWidth = 1.2;
+    c.beginPath();
+    c.moveTo(cx, cy + 38); c.lineTo(cx + 18, cy + 44); c.lineTo(cx + 38, cy + 44); c.lineTo(cx + 60, cy + 32); c.stroke();
+    // 頭（骸骨気味）
+    c.fillStyle = '#2a0830';
+    c.beginPath(); c.ellipse(cx, cy - 50, 22, 18, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#0a0010'; c.lineWidth = 1.5; c.stroke();
+    c.fillStyle = '#2a0830';
+    c.beginPath();
+    c.moveTo(cx - 6, cy - 50); c.lineTo(cx - 32, cy - 40); c.lineTo(cx - 30, cy - 30); c.lineTo(cx - 4, cy - 42);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 鼻先の歯（骸骨感）
+    c.strokeStyle = '#ddccaa'; c.lineWidth = 1.5;
+    for(let i=0; i<4; i++){
+        c.beginPath();
+        c.moveTo(cx - 28 + i*6, cy - 32);
+        c.lineTo(cx - 28 + i*6, cy - 28);
+        c.stroke();
+    }
+    // 角（骨）
+    c.fillStyle = '#ddccaa';
+    c.beginPath();
+    c.moveTo(cx - 14, cy - 60); c.lineTo(cx - 24, cy - 86); c.lineTo(cx - 6, cy - 60);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(cx + 4, cy - 60); c.lineTo(cx - 6, cy - 86); c.lineTo(cx + 12, cy - 60);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#9a8870'; c.lineWidth = 0.8; c.stroke();
+    // 目（赤紫の眼窩）
+    c.fillStyle = '#ff2244';
+    c.beginPath(); c.arc(cx + 4, cy - 52, 3.5, 0, Math.PI*2); c.fill();
+    c.fillStyle = 'rgba(255,40,80,0.5)';
+    c.beginPath(); c.arc(cx + 4, cy - 52, 7, 0, Math.PI*2); c.fill();
+    // 紫炎ブレス
+    drawFireBreath(c, cx - 32, cy - 36, -1, 1.0, ['#3a0050','#aa44ff','#ff66ff']);
+    // ブレスにドクロパーティクル
+    for(let i=0; i<5; i++){
+        c.fillStyle = 'rgba(220,200,180,0.7)';
+        c.beginPath(); c.arc(cx - 50 - i*8, cy - 38 + (i%2)*6, 2.4, 0, Math.PI*2); c.fill();
+    }
+})();
+</script>
+</body>
+</html>

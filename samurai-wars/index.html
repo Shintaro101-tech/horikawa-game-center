@@ -968,10 +968,10 @@
           cooldown:62.0, color:'#1a4a6a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
           flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#3a8a5a',
           desc:'青と緑の超巨大龍。火炎で全てを焼き尽くす' },
-        // Stage 117: スサノオ
+        // Stage 117: スサノオ（金の神将・仏神風）
         { id:'sp_susanoo', name:'スサノオ', yomi:'すさのお', cost:3000, hp:11500, atk:900, atkSpeed:1.4, range:60, speed:1.1,
-          cooldown:60.0, color:'#1a3a5a', helmet:'susanoo_helm', weapon:'odachi', rarity:5, scale:1.6,
-          desc:'日本神話の荒ぶる神。剣で地上を一閃する' },
+          cooldown:60.0, color:'#ffd24a', helmet:'susanoo_helm', weapon:'odachi', rarity:5, scale:1.6,
+          desc:'金鎧と光輪を纏う神将。聖剣で地上を一閃する' },
         // Stage 118: ゼウス（最終、対空、範囲、雷）
         { id:'sp_zeus', name:'ゼウス', yomi:'ぜうす', cost:4200, hp:9000, atk:1300, atkSpeed:1.7, range:340, speed:1.0,
           cooldown:90.0, color:'#1060a0', helmet:'zeus_crown', weapon:'thunder_bolt', rarity:5, scale:1.5,
@@ -2042,9 +2042,9 @@
         // Stage 116 — Illuyanka (flying + anti-air + AOE fire)
         116: { name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', hp:28000, atk:1100, helmet:'dragon_head', weapon:'fire_breath', color:'#1a4a6a', scale:2.6, flying:true, antiAir:true, ranged:true, aoe:true, range:300, wingColor:'#3a8a5a' },
         // Stage 117
-        117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'odachi', color:'#1a3a5a', scale:2.3 },
-        // Stage 118 — Zeus (final, anti-air, ranged AOE thunder)
-        118: { name:'ゼウス', yomi:'ぜうす', hp:42000, atk:1700, helmet:'zeus_crown', weapon:'thunder_bolt', color:'#1060a0', scale:2.4, ranged:true, antiAir:true, aoe:true, range:340 }
+        117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'odachi', color:'#ffd24a', scale:2.3 },
+        // Stage 118 — Zeus (final megaboss: screen-spanning, anti-air, AOE thunder)
+        118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_bolt', color:'#ffd24a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.0 }
     };
 
     // ステージ18は二段階ボス戦
@@ -2204,6 +2204,277 @@
                 });
             }
         });
+    }
+
+    // ゼウス — 画面を縦断する神々の王（最終ボス）
+    function drawZeus(c, u) {
+        const w = W(), h = H();
+        const baseX = u.x;
+        const baseY = u.y;
+        const topY = h * 0.04;
+        const totalH = baseY - topY;
+        const time = performance.now() * 0.001;
+
+        // パラメータ（画面の縦に応じてスケール）
+        const headR = Math.max(28, totalH * 0.07);
+        const headY = topY + headR + 24;
+        const shoulderY = headY + headR + 18;
+        const robeTopY = shoulderY + 4;
+        const waistY = robeTopY + totalH * 0.28;
+        const robeBottomY = baseY - 24;
+        const robeWidth = Math.max(110, totalH * 0.24);
+
+        // 背景の光オーラ
+        const aura = c.createRadialGradient(baseX, headY + totalH*0.2, 30, baseX, headY + totalH*0.2, totalH*0.7);
+        aura.addColorStop(0, 'rgba(255,210,74,0.42)');
+        aura.addColorStop(0.5, 'rgba(255,210,74,0.15)');
+        aura.addColorStop(1, 'transparent');
+        c.fillStyle = aura;
+        c.fillRect(baseX - totalH*0.7, topY, totalH*1.4, baseY - topY);
+
+        // 嵐雲（足元）
+        for(let i=0; i<7; i++) {
+            const cx2 = baseX + Math.sin(time*0.7 + i)*30 + (i-3)*70;
+            const cy2 = baseY - 14 + Math.cos(time*0.5 + i)*6;
+            c.fillStyle = `rgba(70,70,110,${0.55 - (i%2)*0.1})`;
+            c.beginPath();
+            c.ellipse(cx2, cy2, 70, 14, 0, 0, Math.PI*2); c.fill();
+        }
+        // 雲から漏れる稲妻（断続的）
+        if((Math.floor(time*4) + Math.floor(baseX)) % 3 === 0) {
+            const lx = baseX + Math.sin(time*5)*120;
+            c.strokeStyle = '#ffea22'; c.lineWidth = 2;
+            c.beginPath();
+            c.moveTo(lx, baseY - 32); c.lineTo(lx + 6, baseY - 22);
+            c.lineTo(lx - 4, baseY - 12); c.stroke();
+            c.strokeStyle = 'rgba(255,234,34,0.5)'; c.lineWidth = 6;
+            c.stroke();
+        }
+
+        // 衣（白い長衣・A字形）
+        c.fillStyle = '#f5f5f0';
+        c.beginPath();
+        c.moveTo(baseX - robeWidth*0.4, robeTopY);
+        c.lineTo(baseX - robeWidth, robeBottomY);
+        c.lineTo(baseX + robeWidth, robeBottomY);
+        c.lineTo(baseX + robeWidth*0.4, robeTopY);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#aa6600'; c.lineWidth = 2.5; c.stroke();
+
+        // 衣の金縁（裾）
+        c.fillStyle = '#ffd24a';
+        c.fillRect(baseX - robeWidth, robeBottomY - 10, robeWidth*2, 8);
+        c.strokeStyle = '#aa6600'; c.lineWidth = 1; c.strokeRect(baseX - robeWidth, robeBottomY - 10, robeWidth*2, 8);
+        // 裾の雷紋
+        c.strokeStyle = '#aa1010'; c.lineWidth = 1.5;
+        for(let i=-3; i<=3; i++){
+            const fx = baseX + i*(robeWidth*0.27);
+            c.beginPath();
+            c.moveTo(fx-6, robeBottomY-7); c.lineTo(fx+2, robeBottomY-3);
+            c.lineTo(fx-2, robeBottomY-1); c.lineTo(fx+6, robeBottomY+3);
+            c.stroke();
+        }
+
+        // 衣のドレープ
+        c.strokeStyle = '#aaaaa0'; c.lineWidth = 1.5;
+        for(let i=-4; i<=4; i++){
+            const xtop = baseX + i*(robeWidth*0.08);
+            const xbot = baseX + i*(robeWidth*0.2);
+            c.beginPath();
+            c.moveTo(xtop, robeTopY);
+            c.lineTo(xbot, robeBottomY - 10);
+            c.stroke();
+        }
+
+        // 帯
+        c.fillStyle = '#aa1010';
+        c.fillRect(baseX - robeWidth*0.7, waistY, robeWidth*1.4, 14);
+        c.strokeStyle = '#5a0808'; c.lineWidth = 1.5;
+        c.strokeRect(baseX - robeWidth*0.7, waistY, robeWidth*1.4, 14);
+        // 帯の金留具
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.arc(baseX, waistY+7, 7, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#aa6600'; c.stroke();
+
+        // 金鎧の胸当て
+        c.fillStyle = '#ffd24a';
+        c.beginPath();
+        c.moveTo(baseX - robeWidth*0.4, robeTopY);
+        c.lineTo(baseX - robeWidth*0.5, shoulderY);
+        c.lineTo(baseX + robeWidth*0.5, shoulderY);
+        c.lineTo(baseX + robeWidth*0.4, robeTopY);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#aa6600'; c.lineWidth = 2.5; c.stroke();
+        // 胸当て下のハイライト
+        c.fillStyle = '#fff5cc';
+        c.fillRect(baseX - robeWidth*0.35, shoulderY+4, robeWidth*0.15, 10);
+
+        // 胸当ての雷紋
+        c.strokeStyle = '#aa1010'; c.lineWidth = 4;
+        const cz = (robeTopY + shoulderY) / 2;
+        c.beginPath();
+        c.moveTo(baseX - 22, cz - 22); c.lineTo(baseX + 6, cz - 6);
+        c.lineTo(baseX - 8, cz + 6); c.lineTo(baseX + 22, cz + 22);
+        c.stroke();
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 1.5; c.stroke();
+
+        // 翡翠の肩飾り
+        c.fillStyle = '#3a8a5a';
+        c.beginPath(); c.arc(baseX - robeWidth*0.5, shoulderY, 10, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(baseX + robeWidth*0.5, shoulderY, 10, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a4a2a'; c.lineWidth = 1.2; c.stroke();
+        c.beginPath(); c.arc(baseX - robeWidth*0.5, shoulderY, 10, 0, Math.PI*2); c.stroke();
+
+        // 左腕（雷を高く掲げる）
+        const armW = headR * 0.6;
+        const lShoulderX = baseX - robeWidth*0.5;
+        const lHandY = shoulderY - totalH*0.18;
+        c.fillStyle = '#f0d4a8';
+        c.fillRect(lShoulderX - armW/2, shoulderY - 4, armW, lHandY - shoulderY + 4);
+        c.strokeStyle = '#aa6600'; c.lineWidth = 1.8;
+        c.strokeRect(lShoulderX - armW/2, shoulderY - 4, armW, lHandY - shoulderY + 4);
+        // 手
+        c.fillStyle = '#f0d4a8';
+        c.beginPath(); c.arc(lShoulderX, lHandY, armW*0.75, 0, Math.PI*2); c.fill();
+        c.stroke();
+
+        // 雷バトン（左手から上に）
+        const boltX = lShoulderX;
+        const boltStartY = lHandY - armW*0.5;
+        const boltEndY = topY + 6;
+        const boltSegments = 7;
+        const boltPts = [];
+        for(let i=0; i<=boltSegments; i++){
+            const t = i/boltSegments;
+            const yy = boltStartY + (boltEndY - boltStartY)*t;
+            const xx = boltX + Math.sin(t*Math.PI*3 + time*8) * 14 * (1-t*0.5);
+            boltPts.push([xx, yy]);
+        }
+        // 外グロー
+        c.strokeStyle = 'rgba(255,234,34,0.55)'; c.lineWidth = 22;
+        c.beginPath();
+        boltPts.forEach((p,i)=> i ? c.lineTo(p[0],p[1]) : c.moveTo(p[0],p[1]));
+        c.stroke();
+        // 中
+        c.strokeStyle = '#ffea22'; c.lineWidth = 9;
+        c.beginPath();
+        boltPts.forEach((p,i)=> i ? c.lineTo(p[0],p[1]) : c.moveTo(p[0],p[1]));
+        c.stroke();
+        // コア
+        c.strokeStyle = '#ffffff'; c.lineWidth = 3.5;
+        c.beginPath();
+        boltPts.forEach((p,i)=> i ? c.lineTo(p[0],p[1]) : c.moveTo(p[0],p[1]));
+        c.stroke();
+
+        // 右腕（横にひらいて魔力放出）
+        const rShoulderX = baseX + robeWidth*0.5;
+        const rElbowX = rShoulderX + armW*1.2;
+        const rElbowY = shoulderY + armW*0.6;
+        const rHandX = rElbowX + armW*0.8;
+        const rHandY = rElbowY + armW*1.4;
+        c.fillStyle = '#f0d4a8';
+        c.beginPath();
+        c.moveTo(rShoulderX - armW/2, shoulderY - 4);
+        c.lineTo(rShoulderX + armW/2, shoulderY - 4);
+        c.lineTo(rElbowX + armW/2, rElbowY);
+        c.lineTo(rHandX + armW/2, rHandY);
+        c.lineTo(rHandX - armW/2, rHandY);
+        c.lineTo(rElbowX - armW/2, rElbowY);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#aa6600'; c.lineWidth = 1.8; c.stroke();
+        c.fillStyle = '#f0d4a8';
+        c.beginPath(); c.arc(rHandX, rHandY + armW*0.4, armW*0.75, 0, Math.PI*2); c.fill();
+        c.stroke();
+        // 右手から漏れる金光
+        c.fillStyle = 'rgba(255,234,34,0.55)';
+        c.beginPath(); c.arc(rHandX, rHandY + armW*0.4, armW*1.4, 0, Math.PI*2); c.fill();
+
+        // 頭
+        c.fillStyle = '#f0d4a8';
+        c.beginPath(); c.arc(baseX, headY, headR, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#aa6600'; c.lineWidth = 2.5; c.stroke();
+
+        // 白い長い髭
+        c.fillStyle = '#f5f5f0';
+        c.beginPath();
+        c.moveTo(baseX - headR*0.85, headY + headR*0.5);
+        c.lineTo(baseX - headR*0.4, robeTopY - 8);
+        c.lineTo(baseX + headR*0.4, robeTopY - 8);
+        c.lineTo(baseX + headR*0.85, headY + headR*0.5);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#aaaaa0'; c.lineWidth = 1.5; c.stroke();
+        c.strokeStyle = '#cccccc'; c.lineWidth = 1.2;
+        for(let i=-2; i<=2; i++){
+            c.beginPath();
+            c.moveTo(baseX + i*headR*0.2, headY + headR*0.6);
+            c.lineTo(baseX + i*headR*0.15, robeTopY - 10);
+            c.stroke();
+        }
+
+        // 白く長い眉
+        c.strokeStyle = '#f5f5f0'; c.lineWidth = 3;
+        c.beginPath();
+        c.moveTo(baseX - headR*0.5, headY - headR*0.35);
+        c.lineTo(baseX - headR*0.1, headY - headR*0.45);
+        c.stroke();
+        c.beginPath();
+        c.moveTo(baseX + headR*0.1, headY - headR*0.45);
+        c.lineTo(baseX + headR*0.5, headY - headR*0.35);
+        c.stroke();
+
+        // 月桂冠
+        c.fillStyle = '#ffd24a';
+        for(let i=-5; i<=5; i++){
+            const a = i*0.16;
+            c.save();
+            c.translate(baseX + Math.sin(a)*headR*1.05, headY - headR*0.95 + (1-Math.cos(a))*headR*0.4);
+            c.rotate(a);
+            c.beginPath();
+            c.moveTo(0, 0); c.lineTo(8, -12); c.lineTo(0, -8); c.lineTo(-8, -12);
+            c.closePath(); c.fill();
+            c.strokeStyle = '#aa6600'; c.lineWidth = 1; c.stroke();
+            c.restore();
+        }
+        // 冠中央の宝石
+        c.fillStyle = '#aa1010';
+        c.beginPath(); c.arc(baseX, headY - headR*1.05, 4, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#fff'; c.lineWidth = 1; c.stroke();
+
+        // 額の雷光
+        c.strokeStyle = 'rgba(255,234,34,0.7)'; c.lineWidth = 8;
+        c.beginPath();
+        c.moveTo(baseX - 9, headY - headR*0.55);
+        c.lineTo(baseX + 4, headY - headR*0.2);
+        c.lineTo(baseX - 4, headY);
+        c.lineTo(baseX + 8, headY + headR*0.35);
+        c.stroke();
+        c.strokeStyle = '#ffffff'; c.lineWidth = 2.6;
+        c.stroke();
+
+        // 光る目
+        c.fillStyle = '#ffffff';
+        c.beginPath(); c.arc(baseX - headR*0.32, headY - headR*0.05, headR*0.16, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(baseX + headR*0.32, headY - headR*0.05, headR*0.16, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#ffea22';
+        c.beginPath(); c.arc(baseX - headR*0.32, headY - headR*0.05, headR*0.09, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(baseX + headR*0.32, headY - headR*0.05, headR*0.09, 0, Math.PI*2); c.fill();
+
+        // 周囲の稲妻スパーク
+        const sparkTime = performance.now() * 0.005;
+        for(let i=0; i<10; i++){
+            const a = sparkTime + i*0.62;
+            const dist = totalH * 0.4 + Math.sin(a*2) * 30;
+            const sx = baseX + Math.sin(a)*dist;
+            const sy = headY + totalH*0.25 + Math.cos(a*1.3)*dist*0.6;
+            c.fillStyle = '#ffea22';
+            c.beginPath();
+            c.moveTo(sx, sy);
+            c.lineTo(sx - 3, sy + 10);
+            c.lineTo(sx + 5, sy + 12);
+            c.closePath(); c.fill();
+            c.fillStyle = 'rgba(255,234,34,0.4)';
+            c.beginPath(); c.arc(sx, sy+6, 8, 0, Math.PI*2); c.fill();
+        }
     }
 
     // 天空魔機神 — 6本腕の浮遊メカ神
@@ -3465,20 +3736,52 @@
                 c.fillRect(-5*scale,-40*scale,1.5*scale,1.5*scale);
                 c.fillRect(3*scale,-34*scale,1.5*scale,1.5*scale);
                 break;
-            case 'susanoo_helm': // スサノオ
-                c.fillStyle = '#1a3a5a';
-                c.beginPath(); c.arc(0,-34*scale,8*scale,0,Math.PI*2); c.fill();
-                c.fillStyle = '#2a4a8a';
-                c.fillRect(-8*scale,-32*scale,16*scale,3*scale);
-                // 鬼の角
-                c.fillStyle = '#0a1030';
-                c.beginPath();
-                c.moveTo(-5*scale,-40*scale); c.lineTo(-9*scale,-50*scale); c.lineTo(-2*scale,-42*scale); c.closePath(); c.fill();
-                c.beginPath();
-                c.moveTo(5*scale,-40*scale); c.lineTo(9*scale,-50*scale); c.lineTo(2*scale,-42*scale); c.closePath(); c.fill();
-                // 月の輝き
+            case 'susanoo_helm': // スサノオ（金の神将・仏神風）
+                // 背後の光輪
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 3*scale;
+                c.globalAlpha = 0.55;
+                c.beginPath(); c.arc(0, -36*scale, 16*scale, 0, Math.PI*2); c.stroke();
+                c.lineWidth = 1.5*scale; c.globalAlpha = 0.9;
+                c.beginPath(); c.arc(0, -36*scale, 16*scale, 0, Math.PI*2); c.stroke();
+                c.globalAlpha = 1;
+                // 光輪から放射する光線
+                c.strokeStyle = 'rgba(255,210,74,0.55)'; c.lineWidth = 1*scale;
+                for(let i=0; i<8; i++){
+                    const a = i/8 * Math.PI*2;
+                    c.beginPath();
+                    c.moveTo(Math.cos(a)*17*scale, -36*scale + Math.sin(a)*17*scale);
+                    c.lineTo(Math.cos(a)*22*scale, -36*scale + Math.sin(a)*22*scale);
+                    c.stroke();
+                }
+                // 顔（穏やかな肌色）— 既存の頭の上に少し盛る
+                c.fillStyle = '#f5dbb0';
+                c.beginPath(); c.arc(0,-34*scale,7.5*scale,0,Math.PI*2); c.fill();
+                c.strokeStyle = '#8a5a30'; c.lineWidth = 0.7*scale; c.stroke();
+                // 金の冠
                 c.fillStyle = '#ffd24a';
-                c.beginPath(); c.arc(0,-44*scale,2*scale,0,Math.PI*2); c.fill();
+                c.fillRect(-9*scale,-42*scale,18*scale,4*scale);
+                c.strokeStyle = '#aa6600'; c.lineWidth = 0.8*scale;
+                c.strokeRect(-9*scale,-42*scale,18*scale,4*scale);
+                // 冠の朱の中央装飾
+                c.fillStyle = '#aa1010';
+                c.beginPath();
+                c.moveTo(-3*scale,-42*scale); c.lineTo(0,-50*scale); c.lineTo(3*scale,-42*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#5a0808'; c.lineWidth = 0.6*scale; c.stroke();
+                // 翡翠の飾り玉（冠の左右）
+                c.fillStyle = '#3a8a5a';
+                c.beginPath(); c.arc(-6*scale,-43*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(6*scale,-43*scale,1.5*scale,0,Math.PI*2); c.fill();
+                // 鼻髭（八の字）
+                c.strokeStyle = '#000'; c.lineWidth = 0.9*scale;
+                c.beginPath();
+                c.moveTo(-3*scale,-30*scale); c.lineTo(-1*scale,-31*scale); c.stroke();
+                c.beginPath();
+                c.moveTo(3*scale,-30*scale); c.lineTo(1*scale,-31*scale); c.stroke();
+                // 穏やかな目（細い）
+                c.fillStyle = '#000';
+                c.fillRect(-4*scale,-36*scale,2*scale,1*scale);
+                c.fillRect(2*scale,-36*scale,2*scale,1*scale);
                 break;
         }
     }
@@ -5121,6 +5424,7 @@
             }
             if(u.data && u.data.mega) {
                 if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
+                else if(u.data.helmet === 'zeus_crown') drawZeus(ctx, u);
                 else drawDarkDragon(ctx, u);
             } else {
                 // 飛行: 本体の後ろに翼を描画
