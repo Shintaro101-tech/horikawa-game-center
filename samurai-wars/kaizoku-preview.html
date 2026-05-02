@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>海賊 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🏴‍☠️ 海賊 デザイン & 攻撃 候補</h1>
+<div class="sub">PIRATE DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#5a2a1a;--g:rgba(90,42,26,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 茶色の無頼海賊（現行）</h2><p>茶色のフード、刀、無頼風。古典的な日本海賊。</p><div class="meta">配色:茶+赤帯</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,30,30,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒い船長海賊</h2><p>黒い帽子、眼帯、骸骨マーク。西洋風海賊船長。</p><div class="meta">配色:黒+骸骨</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 朱赤の女海賊</h2><p>朱赤の衣、長髪、鋭い刀。色気と気迫の女首領。</p><div class="meta">配色:朱+黒</div></div>
+<div class="card" style="--c:#1080dd;--g:rgba(16,128,221,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 蒼い海神の使い</h2><p>蒼い装束、銛、海神の祝福。神秘的な海の戦士。</p><div class="meta">配色:蒼+銀</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaaaaa;--g:rgba(170,170,170,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 抜刀斬り（現行）</h2><p>居合抜きで一閃。基本動作。</p></div>
+<div class="card" style="--c:#3a2008;--g:rgba(58,32,8,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② フリントロック銃撃</h2><p>胴元から火縄銃を出し、3連射。中距離拡張。</p></div>
+<div class="card" style="--c:#aaeeff;--g:rgba(170,238,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 海王 渦潮召喚</h2><p>海の渦が地面から噴き出し、敵を引き込む範囲AOE。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 大砲ぶっ放し</h2><p>背中の大砲で巨大砲弾を発射、爆発AOE。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawPirate(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,24,5);
+  // 脚
+  c.fillStyle=p.legs;c.fillRect(cx-12,cy-10,8,32);c.fillRect(cx+4,cy-10,8,32);
+  // ブーツ
+  c.fillStyle=p.boots||'#1a0808';c.fillRect(cx-14,cy+18,12,5);c.fillRect(cx+2,cy+18,12,5);
+  // 義足（B案）
+  if(p.pegLeg){c.fillStyle=p.legs;c.fillRect(cx+5,cy-10,6,28);
+    c.fillStyle='#3a2008';c.beginPath();c.moveTo(cx+5,cy+18);c.lineTo(cx+11,cy+18);c.lineTo(cx+10,cy+24);c.lineTo(cx+6,cy+24);c.closePath();c.fill();}
+  // 胴衣
+  c.fillStyle=p.body;
+  c.beginPath();c.moveTo(cx-26,cy-50);c.lineTo(cx+26,cy-50);c.lineTo(cx+22,cy-10);c.lineTo(cx-22,cy-10);c.closePath();c.fill();
+  // 帯（広め、海賊風サッシュ）
+  c.fillStyle=p.sash||'#aa1010';c.fillRect(cx-26,cy-22,52,8);
+  // ベルトのバックル
+  c.fillStyle=p.buckle||'#ffd24a';c.fillRect(cx-4,cy-21,8,6);
+  // 骸骨マーク（B案）
+  if(p.skull){c.fillStyle=p.skull;
+    c.beginPath();c.arc(cx,cy-36,7,0,Math.PI*2);c.fill();
+    c.fillStyle='#000';c.fillRect(cx-3,cy-37,2,2);c.fillRect(cx+1,cy-37,2,2);
+    c.fillRect(cx-2,cy-32,4,1);
+    // 骨（X字）
+    c.strokeStyle=p.skull;c.lineWidth=2;
+    c.beginPath();c.moveTo(cx-12,cy-26);c.lineTo(cx-4,cy-30);c.stroke();
+    c.beginPath();c.moveTo(cx+12,cy-26);c.lineTo(cx+4,cy-30);c.stroke();}
+  // 腕
+  c.fillStyle=p.body;c.fillRect(cx-32,cy-46,8,28);c.fillRect(cx+24,cy-46,8,28);
+  // 手
+  c.fillStyle=p.skin||'#f0c890';
+  c.beginPath();c.arc(cx-28,cy-18,4,0,Math.PI*2);c.fill();
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-58,10,0,Math.PI*2);c.fill();
+  // 髭
+  if(p.beard){c.fillStyle=p.beard;c.fillRect(cx-7,cy-50,14,5);
+    c.beginPath();c.arc(cx,cy-46,4,0,Math.PI);c.fill();}
+  // 目（or 眼帯）
+  if(p.eyepatch){c.fillStyle='#000';c.fillRect(cx-10,cy-60,9,5);
+    c.strokeStyle='#000';c.lineWidth=1;c.beginPath();c.moveTo(cx-10,cy-58);c.lineTo(cx-10,cy-50);c.stroke();
+    c.fillStyle='#000';c.fillRect(cx+2,cy-59,4,2);
+  }else{c.fillStyle='#000';c.fillRect(cx-5,cy-59,3,2);c.fillRect(cx+2,cy-59,3,2);}
+  // 髪/長髪（C案）
+  if(p.longHair){c.fillStyle=p.hair||'#000';
+    c.beginPath();c.arc(cx,cy-60,12,Math.PI,0);c.fill();
+    c.fillRect(cx-12,cy-60,4,28);c.fillRect(cx+8,cy-60,4,28);
+  }
+  // フード/帽子
+  if(p.hat==='captain'){
+    // 三角帽子
+    c.fillStyle=p.hatColor||'#1a1a1a';
+    c.beginPath();c.moveTo(cx-18,cy-66);c.lineTo(cx,cy-86);c.lineTo(cx+18,cy-66);c.lineTo(cx+12,cy-62);c.lineTo(cx-12,cy-62);c.closePath();c.fill();
+    // 海賊マーク
+    c.fillStyle=p.hatTrim||'#ffd24a';
+    c.beginPath();c.arc(cx,cy-72,3,0,Math.PI*2);c.fill();
+    c.fillStyle='#000';c.fillRect(cx-1,cy-73,2,1);
+  }else if(p.hat==='hood'){
+    c.fillStyle=p.hatColor||p.body;
+    c.beginPath();c.arc(cx,cy-58,12,Math.PI,0);c.fill();
+    c.fillRect(cx-12,cy-58,24,4);
+  }else if(p.hat==='bandana'){
+    c.fillStyle=p.hatColor||'#aa1010';
+    c.fillRect(cx-12,cy-66,24,6);
+    c.beginPath();c.moveTo(cx-12,cy-62);c.lineTo(cx-18,cy-56);c.lineTo(cx-10,cy-58);c.closePath();c.fill();
+  }
+  // 刀（右手、抜刀ポーズ）
+  c.save();c.translate(cx+30,cy-26);c.rotate(-0.3);
+  c.fillStyle='#3a2008';c.fillRect(-2,0,4,12);
+  c.fillStyle=p.bladeColor||'#dddddd';c.fillRect(-2,-40,4,40);
+  c.fillStyle='#fff';c.fillRect(-1,-40,2,40);c.restore();
+  // 銛（D案）
+  if(p.harpoon){c.save();c.translate(cx-30,cy-30);c.rotate(0.2);
+    c.fillStyle='#3a2008';c.fillRect(-2,-40,4,50);
+    c.fillStyle='#aaaaaa';c.beginPath();c.moveTo(-3,-44);c.lineTo(0,-56);c.lineTo(3,-44);c.closePath();c.fill();
+    // ぎざぎざ
+    c.fillStyle='#aaaaaa';c.beginPath();c.moveTo(-3,-50);c.lineTo(-7,-46);c.lineTo(-2,-46);c.closePath();c.fill();
+    c.beginPath();c.moveTo(3,-50);c.lineTo(7,-46);c.lineTo(2,-46);c.closePath();c.fill();c.restore();}
+  // 大砲（背中、D案や追加）
+  if(p.cannon){c.save();c.translate(cx-32,cy-48);c.rotate(-0.4);
+    c.fillStyle='#1a1a1a';c.fillRect(-3,-3,16,8);
+    c.fillStyle='#3a2008';c.fillRect(13,-4,4,10);c.restore();}
+}
+drawPirate(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(90,42,26,0.4)',body:'#5a2a1a',legs:'#3a1a08',boots:'#1a0808',sash:'#aa1010',buckle:'#ffd24a',skin:'#f0c890',beard:'#1a1a1a',hat:'hood',hatColor:'#5a2a1a'});
+drawPirate(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(80,30,30,0.4)',body:'#1a1a1a',legs:'#0a0a0a',boots:'#000',sash:'#aa1010',buckle:'#ffd24a',skin:'#d8b070',beard:'#1a1a1a',hat:'captain',hatColor:'#000',hatTrim:'#fff',skull:'#fff',eyepatch:true,pegLeg:true});
+drawPirate(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',legs:'#3a0000',boots:'#000',sash:'#000',buckle:'#ffd24a',skin:'#f8d8b0',hat:'bandana',hatColor:'#000',longHair:true,hair:'#1a1a1a',bladeColor:'#ffeecc'});
+drawPirate(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(16,128,221,0.4)',body:'#1080dd',legs:'#053a78',boots:'#0a1830',sash:'#aaeeff',buckle:'#aaeeff',skin:'#f0c890',hat:'hood',hatColor:'#053a78',harpoon:true,bladeColor:'#aaeeff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a3060');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 海賊
+  const zx=30,zy=h*0.7;c.fillStyle='#5a2a1a';c.fillRect(zx-7,zy-44,14,44);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#5a2a1a';c.beginPath();c.arc(zx,zy-54,9,Math.PI,0);c.fill();c.fillRect(zx-9,zy-54,18,3);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 抜刀斬り（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.3){const tt=t/0.3;
+    // 構え（鞘から）
+    c.fillStyle='#3a2008';c.fillRect(40,h*0.55-2,30,4);
+    c.fillStyle='#dddddd';c.fillRect(40,h*0.55-2,15+tt*15,2);
+  }else if(t<0.55){const tt=(t-0.3)/0.25;
+    // 抜刀斬り
+    c.save();c.translate(45,h*0.55);c.rotate(-Math.PI*0.5+tt*Math.PI*1.2);
+    c.fillStyle='#3a2008';c.fillRect(-2,0,4,12);c.fillStyle='#dddddd';c.fillRect(-2,-50,4,50);c.fillStyle='#fff';c.fillRect(-1,-50,2,50);c.restore();
+    c.strokeStyle=`rgba(220,220,220,${1-tt})`;c.lineWidth=8;c.beginPath();c.arc(45,h*0.55,52,-Math.PI*0.5,-Math.PI*0.5+tt*Math.PI*1.2);c.stroke();
+    c.strokeStyle='#fff';c.lineWidth=3;c.beginPath();c.arc(45,h*0.55,52,-Math.PI*0.5,-Math.PI*0.5+tt*Math.PI*1.2);c.stroke();
+  }else{const tt=(t-0.55)/0.45;c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*16,0,Math.PI*2);c.fill();
+    c.strokeStyle='#aaaaaa';c.lineWidth=4;c.beginPath();c.moveTo(tg.x-15,tg.y-30);c.lineTo(tg.x+12,tg.y);c.stroke();}
+},2000);
+
+// ② フリントロック銃撃 3連射
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.83,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 海賊（左）
+  c.fillStyle='#5a2a1a';c.fillRect(35-12,h*0.55-30,24,40);
+  // フリント銃
+  c.fillStyle='#3a2008';c.fillRect(50,h*0.55-15,8,4);
+  c.fillStyle='#1a1a1a';c.fillRect(58,h*0.55-14,22,3);
+  // 3連射タイミング
+  [0.0,0.25,0.5].forEach((td,i)=>{const local=t-td;
+    if(local>0&&local<0.18){
+      // 発射閃光
+      c.fillStyle=`rgba(255,170,68,${1-local/0.18})`;c.beginPath();c.arc(82,h*0.55-12,14,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,234,34,${1-local/0.18})`;c.beginPath();c.arc(82,h*0.55-12,7,0,Math.PI*2);c.fill();
+      // 煙
+      for(let k=0;k<5;k++){c.fillStyle=`rgba(180,180,180,${0.5-k*0.08})`;c.beginPath();c.arc(82+k*5,h*0.55-12-k*3,4+k,0,Math.PI*2);c.fill();}
+    }
+    if(local>=0.18&&local<0.65){const tt=(local-0.18)/0.47;const x=82+tt*(enemies[i].x-90);
+      // 弾
+      c.fillStyle='#fff';c.beginPath();c.arc(x,h*0.55-12,3,0,Math.PI*2);c.fill();
+      c.strokeStyle=`rgba(255,210,74,0.6)`;c.lineWidth=2;c.beginPath();c.moveTo(82,h*0.55-12);c.lineTo(x,h*0.55-12);c.stroke();
+    }
+    // ヒット
+    if(local>=0.65&&local<0.85){c.fillStyle=`rgba(255,255,255,${1-(local-0.65)/0.2})`;c.beginPath();c.arc(enemies[i].x,enemies[i].y-16,16,0,Math.PI*2);c.fill();}
+  });
+  c.fillStyle='#3a2008';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🔫フリント3連射🔫',w*0.5,28);
+},2400);
+
+// ③ 海王 渦潮召喚
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.7,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.2){const tt=t/0.2;
+    // 詠唱光
+    c.fillStyle=`rgba(170,238,255,${tt*0.7})`;c.beginPath();c.arc(40,h*0.55,18+tt*8,0,Math.PI*2);c.fill();
+  }else{const tt=Math.min(1,(t-0.2)/0.3);
+    // 渦潮（ターゲット中心に展開）
+    const cx0=w*0.6,cy0=h*0.7;
+    const r=tt*70;
+    // 外輪の渦（青い水）
+    for(let k=0;k<5;k++){
+      c.strokeStyle=`rgba(170,238,255,${0.6+0.3*Math.sin(t*Math.PI*8+k)})`;c.lineWidth=4;
+      const rk=r*(0.4+k*0.15);
+      c.beginPath();
+      for(let i=0;i<=20;i++){const ang=i/20*Math.PI*2+t*Math.PI*4+k*0.5;
+        const xx=cx0+Math.cos(ang)*rk*(1-i*0.01);
+        const yy=cy0+Math.sin(ang)*rk*0.4*(1-i*0.01);
+        if(i===0)c.moveTo(xx,yy);else c.lineTo(xx,yy);}
+      c.stroke();
+    }
+    // 中央の暗い穴
+    c.fillStyle=`rgba(10,30,80,0.85)`;c.beginPath();c.ellipse(cx0,cy0,r*0.3,r*0.15,0,0,Math.PI*2);c.fill();
+    // 飛沫
+    for(let k=0;k<8;k++){const ang=k/8*Math.PI*2+t*Math.PI*8;const sr=r*0.85;
+      c.fillStyle='#aaeeff';c.beginPath();c.arc(cx0+Math.cos(ang)*sr,cy0+Math.sin(ang)*sr*0.4,3,0,Math.PI*2);c.fill();}
+    // 引き込まれる敵
+    enemies.forEach(e=>{const d=Math.hypot(e.x-cx0,(e.y-cy0)*2.5);if(d<r){
+      c.fillStyle=`rgba(170,238,255,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,14,0,Math.PI*2);c.fill();
+    }});
+  }
+  c.fillStyle='#aaeeff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🌊海王の渦潮🌊',w*0.5,28);
+},2400);
+
+// ④ 大砲ぶっ放し
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 海賊+大砲（左）
+  c.fillStyle='#5a2a1a';c.fillRect(35-12,h*0.55-30,24,40);
+  c.fillStyle='#1a1a1a';c.fillRect(50,h*0.55-15,40,15);
+  c.fillStyle='#3a2008';c.fillRect(48,h*0.55-15,4,15);
+  if(t<0.15){const tt=t/0.15;
+    // 着火
+    c.fillStyle=`rgba(255,210,74,${tt*0.7})`;c.beginPath();c.arc(46,h*0.55-15,5+tt*3,0,Math.PI*2);c.fill();
+  }else if(t<0.3){const tt=(t-0.15)/0.15;
+    // 発射閃光
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(98,h*0.55-7,30+tt*15,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(98,h*0.55-7,18,0,Math.PI*2);c.fill();
+    // 煙
+    for(let k=0;k<8;k++){c.fillStyle=`rgba(200,200,200,${0.6-k*0.06})`;c.beginPath();c.arc(98+k*5,h*0.55-7-k*3,8+k*2,0,Math.PI*2);c.fill();}
+  }else if(t<0.7){const tt=(t-0.3)/0.4;const x=98+tt*(w*0.6-98);
+    // 砲弾
+    c.fillStyle='#1a1a1a';c.beginPath();c.arc(x,h*0.55-7-Math.sin(tt*Math.PI)*20,8,0,Math.PI*2);c.fill();
+    c.fillStyle='#aa6600';c.beginPath();c.arc(x,h*0.55-7-Math.sin(tt*Math.PI)*20,4,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.7)/0.3;
+    // 着弾爆発
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(w*0.6,h*0.7,40+tt*60,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,170,68,${1-tt})`;c.beginPath();c.arc(w*0.6,h*0.7,25+tt*40,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.7})`;c.beginPath();c.arc(w*0.6,h*0.7,12,0,Math.PI*2);c.fill();
+  }
+  c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('💣大砲ぶっ放し💣',w*0.5,28);
+},2400);
+</script></body></html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大入道 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:260px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>👻 大入道 デザイン & 攻撃 候補</h1>
+<div class="sub">ONYUDO DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#3a3a30;--g:rgba(58,58,48,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="260"></canvas></div><h2>案A. 黒袈裟の妖怪僧（現行）</h2><p>暗い袈裟、禿頭、影のような体。古典的な大入道。</p><div class="meta">配色:暗緑+肌色</div></div>
+<div class="card" style="--c:#3a1a4a;--g:rgba(58,26,74,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="260"></canvas></div><h2>案B. 紫の闇道僧</h2><p>紫の僧衣、燃える紅眼、般若のような顔。怨霊型。</p><div class="meta">配色:紫+紅眼</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="260"></canvas></div><h2>案C. 朱赤の鬼入道</h2><p>朱赤の僧衣、巨大な拳、金棒。鬼気迫る形態。</p><div class="meta">配色:朱+金</div></div>
+<div class="card" style="--c:#fff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="260"></canvas></div><h2>案D. 白幽霊の聖入道</h2><p>白い透けた体、半透明、浮遊する妖魔。神秘型。</p><div class="meta">配色:白+青光</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#5a3a18;--g:rgba(90,58,24,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="220"></canvas></div><h2>案① 巨大拳殴り（現行）</h2><p>巨大な拳で叩き潰す近距離攻撃。基本動作。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="220"></canvas></div><h2>案② 影分身 双頭叩きつけ</h2><p>影の分身が出現、両側から同時に挟み撃ち拳。AOE+多体。</p></div>
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="220"))></div><h2>案③ 妖気の毒霧</h2><p>口から緑の毒霧を吐き出し、前方広範囲に持続毒ダメ。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="220"></canvas></div><h2>案④ 巨腕地面叩きつけ</h2><p>両腕を上空から地面に叩きつけ、地割れ＋衝撃波の超AOE。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawOnyudo(c,p){
+  const cx=110,cy=240;
+  if(p.aura)aura(c,cx,cy-100,p.aura,140);shadow(c,cx,cy+12,42,5);
+  // 透明度設定（D案）
+  if(p.alpha){c.save();c.globalAlpha=p.alpha;}
+  // 脚（巨大）
+  c.fillStyle=p.body;c.fillRect(cx-20,cy-50,15,46);c.fillRect(cx+5,cy-50,15,46);
+  // 足
+  c.fillStyle='#1a1a1a';c.fillRect(cx-23,cy-6,18,8);c.fillRect(cx+5,cy-6,18,8);
+  // 袈裟（広い裾）
+  c.fillStyle=p.body;
+  c.beginPath();c.moveTo(cx-30,cy-130);c.lineTo(cx+30,cy-130);c.lineTo(cx+38,cy-50);c.lineTo(cx-38,cy-50);c.closePath();c.fill();
+  // 袈裟の縦帯
+  c.fillStyle=p.sash||'#aa6600';
+  c.fillRect(cx-4,cy-130,8,80);
+  // 帯
+  c.fillStyle=p.belt||'#aa6600';c.fillRect(cx-32,cy-86,64,6);
+  // 念珠
+  if(p.beads){c.fillStyle=p.beads;
+    for(let i=0;i<10;i++){c.beginPath();c.arc(cx-26+i*6,cy-94,3,0,Math.PI*2);c.fill();}
+  }
+  // 腕（巨大）
+  c.fillStyle=p.body;
+  c.beginPath();c.arc(cx-38,cy-110,14,0,Math.PI*2);c.fill();
+  c.fillRect(cx-44,cy-110,12,40);
+  c.beginPath();c.arc(cx+38,cy-110,14,0,Math.PI*2);c.fill();
+  c.fillRect(cx+32,cy-110,12,40);
+  // 拳
+  c.fillStyle=p.skin||'#d8b88a';
+  c.beginPath();c.arc(cx-38,cy-66,11,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+38,cy-66,11,0,Math.PI*2);c.fill();
+  // 顔（禿頭）
+  c.fillStyle=p.skin||'#d8b88a';c.beginPath();c.arc(cx,cy-150,18,0,Math.PI*2);c.fill();
+  // 目
+  c.fillStyle=p.eyeColor||'#000';c.shadowColor=p.eyeColor;c.shadowBlur=p.eyeColor==='#000'?0:10;
+  c.fillRect(cx-7,cy-152,4,3);c.fillRect(cx+3,cy-152,4,3);c.shadowBlur=0;
+  // 怒りの眉（B/C案）
+  if(p.angryBrow){c.strokeStyle='#000';c.lineWidth=2.5;
+    c.beginPath();c.moveTo(cx-9,cy-160);c.lineTo(cx-3,cy-156);c.stroke();
+    c.beginPath();c.moveTo(cx+9,cy-160);c.lineTo(cx+3,cy-156);c.stroke();}
+  // 口（B/C案：般若風）
+  if(p.fangs){c.fillStyle='#3a0010';c.fillRect(cx-7,cy-142,14,5);
+    c.fillStyle='#fff';c.beginPath();c.moveTo(cx-4,cy-140);c.lineTo(cx-2,cy-134);c.lineTo(cx,cy-140);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+4,cy-140);c.lineTo(cx+2,cy-134);c.lineTo(cx,cy-140);c.closePath();c.fill();
+  }else{c.strokeStyle='#000';c.lineWidth=1.5;
+    c.beginPath();c.moveTo(cx-4,cy-142);c.lineTo(cx+4,cy-142);c.stroke();}
+  // 額の妖怪マーク
+  if(p.thirdEye){c.fillStyle=p.eyeColor||'#aa3333';c.shadowColor=p.eyeColor||'#aa3333';c.shadowBlur=8;
+    c.beginPath();c.moveTo(cx-3,cy-160);c.lineTo(cx+3,cy-160);c.lineTo(cx,cy-156);c.closePath();c.fill();c.shadowBlur=0;}
+  // 金棒（C案）
+  if(p.kanabo){c.save();c.translate(cx+50,cy-100);c.rotate(0.3);
+    c.fillStyle='#3a2008';c.fillRect(-5,0,10,20);
+    c.fillStyle='#5a3a18';c.fillRect(-9,-46,18,48);
+    c.fillStyle='#ddd';for(let i=0;i<3;i++){c.beginPath();c.arc(-9,-40+i*12,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(9,-40+i*12,2,0,Math.PI*2);c.fill();}c.restore();}
+  // 浮遊オーラ（D案）
+  if(p.floatGlow){c.fillStyle=p.floatGlow;
+    for(let i=0;i<5;i++){const a=Math.PI*2*i/5;
+      c.beginPath();c.arc(cx+Math.cos(a)*25,cy-30+Math.sin(a)*8,4,0,Math.PI*2);c.fill();}
+  }
+  if(p.alpha){c.restore();}
+}
+drawOnyudo(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(58,58,48,0.5)',body:'#3a3a30',sash:'#aa6600',belt:'#aa6600',beads:'#fff',skin:'#d8b88a'});
+drawOnyudo(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,68,255,0.5)',body:'#3a1a4a',sash:'#aa1010',belt:'#aa1010',beads:'#aa1010',skin:'#7a5a3a',eyeColor:'#ff3030',angryBrow:true,fangs:true,thirdEye:true});
+drawOnyudo(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.5)',body:'#aa1010',sash:'#ffd24a',belt:'#ffd24a',beads:'#ffd24a',skin:'#dc2626',eyeColor:'#ffd24a',angryBrow:true,fangs:true,kanabo:true});
+drawOnyudo(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(170,238,255,0.5)',body:'#fff',sash:'#aaeeff',belt:'#aaeeff',beads:'#aaeeff',skin:'#fff',alpha:0.7,floatGlow:'rgba(170,238,255,0.7)'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#1a0830');sky.addColorStop(1,'#3a1860');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a0808';c.fillRect(0,h*0.7,w,3);
+  // 大入道（簡易）
+  c.fillStyle='#3a3a30';c.fillRect(35-12,h*0.2,24,h*0.5);
+  c.fillStyle='#d8b88a';c.beginPath();c.arc(35,h*0.18,14,0,Math.PI*2);c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 巨大拳殴り（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.4){const tt=t/0.4;
+    // 拳を引く
+    c.fillStyle='#d8b88a';c.beginPath();c.arc(50-tt*20,h*0.55,18+tt*4,0,Math.PI*2);c.fill();
+    c.fillStyle='#3a3a30';c.fillRect(50-tt*20-8,h*0.55,16,30);
+  }else if(t<0.6){const tt=(t-0.4)/0.2;
+    // パンチ前進
+    const x=30+tt*(tg.x-50);
+    c.fillStyle='#d8b88a';c.beginPath();c.arc(x,h*0.55,22,0,Math.PI*2);c.fill();
+    c.fillStyle='#3a3a30';c.fillRect(x-30,h*0.55,30,30);
+    // 速度線
+    c.strokeStyle=`rgba(170,140,90,0.6)`;c.lineWidth=2;
+    for(let k=0;k<5;k++){c.beginPath();c.moveTo(x-30-k*8,h*0.55-10+k*4);c.lineTo(x-15-k*5,h*0.55-8+k*3);c.stroke();}
+  }else{const tt=(t-0.6)/0.4;
+    // 着弾
+    c.fillStyle=`rgba(170,140,90,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,30+tt*30,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*15,0,Math.PI*2);c.fill();
+    // 衝撃波
+    c.strokeStyle=`rgba(170,140,90,${1-tt})`;c.lineWidth=4;c.beginPath();c.ellipse(tg.x,tg.y,40+tt*30,10,0,0,Math.PI*2);c.stroke();
+  }
+},2200);
+
+// ② 影分身 双頭叩きつけ
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.55,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.45,y:h*0.78}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 中央：本体
+  c.fillStyle='#3a1a4a';c.fillRect(w*0.55-15,h*0.55-30,30,30);
+  c.fillStyle='#7a5a3a';c.beginPath();c.arc(w*0.55,h*0.55-40,12,0,Math.PI*2);c.fill();
+  c.fillStyle='#ff3030';c.fillRect(w*0.55-7,h*0.55-42,4,3);c.fillRect(w*0.55+3,h*0.55-42,4,3);
+  // 影分身（左右）
+  if(t>0.2){const tt=Math.min(1,(t-0.2)/0.3);
+    [-50,50].forEach(off=>{
+      c.fillStyle=`rgba(170,68,255,${tt*0.7})`;c.fillRect(w*0.55+off-15,h*0.55-30,30,30);
+      c.fillStyle=`rgba(170,68,255,${tt*0.6})`;c.beginPath();c.arc(w*0.55+off,h*0.55-40,12,0,Math.PI*2);c.fill();
+    });
+  }
+  // 3つの巨大拳が同時叩きつけ
+  if(t>0.45){const tt=Math.min(1,(t-0.45)/0.3);
+    [w*0.45,w*0.55,w*0.65].forEach((x,i)=>{
+      const fy=h*0.55+tt*60;
+      c.fillStyle=i===1?'#7a5a3a':'rgba(170,68,255,0.85)';
+      c.beginPath();c.arc(x,fy,18,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(0,0,0,0.4)';c.fillRect(x-12,h*0.55,24,fy-h*0.55);
+    });
+  }
+  // 着弾
+  if(t>0.7){const tt=(t-0.7)/0.3;
+    enemies.forEach(e=>{c.fillStyle=`rgba(170,68,255,${(1-tt)*0.7})`;c.beginPath();c.arc(e.x,e.y-16,30,0,Math.PI*2);c.fill();});
+  }
+  c.fillStyle='#aa44ff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('影分身 三連拳!',w*0.5,28);
+},2400);
+
+// ③ 妖気の毒霧
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 大入道の口
+  c.fillStyle='#d8b88a';c.beginPath();c.arc(40,h*0.4,28,0,Math.PI*2);c.fill();
+  if(t<0.2){c.fillStyle='#3a0010';c.fillRect(58,h*0.42,15,4);}
+  else{c.fillStyle='#3a0010';c.beginPath();c.ellipse(72,h*0.45,18,14,0,0,Math.PI*2);c.fill();}
+  if(t>=0.2){const tt=(t-0.2)/0.8;
+    // 毒霧（コーン状に拡散）
+    const reach=tt*(w-50);
+    for(let i=0;i<reach/3;i++){const x=90+i*3;const phase=i/(reach/3);
+      const dy=phase*70+Math.sin(t*Math.PI*8+i*0.4)*10;
+      c.fillStyle=`rgba(136,221,102,${0.5*(1-phase*0.4)})`;
+      c.beginPath();c.arc(x,h*0.45+dy*Math.sin(0.5),5+phase*3,0,Math.PI*2);c.fill();
+      c.beginPath();c.arc(x,h*0.45-dy*Math.sin(0.5),5+phase*3,0,Math.PI*2);c.fill();
+      // 毒の粒
+      if(i%4===0){c.fillStyle='#88dd66';c.beginPath();c.arc(x,h*0.45+(Math.random()-0.5)*60*(x-90)/reach,2,0,Math.PI*2);c.fill();}
+    }
+    // ヒット（毒）
+    enemies.forEach(e=>{if(90+reach>e.x){c.fillStyle=`rgba(136,221,102,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,18,0,Math.PI*2);c.fill();
+      c.fillStyle='#88dd66';c.font='bold 12px sans-serif';c.textAlign='center';c.fillText('☠毒☠',e.x,e.y-32);}});
+  }
+  c.fillStyle='#88dd66';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('☠妖気毒霧☠',w*0.5,28);
+},2400);
+
+// ④ 巨腕地面叩きつけ
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.4){const tt=t/0.4;
+    // 両腕を上空に振り上げる
+    [-1,1].forEach(side=>{c.fillStyle='#3a3a30';
+      c.fillRect(50+side*30,h*0.6-100*tt,15,100);
+      c.fillStyle='#d8b88a';c.beginPath();c.arc(57+side*30,h*0.6-100*tt,18,0,Math.PI*2);c.fill();
+    });
+    // チャージオーラ
+    c.fillStyle=`rgba(255,85,68,${tt*0.5})`;c.beginPath();c.arc(50,h*0.55,40,0,Math.PI*2);c.fill();
+  }else if(t<0.55){const tt=(t-0.4)/0.15;
+    // 振り下ろし
+    [-1,1].forEach(side=>{c.fillStyle='#3a3a30';
+      c.fillRect(50+side*30,h*0.6-100*(1-tt)-20,15,100);
+      c.fillStyle='#d8b88a';c.beginPath();c.arc(57+side*30,h*0.6+tt*20,18,0,Math.PI*2);c.fill();
+    });
+  }else{const tt=(t-0.55)/0.45;
+    // 着弾大爆発
+    c.fillStyle=`rgba(255,85,68,${1-tt})`;c.beginPath();c.arc(w*0.5,h*0.7,80+tt*100,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,170,68,${1-tt})`;c.beginPath();c.arc(w*0.5,h*0.7,50+tt*70,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.7})`;c.beginPath();c.arc(w*0.5,h*0.7,25+tt*40,0,Math.PI*2);c.fill();
+    // 地割れが両側に
+    c.strokeStyle='#1a0a00';c.lineWidth=4;
+    c.beginPath();c.moveTo(w*0.5,h*0.7);
+    let lx=w*0.5;
+    while(lx>20){const nx=lx-15;c.lineTo(nx,h*0.7+(Math.random()-0.5)*8);lx=nx;}
+    c.stroke();
+    c.beginPath();c.moveTo(w*0.5,h*0.7);
+    lx=w*0.5;
+    while(lx<w-20){const nx=lx+15;c.lineTo(nx,h*0.7+(Math.random()-0.5)*8);lx=nx;}
+    c.stroke();
+    // 衝撃波
+    c.strokeStyle=`rgba(255,170,68,${1-tt})`;c.lineWidth=8;c.beginPath();c.ellipse(w*0.5,h*0.7,80+tt*120,30+tt*30,0,0,Math.PI*2);c.stroke();
+  }
+  c.fillStyle='#ff5544';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('💥巨腕大叩きつけ💥',w*0.5,28);
+},2800);
+</script></body></html>

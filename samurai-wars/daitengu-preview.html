@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大天狗 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:260px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>👺 大天狗 デザイン & 攻撃 候補</h1>
+<div class="sub">DAITENGU DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="260"></canvas></div><h2>案A. 朱赤の山天狗（現行）</h2><p>朱赤の顔、長い高鼻、白い修験者衣、葉団扇。王道天狗。</p><div class="meta">配色:朱+白</div></div>
+<div class="card" style="--c:#1a4a8a;--g:rgba(26,74,138,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="260"></canvas></div><h2>案B. 蒼の烏天狗</h2><p>蒼黒の体、烏のくちばし、黒い羽。隠形の鴉天狗形態。</p><div class="meta">配色:蒼+黒</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,30,80,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="260"></canvas></div><h2>案C. 黒の魔天狗</h2><p>漆黒の体、紅い長鼻、燃える紫眼。最終形態の魔界天狗。</p><div class="meta">配色:黒+紫光</div></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="260"></canvas></div><h2>案D. 黄金の神天狗</h2><p>金色の顔、太陽冠、神々しい白衣。神格化形態。</p><div class="meta">配色:金+白</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="220"></canvas></div><h2>案① 風刃 飛刃（現行）</h2><p>緑の風の刃を投げる遠距離斬撃。基本動作。</p></div>
+<div class="card" style="--c:#aaeeff;--g:rgba(170,238,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="220"></canvas></div><h2>案② 葉団扇 大旋風</h2><p>葉団扇を一振り、巨大な竜巻が前方を貫通する。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="220"></canvas></div><h2>案③ 神通力 神隠し</h2><p>敵1体を瞬時に上空に飛ばし、地面に叩き落とす。単体超ダメ。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="220"></canvas></div><h2>案④ 八咫烏召喚</h2><p>3羽の烏が空から舞い降りて敵を切り裂く多体攻撃。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawTengu(c,p){
+  const cx=110,cy=240;
+  if(p.aura)aura(c,cx,cy-100,p.aura,140);shadow(c,cx,cy+12,40,5);
+  // 脚
+  c.fillStyle=p.body;c.fillRect(cx-18,cy-50,12,46);c.fillRect(cx+6,cy-50,12,46);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-22,cy-6,16,8);c.fillRect(cx+6,cy-6,16,8);
+  // 高下駄
+  c.fillStyle='#3a2008';c.fillRect(cx-20,cy-2,14,6);c.fillRect(cx+6,cy-2,14,6);
+  c.fillRect(cx-18,cy+4,4,8);c.fillRect(cx+8,cy+4,4,8);
+  c.fillRect(cx-14,cy+4,4,8);c.fillRect(cx+12,cy+4,4,8);
+  // 修験者衣
+  c.fillStyle=p.robe||'#fff';
+  c.beginPath();c.moveTo(cx-30,cy-130);c.lineTo(cx+30,cy-130);c.lineTo(cx+38,cy-50);c.lineTo(cx-38,cy-50);c.closePath();c.fill();
+  // 装飾の縁
+  c.strokeStyle=p.trim||'#aa6600';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-30,cy-130);c.lineTo(cx-38,cy-50);c.stroke();
+  c.beginPath();c.moveTo(cx+30,cy-130);c.lineTo(cx+38,cy-50);c.stroke();
+  // 帯
+  c.fillStyle=p.belt||'#aa6600';c.fillRect(cx-32,cy-86,64,8);
+  // 法螺貝の組紐（ポンポン）
+  c.fillStyle=p.pompon||'#fff';
+  c.beginPath();c.arc(cx-16,cy-100,5,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+16,cy-100,5,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx,cy-100,5,0,Math.PI*2);c.fill();
+  // 翼（背中）
+  c.fillStyle=p.wing||'#1a1a1a';
+  c.beginPath();c.moveTo(cx-30,cy-120);c.lineTo(cx-58,cy-100);c.lineTo(cx-50,cy-90);c.lineTo(cx-30,cy-100);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+30,cy-120);c.lineTo(cx+58,cy-100);c.lineTo(cx+50,cy-90);c.lineTo(cx+30,cy-100);c.closePath();c.fill();
+  // 翼の羽根
+  c.strokeStyle='#000';c.lineWidth=0.8;
+  for(let i=0;i<4;i++){
+    c.beginPath();c.moveTo(cx-40-i*4,cy-110);c.lineTo(cx-44-i*4,cy-95);c.stroke();
+    c.beginPath();c.moveTo(cx+40+i*4,cy-110);c.lineTo(cx+44+i*4,cy-95);c.stroke();}
+  // 腕
+  c.fillStyle=p.body;
+  c.beginPath();c.arc(cx-36,cy-110,11,0,Math.PI*2);c.fill();
+  c.fillRect(cx-42,cy-110,12,40);
+  c.beginPath();c.arc(cx+36,cy-110,11,0,Math.PI*2);c.fill();
+  c.fillRect(cx+30,cy-110,12,40);
+  // 手
+  c.fillStyle=p.face||p.body;
+  c.beginPath();c.arc(cx-36,cy-72,8,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+36,cy-72,8,0,Math.PI*2);c.fill();
+  // 葉団扇（右手）
+  c.save();c.translate(cx+44,cy-78);c.rotate(0.3);
+  c.fillStyle='#3a2008';c.fillRect(-2,0,4,28);
+  c.fillStyle=p.fan||'#3a8a3a';
+  c.beginPath();
+  for(let i=0;i<7;i++){const a=-Math.PI/2+i/6*Math.PI;
+    c.lineTo(Math.cos(a)*16,Math.sin(a)*14);}
+  c.closePath();c.fill();
+  // 葉脈
+  c.strokeStyle='#1a4000';c.lineWidth=1;
+  for(let i=0;i<5;i++){const a=-Math.PI/2+i/4*Math.PI;
+    c.beginPath();c.moveTo(0,0);c.lineTo(Math.cos(a)*14,Math.sin(a)*12);c.stroke();}
+  c.restore();
+  // 顔（赤く大きい）
+  c.fillStyle=p.face||p.body;c.beginPath();c.arc(cx,cy-150,18,0,Math.PI*2);c.fill();
+  // 鼻（高い・烏天狗ならくちばし、神天狗なら中ぐらい）
+  if(p.beak){c.fillStyle=p.beak;c.beginPath();c.moveTo(cx,cy-156);c.lineTo(cx+30,cy-148);c.lineTo(cx,cy-140);c.closePath();c.fill();
+  }else{c.fillStyle=p.face;c.beginPath();c.moveTo(cx-3,cy-156);c.lineTo(cx+30,cy-150);c.lineTo(cx-3,cy-144);c.closePath();c.fill();
+    c.strokeStyle='#000';c.lineWidth=1;c.stroke();}
+  // 目
+  c.fillStyle=p.eyeColor||'#ffd24a';c.shadowColor=p.eyeColor||'#ffd24a';c.shadowBlur=8;
+  c.fillRect(cx-7,cy-152,4,3);c.fillRect(cx+3,cy-152,4,3);c.shadowBlur=0;
+  // 眉（怒り）
+  c.strokeStyle='#000';c.lineWidth=1.5;
+  c.beginPath();c.moveTo(cx-9,cy-156);c.lineTo(cx-3,cy-154);c.stroke();
+  c.beginPath();c.moveTo(cx+9,cy-156);c.lineTo(cx+3,cy-154);c.stroke();
+  // 髪（白か黒）
+  c.fillStyle=p.hair||'#fff';
+  c.beginPath();c.arc(cx,cy-160,17,Math.PI,0);c.fill();
+  for(let i=0;i<7;i++){const a=Math.PI+i/6*Math.PI;
+    c.beginPath();c.moveTo(cx+Math.cos(a)*16,cy-160+Math.sin(a)*16);c.lineTo(cx+Math.cos(a)*24,cy-168+Math.sin(a)*24);c.lineWidth=4;c.strokeStyle=p.hair||'#fff';c.stroke();}
+  // 頭巾の小箱（兜巾）
+  c.fillStyle=p.tokin||'#fff';c.fillRect(cx-5,cy-172,10,8);
+  c.strokeStyle='#aa6600';c.lineWidth=1;c.strokeRect(cx-5,cy-172,10,8);
+  // 太陽冠（D案）
+  if(p.crown==='sun'){c.fillStyle='#ffd24a';c.shadowColor='#ffd24a';c.shadowBlur=14;
+    c.beginPath();c.arc(cx,cy-180,9,0,Math.PI*2);c.fill();
+    for(let i=0;i<10;i++){const a=i/10*Math.PI*2;
+      c.beginPath();c.moveTo(cx+Math.cos(a)*9,cy-180+Math.sin(a)*9);c.lineTo(cx+Math.cos(a)*16,cy-180+Math.sin(a)*16);c.lineWidth=3;c.strokeStyle='#ffea22';c.stroke();}c.shadowBlur=0;}
+}
+drawTengu(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(170,16,16,0.5)',body:'#aa1010',face:'#dc2626',robe:'#fff',belt:'#aa6600',trim:'#aa6600',pompon:'#fff',wing:'#1a1a1a',fan:'#3a8a3a',hair:'#fff',tokin:'#fff'});
+drawTengu(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(26,74,138,0.5)',body:'#1a4a8a',face:'#0a0a30',robe:'#0a1830',belt:'#aaaaaa',trim:'#aaaaaa',pompon:'#aaaaaa',wing:'#0a0a0a',fan:'#0a0a0a',hair:'#000',tokin:'#aaaaaa',beak:'#ffd24a',eyeColor:'#ffea22'});
+drawTengu(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,68,255,0.5)',body:'#1a1a1a',face:'#3a0010',robe:'#1a1a1a',belt:'#aa44ff',trim:'#aa44ff',pompon:'#aa44ff',wing:'#000',fan:'#aa44ff',hair:'#000',tokin:'#aa44ff',eyeColor:'#aa44ff'});
+drawTengu(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#ddaa00',face:'#ddaa00',robe:'#fff5cc',belt:'#aa1010',trim:'#aa1010',pompon:'#aa1010',wing:'#ffd24a',fan:'#ddaa00',hair:'#fff5cc',tokin:'#fff5cc',crown:'sun'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#1a0830');sky.addColorStop(1,'#3a1818');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 大天狗
+  const zx=35,zy=h*0.7;c.fillStyle='#aa1010';c.fillRect(zx-12,zy-50,24,50);c.fillStyle='#dc2626';c.beginPath();c.arc(zx,zy-58,12,0,Math.PI*2);c.fill();
+  // 鼻
+  c.fillStyle='#dc2626';c.beginPath();c.moveTo(zx-3,zy-60);c.lineTo(zx+22,zy-58);c.lineTo(zx-3,zy-56);c.closePath();c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(zx,zy-66,10,Math.PI,0);c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 風刃 飛刃（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.65,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.7){const tt=t/0.7;const x=50+tt*(tg.x-60);const y=h*0.55-Math.sin(tt*Math.PI)*15;
+    // 風刃（緑の三日月）
+    c.save();c.translate(x,y);c.rotate(t*Math.PI*4);
+    c.fillStyle='#88dd66';c.shadowColor='#88dd66';c.shadowBlur=10;
+    c.beginPath();c.moveTo(0,-18);c.quadraticCurveTo(20,0,0,18);c.quadraticCurveTo(-4,0,0,-18);c.closePath();c.fill();c.shadowBlur=0;
+    c.fillStyle='#fff';c.beginPath();c.moveTo(0,-14);c.quadraticCurveTo(15,0,0,14);c.quadraticCurveTo(-2,0,0,-14);c.closePath();c.fill();c.restore();
+    // 軌跡（風）
+    for(let k=1;k<=4;k++){c.strokeStyle=`rgba(170,221,170,${0.5-k*0.1})`;c.lineWidth=2;
+      c.beginPath();c.moveTo(x-k*15,y-5);c.lineTo(x-k*8,y);c.stroke();}
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(136,221,102,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,20+tt*16,0,Math.PI*2);c.fill();}
+},2000);
+
+// ② 葉団扇 大旋風
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.8,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 天狗（左）
+  c.fillStyle='#aa1010';c.fillRect(35-12,h*0.55-30,24,40);
+  c.fillStyle='#dc2626';c.beginPath();c.arc(35,h*0.55-36,10,0,Math.PI*2);c.fill();
+  // 葉団扇（一振り）
+  if(t<0.3){c.save();c.translate(50,h*0.5);c.rotate(-Math.PI/3-t*0.5);
+    c.fillStyle='#3a2008';c.fillRect(-2,0,4,28);
+    c.fillStyle='#3a8a3a';c.beginPath();
+    for(let i=0;i<7;i++){const a=-Math.PI/2+i/6*Math.PI;c.lineTo(Math.cos(a)*16,Math.sin(a)*14);}
+    c.closePath();c.fill();c.restore();
+  }else{
+    // 巨大竜巻
+    const tt=Math.min(1,(t-0.3)/0.7);const reach=tt*(w-70);
+    for(let i=0;i<reach/8;i++){const x=50+i*8;const y=h*0.55;
+      const wHeight=60+Math.sin(i*0.4+t*Math.PI*8)*20;
+      c.fillStyle=`rgba(170,238,255,0.5)`;
+      c.beginPath();c.ellipse(x,y,16,wHeight,0,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,255,255,0.6)`;
+      c.beginPath();c.ellipse(x,y,8,wHeight*0.7,0,0,Math.PI*2);c.fill();
+    }
+    // 旋風線
+    for(let k=0;k<8;k++){const ang=t*Math.PI*4+k*Math.PI/4;
+      c.strokeStyle=`rgba(170,238,255,0.5)`;c.lineWidth=1.5;
+      c.beginPath();c.moveTo(50+(t*1300+k*40)%(reach),h*0.55+Math.cos(ang)*40);
+      c.lineTo(50+(t*1300+k*40)%(reach)+15,h*0.55+Math.cos(ang+0.3)*40);c.stroke();}
+    // 葉っぱが舞う
+    for(let k=0;k<6;k++){const x=50+(t*1100+k*70)%(reach);const y=h*0.55+Math.sin(t*Math.PI*4+k)*40;
+      c.save();c.translate(x,y);c.rotate(t*Math.PI*8+k);c.fillStyle='#3a8a3a';
+      c.beginPath();c.ellipse(0,0,4,8,0,0,Math.PI*2);c.fill();c.restore();}
+    // ヒット
+    enemies.forEach(e=>{if(50+reach>e.x){c.fillStyle=`rgba(170,238,255,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,18,0,Math.PI*2);c.fill();}});
+  }
+  c.fillStyle='#aaeeff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🌪葉団扇大旋風🌪',w*0.5,28);
+},2400);
+
+// ③ 神通力 神隠し
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  // 天狗（左）
+  c.fillStyle='#aa1010';c.fillRect(35-12,h*0.55-30,24,40);
+  if(t<0.2){const tt=t/0.2;
+    // 神通光（ターゲット指し）
+    c.fillStyle=`rgba(255,210,74,${tt*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,30,0,Math.PI*2);c.fill();
+    c.strokeStyle='#ffd24a';c.lineWidth=2;c.beginPath();c.moveTo(50,h*0.55);c.lineTo(tg.x,tg.y-16);c.stroke();
+  }else if(t<0.5){const tt=(t-0.2)/0.3;
+    // 敵が上空に飛ばされる
+    const eY=tg.y-tt*200;
+    c.fillStyle='#5a1a1a';c.fillRect(tg.x-6,eY-22,12,22);
+    c.fillStyle='#3a0808';c.beginPath();c.arc(tg.x,eY-26,5,0,Math.PI*2);c.fill();
+    // 渦巻き光
+    c.strokeStyle=`rgba(255,210,74,${1-tt*0.5})`;c.lineWidth=3;
+    c.beginPath();
+    for(let i=0;i<20;i++){const ang=i*0.4+t*Math.PI*4;const r=4+i*1.5;
+      const x=tg.x+Math.cos(ang)*r;const y=eY-10+Math.sin(ang)*r;if(i===0)c.moveTo(x,y);else c.lineTo(x,y);}c.stroke();
+  }else{const tt=(t-0.5)/0.5;
+    // 落下→着弾
+    if(tt<0.6){const eY=tg.y-200+tt/0.6*200;
+      c.fillStyle='#5a1a1a';c.fillRect(tg.x-6,eY-22,12,22);
+      c.fillStyle='#3a0808';c.beginPath();c.arc(tg.x,eY-26,5,0,Math.PI*2);c.fill();
+      // 落下線
+      c.strokeStyle=`rgba(255,210,74,0.6)`;c.lineWidth=2;
+      c.beginPath();c.moveTo(tg.x,tg.y-200);c.lineTo(tg.x,eY);c.stroke();
+    }else{const tt2=(tt-0.6)/0.4;
+      c.fillStyle=`rgba(255,210,74,${1-tt2})`;c.beginPath();c.arc(tg.x,tg.y,40+tt2*40,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,255,255,${(1-tt2)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-10,20+tt2*30,0,Math.PI*2);c.fill();
+      c.strokeStyle=`rgba(255,255,255,${1-tt2})`;c.lineWidth=6;c.beginPath();c.ellipse(tg.x,tg.y,40+tt2*60,15+tt2*15,0,0,Math.PI*2);c.stroke();
+    }
+  }
+  c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🌟神通力神隠し🌟',w*0.5,28);
+},2600);
+
+// ④ 八咫烏召喚
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.8,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 天狗（左）
+  c.fillStyle='#aa1010';c.fillRect(35-12,h*0.55-30,24,40);
+  c.fillStyle='#dc2626';c.beginPath();c.arc(35,h*0.55-36,10,0,Math.PI*2);c.fill();
+  // 召喚光
+  if(t<0.2){c.fillStyle=`rgba(255,85,68,${(0.2-t)/0.2*0.6})`;c.beginPath();c.arc(35,h*0.55-30,30,0,Math.PI*2);c.fill();}
+  // 3羽の烏が降下
+  enemies.forEach((e,i)=>{
+    const td=0.2+i*0.1;
+    if(t<td)return;
+    const tt=Math.min(1,(t-td)/0.6);
+    const x=20+tt*(e.x-30);const y=20+tt*(e.y-30);
+    // 烏本体
+    c.save();c.translate(x,y);c.rotate(Math.atan2(e.y-30-y+10,e.x-30-x+10));
+    c.fillStyle='#000';c.beginPath();c.ellipse(0,0,12,7,0,0,Math.PI*2);c.fill();
+    // 翼（はばたき）
+    const flap=Math.sin(t*Math.PI*16);
+    c.fillStyle='#1a1a1a';
+    c.beginPath();c.moveTo(-2,0);c.lineTo(-12,-8-flap*4);c.lineTo(-6,-2);c.closePath();c.fill();
+    c.beginPath();c.moveTo(-2,0);c.lineTo(-12,8+flap*4);c.lineTo(-6,2);c.closePath();c.fill();
+    // くちばし
+    c.fillStyle='#ffd24a';c.beginPath();c.moveTo(8,-2);c.lineTo(15,0);c.lineTo(8,2);c.closePath();c.fill();
+    // 目
+    c.fillStyle='#ff5544';c.beginPath();c.arc(4,-2,1.5,0,Math.PI*2);c.fill();c.restore();
+    // 残像（軌跡）
+    for(let k=1;k<=3;k++){const tk=Math.max(0,tt-k*0.06);const xk=20+tk*(e.x-30);const yk=20+tk*(e.y-30);
+      c.fillStyle=`rgba(0,0,0,${0.4-k*0.1})`;c.beginPath();c.ellipse(xk,yk,8,5,0,0,Math.PI*2);c.fill();}
+    // 着弾斬撃
+    if(tt>0.85){const tt2=(tt-0.85)/0.15;
+      c.fillStyle=`rgba(255,85,68,${(1-tt2)*0.7})`;c.beginPath();c.arc(e.x,e.y-16,18,0,Math.PI*2);c.fill();
+      c.strokeStyle='#ff5544';c.lineWidth=3;c.beginPath();c.moveTo(e.x-15,e.y-30);c.lineTo(e.x+15,e.y);c.stroke();
+      c.beginPath();c.moveTo(e.x+15,e.y-30);c.lineTo(e.x-15,e.y);c.stroke();
+    }
+  });
+  c.fillStyle='#ff5544';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🐦八咫烏召喚🐦',w*0.5,28);
+},2400);
+</script></body></html>

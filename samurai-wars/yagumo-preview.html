@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八雲 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>⚔ 八雲 デザイン & 攻撃 候補</h1>
+<div class="sub">YAGUMO DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#1a4a8a;--g:rgba(26,74,138,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 紺の神霊侍（現行）</h2><p>紺の大鎧、金の鍬形、神々しい白い陣羽織。神霊を宿す。</p><div class="meta">配色:紺+金</div></div>
+<div class="card" style="--c:#fff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 白銀の天霊侍</h2><p>白銀の鎧、半透明の体、神霊が憑依した姿。</p><div class="meta">配色:白銀+青光</div></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 紫の禍津侍</h2><p>紫闇の鎧、紅眼、禍津神を宿した狂戦士。</p><div class="meta">配色:紫+紅</div></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 黄金の神武侍</h2><p>黄金の大鎧、八咫鏡、後光。神武天皇級の至高形態。</p><div class="meta">配色:金+白光</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaeeff;--g:rgba(170,238,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 大太刀斬り（現行）</h2><p>巨大な大太刀で叩き斬る。基本動作。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 八雲剣 八重斬り</h2><p>大太刀から8本の神霊剣が現れ、敵を多方向から斬る。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 神威 雷光一閃</h2><p>大太刀に神々しい雷を纏い、画面横断の雷斬撃を放つ。</p></div>
+<div class="card" style="--c:#88ddff;--g:rgba(136,221,255,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 八雲立つ 結界霧</h2><p>「八雲立つ出雲八重垣…」霧を呼び、味方全員HP回復+敵全体ダメ。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawYagumo(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,130);shadow(c,cx,cy+34,28,5);
+  // 透明度（B案）
+  if(p.alpha){c.save();c.globalAlpha=p.alpha;}
+  // 神霊オーラ（背後）
+  if(p.spiritGlow){
+    for(let i=0;i<8;i++){const a=i/8*Math.PI*2;
+      c.fillStyle=p.spiritGlow;c.beginPath();c.arc(cx+Math.cos(a)*40,cy-30+Math.sin(a)*30,4,0,Math.PI*2);c.fill();}
+  }
+  // 脚（草摺りスカート）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-22,cy-4);c.lineTo(cx+22,cy-4);c.lineTo(cx+26,cy+22);c.lineTo(cx-26,cy+22);c.closePath();c.fill();
+  c.fillStyle=p.outline||'#0a1830';c.lineWidth=1;
+  for(let i=0;i<5;i++)c.fillRect(cx-22+i*9,cy-4,2,26);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-13,cy+22,10,5);c.fillRect(cx+3,cy+22,10,5);
+  // 胴鎧
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-50,44,46);
+  c.strokeStyle=p.outline||'#0a1830';c.lineWidth=1.2;c.strokeRect(cx-22,cy-50,44,46);
+  // 装甲の段
+  for(let i=1;i<=4;i++){c.beginPath();c.moveTo(cx-22,cy-50+i*9);c.lineTo(cx+22,cy-50+i*9);c.stroke();}
+  // 中央の縦帯
+  c.fillStyle=p.belt||'#ffd24a';c.fillRect(cx-2,cy-50,4,46);
+  // 八雲紋章（雲の渦）
+  c.fillStyle=p.crest||'#ffd24a';
+  c.beginPath();c.arc(cx,cy-30,7,0,Math.PI*2);c.fill();
+  c.fillStyle=p.body;
+  c.beginPath();c.arc(cx-3,cy-30,3,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+3,cy-32,3,0,Math.PI*2);c.fill();
+  // 肩当て
+  c.fillStyle=p.shoulder||p.body;
+  c.beginPath();c.moveTo(cx-32,cy-46);c.lineTo(cx-22,cy-50);c.lineTo(cx-22,cy-22);c.lineTo(cx-34,cy-18);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+32,cy-46);c.lineTo(cx+22,cy-50);c.lineTo(cx+22,cy-22);c.lineTo(cx+34,cy-18);c.closePath();c.fill();
+  c.strokeRect(cx-32-2,cy-46,12,28);c.strokeRect(cx+22,cy-46,12,28);
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-58,9,0,Math.PI*2);c.fill();
+  // 眉
+  c.fillStyle='#1a1a1a';c.fillRect(cx-7,cy-62,5,2);c.fillRect(cx+2,cy-62,5,2);
+  // 目（神霊で光る）
+  c.fillStyle=p.eyeColor||'#aaeeff';c.shadowColor=p.eyeColor||'#aaeeff';c.shadowBlur=10;
+  c.fillRect(cx-5,cy-59,3,2);c.fillRect(cx+2,cy-59,3,2);c.shadowBlur=0;
+  // 兜
+  c.fillStyle=p.helm||p.body;c.beginPath();c.arc(cx,cy-66,13,Math.PI,0);c.fill();
+  c.fillRect(cx-13,cy-66,26,4);
+  // 大鍬形
+  c.fillStyle=p.crest||'#ffd24a';c.shadowColor=p.crest||'#ffd24a';c.shadowBlur=p.glowCrest?12:0;
+  c.beginPath();c.moveTo(cx-11,cy-72);c.lineTo(cx-19,cy-90);c.lineTo(cx-13,cy-90);c.lineTo(cx-7,cy-74);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+11,cy-72);c.lineTo(cx+19,cy-90);c.lineTo(cx+13,cy-90);c.lineTo(cx+7,cy-74);c.closePath();c.fill();c.shadowBlur=0;
+  // 八咫鏡（D案）
+  if(p.mirror){c.fillStyle='#fff';c.shadowColor='#fff';c.shadowBlur=14;
+    c.beginPath();c.arc(cx,cy-82,8,0,Math.PI*2);c.fill();
+    c.fillStyle='#ffd24a';c.beginPath();c.arc(cx,cy-82,5,0,Math.PI*2);c.fill();c.shadowBlur=0;}
+  // 後光（B/D案）
+  if(p.halo){c.strokeStyle=p.halo;c.lineWidth=3;c.shadowColor=p.halo;c.shadowBlur=14;
+    c.beginPath();c.arc(cx,cy-66,32,0,Math.PI*2);c.stroke();c.shadowBlur=0;}
+  // 大太刀
+  c.save();c.translate(cx+34,cy-44);c.rotate(0.3);
+  c.fillStyle='#3a2008';c.fillRect(-3,0,6,18);
+  c.fillStyle=p.crest||'#ffd24a';c.fillRect(-4,-2,8,3);
+  c.fillStyle=p.bladeColor||'#aaeeff';c.shadowColor=p.bladeColor||'#aaeeff';c.shadowBlur=12;
+  c.fillRect(-2,-66,4,66);c.shadowBlur=0;
+  c.fillStyle='#fff';c.fillRect(-1,-66,2,66);
+  c.restore();
+  // 陣羽織
+  if(p.cape){c.fillStyle=p.cape;c.beginPath();c.moveTo(cx-26,cy-50);c.lineTo(cx-30,cy-8);c.lineTo(cx-22,cy-12);c.lineTo(cx-22,cy-50);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+26,cy-50);c.lineTo(cx+30,cy-8);c.lineTo(cx+22,cy-12);c.lineTo(cx+22,cy-50);c.closePath();c.fill();}
+  if(p.alpha){c.restore();}
+}
+drawYagumo(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(26,74,138,0.5)',body:'#1a4a8a',outline:'#0a1830',helm:'#0a1830',belt:'#ffd24a',crest:'#ffd24a',shoulder:'#0a1830',skin:'#f0c890',cape:'#fff',eyeColor:'#aaeeff',spiritGlow:'rgba(170,238,255,0.5)',bladeColor:'#aaeeff'});
+drawYagumo(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,238,255,0.5)',body:'#fff',outline:'#aaaaaa',helm:'#aaaaaa',belt:'#aaeeff',crest:'#aaeeff',shoulder:'#aaaaaa',skin:'#fff',cape:'#aaeeff',alpha:0.85,eyeColor:'#aaeeff',halo:'#aaeeff',glowCrest:true,bladeColor:'#fff',spiritGlow:'rgba(255,255,255,0.7)'});
+drawYagumo(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,68,255,0.5)',body:'#aa44ff',outline:'#3a1a4a',helm:'#3a1a4a',belt:'#aa1010',crest:'#aa1010',shoulder:'#3a1a4a',skin:'#7a5a3a',eyeColor:'#ff3030',spiritGlow:'rgba(170,68,255,0.6)',cape:'#aa1010',bladeColor:'#aa44ff',glowCrest:true});
+drawYagumo(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.6)',body:'#ddaa00',outline:'#aa6600',helm:'#aa6600',belt:'#aa1010',crest:'#fff5cc',shoulder:'#aa6600',skin:'#f0c890',cape:'#fff5cc',eyeColor:'#fff',mirror:true,halo:'#ffea22',spiritGlow:'rgba(255,234,34,0.6)',bladeColor:'#ffd24a',glowCrest:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a3060');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 八雲
+  const zx=30,zy=h*0.7;c.fillStyle='#1a4a8a';c.fillRect(zx-9,zy-46,18,46);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#ffd24a';
+  c.beginPath();c.moveTo(zx-7,zy-58);c.lineTo(zx-13,zy-72);c.lineTo(zx-3,zy-62);c.closePath();c.fill();
+  c.beginPath();c.moveTo(zx+7,zy-58);c.lineTo(zx+13,zy-72);c.lineTo(zx+3,zy-62);c.closePath();c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 大太刀斬り（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.45){const tt=t/0.45;c.save();c.translate(40,h*0.55);c.rotate(-Math.PI/2-tt*0.3);
+    c.fillStyle='#3a2008';c.fillRect(-3,0,6,18);c.fillStyle='#aaeeff';c.shadowColor='#aaeeff';c.shadowBlur=10;c.fillRect(-2,-50,4,50);c.shadowBlur=0;c.restore();
+  }else if(t<0.65){const tt=(t-0.45)/0.2;c.save();c.translate(40,h*0.55);c.rotate(-Math.PI/2+tt*Math.PI*0.95);
+    c.fillStyle='#3a2008';c.fillRect(-3,0,6,18);c.fillStyle='#aaeeff';c.fillRect(-2,-50,4,50);c.fillStyle='#fff';c.fillRect(-1,-50,2,50);c.restore();
+    c.strokeStyle='rgba(170,238,255,0.7)';c.lineWidth=10;c.beginPath();c.arc(40,h*0.55,52,-Math.PI/2,-Math.PI/2+tt*Math.PI*0.95);c.stroke();
+  }else{const tt=(t-0.65)/0.35;c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,22+tt*16,0,Math.PI*2);c.fill();
+    c.strokeStyle='#aaeeff';c.lineWidth=4;c.beginPath();c.moveTo(tg.x-16,tg.y-32);c.lineTo(tg.x+12,tg.y);c.stroke();}
+},2200);
+
+// ② 八雲剣 八重斬り
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  // 八雲（左）
+  c.fillStyle='#1a4a8a';c.fillRect(35-12,h*0.55-30,24,40);
+  // 8本の神霊剣（敵周囲を回転）
+  for(let i=0;i<8;i++){const baseAng=i/8*Math.PI*2;const rot=t*Math.PI*4;
+    const ang=baseAng+rot;
+    const r=60+Math.sin(t*Math.PI*6+i)*10;
+    const sx=tg.x+Math.cos(ang)*r;const sy=tg.y-16+Math.sin(ang)*r*0.5;
+    // 剣（敵に向かって）
+    c.save();c.translate(sx,sy);c.rotate(ang+Math.PI/2);
+    c.fillStyle='#aa44ff';c.shadowColor='#aa44ff';c.shadowBlur=12;
+    c.fillRect(-2,-22,4,22);c.shadowBlur=0;
+    c.fillStyle='#fff';c.fillRect(-1,-22,2,22);
+    c.fillStyle='#ffd24a';c.fillRect(-3,0,6,4);c.restore();
+    // 軌跡
+    c.strokeStyle=`rgba(170,68,255,0.4)`;c.lineWidth=1.5;
+    c.beginPath();c.arc(tg.x,tg.y-16,r,baseAng+rot-0.4,baseAng+rot);c.stroke();
+  }
+  // 中央の敵に集中ダメージ
+  c.fillStyle=`rgba(170,68,255,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(tg.x,tg.y-16,28,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(tg.x,tg.y-16,16,0,Math.PI*2);c.fill();
+  c.fillStyle='#aa44ff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('⚔八雲剣 八重斬り⚔',w*0.5,28);
+},2400);
+
+// ③ 神威 雷光一閃
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 八雲（左）
+  c.fillStyle='#1a4a8a';c.fillRect(35-12,h*0.55-30,24,40);
+  if(t<0.3){const tt=t/0.3;
+    // 大太刀に雷を纏う
+    c.save();c.translate(50,h*0.5);c.rotate(-Math.PI*0.6);
+    c.fillStyle=`rgba(255,234,34,${tt*0.7})`;c.fillRect(-8,-50,16,50);
+    c.fillStyle='#fff';c.fillRect(-2,-50,4,50);
+    // 周囲の雷光
+    for(let k=0;k<5;k++){const a=Math.random()*Math.PI*2;
+      c.strokeStyle=`rgba(255,234,34,${tt*0.7})`;c.lineWidth=1.5;
+      c.beginPath();c.moveTo(0,-25);c.lineTo(Math.cos(a)*15,-25+Math.sin(a)*15);c.stroke();}
+    c.restore();
+    c.fillStyle='#ffd24a';c.font='bold 11px sans-serif';c.textAlign='center';c.fillText('神威…',50,h*0.43);
+  }else{const tt=(t-0.3)/0.7;
+    // 画面横断の雷斬撃
+    const ex=50+tt*(w-60);
+    // 残像
+    for(let k=1;k<=6;k++){const xt=ex-k*20;
+      c.strokeStyle=`rgba(255,234,34,${0.7-k*0.1})`;c.lineWidth=14-k*1.5;
+      c.beginPath();c.moveTo(xt,h*0.4);c.lineTo(xt,h*0.78);c.stroke();}
+    // メイン斬撃（雷柱）
+    c.fillStyle=`rgba(255,234,34,0.9)`;c.fillRect(ex-12,h*0.4,24,h*0.4);
+    c.fillStyle=`rgba(255,255,200,1)`;c.fillRect(ex-7,h*0.4,14,h*0.4);
+    c.fillStyle='#fff';c.fillRect(ex-3,h*0.4,6,h*0.4);
+    // 雷の枝分かれ
+    for(let k=0;k<4;k++){const ang=Math.random()*Math.PI*2;
+      c.strokeStyle='#ffea22';c.lineWidth=2;c.shadowColor='#ffea22';c.shadowBlur=10;
+      c.beginPath();c.moveTo(ex,h*0.55);c.lineTo(ex+Math.cos(ang)*40,h*0.55+Math.sin(ang)*30);c.stroke();c.shadowBlur=0;}
+    // ヒット
+    enemies.forEach(e=>{if(ex>e.x){c.fillStyle=`rgba(255,234,34,${0.5+0.3*Math.sin(t*Math.PI*16)})`;c.beginPath();c.arc(e.x,e.y-16,18,0,Math.PI*2);c.fill();}});
+  }
+  c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('⚡神威 雷光一閃⚡',w*0.5,28);
+},2400);
+
+// ④ 八雲立つ 結界霧
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 味方（左に2体）
+  const allies=[{x:30,col:'#1a4a8a'},{x:60,col:'#aa1010'}];
+  allies.forEach(a=>{c.fillStyle=a.col;c.fillRect(a.x-7,h*0.6-30,14,30);c.beginPath();c.arc(a.x,h*0.6-36,7,0,Math.PI*2);c.fill();});
+  if(t<0.25){const tt=t/0.25;
+    // 詠唱（八雲立つ）
+    c.fillStyle='#aaeeff';c.font='bold 12px sans-serif';c.textAlign='center';c.fillText('八雲立つ…',w*0.5,h-12);
+    c.fillStyle=`rgba(170,238,255,${tt*0.6})`;c.beginPath();c.arc(45,h*0.55,30+tt*10,0,Math.PI*2);c.fill();
+  }else{const tt=Math.min(1,(t-0.25)/0.3);
+    // 全体に霧が広がる
+    c.fillStyle=`rgba(170,238,255,${tt*0.5})`;c.fillRect(0,0,w,h*0.85);
+    // 雲のうねり
+    for(let k=0;k<6;k++){const px=(t*60+k*60)%w;
+      c.fillStyle=`rgba(255,255,255,0.6)`;c.beginPath();c.ellipse(px,h*0.4+Math.sin(t*Math.PI*4+k)*10,40,12,0,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(170,238,255,0.5)`;c.beginPath();c.ellipse(px+30,h*0.55+Math.sin(t*Math.PI*4+k+1)*10,50,15,0,0,Math.PI*2);c.fill();}
+    // 味方に回復オーラ
+    allies.forEach(a=>{c.fillStyle=`rgba(136,221,102,${0.5+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(a.x,a.y-30,20,0,Math.PI*2);c.fill();
+      c.fillStyle='#88dd66';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('+HP',a.x,h*0.6-46);});
+    // 敵にダメ
+    enemies.forEach(e=>{c.fillStyle=`rgba(170,238,255,${0.5+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();
+      c.fillStyle='#aaeeff';c.font='bold 11px sans-serif';c.textAlign='center';c.fillText('💫',e.x,e.y-32);});
+  }
+  c.fillStyle='#88ddff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('☁八雲立つ結界霧☁',w*0.5,28);
+},3000);
+</script></body></html>
