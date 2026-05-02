@@ -171,6 +171,15 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去編: スタート5キャラに**必殺技（8回ごと）専用攻撃**を実装（通常攻撃はそのまま）
+  - 足軽: A（現行）+ ③ 横薙ぎ払い → quakes に `style:'sweep'` + `dir`、前方アーチAOE 90px、振り抜く槍の金弧
+  - 侍: A（現行）+ ④ 飛刀斬り → slashWaves に `style:'wind'`、緑の三日月飛び刃が画面横断420px
+  - 忍者: C（紫の風忍）+ ④ 火遁の術 → 体色`#1a1a1a`→`#3a1a4a`、blizzards に `style:'fire'`、前方コーン火炎+burning付与
+  - 弓兵: A（現行）+ ③ 火矢 → 通常bullet経由で `weapon:'fireball'` に切り替え、AOE+burning
+  - 巫女: A（現行）+ ② 神楽舞い → quakes に `style:'kagura'`、紫の御札8枚の渦巻き、AOE 130px+0.7sスタン
+- attackTarget の構造に「キャラID別の必殺技分岐」セクションを追加（`isSpecial` && id チェック）
+- drawSlashWave に `'wind'`、drawBlizzard に `'fire'`、drawQuake に `'sweep'` `'kagura'` を style 追加
+- quake 更新ロジックを style 別に dmgTime / lifeTime / 方向フィルタ対応
 - 過去編 デザインプレビュー追加（Batch 1: スタート時保有5体）— 4案+4案の簡易版
   - `samurai-wars/ashigaru-preview.html`（足軽 4+4）
   - `samurai-wars/bushi-preview.html`（侍 4+4）

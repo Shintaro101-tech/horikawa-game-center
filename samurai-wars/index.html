@@ -780,8 +780,8 @@
           cooldown:5.0, color:'#2a4ab0', helmet:'kuwagata', weapon:'katana', rarity:1,
           desc:'バランスの取れた一般兵' },
         { id:'ninja', name:'忍者', yomi:'にんじゃ', cost:280, hp:240, atk:55, atkSpeed:0.4, range:36, speed:2.6,
-          cooldown:8.0, color:'#1a1a1a', helmet:'hood', weapon:'kunai', rarity:2,
-          desc:'影の如く高速の連撃' },
+          cooldown:8.0, color:'#3a1a4a', helmet:'hood', weapon:'kunai', rarity:2,
+          desc:'紫装束の風忍。必殺は火遁の術' },
         { id:'yumi', name:'弓兵', yomi:'ゆみへい', cost:200, hp:220, atk:45, atkSpeed:1.5, range:260, speed:1.0,
           cooldown:6.0, color:'#3a7a3a', helmet:'hachimaki', weapon:'bow', rarity:2, ranged:true,
           desc:'遠くから矢を射る射手' },
@@ -2526,11 +2526,12 @@
         const maxX = Math.max(startX, endX);
         const gy = groundY();
         const isPoison = bz.style === 'poison';
-        const overlay = isPoison ? 'rgba(120,200,90,0.30)' : 'rgba(220,240,255,0.28)';
-        const tint = isPoison ? 'rgba(170,255,68,0.10)' : 'rgba(34,221,255,0.10)';
-        const particle = isPoison ? '170,255,102' : '255,255,255';
-        const bigParticle = isPoison ? '136,221,68' : '255,255,255';
-        const wind = isPoison ? 'rgba(170,255,102,0.5)' : 'rgba(170,238,255,0.45)';
+        const isFire = bz.style === 'fire';
+        const overlay = isFire ? 'rgba(255,80,40,0.32)' : (isPoison ? 'rgba(120,200,90,0.30)' : 'rgba(220,240,255,0.28)');
+        const tint = isFire ? 'rgba(255,170,0,0.12)' : (isPoison ? 'rgba(170,255,68,0.10)' : 'rgba(34,221,255,0.10)');
+        const particle = isFire ? '255,200,80' : (isPoison ? '170,255,102' : '255,255,255');
+        const bigParticle = isFire ? '255,80,40' : (isPoison ? '136,221,68' : '255,255,255');
+        const wind = isFire ? 'rgba(255,170,0,0.55)' : (isPoison ? 'rgba(170,255,102,0.5)' : 'rgba(170,238,255,0.45)');
         c.save();
         c.fillStyle = overlay.replace('0.30', alpha*0.30+'').replace('0.28', alpha*0.28+'');
         c.fillRect(minX, 0, maxX - minX, gy);
@@ -2573,6 +2574,89 @@
     function drawQuake(c, q) {
         const t = q.timer;
         const gy = groundY();
+        if(q.style === 'sweep') {
+            // 横薙ぎ払い（足軽必殺）— 高速の槍アーク
+            const dir = q.dir || 1;
+            const cx = q.x;
+            const cy = gy - 30;
+            if(t < 0.25) {
+                const tt = t / 0.25;
+                // 槍が振り抜く弧
+                const startA = dir > 0 ? -Math.PI*0.45 : Math.PI*0.55;
+                const endA = startA + dir * Math.PI * 0.9;
+                const curA = startA + (endA - startA) * tt;
+                // 弧の残光
+                c.strokeStyle = `rgba(255,210,74,0.8)`;
+                c.lineWidth = 8;
+                c.beginPath();
+                c.arc(cx - dir*20, cy + 10, q.range*0.95, startA, curA, dir < 0);
+                c.stroke();
+                c.strokeStyle = `rgba(255,255,200,${1-tt*0.3})`;
+                c.lineWidth = 3;
+                c.stroke();
+                // 槍本体（先端）
+                c.save();
+                c.translate(cx - dir*20, cy + 10);
+                c.rotate(curA);
+                c.fillStyle = '#5a3a18';
+                c.fillRect(0, -3, q.range*0.9, 6);
+                c.fillStyle = '#dde8f0';
+                c.beginPath();
+                c.moveTo(q.range*0.9, -6); c.lineTo(q.range*0.95+8, 0); c.lineTo(q.range*0.9, 6);
+                c.closePath(); c.fill();
+                c.restore();
+            } else {
+                // 余韻
+                const tt = (t - 0.25) / 0.25;
+                c.strokeStyle = `rgba(255,210,74,${(1-tt)*0.6})`;
+                c.lineWidth = 5;
+                c.beginPath();
+                c.arc(cx - dir*20, cy + 10, q.range*0.95,
+                      dir > 0 ? -Math.PI*0.45 : Math.PI*0.55,
+                      dir > 0 ? Math.PI*0.45 : Math.PI*1.45,
+                      dir < 0);
+                c.stroke();
+            }
+            return;
+        }
+        if(q.style === 'kagura') {
+            // 神楽舞い（巫女必殺）— 紫の御札の渦巻き
+            if(t < 0.2) {
+                const tt = t / 0.2;
+                c.fillStyle = `rgba(170,68,255,${tt*0.5})`;
+                c.beginPath(); c.arc(q.x, gy - 30, 16 + tt*4, 0, Math.PI*2); c.fill();
+            } else {
+                const tt = (t - 0.2) / 1.2;
+                // 8枚の御札が渦を巻く
+                for(let k = 0; k < 8; k++) {
+                    const a = tt * Math.PI * 5 + k * Math.PI / 4;
+                    const r = q.range * (0.4 + tt * 0.7);
+                    const fx = q.x + Math.cos(a) * r;
+                    const fy = gy - 30 + Math.sin(a) * r * 0.55;
+                    c.save();
+                    c.translate(fx, fy);
+                    c.rotate(a);
+                    c.fillStyle = '#fff';
+                    c.fillRect(-5, -8, 10, 16);
+                    c.strokeStyle = '#aa44ff';
+                    c.lineWidth = 1.2;
+                    c.strokeRect(-5, -8, 10, 16);
+                    c.fillStyle = '#aa44ff';
+                    c.font = 'bold 9px serif';
+                    c.textAlign = 'center';
+                    c.fillText('式', 0, 3);
+                    c.restore();
+                }
+                // 中心の紫オーラ
+                c.fillStyle = `rgba(170,68,255,0.4)`;
+                c.beginPath(); c.arc(q.x, gy - 30, 18, 0, Math.PI*2); c.fill();
+                // 範囲リング
+                c.strokeStyle = `rgba(170,68,255,0.4)`;
+                c.lineWidth = 1.5;
+                c.beginPath(); c.ellipse(q.x, gy - 20, q.range, q.range*0.55, 0, 0, Math.PI*2); c.stroke();
+            }
+            return;
+        }
         if(q.style === 'spin') {
             // 渦巻き攻撃（手長足長）— 攻撃者周辺に紫の渦
             if(t < 0.2) {
@@ -2676,7 +2760,42 @@
         const alpha = fadeIn * fadeOut;
         c.save();
         c.globalAlpha = Math.max(0, Math.min(1, alpha));
-        if(sw.style === 'eye') {
+        if(sw.style === 'wind') {
+            // 飛刀斬り: 緑の三日月飛び刃
+            const sy = groundY() - 30;
+            // 残像
+            for(let k=1; k<=4; k++){
+                const tx = x - dir*k*16;
+                c.strokeStyle = `rgba(136,221,170,${(1-k*0.18)*0.5})`;
+                c.lineWidth = 4;
+                c.beginPath();
+                c.moveTo(tx, sy - 24); c.lineTo(tx + dir*4, sy); c.lineTo(tx, sy + 24);
+                c.stroke();
+            }
+            // 三日月本体
+            c.fillStyle = '#88dd66';
+            c.beginPath();
+            c.moveTo(x, sy - 30);
+            c.quadraticCurveTo(x + dir*16, sy, x, sy + 30);
+            c.quadraticCurveTo(x - dir*4, sy, x, sy - 30);
+            c.closePath(); c.fill();
+            c.fillStyle = 'rgba(255,255,255,0.6)';
+            c.beginPath();
+            c.moveTo(x, sy - 24);
+            c.quadraticCurveTo(x + dir*12, sy, x, sy + 24);
+            c.quadraticCurveTo(x - dir*2, sy, x, sy - 24);
+            c.closePath(); c.fill();
+            // 風の流線
+            c.strokeStyle = `rgba(170,221,170,0.5)`;
+            c.lineWidth = 1.5;
+            for(let k=0; k<4; k++){
+                const ty = sy - 18 + k*12;
+                c.beginPath();
+                c.moveTo(x - dir*30, ty);
+                c.lineTo(x - dir*8, ty + 2);
+                c.stroke();
+            }
+        } else if(sw.style === 'eye') {
             // 邪眼の光線: 赤いレーザー
             const sy = groundY() - 50;
             // 太い外グロー
@@ -6132,6 +6251,86 @@
             if(snd && snd.explode) snd.explode();
             return;
         }
+        // ===== スターター5キャラの必殺技（8回ごと） =====
+        if(isSpecial) {
+            const aid = attacker.data && attacker.data.id;
+            const fwdDir = attacker.side === 'p' ? -1 : 1;
+            if(aid === 'ashigaru') {
+                // 横薙ぎ払い（前方アーチAOE）
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: attacker.x + fwdDir*30, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, range: 90, style: 'sweep', dir: fwdDir
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⚔ 槍の薙ぎ ⚔', '#ffd24a', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'bushi') {
+                // 飛刀斬り（緑の三日月飛び刃）
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 10, damage: atk, side: attacker.side,
+                    maxRange: 420, traveled: 0, hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'wind'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⚔ 飛刃 ⚔', '#88dd66', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'ninja') {
+                // 火遁の術（前方コーン火炎）
+                if(!game.blizzards) game.blizzards = [];
+                game.blizzards.push({
+                    x: attacker.x, dir: fwdDir, timer: 0, damage: atk,
+                    side: attacker.side, ticksApplied: 0,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, range: 220, style: 'fire'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🔥 火遁の術 🔥', '#ff5544', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'yumi') {
+                // 火矢（爆発する火炎の矢）
+                const tgtX = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                const tgtY = target.isCastle ? (groundY() - 30) : (target.y - 30);
+                const bx = attacker.x + fwdDir*15;
+                const by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: ((tgtX - bx) / 30), vy: ((tgtY - by) / 30),
+                    dmg: atk, side: attacker.side,
+                    weapon: 'fireball', hit: false, aoe: true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🔥 火矢 🔥', '#ff5544', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'miko') {
+                // 神楽舞い（紫の御札の渦巻き）
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: attacker.x, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, range: 130, style: 'kagura'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '⛩ 神楽舞 ⛩', '#aa44ff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+        }
         if(target.isCastle) {
             attacker.swing = 1;
             target.side === 'enemy'
@@ -6606,11 +6805,12 @@
                 const tickDmg = bz.damage * 0.4;
                 const canHitFly = bz.antiAir || bz.fromFlying;
                 const isPoison = bz.style === 'poison';
+                const isFire = bz.style === 'fire';
                 game.units.forEach(t => {
                     if(t.side !== bz.side && !t.dead && t.x >= minX && t.x <= maxX) {
                         if(t.data.flying && !canHitFly) return;
                         damageUnit(t, tickDmg);
-                        if(isPoison) {
+                        if(isPoison || isFire) {
                             t.burning = Math.max(t.burning||0, 2.5);
                         } else {
                             t.frozen = Math.max(t.frozen||0, 1.0);
@@ -6626,32 +6826,53 @@
         }
         game.blizzards = game.blizzards.filter(bz => bz.timer < 1.1);
 
-        // 足踏み地震（マンモス）の更新
+        // 足踏み地震（マンモス）/ 横薙ぎ払い（足軽）/ 神楽舞い（巫女）/ 渦巻き（手長足長） 更新
         if(!game.quakes) game.quakes = [];
         for(const q of game.quakes) {
             q.timer += dt;
-            if(!q.damageApplied && q.timer >= 0.45) {
+            // styleごとのダメージタイミング
+            const dmgTime = q.style === 'sweep' ? 0.12 : (q.style === 'kagura' ? 0.4 : 0.45);
+            if(!q.damageApplied && q.timer >= dmgTime) {
                 q.damageApplied = true;
                 const aoeR = q.range;
                 const canHitFly = q.antiAir || q.fromFlying;
                 game.units.forEach(t => {
                     if(t.side !== q.side && !t.dead && Math.abs(t.x - q.x) < aoeR) {
                         if(t.data.flying && !canHitFly) return;
+                        // sweepは前方のみ
+                        if(q.style === 'sweep' && q.dir) {
+                            const fwd = (t.x - q.x) * q.dir;
+                            if(fwd < -20) return;
+                        }
                         damageUnit(t, q.damage);
-                        t.stunned = Math.max(t.stunned||0, 0.5);
+                        // sweep: ノックバック効果のみ（damageUnit内で処理）
+                        // kagura: 軽スタン
+                        // 通常quake(マンモス等): 0.5sスタン
+                        if(q.style === 'kagura') t.stunned = Math.max(t.stunned||0, 0.7);
+                        else if(!q.style || q.style !== 'sweep') t.stunned = Math.max(t.stunned||0, 0.5);
                     }
                 });
                 const castleX = q.side === 'p' ? 100 : W() - 100;
-                if(Math.abs(q.x - castleX) < aoeR) {
+                let castleInRange = Math.abs(q.x - castleX) < aoeR;
+                if(q.style === 'sweep' && q.dir) {
+                    const fwd = (castleX - q.x) * q.dir;
+                    if(fwd < -20) castleInRange = false;
+                }
+                if(castleInRange) {
                     if(q.side === 'p') game.enemyCastleHp = Math.max(0, game.enemyCastleHp - q.damage);
                     else game.playerCastleHp = Math.max(0, game.playerCastleHp - q.damage);
                     addParticles(castleX, groundY()-60, 14, '#ffaa44');
                 }
-                addParticles(q.x, groundY()-10, 24, '#aa6633');
+                if(q.style !== 'kagura' && q.style !== 'sweep') {
+                    addParticles(q.x, groundY()-10, 24, '#aa6633');
+                }
                 if(snd && snd.hit) snd.hit();
             }
         }
-        game.quakes = game.quakes.filter(q => q.timer < 1.3);
+        game.quakes = game.quakes.filter(q => {
+            const lifeTime = q.style === 'sweep' ? 0.5 : (q.style === 'kagura' ? 1.4 : 1.3);
+            return q.timer < lifeTime;
+        });
 
         // ジャンプ連打（プロコプトドン）の更新
         if(!game.jumpCombos) game.jumpCombos = [];
