@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>侍大将 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🏯 侍大将 デザイン & 攻撃 候補</h1>
+<div class="sub">SAMURAI TAISHO DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#c01010;--g:rgba(192,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 赤備え大将（現行）</h2><p>真田・井伊風の朱赤大鎧、金鍬形、大太刀。武田家の象徴。</p><div class="meta">配色:朱+金</div></div>
+<div class="card" style="--c:#1a3a8a;--g:rgba(26,58,138,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 紺地金鎧の上杉大将</h2><p>紺の鎧、金鍬形、龍の前立て。義の武将タイプ。</p><div class="meta">配色:紺+金</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黒漆塗りの伊達大将</h2><p>黒の漆鎧、銀の三日月前立て、独眼。独眼竜タイプ。</p><div class="meta">配色:黒+銀</div></div>
+<div class="card" style="--c:#dcb060;--g:rgba(220,176,96,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 黄金鎧の天下人</h2><p>黄金の大鎧、太陽冠、白い陣羽織。天下統一の威厳。</p><div class="meta">配色:金+白</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 大太刀斬り（現行）</h2><p>巨大な大太刀を上段から振り下ろす。基本動作。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 一騎当千 兜割り</h2><p>跳躍して敵に頭上から大太刀を叩き割る。AOE+スタン。</p></div>
+<div class="card" style="--c:#ddaa00;--g:rgba(221,170,0,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 軍配 鼓舞</h2><p>軍配を振り、味方全員を3秒バフ（攻撃力UP）。</p></div>
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 騎馬突撃</h2><p>愛馬に乗って突進、敵を貫通する高速チャージ。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawTaisho(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,120);shadow(c,cx,cy+34,28,5);
+  // 脚（草摺りスカート）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-22,cy-4);c.lineTo(cx+22,cy-4);c.lineTo(cx+26,cy+22);c.lineTo(cx-26,cy+22);c.closePath();c.fill();
+  c.fillStyle=p.outline||'#1a0000';c.lineWidth=1;
+  for(let i=0;i<5;i++)c.fillRect(cx-22+i*9,cy-4,2,26);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-13,cy+22,10,5);c.fillRect(cx+3,cy+22,10,5);
+  // 胴鎧
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-50,44,46);
+  c.strokeStyle=p.outline||'#1a0000';c.lineWidth=1.2;c.strokeRect(cx-22,cy-50,44,46);
+  // 装甲の段
+  for(let i=1;i<=4;i++){c.beginPath();c.moveTo(cx-22,cy-50+i*9);c.lineTo(cx+22,cy-50+i*9);c.stroke();}
+  // 紋章（中央の家紋）
+  c.fillStyle=p.crest||'#ffd24a';
+  c.beginPath();c.arc(cx,cy-30,6,0,Math.PI*2);c.fill();
+  // 中央の縦帯
+  c.fillStyle=p.belt||'#ffd24a';c.fillRect(cx-2,cy-50,4,46);
+  // 肩当て（大袖）
+  c.fillStyle=p.shoulder||p.body;
+  c.beginPath();c.moveTo(cx-32,cy-46);c.lineTo(cx-22,cy-50);c.lineTo(cx-22,cy-22);c.lineTo(cx-34,cy-18);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+32,cy-46);c.lineTo(cx+22,cy-50);c.lineTo(cx+22,cy-22);c.lineTo(cx+34,cy-18);c.closePath();c.fill();
+  c.strokeRect(cx-32-2,cy-46,12,28);c.strokeRect(cx+22,cy-46,12,28);
+  // 胸の留具（菱形）
+  c.fillStyle=p.crest||'#ffd24a';
+  c.beginPath();c.moveTo(cx-12,cy-42);c.lineTo(cx-8,cy-38);c.lineTo(cx-12,cy-34);c.lineTo(cx-16,cy-38);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+12,cy-42);c.lineTo(cx+16,cy-38);c.lineTo(cx+12,cy-34);c.lineTo(cx+8,cy-38);c.closePath();c.fill();
+  // 顔
+  c.fillStyle=p.skin||'#f0c890';c.beginPath();c.arc(cx,cy-58,9,0,Math.PI*2);c.fill();
+  // 眉
+  c.fillStyle='#1a1a1a';c.fillRect(cx-7,cy-62,5,2);c.fillRect(cx+2,cy-62,5,2);
+  // 目（独眼ならパッチ）
+  if(p.oneEye){c.fillStyle='#000';c.fillRect(cx-7,cy-58,5,4);c.fillRect(cx+2,cy-59,3,2);
+    c.strokeStyle='#1a1a1a';c.lineWidth=0.8;c.beginPath();c.moveTo(cx-9,cy-60);c.lineTo(cx-1,cy-54);c.stroke();
+  }else{c.fillStyle='#000';c.fillRect(cx-5,cy-59,3,2);c.fillRect(cx+2,cy-59,3,2);}
+  // 髭
+  if(p.beard){c.fillStyle=p.beard;c.fillRect(cx-7,cy-50,14,3);}
+  // 兜
+  c.fillStyle=p.helm;c.beginPath();c.arc(cx,cy-66,13,Math.PI,0);c.fill();
+  c.fillRect(cx-13,cy-66,26,4);
+  // 吹返し
+  c.fillStyle=p.helm;c.fillRect(cx-16,cy-62,3,8);c.fillRect(cx+13,cy-62,3,8);
+  // 大鍬形（V字）
+  c.fillStyle=p.crest||'#ffd24a';
+  c.beginPath();c.moveTo(cx-11,cy-72);c.lineTo(cx-19,cy-90);c.lineTo(cx-13,cy-90);c.lineTo(cx-7,cy-74);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+11,cy-72);c.lineTo(cx+19,cy-90);c.lineTo(cx+13,cy-90);c.lineTo(cx+7,cy-74);c.closePath();c.fill();
+  // 中央の前立て
+  if(p.frontCrest==='moon'){
+    c.fillStyle=p.crest;c.beginPath();c.arc(cx,cy-82,7,0.2,Math.PI-0.2);c.fill();
+    c.fillStyle=p.helm;c.beginPath();c.arc(cx-2,cy-82,5,0.2,Math.PI-0.2);c.fill();
+  }else if(p.frontCrest==='dragon'){
+    c.fillStyle=p.crest;c.fillRect(cx-3,cy-82,6,8);
+    c.beginPath();c.moveTo(cx-3,cy-82);c.lineTo(cx,cy-90);c.lineTo(cx+3,cy-82);c.closePath();c.fill();
+  }else if(p.frontCrest==='sun'){
+    c.fillStyle=p.crest;c.beginPath();c.arc(cx,cy-82,5,0,Math.PI*2);c.fill();
+    for(let i=0;i<8;i++){const ang=i/8*Math.PI*2;
+      c.beginPath();c.moveTo(cx+Math.cos(ang)*5,cy-82+Math.sin(ang)*5);c.lineTo(cx+Math.cos(ang)*9,cy-82+Math.sin(ang)*9);c.lineWidth=2;c.strokeStyle=p.crest;c.stroke();}
+  }
+  // 大太刀
+  c.save();c.translate(cx+34,cy-44);c.rotate(0.3);
+  c.fillStyle='#3a2008';c.fillRect(-3,0,6,18);
+  c.fillStyle=p.crest||'#ffd24a';c.fillRect(-4,-2,8,3);
+  c.fillStyle='#dddddd';c.fillRect(-2,-66,4,66);
+  c.fillStyle='#fff';c.fillRect(-1,-66,2,66);
+  c.restore();
+  // 陣羽織（背中の旗）
+  if(p.cape){c.fillStyle=p.cape;c.beginPath();c.moveTo(cx-26,cy-50);c.lineTo(cx-30,cy-8);c.lineTo(cx-22,cy-12);c.lineTo(cx-22,cy-50);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+26,cy-50);c.lineTo(cx+30,cy-8);c.lineTo(cx+22,cy-12);c.lineTo(cx+22,cy-50);c.closePath();c.fill();}
+}
+drawTaisho(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(192,16,16,0.4)',body:'#c01010',outline:'#3a0000',helm:'#aa0808',belt:'#ffd24a',crest:'#ffd24a',shoulder:'#aa0808',skin:'#f0c890',beard:'#1a1a1a',frontCrest:'sun'});
+drawTaisho(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(26,58,138,0.4)',body:'#1a3a8a',outline:'#0a1830',helm:'#0a1830',belt:'#ffd24a',crest:'#ffd24a',shoulder:'#0a1830',skin:'#f0c890',beard:'#1a1a1a',frontCrest:'dragon',cape:'#aa1010'});
+drawTaisho(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(80,80,80,0.4)',body:'#1a1a1a',outline:'#000',helm:'#000',belt:'#aaaaaa',crest:'#aaaaaa',shoulder:'#000',skin:'#f0c890',beard:'#1a1a1a',frontCrest:'moon',oneEye:true});
+drawTaisho(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#dcb060',outline:'#aa6600',helm:'#aa6600',belt:'#aa1010',crest:'#fff5cc',shoulder:'#aa6600',skin:'#f0c890',beard:'#fff',frontCrest:'sun',cape:'#fff5cc'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#3a1818');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 大将
+  const zx=30,zy=h*0.7;c.fillStyle='#c01010';c.fillRect(zx-9,zy-46,18,46);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#ffd24a';
+  c.beginPath();c.moveTo(zx-7,zy-58);c.lineTo(zx-13,zy-72);c.lineTo(zx-3,zy-62);c.closePath();c.fill();
+  c.beginPath();c.moveTo(zx+7,zy-58);c.lineTo(zx+13,zy-72);c.lineTo(zx+3,zy-62);c.closePath();c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 大太刀斬り（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.45){const tt=t/0.45;c.save();c.translate(40,h*0.55);c.rotate(-Math.PI/2-tt*0.3);
+    c.fillStyle='#3a2008';c.fillRect(-3,0,6,18);c.fillStyle='#dddddd';c.fillRect(-2,-50,4,50);c.fillStyle='#fff';c.fillRect(-1,-50,2,50);c.restore();
+  }else if(t<0.65){const tt=(t-0.45)/0.2;c.save();c.translate(40,h*0.55);c.rotate(-Math.PI/2+tt*Math.PI*0.95);
+    c.fillStyle='#3a2008';c.fillRect(-3,0,6,18);c.fillStyle='#dddddd';c.fillRect(-2,-50,4,50);c.fillStyle='#fff';c.fillRect(-1,-50,2,50);c.restore();
+    c.strokeStyle='rgba(255,210,74,0.7)';c.lineWidth=8;c.beginPath();c.arc(40,h*0.55,52,-Math.PI/2,-Math.PI/2+tt*Math.PI*0.95);c.stroke();
+  }else{const tt=(t-0.65)/0.35;c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,22+tt*16,0,Math.PI*2);c.fill();
+    c.strokeStyle='#ffd24a';c.lineWidth=4;c.beginPath();c.moveTo(tg.x-16,tg.y-32);c.lineTo(tg.x+12,tg.y);c.stroke();}
+},2200);
+
+// ② 一騎当千 兜割り（跳躍叩き割り）
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.5){const tt=t/0.5;
+    // 跳躍する大将
+    const x=40+tt*(w*0.55-50);const y=h*0.55-Math.sin(tt*Math.PI)*60;
+    c.fillStyle='#c01010';c.fillRect(x-8,y-28,16,28);c.beginPath();c.arc(x,y-34,8,0,Math.PI*2);c.fill();
+    // 振りかぶる大太刀
+    c.save();c.translate(x,y-20);c.rotate(-Math.PI*0.7+tt*0.5);
+    c.fillStyle='#dddddd';c.fillRect(-3,0,6,60);c.fillStyle='#fff';c.fillRect(-1,0,2,60);c.restore();
+  }else if(t<0.7){const tt=(t-0.5)/0.2;
+    // 振り下ろし
+    const x=w*0.55-10;const y=h*0.55+tt*60;
+    c.fillStyle='#c01010';c.fillRect(x-8,y-28,16,28);c.beginPath();c.arc(x,y-34,8,0,Math.PI*2);c.fill();
+    c.save();c.translate(x,y-20);c.rotate(-Math.PI*0.2+tt*Math.PI*0.7);
+    c.fillStyle='#dddddd';c.fillRect(-3,0,6,60);c.fillStyle='#fff';c.fillRect(-1,0,2,60);c.restore();
+    // 着弾の輝き
+    c.strokeStyle=`rgba(255,210,74,${tt*0.7})`;c.lineWidth=4;c.beginPath();c.arc(w*0.55,h*0.7,40+tt*20,0,Math.PI*2);c.stroke();
+  }else{const tt=(t-0.7)/0.3;
+    // 大爆発
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(w*0.55,h*0.7-10,40+tt*40,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.7})`;c.beginPath();c.arc(w*0.55,h*0.7-10,20+tt*30,0,Math.PI*2);c.fill();
+    // 稲妻パターン
+    c.strokeStyle='#ffea22';c.lineWidth=3;
+    for(let i=0;i<6;i++){const ang=i/6*Math.PI*2;c.beginPath();c.moveTo(w*0.55,h*0.7-10);c.lineTo(w*0.55+Math.cos(ang)*60,h*0.7-10+Math.sin(ang)*60);c.stroke();}
+  }
+  c.fillStyle='#ff5544';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('💥兜割り💥',w*0.5,28);
+},2400);
+
+// ③ 軍配 鼓舞（味方バフ）
+startAnim('at-c',(c,t,w,h)=>{
+  // 味方3体（横に並ぶ）
+  const allies=[{x:30,col:'#3a7a3a'},{x:65,col:'#2a4ab0'},{x:100,col:'#3a1a4a'}];
+  allies.forEach(a=>{
+    c.fillStyle=a.col;c.fillRect(a.x-7,h*0.6-30,14,30);c.beginPath();c.arc(a.x,h*0.6-36,7,0,Math.PI*2);c.fill();
+    // バフオーラ
+    if(t>0.3){const tt=Math.min(1,(t-0.3)/0.4);
+      c.fillStyle=`rgba(255,210,74,${0.3+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(a.x,h*0.6-20,18+tt*4,0,Math.PI*2);c.fill();
+      c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('↑',a.x,h*0.6-46);
+    }
+  });
+  // 大将 軍配を振る
+  const cx=w*0.55,cy=h*0.65;
+  c.fillStyle='#c01010';c.fillRect(cx-9,cy-40,18,40);c.beginPath();c.arc(cx,cy-46,9,0,Math.PI*2);c.fill();
+  c.fillStyle='#ffd24a';c.beginPath();c.moveTo(cx-7,cy-54);c.lineTo(cx-13,cy-66);c.lineTo(cx-3,cy-58);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+7,cy-54);c.lineTo(cx+13,cy-66);c.lineTo(cx+3,cy-58);c.closePath();c.fill();
+  // 軍配（円扇）
+  c.save();c.translate(cx+20,cy-30);c.rotate(Math.sin(t*Math.PI*6)*0.4);
+  c.fillStyle='#3a2008';c.fillRect(-2,0,4,30);
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(0,-2,12,Math.PI,0);c.fill();
+  c.fillStyle='#aa1010';c.beginPath();c.arc(0,-2,8,Math.PI,0);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(0,-2,3,Math.PI,0);c.fill();c.restore();
+  // 鼓舞オーラ
+  c.fillStyle=`rgba(221,170,0,${0.4+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(cx,cy-30,40,0,Math.PI*2);c.fill();
+  c.fillStyle='#ddaa00';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('鼓舞 +ATK!',w*0.5,28);
+},2400);
+
+// ④ 騎馬突撃
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.7},{x:w*0.78,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.85){const tt=t/0.85;const x=40+tt*(w-60);
+    // 馬の影と土埃
+    c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x-5,h*0.7+2,28,5,0,0,Math.PI*2);c.fill();
+    for(let k=0;k<8;k++){c.fillStyle=`rgba(170,140,90,${0.5-k*0.06})`;c.beginPath();c.arc(x-30-k*8,h*0.7-Math.random()*8,4,0,Math.PI*2);c.fill();}
+    // 馬本体
+    c.fillStyle='#3a2008';c.fillRect(x-22,h*0.6,30,18);
+    // 脚
+    c.fillRect(x-18,h*0.65,3,12);c.fillRect(x-8,h*0.65,3,12);c.fillRect(x+0,h*0.65,3,12);
+    // 馬の頭
+    c.beginPath();c.arc(x+10,h*0.6+2,7,0,Math.PI*2);c.fill();
+    // 馬のたてがみ
+    c.fillStyle='#1a1000';c.fillRect(x-5,h*0.6-3,10,4);
+    // 大将（騎乗）
+    c.fillStyle='#c01010';c.fillRect(x-7,h*0.55-20,14,28);
+    c.fillStyle='#f0c890';c.beginPath();c.arc(x,h*0.55-26,7,0,Math.PI*2);c.fill();
+    c.fillStyle='#aa0808';c.beginPath();c.arc(x,h*0.55-30,9,Math.PI,0);c.fill();
+    c.fillStyle='#ffd24a';c.beginPath();c.moveTo(x-7,h*0.55-34);c.lineTo(x-13,h*0.55-46);c.lineTo(x-3,h*0.55-38);c.closePath();c.fill();
+    c.beginPath();c.moveTo(x+7,h*0.55-34);c.lineTo(x+13,h*0.55-46);c.lineTo(x+3,h*0.55-38);c.closePath();c.fill();
+    // 槍（突き出る）
+    c.fillStyle='#3a2008';c.fillRect(x+8,h*0.55-12,40,3);
+    c.fillStyle='#dddddd';c.beginPath();c.moveTo(x+48,h*0.55-15);c.lineTo(x+58,h*0.55-10);c.lineTo(x+48,h*0.55-7);c.closePath();c.fill();
+    // ヒット
+    enemies.forEach(e=>{if(x+58>e.x-10){c.fillStyle=`rgba(255,170,68,${0.5+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();}});
+  }
+  c.fillStyle='#ffaa44';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🐎騎馬突撃🐎',w*0.5,28);
+},2400);
+</script></body></html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ミサイル戦車 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🚀 ミサイル戦車 デザイン & 攻撃 候補</h1>
+<div class="sub">MISSILE TANK DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#3a4a3a;--g:rgba(58,74,58,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 緑迷彩戦車（現行）</h2><p>緑迷彩、長砲身、ミサイルラック。標準的な軍用戦車。</p><div class="meta">配色:緑迷彩+黄</div></div>
+<div class="card" style="--c:#3a3a3a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 鋼鉄の重戦車</h2><p>灰鋼の装甲、二連砲塔、巨大車体。重火力タイプ。</p><div class="meta">配色:鋼+赤</div></div>
+<div class="card" style="--c:#aa6600;--g:rgba(170,102,0,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 砂漠の自走砲</h2><p>砂色の塗装、超長距離砲、軽装でスピーディー。</p><div class="meta">配色:砂色+黒</div></div>
+<div class="card" style="--c:#3a5a8a;--g:rgba(58,90,138,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 蒼のサイバー戦車</h2><p>蒼の流線型ボディ、レーザー砲、ホバー走行の未来兵器。</p><div class="meta">配色:蒼+シアン</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① ミサイル単発（現行）</h2><p>砲身からミサイル1発、着弾で爆発AOE。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 多弾頭斉射 6連</h2><p>背中のラックから6発のミサイルが扇状に拡散発射。</p></div>
+<div class="card" style="--c:#ddaa00;--g:rgba(221,170,0,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 戦略核 ぶっ放し</h2><p>巨大核ミサイル1発、放物線で飛び大爆発+周囲スタン。</p></div>
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 自動追尾ミサイル</h2><p>3発の小型誘導ミサイルが敵を追尾、回避不能。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawTank(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-20,p.aura,120);shadow(c,cx,cy+30,40,6);
+  // キャタピラ（横長）
+  c.fillStyle=p.tread||'#1a1a1a';c.fillRect(cx-46,cy+8,92,18);
+  // キャタピラの履帯刻み
+  for(let i=0;i<8;i++){c.fillStyle='#3a3a3a';c.fillRect(cx-44+i*12,cy+10,8,4);c.fillRect(cx-44+i*12,cy+18,8,4);}
+  // ホイール
+  c.fillStyle='#2a2a2a';
+  for(let i=0;i<5;i++){c.beginPath();c.arc(cx-38+i*18,cy+18,5,0,Math.PI*2);c.fill();
+    c.fillStyle='#0a0a0a';c.beginPath();c.arc(cx-38+i*18,cy+18,2,0,Math.PI*2);c.fill();c.fillStyle='#2a2a2a';}
+  // ホバー（D案：浮遊）
+  if(p.hover){c.fillStyle=`rgba(34,221,255,0.5)`;c.fillRect(cx-46,cy+22,92,4);
+    c.fillStyle=`rgba(34,221,255,0.3)`;c.fillRect(cx-44,cy+24,88,3);}
+  // 車体（メイン）
+  c.fillStyle=p.body;c.fillRect(cx-42,cy-14,84,22);
+  c.strokeStyle=p.outline||'#000';c.lineWidth=1.2;c.strokeRect(cx-42,cy-14,84,22);
+  // 装甲のリベット
+  c.fillStyle=p.outline||'#1a1a1a';
+  for(let i=0;i<4;i++){c.beginPath();c.arc(cx-36+i*24,cy-10,1.5,0,Math.PI*2);c.fill();}
+  // 迷彩パッチ
+  if(p.camo){c.fillStyle=p.camo;
+    c.fillRect(cx-30,cy-10,16,8);c.fillRect(cx+0,cy-12,12,10);c.fillRect(cx+18,cy-8,10,6);}
+  // 砲塔（中央上部）
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-32,44,18);
+  c.strokeRect(cx-22,cy-32,44,18);
+  c.beginPath();c.arc(cx,cy-32,22,Math.PI,0);c.fill();
+  // 砲塔のハッチ
+  c.fillStyle=p.outline||'#1a1a1a';c.beginPath();c.arc(cx-10,cy-30,3,0,Math.PI*2);c.fill();
+  // 主砲
+  c.fillStyle=p.barrel||'#1a1a1a';c.fillRect(cx+18,cy-28,p.longBarrel?52:34,5);
+  c.fillStyle='#0a0a0a';c.fillRect(cx+(p.longBarrel?68:50),cy-28,3,5);
+  // 二連砲（B案）
+  if(p.dualBarrel){c.fillStyle=p.barrel||'#1a1a1a';c.fillRect(cx+18,cy-22,34,5);
+    c.fillStyle='#0a0a0a';c.fillRect(cx+50,cy-22,3,5);}
+  // ミサイルラック（背中）
+  c.fillStyle='#3a2008';c.fillRect(cx-42,cy-44,28,12);
+  for(let i=0;i<3;i++){c.fillStyle=p.missile||'#aa1010';c.fillRect(cx-40+i*9,cy-44,3,12);
+    c.fillStyle=p.missileTip||'#ffd24a';c.beginPath();c.moveTo(cx-40+i*9,cy-44);c.lineTo(cx-38.5+i*9,cy-48);c.lineTo(cx-37+i*9,cy-44);c.closePath();c.fill();}
+  // ヘッドライト
+  c.fillStyle='#ffd24a';c.shadowColor='#ffd24a';c.shadowBlur=8;
+  c.beginPath();c.arc(cx-40,cy-2,3,0,Math.PI*2);c.fill();c.shadowBlur=0;
+  // アンテナ
+  c.strokeStyle=p.outline||'#1a1a1a';c.lineWidth=1.5;
+  c.beginPath();c.moveTo(cx+18,cy-30);c.lineTo(cx+24,cy-50);c.stroke();
+  c.fillStyle=p.crest||'#aa1010';c.beginPath();c.arc(cx+24,cy-50,2,0,Math.PI*2);c.fill();
+  // 国籍マーク（星）
+  c.fillStyle=p.crest||'#ffd24a';
+  c.save();c.translate(cx-8,cy-22);
+  c.beginPath();
+  for(let i=0;i<5;i++){const a=-Math.PI/2+i/5*Math.PI*2;c.lineTo(Math.cos(a)*4,Math.sin(a)*4);const a2=a+Math.PI/5;c.lineTo(Math.cos(a2)*1.5,Math.sin(a2)*1.5);}
+  c.closePath();c.fill();c.restore();
+}
+drawTank(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(58,74,58,0.4)',body:'#3a4a3a',outline:'#0a1a0a',tread:'#1a1a1a',camo:'#1a3a1a',barrel:'#1a1a1a',missile:'#aa1010',missileTip:'#ffd24a',crest:'#ffd24a'});
+drawTank(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(80,80,80,0.4)',body:'#3a3a3a',outline:'#000',tread:'#1a1a1a',barrel:'#1a1a1a',missile:'#aa1010',missileTip:'#aa1010',crest:'#aa1010',dualBarrel:true});
+drawTank(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,102,0,0.4)',body:'#aa6600',outline:'#3a1a00',tread:'#1a1a1a',barrel:'#3a2008',missile:'#aa6600',missileTip:'#1a1a1a',crest:'#1a1a1a',longBarrel:true});
+drawTank(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(58,90,138,0.5)',body:'#3a5a8a',outline:'#0a1830',tread:'#0a1830',barrel:'#22ddff',missile:'#22ddff',missileTip:'#fff',crest:'#22ddff',hover:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 戦車（簡易）
+  const zx=40,zy=h*0.7;c.fillStyle='#1a1a1a';c.fillRect(zx-22,zy-4,44,10);c.fillStyle='#3a4a3a';c.fillRect(zx-18,zy-22,36,18);c.fillStyle='#1a1a1a';c.fillRect(zx,zy-30,28,5);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① ミサイル単発（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.15){
+    // 発射閃光
+    c.fillStyle=`rgba(255,170,68,${(0.15-t)/0.15*0.7})`;c.beginPath();c.arc(80,h*0.6-12,16,0,Math.PI*2);c.fill();
+    // 煙
+    c.fillStyle=`rgba(180,180,180,${(0.15-t)/0.15*0.5})`;c.beginPath();c.arc(80,h*0.6-12,12,0,Math.PI*2);c.fill();
+  }else if(t<0.75){const tt=(t-0.15)/0.6;const x=80+tt*(tg.x-90);const y=h*0.6-12-Math.sin(tt*Math.PI)*15;
+    // ミサイル本体
+    c.save();c.translate(x,y);c.rotate(0.05);
+    c.fillStyle='#aaaaaa';c.fillRect(-12,-3,24,6);
+    c.fillStyle='#aa1010';c.beginPath();c.moveTo(12,-3);c.lineTo(20,0);c.lineTo(12,3);c.closePath();c.fill();
+    c.fillStyle='#3a3a3a';c.fillRect(-12,-4,3,8);
+    // 噴射炎
+    c.fillStyle='#ff5544';c.beginPath();c.moveTo(-12,-3);c.lineTo(-22,0);c.lineTo(-12,3);c.closePath();c.fill();
+    c.fillStyle='#ffea22';c.beginPath();c.moveTo(-12,-2);c.lineTo(-18,0);c.lineTo(-12,2);c.closePath();c.fill();c.restore();
+    // 煙の尾
+    for(let k=1;k<=6;k++){c.fillStyle=`rgba(200,200,200,${0.5-k*0.07})`;c.beginPath();c.arc(x-k*8,y+k*0.5,4-k*0.3,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.75)/0.25;
+    // 着弾爆発
+    c.fillStyle=`rgba(255,170,68,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,30+tt*40,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*30,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.8})`;c.beginPath();c.arc(tg.x,tg.y-16,10,0,Math.PI*2);c.fill();
+  }
+},2200);
+
+// ② 多弾頭斉射 6連
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.65},{x:w*0.7,y:h*0.75},{x:w*0.82,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 6発のミサイル（扇状）
+  for(let i=0;i<6;i++){
+    const angle=(i-2.5)*0.18;
+    const phase=Math.min(1,(t+i*0.04)*1.4);
+    if(phase<=0||phase>=1)continue;
+    const x=80+Math.cos(angle)*phase*(w-100);
+    const y=h*0.55+Math.sin(angle)*phase*(w-100);
+    // ミサイル
+    c.save();c.translate(x,y);c.rotate(angle);
+    c.fillStyle='#aaaaaa';c.fillRect(-10,-2.5,20,5);
+    c.fillStyle='#aa1010';c.beginPath();c.moveTo(10,-2.5);c.lineTo(16,0);c.lineTo(10,2.5);c.closePath();c.fill();
+    c.fillStyle='#ff5544';c.beginPath();c.moveTo(-10,-2.5);c.lineTo(-18,0);c.lineTo(-10,2.5);c.closePath();c.fill();c.restore();
+    // 煙の尾
+    for(let k=1;k<=4;k++){c.fillStyle=`rgba(200,200,200,${0.4-k*0.08})`;c.beginPath();c.arc(x-Math.cos(angle)*k*6,y-Math.sin(angle)*k*6,3,0,Math.PI*2);c.fill();}
+  }
+  // 着弾爆発（複数）
+  enemies.forEach(e=>{if(t>0.5){c.fillStyle=`rgba(255,170,68,${0.5+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(e.x,e.y-16,18,0,Math.PI*2);c.fill();}});
+  c.fillStyle='#ff5544';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🚀斉射 6連!',w*0.5,28);
+},2400);
+
+// ③ 戦略核 ぶっ放し
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.8,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.7){const tt=t/0.7;const x=80+tt*(w*0.65-90);const y=h*0.55-Math.sin(tt*Math.PI)*70;
+    // 巨大核ミサイル
+    c.save();c.translate(x,y);c.rotate(Math.atan2(Math.cos(tt*Math.PI)*70/0.7,((w*0.65-90)/0.7))-Math.PI/2);
+    c.fillStyle='#aaaaaa';c.fillRect(-7,-20,14,40);
+    c.fillStyle='#aa1010';c.beginPath();c.moveTo(-7,-20);c.lineTo(0,-30);c.lineTo(7,-20);c.closePath();c.fill();
+    c.fillStyle='#ddaa00';c.font='bold 9px sans-serif';c.textAlign='center';c.fillText('核',0,5);
+    c.fillStyle='#1a1a1a';c.fillRect(-7,18,3,8);c.fillRect(4,18,3,8);
+    // 噴射
+    c.fillStyle='#ff5544';c.beginPath();c.moveTo(-7,20);c.lineTo(0,32);c.lineTo(7,20);c.closePath();c.fill();
+    c.fillStyle='#ffea22';c.beginPath();c.moveTo(-4,20);c.lineTo(0,28);c.lineTo(4,20);c.closePath();c.fill();c.restore();
+    // 煙の尾
+    for(let k=1;k<=10;k++){c.fillStyle=`rgba(220,220,220,${0.5-k*0.04})`;c.beginPath();c.arc(80+(x-80)*Math.max(0,1-k*0.07),h*0.55-Math.sin((tt-k*0.04)*Math.PI)*70,5,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.7)/0.3;
+    // 巨大爆発（キノコ雲風）
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(w*0.65,h*0.7,40+tt*100,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,170,68,${1-tt})`;c.beginPath();c.arc(w*0.65,h*0.7,30+tt*80,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.8})`;c.beginPath();c.arc(w*0.65,h*0.7,15+tt*40,0,Math.PI*2);c.fill();
+    // キノコ雲
+    c.fillStyle=`rgba(180,180,180,${(1-tt)*0.7})`;c.beginPath();c.ellipse(w*0.65,h*0.45,40+tt*30,18+tt*10,0,0,Math.PI*2);c.fill();
+    c.fillRect(w*0.65-8,h*0.45,16,h*0.25);
+  }
+  c.fillStyle='#ddaa00';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('☢戦略核ぶっ放し☢',w*0.5,28);
+},2800);
+
+// ④ 自動追尾ミサイル
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.6,y:h*0.65},{x:w*0.78,y:h*0.78}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 3発の追尾ミサイル
+  for(let i=0;i<3;i++){
+    const phase=Math.min(1,(t+i*0.05)*1.3);
+    if(phase<=0||phase>=1)continue;
+    // 蛇行する軌道
+    const tx=enemies[i].x;const ty=enemies[i].y-16;
+    const t0=phase;
+    const wig=Math.sin(t0*Math.PI*4+i)*30*(1-t0);
+    const x=80+t0*(tx-80);
+    const y=h*0.55+t0*(ty-h*0.55)+wig;
+    // ミサイル
+    const ang=Math.atan2(ty-y+wig*0.3,tx-x);
+    c.save();c.translate(x,y);c.rotate(ang);
+    c.fillStyle='#88dd66';c.fillRect(-9,-2,18,4);
+    c.fillStyle='#aa1010';c.beginPath();c.moveTo(9,-2);c.lineTo(15,0);c.lineTo(9,2);c.closePath();c.fill();
+    c.fillStyle='#ffea22';c.beginPath();c.moveTo(-9,-2);c.lineTo(-15,0);c.lineTo(-9,2);c.closePath();c.fill();c.restore();
+    // 緑の追尾光
+    c.fillStyle='#88dd66';c.shadowColor='#88dd66';c.shadowBlur=8;c.beginPath();c.arc(x,y,4,0,Math.PI*2);c.fill();c.shadowBlur=0;
+    // 煙
+    for(let k=1;k<=4;k++){c.fillStyle=`rgba(180,200,180,${0.4-k*0.08})`;c.beginPath();c.arc(x-Math.cos(ang)*k*5,y-Math.sin(ang)*k*5,3,0,Math.PI*2);c.fill();}
+  }
+  // ヒット
+  enemies.forEach(e=>{if(t>0.7){c.fillStyle=`rgba(136,221,102,${0.5+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();}});
+  c.fillStyle='#88dd66';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🎯自動追尾🎯',w*0.5,28);
+},2400);
+</script></body></html>

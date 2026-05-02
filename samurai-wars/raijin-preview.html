@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雷神 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>⚡ 雷神 デザイン & 攻撃 候補</h1>
+<div class="sub">RAIJIN DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#1060a0;--g:rgba(16,96,160,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 蒼の雷神（現行）</h2><p>蒼の体、雷形の角、太鼓の輪。風神雷神図 王道。</p><div class="meta">配色:蒼+黄</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 朱赤の鬼雷神</h2><p>朱赤の鬼神、稲妻の二角、虎皮の褌、太鼓を背負う。</p><div class="meta">配色:朱+黄</div></div>
+<div class="card" style="--c:#ffea22;--g:rgba(255,234,34,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黄金の電雷神</h2><p>全身金色、稲妻が体を覆う、神々しい上位形態。</p><div class="meta">配色:金+電光</div></div>
+<div class="card" style="--c:#1a1a4a;--g:rgba(26,26,74,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 闇紫の魔雷神</h2><p>紺紫の体、紫の稲妻、邪悪な目。雷を司る妖魔タイプ。</p><div class="meta">配色:紺紫+紫雷</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffea22;--g:rgba(255,234,34,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 雷撃（現行）</h2><p>稲妻を放つAOE遠距離弾。基本動作。</p></div>
+<div class="card" style="--c:#88ddff;--g:rgba(136,221,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 神鳴 雷雲呼び</h2><p>頭上に雷雲を呼び、5発の落雷を広範囲にランダム着弾。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 雷神太鼓 連打</h2><p>背中の太鼓を高速連打、衝撃波が3連で前方を貫通。</p></div>
+<div class="card" style="--c:#ff44ff;--g:rgba(255,68,255,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 雷霆連鎖</h2><p>1体目に雷を落とし、5体まで電撃が伝播するチェーンライトニング。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawRaijin(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,120);shadow(c,cx,cy+34,28,5);
+  // 太鼓の輪（背中）
+  c.strokeStyle=p.drumRing||'#ffd24a';c.lineWidth=4;
+  c.beginPath();c.arc(cx,cy-32,40,Math.PI*0.2,Math.PI*0.8);c.stroke();
+  // 太鼓（背中の8つ）
+  for(let i=0;i<8;i++){const ang=Math.PI*0.2+i/7*Math.PI*0.6;
+    const dx=cx+Math.cos(ang)*40;const dy=cy-32+Math.sin(ang)*40;
+    c.fillStyle=p.drum||'#3a2008';c.beginPath();c.arc(dx,dy,5,0,Math.PI*2);c.fill();
+    c.strokeStyle='#ffd24a';c.lineWidth=1;c.stroke();
+    c.fillStyle='#fff5cc';c.beginPath();c.arc(dx,dy,2.5,0,Math.PI*2);c.fill();
+  }
+  // 脚（虎皮の褌）
+  c.fillStyle=p.body;c.fillRect(cx-12,cy-8,8,30);c.fillRect(cx+4,cy-8,8,30);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-14,cy+20,12,5);c.fillRect(cx+2,cy+20,12,5);
+  // 虎皮
+  c.fillStyle=p.tigerFur||'#ffaa44';c.fillRect(cx-18,cy-14,36,12);
+  c.fillStyle='#000';
+  for(let i=0;i<4;i++)c.fillRect(cx-15+i*9,cy-12,3,4);
+  // 体（鬼神の上半身）
+  c.fillStyle=p.body;
+  c.beginPath();c.moveTo(cx-22,cy-50);c.lineTo(cx+22,cy-50);c.lineTo(cx+24,cy-12);c.lineTo(cx-24,cy-12);c.closePath();c.fill();
+  // 筋肉ライン
+  c.strokeStyle=p.musc||'rgba(0,0,0,0.3)';c.lineWidth=1.5;
+  c.beginPath();c.moveTo(cx-12,cy-46);c.lineTo(cx-8,cy-22);c.stroke();
+  c.beginPath();c.moveTo(cx+12,cy-46);c.lineTo(cx+8,cy-22);c.stroke();
+  c.beginPath();c.moveTo(cx,cy-50);c.lineTo(cx,cy-22);c.stroke();
+  // 腕（筋肉質）
+  c.fillStyle=p.body;
+  c.beginPath();c.arc(cx-30,cy-40,10,0,Math.PI*2);c.fill();
+  c.fillRect(cx-32,cy-40,8,28);
+  c.beginPath();c.arc(cx+30,cy-40,10,0,Math.PI*2);c.fill();
+  c.fillRect(cx+24,cy-40,8,28);
+  // 雷バチ（左右）
+  [-32,32].forEach(side=>{c.save();c.translate(cx+side*1.1,cy-12);c.rotate(side<0?0.4:-0.4);
+    c.fillStyle='#3a2008';c.fillRect(-2,0,4,24);
+    c.fillStyle=p.drum||'#3a2008';c.beginPath();c.arc(0,-2,5,0,Math.PI*2);c.fill();c.restore();});
+  // 顔（鬼神面）
+  c.fillStyle=p.skin||p.body;c.beginPath();c.arc(cx,cy-58,11,0,Math.PI*2);c.fill();
+  // 牙
+  c.fillStyle='#fff';c.beginPath();c.moveTo(cx-3,cy-50);c.lineTo(cx-1,cy-44);c.lineTo(cx+1,cy-50);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+3,cy-50);c.lineTo(cx+1,cy-44);c.lineTo(cx-1,cy-50);c.closePath();c.fill();
+  // 目（光る）
+  c.fillStyle=p.eyeColor||'#ffea22';c.shadowColor=p.eyeColor||'#ffea22';c.shadowBlur=10;
+  c.fillRect(cx-6,cy-60,4,2);c.fillRect(cx+2,cy-60,4,2);c.shadowBlur=0;
+  // 雷形の角（V字）
+  c.fillStyle=p.horn||'#ffea22';c.shadowColor=p.horn||'#ffea22';c.shadowBlur=12;
+  c.beginPath();c.moveTo(cx-10,cy-66);c.lineTo(cx-8,cy-78);c.lineTo(cx-14,cy-82);c.lineTo(cx-6,cy-72);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+10,cy-66);c.lineTo(cx+8,cy-78);c.lineTo(cx+14,cy-82);c.lineTo(cx+6,cy-72);c.closePath();c.fill();
+  c.shadowBlur=0;
+  // 髪（爆発的）
+  c.fillStyle=p.hair||'#1a1a30';
+  c.beginPath();c.arc(cx,cy-66,12,Math.PI,0);c.fill();
+  for(let i=0;i<5;i++){const a=Math.PI+i/4*Math.PI;
+    c.beginPath();c.moveTo(cx+Math.cos(a)*10,cy-66+Math.sin(a)*10);c.lineTo(cx+Math.cos(a)*16,cy-72+Math.sin(a)*16);c.lineWidth=4;c.strokeStyle=p.hair||'#1a1a30';c.stroke();}
+  // 体周りに走る雷
+  if(p.lightning){c.strokeStyle=p.lightning;c.lineWidth=1.5;c.shadowColor=p.lightning;c.shadowBlur=10;
+    for(let i=0;i<5;i++){const a=Math.random()*Math.PI*2;c.beginPath();
+      c.moveTo(cx+Math.cos(a)*22,cy-30+Math.sin(a)*30);
+      c.lineTo(cx+Math.cos(a)*30,cy-30+Math.sin(a)*36);c.stroke();}c.shadowBlur=0;}
+}
+drawRaijin(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(16,96,160,0.4)',body:'#1060a0',drumRing:'#ffd24a',drum:'#3a2008',tigerFur:'#ffaa44',horn:'#ffea22',hair:'#1a1a30',skin:'#1060a0'});
+drawRaijin(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',drumRing:'#ffd24a',drum:'#3a2008',tigerFur:'#ffaa44',horn:'#ffea22',hair:'#000',skin:'#aa1010',eyeColor:'#ffea22'});
+drawRaijin(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(255,234,34,0.5)',body:'#ddaa00',drumRing:'#fff5cc',drum:'#aa6600',tigerFur:'#fff5cc',horn:'#ffea22',hair:'#fff5cc',skin:'#ffd24a',lightning:'#ffea22',eyeColor:'#fff'});
+drawRaijin(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(170,68,255,0.4)',body:'#1a1a4a',drumRing:'#aa44ff',drum:'#0a0a20',tigerFur:'#7a3a8a',horn:'#aa44ff',hair:'#0a0a20',skin:'#3a1a4a',lightning:'#aa44ff',eyeColor:'#ff44ff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2818';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#1a1208';c.fillRect(0,h*0.7,w,3);
+  // 雷神
+  const zx=30,zy=h*0.7;c.fillStyle='#1060a0';c.fillRect(zx-9,zy-46,18,46);c.beginPath();c.arc(zx,zy-50,9,0,Math.PI*2);c.fill();
+  c.fillStyle='#ffea22';c.beginPath();c.moveTo(zx-7,zy-58);c.lineTo(zx-10,zy-68);c.lineTo(zx-2,zy-62);c.closePath();c.fill();
+  c.beginPath();c.moveTo(zx+7,zy-58);c.lineTo(zx+10,zy-68);c.lineTo(zx+2,zy-62);c.closePath();c.fill();}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function lightning(c,x1,y1,x2,y2,col,segs){segs=segs||5;c.strokeStyle=col;c.shadowColor=col;c.shadowBlur=10;c.lineWidth=2;c.beginPath();
+  c.moveTo(x1,y1);for(let i=1;i<segs;i++){const t=i/segs;const x=x1+(x2-x1)*t+(Math.random()-0.5)*16;const y=y1+(y2-y1)*t+(Math.random()-0.5)*16;c.lineTo(x,y);}
+  c.lineTo(x2,y2);c.stroke();c.shadowBlur=0;}
+
+// ① 雷撃（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.3){const tt=t/0.3;
+    // 構え（雷が手に集まる）
+    c.fillStyle=`rgba(255,234,34,${tt*0.6})`;c.beginPath();c.arc(50,h*0.55,12+tt*6,0,Math.PI*2);c.fill();
+  }else if(t<0.7){const tt=(t-0.3)/0.4;
+    // 雷弾が飛ぶ
+    const x=50+tt*(tg.x-60);
+    c.fillStyle='#ffea22';c.shadowColor='#ffea22';c.shadowBlur=15;c.beginPath();c.arc(x,h*0.55,10,0,Math.PI*2);c.fill();c.shadowBlur=0;
+    c.fillStyle='#fff';c.beginPath();c.arc(x,h*0.55,5,0,Math.PI*2);c.fill();
+    // 軌跡
+    for(let k=1;k<=4;k++){c.fillStyle=`rgba(255,234,34,${0.4-k*0.08})`;c.beginPath();c.arc(x-k*12,h*0.55,8-k,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.7)/0.3;
+    // 着弾
+    c.fillStyle=`rgba(255,234,34,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,30+tt*30,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,16+tt*20,0,Math.PI*2);c.fill();
+    for(let i=0;i<5;i++){const ang=i/5*Math.PI*2;lightning(c,tg.x,tg.y-16,tg.x+Math.cos(ang)*40,tg.y-16+Math.sin(ang)*40,'#ffea22',4);}
+  }
+},2000);
+
+// ② 神鳴 雷雲呼び（5発の落雷）
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 雷雲（頭上）
+  if(t<0.2){const tt=t/0.2;
+    c.fillStyle=`rgba(50,50,80,${tt*0.7})`;c.beginPath();c.ellipse(w*0.6,30,80*tt,15*tt,0,0,Math.PI*2);c.fill();
+  }else{
+    c.fillStyle=`rgba(40,40,70,${0.85+0.15*Math.sin(t*Math.PI*8)})`;c.beginPath();c.ellipse(w*0.6,30,90,18,0,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(80,80,120,0.6)`;c.beginPath();c.ellipse(w*0.5,28,50,14,0,0,Math.PI*2);c.fill();
+    c.beginPath();c.ellipse(w*0.7,26,55,12,0,0,Math.PI*2);c.fill();
+  }
+  // 5発の落雷（時間差）
+  const targets=[w*0.35,w*0.5,w*0.65,w*0.78,w*0.6];
+  targets.forEach((tx,i)=>{
+    const td=0.25+i*0.13;
+    if(t>=td&&t<td+0.3){const tt=(t-td)/0.3;
+      // 雷柱
+      c.fillStyle=`rgba(255,234,34,${(1-tt)*0.85})`;c.fillRect(tx-8,30,16,h*0.7-30);
+      c.fillStyle=`rgba(255,255,255,${1-tt})`;c.fillRect(tx-3,30,6,h*0.7-30);
+      // ジグザグ稲妻
+      lightning(c,tx,30,tx,h*0.7-10,'#ffea22',8);
+      // 着弾爆発
+      c.fillStyle=`rgba(255,234,34,${(1-tt)*0.7})`;c.beginPath();c.arc(tx,h*0.7-10,30+tt*20,0,Math.PI*2);c.fill();
+    }
+  });
+  c.fillStyle='#88ddff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('⚡神鳴雷雲⚡',w*0.5,h-12);
+},2800);
+
+// ③ 雷神太鼓 連打（衝撃波 3連）
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.8,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 雷神（太鼓を叩く）
+  const cx0=40,cy0=h*0.6;
+  c.fillStyle='#1060a0';c.fillRect(cx0-9,cy0-30,18,30);c.beginPath();c.arc(cx0,cy0-36,9,0,Math.PI*2);c.fill();
+  // 太鼓（背中）
+  c.strokeStyle='#ffd24a';c.lineWidth=3;c.beginPath();c.arc(cx0,cy0-22,28,Math.PI*0.2,Math.PI*0.8);c.stroke();
+  // バチ（リズミカル）
+  const beat=Math.sin(t*Math.PI*16);
+  c.fillStyle='#3a2008';c.fillRect(cx0+18,cy0-32-beat*4,4,18);
+  c.fillStyle='#3a2008';c.fillRect(cx0+10,cy0-32+beat*4,4,18);
+  // 衝撃波 3連
+  [0.0,0.25,0.5].forEach(td=>{
+    const tt=Math.max(0,Math.min(1,(t-td)/0.45));if(tt<=0||tt>=1)return;
+    const x=cx0+10+tt*(w-cx0-20);
+    // リング状の衝撃波
+    c.strokeStyle=`rgba(255,210,74,${1-tt})`;c.lineWidth=8;c.beginPath();c.ellipse(x,h*0.6,18,40,0,0,Math.PI*2);c.stroke();
+    c.strokeStyle=`rgba(255,234,34,${1-tt})`;c.lineWidth=4;c.beginPath();c.ellipse(x,h*0.6,14,32,0,0,Math.PI*2);c.stroke();
+    c.fillStyle=`rgba(255,255,255,${(1-tt)*0.5})`;c.fillRect(x-12,h*0.6-30,24,60);
+    // 雷スパーク
+    for(let k=0;k<3;k++){const ang=Math.random()*Math.PI*2;lightning(c,x,h*0.6,x+Math.cos(ang)*22,h*0.6+Math.sin(ang)*32,'#ffea22',4);}
+  });
+  // ヒット
+  enemies.forEach(e=>{c.fillStyle=`rgba(255,210,74,${0.4+0.3*Math.sin(t*Math.PI*10)})`;c.beginPath();c.arc(e.x,e.y-16,12,0,Math.PI*2);c.fill();});
+  c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('🥁雷神太鼓🥁',w*0.5,28);
+},2400);
+
+// ④ 雷霆連鎖（チェーンライトニング）
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.83,y:h*0.7},{x:w*0.6,y:h*0.78}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 雷神
+  c.fillStyle='#1060a0';c.fillRect(35,h*0.55-20,14,28);c.beginPath();c.arc(42,h*0.55-26,8,0,Math.PI*2);c.fill();
+  // 連鎖タイミング（5体まで）
+  const chain=[
+    {x:35,y:h*0.55,dst:enemies[0]},
+    {x:enemies[0].x,y:enemies[0].y-16,dst:enemies[1]},
+    {x:enemies[1].x,y:enemies[1].y-16,dst:enemies[2]},
+    {x:enemies[2].x,y:enemies[2].y-16,dst:enemies[3]},
+    {x:enemies[3].x,y:enemies[3].y-16,dst:enemies[4]}
+  ];
+  chain.forEach((c0,i)=>{
+    const td=i*0.16;
+    if(t>=td&&t<td+0.4){const tt=(t-td)/0.4;
+      // 紫の稲妻
+      lightning(c,c0.x,c0.y,c0.dst.x,c0.dst.y-16,'#ff44ff',8);
+      lightning(c,c0.x,c0.y,c0.dst.x,c0.dst.y-16,'#fff',6);
+      // 着弾フラッシュ
+      c.fillStyle=`rgba(255,68,255,${(1-tt)*0.7})`;c.beginPath();c.arc(c0.dst.x,c0.dst.y-16,18,0,Math.PI*2);c.fill();
+    }
+    if(t>=td+0.4){
+      c.fillStyle=`rgba(170,68,255,${0.4+0.3*Math.sin(t*Math.PI*8)})`;c.beginPath();c.arc(c0.dst.x,c0.dst.y-16,14,0,Math.PI*2);c.fill();
+    }
+  });
+  c.fillStyle='#ff44ff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('⚡雷霆連鎖⚡',w*0.5,28);
+},2400);
+</script></body></html>

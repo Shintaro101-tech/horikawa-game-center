@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サイボーグ忍者 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;
+  background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);
+  background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#FFEB3B 0%,#FF6B00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(255,215,0,0.4);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.2rem;color:#18FFFF;letter-spacing:4px;margin:32px 0 16px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:240px}
+canvas{display:block}
+h2{font-size:1.1rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🥷 サイボーグ忍者 デザイン & 攻撃 候補</h1>
+<div class="sub">CYBER NINJA DESIGN AND ATTACK CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#0a3a5a;--g:rgba(10,58,90,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 紺サイバー忍者（現行）</h2><p>紺の電脳装束、シアンバイザー、放熱器。王道サイバー。</p><div class="meta">配色:紺+シアン</div></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 朱赤の機甲忍</h2><p>赤い装甲、緋色の電脳線、攻撃型のバトルアンドロイド。</p><div class="meta">配色:朱+黄</div></div>
+<div class="card" style="--c:#1a1a1a;--g:rgba(80,30,80,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黒紫のステルス忍</h2><p>漆黒、紫グロー、刺青のような電子回路。隠密暗殺型。</p><div class="meta">配色:黒+紫</div></div>
+<div class="card" style="--c:#ddccaa;--g:rgba(221,204,170,0.5)"><div class="canv-wrap"><canvas id="ch-d" width="220" height="240"></canvas></div><h2>案D. 銀白の高速型</h2><p>銀白の流線型ボディ、緑のセンサー、超高速プロトタイプ。</p><div class="meta">配色:銀+緑</div></div>
+</div>
+
+<h3 class="section">— 攻撃方法4案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#22ddff;--g:rgba(34,221,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① プラズマクナイ（現行）</h2><p>シアンに発光するプラズマクナイ斬り。基本動作。</p></div>
+<div class="card" style="--c:#aaaaff;--g:rgba(170,170,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 電脳分身斬り</h2><p>3体のホログラム分身が同時に斬る。3方向同時ヒット。</p></div>
+<div class="card" style="--c:#88ddff;--g:rgba(136,221,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 瞬間移動連撃</h2><p>瞬時に消えて敵の背後に出現、5連斬撃の高速ラッシュ。</p></div>
+<div class="card" style="--c:#ff44ff;--g:rgba(255,68,255,0.5)"><div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div><h2>案④ 電磁手裏剣</h2><p>巨大な電磁手裏剣を投げる、敵を貫通+短時間スタン。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function shadow(c,x,y,w,h){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,w,h,0,0,Math.PI*2);c.fill();}
+function drawCyberNinja(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);shadow(c,cx,cy+34,22,4);
+  // 脚
+  c.fillStyle=p.legs;c.fillRect(cx-9,cy-8,7,30);c.fillRect(cx+2,cy-8,7,30);
+  c.fillStyle='#000';c.fillRect(cx-11,cy+18,11,5);c.fillRect(cx,cy+18,11,5);
+  // 脛アーマー（電脳線）
+  c.strokeStyle=p.glow;c.lineWidth=1;
+  c.beginPath();c.moveTo(cx-7,cy-2);c.lineTo(cx-7,cy+18);c.stroke();
+  c.beginPath();c.moveTo(cx+4,cy-2);c.lineTo(cx+4,cy+18);c.stroke();
+  // 胴
+  c.fillStyle=p.body;c.fillRect(cx-18,cy-46,36,40);
+  // 装甲継ぎ目
+  c.strokeStyle=p.outline||'#000';c.lineWidth=1;c.strokeRect(cx-18,cy-46,36,40);
+  // 電脳線（縦+横）
+  c.strokeStyle=p.glow;c.lineWidth=1.2;
+  c.beginPath();c.moveTo(cx,cy-46);c.lineTo(cx,cy-6);c.stroke();
+  c.beginPath();c.moveTo(cx-18,cy-26);c.lineTo(cx+18,cy-26);c.stroke();
+  // パワーセル（中央）
+  c.fillStyle=p.cell;c.shadowColor=p.cell;c.shadowBlur=8;
+  c.beginPath();c.arc(cx,cy-26,4,0,Math.PI*2);c.fill();c.shadowBlur=0;
+  // 帯
+  c.fillStyle=p.belt||'#000';c.fillRect(cx-18,cy-18,36,4);
+  // 腕
+  c.fillStyle=p.body;c.fillRect(cx-26,cy-44,7,24);c.fillRect(cx+19,cy-44,7,24);
+  // 腕の電脳線
+  c.strokeStyle=p.glow;c.lineWidth=1;
+  c.beginPath();c.moveTo(cx-23,cy-44);c.lineTo(cx-23,cy-20);c.stroke();
+  c.beginPath();c.moveTo(cx+22,cy-44);c.lineTo(cx+22,cy-20);c.stroke();
+  // 顔（フード）
+  c.fillStyle=p.hood;c.beginPath();c.arc(cx,cy-58,12,Math.PI,0);c.fill();
+  c.fillRect(cx-12,cy-58,24,4);
+  // バイザー（横長の発光帯）
+  c.fillStyle='#000';c.fillRect(cx-10,cy-58,20,5);
+  c.fillStyle=p.visor;c.shadowColor=p.visor;c.shadowBlur=10;
+  c.fillRect(cx-9,cy-57,18,3);c.shadowBlur=0;
+  c.fillStyle='#fff';c.fillRect(cx-8,cy-57,3,1);
+  // サイドの放熱器
+  c.fillStyle=p.heat||p.glow;c.fillRect(cx-15,cy-55,2,5);c.fillRect(cx+13,cy-55,2,5);
+  // フードの先端
+  c.fillStyle=p.hood;c.beginPath();c.moveTo(cx-12,cy-58);c.lineTo(cx-15,cy-44);c.lineTo(cx-9,cy-44);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+12,cy-58);c.lineTo(cx+15,cy-44);c.lineTo(cx+9,cy-44);c.closePath();c.fill();
+  // プラズマクナイ（右手）
+  c.save();c.translate(cx+27,cy-30);c.rotate(-0.4);
+  c.fillStyle='#1a1a1a';c.fillRect(0,-2,6,4);
+  c.fillStyle=p.knife||'#22ddff';c.shadowColor=p.knife||'#22ddff';c.shadowBlur=8;
+  c.beginPath();c.moveTo(6,-3);c.lineTo(20,-1);c.lineTo(20,1);c.lineTo(6,3);c.closePath();c.fill();c.shadowBlur=0;
+  c.fillStyle='#fff';c.beginPath();c.moveTo(6,-1);c.lineTo(18,0);c.lineTo(6,1);c.closePath();c.fill();c.restore();
+}
+drawCyberNinja(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(10,58,90,0.4)',body:'#0a3a5a',legs:'#000',hood:'#0a1a2a',outline:'#000',cell:'#00f0ff',glow:'#00f0ff',visor:'#00f0ff',heat:'#ff3344',knife:'#22ddff',belt:'#000'});
+drawCyberNinja(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#aa1010',legs:'#3a0000',hood:'#3a0000',outline:'#3a0000',cell:'#ffea22',glow:'#ffea22',visor:'#ffea22',heat:'#ffea22',knife:'#ffaa44',belt:'#3a0000'});
+drawCyberNinja(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,68,255,0.4)',body:'#1a1a1a',legs:'#000',hood:'#0a0a0a',outline:'#000',cell:'#aa44ff',glow:'#aa44ff',visor:'#aa44ff',heat:'#aa44ff',knife:'#ff44ff',belt:'#000'});
+drawCyberNinja(document.getElementById('ch-d').getContext('2d'),{aura:'rgba(220,220,220,0.4)',body:'#ddccaa',legs:'#aaaaaa',hood:'#aaaaaa',outline:'#888',cell:'#88dd66',glow:'#88dd66',visor:'#88dd66',heat:'#88dd66',knife:'#aaffaa',belt:'#888'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1a2a';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#00f0ff';c.fillRect(0,h*0.7,w,1);
+  // ニンジャ
+  const zx=30,zy=h*0.7;c.fillStyle='#0a3a5a';c.fillRect(zx-7,zy-44,14,44);c.beginPath();c.arc(zx,zy-50,8,0,Math.PI*2);c.fill();c.fillStyle='#00f0ff';c.fillRect(zx-7,zy-52,14,2);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① プラズマクナイ（現行）
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.5,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.4){const tt=t/0.4;c.save();c.translate(45,h*0.55);c.rotate(-Math.PI/3-tt*0.4);
+    c.fillStyle='#1a1a1a';c.fillRect(0,-2,6,4);c.fillStyle='#22ddff';c.fillRect(6,-3,20,6);c.fillStyle='#fff';c.fillRect(6,-1,18,2);c.restore();
+  }else if(t<0.6){const tt=(t-0.4)/0.2;
+    c.save();c.translate(45,h*0.55);c.rotate(-Math.PI/3+tt*Math.PI*1.2);
+    c.fillStyle='#22ddff';c.fillRect(0,-3,28,6);c.fillStyle='#fff';c.fillRect(0,-1,26,2);c.restore();
+    c.strokeStyle=`rgba(34,221,255,0.7)`;c.lineWidth=6;c.beginPath();c.arc(45,h*0.55,32,-Math.PI*0.3,-Math.PI*0.3+tt*1.2);c.stroke();
+  }else{const tt=(t-0.6)/0.4;c.fillStyle=`rgba(34,221,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,16+tt*14,0,Math.PI*2);c.fill();}
+},2000);
+
+// ② 電脳分身斬り
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.65},{x:w*0.55,y:h*0.7},{x:w*0.6,y:h*0.78}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  // 3体の分身
+  const cols=['rgba(170,170,255,0.7)','rgba(34,221,255,0.7)','rgba(170,68,255,0.7)'];
+  enemies.forEach((e,i)=>{
+    const phase=Math.min(1,t*1.5);
+    const sx=40+phase*(e.x-50);
+    const sy=e.y-Math.sin(phase*Math.PI)*15;
+    // 分身ボディ
+    c.fillStyle=cols[i];c.fillRect(sx-6,sy-30,12,30);
+    c.beginPath();c.arc(sx,sy-36,7,0,Math.PI*2);c.fill();
+    // クナイ
+    c.fillStyle='#22ddff';c.fillRect(sx+8,sy-20,16,3);
+    // 残像
+    for(let k=1;k<=3;k++){c.fillStyle=`rgba(170,170,255,${0.3-k*0.08})`;c.fillRect(sx-k*6-6,sy-30,12,30);}
+    if(t>0.7){const tt=(t-0.7)/0.3;c.fillStyle=`rgba(170,170,255,${1-tt})`;c.beginPath();c.arc(e.x,e.y-16,16,0,Math.PI*2);c.fill();}
+  });
+  c.fillStyle='#aaaaff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('電脳分身!',w*0.5,28);
+},2200);
+
+// ③ 瞬間移動連撃
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  // 5回の高速斬撃（位置を瞬間的に切り替え）
+  const hits=[
+    {x:tg.x-30,y:tg.y-20,a:0,t0:0.0},
+    {x:tg.x+30,y:tg.y-30,a:Math.PI*0.7,t0:0.18},
+    {x:tg.x-25,y:tg.y-10,a:-Math.PI*0.5,t0:0.36},
+    {x:tg.x+25,y:tg.y-25,a:Math.PI*0.3,t0:0.54},
+    {x:tg.x,y:tg.y-40,a:-Math.PI*0.8,t0:0.72}
+  ];
+  hits.forEach(h0=>{
+    if(t>=h0.t0&&t<h0.t0+0.2){
+      const tt=(t-h0.t0)/0.2;
+      // ニンジャ瞬間出現
+      c.fillStyle=`rgba(34,221,255,${1-tt})`;c.fillRect(h0.x-7,h0.y-22,14,22);
+      // クナイ振り抜き
+      c.save();c.translate(h0.x,h0.y-10);c.rotate(h0.a);
+      c.fillStyle='#22ddff';c.fillRect(0,-2,30,4);c.fillStyle='#fff';c.fillRect(0,-1,28,2);c.restore();
+      // 残像線
+      c.strokeStyle=`rgba(136,221,255,${1-tt})`;c.lineWidth=4;c.beginPath();c.moveTo(h0.x,h0.y-10);c.lineTo(h0.x+Math.cos(h0.a)*30,h0.y-10+Math.sin(h0.a)*30);c.stroke();
+    }
+  });
+  // 残像粒子
+  for(let i=0;i<6;i++){const ang=t*Math.PI*2+i;c.fillStyle=`rgba(34,221,255,0.4)`;c.beginPath();c.arc(tg.x+Math.cos(ang)*22,tg.y-20+Math.sin(ang)*15,2.5,0,Math.PI*2);c.fill();}
+  c.fillStyle='#88ddff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('瞬間連撃!',w*0.5,28);
+},2200);
+
+// ④ 電磁手裏剣
+startAnim('at-d',(c,t,w,h)=>{const enemies=[{x:w*0.45,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.8,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));
+  if(t<0.85){const tt=t/0.85;const x=40+tt*(w-50);const yc=h*0.55;
+    // 電磁手裏剣（4枚刃）
+    c.save();c.translate(x,yc);c.rotate(t*Math.PI*16);
+    c.fillStyle='#ff44ff';c.shadowColor='#ff44ff';c.shadowBlur=18;
+    for(let i=0;i<4;i++){const a=i/4*Math.PI*2;
+      c.beginPath();c.moveTo(0,0);c.lineTo(Math.cos(a)*20,Math.sin(a)*20);c.lineTo(Math.cos(a+0.3)*8,Math.sin(a+0.3)*8);c.closePath();c.fill();}
+    c.fillStyle='#fff';c.beginPath();c.arc(0,0,5,0,Math.PI*2);c.fill();c.shadowBlur=0;c.restore();
+    // 電撃のスパーク
+    for(let k=0;k<5;k++){const ang=Math.random()*Math.PI*2;c.strokeStyle=`rgba(255,68,255,0.6)`;c.lineWidth=1.5;
+      c.beginPath();c.moveTo(x,yc);c.lineTo(x+Math.cos(ang)*30,yc+Math.sin(ang)*30);c.stroke();}
+    // ヒット
+    enemies.forEach(e=>{if(x>e.x-15&&x<e.x+15){c.fillStyle=`rgba(255,68,255,0.8)`;c.beginPath();c.arc(e.x,e.y-16,18,0,Math.PI*2);c.fill();}});
+  }
+  c.fillStyle='#ff44ff';c.font='bold 14px sans-serif';c.textAlign='center';c.fillText('⚡電磁手裏剣⚡',w*0.5,28);
+},2400);
+</script></body></html>
