@@ -18,53 +18,23 @@
 
 ---
 
-## 📍 現在進行中：過去編キャラ デザイン+必殺技プレビュー作成（Batch 3 から再開）
+## ✅ 完了：過去編27キャラの個別必殺技（Batch 1-6 全完了 2026-05-03）
 
-**新セッションで再開する場合、ここから続けて**
-
-過去編の味方27キャラに対し、**デザイン4案 + 攻撃4案** のプレビューHTMLを順次作成中。
-デザイン+攻撃を選択してもらい、**通常攻撃は現行のまま、必殺技（8回ごと）のみ新攻撃**として実装する流れ。
-
-### 進捗（22/27 完了 / プレビュー 27/27）
-- ✅ Batch 1（5体）: 足軽 / 侍 / 忍者 / 弓兵 / 巫女 — プレビュー作成 + 必殺技実装済
-  - 足軽: A+③横薙ぎ払い / 侍: A+④飛刀斬り / 忍者: C紫装束+④火遁の術 / 弓兵: A+③火矢 / 巫女: A+②神楽舞い
-- ✅ Batch 2（5体）: 戦闘ロボ / ドローン / メカ侍 / レーザー砲台 / 重装甲ロボ — プレビュー作成 + 必殺技実装済
-  - 戦闘ロボ: A+②バルカン乱射 / ドローン: D緑+③上空爆撃 / メカ侍: B赤備え+③ブースト突進斬り / レーザー砲台: C緑+③チャージビーム / 重装甲ロボ: C黒+②ロケットパンチ
-- ✅ Batch 3（5体）: 弁慶 / 陰陽師 / 僧兵 / 鉄砲足軽 / 炎魔導士 — プレビュー作成 + 必殺技実装済
-  - 弁慶: C朱赤+④立ち往生回転連撃 / 陰陽師: C紫闇+③結界封印 / 僧兵: A橙袈裟（現行）+②念仏黄金光波 / 鉄砲足軽: D黒装束+②三段撃ち / 炎魔導士: A朱赤フード（現行）+④灼熱の極炎
-- ✅ Batch 4（4体）: サイボーグ忍者 / 侍大将 / 雷神 / ミサイル戦車 — プレビュー作成 + 必殺技実装済
-  - サイボーグ忍者: D銀白+③瞬間移動連撃 / 侍大将: B紺地金鎧+④騎馬突撃 / 雷神: C黄金電+②神鳴雷雲 / ミサイル戦車: A緑迷彩（現行）+④追尾ミサイル
-- ✅ Batch 5（3体）: 赤鬼侍 / 超合金鬼神 / ダイダラボッチ — プレビュー作成 + 必殺技実装済
-  - 赤鬼侍: A朱赤（現行）+④鬼神化巨大化（バフ系） / 超合金鬼神: C蒼銀+④ファイナルクラッシュ / ダイダラボッチ: D黄金+②山投げ
-- 🟡 Batch 6（5体）: 大入道 / 大天狗 / 海賊 / 風魔 / 八雲 — **プレビュー作成済、選択待ち**
-
-### 残り（最終5/27 未実装）
-- 🟡 **Batch 6: 終盤5体** — `onyudo`（大入道）/ `daitengu`（大天狗）/ `kaizoku`（海賊）/ `fuma`（風魔）/ `yagumo`（八雲）— プレビュー作成済、ユーザの選択待ち
-
-### 各バッチの作業フロー
-1. **プレビュー作成**: バッチ内の各キャラに対し `samurai-wars/{id}-preview.html` を作成（デザイン4案 + 攻撃4案、4×4の8カード）
-2. **コミット & プッシュ**: 1バッチ分まとめて push、ユーザに URL を提示
-3. **ユーザの選択を待つ**（例: 「弁慶: B+②」のように指定）
-4. **必殺技を実装**:
-   - SAMURAI_DATA の該当キャラの `color` を選んだデザインに合わせて変更（必要なら `helmet` も）
-   - `attackTarget` 内の `if(isSpecial)` ブロックに `if(aid === '<id>') { ... return; }` を追加
-   - 通常攻撃は触らない。必殺技のみカスタム
-   - 視覚効果は基本的に既存の `slashWaves` / `blizzards` / `quakes` / `kamikazes` / `bullets` 配列に `style` フラグで分岐させて再利用
-   - 描画関数（`drawSlashWave` / `drawBlizzard` / `drawQuake` / `drawKamikazeOrSlam`）に新 style の分岐を追加
-5. **コミット & プッシュ**
+過去編の味方27キャラ全員に**専用の必殺技（8回攻撃ごと発動）**を実装済。通常攻撃は現行のまま、選択されたデザインに `color` を合わせ、必殺技のみカスタム描画＋挙動。プレビューHTMLは `samurai-wars/{id}-preview.html` に残している（テンプレ参考用）。
 
 ### 必殺技攻撃のテンプレ参考（既に実装済の代表例）
-- 線形貫通弾 → `slashWaves` + `style:'wind'`/`'water'`/`'eye'`/`'charge_beam'`
+- 線形貫通弾 → `slashWaves` + `style:'wind'`/`'water'`/`'eye'`/`'charge_beam'`/`'golden_light'`/`'mega_flame'`/`'tornado'`
 - 範囲広域DoT → `blizzards` + `style:'fire'`/`'poison'`
-- 範囲AOE+スタン → `quakes` + `style:'sweep'`(前方)/`'kagura'`(放射状)/`'spin'`(高速回転)
-- 突進系 → `kamikazes` + `style:'leap'`/`'slam'`/`'mecha_charge'`
-- 多体ターゲット → `jumpCombos` + `style:'snake'`(蛇召喚) など
+- 範囲AOE+スタン → `quakes` + `style:'sweep'`(前方)/`'kagura'`(放射状)/`'spin'`(高速回転)/`'naginata_spin'`(多段)/`'binding_seal'`(魔法陣)
+- 突進系 → `kamikazes` + `style:'leap'`/`'slam'`/`'mecha_charge'`/`'horse_charge'`(貫通)/`'final_crash'`/`'mountain_throw'`
+- 多体ターゲット → `cloneStrikes` (`'teleport'` 含む) / `jumpCombos` + `style:'snake'` / `pendingShots`(時間差弾) / `pillars`(雷柱、負timer遅延OK)
 - 単発高威力 → `bullets` に `weapon:'fireball'` + `aoe:true` でエフェクト流用
+- 自己バフ → `attacker.kishinka = 3.0` のようなタイマーフラグ＋ `attackTarget` 冒頭で再評価
 
 ### 注意点
 - 通常攻撃は変更しない（ユーザの強い要望）
 - 必殺技フロート表示は `addFloat(attacker.x, attacker.y - 60, '⚡ 技名 ⚡', 'color', true)` の形式
-- 全キャラ実装完了後にこの「現在進行中」セクションを削除する
+- 共有 helmet 描画 (`hood`/`taisho`/`benkei`/`onmyouji_hat`/`jingasa`/`cyber_hood`/`raijin_horns`/`kishin`/`daidara`) は `color` 引数連動済、`color` を変えるだけで頭部デザインも追従
 
 ---
 
@@ -221,6 +191,17 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-03
+- **編解放ゲート**: `super_past`（超過去編）を初期 `available:false` に変更し、`isEraAvailable(era)` 関数で動的判定。**過去編全18ステージクリア**で解放されるよう実装。`renderEraList`/`selectEra` を `isEraAvailable()` 経由に切り替え、ロック中は `unlockHint` を表示
+- **クリア条件強化**: 敵城HP0でも、ステージ上に敵ユニット（ボス・雑魚含む）が残っていればクリアしない仕様に。`enemyCastleHp <= 0 && !enemiesAlive` でトリガー。さらに敵城HP0で **新規スポーンを停止**（既存ユニットは残るので倒し切る必要あり）
+- 勝利画面に「**🌟 超過去編 解放！🌟**」のボーナスメッセージを追加（過去編全クリアで初めて達成したタイミングのみ）
+- 過去編: 終盤5キャラに**必殺技（8回ごと）専用攻撃**を実装（通常攻撃はそのまま、Batch 6 完成・27/27達成）
+  - **大入道 (onyudo)**: 案A（現行）+ ③妖気の毒霧 — blizzards に `style:'poison'` 再利用、range 320の前方コーン毒霧
+  - **大天狗 (daitengu)**: 案A（現行）+ ②葉団扇 大旋風 — slashWaves に `style:'tornado'` 追加、巨大竜巻が前方貫通（speed 11, range 700）。drawSlashWave に渦巻き＋葉っぱ＋流線の演出
+  - **海賊 (kaizoku)**: 案B（黒い船長海賊）+ ④大砲ぶっ放し — 体色`#5a2a1a`→`#1a1a1a`、helmet `hood` を `color` 連動化、bullets に巨大 fireball (atk×2.5 AOE)
+  - **風魔 (fuma)**: 案D（白の風神忍）+ ②八方手裏剣 — 体色`#3a4a3a`→`#fff`、bullets に8方向放射発射 (各 atk×0.55)
+  - **八雲 (yagumo)**: 案A（現行）+ ④八雲立つ 結界霧 — 全画面ヒール+全敵ダメ。味方全員 maxHp×20% 回復、敵全員に atk×0.8、`game.kekkaiKiri = 1.5` で全画面の青白い霧+雲うねり描画
+- 新スタイル: `slashWaves.tornado` / `blizzards.poison` 再利用 / 全体ヒール+ダメ パターン（attackTarget 内で `game.units.forEach` で直接処理）
+- helmet `hood` を `color` 引数連動化（kaizoku/fuma/ninja に影響）
 - 過去編 デザインプレビュー追加（Batch 6: 終盤5体・最終バッチ）— 4案+4案
   - `samurai-wars/onyudo-preview.html`（大入道）— A黒袈裟/B紫闇/C朱赤鬼/D白幽霊 + ①巨大拳/②影分身双頭/③妖気毒霧/④巨腕地面叩きつけ
   - `samurai-wars/daitengu-preview.html`（大天狗）— A朱赤山/B蒼烏/C黒魔/D黄金神 + ①風刃/②葉団扇大旋風/③神通力神隠し/④八咫烏召喚

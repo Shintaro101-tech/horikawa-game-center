@@ -885,11 +885,11 @@
     // ガチャ専用の隠し3キャラ（既存の兜/武器を流用）
     SAMURAI_DATA.push(
         { id:'kaizoku', name:'海賊', yomi:'かいぞく', cost:550, hp:700, atk:90, atkSpeed:0.9, range:42, speed:1.4,
-          cooldown:9.0, color:'#5a2a1a', helmet:'hood', weapon:'katana', rarity:3, secret:true,
-          desc:'七つの海を渡った無頼の戦士' },
+          cooldown:9.0, color:'#1a1a1a', helmet:'hood', weapon:'katana', rarity:3, secret:true,
+          desc:'黒い船長海賊。必殺は大砲ぶっ放し' },
         { id:'fuma', name:'風魔', yomi:'ふうま', cost:650, hp:400, atk:100, atkSpeed:0.3, range:38, speed:3.0,
-          cooldown:14.0, color:'#3a4a3a', helmet:'hood', weapon:'kunai', rarity:4, secret:true,
-          desc:'風のように疾走する伝説の忍' },
+          cooldown:14.0, color:'#fff', helmet:'hood', weapon:'kunai', rarity:4, secret:true,
+          desc:'白の風神忍。必殺は八方手裏剣' },
         { id:'yagumo', name:'八雲', yomi:'やぐも', cost:1700, hp:2800, atk:330, atkSpeed:1.1, range:55, speed:1.0,
           cooldown:42.0, color:'#1a4a8a', helmet:'taisho', weapon:'odachi', rarity:5, secret:true,
           desc:'神霊の力を宿す伝説の武士' }
@@ -1038,7 +1038,7 @@
     const ERA_DATA = [
         { id:'super_past',   name:'超過去編', yomi:'ちょうかこへん',     emoji:'🦖',
           desc:'<ruby>恐竜<rt>きょうりゅう</rt></ruby>と<ruby>神話<rt>しんわ</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>が<ruby>支配<rt>しはい</rt></ruby>する<ruby>太古<rt>たいこ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>',
-          color:'#c9882e', glow:'rgba(201,136,46,0.45)', available:true  },
+          color:'#c9882e', glow:'rgba(201,136,46,0.45)', available:false, unlockHint:'<ruby>過去編<rt>かこへん</rt></ruby><ruby>全<rt>ぜん</rt></ruby><ruby>制覇<rt>せいは</rt></ruby>で<ruby>解放<rt>かいほう</rt></ruby>'  },
         { id:'past',         name:'過去編',   yomi:'かこへん',           emoji:'🏯',
           desc:'<ruby>戦国<rt>せんごく</rt></ruby>の<ruby>世<rt>よ</rt></ruby>。<ruby>侍<rt>さむらい</rt></ruby>たちが<ruby>城<rt>しろ</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>り<ruby>火花<rt>ひばな</rt></ruby>を<ruby>散<rt>ち</rt></ruby>らす',
           color:'#ff3344', glow:'rgba(255,51,68,0.45)', available:true  },
@@ -1054,6 +1054,16 @@
     ];
     let currentEra = 'past';
     function getEra(id) { return ERA_DATA.find(e => e.id === id) || ERA_DATA[1]; }
+    // 編の解放判定: 過去編クリア（1〜18全勝）で超過去編が解放される
+    function isEraAvailable(era) {
+        if(!era) return false;
+        if(era.available) return true;
+        if(era.id === 'super_past') {
+            const cleared = (saveData.clearedStages || []).filter(id => id >= 1 && id <= 18);
+            return cleared.length >= 18;
+        }
+        return false;
+    }
     function currentEraStages() {
         return STAGE_DATA.filter(s => (s.era || 'past') === currentEra);
     }
@@ -1465,13 +1475,17 @@
         ERA_DATA.forEach(era => {
             const stages = STAGE_DATA.filter(s => (s.era || 'past') === era.id);
             const cleared = stages.filter(s => saveData.clearedStages.includes(s.id)).length;
+            const unlocked = isEraAvailable(era);
             const card = document.createElement('div');
-            card.className = 'era-card' + (era.available ? '' : ' locked');
+            card.className = 'era-card' + (unlocked ? '' : ' locked');
             card.style.setProperty('--era-color', era.color);
             card.style.setProperty('--era-glow', era.glow);
-            const footer = era.available
-                ? `<div class="era-progress">⚔ <ruby>クリア<rt>くりあ</rt></ruby>: ${cleared} / ${stages.length || 18}</div>`
+            const lockedHint = era.unlockHint
+                ? `<div class="era-soon">🔒 ${era.unlockHint} 🔒</div>`
                 : `<div class="era-soon">⚙ COMING SOON ⚙</div>`;
+            const footer = unlocked
+                ? `<div class="era-progress">⚔ <ruby>クリア<rt>くりあ</rt></ruby>: ${cleared} / ${stages.length || 18}</div>`
+                : lockedHint;
             card.innerHTML = `
                 <div class="era-head">
                     <span class="era-emoji">${era.emoji}</span>
@@ -1480,14 +1494,14 @@
                 <div class="era-desc">${era.desc}</div>
                 ${footer}
             `;
-            if(era.available) card.onclick = () => selectEra(era.id);
+            if(unlocked) card.onclick = () => selectEra(era.id);
             list.appendChild(card);
         });
     }
 
     function selectEra(eraId) {
         const era = getEra(eraId);
-        if(!era.available) return;
+        if(!isEraAvailable(era)) return;
         currentEra = eraId;
         const lbl = document.getElementById('stage-select-era-label');
         if(lbl) {
@@ -2999,6 +3013,52 @@
                 c.beginPath(); c.arc(tx, sy - beamW*0.6 + Math.sin(sw.traveled*0.05 + k)*4, 8, 0, Math.PI*2); c.fill();
                 c.beginPath(); c.arc(tx, sy + beamW*0.6 + Math.sin(sw.traveled*0.05 + k + 1)*4, 8, 0, Math.PI*2); c.fill();
             }
+        } else if(sw.style === 'tornado') {
+            // 葉団扇 大旋風（大天狗）— 巨大な竜巻が前方を貫通
+            const sy = groundY() - 30;
+            const t = sw.traveled * 0.05;
+            // 外輪の渦
+            for(let k = 0; k < 5; k++) {
+                const wHeight = 60 + k * 8;
+                c.fillStyle = `rgba(170,238,255,${0.4 - k*0.05})`;
+                c.beginPath(); c.ellipse(x, sy, 22 + k*4, wHeight, 0, 0, Math.PI*2); c.fill();
+            }
+            // 中央の竜巻コア（白い渦）
+            c.fillStyle = `rgba(255,255,255,${0.7 + 0.2*Math.sin(t*4)})`;
+            c.beginPath(); c.ellipse(x, sy, 14, 70, 0, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(170,238,255,1)`;
+            c.beginPath(); c.ellipse(x, sy, 8, 60, 0, 0, Math.PI*2); c.fill();
+            // うねる渦巻き線
+            for(let k = 0; k < 4; k++) {
+                const ang = t * 4 + k * Math.PI/2;
+                c.strokeStyle = `rgba(255,255,255,${0.6})`;
+                c.lineWidth = 2;
+                c.beginPath();
+                for(let i = -30; i <= 30; i += 3) {
+                    const sx = x + Math.cos(ang + i*0.15) * (14 - Math.abs(i)*0.15);
+                    const sy2 = sy + i*2;
+                    if(i === -30) c.moveTo(sx, sy2); else c.lineTo(sx, sy2);
+                }
+                c.stroke();
+            }
+            // 残像（竜巻の流線）
+            for(let k = 1; k <= 5; k++) {
+                const tx = x - dir * k * 20;
+                c.fillStyle = `rgba(170,238,255,${0.3 - k*0.05})`;
+                c.beginPath(); c.ellipse(tx, sy, 18 - k*1.5, 55 - k*4, 0, 0, Math.PI*2); c.fill();
+            }
+            // 葉っぱが舞う
+            for(let k = 0; k < 8; k++) {
+                const lx = x + Math.sin(t*3 + k) * 24;
+                const ly = sy - 60 + ((sw.traveled * 1.5 + k * 14) % 130);
+                c.save(); c.translate(lx, ly); c.rotate(t*4 + k);
+                c.fillStyle = '#3a8a3a';
+                c.beginPath(); c.ellipse(0, 0, 4, 7, 0, 0, Math.PI*2); c.fill();
+                c.restore();
+            }
+            // 風の前線（先端）
+            c.fillStyle = `rgba(255,255,255,${0.5 + 0.3*Math.sin(t*8)})`;
+            c.beginPath(); c.arc(x + dir*8, sy, 16, 0, Math.PI*2); c.fill();
         } else if(sw.style === 'water') {
             // 水鉄砲: 水平の高圧水流
             const sy = groundY() - 30;
@@ -4106,7 +4166,7 @@
                 c.beginPath(); c.moveTo(7*scale, -22*scale); c.lineTo(12*scale, -32*scale); c.stroke();
                 break;
             case 'hood':
-                c.fillStyle = '#1a1a1a'; c.beginPath();
+                c.fillStyle = color; c.beginPath();
                 c.arc(0, -14*scale, 10*scale, 0, Math.PI*2); c.fill();
                 c.fillStyle = '#fff'; c.fillRect(-6*scale, -15*scale, 12*scale, 2*scale);
                 break;
@@ -6239,6 +6299,7 @@
         game.combo = 0;
         game.comboTimer = 0;
         game.slowMoTimer = 0;
+        game.kekkaiKiri = 0;
         game.clearTime = 0;
         // ステージ別BGM — 編内通し番号で決定（1-6:軽快 / 7-12:雅楽 / 13-18:シンセ）
         const sn = stageNumInEra(s);
@@ -7175,6 +7236,96 @@
                 if(snd && snd.explode) snd.explode();
                 return;
             }
+            if(aid === 'onyudo') {
+                // 妖気の毒霧 — 前方コーン状の毒霧（titanoboaと同じpoison styleを再利用、範囲拡大）
+                if(!game.blizzards) game.blizzards = [];
+                game.blizzards.push({
+                    x: attacker.x, dir: fwdDir, timer: 0, damage: atk,
+                    side: attacker.side, ticksApplied: 0,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, range: 320, style: 'poison'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '☠ 妖気の毒霧 ☠', '#88dd66', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'daitengu') {
+                // 葉団扇 大旋風 — 前方貫通の巨大竜巻
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 11, damage: atk, side: attacker.side,
+                    maxRange: 700, traveled: 0, hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: true, style: 'tornado'
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🌪 葉団扇大旋風 🌪', '#aaeeff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'kaizoku') {
+                // 大砲ぶっ放し — 巨大砲弾の強力なAOE弾
+                const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+                const ty = target.isCastle ? (groundY() - 30) : (target.y - 30);
+                const bx = attacker.x + fwdDir*15;
+                const by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tx, ty: ty,
+                    vx: ((tx - bx) / 30), vy: ((ty - by) / 30),
+                    dmg: atk * 2.5, side: attacker.side,
+                    weapon: 'fireball', hit: false, aoe: true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '💣 大砲ぶっ放し 💣', '#ffd24a', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            if(aid === 'fuma') {
+                // 八方手裏剣 — 8方向に手裏剣を一斉投擲
+                const bx = attacker.x;
+                const by = attacker.y - 30;
+                for(let i = 0; i < 8; i++) {
+                    const ang = i / 8 * Math.PI * 2;
+                    const tx = bx + Math.cos(ang) * 300;
+                    const ty = by + Math.sin(ang) * 200;
+                    game.bullets.push({
+                        x: bx, y: by, tx: tx, ty: ty,
+                        vx: Math.cos(ang) * 10,
+                        vy: Math.sin(ang) * 10,
+                        dmg: atk * 0.55, side: attacker.side,
+                        weapon: 'kunai', hit: false, aoe: false,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '🌟 八方手裏剣 🌟', '#88dd66', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            if(aid === 'yagumo') {
+                // 八雲立つ 結界霧 — 味方全員HP回復 + 敵全員にダメ
+                const healAmt = (u) => Math.round(u.maxHp * 0.20);
+                game.units.forEach(u => {
+                    if(u.dead) return;
+                    if(u.side === attacker.side) {
+                        const heal = healAmt(u);
+                        u.hp = Math.min(u.maxHp, u.hp + heal);
+                        addFloat(u.x, u.y - 50, '+' + heal, '#88dd66');
+                        addParticles(u.x, u.y - 30, 8, '#88dd66');
+                    } else if(canHitTarget(attacker, u)) {
+                        damageUnit(u, atk * 0.8);
+                    }
+                });
+                // 全画面に淡い霧エフェクト
+                game.kekkaiKiri = 1.5;
+                attacker.swing = 1;
+                addFloat(attacker.x, attacker.y - 60, '☁ 八雲立つ結界 ☁', '#aaeeff', true);
+                if(snd && snd.win) snd.win();
+                return;
+            }
             if(aid === 'daidarabocchi') {
                 // 山投げ — 山を持ち上げて投擲、巨大爆発
                 const tx = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
@@ -7330,6 +7481,8 @@
             game.slowMoTimer -= dt;
             dt *= 0.3;
         }
+        // 八雲の結界霧フェード
+        if(game.kekkaiKiri > 0) game.kekkaiKiri -= dt;
         // コンボタイマー
         if(game.comboTimer > 0) {
             game.comboTimer -= dt;
@@ -7379,11 +7532,13 @@
         }
         if(game.laserAnim > 0) game.laserAnim -= dt;
 
-        // 敵スポーン
-        for(const sp of game.spawnState) {
-            while(game.time >= sp.nextAt) {
-                spawnEnemy(sp.type);
-                sp.nextAt += sp.every;
+        // 敵スポーン（敵城が落ちたら新規スポーン停止）
+        if(game.enemyCastleHp > 0) {
+            for(const sp of game.spawnState) {
+                while(game.time >= sp.nextAt) {
+                    spawnEnemy(sp.type);
+                    sp.nextAt += sp.every;
+                }
             }
         }
 
@@ -7923,11 +8078,15 @@
         game.floats = game.floats.filter(f => f.life > 0);
 
         // 城陥落チェック（一度だけトリガー）
+        // 敵城HPが0でも、敵ユニット（雑魚・ボス含む）が残っていればクリアしない
+        const enemiesAlive = game.units.some(u => u.side === 'e' && !u.dead);
         if(!game.castleDestroyed) {
-            if(game.enemyCastleHp <= 0) {
+            if(game.enemyCastleHp <= 0 && !enemiesAlive) {
                 snd.win(); snd.stopBGM();
                 const stage = STAGE_DATA.find(s=>s.id===game.stageId);
                 let unlockedNew = null;
+                let eraUnlockedNew = null;
+                const wasPastCleared = (saveData.clearedStages || []).filter(id => id >= 1 && id <= 18).length >= 18;
                 if(!saveData.clearedStages.includes(game.stageId)) {
                     saveData.clearedStages.push(game.stageId);
                     const u = STAGE_UNLOCKS[game.stageId];
@@ -7935,6 +8094,11 @@
                         saveData.unlockedSamurai.push(u);
                         unlockedNew = SAMURAI_DATA.find(x=>x.id===u);
                         if(!saveData.formation.includes(u)) saveData.formation.push(u);
+                    }
+                    // 過去編全クリアで超過去編が解放されたタイミングを検知
+                    const nowPastCleared = saveData.clearedStages.filter(id => id >= 1 && id <= 18).length >= 18;
+                    if(!wasPastCleared && nowPastCleared) {
+                        eraUnlockedNew = getEra('super_past');
                     }
                 }
                 // 星評価（残HP割合）
@@ -7945,7 +8109,7 @@
                 if((saveData.stars[game.stageId] || 0) < stars) saveData.stars[game.stageId] = stars;
                 saveData.koban += stage.reward; saveGame();
                 checkAchievements();
-                game.castleDestroyed = { side:'e', timer:0, stage, unlockedNew };
+                game.castleDestroyed = { side:'e', timer:0, stage, unlockedNew, eraUnlockedNew };
                 triggerCastleFall(100);
             } else if(game.playerCastleHp <= 0) {
                 snd.explode(); snd.stopBGM();
@@ -7993,8 +8157,13 @@
                 if(side === 'e') {
                     const stage = cd.stage;
                     const unlockedNew = cd.unlockedNew;
+                    const eraUnlockedNew = cd.eraUnlockedNew;
+                    let bonusLine = '';
+                    if(eraUnlockedNew) {
+                        bonusLine = `<br><br>🌟 <span style="color:${eraUnlockedNew.color};text-shadow:0 0 12px ${eraUnlockedNew.glow};font-weight:900">${eraUnlockedNew.emoji} ${ruby(eraUnlockedNew.name, eraUnlockedNew.yomi)} <ruby>解放<rt>かいほう</rt></ruby>！</span> 🌟`;
+                    }
                     document.getElementById('victory-msg').innerHTML =
-                        `${ruby(stage.name, stage.yomi)} <ruby>制圧<rt>せいあつ</rt></ruby><ruby>成功<rt>せいこう</rt></ruby>！<br>💴 <ruby>軍資金<rt>ぐんしきん</rt></ruby> +${stage.reward}<ruby>円<rt>えん</rt></ruby>`;
+                        `${ruby(stage.name, stage.yomi)} <ruby>制圧<rt>せいあつ</rt></ruby><ruby>成功<rt>せいこう</rt></ruby>！<br>💴 <ruby>軍資金<rt>ぐんしきん</rt></ruby> +${stage.reward}<ruby>円<rt>えん</rt></ruby>${bonusLine}`;
                     showScreen('victory-screen');
                     showUnlockBanner(unlockedNew);
                 } else {
@@ -8661,6 +8830,21 @@
             ctx.fillStyle = game.combo >= 20 ? '#ff00ff' : game.combo >= 10 ? '#ff6600' : '#ffd24a';
             ctx.fillText(txt, w/2, h*0.13);
             ctx.restore();
+        }
+        // 八雲立つ 結界霧（全画面の青白い霧）
+        if(game.kekkaiKiri > 0) {
+            const kk = Math.min(1, game.kekkaiKiri / 1.5);
+            ctx.fillStyle = `rgba(170,238,255,${kk * 0.35})`;
+            ctx.fillRect(0, 0, w, h);
+            // 雲のうねり
+            for(let k = 0; k < 6; k++) {
+                const px = ((game.time*60 + k * 80) % (w + 200)) - 100;
+                const py = h*0.3 + Math.sin(game.time*Math.PI*2 + k) * 30;
+                ctx.fillStyle = `rgba(255,255,255,${kk * 0.5})`;
+                ctx.beginPath(); ctx.ellipse(px, py, 60, 18, 0, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = `rgba(170,238,255,${kk * 0.4})`;
+                ctx.beginPath(); ctx.ellipse(px+40, py+30, 70, 20, 0, 0, Math.PI*2); ctx.fill();
+            }
         }
         // スローモーション時の縁暗化
         if(game.slowMoTimer > 0) {
