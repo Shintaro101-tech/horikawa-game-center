@@ -4962,6 +4962,20 @@
         u.hp -= dmg;
         u.hitFlash = 0.15;
         addFloat(u.x, u.y - 50, '-' + Math.round(dmg), '#ff8888');
+        // ノックバック判定（強い攻撃のみ）
+        if(!u.dead && !(u.data && u.data.mega)) {
+            const threshold = Math.max(80, u.maxHp * 0.18);
+            if(dmg >= threshold) {
+                const dir = u.side === 'p' ? 1 : -1; // プレイヤーは右へ、敵は左へ（後ろ）
+                const bossMult = (u.data && u.data.boss) ? 0.35 : 1.0;
+                const intensity = Math.min(1.6, dmg / threshold);
+                u.knockback = {
+                    vx: dir * 5.5 * intensity * bossMult,
+                    timer: 0.32 + intensity * 0.08
+                };
+                addParticles(u.x, u.y - 30, 8, '#ffffff');
+            }
+        }
         if(u.hp <= 0 && !u.dead) {
             u.dead = true;
             snd.die();
@@ -5259,6 +5273,16 @@
             }
             // 凍結・スタン中は行動不可
             if(u.frozen > 0 || u.stunned > 0) continue;
+            // ノックバック中は後ろに吹き飛びながら行動停止
+            if(u.knockback) {
+                u.x += u.knockback.vx * 60 * dt;
+                u.knockback.vx *= Math.pow(0.82, dt*60);
+                u.knockback.timer -= dt;
+                if(u.knockback.timer <= 0 || Math.abs(u.knockback.vx) < 0.18) {
+                    u.knockback = null;
+                }
+                if(u.knockback) continue;
+            }
 
             const target = findEnemyInRange(u);
             if(target) {
@@ -5718,7 +5742,17 @@
                     ctx.stroke();
                     ctx.restore();
                 }
-                drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
+                if(u.knockback) {
+                    // ノックバック中は後ろに少し傾く
+                    const tilt = u.knockback.vx * 0.05;
+                    ctx.save();
+                    ctx.translate(u.x, u.y + yWalk);
+                    ctx.rotate(tilt);
+                    drawSamuraiCanvas(ctx, 0, 0, u.data, dir, u.swing, u.scale);
+                    ctx.restore();
+                } else {
+                    drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
+                }
             }
             // ヒットフラッシュ
             if(u.hitFlash > 0) {
