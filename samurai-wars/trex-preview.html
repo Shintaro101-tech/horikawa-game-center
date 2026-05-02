@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ティラノサウルス デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:center;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 14px 4px;
+            margin-bottom: 12px;
+            min-height: 240px;
+        }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🦖 ティラノサウルス デザイン候補</h1>
+    <div class="sub">TYRANNOSAURUS DESIGN CANDIDATES</div>
+    <div class="grid">
+        <div class="card" style="--c:#5aaa44; --g:rgba(90,170,68,0.45);">
+            <div class="canv-wrap"><canvas id="cv-a" width="260" height="220"></canvas></div>
+            <h2>案A. 王道 緑のティラノ</h2>
+            <p>映画でおなじみの緑の鱗、開いた巨大な顎、白い鋭い歯。最も「ティラノ」な王道スタイル。</p>
+            <div class="meta">配色: 緑 + 白歯 + 黄目</div>
+        </div>
+        <div class="card" style="--c:#aa6644; --g:rgba(170,102,68,0.45);">
+            <div class="canv-wrap"><canvas id="cv-b" width="260" height="220"></canvas></div>
+            <h2>案B. 赤茶のリアル恐竜</h2>
+            <p>ジュラシック・パーク系のリアル路線。茶色のざらついた皮膚と現実的な体格。</p>
+            <div class="meta">配色: 赤茶 + 焦茶</div>
+        </div>
+        <div class="card" style="--c:#444444; --g:rgba(180,180,180,0.45);">
+            <div class="canv-wrap"><canvas id="cv-c" width="260" height="220"></canvas></div>
+            <h2>案C. 黒鎧の暴君</h2>
+            <p>漆黒の鱗に銀の歯、武装的な見た目。重厚な威圧感のあるダーク・ティラノ。</p>
+            <div class="meta">配色: 黒 + 銀 + 朱目</div>
+        </div>
+        <div class="card" style="--c:#bb88ee; --g:rgba(187,136,238,0.45);">
+            <div class="canv-wrap"><canvas id="cv-d" width="260" height="220"></canvas></div>
+            <h2>案D. 羽毛T-Rex（最新科学）</h2>
+            <p>近年の研究で「実は羽毛があった」とされるティラノ。背中と頭に華やかな羽毛。</p>
+            <div class="meta">配色: 紫紺 + 紫赤の羽</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="cv-e" width="260" height="220"></canvas></div>
+            <h2>案E. 金の神獣ティラノ</h2>
+            <p>金の鱗を纏った神格化されたティラノ。神話に登場する古の獣神。</p>
+            <div class="meta">配色: 金 + 朱 + 白歯</div>
+        </div>
+        <div class="card" style="--c:#5aff88; --g:rgba(90,255,136,0.45);">
+            <div class="canv-wrap"><canvas id="cv-f" width="260" height="220"></canvas></div>
+            <h2>案F. ゾンビ・骸骨ティラノ</h2>
+            <p>骨が剥き出し、緑の毒気をまとうアンデッドティラノ。不死身の暴君。</p>
+            <div class="meta">配色: 緑灰 + 骨白 + 紫炎</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function drawShadow(c, x, y, w=80, h=10) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+function drawAura(c, x, y, color, r=110) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+
+// 共通：ティラノサウルスの基本シルエット
+function drawTRex(c, p) {
+    const cx = 130, cy = 120;
+    drawAura(c, cx, cy + 20, p.aura || 'rgba(120,170,80,0.3)', 130);
+    drawShadow(c, cx, 200);
+
+    // 尾（後ろに長く）
+    c.fillStyle = p.bodyDark;
+    c.beginPath();
+    c.moveTo(cx - 36, cy + 18);
+    c.quadraticCurveTo(cx - 84, cy + 36, cx - 116, cy + 8);
+    c.lineTo(cx - 110, cy - 4);
+    c.quadraticCurveTo(cx - 70, cy + 18, cx - 36, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.5; c.stroke();
+
+    // 体
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.ellipse(cx - 12, cy + 10, 44, 32, 0.1, 0, Math.PI*2);
+    c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.8; c.stroke();
+    // 腹のハイライト
+    c.fillStyle = p.bellyHl;
+    c.beginPath();
+    c.ellipse(cx - 12, cy + 22, 26, 14, 0, 0, Math.PI*2);
+    c.fill();
+    // 腹の鱗模様
+    if(p.bellyStripes) {
+        c.strokeStyle = p.outline; c.lineWidth = 0.8;
+        for(let i=-2; i<=2; i++) {
+            c.beginPath();
+            c.moveTo(cx - 30, cy + 16 + i*6);
+            c.quadraticCurveTo(cx - 12, cy + 18 + i*6, cx + 6, cy + 16 + i*6);
+            c.stroke();
+        }
+    }
+    // 背中の鱗/突起
+    if(p.spikes) {
+        c.fillStyle = p.spikes;
+        for(let i=-3; i<=3; i++){
+            const sx = cx - 20 + i*8;
+            const sy = cy - 18 - Math.abs(i)*1;
+            c.beginPath();
+            c.moveTo(sx, sy);
+            c.lineTo(sx + 3, sy - 6);
+            c.lineTo(sx + 6, sy);
+            c.closePath(); c.fill();
+        }
+    }
+    // 鱗（決定的、チラつかない）
+    if(p.scaleColor) {
+        c.fillStyle = p.scaleColor;
+        for(let r=0; r<3; r++){
+            for(let i=-3; i<=2; i++){
+                c.beginPath();
+                c.arc(cx - 30 + i*12, cy - 6 + r*10, 1.5, 0, Math.PI*2);
+                c.fill();
+            }
+        }
+    }
+
+    // 後脚（大きい・1本見える）
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx - 24, cy + 30);
+    c.quadraticCurveTo(cx - 32, cy + 56, cx - 18, cy + 64);
+    c.lineTo(cx - 8, cy + 64);
+    c.quadraticCurveTo(cx - 4, cy + 50, cx - 8, cy + 30);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.5; c.stroke();
+    // 足の指
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx - 18, cy + 64);
+    c.lineTo(cx - 22, cy + 72); c.lineTo(cx - 12, cy + 70); c.lineTo(cx - 6, cy + 64);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 鋭い爪
+    c.fillStyle = p.claw || '#1a1a1a';
+    [[-22, cy+72], [-12, cy+70], [-6, cy+64]].forEach(([dx, fy])=>{
+        c.beginPath();
+        c.moveTo(cx+dx, fy); c.lineTo(cx+dx-2, fy+5); c.lineTo(cx+dx+2, fy+5); c.closePath(); c.fill();
+    });
+
+    // 小さな前脚（特徴的な短い腕）
+    c.fillStyle = p.body;
+    c.fillRect(cx + 12, cy + 8, 10, 4);
+    c.fillRect(cx + 18, cy + 8, 4, 10);
+    c.strokeStyle = p.outline; c.lineWidth = 1; c.stroke();
+    c.strokeRect(cx + 12, cy + 8, 10, 4);
+    c.strokeRect(cx + 18, cy + 8, 4, 10);
+    // 小爪
+    c.fillStyle = p.claw || '#1a1a1a';
+    c.beginPath();
+    c.moveTo(cx + 22, cy + 18); c.lineTo(cx + 24, cy + 22); c.lineTo(cx + 19, cy + 20); c.closePath(); c.fill();
+
+    // 首
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx + 22, cy - 10);
+    c.quadraticCurveTo(cx + 38, cy - 26, cx + 56, cy - 24);
+    c.lineTo(cx + 56, cy - 6);
+    c.quadraticCurveTo(cx + 32, cy - 4, cx + 26, cy + 8);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.5; c.stroke();
+
+    // 巨大な頭（横向き、大きな顎）
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx + 50, cy - 30);
+    c.lineTo(cx + 110, cy - 20);
+    c.quadraticCurveTo(cx + 120, cy - 10, cx + 110, cy);
+    c.lineTo(cx + 100, cy + 6);
+    c.lineTo(cx + 50, cy - 6);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.8; c.stroke();
+    // 下顎（開いている）
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx + 60, cy - 4);
+    c.lineTo(cx + 110, cy + 4);
+    c.lineTo(cx + 105, cy + 16);
+    c.lineTo(cx + 60, cy + 12);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 口の中（赤）
+    c.fillStyle = '#5a0808';
+    c.beginPath();
+    c.moveTo(cx + 70, cy + 0);
+    c.lineTo(cx + 102, cy + 6);
+    c.lineTo(cx + 100, cy + 12);
+    c.lineTo(cx + 70, cy + 8);
+    c.closePath(); c.fill();
+    // 上顎の歯（白い鋭い歯）
+    c.fillStyle = p.teeth || '#fff';
+    for(let i=0; i<7; i++){
+        c.beginPath();
+        c.moveTo(cx + 64 + i*7, cy - 1);
+        c.lineTo(cx + 65 + i*7, cy + 5);
+        c.lineTo(cx + 68 + i*7, cy - 1);
+        c.closePath(); c.fill();
+    }
+    // 下顎の歯
+    for(let i=0; i<6; i++){
+        c.beginPath();
+        c.moveTo(cx + 68 + i*7, cy + 7);
+        c.lineTo(cx + 69 + i*7, cy + 1);
+        c.lineTo(cx + 72 + i*7, cy + 7);
+        c.closePath(); c.fill();
+    }
+    // 頭部の上の追加デコレーション（角・羽毛など）
+    if(p.headSpikes) {
+        c.fillStyle = p.headSpikes;
+        for(let i=0; i<4; i++){
+            const sx = cx + 60 + i*10;
+            c.beginPath();
+            c.moveTo(sx, cy - 25);
+            c.lineTo(sx + 2, cy - 32);
+            c.lineTo(sx + 4, cy - 25);
+            c.closePath(); c.fill();
+        }
+    }
+    // 鼻孔
+    c.fillStyle = '#000';
+    c.beginPath(); c.arc(cx + 108, cy - 16, 1.6, 0, Math.PI*2); c.fill();
+
+    // 大きな目
+    c.fillStyle = p.eyeWhite || '#fff';
+    c.beginPath(); c.arc(cx + 84, cy - 16, 4, 0, Math.PI*2); c.fill();
+    c.fillStyle = p.eye;
+    c.beginPath(); c.arc(cx + 85, cy - 16, 2.5, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(cx + 84, cy - 17, 1.4, 3);
+    // 眉の凸
+    c.fillStyle = p.outline; c.lineWidth = 1;
+    c.beginPath();
+    c.moveTo(cx + 78, cy - 22); c.lineTo(cx + 90, cy - 24); c.lineTo(cx + 86, cy - 18);
+    c.closePath(); c.fill();
+}
+
+// =============================
+// 案A. 王道 緑のティラノ
+// =============================
+drawTRex(document.getElementById('cv-a').getContext('2d'), {
+    body: '#5aaa44', bodyDark: '#3a7a30', bellyHl: '#88dd66',
+    outline: '#1a4a18', scaleColor: '#1a4a18',
+    bellyStripes: true,
+    eye: '#ffaa00', eyeWhite: '#fff',
+    teeth: '#fff5cc', claw: '#1a1a1a',
+    aura: 'rgba(120,200,80,0.3)'
+});
+
+// =============================
+// 案B. 赤茶のリアル恐竜
+// =============================
+drawTRex(document.getElementById('cv-b').getContext('2d'), {
+    body: '#aa6644', bodyDark: '#774422', bellyHl: '#cc8866',
+    outline: '#4a2010', scaleColor: '#4a2010',
+    bellyStripes: true,
+    eye: '#aa3300', eyeWhite: '#ddccaa',
+    teeth: '#fff5cc', claw: '#0a0a0a',
+    aura: 'rgba(170,102,68,0.3)'
+});
+
+// =============================
+// 案C. 黒鎧の暴君
+// =============================
+drawTRex(document.getElementById('cv-c').getContext('2d'), {
+    body: '#1a1a1a', bodyDark: '#0a0a0a', bellyHl: '#4a4a4a',
+    outline: '#000', scaleColor: '#3a3a3a',
+    spikes: '#888888',
+    eye: '#ff2244', eyeWhite: '#fff',
+    teeth: '#cccccc', claw: '#888',
+    aura: 'rgba(255,40,60,0.3)'
+});
+
+// =============================
+// 案D. 羽毛T-Rex
+// =============================
+(function drawD(){
+    const c = document.getElementById('cv-d').getContext('2d');
+    drawTRex(c, {
+        body: '#6a4a8a', bodyDark: '#3a1a5a', bellyHl: '#aa88cc',
+        outline: '#1a0828', scaleColor: '#1a0828',
+        eye: '#ffaa44', eyeWhite: '#fff',
+        teeth: '#fff5cc', claw: '#1a0828',
+        aura: 'rgba(170,80,200,0.3)'
+    });
+    // 背中の派手な羽毛（紫赤）
+    const cx = 130, cy = 120;
+    const featherColors = ['#aa3366', '#dd5588', '#ee88aa', '#ffccdd'];
+    for(let i=-3; i<=3; i++){
+        const sx = cx - 22 + i*9;
+        const sy = cy - 18;
+        for(let k=0; k<4; k++){
+            c.fillStyle = featherColors[k];
+            c.beginPath();
+            c.moveTo(sx, sy);
+            c.quadraticCurveTo(sx + 1, sy - 8 - k*3, sx + 4 - k, sy - 16 - k*4);
+            c.lineTo(sx + 6 - k, sy - 14 - k*4);
+            c.quadraticCurveTo(sx + 4, sy - 6 - k*3, sx + 2, sy);
+            c.closePath(); c.fill();
+        }
+    }
+    // 頭の羽冠
+    for(let i=0; i<5; i++){
+        const sx = cx + 60 + i*9;
+        c.fillStyle = featherColors[i % 4];
+        c.beginPath();
+        c.moveTo(sx, cy - 24);
+        c.lineTo(sx + 2, cy - 36);
+        c.lineTo(sx + 5, cy - 26);
+        c.closePath(); c.fill();
+    }
+    // 尾の先の羽毛
+    c.fillStyle = '#ee88aa';
+    c.beginPath();
+    c.moveTo(cx - 116, cy + 8);
+    c.lineTo(cx - 130, cy + 4);
+    c.lineTo(cx - 124, cy + 14);
+    c.lineTo(cx - 130, cy + 18);
+    c.lineTo(cx - 114, cy + 16);
+    c.closePath(); c.fill();
+})();
+
+// =============================
+// 案E. 金の神獣ティラノ
+// =============================
+(function drawE(){
+    const c = document.getElementById('cv-e').getContext('2d');
+    drawTRex(c, {
+        body: '#ffd24a', bodyDark: '#aa6600', bellyHl: '#fff5cc',
+        outline: '#5a3000', scaleColor: '#aa6600',
+        bellyStripes: true,
+        eye: '#aa1010', eyeWhite: '#fff',
+        teeth: '#fff', claw: '#aa1010',
+        aura: 'rgba(255,210,74,0.4)'
+    });
+    // 神獣のシルシ（背中に朱の紋）
+    const cx = 130, cy = 120;
+    c.fillStyle = '#aa1010';
+    c.beginPath();
+    c.moveTo(cx - 18, cy - 16); c.lineTo(cx - 8, cy - 4); c.lineTo(cx + 4, cy - 16);
+    c.lineTo(cx, cy - 8); c.lineTo(cx + 4, cy);
+    c.lineTo(cx - 8, cy - 8); c.lineTo(cx - 18, cy);
+    c.closePath(); c.fill();
+    // 鼻先の朱
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx + 100, cy - 12, 14, 3);
+    // 周囲の金粒子
+    for(let i=0; i<10; i++){
+        const a = i/10 * Math.PI*2;
+        const r = 100 + Math.sin(i)*8;
+        c.fillStyle = '#ffea22';
+        c.beginPath(); c.arc(cx + Math.cos(a)*r, cy + Math.sin(a)*r*0.5, 1.6, 0, Math.PI*2); c.fill();
+    }
+})();
+
+// =============================
+// 案F. ゾンビ・骸骨ティラノ
+// =============================
+(function drawF(){
+    const c = document.getElementById('cv-f').getContext('2d');
+    drawTRex(c, {
+        body: '#3a5a3a', bodyDark: '#1a3a1a', bellyHl: '#5a8a5a',
+        outline: '#0a1a08', scaleColor: '#1a3a1a',
+        eye: '#5aff88', eyeWhite: '#0a1a08',
+        teeth: '#ddccaa', claw: '#ddccaa',
+        aura: 'rgba(90,255,136,0.4)'
+    });
+    const cx = 130, cy = 120;
+    // 体に骨が透ける
+    c.strokeStyle = 'rgba(220,200,180,0.6)'; c.lineWidth = 1.4;
+    // あばら骨
+    for(let i=-2; i<=2; i++){
+        c.beginPath();
+        c.moveTo(cx - 32, cy + 4 + i*7);
+        c.quadraticCurveTo(cx - 12, cy + 8 + i*7, cx + 6, cy + 4 + i*7);
+        c.stroke();
+    }
+    // 背骨
+    c.beginPath(); c.moveTo(cx - 36, cy - 14); c.lineTo(cx + 22, cy - 8); c.stroke();
+    c.beginPath(); c.moveTo(cx - 36, cy + 18); c.lineTo(cx - 110, cy + 10); c.stroke();
+    // 体の腐った穴（暗い斑点）
+    c.fillStyle = '#0a1a08';
+    c.beginPath(); c.arc(cx - 22, cy + 4, 5, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx - 4, cy + 14, 4, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx - 80, cy + 14, 3, 0, Math.PI*2); c.fill();
+    // 紫の毒気（口）
+    for(let i=0; i<6; i++){
+        c.fillStyle = ['#aa44ff','#dd88ff','#ff66ff'][i%3];
+        c.globalAlpha = 0.7;
+        c.beginPath(); c.arc(cx + 124 + i*4, cy + 6 + Math.sin(i)*6, 4 - i*0.4, 0, Math.PI*2); c.fill();
+    }
+    c.globalAlpha = 1;
+    // 目から漏れる緑の光
+    c.fillStyle = 'rgba(90,255,136,0.55)';
+    c.beginPath(); c.arc(cx + 85, cy - 16, 8, 0, Math.PI*2); c.fill();
+})();
+</script>
+</body>
+</html>

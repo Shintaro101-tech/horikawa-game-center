@@ -963,11 +963,11 @@
           cooldown:50.0, color:'#aa6644', helmet:'monkey_circlet', weapon:'ruyibo', rarity:5, scale:1.25,
           antiAir:true,
           desc:'如意棒を伸ばして空にも届く西遊記の英雄' },
-        // Stage 116: イルルヤンカシュ（飛行 + 対空 + 範囲）
+        // Stage 116: イルルヤンカシュ（東洋青龍・飛行 + 対空 + 範囲）
         { id:'sp_irullu', name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', cost:3200, hp:9500, atk:850, atkSpeed:2.0, range:280, speed:0.85,
-          cooldown:62.0, color:'#1a4a6a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
-          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#3a8a5a',
-          desc:'青と緑の超巨大龍。火炎で全てを焼き尽くす' },
+          cooldown:62.0, color:'#3a8a5a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
+          flying:true, antiAir:true, ranged:true, aoe:true, noWings:true,
+          desc:'神獣の如く宙を舞う中華龍。火炎で全てを焼き尽くす' },
         // Stage 117: スサノオ（金の神将・仏神風）
         { id:'sp_susanoo', name:'スサノオ', yomi:'すさのお', cost:3000, hp:11500, atk:900, atkSpeed:1.4, range:60, speed:1.1,
           cooldown:60.0, color:'#ffd24a', helmet:'susanoo_helm', weapon:'odachi', rarity:5, scale:1.6,
@@ -2039,8 +2039,8 @@
         114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'magic_circle', color:'#aaccdd', scale:2.5, ranged:true, antiAir:true, range:240 },
         // Stage 115 — Sun Wukong (anti-air via ruyibo)
         115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'ruyibo', color:'#aa6644', scale:1.9, antiAir:true, range:140 },
-        // Stage 116 — Illuyanka (flying + anti-air + AOE fire)
-        116: { name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', hp:28000, atk:1100, helmet:'dragon_head', weapon:'fire_breath', color:'#1a4a6a', scale:2.6, flying:true, antiAir:true, ranged:true, aoe:true, range:300, wingColor:'#3a8a5a' },
+        // Stage 116 — Illuyanka (Eastern dragon, flying + anti-air + AOE fire)
+        116: { name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', hp:28000, atk:1100, helmet:'dragon_head', weapon:'fire_breath', color:'#3a8a5a', scale:2.6, flying:true, antiAir:true, ranged:true, aoe:true, range:300, noWings:true },
         // Stage 117
         117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'odachi', color:'#ffd24a', scale:2.3 },
         // Stage 118 — Zeus (final megaboss: screen-spanning, anti-air, AOE thunder)
@@ -2694,7 +2694,7 @@
             boss: true, scale: b.scale || 1.4,
             ranged: b.ranged, aoe: b.aoe, mega: b.mega,
             // 空中・対空属性
-            flying: b.flying, antiAir: b.antiAir, wingColor: b.wingColor
+            flying: b.flying, antiAir: b.antiAir, wingColor: b.wingColor, noWings: b.noWings
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
@@ -3485,31 +3485,59 @@
                 c.fillRect(-4*scale,-37.6*scale,0.8*scale,0.8*scale);
                 c.fillRect(3*scale,-37.6*scale,0.8*scale,0.8*scale);
                 break;
-            case 'dragon_head': // イルルヤンカシュ（青と緑の龍）
+            case 'dragon_head': // イルルヤンカシュ（東洋青龍・中華風）
                 // 大きな頭
-                c.fillStyle = '#1a4a6a';
+                c.fillStyle = '#1a5a3a';
                 c.beginPath(); c.ellipse(0,-38*scale,14*scale,11*scale,0,0,Math.PI*2); c.fill();
                 c.fillStyle = '#3a8a5a';
                 c.beginPath(); c.ellipse(2*scale,-36*scale,12*scale,8*scale,0,0,Math.PI*2); c.fill();
-                // 鼻先
-                c.fillStyle = '#1a4a6a';
+                // 鼻先（突き出る）
+                c.fillStyle = '#3a8a5a';
                 c.beginPath();
-                c.moveTo(8*scale,-36*scale); c.lineTo(20*scale,-34*scale); c.lineTo(20*scale,-28*scale); c.lineTo(6*scale,-30*scale); c.closePath(); c.fill();
+                c.moveTo(8*scale,-36*scale); c.lineTo(22*scale,-34*scale); c.lineTo(22*scale,-28*scale); c.lineTo(6*scale,-30*scale); c.closePath(); c.fill();
+                c.strokeStyle = '#1a5a3a'; c.lineWidth = 0.6*scale; c.stroke();
                 // 牙
                 c.fillStyle = '#fff';
-                c.fillRect(15*scale,-31*scale,1.5*scale,3*scale);
-                c.fillRect(18*scale,-31*scale,1.5*scale,3*scale);
-                // 角
-                c.fillStyle = '#0a2a3a';
+                c.fillRect(16*scale,-31*scale,1.5*scale,4*scale);
+                c.fillRect(19*scale,-31*scale,1.5*scale,4*scale);
+                // ヒゲ（中華龍の特徴・金）
+                c.strokeStyle = '#aa6600'; c.lineWidth = 1.4*scale;
+                c.lineCap = 'round';
                 c.beginPath();
-                c.moveTo(-8*scale,-44*scale); c.lineTo(-12*scale,-54*scale); c.lineTo(-4*scale,-46*scale); c.closePath(); c.fill();
+                c.moveTo(15*scale,-32*scale);
+                c.quadraticCurveTo(28*scale,-22*scale, 36*scale,-26*scale);
+                c.stroke();
                 c.beginPath();
-                c.moveTo(2*scale,-44*scale); c.lineTo(0,-54*scale); c.lineTo(6*scale,-46*scale); c.closePath(); c.fill();
-                // 目
-                c.fillStyle = '#ffe040';
-                c.beginPath(); c.arc(0,-38*scale,2*scale,0,Math.PI*2); c.fill();
+                c.moveTo(15*scale,-30*scale);
+                c.quadraticCurveTo(30*scale,-16*scale, 40*scale,-18*scale);
+                c.stroke();
+                c.lineCap = 'butt';
+                // 角（金）
+                c.fillStyle = '#ffd24a';
+                c.beginPath();
+                c.moveTo(-6*scale,-44*scale); c.lineTo(-12*scale,-58*scale); c.lineTo(-2*scale,-46*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#aa6600'; c.lineWidth = 0.6*scale; c.stroke();
+                c.beginPath();
+                c.moveTo(2*scale,-44*scale); c.lineTo(-2*scale,-58*scale); c.lineTo(6*scale,-46*scale);
+                c.closePath(); c.fill();
+                c.stroke();
+                // 緑の鬣（背中側からなびく）
+                c.fillStyle = '#1a4a2a';
+                c.beginPath();
+                c.moveTo(-10*scale,-42*scale);
+                c.lineTo(-18*scale,-36*scale);
+                c.lineTo(-18*scale,-30*scale);
+                c.lineTo(-10*scale,-32*scale);
+                c.closePath(); c.fill();
+                // 鬣の白いハイライト
+                c.fillStyle = '#88cc88';
+                c.fillRect(-16*scale,-34*scale,2*scale,2*scale);
+                // 金の目
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(0,-38*scale,2.4*scale,0,Math.PI*2); c.fill();
                 c.fillStyle = '#000';
-                c.fillRect(-0.5*scale,-39*scale,1*scale,3*scale);
+                c.fillRect(-0.6*scale,-39.5*scale,1.2*scale,3.5*scale);
                 break;
             case 'phoenix_crest': // サンダーバード（黄金鳳凰）
                 // 金の頭
@@ -5422,13 +5450,26 @@
                 ctx.ellipse(u.x, groundY() - 1, 18 * (u.scale||1), 4, 0, 0, Math.PI*2);
                 ctx.fill();
             }
+            // 翼なし飛行（東洋龍など）: 神秘的な雲のたなびき
+            if(isFly && u.data && u.data.noWings && !u.dead) {
+                const sc = u.scale || 1;
+                const t = performance.now() * 0.002;
+                ctx.fillStyle = 'rgba(255,255,255,0.35)';
+                for(let k=0; k<3; k++){
+                    const cx = u.x + Math.sin(t + k)*8*sc - 6*sc + k*8*sc;
+                    const cy = u.y + 12*sc + Math.cos(t + k*1.4)*2;
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, 14*sc, 4*sc, 0, 0, Math.PI*2);
+                    ctx.fill();
+                }
+            }
             if(u.data && u.data.mega) {
                 if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
                 else if(u.data.helmet === 'zeus_crown') drawZeus(ctx, u);
                 else drawDarkDragon(ctx, u);
             } else {
-                // 飛行: 本体の後ろに翼を描画
-                if(isFly) {
+                // 飛行: 本体の後ろに翼を描画（noWingsの場合はスキップ）
+                if(isFly && !u.data.noWings) {
                     const sc = u.scale || 1;
                     const flap = Math.sin(performance.now() * 0.018 + u.x * 0.02);
                     ctx.save();
