@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>火の鳥 デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid {
+            display:grid; gap:18px;
+            grid-template-columns: 1fr;
+            max-width: 1100px; margin: 0 auto;
+        }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:flex-end;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 14px 4px 4px;
+            margin-bottom: 12px;
+            min-height: 240px;
+        }
+        canvas { display:block; }
+        h2 {
+            font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🔥 火の鳥 デザイン候補</h1>
+    <div class="sub">PHOENIX DESIGN CANDIDATES</div>
+    <div class="grid">
+        <!-- A 黄金鳳凰 -->
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.45);">
+            <div class="canv-wrap"><canvas id="cv-a" width="220" height="240"></canvas></div>
+            <h2>案A. 黄金鳳凰（中華風）</h2>
+            <p>金の体に長い飾り羽、孔雀のような目玉模様の尾羽。優雅で華麗な神獣。</p>
+            <div class="meta">配色: 金 + 朱 + 翡翠緑</div>
+        </div>
+        <!-- B 白翼の聖鳥 -->
+        <div class="card" style="--c:#ffffff; --g:rgba(255,255,255,0.35);">
+            <div class="canv-wrap"><canvas id="cv-b" width="220" height="240"></canvas></div>
+            <h2>案B. 白翼の聖鳥</h2>
+            <p>純白の羽に金のトリム、頭上に光輪。炎ではなく光をまとう神聖な姿。</p>
+            <div class="meta">配色: 白 + 淡金</div>
+        </div>
+        <!-- C 蒼炎の冥鳥 -->
+        <div class="card" style="--c:#18FFFF; --g:rgba(24,255,255,0.45);">
+            <div class="canv-wrap"><canvas id="cv-c" width="220" height="240"></canvas></div>
+            <h2>案C. 蒼炎の冥鳥</h2>
+            <p>紺青〜漆黒の体に青白いガス炎。闇に溶け、目と炎だけが冷たく光る。</p>
+            <div class="meta">配色: 紺青 + シアン炎</div>
+        </div>
+        <!-- D 七色の天界鳥 -->
+        <div class="card" style="--c:#ff66ff; --g:rgba(255,102,255,0.45);">
+            <div class="canv-wrap"><canvas id="cv-d" width="220" height="240"></canvas></div>
+            <h2>案D. 七色の天界鳥</h2>
+            <p>虹色グラデーションの羽、プリズムのように輝く。超レアな夢の鳥。</p>
+            <div class="meta">配色: 七色レインボー</div>
+        </div>
+        <!-- E ベンヌ -->
+        <div class="card" style="--c:#40d0c0; --g:rgba(64,208,192,0.45);">
+            <div class="canv-wrap"><canvas id="cv-e" width="220" height="240"></canvas></div>
+            <h2>案E. エジプト・ベンヌ</h2>
+            <p>サギのような細長い体、頭に金の太陽円盤。古代エジプトの神鳥。</p>
+            <div class="meta">配色: 銅 + 金 + ターコイズ</div>
+        </div>
+        <!-- F ヤタガラス -->
+        <div class="card" style="--c:#ffaa00; --g:rgba(255,170,0,0.4);">
+            <div class="canv-wrap"><canvas id="cv-f" width="220" height="240"></canvas></div>
+            <h2>案F. ヤタガラス（日本神話）</h2>
+            <p>漆黒の三本足のカラス。背に太陽、足は朱、目は金。シャープなシルエット。</p>
+            <div class="meta">配色: 漆黒 + 朱 + 金太陽</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+// ============================================================
+// 共通ヘルパ
+// ============================================================
+function drawShadow(c, x, y, w=40, h=8) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+function drawAura(c, x, y, color, r=70) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color);
+    g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+function drawBody(c, x, y, color, hl) {
+    // 胴体（楕円）
+    c.fillStyle = color;
+    c.beginPath(); c.ellipse(x, y, 16, 22, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.45)'; c.lineWidth = 1.4; c.stroke();
+    // ハイライト
+    if(hl) { c.fillStyle = hl;
+        c.beginPath(); c.ellipse(x-5, y-7, 6, 10, 0, 0, Math.PI*2); c.fill(); }
+}
+function drawTail(c, x, y, len, color, hl) {
+    c.fillStyle = color;
+    c.beginPath();
+    c.moveTo(x, y);
+    c.quadraticCurveTo(x - len*0.4, y + len*0.6, x - len, y + len*0.2);
+    c.quadraticCurveTo(x - len*0.4, y + len*0.2, x, y - 4);
+    c.closePath(); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.4)'; c.lineWidth = 1.2; c.stroke();
+    if(hl) {
+        c.strokeStyle = hl; c.lineWidth = 1.5;
+        for(let i=0; i<3; i++){
+            c.beginPath();
+            c.moveTo(x - 6 - i*8, y + 4 + i*3);
+            c.quadraticCurveTo(x - 18 - i*10, y + 8 + i*5, x - len + i*6, y + 8 + i*4);
+            c.stroke();
+        }
+    }
+}
+function drawWingsBasic(c, x, y, color, edgeColor) {
+    // 左翼
+    c.fillStyle = color;
+    c.beginPath();
+    c.moveTo(x-2, y-8);
+    c.lineTo(x-34, y-12);
+    c.lineTo(x-38, y+4);
+    c.lineTo(x-10, y+6);
+    c.closePath(); c.fill();
+    if(edgeColor){ c.strokeStyle = edgeColor; c.lineWidth = 2; c.stroke(); }
+    else { c.strokeStyle = 'rgba(0,0,0,0.5)'; c.lineWidth = 1.2; c.stroke(); }
+    // 右翼
+    c.beginPath();
+    c.moveTo(x+2, y-8);
+    c.lineTo(x+34, y-12);
+    c.lineTo(x+38, y+4);
+    c.lineTo(x+10, y+6);
+    c.closePath(); c.fill();
+    if(edgeColor){ c.strokeStyle = edgeColor; c.lineWidth = 2; c.stroke(); }
+    else { c.strokeStyle = 'rgba(0,0,0,0.5)'; c.lineWidth = 1.2; c.stroke(); }
+}
+function drawHead(c, x, y, color, hl) {
+    c.fillStyle = color;
+    c.beginPath(); c.arc(x, y, 13, 0, Math.PI*2); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.45)'; c.lineWidth = 1.4; c.stroke();
+    if(hl){ c.fillStyle = hl; c.beginPath(); c.arc(x-3, y-4, 4, 0, Math.PI*2); c.fill(); }
+}
+function drawBeak(c, x, y, dir, color) {
+    c.fillStyle = color;
+    c.beginPath();
+    c.moveTo(x + 12*dir, y - 1);
+    c.lineTo(x + 22*dir, y);
+    c.lineTo(x + 12*dir, y + 4);
+    c.closePath(); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.4)'; c.lineWidth = 0.9; c.stroke();
+}
+function drawEye(c, x, y, color='#000') {
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(x, y, 2.6, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.beginPath(); c.arc(x, y, 1.4, 0, Math.PI*2); c.fill();
+}
+
+// ============================================================
+// 案A. 黄金鳳凰
+// ============================================================
+function drawA(c) {
+    const cx = 110, cy = 130;
+    drawAura(c, cx, cy, 'rgba(255,210,74,0.35)', 90);
+    drawShadow(c, cx, 224);
+    // 長い尾羽（孔雀風）目玉模様
+    for(let i=-1; i<=1; i++) {
+        const tx = cx - 10, ty = cy + 24 + i*8;
+        c.fillStyle = '#ffd24a';
+        c.beginPath();
+        c.moveTo(tx, ty);
+        c.quadraticCurveTo(tx - 50 + i*4, ty + 20 + i*6, tx - 76 + i*4, ty + i*8);
+        c.quadraticCurveTo(tx - 50, ty - 4, tx, ty);
+        c.closePath(); c.fill();
+        c.strokeStyle = '#aa6600'; c.lineWidth = 1; c.stroke();
+        // 目玉模様
+        c.fillStyle = '#1a4a3a';
+        c.beginPath(); c.arc(tx - 64 + i*4, ty + 4 + i*4, 5, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.arc(tx - 64 + i*4, ty + 4 + i*4, 2.4, 0, Math.PI*2); c.fill();
+    }
+    // 翼（金）
+    drawWingsBasic(c, cx, cy - 6, '#ffd24a', '#aa6600');
+    // 翼の翡翠縁
+    c.strokeStyle = '#3a8a5a'; c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(cx-34, cy-18); c.lineTo(cx-38, cy-2); c.stroke();
+    c.beginPath();
+    c.moveTo(cx+34, cy-18); c.lineTo(cx+38, cy-2); c.stroke();
+    // 胴
+    drawBody(c, cx, cy, '#ffd24a', '#fff5cc');
+    c.fillStyle = '#aa1010';
+    c.fillRect(cx-12, cy-6, 24, 4); // 胸の朱帯
+    // 頭
+    drawHead(c, cx, cy - 30, '#ffd24a', '#fff5cc');
+    // くちばし
+    drawBeak(c, cx, cy - 28, 1, '#aa1010');
+    // 飾り羽（後頭部から長く垂れる）
+    c.strokeStyle = '#ffd24a'; c.lineWidth = 3;
+    c.beginPath(); c.moveTo(cx - 6, cy - 38); c.quadraticCurveTo(cx - 24, cy - 56, cx - 36, cy - 38); c.stroke();
+    c.beginPath(); c.moveTo(cx - 4, cy - 42); c.quadraticCurveTo(cx - 18, cy - 64, cx - 28, cy - 50); c.stroke();
+    c.strokeStyle = '#3a8a5a'; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(cx - 6, cy - 38); c.quadraticCurveTo(cx - 24, cy - 56, cx - 36, cy - 38); c.stroke();
+    drawEye(c, cx + 3, cy - 32);
+}
+
+// ============================================================
+// 案B. 白翼の聖鳥
+// ============================================================
+function drawB(c) {
+    const cx = 110, cy = 130;
+    drawAura(c, cx, cy, 'rgba(255,255,255,0.4)', 100);
+    drawShadow(c, cx, 224);
+    // ハロー（光輪）
+    c.strokeStyle = '#ffd24a'; c.lineWidth = 3;
+    c.beginPath(); c.ellipse(cx, cy - 56, 18, 6, 0, 0, Math.PI*2); c.stroke();
+    c.strokeStyle = 'rgba(255,255,200,0.55)'; c.lineWidth = 6;
+    c.beginPath(); c.ellipse(cx, cy - 56, 18, 6, 0, 0, Math.PI*2); c.stroke();
+    // 尾羽
+    drawTail(c, cx - 10, cy + 14, 30, '#ffffff', '#ffd24a');
+    // 翼（白＋金トリム）
+    drawWingsBasic(c, cx, cy - 6, '#ffffff', '#ffd24a');
+    // 胴
+    drawBody(c, cx, cy, '#ffffff', '#fff8dc');
+    // 頭
+    drawHead(c, cx, cy - 30, '#ffffff', '#fff8dc');
+    drawBeak(c, cx, cy - 28, 1, '#ffd24a');
+    drawEye(c, cx + 3, cy - 32, '#3a3a8a');
+    // 光の粒
+    for(let i=0; i<7; i++){
+        const a = i/7 * Math.PI*2;
+        const px = cx + Math.cos(a) * 50;
+        const py = cy + Math.sin(a) * 50;
+        c.fillStyle = 'rgba(255,255,200,0.85)';
+        c.beginPath(); c.arc(px, py, 1.5, 0, Math.PI*2); c.fill();
+    }
+}
+
+// ============================================================
+// 案C. 蒼炎の冥鳥
+// ============================================================
+function drawC(c) {
+    const cx = 110, cy = 130;
+    drawAura(c, cx, cy, 'rgba(0,180,255,0.4)', 90);
+    drawShadow(c, cx, 224);
+    // 青い炎（背後から立ち上る）
+    for(let i=0; i<8; i++){
+        const a = -Math.PI*0.85 + i*Math.PI*0.21;
+        const fx = cx + Math.cos(a) * 26;
+        const fy = cy - 28 + Math.sin(a) * 22;
+        c.fillStyle = ['#18FFFF','#3aaaff','#6066ff'][i%3];
+        c.beginPath();
+        c.moveTo(fx, fy);
+        c.lineTo(fx + Math.cos(a)*14, fy + Math.sin(a)*14);
+        c.lineTo(fx + Math.cos(a+0.4)*6, fy + Math.sin(a+0.4)*6);
+        c.closePath(); c.fill();
+    }
+    // 尾羽
+    drawTail(c, cx - 10, cy + 14, 32, '#0a1a3a', '#18FFFF');
+    // 翼（紺青）
+    drawWingsBasic(c, cx, cy - 6, '#1a1a3a', '#18FFFF');
+    // 翼の蒼炎縁
+    for(let s=-1; s<=1; s+=2){
+        c.strokeStyle = '#18FFFF'; c.lineWidth = 1.5;
+        for(let i=0; i<3; i++){
+            c.beginPath();
+            c.moveTo(cx + s*(20+i*4), cy - 14 + i*4);
+            c.lineTo(cx + s*(28+i*4), cy - 18 - i*2);
+            c.stroke();
+        }
+    }
+    // 胴
+    drawBody(c, cx, cy, '#0a0a20', '#1a1a3a');
+    // 頭
+    drawHead(c, cx, cy - 30, '#0a0a20', '#1a1a3a');
+    drawBeak(c, cx, cy - 28, 1, '#18FFFF');
+    // 光る目
+    c.fillStyle = '#18FFFF';
+    c.beginPath(); c.arc(cx + 3, cy - 32, 2.2, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#fff';
+    c.beginPath(); c.arc(cx + 3, cy - 32, 0.9, 0, Math.PI*2); c.fill();
+}
+
+// ============================================================
+// 案D. 七色の天界鳥
+// ============================================================
+function drawD(c) {
+    const cx = 110, cy = 130;
+    drawAura(c, cx, cy, 'rgba(255,100,255,0.35)', 100);
+    drawShadow(c, cx, 224);
+    const rainbow = ['#ff3344','#ffaa22','#ffea22','#33dd55','#22aaff','#7744ff','#ee44ff'];
+    // 尾羽（虹）
+    for(let i=0; i<7; i++){
+        const tx = cx - 10, ty = cy + 6 + i*4;
+        c.strokeStyle = rainbow[i]; c.lineWidth = 4;
+        c.beginPath();
+        c.moveTo(tx, ty);
+        c.quadraticCurveTo(tx - 30, ty + 10, tx - 56 + i*2, ty + i*2);
+        c.stroke();
+    }
+    // 翼グラデ
+    const grad1 = c.createLinearGradient(cx-38, cy-12, cx-2, cy+6);
+    grad1.addColorStop(0,'#7744ff'); grad1.addColorStop(0.5,'#22aaff'); grad1.addColorStop(1,'#33dd55');
+    const grad2 = c.createLinearGradient(cx+2, cy-12, cx+38, cy+6);
+    grad2.addColorStop(0,'#ffea22'); grad2.addColorStop(0.5,'#ffaa22'); grad2.addColorStop(1,'#ff3344');
+    c.fillStyle = grad1;
+    c.beginPath();
+    c.moveTo(cx-2, cy-8); c.lineTo(cx-34, cy-12); c.lineTo(cx-38, cy+4); c.lineTo(cx-10, cy+6);
+    c.closePath(); c.fill();
+    c.strokeStyle='rgba(255,255,255,0.6)'; c.lineWidth=1; c.stroke();
+    c.fillStyle = grad2;
+    c.beginPath();
+    c.moveTo(cx+2, cy-8); c.lineTo(cx+34, cy-12); c.lineTo(cx+38, cy+4); c.lineTo(cx+10, cy+6);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 胴（虹グラデ）
+    const gb = c.createLinearGradient(cx-16, cy-22, cx+16, cy+22);
+    gb.addColorStop(0,'#ff3344'); gb.addColorStop(0.5,'#ffea22'); gb.addColorStop(1,'#22aaff');
+    c.fillStyle = gb;
+    c.beginPath(); c.ellipse(cx, cy, 16, 22, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.4)'; c.lineWidth = 1.2; c.stroke();
+    // 頭
+    drawHead(c, cx, cy - 30, '#ff66ff', '#ffccff');
+    drawBeak(c, cx, cy - 28, 1, '#ffd24a');
+    drawEye(c, cx + 3, cy - 32);
+    // プリズムスパーク
+    for(let i=0; i<6; i++){
+        const a = i/6 * Math.PI*2;
+        const px = cx + Math.cos(a) * (54 + i*3);
+        const py = cy + Math.sin(a) * (52 + i*3);
+        c.fillStyle = rainbow[i];
+        c.beginPath(); c.arc(px, py, 2, 0, Math.PI*2); c.fill();
+    }
+}
+
+// ============================================================
+// 案E. ベンヌ（エジプト）
+// ============================================================
+function drawE(c) {
+    const cx = 110, cy = 140;
+    drawAura(c, cx, cy, 'rgba(64,208,192,0.35)', 90);
+    drawShadow(c, cx, 224);
+    // 太陽円盤（頭の上）
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(cx, cy - 70, 14, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#ff8800'; c.lineWidth = 2; c.stroke();
+    // 太陽の光線
+    c.strokeStyle = 'rgba(255,210,74,0.6)'; c.lineWidth = 2;
+    for(let i=0; i<8; i++){
+        const a = i/8 * Math.PI*2;
+        c.beginPath();
+        c.moveTo(cx + Math.cos(a)*16, cy - 70 + Math.sin(a)*16);
+        c.lineTo(cx + Math.cos(a)*22, cy - 70 + Math.sin(a)*22);
+        c.stroke();
+    }
+    // 細長い首
+    c.fillStyle = '#cc7744';
+    c.fillRect(cx - 4, cy - 50, 8, 22);
+    c.strokeStyle = 'rgba(0,0,0,0.4)'; c.lineWidth = 1; c.strokeRect(cx-4, cy-50, 8, 22);
+    // 頭（小さめ）
+    c.fillStyle = '#cc7744';
+    c.beginPath(); c.arc(cx, cy - 54, 8, 0, Math.PI*2); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.4)'; c.lineWidth = 1; c.stroke();
+    // 長いくちばし（サギ）
+    c.fillStyle = '#ffd24a';
+    c.beginPath();
+    c.moveTo(cx + 6, cy - 54);
+    c.lineTo(cx + 26, cy - 50);
+    c.lineTo(cx + 6, cy - 50);
+    c.closePath(); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,0.4)'; c.stroke();
+    // 目
+    drawEye(c, cx + 2, cy - 56);
+    // 胴体（細長い）
+    c.fillStyle = '#cc7744';
+    c.beginPath(); c.ellipse(cx, cy - 12, 12, 22, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle='rgba(0,0,0,0.4)'; c.lineWidth=1.2; c.stroke();
+    // ターコイズ縞
+    c.fillStyle = '#40d0c0';
+    c.fillRect(cx - 10, cy - 14, 20, 3);
+    c.fillRect(cx - 10, cy - 6, 20, 3);
+    c.fillRect(cx - 10, cy + 2, 20, 3);
+    // 翼（折りたたみ気味）
+    c.fillStyle = '#cc7744';
+    c.beginPath();
+    c.moveTo(cx - 6, cy - 16); c.lineTo(cx - 32, cy + 4); c.lineTo(cx - 30, cy + 12); c.lineTo(cx - 6, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#40d0c0'; c.lineWidth = 1.5; c.stroke();
+    c.fillStyle = '#cc7744';
+    c.beginPath();
+    c.moveTo(cx + 6, cy - 16); c.lineTo(cx + 32, cy + 4); c.lineTo(cx + 30, cy + 12); c.lineTo(cx + 6, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#40d0c0'; c.stroke();
+    // 細い脚
+    c.strokeStyle = '#aa5522'; c.lineWidth = 2;
+    c.beginPath(); c.moveTo(cx - 4, cy + 10); c.lineTo(cx - 6, cy + 30); c.stroke();
+    c.beginPath(); c.moveTo(cx + 4, cy + 10); c.lineTo(cx + 6, cy + 30); c.stroke();
+}
+
+// ============================================================
+// 案F. ヤタガラス
+// ============================================================
+function drawF(c) {
+    const cx = 110, cy = 130;
+    // 背後の太陽
+    const gs = c.createRadialGradient(cx, cy - 16, 4, cx, cy - 16, 48);
+    gs.addColorStop(0, '#ffea22');
+    gs.addColorStop(0.5, '#ffaa22');
+    gs.addColorStop(1, 'transparent');
+    c.fillStyle = gs;
+    c.beginPath(); c.arc(cx, cy - 16, 50, 0, Math.PI*2); c.fill();
+    drawShadow(c, cx, 224);
+    // 翼（漆黒・大きめ）
+    c.fillStyle = '#0a0a0a';
+    c.beginPath();
+    c.moveTo(cx-2, cy-8); c.lineTo(cx-44, cy-22); c.lineTo(cx-46, cy+10); c.lineTo(cx-10, cy+6);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#3a3a3a'; c.lineWidth = 1.4; c.stroke();
+    c.fillStyle = '#0a0a0a';
+    c.beginPath();
+    c.moveTo(cx+2, cy-8); c.lineTo(cx+44, cy-22); c.lineTo(cx+46, cy+10); c.lineTo(cx+10, cy+6);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#3a3a3a'; c.lineWidth = 1.4; c.stroke();
+    // 胴（漆黒）
+    c.fillStyle = '#1a1a1a';
+    c.beginPath(); c.ellipse(cx, cy, 16, 22, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#3a3a3a'; c.lineWidth = 1.2; c.stroke();
+    c.fillStyle = '#3a3a3a';
+    c.beginPath(); c.ellipse(cx-5, cy-7, 5, 9, 0, 0, Math.PI*2); c.fill();
+    // 三本足（朱）
+    c.strokeStyle = '#dd2222'; c.lineWidth = 3;
+    c.beginPath(); c.moveTo(cx-7, cy+18); c.lineTo(cx-11, cy+34); c.stroke();
+    c.beginPath(); c.moveTo(cx,    cy+20); c.lineTo(cx,    cy+36); c.stroke();
+    c.beginPath(); c.moveTo(cx+7, cy+18); c.lineTo(cx+11, cy+34); c.stroke();
+    // 足の指
+    c.strokeStyle = '#aa1010'; c.lineWidth = 2;
+    [-11, 0, 11].forEach(fx => {
+        c.beginPath(); c.moveTo(cx + fx, cy + 34); c.lineTo(cx + fx - 4, cy + 38); c.stroke();
+        c.beginPath(); c.moveTo(cx + fx, cy + 34); c.lineTo(cx + fx + 4, cy + 38); c.stroke();
+    });
+    // 頭
+    c.fillStyle = '#0a0a0a';
+    c.beginPath(); c.arc(cx, cy - 30, 13, 0, Math.PI*2); c.fill();
+    c.strokeStyle = '#3a3a3a'; c.stroke();
+    // くちばし（鋭い）
+    c.fillStyle = '#5a3a1a';
+    c.beginPath();
+    c.moveTo(cx + 11, cy - 30);
+    c.lineTo(cx + 26, cy - 28);
+    c.lineTo(cx + 11, cy - 25);
+    c.closePath(); c.fill();
+    c.strokeStyle = '#000'; c.lineWidth = 0.8; c.stroke();
+    // 金の目（鋭い）
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(cx + 3, cy - 32, 2.6, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(cx + 2.4, cy - 33.4, 1.2, 3);
+}
+
+drawA(document.getElementById('cv-a').getContext('2d'));
+drawB(document.getElementById('cv-b').getContext('2d'));
+drawC(document.getElementById('cv-c').getContext('2d'));
+drawD(document.getElementById('cv-d').getContext('2d'));
+drawE(document.getElementById('cv-e').getContext('2d'));
+drawF(document.getElementById('cv-f').getContext('2d'));
+</script>
+</body>
+</html>
