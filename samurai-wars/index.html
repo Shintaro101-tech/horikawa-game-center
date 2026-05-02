@@ -598,7 +598,7 @@
                 <button class="btn btn-red" onclick="goStageSelect()">⚔️ <ruby>出陣<rt>しゅつじん</rt></ruby></button>
                 <button class="btn btn-cyan" onclick="showScreen('formation-screen'); renderFormation();">🛡 <ruby>編成<rt>へんせい</rt></ruby></button>
                 <button class="btn" onclick="showScreen('upgrade-screen'); renderUpgradeList();">⚒ <ruby>強化<rt>きょうか</rt></ruby><ruby>道場<rt>どうじょう</rt></ruby></button>
-                <button class="btn btn-gold" onclick="showScreen('gacha-screen'); document.getElementById('gacha-result').innerHTML='';">🎲 ガチャ</button>
+                <button class="btn btn-gold" onclick="openGachaScreen()">🎲 ガチャ</button>
                 <button class="btn" onclick="showScreen('achievement-screen'); renderAchievements();">🏆 <ruby>勲章<rt>くんしょう</rt></ruby></button>
                 <button class="btn" onclick="showScreen('roster-screen'); renderRoster();">📜 <ruby>侍<rt>さむらい</rt></ruby><ruby>名簿<rt>めいぼ</rt></ruby></button>
             </div>
@@ -649,7 +649,7 @@
             <div class="subtitle">500<ruby>円<rt>えん</rt></ruby>で<ruby>運命<rt>うんめい</rt></ruby>の<ruby>戦士<rt>せんし</rt></ruby>を<ruby>引<rt>ひ</rt></ruby>け！</div>
             <div style="color:var(--gold); font-weight:bold; margin-bottom:8px;">💴 <span id="gacha-koban">0</span><ruby>円<rt>えん</rt></ruby></div>
             <div id="gacha-result" style="font-size:1rem; margin: 16px 0; min-height: 80px; max-width:380px; text-align:center;"></div>
-            <button class="btn btn-gold" onclick="gachaPull()">🎲 ガチャを<ruby>引<rt>ひ</rt></ruby>く（💴500）</button>
+            <button id="gacha-pull-btn" class="btn btn-gold" onclick="gachaPull()">🎲 ガチャを<ruby>引<rt>ひ</rt></ruby>く（💴500）</button>
             <button class="btn" onclick="showScreen('title-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
@@ -1340,9 +1340,45 @@
 
     // ガチャ
     let _gachaRolling = false;
+    function isAllSamuraiUnlocked() {
+        return SAMURAI_DATA.every(u => saveData.unlockedSamurai.includes(u.id));
+    }
+    function refreshGachaButton() {
+        const btn = document.getElementById('gacha-pull-btn');
+        if(!btn) return;
+        if(isAllSamuraiUnlocked()) {
+            btn.disabled = true;
+            btn.style.opacity = '0.45';
+            btn.style.cursor = 'not-allowed';
+            btn.innerHTML = '✨ <ruby>全戦士<rt>ぜんせんし</rt></ruby><ruby>解放<rt>かいほう</rt></ruby><ruby>済<rt>ず</rt></ruby> ✨';
+        } else {
+            btn.disabled = false;
+            btn.style.opacity = '';
+            btn.style.cursor = '';
+            btn.innerHTML = '🎲 ガチャを<ruby>引<rt>ひ</rt></ruby>く（💴500）';
+        }
+    }
+    function openGachaScreen() {
+        showScreen('gacha-screen');
+        const result = document.getElementById('gacha-result');
+        if(result) {
+            if(isAllSamuraiUnlocked()) {
+                result.innerHTML = '<div style="color:var(--cyan); line-height:1.6;">✨ <ruby>全<rt>すべ</rt></ruby>ての<ruby>戦士<rt>せんし</rt></ruby>を<ruby>解放<rt>かいほう</rt></ruby>しました！ ✨<br><span style="color:#cdf; font-size:0.85rem;">これ<ruby>以上<rt>いじょう</rt></ruby>はガチャを<ruby>引<rt>ひ</rt></ruby>けません</span></div>';
+            } else {
+                result.innerHTML = '';
+            }
+        }
+        refreshGachaButton();
+    }
     function gachaPull() {
         if(_gachaRolling) return;
         const result = document.getElementById('gacha-result');
+        if(isAllSamuraiUnlocked()) {
+            // 全戦士解放済 — ガチャは引けない
+            refreshGachaButton();
+            if(result) result.innerHTML = '<div style="color:var(--cyan);">✨ <ruby>全戦士<rt>ぜんせんし</rt></ruby><ruby>解放<rt>かいほう</rt></ruby><ruby>済<rt>ず</rt></ruby> ✨</div>';
+            return;
+        }
         if(saveData.koban < 500) {
             result.innerHTML = '<div style="color:#ff8888;">軍資金が足りない！</div>';
             return;
@@ -1350,17 +1386,12 @@
         _gachaRolling = true;
         saveData.koban -= 500;
         const locked = SAMURAI_DATA.filter(u => !saveData.unlockedSamurai.includes(u.id));
-        let pick = null, allDone = false;
-        if(locked.length === 0) {
-            saveData.koban += 700;
-            allDone = true;
-        } else {
-            pick = locked[Math.floor(Math.random()*locked.length)];
-            saveData.unlockedSamurai.push(pick.id);
-            if(!saveData.formation.includes(pick.id)) {
-                saveData.formation.push(pick.id);
-            }
+        const pick = locked[Math.floor(Math.random()*locked.length)];
+        saveData.unlockedSamurai.push(pick.id);
+        if(!saveData.formation.includes(pick.id)) {
+            saveData.formation.push(pick.id);
         }
+        const allDone = false; // 既に上で全解放はガード済
         saveGame();
         document.getElementById('title-koban').innerText = saveData.koban;
         document.getElementById('gacha-koban').innerText = saveData.koban.toLocaleString();
@@ -1469,6 +1500,8 @@
             }
             btns.forEach(b => b.disabled = false);
             _gachaRolling = false;
+            // 全解放した場合はボタンを「全戦士解放済」表示に切り替え
+            refreshGachaButton();
         }, buildMs + 700);
     }
 
