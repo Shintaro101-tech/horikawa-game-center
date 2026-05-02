@@ -253,6 +253,33 @@
                      border:1px solid var(--cyan); padding:6px 14px; border-radius:999px;
                      font-size:13px; letter-spacing:2px; pointer-events:auto; }
 
+        /* 編（時代）選択 */
+        #era-list { display:flex; flex-direction:column; align-items:center;
+                    gap:10px; width:100%; max-width:520px;
+                    max-height:65vh; overflow-y:auto; padding:8px; }
+        .era-card { position:relative; background:linear-gradient(135deg, rgba(20,10,30,0.88), rgba(50,20,80,0.55));
+                    border:3px solid var(--era-color, #888); border-radius:14px;
+                    padding:16px 20px; width:100%; max-width:480px;
+                    cursor:pointer; transition:transform 0.12s, box-shadow 0.2s;
+                    box-shadow:0 0 20px var(--era-glow, rgba(136,136,136,0.3));
+                    overflow:hidden; pointer-events:auto; }
+        .era-card:not(.locked):active { transform:scale(0.98); }
+        .era-card:not(.locked):hover { transform:translateY(-2px);
+                    box-shadow:0 0 32px var(--era-glow, rgba(136,136,136,0.5)); }
+        .era-card.locked { opacity:0.55; cursor:not-allowed; filter:grayscale(0.45); }
+        .era-card .era-head { display:flex; align-items:center; gap:10px; }
+        .era-emoji { font-size:2.2rem; line-height:1;
+                     filter:drop-shadow(0 0 8px var(--era-color, #fff)); }
+        .era-name { font-size:1.3rem; font-weight:bold; color:var(--era-color, #fff);
+                    letter-spacing:1px; }
+        .era-desc { font-size:0.82rem; color:#cdf; margin-top:6px; opacity:0.9;
+                    line-height:1.4; }
+        .era-progress { font-size:0.78rem; color:var(--gold); margin-top:6px;
+                        letter-spacing:1px; }
+        .era-soon { display:inline-block; margin-top:6px; padding:3px 12px;
+                    font-size:0.72rem; color:#aaa; border:1px solid #666;
+                    border-radius:999px; letter-spacing:3px; background:rgba(0,0,0,0.3); }
+
         /* ステージ選択・名簿 */
         .stage-card, .roster-card { background:rgba(20,10,30,0.7); border:2px solid var(--red);
                                     border-radius:10px; padding:14px 18px; margin:6px; min-width:240px;
@@ -608,11 +635,20 @@
             <button class="btn" style="margin-top:18px; opacity:0.6; font-size:0.78rem; min-width:160px; min-height:36px; padding:6px 14px; border-color:#888; color:#aaa; background:rgba(60,60,60,0.4); text-shadow:none; box-shadow:none;" onclick="resetGame()">🗑 <ruby>データ<rt>でーた</rt></ruby>を<ruby>初期化<rt>しょきか</rt></ruby></button>
         </div>
 
+        <!-- 編（時代）選択 -->
+        <div id="era-select" class="screen hidden">
+            <h2><ruby>時代<rt>じだい</rt></ruby>を<ruby>選<rt>えら</rt></ruby>べ</h2>
+            <div class="subtitle">どの<ruby>時代<rt>じだい</rt></ruby>で<ruby>戦<rt>たたか</rt></ruby>うかを<ruby>選<rt>えら</rt></ruby>ぼう</div>
+            <div id="era-list"></div>
+            <button class="btn" onclick="showScreen('title-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
+        </div>
+
         <!-- ステージ選択 -->
         <div id="stage-select" class="screen hidden">
             <h2><ruby>戦場<rt>せんじょう</rt></ruby>を<ruby>選<rt>えら</rt></ruby>べ</h2>
+            <div class="subtitle" id="stage-select-era-label">--</div>
             <div id="stage-list"></div>
-            <button class="btn" onclick="showScreen('title-screen')"><ruby>戻<rt>もど</rt></ruby>る</button>
+            <button class="btn" onclick="goEraSelect()"><ruby>編<rt>へん</rt></ruby><ruby>選択<rt>せんたく</rt></ruby>へ<ruby>戻<rt>もど</rt></ruby>る</button>
         </div>
 
         <!-- 名簿 -->
@@ -719,7 +755,7 @@
                 <div id="unlock-name" class="ub-name">--</div>
                 <div id="unlock-desc" class="ub-desc">--</div>
             </div>
-            <button class="btn btn-red" onclick="goStageSelect()"><ruby>戦場<rt>せんじょう</rt></ruby>へ</button>
+            <button class="btn btn-red" onclick="selectEra(currentEra)"><ruby>戦場<rt>せんじょう</rt></ruby>へ</button>
             <button class="btn" onclick="showScreen('title-screen')">タイトルへ</button>
         </div>
 
@@ -728,7 +764,7 @@
             <h1><ruby>無念<rt>むねん</rt></ruby>...</h1>
             <p style="text-align:center; font-size:1.2rem; margin:18px 0;"><ruby>城<rt>しろ</rt></ruby>が<ruby>落<rt>お</rt></ruby>ちた…<ruby>再<rt>ふたた</rt></ruby>び<ruby>挑<rt>いど</rt></ruby>め！</p>
             <button class="btn btn-red" onclick="restartBattle()">⚔️ <ruby>再戦<rt>さいせん</rt></ruby></button>
-            <button class="btn" onclick="goStageSelect()"><ruby>戦場<rt>せんじょう</rt></ruby>へ</button>
+            <button class="btn" onclick="selectEra(currentEra)"><ruby>戦場<rt>せんじょう</rt></ruby>へ</button>
         </div>
     </div>
 
@@ -895,6 +931,30 @@
 
     // ふりがなヘルパー
     function ruby(text, yomi) { return `<ruby>${text}<rt>${yomi}</rt></ruby>`; }
+
+    // 時代（編）データ — 5編 × 各18ステージの構想。今は過去編のみ実装
+    const ERA_DATA = [
+        { id:'super_past',   name:'超過去編', yomi:'ちょうかこへん',     emoji:'🦖',
+          desc:'<ruby>恐竜<rt>きょうりゅう</rt></ruby>と<ruby>原始<rt>げんし</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>が<ruby>支配<rt>しはい</rt></ruby>する<ruby>太古<rt>たいこ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>',
+          color:'#c9882e', glow:'rgba(201,136,46,0.45)', available:false },
+        { id:'past',         name:'過去編',   yomi:'かこへん',           emoji:'🏯',
+          desc:'<ruby>戦国<rt>せんごく</rt></ruby>の<ruby>世<rt>よ</rt></ruby>。<ruby>侍<rt>さむらい</rt></ruby>たちが<ruby>城<rt>しろ</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>り<ruby>火花<rt>ひばな</rt></ruby>を<ruby>散<rt>ち</rt></ruby>らす',
+          color:'#ff3344', glow:'rgba(255,51,68,0.45)', available:true  },
+        { id:'modern',       name:'現代編',   yomi:'げんだいへん',       emoji:'🏙',
+          desc:'<ruby>高層<rt>こうそう</rt></ruby>ビルとSNSが<ruby>渦巻<rt>うずま</rt></ruby>く<ruby>現代<rt>げんだい</rt></ruby><ruby>都市<rt>とし</rt></ruby>の<ruby>戦<rt>たたか</rt></ruby>い',
+          color:'#18FFFF', glow:'rgba(24,255,255,0.45)', available:false },
+        { id:'future',       name:'未来編',   yomi:'みらいへん',         emoji:'🛸',
+          desc:'AIとサイボーグが<ruby>覇<rt>は</rt></ruby>を<ruby>競<rt>きそ</rt></ruby>う<ruby>近<rt>きん</rt></ruby><ruby>未来<rt>みらい</rt></ruby>',
+          color:'#b94dff', glow:'rgba(185,77,255,0.45)', available:false },
+        { id:'super_future', name:'超未来編', yomi:'ちょうみらいへん',   emoji:'🌌',
+          desc:'<ruby>宇宙<rt>うちゅう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>。<ruby>銀河<rt>ぎんが</rt></ruby>を<ruby>懸<rt>か</rt></ruby>けた<ruby>最終<rt>さいしゅう</rt></ruby><ruby>決戦<rt>けっせん</rt></ruby>',
+          color:'#ffd24a', glow:'rgba(255,210,74,0.5)',  available:false },
+    ];
+    let currentEra = 'past';
+    function getEra(id) { return ERA_DATA.find(e => e.id === id) || ERA_DATA[1]; }
+    function currentEraStages() {
+        return STAGE_DATA.filter(s => (s.era || 'past') === currentEra);
+    }
 
     const STAGE_DATA = [
         { id:1,  name:'関ヶ原の戦い',     yomi:'せきがはらのたたかい', castleHp:3000, enemyCastleHp:3000,  reward:50,  spawns:[
@@ -1180,14 +1240,61 @@
         const gk = document.getElementById('gacha-koban');
         if(gk) gk.innerText = saveData.koban.toLocaleString();
     }
-    function goStageSelect() { showScreen('stage-select'); renderStageList(); }
+    // 出陣 → まず編（時代）選択へ
+    function goStageSelect() { goEraSelect(); }
+    function goEraSelect() { showScreen('era-select'); renderEraList(); }
+
+    function renderEraList() {
+        const list = document.getElementById('era-list');
+        if(!list) return;
+        list.innerHTML = '';
+        ERA_DATA.forEach(era => {
+            const stages = STAGE_DATA.filter(s => (s.era || 'past') === era.id);
+            const cleared = stages.filter(s => saveData.clearedStages.includes(s.id)).length;
+            const card = document.createElement('div');
+            card.className = 'era-card' + (era.available ? '' : ' locked');
+            card.style.setProperty('--era-color', era.color);
+            card.style.setProperty('--era-glow', era.glow);
+            const footer = era.available
+                ? `<div class="era-progress">⚔ <ruby>クリア<rt>くりあ</rt></ruby>: ${cleared} / ${stages.length || 18}</div>`
+                : `<div class="era-soon">⚙ COMING SOON ⚙</div>`;
+            card.innerHTML = `
+                <div class="era-head">
+                    <span class="era-emoji">${era.emoji}</span>
+                    <span class="era-name">${ruby(era.name, era.yomi)}</span>
+                </div>
+                <div class="era-desc">${era.desc}</div>
+                ${footer}
+            `;
+            if(era.available) card.onclick = () => selectEra(era.id);
+            list.appendChild(card);
+        });
+    }
+
+    function selectEra(eraId) {
+        const era = getEra(eraId);
+        if(!era.available) return;
+        currentEra = eraId;
+        const lbl = document.getElementById('stage-select-era-label');
+        if(lbl) {
+            lbl.innerHTML = `<span style="color:${era.color}">${era.emoji} ${ruby(era.name, era.yomi)}</span>`;
+        }
+        showScreen('stage-select');
+        renderStageList();
+    }
+
     function renderStageList() {
         const list = document.getElementById('stage-list');
         list.innerHTML = '';
         // 一覧をスクロール可能に
-        list.style.cssText = 'display:grid; grid-template-columns:1fr; gap:6px; width:100%; max-width:520px; max-height:65vh; overflow-y:auto; padding:8px;';
-        STAGE_DATA.forEach((s, i) => {
-            const unlocked = (i===0) || saveData.clearedStages.includes(STAGE_DATA[i-1].id);
+        list.style.cssText = 'display:grid; grid-template-columns:1fr; gap:6px; width:100%; max-width:520px; max-height:60vh; overflow-y:auto; padding:8px;';
+        const stages = currentEraStages();
+        if(stages.length === 0) {
+            list.innerHTML = '<div style="color:#aaa; padding:20px; text-align:center;">この<ruby>時代<rt>じだい</rt></ruby>のステージはまだ<ruby>準備中<rt>じゅんびちゅう</rt></ruby>です</div>';
+            return;
+        }
+        stages.forEach((s, i) => {
+            const unlocked = (i===0) || saveData.clearedStages.includes(stages[i-1].id);
             const cleared = saveData.clearedStages.includes(s.id);
             const sc = saveData.stars[s.id] || 0;
             const starStr = '★'.repeat(sc) + '☆'.repeat(3-sc);

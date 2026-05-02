@@ -79,7 +79,14 @@
 - **戦士**: 24体（侍8 + ロボ7 + 妖怪3 + 魔法3 + その他3）+ ガチャ秘伝3体
   - 開始6体: ashigaru, bushi, yumi, miko, ninja, robo_basic
   - SAMURAI_DATA は `CHARACTER_ORDER` でソート（左→右上→下の順にアンロックされる）
-- **18ステージ** + ステージ別解放（`STAGE_UNLOCKS`）
+- **時代（編）構造**: 5編 × 各18ステージ予定（`ERA_DATA`）
+  - 超過去編 / 過去編 / 現代編 / 未来編 / 超未来編
+  - 現状は **過去編のみ available** で、他は `available:false` で COMING SOON 表示
+  - 出陣ボタン → era-select 画面 → 編を選ぶ → stage-select に遷移
+  - 戦勝/敗北画面の「戦場へ」は `selectEra(currentEra)` で同じ編に直帰（一階層スキップ）
+  - `currentEraStages()` は `STAGE_DATA` を `(s.era || 'past') === currentEra` でフィルタ
+  - 新たに編を実装する時は (1) `ERA_DATA` の該当 `available:true` (2) `STAGE_DATA` に `era:'modern'` などを付けたステージを追加
+- **18ステージ**（現状すべて過去編）+ ステージ別解放（`STAGE_UNLOCKS`）
 - **ステージごとのボス** (`STAGE_BOSSES`) — 敵城HP **1/3以下** で1度だけ出現
   - 一つ目小僧 / 河童 / ろくろ首 / 猫又 / 鬼 / 雪女 / 雷獣 / 鬼火 / 白狐 / 九尾の狐 / 八岐大蛇 / 蜘蛛の精 / ゴジラ / キングギドラ / メカ怪獣 / ロボット鬼 / サイボーグ大蛇 / 天魔王
   - 全員 scale 1.9〜3.4 で巨大、HP・ATK は最後 +50%/+35% のバフ済
@@ -156,6 +163,12 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去・未来大戦争: 5編（超過去/過去/現代/未来/超未来）の時代選択を導入
+  - `ERA_DATA` を新設、`era-select` 画面を追加（タイトル → 出陣 → 編選択 → ステージ選択）
+  - 既存18ステージは過去編に格納、他4編は COMING SOON で disabled 表示
+  - `currentEra` で現在編を保持、`currentEraStages()` で `STAGE_DATA` をフィルタ
+  - 戦勝/敗北画面の「戦場へ」は currentEra のステージ一覧へ直帰
+  - stage-select に編バナー（色付き）を表示
 - 過去・未来大戦争: 全戦士解放後はガチャを引けないように変更
   - `isAllSamuraiUnlocked()` / `refreshGachaButton()` / `openGachaScreen()` を新設
   - タイトルのガチャボタンは `openGachaScreen()` 経由に統一（インラインJSを撤去）
