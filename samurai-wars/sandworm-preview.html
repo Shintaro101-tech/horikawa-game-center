@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>サンドワーム デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body { font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background: radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                        radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                        linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed; min-height: 100vh; padding: 24px 16px 40px; }
+        h1 { text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4); letter-spacing: 2px; margin-bottom: 6px; }
+        h3.section { text-align:center; font-size:1.2rem; color:#18FFFF; letter-spacing:4px; margin: 32px 0 16px;
+                     text-shadow: 0 0 12px rgba(24,255,255,0.5); }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card { background: rgba(20,10,30,0.7); border: 2px solid var(--c, #ffd24a);
+                border-radius: 14px; padding: 16px; box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25)); }
+        .canv-wrap { display:flex; justify-content:center; align-items:center;
+                     background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+                     border-radius: 10px; padding: 8px; margin-bottom: 12px; min-height: 240px; }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🪱 サンドワーム デザイン & 攻撃 候補</h1>
+    <div class="sub">SANDWORM DESIGN AND ATTACK CANDIDATES</div>
+
+    <h3 class="section">— キャラデザイン6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#a07040; --g:rgba(160,112,64,0.45);">
+            <div class="canv-wrap"><canvas id="ch-a" width="240" height="280"></canvas></div>
+            <h2>案A. 王道砂漠ワーム</h2>
+            <p>砂漠色の節環構造、地中から突き出る大口。最も「サンドワーム」な王道。</p>
+            <div class="meta">配色: 砂茶 + 白歯</div>
+        </div>
+        <div class="card" style="--c:#888888; --g:rgba(180,180,180,0.45);">
+            <div class="canv-wrap"><canvas id="ch-b" width="240" height="280"></canvas></div>
+            <h2>案B. 灰の蠢く（不気味）</h2>
+            <p>灰色の体に黒い節。深淵から這い出る不気味な姿。</p>
+            <div class="meta">配色: 灰 + 黒節</div>
+        </div>
+        <div class="card" style="--c:#5aaa44; --g:rgba(90,170,68,0.5);">
+            <div class="canv-wrap"><canvas id="ch-c" width="240" height="280"></canvas></div>
+            <h2>案C. 緑の沼ワーム</h2>
+            <p>緑の体に毒の滴。沼から這い出る毒ワーム。</p>
+            <div class="meta">配色: 緑 + 黄毒</div>
+        </div>
+        <div class="card" style="--c:#ff5544; --g:rgba(255,85,68,0.5);">
+            <div class="canv-wrap"><canvas id="ch-d" width="240" height="280"></canvas></div>
+            <h2>案D. 火の地下ワーム</h2>
+            <p>赤黒の体に内部からマグマが滲む。火山地下のワーム。</p>
+            <div class="meta">配色: 赤黒 + マグマ</div>
+        </div>
+        <div class="card" style="--c:#aaccee; --g:rgba(170,204,238,0.5);">
+            <div class="canv-wrap"><canvas id="ch-e" width="240" height="280"></canvas></div>
+            <h2>案E. 氷河ワーム</h2>
+            <p>青白の体に氷の節環。氷河から這い出る冷凍ワーム。</p>
+            <div class="meta">配色: 青白 + 氷結晶</div>
+        </div>
+        <div class="card" style="--c:#22ddff; --g:rgba(34,221,255,0.5);">
+            <div class="canv-wrap"><canvas id="ch-f" width="240" height="280"></canvas></div>
+            <h2>案F. メカワーム</h2>
+            <p>機械化された節体ワーム。各節がロボのモジュール。</p>
+            <div class="meta">配色: 銀 + ネオン青</div>
+        </div>
+    </div>
+
+    <h3 class="section">— 派手な攻撃方法6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#a07040; --g:rgba(160,112,64,0.5);">
+            <div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div>
+            <h2>案① 地中突き上げ</h2>
+            <p>地面を割って下から突き上げる。敵を空高く吹き飛ばす。</p>
+            <div class="meta">スタイル: 地中襲撃</div>
+        </div>
+        <div class="card" style="--c:#ddaa55; --g:rgba(221,170,85,0.5);">
+            <div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div>
+            <h2>案② 大口砂噴射</h2>
+            <p>大口を開けて高圧の砂を吐く範囲攻撃。</p>
+            <div class="meta">スタイル: 範囲・砂噴射</div>
+        </div>
+        <div class="card" style="--c:#ff8844; --g:rgba(255,136,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div>
+            <h2>案③ 体伸ばし空中攻撃</h2>
+            <p>体をぐーんと伸ばして空中の敵を捕食。対空攻撃。</p>
+            <div class="meta">スタイル: 対空・体伸ばし</div>
+        </div>
+        <div class="card" style="--c:#aa6644; --g:rgba(170,102,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div>
+            <h2>案④ 地中潜行→急襲</h2>
+            <p>地面に潜って遠距離移動→離れた敵を急襲噛みつき。</p>
+            <div class="meta">スタイル: 移動+遠距離噛み</div>
+        </div>
+        <div class="card" style="--c:#ddaa44; --g:rgba(221,170,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-e" width="280" height="200"></canvas></div>
+            <h2>案⑤ 砂嵐召喚</h2>
+            <p>頭を回し、周囲一帯に砂嵐を発生。広範囲ブリザード型。</p>
+            <div class="meta">スタイル: 広範囲・砂嵐</div>
+        </div>
+        <div class="card" style="--c:#ff5544; --g:rgba(255,85,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-f" width="280" height="200"></canvas></div>
+            <h2>案⑥ 巨体ジャンプ叩きつけ</h2>
+            <p>地中から巨体で跳ね上がり、上空から叩きつける。広範囲衝撃。</p>
+            <div class="meta">スタイル: 巨体・着地衝撃</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+
+// 共通サンドワーム（地中から這い出る縦長）
+function drawSandworm(c, p) {
+    const cx = 120, cy = 240; // 地面の位置
+    if(p.aura) aura(c, cx, cy - 80, p.aura, 130);
+    // 地面（砂）
+    c.fillStyle = p.ground || '#aa8855';
+    c.fillRect(0, cy, 240, 40);
+    c.fillStyle = '#5a3a18';
+    c.fillRect(0, cy, 240, 3);
+    // 砂塵（地面の周囲）
+    c.fillStyle = `rgba(170,136,85,0.5)`;
+    c.beginPath(); c.ellipse(cx, cy + 4, 60, 8, 0, 0, Math.PI*2); c.fill();
+    // 体（節構造、地面から上へ）
+    const segments = 8;
+    for(let i = segments; i >= 0; i--) {
+        const t = i / segments;
+        const yy = cy - t * 200;
+        const r = 28 - t * 12;
+        // 影
+        c.fillStyle = p.outline;
+        c.beginPath(); c.arc(cx, yy, r + 2, 0, Math.PI*2); c.fill();
+        // 本体
+        c.fillStyle = (i % 2 === 0) ? p.body : p.bodyDark;
+        c.beginPath(); c.arc(cx, yy, r, 0, Math.PI*2); c.fill();
+        // 節リング
+        if(i > 0) {
+            c.strokeStyle = p.ring;
+            c.lineWidth = 1.5;
+            c.beginPath(); c.ellipse(cx, yy + r*0.6, r*0.95, r*0.25, 0, 0, Math.PI*2); c.stroke();
+        }
+    }
+    // 頭（最上部、口が開いている）
+    const headY = cy - 200;
+    // 口（円形に大口を開く）
+    c.fillStyle = p.body;
+    c.beginPath(); c.arc(cx, headY, 16, 0, Math.PI*2); c.fill();
+    // 口の中
+    c.fillStyle = '#3a0a08';
+    c.beginPath(); c.arc(cx, headY, 12, 0, Math.PI*2); c.fill();
+    // 顎の歯（円周に）
+    c.fillStyle = '#fff';
+    for(let k=0; k<8; k++){
+        const a = k * Math.PI / 4;
+        const tx = cx + Math.cos(a) * 12;
+        const ty = headY + Math.sin(a) * 12;
+        c.beginPath();
+        c.moveTo(tx, ty);
+        c.lineTo(tx + Math.cos(a)*5, ty + Math.sin(a)*5);
+        c.lineTo(tx + Math.cos(a + 0.3)*4, ty + Math.sin(a + 0.3)*4);
+        c.closePath(); c.fill();
+    }
+    // 触手（複数）
+    if(p.tendrils !== false) {
+        c.strokeStyle = p.body; c.lineWidth = 3;
+        for(let k=-2; k<=2; k++){
+            if(k === 0) continue;
+            c.beginPath();
+            c.moveTo(cx + k*6, headY - 16);
+            c.quadraticCurveTo(cx + k*12, headY - 30, cx + k*16, headY - 24);
+            c.stroke();
+        }
+    }
+    // 装飾（オプション）
+    if(p.poisonDrops) {
+        c.fillStyle = '#ddff44';
+        c.beginPath(); c.arc(cx + 12, headY + 12, 3, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(cx - 14, headY + 16, 2, 0, Math.PI*2); c.fill();
+    }
+    if(p.lavaCracks) {
+        c.strokeStyle = '#ff3300'; c.lineWidth = 1.5;
+        for(let i=0; i<4; i++){
+            const yy = cy - 40 - i*40;
+            c.beginPath();
+            c.moveTo(cx - 22, yy); c.lineTo(cx - 14, yy + 5); c.lineTo(cx - 18, yy + 10);
+            c.stroke();
+        }
+    }
+    if(p.iceCrystals) {
+        c.fillStyle = '#fff'; c.globalAlpha = 0.7;
+        for(let i=0; i<5; i++){
+            const yy = cy - 30 - i*40;
+            c.beginPath();
+            c.moveTo(cx + 18, yy-3); c.lineTo(cx + 22, yy); c.lineTo(cx + 18, yy+3); c.lineTo(cx + 14, yy);
+            c.closePath(); c.fill();
+        }
+        c.globalAlpha = 1;
+    }
+    if(p.mecha) {
+        c.strokeStyle = p.mecha; c.lineWidth = 1.3;
+        for(let i=0; i<6; i++){
+            const yy = cy - 30 - i*30;
+            c.beginPath(); c.arc(cx, yy, (28 - i*1.8)*0.8, 0, Math.PI*2); c.stroke();
+        }
+    }
+}
+
+// 案A. 王道
+drawSandworm(document.getElementById('ch-a').getContext('2d'), {
+    aura: 'rgba(160,112,64,0.3)',
+    body: '#a07040', bodyDark: '#704020', outline: '#3a1a08',
+    ring: '#3a1a08', ground: '#aa8855'
+});
+// 案B. 灰
+drawSandworm(document.getElementById('ch-b').getContext('2d'), {
+    aura: 'rgba(120,120,120,0.3)',
+    body: '#6a6a6a', bodyDark: '#3a3a3a', outline: '#0a0a0a',
+    ring: '#0a0a0a', ground: '#5a5a5a'
+});
+// 案C. 緑沼
+drawSandworm(document.getElementById('ch-c').getContext('2d'), {
+    aura: 'rgba(90,170,68,0.4)',
+    body: '#5aaa44', bodyDark: '#3a7a30', outline: '#1a3a18',
+    ring: '#1a3a18', ground: '#3a4a18',
+    poisonDrops: true
+});
+// 案D. 火地下
+drawSandworm(document.getElementById('ch-d').getContext('2d'), {
+    aura: 'rgba(255,85,68,0.4)',
+    body: '#3a1a10', bodyDark: '#1a0a08', outline: '#0a0000',
+    ring: '#aa3300', ground: '#5a2010',
+    lavaCracks: true
+});
+// 案E. 氷
+drawSandworm(document.getElementById('ch-e').getContext('2d'), {
+    aura: 'rgba(170,204,238,0.4)',
+    body: '#aaccee', bodyDark: '#88aacc', outline: '#3a5a8a',
+    ring: '#3a5a8a', ground: '#aaccee',
+    iceCrystals: true
+});
+// 案F. メカ
+drawSandworm(document.getElementById('ch-f').getContext('2d'), {
+    aura: 'rgba(34,221,255,0.4)',
+    body: '#888aaa', bodyDark: '#3a3a5a', outline: '#1a1a3a',
+    ring: '#22ddff', ground: '#5a5a5a',
+    mecha: '#22ddff', tendrils: false
+});
+
+// ======================================================
+// 攻撃案
+// ======================================================
+function startAnim(canvasId, drawFn, durationMs) {
+    const cv = document.getElementById(canvasId);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % durationMs) / durationMs;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        drawFn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+function drawScene(c, w, h) {
+    const sky = c.createLinearGradient(0, 0, 0, h*0.7);
+    sky.addColorStop(0, '#0a0820'); sky.addColorStop(1, '#1a1850');
+    c.fillStyle = sky; c.fillRect(0, 0, w, h*0.7);
+    c.fillStyle = '#aa8855'; c.fillRect(0, h*0.7, w, h*0.3);
+    c.fillStyle = '#5a3a18'; c.fillRect(0, h*0.7, w, 3);
+    // ワームの頭部分（左、地中から）
+    const zx = 40, zy = h*0.7;
+    c.fillStyle = 'rgba(160,112,64,0.5)';
+    c.beginPath(); c.ellipse(zx, zy + 4, 30, 6, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#a07040';
+    c.beginPath(); c.arc(zx, zy - 14, 16, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#3a0a08';
+    c.beginPath(); c.arc(zx, zy - 14, 12, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#fff';
+    for(let k=0; k<8; k++){
+        const a = k * Math.PI/4;
+        c.beginPath();
+        c.arc(zx + Math.cos(a)*10, zy - 14 + Math.sin(a)*10, 2, 0, Math.PI*2); c.fill();
+    }
+}
+function drawEnemyAt(c, x, y, color='#5a1a1a') {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle = '#3a0808';
+    c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+}
+
+// ① 地中突き上げ
+startAnim('at-a', (c, t, w, h) => {
+    const target = {x: w*0.55, y: h*0.7};
+    if(t < 0.3 || t > 0.7) drawEnemyAt(c, target.x, target.y);
+    if(t < 0.2) {
+        // 地面が震える
+        const tt = t/0.2;
+        c.fillStyle = `rgba(170,136,85,${tt*0.7})`;
+        c.beginPath(); c.ellipse(target.x, h*0.7, 22, 5, 0, 0, Math.PI*2); c.fill();
+        // 砂塵
+        for(let k=0; k<8; k++){
+            c.fillStyle = '#aa8855';
+            c.fillRect(target.x - 20 + k*5, h*0.7 - tt*15, 3, 3);
+        }
+    } else if(t < 0.5) {
+        // 突き上げ
+        const tt = (t-0.2)/0.3;
+        const wormY = h*0.7 - tt*100;
+        // 砂塵爆発
+        c.fillStyle = `rgba(170,136,85,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x, h*0.7, 30, 0, Math.PI*2); c.fill();
+        // ワーム本体（突き上がる）
+        for(let k=0; k<5; k++){
+            const segY = wormY + k*20;
+            if(segY > h*0.7) continue;
+            c.fillStyle = '#a07040';
+            c.beginPath(); c.arc(target.x, segY, 18 - k*1.5, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#3a1a08'; c.lineWidth = 1; c.stroke();
+        }
+        // 大口
+        c.fillStyle = '#3a0a08';
+        c.beginPath(); c.arc(target.x, wormY, 14, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        for(let k=0; k<6; k++){
+            const a = k * Math.PI/3;
+            c.beginPath();
+            c.moveTo(target.x + Math.cos(a)*12, wormY + Math.sin(a)*12);
+            c.lineTo(target.x + Math.cos(a)*8, wormY + Math.sin(a)*8);
+            c.lineTo(target.x + Math.cos(a+0.4)*12, wormY + Math.sin(a+0.4)*12);
+            c.closePath(); c.fill();
+        }
+        // 敵が空に上がる
+        const enemyY = h*0.7 - tt*80;
+        drawEnemyAt(c, target.x, enemyY);
+    } else {
+        // ワームが地中に戻る、敵が落ちる
+        const tt = (t-0.5)/0.5;
+        const enemyY = h*0.7 - 80 + tt*80;
+        c.save();
+        c.translate(target.x, enemyY);
+        c.rotate(tt*Math.PI*2);
+        drawEnemyAt(c, 0, 0);
+        c.restore();
+    }
+}, 2500);
+
+// ② 大口砂噴射
+startAnim('at-b', (c, t, w, h) => {
+    const enemies = [{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.2) {
+        // 息を吸う
+        const tt = t/0.2;
+        c.fillStyle = `rgba(221,170,85,${tt*0.6})`;
+        c.beginPath(); c.arc(40, h*0.6, 16, 0, Math.PI*2); c.fill();
+    } else {
+        const tt = (t-0.2)/0.8;
+        const time = tt * 800;
+        // 砂の噴射（コーン状に広がる）
+        for(let k=0; k<60; k++){
+            const ax = 50 + ((k*47 + time) % (w-80));
+            const spread = (ax - 50) / (w - 80) * 80;
+            const ay = h*0.6 + ((k*31 + time*0.7) % spread*2) - spread;
+            c.fillStyle = `rgba(221,170,85,${0.6})`;
+            c.beginPath(); c.arc(ax, ay, 4, 0, Math.PI*2); c.fill();
+        }
+        // 中心の白い砂
+        for(let k=0; k<24; k++){
+            const ax = 50 + ((k*73 + time*0.7) % (w-80));
+            const ay = h*0.6 + Math.sin(time*0.01 + k)*8;
+            c.fillStyle = `rgba(255,255,200,0.7)`;
+            c.beginPath(); c.arc(ax, ay, 2.5, 0, Math.PI*2); c.fill();
+        }
+        // 砂塵パーティクル
+        if(tt > 0.3) {
+            enemies.forEach(e => {
+                c.fillStyle = `rgba(221,170,85,${0.8})`;
+                c.beginPath(); c.arc(e.x, e.y - 16, 14, 0, Math.PI*2); c.fill();
+            });
+        }
+    }
+}, 2500);
+
+// ③ 体伸ばし空中攻撃
+startAnim('at-c', (c, t, w, h) => {
+    const target = {x: w*0.55, y: h*0.4};
+    // 空中の敵
+    c.fillStyle = 'rgba(0,0,0,0.3)';
+    c.beginPath(); c.ellipse(target.x, h*0.7, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#5a1a1a';
+    c.fillRect(target.x - 6, target.y - 12, 12, 12);
+    // 翼
+    c.fillStyle = '#5a2a18';
+    c.beginPath();
+    c.moveTo(target.x - 4, target.y - 6); c.lineTo(target.x - 18, target.y - 12); c.lineTo(target.x - 16, target.y - 4);
+    c.closePath(); c.fill();
+    c.beginPath();
+    c.moveTo(target.x + 4, target.y - 6); c.lineTo(target.x + 18, target.y - 12); c.lineTo(target.x + 16, target.y - 4);
+    c.closePath(); c.fill();
+    if(t < 0.3) {
+        // 体を縮める
+        const tt = t/0.3;
+        c.fillStyle = `rgba(160,112,64,${tt*0.5})`;
+        c.beginPath(); c.arc(40, h*0.6, 24, 0, Math.PI*2); c.fill();
+    } else if(t < 0.7) {
+        // 体を伸ばす（一気に空へ）
+        const tt = (t-0.3)/0.4;
+        // 節体（縦に伸びる）
+        const reachY = h*0.7 - tt*(h*0.7 - target.y - 10);
+        const segments = 12;
+        for(let k = segments; k >= 0; k--) {
+            const sy = h*0.7 + 10 - (h*0.7 + 10 - reachY) * (k/segments);
+            const r = 18 - (k/segments)*8;
+            c.fillStyle = (k%2===0) ? '#a07040' : '#704020';
+            c.beginPath(); c.arc(40, sy, r, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#3a1a08'; c.lineWidth = 1; c.stroke();
+        }
+        // 大口（先端）
+        c.fillStyle = '#3a0a08';
+        c.beginPath(); c.arc(40, reachY, 12, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        for(let k=0; k<6; k++){
+            const a = k*Math.PI/3;
+            c.beginPath();
+            c.arc(40 + Math.cos(a)*10, reachY + Math.sin(a)*10, 2, 0, Math.PI*2); c.fill();
+        }
+        // ヒット
+        if(tt > 0.85) {
+            c.fillStyle = `rgba(255,255,200,0.7)`;
+            c.beginPath(); c.arc(target.x, target.y, 18, 0, Math.PI*2); c.fill();
+        }
+    } else {
+        // 戻る
+        const tt = (t-0.7)/0.3;
+        const segments = 8;
+        for(let k = segments; k >= 0; k--) {
+            const reachY = target.y + (h*0.7 - target.y) * tt;
+            const sy = h*0.7 + 10 - (h*0.7 + 10 - reachY) * (k/segments);
+            const r = 18 - (k/segments)*8;
+            c.fillStyle = (k%2===0) ? '#a07040' : '#704020';
+            c.beginPath(); c.arc(40, sy, r, 0, Math.PI*2); c.fill();
+        }
+    }
+}, 2400);
+
+// ④ 地中潜行→急襲
+startAnim('at-d', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.2) {
+        // 潜る
+        const tt = t/0.2;
+        c.fillStyle = `rgba(160,112,64,${tt*0.6})`;
+        c.beginPath(); c.ellipse(40, h*0.7 + 4, 20 - tt*10, 5, 0, 0, Math.PI*2); c.fill();
+    } else if(t < 0.6) {
+        // 地面の盛り上がりが移動
+        const tt = (t-0.2)/0.4;
+        const x = 40 + tt * (target.x - 80);
+        // 地面の盛り上がり
+        c.fillStyle = '#a07040';
+        c.beginPath(); c.ellipse(x, h*0.7 - 4, 22, 8, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#3a1a08'; c.lineWidth = 1; c.stroke();
+        // 砂塵の跡
+        for(let k=0; k<5; k++){
+            c.fillStyle = `rgba(170,136,85,${0.4 - k*0.07})`;
+            c.beginPath(); c.arc(x - 10 - k*8, h*0.7, 3, 0, Math.PI*2); c.fill();
+        }
+    } else if(t < 0.85) {
+        // 急襲（敵の下から飛び出す）
+        const tt = (t-0.6)/0.25;
+        const wormY = h*0.7 - tt*60;
+        // 砂塵
+        c.fillStyle = `rgba(170,136,85,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x, h*0.7, 30, 0, Math.PI*2); c.fill();
+        // ワーム
+        c.fillStyle = '#a07040';
+        c.beginPath(); c.arc(target.x, wormY, 18, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#3a0a08';
+        c.beginPath(); c.arc(target.x, wormY, 14, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        for(let k=0; k<6; k++){
+            const a = k*Math.PI/3;
+            c.beginPath();
+            c.arc(target.x + Math.cos(a)*12, wormY + Math.sin(a)*12, 2, 0, Math.PI*2); c.fill();
+        }
+        // ヒット
+        c.fillStyle = `rgba(255,255,200,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 22, 0, Math.PI*2); c.fill();
+    } else {
+        // 戻る
+        const tt = (t-0.85)/0.15;
+        c.fillStyle = `rgba(170,136,85,${(1-tt)*0.5})`;
+        c.beginPath(); c.ellipse(target.x, h*0.7, 16, 4, 0, 0, Math.PI*2); c.fill();
+    }
+}, 2800);
+
+// ⑤ 砂嵐召喚
+startAnim('at-e', (c, t, w, h) => {
+    const enemies = [{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.2) {
+        // 頭が回転（チャージ）
+        const tt = t/0.2;
+        c.save(); c.translate(40, h*0.6); c.rotate(tt*Math.PI*4);
+        c.fillStyle = '#a07040';
+        c.beginPath(); c.arc(0, 0, 16, 0, Math.PI*2); c.fill();
+        c.restore();
+        c.fillStyle = `rgba(221,170,68,${tt*0.5})`;
+        c.beginPath(); c.arc(40, h*0.6, 30, 0, Math.PI*2); c.fill();
+    } else {
+        const tt = (t-0.2)/0.8;
+        const time = tt * 600;
+        // 砂嵐のうねり（黄褐色のオーバーレイ）
+        c.fillStyle = `rgba(221,170,68,${0.35})`;
+        c.fillRect(60, 0, w - 60, h*0.7);
+        // 砂粒（うねる）
+        for(let k=0; k<80; k++){
+            const sx = 60 + ((k*47 + time*1.2) % (w - 60));
+            const sy = (k*91 + time*0.8) % (h*0.7);
+            const sz = 1 + (k%4);
+            c.fillStyle = `rgba(255,200,120,0.6)`;
+            c.fillRect(sx, sy, sz, sz);
+        }
+        // 渦巻く線
+        c.strokeStyle = `rgba(255,234,34,0.4)`; c.lineWidth = 1.5;
+        for(let k=0; k<5; k++){
+            const sy = ((k*40 + time*0.4) % (h*0.7));
+            c.beginPath();
+            c.moveTo(60, sy);
+            c.bezierCurveTo(w*0.4, sy + 20, w*0.6, sy - 20, w, sy);
+            c.stroke();
+        }
+        // 敵に砂被り
+        if(tt > 0.3) {
+            enemies.forEach(e => {
+                c.fillStyle = `rgba(221,170,68,0.7)`;
+                c.fillRect(e.x - 8, e.y - 26, 16, 28);
+            });
+        }
+    }
+}, 3000);
+
+// ⑥ 巨体ジャンプ叩きつけ
+startAnim('at-f', (c, t, w, h) => {
+    const enemies = [{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.8,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.3) {
+        // 地中から飛び出して上昇
+        const tt = t/0.3;
+        const wormY = h*0.7 - tt*(h*0.4);
+        // 巨大な体
+        for(let k=0; k<6; k++){
+            const sy = wormY + k*30;
+            if(sy > h*0.7) continue;
+            c.fillStyle = '#a07040';
+            c.beginPath(); c.arc(40, sy, 22 - k*1.5, 0, Math.PI*2); c.fill();
+        }
+        c.fillStyle = '#3a0a08';
+        c.beginPath(); c.arc(40, wormY, 16, 0, Math.PI*2); c.fill();
+        // 砂塵
+        c.fillStyle = `rgba(170,136,85,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(40, h*0.7, 40, 0, Math.PI*2); c.fill();
+    } else if(t < 0.6) {
+        // 空中からターゲットへ移動
+        const tt = (t-0.3)/0.3;
+        const x = 40 + tt * (w*0.65 - 40);
+        const y = h*0.3;
+        // 巨体（横向き）
+        for(let k=0; k<6; k++){
+            const sx = x - k*30;
+            c.fillStyle = '#a07040';
+            c.beginPath(); c.arc(sx, y - Math.sin(tt*Math.PI)*30, 22 - k*1.5, 0, Math.PI*2); c.fill();
+        }
+        c.fillStyle = '#3a0a08';
+        c.beginPath(); c.arc(x, y - Math.sin(tt*Math.PI)*30, 16, 0, Math.PI*2); c.fill();
+    } else if(t < 0.8) {
+        // 急降下
+        const tt = (t-0.6)/0.2;
+        const y = h*0.3 + tt * (h*0.4);
+        c.strokeStyle = `rgba(170,136,85,${0.6*tt})`; c.lineWidth = 4;
+        c.beginPath(); c.moveTo(w*0.65, h*0.3); c.lineTo(w*0.65, y); c.stroke();
+        // 巨体（縦に伸びる）
+        for(let k=0; k<6; k++){
+            const sy = y - k*22;
+            c.fillStyle = '#a07040';
+            c.beginPath(); c.arc(w*0.65, sy, 22 - k*1.5, 0, Math.PI*2); c.fill();
+        }
+        c.fillStyle = '#3a0a08';
+        c.beginPath(); c.arc(w*0.65, y, 16, 0, Math.PI*2); c.fill();
+    } else {
+        // 着地大爆発
+        const tt = (t-0.8)/0.2;
+        c.fillStyle = `rgba(255,170,68,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(w*0.65, h*0.7, 40 + tt*40, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(255,255,255,${(1-tt)*0.6})`;
+        c.beginPath(); c.arc(w*0.65, h*0.7, 24 + tt*20, 0, Math.PI*2); c.fill();
+        // 飛び散る砂・敵
+        for(let k=0; k<14; k++){
+            const a = k*Math.PI*2/14;
+            c.fillStyle = '#aa6633';
+            c.fillRect(w*0.65 + Math.cos(a)*tt*60, h*0.7 + Math.sin(a)*tt*30, 4, 4);
+        }
+        c.strokeStyle = `rgba(255,170,68,${1-tt})`; c.lineWidth = 5;
+        c.beginPath(); c.ellipse(w*0.65, h*0.7, tt*100, tt*22, 0, 0, Math.PI*2); c.stroke();
+    }
+}, 2800);
+</script>
+</body>
+</html>

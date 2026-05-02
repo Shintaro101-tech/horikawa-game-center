@@ -171,6 +171,11 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- デザインプレビュー追加（動物系4キャラ）:
+  - `samurai-wars/pulrussaurus-preview.html`（プルスサウルス 6+6）
+  - `samurai-wars/procoptodon-preview.html`（プロコプトドン 6+6）
+  - `samurai-wars/titanoboa-preview.html`（ティタノボア 6+6）
+  - `samurai-wars/sandworm-preview.html`（サンドワーム 6+6）
 - 過去・未来大戦争: フロストジャイアントを「氷結晶魔法使い + 吹雪」に変更
   - 体色 `#aaccdd`→`#aaeeff`、兜 frost_crown を結晶パターン+大きなジェム角+シアン光目に書き換え
   - 武器 `magic_circle`→`blizzard`、range 240→280/320、atkSpeed 1.8→2.2/2.4

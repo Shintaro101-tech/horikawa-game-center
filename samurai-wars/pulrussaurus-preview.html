@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>プルスサウルス デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        h3.section { text-align:center; font-size:1.2rem; color:#18FFFF; letter-spacing:4px; margin: 32px 0 16px;
+                     text-shadow: 0 0 12px rgba(24,255,255,0.5); }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card { background: rgba(20,10,30,0.7); border: 2px solid var(--c, #ffd24a);
+                border-radius: 14px; padding: 16px; box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25)); }
+        .canv-wrap { display:flex; justify-content:center; align-items:center;
+                     background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+                     border-radius: 10px; padding: 8px; margin-bottom: 12px; min-height: 220px; }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🐊 プルスサウルス デザイン & 攻撃 候補</h1>
+    <div class="sub">PURUSSAURUS DESIGN AND ATTACK CANDIDATES</div>
+
+    <h3 class="section">— キャラデザイン6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#3a4030; --g:rgba(80,100,60,0.45);">
+            <div class="canv-wrap"><canvas id="ch-a" width="260" height="200"></canvas></div>
+            <h2>案A. 王道古代の超巨大ワニ</h2>
+            <p>濃い緑茶の鱗と長く鋭い顎。最も「古代ワニ」な王道スタイル。</p>
+            <div class="meta">配色: 緑茶 + 黄目</div>
+        </div>
+        <div class="card" style="--c:#888888; --g:rgba(180,180,180,0.45);">
+            <div class="canv-wrap"><canvas id="ch-b" width="260" height="200"></canvas></div>
+            <h2>案B. 鎧装備の戦闘ワニ</h2>
+            <p>背中に鋼の装甲と棘の鎧。戦闘マウントとして調教された姿。</p>
+            <div class="meta">配色: 灰緑 + 鋼鎧</div>
+        </div>
+        <div class="card" style="--c:#ddaa55; --g:rgba(221,170,85,0.5);">
+            <div class="canv-wrap"><canvas id="ch-c" width="260" height="200"></canvas></div>
+            <h2>案C. 黄金の砂漠ワニ</h2>
+            <p>砂漠色の鱗に金色のアクセント。砂漠の支配者のような威厳。</p>
+            <div class="meta">配色: 砂金 + 茶</div>
+        </div>
+        <div class="card" style="--c:#5a3a8a; --g:rgba(90,58,138,0.5);">
+            <div class="canv-wrap"><canvas id="ch-d" width="260" height="200"></canvas></div>
+            <h2>案D. 暗黒の沼ワニ</h2>
+            <p>紫黒の濡れた鱗に毒沼の苔。不気味で危険な見た目。</p>
+            <div class="meta">配色: 紫黒 + 緑苔</div>
+        </div>
+        <div class="card" style="--c:#aaccee; --g:rgba(170,204,238,0.5);">
+            <div class="canv-wrap"><canvas id="ch-e" width="260" height="200"></canvas></div>
+            <h2>案E. 氷河期の凍結ワニ</h2>
+            <p>白青の鱗に氷の結晶。氷漬けから蘇った古代生物。</p>
+            <div class="meta">配色: 白青 + 氷結晶</div>
+        </div>
+        <div class="card" style="--c:#22ddff; --g:rgba(34,221,255,0.5);">
+            <div class="canv-wrap"><canvas id="ch-f" width="260" height="200"></canvas></div>
+            <h2>案F. 鉄甲ワニ（メカ）</h2>
+            <p>機械化されたサイバーワニ。継ぎ目とネオン青のラインが走る。</p>
+            <div class="meta">配色: 銀 + ネオン青</div>
+        </div>
+    </div>
+
+    <h3 class="section">— 派手な攻撃方法6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#aaff44; --g:rgba(170,255,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div>
+            <h2>案① 顎の噛みつき</h2>
+            <p>大顎を開いて強烈な一噛み。歯型が残る単発の重撃。</p>
+            <div class="meta">スタイル: 単発・大顎</div>
+        </div>
+        <div class="card" style="--c:#ffaa44; --g:rgba(255,170,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div>
+            <h2>案② 尾の振り回し</h2>
+            <p>長い尾を鞭のように振り回し、後方の敵を一気に薙ぎ払う。</p>
+            <div class="meta">スタイル: 範囲・薙ぎ払い</div>
+        </div>
+        <div class="card" style="--c:#ff5544; --g:rgba(255,85,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div>
+            <h2>案③ 突進かみつき</h2>
+            <p>四足で一気に走り込んで強襲噛みつき。残像と土埃。</p>
+            <div class="meta">スタイル: 突進・強襲</div>
+        </div>
+        <div class="card" style="--c:#88ccff; --g:rgba(136,204,255,0.5);">
+            <div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div>
+            <h2>案④ 水鉄砲</h2>
+            <p>口から高圧の水流を吐く遠距離攻撃。ストリームで貫通。</p>
+            <div class="meta">スタイル: 遠距離・水流</div>
+        </div>
+        <div class="card" style="--c:#aa3322; --g:rgba(170,51,34,0.5);">
+            <div class="canv-wrap"><canvas id="at-e" width="280" height="200"></canvas></div>
+            <h2>案⑤ ロックジョウ（噛み砕き）</h2>
+            <p>噛みついて押しつぶす。継続ダメージ＋スタンの強烈な拘束。</p>
+            <div class="meta">スタイル: 拘束・継続</div>
+        </div>
+        <div class="card" style="--c:#88dd66; --g:rgba(136,221,102,0.5);">
+            <div class="canv-wrap"><canvas id="at-f" width="280" height="200"></canvas></div>
+            <h2>案⑥ デスロール</h2>
+            <p>噛みついた敵を高速回転して引きずり倒す。複数ヒット。</p>
+            <div class="meta">スタイル: 回転・複数ヒット</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g; c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+function shadow(c, x, y, w, h) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+
+// 共通プルスサウルス（横向き、左を向く）
+function drawCroc(c, p) {
+    const cx = 130, cy = 110;
+    if(p.aura) aura(c, cx, cy + 20, p.aura, 130);
+    shadow(c, cx, 184, 80, 8);
+    // 尾（後ろに長く）
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx + 50, cy + 8);
+    c.quadraticCurveTo(cx + 100, cy + 12, cx + 120, cy - 8);
+    c.lineTo(cx + 116, cy - 14);
+    c.quadraticCurveTo(cx + 80, cy + 4, cx + 50, cy);
+    c.closePath(); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.5; c.stroke();
+    // 尾の鱗（背骨ライン）
+    c.fillStyle = p.scaleColor;
+    for(let k=0; k<5; k++){
+        const tx = cx + 60 + k*10, ty = cy - 2 + k;
+        c.beginPath();
+        c.moveTo(tx, ty); c.lineTo(tx + 2, ty - 4); c.lineTo(tx + 4, ty);
+        c.closePath(); c.fill();
+    }
+    // 体（大きな楕円）
+    c.fillStyle = p.body;
+    c.beginPath(); c.ellipse(cx + 12, cy + 14, 50, 22, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.6; c.stroke();
+    // 腹（明るい）
+    c.fillStyle = p.belly;
+    c.beginPath(); c.ellipse(cx + 12, cy + 26, 36, 12, 0, 0, Math.PI*2); c.fill();
+    // 背中の鱗の突起
+    c.fillStyle = p.scaleColor;
+    for(let k=0; k<6; k++){
+        const sx = cx - 22 + k*12, sy = cy - 2;
+        c.beginPath();
+        c.moveTo(sx, sy); c.lineTo(sx + 4, sy - 8); c.lineTo(sx + 8, sy);
+        c.closePath(); c.fill();
+    }
+    // 4本足（短い）
+    c.fillStyle = p.body;
+    c.fillRect(cx - 26, cy + 30, 12, 14);
+    c.fillRect(cx + 30, cy + 30, 12, 14);
+    c.fillRect(cx - 8, cy + 32, 10, 12);
+    c.fillRect(cx + 14, cy + 32, 10, 12);
+    c.strokeRect(cx - 26, cy + 30, 12, 14);
+    c.strokeRect(cx + 30, cy + 30, 12, 14);
+    // 爪
+    c.fillStyle = '#fff';
+    [[-22, cy+44], [-18, cy+44], [34, cy+44], [38, cy+44]].forEach(([dx, fy])=>{
+        c.beginPath();
+        c.moveTo(cx+dx, fy); c.lineTo(cx+dx-2, fy+4); c.lineTo(cx+dx+2, fy+4);
+        c.closePath(); c.fill();
+    });
+    // 頭（巨大、楕円）
+    c.fillStyle = p.body;
+    c.beginPath(); c.ellipse(cx - 50, cy + 8, 38, 16, 0, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.5; c.stroke();
+    // 鼻先（細長い顎）
+    c.fillStyle = p.body;
+    c.beginPath();
+    c.moveTo(cx - 70, cy + 8); c.lineTo(cx - 96, cy + 4); c.lineTo(cx - 96, cy + 14); c.lineTo(cx - 70, cy + 16);
+    c.closePath(); c.fill();
+    c.stroke();
+    // 上下の歯（ぎざぎざ・たくさん）
+    c.fillStyle = '#fff';
+    for(let k=0; k<10; k++){
+        const tx = cx - 90 + k*5;
+        c.beginPath(); c.moveTo(tx, cy + 8); c.lineTo(tx + 1, cy + 12); c.lineTo(tx + 2, cy + 8); c.closePath(); c.fill();
+    }
+    // 目（黄）
+    c.fillStyle = p.eye;
+    c.beginPath(); c.arc(cx - 50, cy, 3, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#000';
+    c.fillRect(cx - 51, cy - 1, 1, 3);
+    if(p.eyeGlow) {
+        c.fillStyle = p.eyeGlow;
+        c.beginPath(); c.arc(cx - 50, cy, 6, 0, Math.PI*2); c.fill();
+        c.fillStyle = p.eye;
+        c.beginPath(); c.arc(cx - 50, cy, 3, 0, Math.PI*2); c.fill();
+    }
+    // 装甲（オプション）
+    if(p.armor) {
+        c.fillStyle = p.armor;
+        c.fillRect(cx - 10, cy - 6, 50, 6);
+        c.strokeStyle = '#1a1a1a'; c.strokeRect(cx - 10, cy - 6, 50, 6);
+        // 棘
+        c.fillStyle = p.armor;
+        for(let k=0; k<4; k++){
+            const sx = cx - 4 + k*12;
+            c.beginPath();
+            c.moveTo(sx, cy - 6); c.lineTo(sx + 2, cy - 14); c.lineTo(sx + 4, cy - 6);
+            c.closePath(); c.fill();
+        }
+    }
+    // 苔（オプション）
+    if(p.moss) {
+        c.fillStyle = p.moss;
+        c.fillRect(cx - 12, cy - 4, 8, 3);
+        c.fillRect(cx + 24, cy + 2, 6, 2);
+    }
+    // 氷結晶（オプション）
+    if(p.iceCrystals) {
+        c.fillStyle = '#fff'; c.globalAlpha = 0.7;
+        [[cx-22, cy-6, 4], [cx+10, cy-4, 5], [cx+38, cy+2, 4]].forEach(([x,y,r])=>{
+            c.beginPath();
+            c.moveTo(x, y-r); c.lineTo(x+r*0.5, y); c.lineTo(x, y+r); c.lineTo(x-r*0.5, y); c.closePath(); c.fill();
+        });
+        c.globalAlpha = 1;
+    }
+    // メカ装飾（オプション）
+    if(p.mecha) {
+        c.strokeStyle = p.mecha; c.lineWidth = 1.3;
+        c.beginPath(); c.moveTo(cx - 20, cy - 4); c.lineTo(cx + 38, cy - 4); c.stroke();
+        c.beginPath(); c.moveTo(cx + 14, cy - 4); c.lineTo(cx + 14, cy + 32); c.stroke();
+        c.fillStyle = p.mecha;
+        c.beginPath(); c.arc(cx - 5, cy + 12, 3, 0, Math.PI*2); c.fill();
+    }
+}
+
+// 案A. 王道
+drawCroc(document.getElementById('ch-a').getContext('2d'), {
+    aura: 'rgba(80,100,60,0.3)',
+    body: '#3a4030', belly: '#7a8a5a', outline: '#1a2010',
+    scaleColor: '#1a2010', eye: '#ffd24a'
+});
+// 案B. 鎧装備
+drawCroc(document.getElementById('ch-b').getContext('2d'), {
+    aura: 'rgba(180,180,180,0.3)',
+    body: '#5a6a4a', belly: '#aabb88', outline: '#1a1a1a',
+    scaleColor: '#1a1a1a', eye: '#ffaa00',
+    armor: '#5a5a5a'
+});
+// 案C. 砂漠
+drawCroc(document.getElementById('ch-c').getContext('2d'), {
+    aura: 'rgba(255,170,68,0.35)',
+    body: '#aa8855', belly: '#ddbb88', outline: '#5a3010',
+    scaleColor: '#ddaa55', eye: '#aa3300'
+});
+// 案D. 沼
+drawCroc(document.getElementById('ch-d').getContext('2d'), {
+    aura: 'rgba(170,68,255,0.4)',
+    body: '#3a2a4a', belly: '#5a4a6a', outline: '#0a0010',
+    scaleColor: '#aa44ff', eye: '#88dd66', eyeGlow: 'rgba(136,221,102,0.5)',
+    moss: '#3a6a3a'
+});
+// 案E. 氷河期
+drawCroc(document.getElementById('ch-e').getContext('2d'), {
+    aura: 'rgba(170,204,238,0.4)',
+    body: '#aaccee', belly: '#ddf0ff', outline: '#3a5a8a',
+    scaleColor: '#3a5a8a', eye: '#003366',
+    iceCrystals: true
+});
+// 案F. メカ
+drawCroc(document.getElementById('ch-f').getContext('2d'), {
+    aura: 'rgba(34,221,255,0.4)',
+    body: '#888aaa', belly: '#ccd0e0', outline: '#1a1a3a',
+    scaleColor: '#22ddff', eye: '#22ddff', eyeGlow: 'rgba(34,221,255,0.6)',
+    mecha: '#22ddff'
+});
+
+// ======================================================
+// 攻撃案
+// ======================================================
+function startAnim(canvasId, drawFn, durationMs) {
+    const cv = document.getElementById(canvasId);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % durationMs) / durationMs;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        drawFn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+function drawScene(c, w, h) {
+    const sky = c.createLinearGradient(0, 0, 0, h*0.7);
+    sky.addColorStop(0, '#0a0820'); sky.addColorStop(1, '#1a1850');
+    c.fillStyle = sky; c.fillRect(0, 0, w, h*0.7);
+    c.fillStyle = '#3a2818'; c.fillRect(0, h*0.7, w, h*0.3);
+    c.fillStyle = '#1a1208'; c.fillRect(0, h*0.7, w, 3);
+    // 簡易ワニ（左、緑茶）
+    const zx = 60, zy = h*0.7;
+    c.fillStyle = 'rgba(80,100,60,0.3)';
+    c.beginPath(); c.ellipse(zx, zy, 32, 5, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#3a4030';
+    c.beginPath(); c.ellipse(zx, zy - 14, 36, 14, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#3a4030';
+    c.beginPath(); c.ellipse(zx - 32, zy - 8, 24, 10, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#3a4030';
+    c.fillRect(zx - 56, zy - 10, 16, 5);
+    // 歯
+    c.fillStyle = '#fff';
+    for(let k=0; k<6; k++){
+        const tx = zx - 54 + k*4;
+        c.beginPath(); c.moveTo(tx, zy - 5); c.lineTo(tx+1, zy - 1); c.lineTo(tx+2, zy - 5); c.closePath(); c.fill();
+    }
+    // 目
+    c.fillStyle = '#ffd24a';
+    c.beginPath(); c.arc(zx - 32, zy - 14, 2, 0, Math.PI*2); c.fill();
+}
+function drawEnemyAt(c, x, y, color='#5a1a1a') {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle = '#3a0808';
+    c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+}
+
+// ① 顎の噛みつき
+startAnim('at-a', (c, t, w, h) => {
+    const target = {x: w*0.5, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.3) {
+        // 大口開ける（チャージ）
+        const tt = t/0.3;
+        const open = tt * 24;
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(45, h*0.6 - open/2, 28, 8 - open*0.2, 0, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(45, h*0.6 + open/2, 28, 8 - open*0.2, 0, 0, Math.PI*2); c.fill();
+        // 口の中
+        c.fillStyle = '#5a0808';
+        c.fillRect(20, h*0.6 - open/2, 50, open);
+        // 歯
+        c.fillStyle = '#fff';
+        for(let k=0; k<7; k++){
+            const tx = 25 + k*6;
+            c.beginPath(); c.moveTo(tx, h*0.6 - open/2 + 4); c.lineTo(tx+1, h*0.6 - open/2 + 10); c.lineTo(tx+2, h*0.6 - open/2 + 4); c.closePath(); c.fill();
+            c.beginPath(); c.moveTo(tx, h*0.6 + open/2 - 4); c.lineTo(tx+1, h*0.6 + open/2 - 10); c.lineTo(tx+2, h*0.6 + open/2 - 4); c.closePath(); c.fill();
+        }
+    } else if(t < 0.6) {
+        // 噛みつき（瞬間移動して敵に）
+        const tt = (t-0.3)/0.3;
+        const x = 45 + (target.x - 45) * tt;
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(x, h*0.6, 28, 14, 0, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        for(let k=0; k<7; k++){
+            c.fillRect(x - 24 + k*6, h*0.6 - 2, 1.5, 4);
+        }
+        if(tt > 0.7) {
+            c.fillStyle = `rgba(255,255,200,${(1-tt)*5})`;
+            c.beginPath(); c.arc(target.x, target.y - 16, 18, 0, Math.PI*2); c.fill();
+        }
+    } else {
+        // 余韻
+        const tt = (t-0.6)/0.4;
+        c.fillStyle = `rgba(255,170,0,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 14 + tt*16, 0, Math.PI*2); c.fill();
+        // 歯型
+        c.fillStyle = `rgba(170,255,68,${1-tt})`;
+        c.font = 'bold 24px sans-serif'; c.textAlign = 'center';
+        c.fillText('💢', target.x, target.y - 30);
+    }
+}, 2200);
+
+// ② 尾の振り回し
+startAnim('at-b', (c, t, w, h) => {
+    const enemies = [{x:w*0.5,y:h*0.7},{x:w*0.65,y:h*0.7},{x:w*0.8,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    // 尾の角度（時間で振る）
+    const angle = -Math.PI*0.3 + Math.sin(t*Math.PI*2.4)*Math.PI*0.6;
+    const len = 130;
+    const tx = 60 + Math.cos(angle)*len;
+    const ty = h*0.65 + Math.sin(angle)*len;
+    // 尾本体（残像付き）
+    for(let k=4; k>=0; k--){
+        const a2 = -Math.PI*0.3 + Math.sin((t-k*0.04)*Math.PI*2.4)*Math.PI*0.6;
+        const tx2 = 60 + Math.cos(a2)*len;
+        const ty2 = h*0.65 + Math.sin(a2)*len;
+        c.strokeStyle = `rgba(80,100,60,${0.6 - k*0.1})`; c.lineWidth = 12 - k;
+        c.beginPath();
+        c.moveTo(60, h*0.65);
+        c.quadraticCurveTo((60+tx2)/2 - 20, (h*0.65+ty2)/2 - 10, tx2, ty2);
+        c.stroke();
+    }
+    // 尾の縁
+    c.strokeStyle = '#1a2010'; c.lineWidth = 1;
+    c.beginPath();
+    c.moveTo(60, h*0.65);
+    c.quadraticCurveTo((60+tx)/2 - 20, (h*0.65+ty)/2 - 10, tx, ty);
+    c.stroke();
+    // 鱗の突起
+    for(let k=0; k<4; k++){
+        const sx = 80 + k*((tx-80)/4);
+        const sy = h*0.65 + k*((ty-h*0.65)/4) - 4;
+        c.fillStyle = '#1a2010';
+        c.beginPath(); c.moveTo(sx, sy); c.lineTo(sx+3, sy-6); c.lineTo(sx+6, sy); c.closePath(); c.fill();
+    }
+    // ヒットエフェクト
+    enemies.forEach(e => {
+        const dx = tx - e.x, dy = ty - e.y;
+        if(Math.hypot(dx, dy) < 28) {
+            c.fillStyle = `rgba(255,170,68,0.7)`;
+            c.beginPath(); c.arc(e.x, e.y - 16, 16, 0, Math.PI*2); c.fill();
+        }
+    });
+}, 1800);
+
+// ③ 突進かみつき
+startAnim('at-c', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 25, target.y);
+    if(t < 0.2) {
+        // チャージ
+        const tt = t/0.2;
+        c.fillStyle = `rgba(255,85,68,${tt*0.4})`;
+        c.beginPath(); c.arc(60, h*0.6, 30, 0, Math.PI*2); c.fill();
+    } else if(t < 0.7) {
+        // 突進
+        const tt = (t-0.2)/0.5;
+        const x = 60 + tt * (w*0.6);
+        // 残像
+        for(let k=0; k<7; k++){
+            const tk = Math.max(0, tt - k*0.05);
+            const xk = 60 + tk * (w*0.6);
+            c.fillStyle = `rgba(58,64,48,${0.45 - k*0.05})`;
+            c.beginPath(); c.ellipse(xk, h*0.6, 32, 14, 0, 0, Math.PI*2); c.fill();
+        }
+        // 本体
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(x, h*0.6, 32, 14, 0, 0, Math.PI*2); c.fill();
+        // 開いた口
+        c.fillStyle = '#5a0808';
+        c.beginPath(); c.ellipse(x - 32, h*0.6, 18, 8, 0, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        for(let k=0; k<6; k++){
+            const tx = x - 42 + k*4;
+            c.beginPath(); c.moveTo(tx, h*0.6 - 6); c.lineTo(tx+1, h*0.6 - 2); c.lineTo(tx+2, h*0.6 - 6); c.closePath(); c.fill();
+            c.beginPath(); c.moveTo(tx, h*0.6 + 6); c.lineTo(tx+1, h*0.6 + 2); c.lineTo(tx+2, h*0.6 + 6); c.closePath(); c.fill();
+        }
+        // 飛び散る土
+        for(let k=0; k<10; k++){
+            c.fillStyle = '#aa6633';
+            c.fillRect(x + 30 + k*5, h*0.7 - (k%3)*5, 3, 3);
+        }
+    } else {
+        // 着地・噛みつき
+        const tt = (t-0.7)/0.3;
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(target.x - 20, h*0.6, 32, 14, 0, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(255,255,200,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 22, 0, Math.PI*2); c.fill();
+    }
+}, 2200);
+
+// ④ 水鉄砲
+startAnim('at-d', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 25, target.y);
+    if(t < 0.2) {
+        // 水を溜める
+        const tt = t/0.2;
+        const r = 4 + tt*10;
+        c.fillStyle = `rgba(136,204,255,${0.5 + Math.sin(t*40)*0.3})`;
+        c.beginPath(); c.arc(20, h*0.6, r+6, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#88ccff';
+        c.beginPath(); c.arc(20, h*0.6, r, 0, Math.PI*2); c.fill();
+    } else if(t < 0.85) {
+        // 水流発射
+        const tt = (t-0.2)/0.65;
+        const len = tt * (target.x - 25);
+        // 水流（青グラデ）
+        const grd = c.createLinearGradient(25, 0, 25 + len, 0);
+        grd.addColorStop(0, 'rgba(34,221,255,0.85)');
+        grd.addColorStop(1, 'rgba(170,238,255,0.4)');
+        c.fillStyle = grd;
+        c.fillRect(25, h*0.6 - 8, len, 16);
+        // 中央の白
+        c.fillStyle = `rgba(255,255,255,${0.8})`;
+        c.fillRect(25, h*0.6 - 4, len, 8);
+        // 水しぶき
+        for(let k=0; k<8; k++){
+            const dx = 25 + (k * len/8);
+            c.fillStyle = `rgba(170,238,255,0.7)`;
+            c.beginPath(); c.arc(dx, h*0.6 - 12 + (k%2)*24, 3, 0, Math.PI*2); c.fill();
+        }
+        // 着弾水しぶき
+        if(tt > 0.7) {
+            for(let k=0; k<10; k++){
+                const a = -Math.PI*0.5 + k*Math.PI*0.1;
+                c.fillStyle = '#88ccff';
+                c.beginPath(); c.arc(target.x + Math.cos(a)*15, target.y - 16 + Math.sin(a)*15, 3, 0, Math.PI*2); c.fill();
+            }
+        }
+    } else {
+        // 余韻
+        const tt = (t-0.85)/0.15;
+        c.fillStyle = `rgba(170,238,255,${(1-tt)*0.5})`;
+        c.fillRect(25, h*0.6 - 6, target.x - 25, 12);
+    }
+}, 2500);
+
+// ⑤ ロックジョウ（拘束）
+startAnim('at-e', (c, t, w, h) => {
+    const target = {x: w*0.55, y: h*0.7};
+    if(t > 0.3) drawEnemyAt(c, target.x, target.y, '#3a0808'); else drawEnemyAt(c, target.x, target.y);
+    if(t < 0.3) {
+        // 噛みつき接近
+        const tt = t/0.3;
+        const x = 60 + (target.x - 60) * tt;
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(x, h*0.6, 28, 14, 0, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#5a0808';
+        c.beginPath(); c.ellipse(x - 28, h*0.6, 14, 6, 0, 0, Math.PI*2); c.fill();
+    } else {
+        // 噛みつき継続（敵を咥える）
+        const tt = (t-0.3)/0.7;
+        // クロコ位置（敵にあわせて）
+        const cx = target.x - 20;
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(cx, h*0.6, 28, 14, 0, 0, Math.PI*2); c.fill();
+        // 噛みつき口（閉じる）
+        const bite = (Math.sin(tt*30)*0.5 + 0.5) * 4;
+        c.fillStyle = '#fff';
+        for(let k=0; k<7; k++){
+            const tx = cx - 28 + k*5;
+            c.beginPath(); c.moveTo(tx, h*0.6 - 4 - bite); c.lineTo(tx+1, h*0.6 - bite); c.lineTo(tx+2, h*0.6 - 4 - bite); c.closePath(); c.fill();
+            c.beginPath(); c.moveTo(tx, h*0.6 + 4 + bite); c.lineTo(tx+1, h*0.6 + bite); c.lineTo(tx+2, h*0.6 + 4 + bite); c.closePath(); c.fill();
+        }
+        // 継続ダメージ
+        if(Math.floor(tt*10) % 3 === 0) {
+            c.fillStyle = `rgba(255,255,200,0.7)`;
+            c.beginPath(); c.arc(target.x, target.y - 16, 14, 0, Math.PI*2); c.fill();
+        }
+        c.fillStyle = '#aa3322'; c.font = 'bold 18px sans-serif'; c.textAlign = 'center';
+        c.fillText('💢ガリッ💢', target.x, target.y - 36);
+    }
+}, 2500);
+
+// ⑥ デスロール
+startAnim('at-f', (c, t, w, h) => {
+    const target = {x: w*0.55, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.2) {
+        // 接近
+        const tt = t/0.2;
+        const x = 60 + (target.x - 60) * tt;
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(x, h*0.6, 28, 14, 0, 0, Math.PI*2); c.fill();
+    } else {
+        // 回転（速い）
+        const tt = (t-0.2)/0.8;
+        const angle = tt * Math.PI*8;
+        c.save();
+        c.translate(target.x - 10, h*0.6);
+        c.rotate(angle);
+        // ワニ本体
+        c.fillStyle = '#3a4030';
+        c.beginPath(); c.ellipse(0, 0, 32, 14, 0, 0, Math.PI*2); c.fill();
+        // 尾
+        c.fillStyle = '#3a4030';
+        c.beginPath();
+        c.moveTo(28, 0); c.lineTo(60, 8); c.lineTo(60, -8);
+        c.closePath(); c.fill();
+        // 噛む頭
+        c.fillStyle = '#5a0808';
+        c.beginPath(); c.ellipse(-30, 0, 14, 6, 0, 0, Math.PI*2); c.fill();
+        // 歯
+        c.fillStyle = '#fff';
+        for(let k=0; k<5; k++){
+            c.fillRect(-38 + k*4, -2, 1.5, 4);
+        }
+        c.restore();
+        // 巻き込まれる敵
+        c.save();
+        c.translate(target.x - 10, h*0.6);
+        c.rotate(angle + Math.PI);
+        c.fillStyle = '#5a1a1a';
+        c.fillRect(-26, -6, 12, 12);
+        c.restore();
+        // 飛び散る土・ヒットエフェクト
+        if(Math.floor(tt*20) % 2 === 0) {
+            for(let k=0; k<8; k++){
+                const a = k*Math.PI/4;
+                c.fillStyle = '#aa6633';
+                c.fillRect(target.x + Math.cos(a)*30, h*0.6 + Math.sin(a)*20, 3, 3);
+            }
+            c.fillStyle = `rgba(255,255,200,0.5)`;
+            c.beginPath(); c.arc(target.x, h*0.6, 30, 0, Math.PI*2); c.fill();
+        }
+    }
+}, 2500);
+</script>
+</body>
+</html>
