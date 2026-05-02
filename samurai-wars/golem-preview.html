@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ゴーレム デザイン候補プレビュー</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+            color:#fff;
+            background:
+                radial-gradient(ellipse at top, #4a0080 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, #001f4d 0%, transparent 60%),
+                linear-gradient(180deg, #0a0020 0%, #000 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 24px 16px 40px;
+        }
+        h1 {
+            text-align:center; font-size:1.6rem; font-weight:900;
+            background: linear-gradient(180deg, #FFEB3B 0%, #FF6B00 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            text-shadow: 0 0 30px rgba(255,215,0,0.4);
+            letter-spacing: 2px; margin-bottom: 6px;
+        }
+        h3.section {
+            text-align:center; font-size:1.2rem;
+            color:#18FFFF; letter-spacing:4px; margin: 32px 0 16px;
+            text-shadow: 0 0 12px rgba(24,255,255,0.5);
+        }
+        .sub { text-align:center; color:#18FFFF; font-size:0.85rem; letter-spacing:3px; opacity:0.8; margin-bottom:24px; }
+        .grid { display:grid; gap:18px; grid-template-columns: 1fr; max-width: 1100px; margin: 0 auto; }
+        @media(min-width:640px) { .grid { grid-template-columns: 1fr 1fr; } }
+        @media(min-width:1000px){ .grid { grid-template-columns: 1fr 1fr 1fr; } }
+        .card {
+            background: rgba(20,10,30,0.7);
+            border: 2px solid var(--c, #ffd24a);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 0 24px var(--g, rgba(255,210,74,0.25));
+        }
+        .canv-wrap {
+            display:flex; justify-content:center; align-items:center;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a40 70%, #2a1858 100%);
+            border-radius: 10px;
+            padding: 8px;
+            margin-bottom: 12px;
+            min-height: 240px;
+        }
+        canvas { display:block; }
+        h2 { font-size: 1.1rem; color: var(--c, #ffd24a); margin-bottom: 6px; letter-spacing: 1px; }
+        p { font-size: 0.85rem; color:#cdf; line-height:1.5; }
+        .meta { font-size:0.75rem; color:#888; margin-top:6px; letter-spacing:1px; }
+        footer { text-align:center; margin-top:30px; color:#607D8B; font-size:0.75rem; letter-spacing:2px; }
+    </style>
+</head>
+<body>
+    <h1>🪨 ゴーレム デザイン & 攻撃 候補</h1>
+    <div class="sub">GOLEM DESIGN AND ATTACK CANDIDATES</div>
+
+    <h3 class="section">— キャラデザイン6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#888888; --g:rgba(180,180,180,0.45);">
+            <div class="canv-wrap"><canvas id="ch-a" width="220" height="280"></canvas></div>
+            <h2>案A. 王道 灰岩ゴーレム（現行寄り）</h2>
+            <p>シンプルな灰色の岩、重厚で硬そう。最も「ゴーレム」な王道スタイル。</p>
+            <div class="meta">配色: 灰 + 黒亀裂</div>
+        </div>
+        <div class="card" style="--c:#ff5544; --g:rgba(255,85,68,0.5);">
+            <div class="canv-wrap"><canvas id="ch-b" width="220" height="280"></canvas></div>
+            <h2>案B. マグマゴーレム</h2>
+            <p>体内から溶岩が漏れる赤黒い岩。亀裂から燃える赤光。</p>
+            <div class="meta">配色: 黒岩 + 赤マグマ亀裂</div>
+        </div>
+        <div class="card" style="--c:#5aaa44; --g:rgba(90,170,68,0.45);">
+            <div class="canv-wrap"><canvas id="ch-c" width="220" height="280"></canvas></div>
+            <h2>案C. 苔むした古代ゴーレム</h2>
+            <p>古代遺跡の番人。岩に苔と植物が生え、緑と灰色の調和。</p>
+            <div class="meta">配色: 灰岩 + 緑苔</div>
+        </div>
+        <div class="card" style="--c:#aaccee; --g:rgba(170,204,238,0.5);">
+            <div class="canv-wrap"><canvas id="ch-d" width="220" height="280"></canvas></div>
+            <h2>案D. 氷ゴーレム</h2>
+            <p>透明な氷で構成された結晶ゴーレム。青く輝き冷気を放つ。</p>
+            <div class="meta">配色: 青 + 透明 + 白氷</div>
+        </div>
+        <div class="card" style="--c:#ffd24a; --g:rgba(255,210,74,0.5);">
+            <div class="canv-wrap"><canvas id="ch-e" width="220" height="280"></canvas></div>
+            <h2>案E. 金鉱ゴーレム</h2>
+            <p>金鉱が混ざった岩の体。煌めく財宝のような威厳。</p>
+            <div class="meta">配色: 灰岩 + 金鉱脈</div>
+        </div>
+        <div class="card" style="--c:#888888; --g:rgba(160,160,160,0.45);">
+            <div class="canv-wrap"><canvas id="ch-f" width="220" height="280"></canvas></div>
+            <h2>案F. 巨大頭ゴーレム</h2>
+            <p>体は人型で頭が異常に巨大な岩塊。アンバランスで個性的。</p>
+            <div class="meta">配色: 灰岩 + 巨頭</div>
+        </div>
+    </div>
+
+    <h3 class="section">— 派手な攻撃方法6案 —</h3>
+    <div class="grid">
+        <div class="card" style="--c:#888888; --g:rgba(180,180,180,0.45);">
+            <div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div>
+            <h2>案① 重拳一撃</h2>
+            <p>ゆっくり振りかぶって超重い一撃。シンプルだが超威力。</p>
+            <div class="meta">スタイル: 単発・重撃</div>
+        </div>
+        <div class="card" style="--c:#aa6644; --g:rgba(170,102,68,0.45);">
+            <div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div>
+            <h2>案② 岩石投擲</h2>
+            <p>体から岩を引きちぎって投げる。遠距離攻撃化。</p>
+            <div class="meta">スタイル: 遠距離・投石</div>
+        </div>
+        <div class="card" style="--c:#ffaa44; --g:rgba(255,170,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div>
+            <h2>案③ 大地震（拳叩きつけ）</h2>
+            <p>拳で地面を叩いて衝撃波が同心円状に広がる。範囲攻撃。</p>
+            <div class="meta">スタイル: 範囲・地面衝撃波</div>
+        </div>
+        <div class="card" style="--c:#aaaa88; --g:rgba(170,170,136,0.45);">
+            <div class="canv-wrap"><canvas id="at-d" width="280" height="200"></canvas></div>
+            <h2>案④ 岩腕伸長</h2>
+            <p>腕を伸ばして遠くの敵を掴んで殴る。中距離化。</p>
+            <div class="meta">スタイル: 中距離・伸びる腕</div>
+        </div>
+        <div class="card" style="--c:#5a5a5a; --g:rgba(120,120,120,0.45);">
+            <div class="canv-wrap"><canvas id="at-d2" width="280" height="200"></canvas></div>
+            <h2>案⑤ 岩石雨</h2>
+            <p>空から大量の岩を降らせる広範囲爆撃。逃げ場なし。</p>
+            <div class="meta">スタイル: 広範囲・空爆</div>
+        </div>
+        <div class="card" style="--c:#ff8844; --g:rgba(255,136,68,0.5);">
+            <div class="canv-wrap"><canvas id="at-f" width="280" height="200"></canvas></div>
+            <h2>案⑥ 自爆突進</h2>
+            <p>体当たりで突進、自分のHPも減るが超大ダメージ。</p>
+            <div class="meta">スタイル: 突進・自爆</div>
+        </div>
+    </div>
+    <footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c, x, y, color, r=80) {
+    const g = c.createRadialGradient(x, y, 4, x, y, r);
+    g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+    c.fillStyle = g;
+    c.beginPath(); c.arc(x, y, r, 0, Math.PI*2); c.fill();
+}
+function shadow(c, x, y, w, h) {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, w, h, 0, 0, Math.PI*2); c.fill();
+}
+
+// ======================================================
+// 共通ゴーレムベース
+// ======================================================
+function drawGolem(c, p, baseX=110, baseY=180, scale=1) {
+    const cx = baseX, cy = baseY;
+    if(p.aura) aura(c, cx, cy - 30, p.aura, 110);
+    shadow(c, cx, cy + 64*scale, 36*scale, 6);
+    // 脚（太い）
+    c.fillStyle = p.body;
+    c.fillRect(cx - 16*scale, cy - 10*scale, 12*scale, 36*scale);
+    c.fillRect(cx + 4*scale, cy - 10*scale, 12*scale, 36*scale);
+    c.strokeStyle = p.outline; c.lineWidth = 1.4*scale;
+    c.strokeRect(cx - 16*scale, cy - 10*scale, 12*scale, 36*scale);
+    c.strokeRect(cx + 4*scale, cy - 10*scale, 12*scale, 36*scale);
+    // 足
+    c.fillStyle = p.body;
+    c.fillRect(cx - 18*scale, cy + 22*scale, 16*scale, 8*scale);
+    c.fillRect(cx + 2*scale, cy + 22*scale, 16*scale, 8*scale);
+    c.strokeRect(cx - 18*scale, cy + 22*scale, 16*scale, 8*scale);
+    c.strokeRect(cx + 2*scale, cy + 22*scale, 16*scale, 8*scale);
+    // 胴体（ごつい）
+    c.fillStyle = p.body;
+    c.fillRect(cx - 26*scale, cy - 50*scale, 52*scale, 42*scale);
+    c.strokeRect(cx - 26*scale, cy - 50*scale, 52*scale, 42*scale);
+    // 胴体のハイライト
+    if(p.bodyHl) {
+        c.fillStyle = p.bodyHl;
+        c.fillRect(cx - 22*scale, cy - 46*scale, 12*scale, 14*scale);
+    }
+    // 亀裂
+    c.strokeStyle = p.crack; c.lineWidth = 1.5*scale;
+    c.beginPath();
+    c.moveTo(cx - 10*scale, cy - 50*scale);
+    c.lineTo(cx - 8*scale, cy - 30*scale);
+    c.lineTo(cx + 4*scale, cy - 20*scale);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(cx + 14*scale, cy - 50*scale);
+    c.lineTo(cx + 10*scale, cy - 38*scale);
+    c.stroke();
+    // 亀裂内部
+    if(p.crackGlow) {
+        c.strokeStyle = p.crackGlow; c.lineWidth = 0.8*scale;
+        c.beginPath();
+        c.moveTo(cx - 10*scale, cy - 50*scale);
+        c.lineTo(cx - 8*scale, cy - 30*scale);
+        c.lineTo(cx + 4*scale, cy - 20*scale);
+        c.stroke();
+    }
+    // 腕（太い）
+    c.fillStyle = p.body;
+    c.fillRect(cx - 38*scale, cy - 46*scale, 12*scale, 38*scale);
+    c.fillRect(cx + 26*scale, cy - 46*scale, 12*scale, 38*scale);
+    c.strokeRect(cx - 38*scale, cy - 46*scale, 12*scale, 38*scale);
+    c.strokeRect(cx + 26*scale, cy - 46*scale, 12*scale, 38*scale);
+    // 拳
+    c.fillStyle = p.body;
+    c.beginPath(); c.arc(cx - 32*scale, cy - 4*scale, 10*scale, 0, Math.PI*2); c.fill();
+    c.beginPath(); c.arc(cx + 32*scale, cy - 4*scale, 10*scale, 0, Math.PI*2); c.fill();
+    c.strokeStyle = p.outline; c.lineWidth = 1.2*scale;
+    c.beginPath(); c.arc(cx - 32*scale, cy - 4*scale, 10*scale, 0, Math.PI*2); c.stroke();
+    c.beginPath(); c.arc(cx + 32*scale, cy - 4*scale, 10*scale, 0, Math.PI*2); c.stroke();
+    // 頭（巨大な岩塊）
+    if(p.headStyle === 'huge') {
+        // 巨大頭
+        c.fillStyle = p.body;
+        c.fillRect(cx - 24*scale, cy - 84*scale, 48*scale, 32*scale);
+        c.strokeStyle = p.outline; c.lineWidth = 1.6*scale;
+        c.strokeRect(cx - 24*scale, cy - 84*scale, 48*scale, 32*scale);
+        // 亀裂
+        c.strokeStyle = p.crack; c.lineWidth = 1.2*scale;
+        c.beginPath();
+        c.moveTo(cx - 10*scale, cy - 84*scale);
+        c.lineTo(cx - 8*scale, cy - 70*scale);
+        c.lineTo(cx + 6*scale, cy - 60*scale);
+        c.stroke();
+        // 光る目
+        c.fillStyle = p.eye;
+        c.fillRect(cx - 14*scale, cy - 74*scale, 8*scale, 6*scale);
+        c.fillRect(cx + 6*scale, cy - 74*scale, 8*scale, 6*scale);
+    } else {
+        // 通常の岩塊頭
+        c.fillStyle = p.body;
+        c.fillRect(cx - 14*scale, cy - 78*scale, 28*scale, 24*scale);
+        c.strokeStyle = p.outline; c.lineWidth = 1.4*scale;
+        c.strokeRect(cx - 14*scale, cy - 78*scale, 28*scale, 24*scale);
+        // 亀裂
+        c.strokeStyle = p.crack; c.lineWidth = 1.2*scale;
+        c.beginPath();
+        c.moveTo(cx - 4*scale, cy - 78*scale);
+        c.lineTo(cx - 2*scale, cy - 68*scale);
+        c.lineTo(cx + 4*scale, cy - 60*scale);
+        c.stroke();
+        // 光る目
+        c.fillStyle = p.eye;
+        c.fillRect(cx - 8*scale, cy - 70*scale, 5*scale, 5*scale);
+        c.fillRect(cx + 3*scale, cy - 70*scale, 5*scale, 5*scale);
+    }
+    // 装飾（オプション）
+    if(p.moss) {
+        // 苔
+        c.fillStyle = p.moss;
+        c.fillRect(cx - 26*scale, cy - 50*scale, 14*scale, 4*scale);
+        c.fillRect(cx + 16*scale, cy - 30*scale, 10*scale, 3*scale);
+        c.fillRect(cx - 14*scale, cy - 78*scale, 12*scale, 3*scale);
+        // 葉
+        c.fillStyle = p.leaves || '#3a8a3a';
+        c.beginPath();
+        c.moveTo(cx - 22*scale, cy - 50*scale);
+        c.lineTo(cx - 18*scale, cy - 60*scale);
+        c.lineTo(cx - 14*scale, cy - 50*scale);
+        c.closePath(); c.fill();
+    }
+    if(p.sparkle) {
+        // キラキラ
+        for(let i=0; i<4; i++){
+            const sx = cx + (Math.sin(i*1.7)*20)*scale;
+            const sy = cy - 50*scale + ((i*7) % 30)*scale;
+            c.fillStyle = '#ffd24a';
+            c.beginPath();
+            c.moveTo(sx, sy-2); c.lineTo(sx+2, sy); c.lineTo(sx, sy+2); c.lineTo(sx-2, sy);
+            c.closePath(); c.fill();
+        }
+    }
+    if(p.iceCrystal) {
+        // 氷の結晶
+        c.fillStyle = '#fff'; c.globalAlpha = 0.6;
+        [[cx-20*scale, cy-44*scale, 4], [cx+18*scale, cy-30*scale, 3], [cx-8*scale, cy-72*scale, 5]].forEach(([x,y,r])=>{
+            c.beginPath();
+            c.moveTo(x, y-r); c.lineTo(x+r*0.5, y); c.lineTo(x, y+r); c.lineTo(x-r*0.5, y); c.closePath(); c.fill();
+        });
+        c.globalAlpha = 1;
+    }
+}
+
+// 案A. 王道 灰岩ゴーレム
+drawGolem(document.getElementById('ch-a').getContext('2d'), {
+    aura: 'rgba(120,120,120,0.25)',
+    body: '#5a5a5a',
+    bodyHl: '#7a7a7a',
+    outline: '#1a1a1a',
+    crack: '#1a1a1a',
+    eye: '#ffaa00'
+});
+
+// 案B. マグマゴーレム
+(function(){
+    const c = document.getElementById('ch-b').getContext('2d');
+    drawGolem(c, {
+        aura: 'rgba(255,80,40,0.4)',
+        body: '#3a1a10',
+        bodyHl: '#5a2a10',
+        outline: '#0a0000',
+        crack: '#ff3300',
+        crackGlow: '#ffea22',
+        eye: '#ffea22'
+    });
+    // 内部から漏れる赤光
+    c.strokeStyle = '#ff3300'; c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(110-10, 180-50); c.lineTo(110-8, 180-30); c.lineTo(110+4, 180-20);
+    c.stroke();
+    c.strokeStyle = '#ffea22'; c.lineWidth = 1;
+    c.stroke();
+    c.beginPath();
+    c.moveTo(110+14, 180-50); c.lineTo(110+10, 180-38);
+    c.stroke();
+})();
+
+// 案C. 苔むした古代ゴーレム
+drawGolem(document.getElementById('ch-c').getContext('2d'), {
+    aura: 'rgba(90,170,68,0.3)',
+    body: '#5a5a5a', bodyHl: '#7a8a7a',
+    outline: '#1a2a18',
+    crack: '#1a2a18',
+    eye: '#88dd66',
+    moss: '#3a6a3a',
+    leaves: '#5aaa44'
+});
+
+// 案D. 氷ゴーレム
+(function(){
+    const c = document.getElementById('ch-d').getContext('2d');
+    drawGolem(c, {
+        aura: 'rgba(170,204,238,0.4)',
+        body: '#aaccee', bodyHl: '#ddf0ff',
+        outline: '#3a5a8a',
+        crack: '#3a5a8a',
+        eye: '#aaccff',
+        iceCrystal: true
+    });
+    // 半透明な氷の輝き
+    c.globalAlpha = 0.4;
+    c.fillStyle = '#fff';
+    c.fillRect(110 - 20, 180 - 46, 8, 14);
+    c.globalAlpha = 1;
+    // 冷気パーティクル
+    c.fillStyle = '#aaccff';
+    for(let i=0; i<8; i++){
+        const a = i*Math.PI/4;
+        c.beginPath();
+        c.arc(110 + Math.cos(a)*60, 160 + Math.sin(a)*40, 1.5, 0, Math.PI*2);
+        c.fill();
+    }
+})();
+
+// 案E. 金鉱ゴーレム
+drawGolem(document.getElementById('ch-e').getContext('2d'), {
+    aura: 'rgba(255,210,74,0.35)',
+    body: '#5a5a5a', bodyHl: '#7a7a7a',
+    outline: '#1a1a1a',
+    crack: '#aa6600',
+    crackGlow: '#ffd24a',
+    eye: '#ffea22',
+    sparkle: true
+});
+
+// 案F. 巨大頭ゴーレム
+drawGolem(document.getElementById('ch-f').getContext('2d'), {
+    aura: 'rgba(120,120,120,0.25)',
+    body: '#5a5a5a', bodyHl: '#7a7a7a',
+    outline: '#1a1a1a',
+    crack: '#1a1a1a',
+    eye: '#ff5544',
+    headStyle: 'huge'
+}, 110, 180, 0.92);
+
+// ======================================================
+// 攻撃案
+// ======================================================
+function startAnim(canvasId, drawFn, durationMs) {
+    const cv = document.getElementById(canvasId);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % durationMs) / durationMs;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        drawFn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+function drawScene(c, w, h) {
+    const sky = c.createLinearGradient(0, 0, 0, h*0.7);
+    sky.addColorStop(0, '#0a0820'); sky.addColorStop(1, '#1a1850');
+    c.fillStyle = sky; c.fillRect(0, 0, w, h*0.7);
+    c.fillStyle = '#3a2818'; c.fillRect(0, h*0.7, w, h*0.3);
+    c.fillStyle = '#1a1208'; c.fillRect(0, h*0.7, w, 3);
+    // 簡易ゴーレム（左、灰色）
+    const zx = 30, zy = h*0.7;
+    c.fillStyle = 'rgba(120,120,120,0.3)';
+    c.beginPath(); c.ellipse(zx, zy, 22, 5, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = '#5a5a5a'; c.fillRect(zx-12, zy-50, 24, 50);
+    c.fillStyle = '#7a7a7a'; c.fillRect(zx-10, zy-46, 8, 12);
+    c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.strokeRect(zx-12, zy-50, 24, 50);
+    c.fillStyle = '#5a5a5a';
+    c.fillRect(zx-8, zy-66, 16, 16);
+    c.fillStyle = '#ffaa00';
+    c.fillRect(zx-5, zy-62, 3, 3);
+    c.fillRect(zx+2, zy-62, 3, 3);
+}
+function drawEnemyAt(c, x, y, color='#5a1a1a') {
+    c.fillStyle = 'rgba(0,0,0,0.4)';
+    c.beginPath(); c.ellipse(x, y, 10, 3, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle = color;
+    c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle = '#3a0808';
+    c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+}
+
+// ① 重拳一撃
+startAnim('at-a', (c, t, w, h) => {
+    const target = {x: w*0.55, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x + 25, target.y);
+    if(t < 0.5) {
+        // 振りかぶり（ゆっくり）
+        const tt = t/0.5;
+        c.save(); c.translate(45, h*0.55); c.rotate(-tt*1.4);
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(0, 0, 16, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 2; c.stroke();
+        c.fillStyle = '#7a7a7a';
+        c.fillRect(-8, -8, 6, 6);
+        c.restore();
+        // チャージのオーラ
+        c.fillStyle = `rgba(255,170,0,${tt*0.4})`;
+        c.beginPath(); c.arc(45, h*0.55, 30, 0, Math.PI*2); c.fill();
+    } else if(t < 0.7) {
+        // 振り下ろし
+        const tt = (t-0.5)/0.2;
+        const x = 45 + (target.x - 45) * tt;
+        const y = h*0.55 + (target.y - 30 - h*0.55) * tt;
+        // 速度線
+        c.strokeStyle = `rgba(170,170,170,${0.6*tt})`; c.lineWidth = 3;
+        for(let k=0; k<5; k++){
+            c.beginPath();
+            c.moveTo(45 + k*8, h*0.5 + k*8);
+            c.lineTo(x - k*4, y - k*4);
+            c.stroke();
+        }
+        // 拳
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(x, y, 18, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 2; c.stroke();
+    } else {
+        // 衝撃
+        const tt = (t-0.7)/0.3;
+        c.fillStyle = `rgba(255,170,0,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 30 + tt*30, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(255,255,255,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 18 + tt*15, 0, Math.PI*2); c.fill();
+        // 飛び散る土
+        for(let k=0; k<10; k++){
+            const a = k*Math.PI/5;
+            c.fillStyle = '#aa6633';
+            c.fillRect(target.x + Math.cos(a)*tt*40, target.y - 16 + Math.sin(a)*tt*30, 4, 4);
+        }
+    }
+}, 2000);
+
+// ② 岩石投擲
+startAnim('at-b', (c, t, w, h) => {
+    const target = {x: w*0.75, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.25) {
+        // 体から岩を引きちぎる
+        const tt = t/0.25;
+        c.fillStyle = '#3a3a3a';
+        c.fillRect(40 - 4, h*0.62 - 6, 14, 14);
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.strokeRect(40 - 4, h*0.62 - 6, 14, 14);
+        // 体の欠け跡
+        c.fillStyle = '#1a1a1a';
+        c.fillRect(20, h*0.55 - 8, 6, 8);
+    } else if(t < 0.7) {
+        // 投擲
+        const tt = (t-0.25)/0.45;
+        const x = 45 + (target.x - 45) * tt;
+        const y = h*0.55 - Math.sin(tt*Math.PI)*70;
+        // 軌跡
+        for(let k=0; k<5; k++){
+            const tk = Math.max(0, tt - k*0.06);
+            const xk = 45 + (target.x - 45) * tk;
+            const yk = h*0.55 - Math.sin(tk*Math.PI)*70;
+            c.fillStyle = `rgba(170,102,68,${0.4 - k*0.06})`;
+            c.fillRect(xk - 6, yk - 6, 12, 12);
+        }
+        // 岩本体
+        c.fillStyle = '#5a3a20';
+        c.beginPath(); c.arc(x, y, 14, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a0a00'; c.lineWidth = 1.5; c.stroke();
+        c.fillStyle = '#3a2010';
+        c.beginPath(); c.arc(x-4, y-3, 3, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(x+5, y+3, 2, 0, Math.PI*2); c.fill();
+    } else {
+        // 着弾爆発
+        const tt = (t-0.7)/0.3;
+        c.fillStyle = `rgba(170,102,68,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 20 + tt*25, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(255,170,0,${(1-tt)*0.5})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 12 + tt*15, 0, Math.PI*2); c.fill();
+        // 飛び散る石片
+        for(let k=0; k<8; k++){
+            const a = k*Math.PI/4;
+            c.fillStyle = '#5a3a20';
+            c.fillRect(target.x + Math.cos(a)*tt*40, target.y - 16 + Math.sin(a)*tt*30, 3, 3);
+        }
+    }
+}, 2200);
+
+// ③ 大地震（拳叩きつけ）
+startAnim('at-c', (c, t, w, h) => {
+    const enemies = [{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7},{x:w*0.85,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.3) {
+        // 振りかぶり
+        const tt = t/0.3;
+        c.save(); c.translate(45, h*0.55); c.rotate(-tt*0.8);
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(0, -tt*30, 18, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.stroke();
+        c.restore();
+    } else if(t < 0.45) {
+        // 叩きつけ
+        const tt = (t-0.3)/0.15;
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(45, h*0.7 - 5, 18, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.stroke();
+        // 着地フラッシュ
+        c.fillStyle = `rgba(255,255,255,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(45, h*0.7, 30, 0, Math.PI*2); c.fill();
+    } else {
+        // 衝撃波が広がる（同心円）
+        const tt = (t-0.45)/0.55;
+        // 拳は地面に
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(45, h*0.7 - 5, 18, 0, Math.PI*2); c.fill();
+        // 衝撃波（複数）
+        for(let k=0; k<3; k++){
+            const tk = Math.max(0, tt - k*0.18);
+            if(tk <= 0) continue;
+            const r = tk * 280;
+            const a = Math.max(0, 1 - tk);
+            c.strokeStyle = `rgba(255,170,0,${a})`; c.lineWidth = 6;
+            c.beginPath(); c.ellipse(45, h*0.7, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+            c.strokeStyle = `rgba(255,255,255,${a*0.7})`; c.lineWidth = 2;
+            c.beginPath(); c.ellipse(45, h*0.7, r, r*0.3, 0, 0, Math.PI*2); c.stroke();
+        }
+        // 地面の亀裂
+        c.strokeStyle = '#1a0a00'; c.lineWidth = 2;
+        for(let k=0; k<6; k++){
+            const x = 45 + tt*250 * (k/5);
+            if(x > w) continue;
+            c.beginPath();
+            c.moveTo(x, h*0.7);
+            c.lineTo(x+5, h*0.72); c.lineTo(x-3, h*0.74);
+            c.stroke();
+        }
+        // 跳ねる土
+        for(let k=0; k<10; k++){
+            const x = 45 + ((k*30) % (w-100));
+            const y = h*0.7 - Math.sin(tt*Math.PI + k*0.5)*15;
+            c.fillStyle = '#aa6633';
+            c.fillRect(x, y, 3, 3);
+        }
+    }
+}, 2200);
+
+// ④ 岩腕伸長
+startAnim('at-d', (c, t, w, h) => {
+    const target = {x: w*0.78, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    if(t < 0.25) {
+        // チャージ
+        const tt = t/0.25;
+        c.fillStyle = `rgba(170,170,136,${tt*0.6})`;
+        c.beginPath(); c.arc(45, h*0.55, 14, 0, Math.PI*2); c.fill();
+    } else if(t < 0.55) {
+        // 腕が伸びる（岩の節に分割）
+        const tt = (t-0.25)/0.3;
+        const armEnd = 45 + tt * (target.x - 45);
+        // 岩の節（ブロックチェーン状）
+        const segments = 8;
+        for(let k=0; k<=segments; k++){
+            const x = 45 + (armEnd - 45) * (k/segments);
+            c.fillStyle = '#5a5a5a';
+            c.fillRect(x - 6, h*0.6 - 6, 12, 12);
+            c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.strokeRect(x - 6, h*0.6 - 6, 12, 12);
+        }
+        // 拳（先端）
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(armEnd, h*0.6, 14, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#1a1a1a'; c.lineWidth = 1.5; c.stroke();
+    } else if(t < 0.75) {
+        // ヒット
+        const tt = (t-0.55)/0.2;
+        // 腕は伸びたまま
+        const segments = 8;
+        for(let k=0; k<=segments; k++){
+            const x = 45 + (target.x - 45) * (k/segments);
+            c.fillStyle = '#5a5a5a';
+            c.fillRect(x - 6, h*0.6 - 6, 12, 12);
+            c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.strokeRect(x - 6, h*0.6 - 6, 12, 12);
+        }
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(target.x, h*0.6, 14, 0, Math.PI*2); c.fill();
+        // ヒットエフェクト
+        c.fillStyle = `rgba(255,255,255,${1-tt})`;
+        c.beginPath(); c.arc(target.x, target.y - 16, 20, 0, Math.PI*2); c.fill();
+    } else {
+        // 戻し
+        const tt = (t-0.75)/0.25;
+        const armEnd = 45 + (target.x - 45) * (1 - tt);
+        const segments = 8;
+        for(let k=0; k<=segments; k++){
+            const x = 45 + (armEnd - 45) * (k/segments);
+            c.fillStyle = '#5a5a5a';
+            c.fillRect(x - 6, h*0.6 - 6, 12, 12);
+        }
+    }
+}, 2400);
+
+// ⑤ 岩石雨
+startAnim('at-d2', (c, t, w, h) => {
+    const enemies = [{x:w*0.4,y:h*0.7},{x:w*0.55,y:h*0.7},{x:w*0.72,y:h*0.7},{x:w*0.88,y:h*0.7}];
+    enemies.forEach(e => drawEnemyAt(c, e.x, e.y));
+    if(t < 0.2) {
+        // 両手を上げて呪文を唱える
+        const tt = t/0.2;
+        c.save(); c.translate(45, h*0.45); c.rotate(0);
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(-12, -tt*20, 10, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(12, -tt*20, 10, 0, Math.PI*2); c.fill();
+        c.restore();
+        c.fillStyle = `rgba(120,120,120,${tt*0.5})`;
+        c.beginPath(); c.arc(45, h*0.4, 30, 0, Math.PI*2); c.fill();
+    } else {
+        // 岩がたくさん降ってくる
+        const tt = (t-0.2)/0.8;
+        const positions = [
+            {x: w*0.35, time: 0.05},
+            {x: w*0.55, time: 0.18},
+            {x: w*0.7,  time: 0.32},
+            {x: w*0.45, time: 0.45},
+            {x: w*0.85, time: 0.55},
+            {x: w*0.6,  time: 0.65},
+        ];
+        positions.forEach(p => {
+            const elapsed = tt - p.time;
+            if(elapsed < 0 || elapsed > 0.4) return;
+            if(elapsed < 0.3) {
+                // 落下中
+                const fall = elapsed / 0.3;
+                const x = p.x;
+                const y = -20 + fall * (h*0.7 + 20);
+                c.fillStyle = '#5a3a20';
+                c.beginPath(); c.arc(x, y, 12, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#1a0a00'; c.lineWidth = 1.5; c.stroke();
+                // 軌跡
+                c.fillStyle = `rgba(170,102,68,0.4)`;
+                c.beginPath(); c.arc(x, y - 20, 8, 0, Math.PI*2); c.fill();
+            } else {
+                // 着弾
+                const e = (elapsed - 0.3) / 0.1;
+                c.fillStyle = `rgba(255,170,0,${1-e})`;
+                c.beginPath(); c.arc(p.x, h*0.7, 18 + e*10, 0, Math.PI*2); c.fill();
+                c.fillStyle = `rgba(170,102,68,${(1-e)*0.7})`;
+                c.beginPath(); c.arc(p.x, h*0.7, 24 + e*8, 0, Math.PI*2); c.fill();
+                // 飛び散り
+                for(let k=0; k<6; k++){
+                    const a = k*Math.PI/3;
+                    c.fillStyle = '#5a3a20';
+                    c.fillRect(p.x + Math.cos(a)*e*20, h*0.7 + Math.sin(a)*e*10, 3, 3);
+                }
+            }
+        });
+    }
+}, 3000);
+
+// ⑥ 自爆突進
+startAnim('at-f', (c, t, w, h) => {
+    const target = {x: w*0.75, y: h*0.7};
+    drawEnemyAt(c, target.x, target.y);
+    drawEnemyAt(c, target.x - 25, target.y);
+    drawEnemyAt(c, target.x + 25, target.y);
+    if(t < 0.2) {
+        // 唸る・赤く光る
+        const tt = t/0.2;
+        c.fillStyle = `rgba(255,80,40,${0.4 + Math.sin(t*40)*0.3})`;
+        c.beginPath(); c.arc(45, h*0.55, 30, 0, Math.PI*2); c.fill();
+        // 体の亀裂が赤く光る
+        c.strokeStyle = `rgba(255,40,20,${tt})`; c.lineWidth = 2;
+        c.beginPath();
+        c.moveTo(38, h*0.65); c.lineTo(40, h*0.55); c.lineTo(48, h*0.5);
+        c.stroke();
+    } else if(t < 0.6) {
+        // 突進
+        const tt = (t-0.2)/0.4;
+        const x = 45 + (target.x - 45 - 30) * tt;
+        // 軌跡
+        for(let k=0; k<6; k++){
+            const tk = Math.max(0, tt - k*0.05);
+            const xk = 45 + (target.x - 45 - 30) * tk;
+            c.fillStyle = `rgba(255,80,40,${0.5 - k*0.07})`;
+            c.fillRect(xk - 12, h*0.7 - 50, 24, 50);
+        }
+        // ゴーレム本体
+        c.fillStyle = '#5a3a20';
+        c.fillRect(x - 12, h*0.7 - 50, 24, 50);
+        c.fillStyle = '#aa3300';
+        c.fillRect(x - 10, h*0.7 - 45, 20, 8);
+        c.fillStyle = '#7a4a30';
+        c.fillRect(x - 8, h*0.7 - 64, 16, 16);
+        c.strokeStyle = '#1a0a00'; c.lineWidth = 1; c.strokeRect(x - 12, h*0.7 - 50, 24, 50);
+        // 赤い光
+        c.fillStyle = `rgba(255,40,20,0.6)`;
+        c.beginPath(); c.arc(x, h*0.7 - 25, 30, 0, Math.PI*2); c.fill();
+    } else {
+        // 大爆発
+        const tt = (t-0.6)/0.4;
+        // 中央の白い光
+        c.fillStyle = `rgba(255,255,255,${1-tt})`;
+        c.beginPath(); c.arc(target.x - 30, h*0.6, 30 + tt*40, 0, Math.PI*2); c.fill();
+        // 赤い爆風
+        c.fillStyle = `rgba(255,80,40,${(1-tt)*0.7})`;
+        c.beginPath(); c.arc(target.x - 30, h*0.6, 50 + tt*60, 0, Math.PI*2); c.fill();
+        // 衝撃波
+        c.strokeStyle = `rgba(255,170,0,${1-tt})`; c.lineWidth = 6;
+        c.beginPath(); c.arc(target.x - 30, h*0.6, tt*100, 0, Math.PI*2); c.stroke();
+        // 飛び散る石片
+        for(let k=0; k<14; k++){
+            const a = k*Math.PI*2/14;
+            c.fillStyle = '#5a3a20';
+            c.fillRect(target.x - 30 + Math.cos(a)*tt*80, h*0.6 + Math.sin(a)*tt*60, 5, 5);
+        }
+    }
+}, 2500);
+</script>
+</body>
+</html>

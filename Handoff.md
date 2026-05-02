@@ -171,6 +171,9 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- デザインプレビュー追加:
+  - `samurai-wars/susanoo-attack-preview.html`（スサノオ攻撃6案）
+  - `samurai-wars/golem-preview.html`（ゴーレム デザイン6案 + 攻撃6案）
 - 過去・未来大戦争: 孫悟空を「七十二変化（分身）+ 分身ラッシュ攻撃」に変更
   - 味方 sp_gokuu と Boss[115] 両方に `clones:2` フラグ + `weapon:'clone_rush'`
   - 描画: `clones` 持ちユニットは本体の左右に半透明の緑分身2体を常時表示
