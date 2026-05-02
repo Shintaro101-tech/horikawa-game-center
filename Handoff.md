@@ -81,12 +81,20 @@
   - SAMURAI_DATA は `CHARACTER_ORDER` でソート（左→右上→下の順にアンロックされる）
 - **時代（編）構造**: 5編 × 各18ステージ予定（`ERA_DATA`）
   - 超過去編 / 過去編 / 現代編 / 未来編 / 超未来編
-  - 現状は **過去編のみ available** で、他は `available:false` で COMING SOON 表示
+  - 現状 **過去編 + 超過去編が available**、現代/未来/超未来は COMING SOON
   - 出陣ボタン → era-select 画面 → 編を選ぶ → stage-select に遷移
   - 戦勝/敗北画面の「戦場へ」は `selectEra(currentEra)` で同じ編に直帰（一階層スキップ）
   - `currentEraStages()` は `STAGE_DATA` を `(s.era || 'past') === currentEra` でフィルタ
-  - 新たに編を実装する時は (1) `ERA_DATA` の該当 `available:true` (2) `STAGE_DATA` に `era:'modern'` などを付けたステージを追加
-- **18ステージ**（現状すべて過去編）+ ステージ別解放（`STAGE_UNLOCKS`）
+  - 編内通し番号（第1戦〜第18戦）は `stageNumInEra(stage)` で算出（IDは過去 1-18 / 超過去 101-118）
+  - 新たに編を実装する時は (1) `ERA_DATA` の該当 `available:true` (2) `STAGE_DATA` に `era:'modern'` などを付けたステージを追加 (3) 必要なら `STAGE_BOSSES` / `STAGE_UNLOCKS` / 専用 `STAGE_THEMES`
+- **空中・地上機構** (2026-05-02 追加):
+  - ユニット定義に `flying:true` で空中ユニット（地面より90px上）、`antiAir:true` で対空攻撃可
+  - `canHitTarget(attacker, target)` で空ユニットへの当たりを判定（攻撃者側に antiAir または flying があれば命中可）
+  - `findEnemyInRange` / AOE / 弾の命中 / 弾AOE すべてに対空フィルタ適用
+  - 弾には `antiAir` / `fromFlying` フラグをコピーして拡散時も判定
+  - 飛行ユニットは描画時に翼パタパタ＋地面に楕円影
+  - 対空持ち味方を解放しない限り、空中の敵には触れない（=ステージ1ボスは必ず対空持ち→ティラノサウルス）
+- **18ステージ × 2編 = 36ステージ実装済**（過去 1-18 / 超過去 101-118）+ ステージ別解放（`STAGE_UNLOCKS`）
 - **ステージごとのボス** (`STAGE_BOSSES`) — 敵城HP **1/3以下** で1度だけ出現
   - 一つ目小僧 / 河童 / ろくろ首 / 猫又 / 鬼 / 雪女 / 雷獣 / 鬼火 / 白狐 / 九尾の狐 / 八岐大蛇 / 蜘蛛の精 / ゴジラ / キングギドラ / メカ怪獣 / ロボット鬼 / サイボーグ大蛇 / 天魔王
   - 全員 scale 1.9〜3.4 で巨大、HP・ATK は最後 +50%/+35% のバフ済
@@ -163,6 +171,16 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-02
+- 過去・未来大戦争: **超過去編 全18ステージを実装**（原始時代＋世界神話モチーフ）
+  - 空中・対空機構を新設: `flying` / `antiAir` フラグ、`canHitTarget()` で当たり判定
+  - ステージ101 (ティラノサウルス) が最初の対空持ち。ここで対空ユーザを獲得して以降の空中敵に対応する流れ
+  - 18体のボスを `STAGE_BOSSES` に追加（イルルヤンカシュ / 孫悟空 / ゼウス / フロストジャイアント / マンモス / ティラノサウルス / ヘラクレスオオカブト / スサノオ / 火の鳥 / プルスサウルス / プロコプトドン / ティタノボア / ナーガ / ベオウルフ / サンドワーム / バロール / 手長足長 / ゴーレム）
+  - 各ボスは `STAGE_UNLOCKS[101..118]` でクリア時に同名の味方ユニットとして加入（`sp_*` ID, 全18体を `SAMURAI_DATA` に追加）
+  - 新雑魚: `sp_savage`（原始人）/ `sp_saber`（剣歯虎）/ `sp_mammothlet`（子マンモス）/ `sp_ptero`（翼竜=空）/ `sp_wyvern`（赤竜=空遠）/ `sp_giant_ape`（大猿）/ `sp_giantbat`（巨大コウモリ=空）
+  - 新テーマ: jurassic / savanna / glacier / volcano / mythic を追加。`getTheme` をステージ `theme` フィールド対応に
+  - 新ヘルメット17種類 / 新武器5種類を追加（rex_jaw, mammoth_tusk, dragon_head, phoenix_crest, zeus_crown 等 / ruyibo, fire_breath, big_stone, tusk, beetle_horn_attack）
+  - 難度: 過去編より高め（castleHp は過去比 ~2倍開始、終盤180,000 / 雑魚スケール +20%/+16% per stage）
+  - `getEnemyStageMult` を era 対応に。`stageNumInEra()` で編内通し番号を表示・BGM決定に使用
 - 過去・未来大戦争: 5編（超過去/過去/現代/未来/超未来）の時代選択を導入
   - `ERA_DATA` を新設、`era-select` 画面を追加（タイトル → 出陣 → 編選択 → ステージ選択）
   - 既存18ステージは過去編に格納、他4編は COMING SOON で disabled 表示

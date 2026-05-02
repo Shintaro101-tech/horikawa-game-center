@@ -857,7 +857,15 @@
         kuro:    { name:'黒忍者', yomi:'くろにんじゃ', hp:280, atk:38,  atkSpeed:0.6, range:36, speed:2.2, color:'#0a0a0a', helmet:'hood',   weapon:'kunai',  gold:25 },
         oniyari: { name:'鬼槍兵', yomi:'おにやりへい', hp:700, atk:75,  atkSpeed:1.5, range:90, speed:0.85, color:'#6a2a4a', helmet:'horn',   weapon:'spear',  gold:60, ranged:true },
         oni:     { name:'巨大鬼', yomi:'きょだいおに', hp:5000, atk:280, atkSpeed:2.0, range:62, speed:0.4, color:'#8b1a1a', helmet:'oni',    weapon:'kanabo', gold:300, boss:true, scale:1.5 },
-        daikishin: { name:'大鬼神', yomi:'だいきしん', hp:14000, atk:550, atkSpeed:2.2, range:100, speed:0.32, color:'#600010', helmet:'daikishin', weapon:'kyojin_blast', gold:800, boss:true, scale:2.0 }
+        daikishin: { name:'大鬼神', yomi:'だいきしん', hp:14000, atk:550, atkSpeed:2.2, range:100, speed:0.32, color:'#600010', helmet:'daikishin', weapon:'kyojin_blast', gold:800, boss:true, scale:2.0 },
+        // ===== 超過去編 雑魚 =====
+        sp_savage:   { name:'原始人',     yomi:'げんしじん',   hp:240,  atk:30,  atkSpeed:1.2, range:36, speed:1.2, color:'#5a3a20', helmet:'mohawk', weapon:'club',  gold:14 },
+        sp_saber:    { name:'剣歯虎',     yomi:'けんしこ',     hp:520,  atk:62,  atkSpeed:0.7, range:38, speed:2.3, color:'#a07040', helmet:'rag',    weapon:'fist',  gold:32 },
+        sp_mammothlet:{ name:'子マンモス', yomi:'こまんもす',   hp:1700, atk:130, atkSpeed:1.6, range:40, speed:0.55, color:'#5a3a20', helmet:'mammoth_tusk', weapon:'tusk', gold:90, scale:1.25 },
+        sp_ptero:    { name:'翼竜',       yomi:'よくりゅう',   hp:540,  atk:70,  atkSpeed:0.9, range:42, speed:1.5, color:'#7a4a3a', helmet:'rag',    weapon:'fist',  gold:40, flying:true, antiAir:true, wingColor:'#5a2a18' },
+        sp_wyvern:   { name:'赤竜',       yomi:'せきりゅう',   hp:1300, atk:170, atkSpeed:1.5, range:240, speed:1.0, color:'#aa3010', helmet:'horn',   weapon:'fireball', gold:130, flying:true, antiAir:true, ranged:true, wingColor:'#5a1010' },
+        sp_giant_ape:{ name:'大猿',       yomi:'おおざる',     hp:3200, atk:340, atkSpeed:1.8, range:55, speed:0.8, color:'#3a2a18', helmet:'monkey_circlet', weapon:'kanabo', gold:240, scale:1.35 },
+        sp_giantbat: { name:'巨大コウモリ', yomi:'きょだいこうもり', hp:380, atk:50, atkSpeed:0.6, range:36, speed:1.7, color:'#2a1a3a', helmet:'hood', weapon:'kunai', gold:24, flying:true, antiAir:true, wingColor:'#1a0820' }
     };
 
     const STAGE_UNLOCKS = {
@@ -865,7 +873,13 @@
         5:'sohei',         6:'laser_turret',  7:'teppo',      8:'kaen',
         9:'heavy_robo',    10:'cyber_ninja',  11:'taisho',    12:'raijin',
         13:'missile_tank', 14:'akaoni',       15:'kishin',    16:'daidarabocchi',
-        17:'onyudo',       18:'daitengu'
+        17:'onyudo',       18:'daitengu',
+        // 超過去編 — クリアするとボスが仲間に
+        101:'sp_trex',           102:'sp_pulrus',     103:'sp_kangaroo',  104:'sp_mammoth',
+        105:'sp_sandworm',       106:'sp_golem',      107:'sp_titanoboa', 108:'sp_hercules',
+        109:'sp_naga',           110:'sp_phoenix',    111:'sp_beowulf',   112:'sp_balor',
+        113:'sp_tenagaashinaga', 114:'sp_frost',      115:'sp_gokuu',     116:'sp_irullu',
+        117:'sp_susanoo',        118:'sp_zeus'
     };
 
     // ガチャ専用の隠し3キャラ（既存の兜/武器を流用）
@@ -879,6 +893,90 @@
         { id:'yagumo', name:'八雲', yomi:'やぐも', cost:1700, hp:2800, atk:330, atkSpeed:1.1, range:55, speed:1.0,
           cooldown:42.0, color:'#1a4a8a', helmet:'taisho', weapon:'odachi', rarity:5, secret:true,
           desc:'神霊の力を宿す伝説の武士' }
+    );
+
+    // ===== 超過去編 ボス→仲間（クリア報酬） =====
+    SAMURAI_DATA.push(
+        // Stage 101: T-Rex（対空：体格で空にも届く）
+        { id:'sp_trex', name:'ティラノサウルス', yomi:'てぃらのさうるす', cost:1400, hp:5500, atk:380, atkSpeed:1.5, range:70, speed:0.7,
+          cooldown:30.0, color:'#3a5a30', helmet:'rex_jaw', weapon:'fist', rarity:4, scale:1.7, antiAir:true,
+          desc:'巨大すぎて空中の敵にも噛みつく恐竜の王' },
+        // Stage 102: プルスサウルス
+        { id:'sp_pulrus', name:'プルスサウルス', yomi:'ぷるすさうるす', cost:1100, hp:4200, atk:330, atkSpeed:1.3, range:48, speed:0.8,
+          cooldown:24.0, color:'#3a4030', helmet:'croc_jaw', weapon:'fist', rarity:3, scale:1.5,
+          desc:'古代の超巨大ワニ。地上を這う者を噛み砕く' },
+        // Stage 103: プロコプトドン
+        { id:'sp_kangaroo', name:'プロコプトドン', yomi:'ぷろこぷとどん', cost:850, hp:2400, atk:240, atkSpeed:0.6, range:42, speed:2.4,
+          cooldown:18.0, color:'#a87040', helmet:'kangaroo_head', weapon:'fist', rarity:3, scale:1.2,
+          desc:'史上最大級のカンガルー。跳躍と蹴りで戦う' },
+        // Stage 104: マンモス
+        { id:'sp_mammoth', name:'マンモス', yomi:'まんもす', cost:1800, hp:8500, atk:480, atkSpeed:1.9, range:55, speed:0.5,
+          cooldown:38.0, color:'#5a3a20', helmet:'mammoth_tusk', weapon:'tusk', rarity:4, scale:1.8,
+          desc:'氷河期を支配した巨象。地上を踏み砕く' },
+        // Stage 105: サンドワーム（対空: 体を伸ばして）
+        { id:'sp_sandworm', name:'サンドワーム', yomi:'さんどわーむ', cost:1600, hp:6000, atk:420, atkSpeed:2.0, range:130, speed:0.6,
+          cooldown:36.0, color:'#a07040', helmet:'worm_head', weapon:'fist', rarity:4, scale:1.6, antiAir:true,
+          desc:'砂漠の超巨大みみず。体を伸ばして空にも届く' },
+        // Stage 106: ゴーレム
+        { id:'sp_golem', name:'ゴーレム', yomi:'ごーれむ', cost:1500, hp:9000, atk:300, atkSpeed:1.7, range:46, speed:0.45,
+          cooldown:34.0, color:'#5a5a5a', helmet:'stone_block', weapon:'fist', rarity:4, scale:1.55,
+          desc:'石の巨人。圧倒的な耐久で戦線を支える' },
+        // Stage 107: ティタノボア
+        { id:'sp_titanoboa', name:'ティタノボア', yomi:'てぃたのぼあ', cost:1350, hp:5200, atk:370, atkSpeed:1.0, range:60, speed:1.0,
+          cooldown:28.0, color:'#3a5a2a', helmet:'snake_giant', weapon:'fist', rarity:4, scale:1.55,
+          desc:'人の十倍の蛇。長大な体で敵を巻き取る' },
+        // Stage 108: ヘラクレスオオカブト（飛行 + 対空）
+        { id:'sp_hercules', name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', cost:1700, hp:3800, atk:420, atkSpeed:1.4, range:50, speed:1.3,
+          cooldown:32.0, color:'#1a1004', helmet:'beetle_horn', weapon:'beetle_horn_attack', rarity:4, scale:1.4,
+          flying:true, antiAir:true, wingColor:'#3a2010',
+          desc:'人の十倍の甲虫。空を飛び角で串刺しにする' },
+        // Stage 109: ナーガ
+        { id:'sp_naga', name:'ナーガ', yomi:'なーが', cost:1500, hp:3500, atk:340, atkSpeed:1.4, range:230, speed:0.95,
+          cooldown:28.0, color:'#3a6a4a', helmet:'snake_giant', weapon:'magic_circle', rarity:4, ranged:true,
+          desc:'半人半蛇の幻獣。蛇神の呪術で敵を狙撃する' },
+        // Stage 110: 火の鳥（飛行 + 対空 + 範囲）
+        { id:'sp_phoenix', name:'火の鳥', yomi:'ひのとり', cost:2300, hp:4800, atk:540, atkSpeed:1.7, range:260, speed:1.1,
+          cooldown:46.0, color:'#aa1a00', helmet:'phoenix_crest', weapon:'fire_breath', rarity:5, scale:1.45,
+          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#ff3300',
+          desc:'炎の伝説の鳥。地にも空にも炎を吐く' },
+        // Stage 111: ベオウルフ
+        { id:'sp_beowulf', name:'ベオウルフ', yomi:'べおうるふ', cost:1900, hp:7200, atk:520, atkSpeed:1.2, range:48, speed:1.05,
+          cooldown:36.0, color:'#5a4030', helmet:'bone_helm', weapon:'odachi', rarity:4, scale:1.3,
+          desc:'古代北欧の戦士。剣と鎧で正面突破する' },
+        // Stage 112: バロール（対空：石を投げる）
+        { id:'sp_balor', name:'バロール', yomi:'ばろーる', cost:2100, hp:6800, atk:560, atkSpeed:2.1, range:280, speed:0.5,
+          cooldown:42.0, color:'#3a6a3a', helmet:'green_giant', weapon:'big_stone', rarity:5, scale:1.7,
+          ranged:true, antiAir:true,
+          desc:'隻眼の緑の巨人。巨石を投げ地空を打つ' },
+        // Stage 113: 手長足長（対空：手で空中攻撃）
+        { id:'sp_tenagaashinaga', name:'手長足長', yomi:'てながあしなが', cost:1900, hp:5400, atk:480, atkSpeed:1.3, range:200, speed:0.85,
+          cooldown:38.0, color:'#886644', helmet:'twin_yokai', weapon:'spear', rarity:4, scale:1.35,
+          ranged:true, antiAir:true,
+          desc:'長い手で空、長い足で地を制する妖怪コンビ' },
+        // Stage 114: フロストジャイアント（対空）
+        { id:'sp_frost', name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', cost:2400, hp:8800, atk:620, atkSpeed:1.8, range:240, speed:0.55,
+          cooldown:48.0, color:'#aaccdd', helmet:'frost_crown', weapon:'magic_circle', rarity:5, scale:1.75,
+          ranged:true, antiAir:true,
+          desc:'北欧の氷の巨人。氷の魔法と棍棒で空地を制す' },
+        // Stage 115: 孫悟空（対空：如意棒）
+        { id:'sp_gokuu', name:'孫悟空', yomi:'そんごくう', cost:2600, hp:6500, atk:780, atkSpeed:0.8, range:140, speed:1.6,
+          cooldown:50.0, color:'#aa6644', helmet:'monkey_circlet', weapon:'ruyibo', rarity:5, scale:1.25,
+          antiAir:true,
+          desc:'如意棒を伸ばして空にも届く西遊記の英雄' },
+        // Stage 116: イルルヤンカシュ（飛行 + 対空 + 範囲）
+        { id:'sp_irullu', name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', cost:3200, hp:9500, atk:850, atkSpeed:2.0, range:280, speed:0.85,
+          cooldown:62.0, color:'#1a4a6a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
+          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#3a8a5a',
+          desc:'青と緑の超巨大龍。火炎で全てを焼き尽くす' },
+        // Stage 117: スサノオ
+        { id:'sp_susanoo', name:'スサノオ', yomi:'すさのお', cost:3000, hp:11500, atk:900, atkSpeed:1.4, range:60, speed:1.1,
+          cooldown:60.0, color:'#1a3a5a', helmet:'susanoo_helm', weapon:'odachi', rarity:5, scale:1.6,
+          desc:'日本神話の荒ぶる神。剣で地上を一閃する' },
+        // Stage 118: ゼウス（最終、対空、範囲、雷）
+        { id:'sp_zeus', name:'ゼウス', yomi:'ぜうす', cost:4200, hp:9000, atk:1300, atkSpeed:1.7, range:340, speed:1.0,
+          cooldown:90.0, color:'#1060a0', helmet:'zeus_crown', weapon:'thunder_bolt', rarity:5, scale:1.5,
+          ranged:true, antiAir:true, aoe:true,
+          desc:'神々の王。天より雷を落とし全てを撃つ' }
     );
 
     // アチーブメント
@@ -921,7 +1019,11 @@
         'missile_tank', 'akaoni', 'kishin',
         'daidarabocchi', 'onyudo', 'daitengu',
         // ガチャ専用秘伝
-        'kaizoku', 'fuma', 'yagumo'
+        'kaizoku', 'fuma', 'yagumo',
+        // 超過去編 ボス→仲間
+        'sp_trex', 'sp_pulrus', 'sp_kangaroo', 'sp_mammoth', 'sp_sandworm', 'sp_golem',
+        'sp_titanoboa', 'sp_hercules', 'sp_naga', 'sp_phoenix', 'sp_beowulf', 'sp_balor',
+        'sp_tenagaashinaga', 'sp_frost', 'sp_gokuu', 'sp_irullu', 'sp_susanoo', 'sp_zeus'
     ];
     SAMURAI_DATA.sort((a, b) => {
         const ai = CHARACTER_ORDER.indexOf(a.id);
@@ -935,8 +1037,8 @@
     // 時代（編）データ — 5編 × 各18ステージの構想。今は過去編のみ実装
     const ERA_DATA = [
         { id:'super_past',   name:'超過去編', yomi:'ちょうかこへん',     emoji:'🦖',
-          desc:'<ruby>恐竜<rt>きょうりゅう</rt></ruby>と<ruby>原始<rt>げんし</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>が<ruby>支配<rt>しはい</rt></ruby>する<ruby>太古<rt>たいこ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>',
-          color:'#c9882e', glow:'rgba(201,136,46,0.45)', available:false },
+          desc:'<ruby>恐竜<rt>きょうりゅう</rt></ruby>と<ruby>神話<rt>しんわ</rt></ruby>の<ruby>力<rt>ちから</rt></ruby>が<ruby>支配<rt>しはい</rt></ruby>する<ruby>太古<rt>たいこ</rt></ruby>の<ruby>世界<rt>せかい</rt></ruby>',
+          color:'#c9882e', glow:'rgba(201,136,46,0.45)', available:true  },
         { id:'past',         name:'過去編',   yomi:'かこへん',           emoji:'🏯',
           desc:'<ruby>戦国<rt>せんごく</rt></ruby>の<ruby>世<rt>よ</rt></ruby>。<ruby>侍<rt>さむらい</rt></ruby>たちが<ruby>城<rt>しろ</rt></ruby>を<ruby>巡<rt>めぐ</rt></ruby>り<ruby>火花<rt>ひばな</rt></ruby>を<ruby>散<rt>ち</rt></ruby>らす',
           color:'#ff3344', glow:'rgba(255,51,68,0.45)', available:true  },
@@ -954,6 +1056,13 @@
     function getEra(id) { return ERA_DATA.find(e => e.id === id) || ERA_DATA[1]; }
     function currentEraStages() {
         return STAGE_DATA.filter(s => (s.era || 'past') === currentEra);
+    }
+    // 編内のステージ番号（1-18）を返す
+    function stageNumInEra(stage) {
+        const era = (stage && stage.era) || 'past';
+        const list = STAGE_DATA.filter(s => (s.era || 'past') === era);
+        const i = list.findIndex(s => s.id === stage.id);
+        return i >= 0 ? i + 1 : stage.id;
     }
 
     const STAGE_DATA = [
@@ -1036,7 +1145,112 @@
             { type:'yatou', start:1, every:1.0 },
             { type:'sanzoku', start:2, every:2.4 },
             { type:'kuro', start:4, every:3.5 },
-            { type:'oniyari', start:7, every:5.5 } ]}
+            { type:'oniyari', start:7, every:5.5 } ]},
+        // ===== 超過去編 (id:101-118) — 過去編より難度高め。stage1は空中なし =====
+        { id:101, era:'super_past', theme:'jurassic', name:'古代の荒野',     yomi:'こだいのこうや',
+          castleHp:6000, enemyCastleHp:6000, reward:280, spawns:[
+            { type:'sp_savage', start:1.5, every:4.5 } ]},
+        { id:102, era:'super_past', theme:'jurassic', name:'太古のジャングル', yomi:'たいこのじゃんぐる',
+          castleHp:8500, enemyCastleHp:8500, reward:400, spawns:[
+            { type:'sp_savage', start:1.2, every:4 },
+            { type:'sp_ptero',  start:18, every:18 } ]},
+        { id:103, era:'super_past', theme:'savanna', name:'原始の大草原',   yomi:'げんしのだいそうげん',
+          castleHp:11000, enemyCastleHp:11000, reward:520, spawns:[
+            { type:'sp_savage', start:1.0, every:3.5 },
+            { type:'sp_saber',  start:14, every:15 },
+            { type:'sp_ptero',  start:30, every:22 } ]},
+        { id:104, era:'super_past', theme:'glacier', name:'氷河の谷',       yomi:'ひょうがのたに',
+          castleHp:14000, enemyCastleHp:14000, reward:660, spawns:[
+            { type:'sp_savage', start:1.0, every:3.2 },
+            { type:'sp_saber',  start:10, every:12 },
+            { type:'sp_mammothlet', start:30, every:30 } ]},
+        { id:105, era:'super_past', theme:'savanna', name:'灼熱の砂漠',     yomi:'しゃくねつのさばく',
+          castleHp:17000, enemyCastleHp:17000, reward:800, spawns:[
+            { type:'sp_savage', start:1.0, every:3 },
+            { type:'sp_saber',  start:8, every:10 },
+            { type:'sp_ptero',  start:18, every:14 },
+            { type:'sp_mammothlet', start:35, every:28 } ]},
+        { id:106, era:'super_past', theme:'jurassic', name:'巨石の遺跡',     yomi:'きょせきのいせき',
+          castleHp:21000, enemyCastleHp:21000, reward:950, spawns:[
+            { type:'sp_savage', start:1.0, every:2.8 },
+            { type:'sp_saber',  start:7, every:9 },
+            { type:'sp_ptero',  start:15, every:13 },
+            { type:'sp_mammothlet', start:30, every:24 } ]},
+        { id:107, era:'super_past', theme:'jurassic', name:'蛇魔の渓谷',     yomi:'じゃまのけいこく',
+          castleHp:26000, enemyCastleHp:26000, reward:1100, spawns:[
+            { type:'sp_savage', start:1.0, every:2.6 },
+            { type:'sp_saber',  start:6, every:8 },
+            { type:'sp_giantbat', start:12, every:11 },
+            { type:'sp_mammothlet', start:25, every:22 } ]},
+        { id:108, era:'super_past', theme:'jurassic', name:'太古の樹海',     yomi:'たいこのじゅかい',
+          castleHp:32000, enemyCastleHp:32000, reward:1300, spawns:[
+            { type:'sp_savage', start:1.0, every:2.4 },
+            { type:'sp_saber',  start:5, every:7 },
+            { type:'sp_ptero',  start:10, every:9 },
+            { type:'sp_giantbat', start:14, every:11 } ]},
+        { id:109, era:'super_past', theme:'jurassic', name:'毒沼の魔境',     yomi:'どくぬまのまきょう',
+          castleHp:38000, enemyCastleHp:38000, reward:1500, spawns:[
+            { type:'sp_savage', start:1.0, every:2.2 },
+            { type:'sp_saber',  start:4, every:6 },
+            { type:'sp_giantbat', start:10, every:9 },
+            { type:'sp_wyvern', start:30, every:30 } ]},
+        { id:110, era:'super_past', theme:'volcano', name:'業火の火山',     yomi:'ごうかのかざん',
+          castleHp:46000, enemyCastleHp:46000, reward:1750, spawns:[
+            { type:'sp_savage', start:1.0, every:2.0 },
+            { type:'sp_saber',  start:4, every:5.5 },
+            { type:'sp_wyvern', start:14, every:18 },
+            { type:'sp_mammothlet', start:24, every:18 } ]},
+        { id:111, era:'super_past', theme:'savanna', name:'西方の古砦',     yomi:'せいほうのこさい',
+          castleHp:55000, enemyCastleHp:55000, reward:2000, spawns:[
+            { type:'sp_savage', start:1.0, every:1.8 },
+            { type:'sp_saber',  start:3, every:5 },
+            { type:'sp_giantbat', start:8, every:8 },
+            { type:'sp_mammothlet', start:20, every:16 } ]},
+        { id:112, era:'super_past', theme:'jurassic', name:'巨人の森',       yomi:'きょじんのもり',
+          castleHp:65000, enemyCastleHp:65000, reward:2300, spawns:[
+            { type:'sp_savage', start:1.0, every:1.7 },
+            { type:'sp_saber',  start:3, every:4.5 },
+            { type:'sp_wyvern', start:10, every:14 },
+            { type:'sp_giant_ape', start:30, every:30 } ]},
+        { id:113, era:'super_past', theme:'jurassic', name:'妖怪の双子峠',   yomi:'ようかいのふたごとうげ',
+          castleHp:75000, enemyCastleHp:75000, reward:2600, spawns:[
+            { type:'sp_savage', start:1.0, every:1.6 },
+            { type:'sp_saber',  start:3, every:4 },
+            { type:'sp_giantbat', start:7, every:7 },
+            { type:'sp_wyvern', start:18, every:18 },
+            { type:'sp_giant_ape', start:30, every:24 } ]},
+        { id:114, era:'super_past', theme:'glacier', name:'氷の巨人の地',   yomi:'こおりのきょじんのち',
+          castleHp:88000, enemyCastleHp:88000, reward:3000, spawns:[
+            { type:'sp_savage', start:1.0, every:1.5 },
+            { type:'sp_saber',  start:2.5, every:3.8 },
+            { type:'sp_wyvern', start:8, every:12 },
+            { type:'sp_mammothlet', start:18, every:14 } ]},
+        { id:115, era:'super_past', theme:'mythic', name:'西遊の崖',       yomi:'さいゆうのがけ',
+          castleHp:100000, enemyCastleHp:100000, reward:3400, spawns:[
+            { type:'sp_savage', start:1.0, every:1.4 },
+            { type:'sp_saber',  start:2.5, every:3.5 },
+            { type:'sp_wyvern', start:7, every:10 },
+            { type:'sp_giant_ape', start:18, every:16 } ]},
+        { id:116, era:'super_past', theme:'volcano', name:'龍神の地',       yomi:'りゅうじんのち',
+          castleHp:120000, enemyCastleHp:120000, reward:4000, spawns:[
+            { type:'sp_savage', start:1.0, every:1.3 },
+            { type:'sp_saber',  start:2, every:3 },
+            { type:'sp_giantbat', start:5, every:6 },
+            { type:'sp_wyvern', start:6, every:9 },
+            { type:'sp_giant_ape', start:18, every:14 } ]},
+        { id:117, era:'super_past', theme:'mythic', name:'高天原',         yomi:'たかまがはら',
+          castleHp:145000, enemyCastleHp:145000, reward:4700, spawns:[
+            { type:'sp_savage', start:1.0, every:1.2 },
+            { type:'sp_saber',  start:2, every:2.7 },
+            { type:'sp_wyvern', start:5, every:8 },
+            { type:'sp_giant_ape', start:14, every:12 } ]},
+        { id:118, era:'super_past', theme:'mythic', name:'神々の頂・最終決戦', yomi:'かみがみのいただき・さいしゅうけっせん',
+          castleHp:180000, enemyCastleHp:180000, reward:6000, spawns:[
+            { type:'sp_savage', start:1.0, every:1.1 },
+            { type:'sp_saber',  start:1.5, every:2.4 },
+            { type:'sp_wyvern', start:4, every:6 },
+            { type:'sp_giantbat', start:6, every:6 },
+            { type:'sp_giant_ape', start:12, every:10 } ]}
     ];
 
     // 各レベルの max は「次レベルへのアップグレードコスト」より大きく設定
@@ -1301,7 +1515,7 @@
             const card = document.createElement('div');
             card.className = 'stage-card' + (unlocked ? '' : ' locked');
             card.innerHTML = `
-                <div class="stage-name">${cleared?'⭐ ':''}<ruby>第${s.id}戦<rt>だい${s.id}せん</rt></ruby> ${ruby(s.name,s.yomi)}</div>
+                <div class="stage-name">${cleared?'⭐ ':''}<ruby>第${stageNumInEra(s)}戦<rt>だい${stageNumInEra(s)}せん</rt></ruby> ${ruby(s.name,s.yomi)}</div>
                 <div style="color:var(--gold); font-size:0.85rem; letter-spacing:2px;">${starStr}</div>
                 <div class="stage-info"><ruby>敵城<rt>てきじょう</rt></ruby>HP ${s.enemyCastleHp.toLocaleString()} / <ruby>自城<rt>じじょう</rt></ruby>HP ${s.castleHp.toLocaleString()}</div>
                 <div class="stage-info"><ruby>報酬<rt>ほうしゅう</rt></ruby>: 💴 ${s.reward}<ruby>円<rt>えん</rt></ruby></div>
@@ -1315,7 +1529,8 @@
     function openPrebattle(stageId) {
         pendingStageId = stageId;
         const s = STAGE_DATA.find(x=>x.id===stageId);
-        document.getElementById('prebattle-title').innerHTML = `${ruby('第'+s.id+'戦','だい'+s.id+'せん')} ${ruby(s.name, s.yomi)}`;
+        const sn = stageNumInEra(s);
+        document.getElementById('prebattle-title').innerHTML = `${ruby('第'+sn+'戦','だい'+sn+'せん')} ${ruby(s.name, s.yomi)}`;
         document.getElementById('prebattle-info').innerHTML =
             `<ruby>敵城<rt>てきじょう</rt></ruby>HP ${s.enemyCastleHp.toLocaleString()} / <ruby>自城<rt>じじょう</rt></ruby>HP ${s.castleHp.toLocaleString()} / <ruby>報酬<rt>ほうしゅう</rt></ruby> 💴${s.reward}`;
         showScreen('prebattle-screen');
@@ -1737,10 +1952,32 @@
         // 17-18: 未来都市
         { id:'cyber',  name:'未来都市', skyTop:'#000020', skyBottom:'#080a30', moon:'#00f0ff', moonGlow:'#00aacc',
           mtFar:'#0a0828', mtNear:'#04041a', groundTop:'#0a0a28', groundBottom:'#020010',
-          accent:'rgba(0,240,255,0.2)', enemyStyle:'cosmic', enemyColor:'#1a1040', enemyTrim:'#00f0ff' }
+          accent:'rgba(0,240,255,0.2)', enemyStyle:'cosmic', enemyColor:'#1a1040', enemyTrim:'#00f0ff' },
+        // ===== 超過去編 =====
+        { id:'jurassic', name:'太古ジャングル', skyTop:'#0a2010', skyBottom:'#264a18', moon:'#ffcc66', moonGlow:'#ff9933',
+          mtFar:'#1a3018', mtNear:'#0a1808', groundTop:'#3a4a18', groundBottom:'#0a1004',
+          accent:'rgba(120,200,80,0.2)', enemyStyle:'wood', enemyColor:'#3a2a10', enemyTrim:'#88aa44' },
+        { id:'savanna',  name:'原始大草原', skyTop:'#3a1808', skyBottom:'#aa6020', moon:'#ffe080', moonGlow:'#ffaa44',
+          mtFar:'#3a1808', mtNear:'#1a0808', groundTop:'#aa6a30', groundBottom:'#3a1808',
+          accent:'rgba(255,180,80,0.2)', enemyStyle:'wood', enemyColor:'#5a2a10', enemyTrim:'#ffaa55' },
+        { id:'glacier',  name:'氷河', skyTop:'#0a1830', skyBottom:'#3a5a8a', moon:'#e0f0ff', moonGlow:'#aaccff',
+          mtFar:'#3a4a6a', mtNear:'#1a2030', groundTop:'#aacce0', groundBottom:'#3a4a5a',
+          accent:'rgba(220,240,255,0.25)', enemyStyle:'stone', enemyColor:'#446a8a', enemyTrim:'#cce0f0' },
+        { id:'volcano',  name:'原始火山', skyTop:'#1a0008', skyBottom:'#5a1010', moon:'#ff3300', moonGlow:'#ff6600',
+          mtFar:'#3a0808', mtNear:'#1a0404', groundTop:'#3a1010', groundBottom:'#0a0204',
+          accent:'rgba(255,80,30,0.25)', enemyStyle:'demon', enemyColor:'#3a0808', enemyTrim:'#ff5500' },
+        { id:'mythic',   name:'神々の頂', skyTop:'#1a0a40', skyBottom:'#503090', moon:'#ffd24a', moonGlow:'#ffea80',
+          mtFar:'#2a1858', mtNear:'#100a30', groundTop:'#3a2060', groundBottom:'#0a0420',
+          accent:'rgba(255,210,74,0.22)', enemyStyle:'cosmic', enemyColor:'#3a1850', enemyTrim:'#ffd24a' }
     ];
     function getTheme(stageId) {
-        const idx = Math.max(0, Math.min(STAGE_THEMES.length - 1, Math.floor((stageId - 1) / 2)));
+        // ステージに theme が明示されていればそれを使う
+        const stage = (typeof STAGE_DATA !== 'undefined') ? STAGE_DATA.find(s => s.id === stageId) : null;
+        if(stage && stage.theme) {
+            const t = STAGE_THEMES.find(t => t.id === stage.theme);
+            if(t) return t;
+        }
+        const idx = Math.max(0, Math.min(9, Math.floor((stageId - 1) / 2)));
         return STAGE_THEMES[idx];
     }
     function getPlayerLevel() {
@@ -1770,7 +2007,44 @@
         15: { name:'メカ怪獣',       yomi:'めかかいじゅう',       hp:19500, atk:810,  helmet:'mecha_kaiju',weapon:'laser_arm',     color:'#4a4a4a', scale:3.0, ranged:true },
         16: { name:'ロボット鬼',     yomi:'ろぼっとおに',         hp:22500, atk:945,  helmet:'robo_oni',   weapon:'laser_katana',  color:'#5a5a8a', scale:2.7 },
         17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:26250, atk:1150, helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:3.1, ranged:true, aoe:true },
-        18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0 }
+        18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0 },
+        // ===== 超過去編 ボス（クリアで仲間に） =====
+        // Stage 101 — T-Rex (anti-air via size, opens up flying enemies for stage 2+)
+        101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'fist', color:'#3a5a30', scale:2.1, antiAir:true },
+        // Stage 102
+        102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'fist', color:'#3a4030', scale:2.0 },
+        // Stage 103
+        103: { name:'プロコプトドン', yomi:'ぷろこぷとどん', hp:4600, atk:280, helmet:'kangaroo_head', weapon:'fist', color:'#a87040', scale:1.9 },
+        // Stage 104
+        104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'tusk', color:'#5a3a20', scale:2.3 },
+        // Stage 105 — Sandworm (anti-air via stretch)
+        105: { name:'サンドワーム', yomi:'さんどわーむ', hp:7500, atk:380, helmet:'worm_head', weapon:'fist', color:'#a07040', scale:2.1, range:140, antiAir:true },
+        // Stage 106
+        106: { name:'ゴーレム', yomi:'ごーれむ', hp:11000, atk:330, helmet:'stone_block', weapon:'fist', color:'#5a5a5a', scale:2.0 },
+        // Stage 107
+        107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_giant', weapon:'fist', color:'#3a5a2a', scale:2.0, range:70 },
+        // Stage 108 — Hercules beetle (flying + anti-air)
+        108: { name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', hp:9500, atk:480, helmet:'beetle_horn', weapon:'beetle_horn_attack', color:'#1a1004', scale:1.9, flying:true, antiAir:true, wingColor:'#3a2010' },
+        // Stage 109
+        109: { name:'ナーガ', yomi:'なーが', hp:10500, atk:460, helmet:'snake_giant', weapon:'magic_circle', color:'#3a6a4a', scale:2.0, ranged:true, range:240 },
+        // Stage 110 — Phoenix (flying + anti-air + AOE)
+        110: { name:'火の鳥', yomi:'ひのとり', hp:12500, atk:560, helmet:'phoenix_crest', weapon:'fire_breath', color:'#aa1a00', scale:2.1, flying:true, antiAir:true, ranged:true, aoe:true, range:260, wingColor:'#ff3300' },
+        // Stage 111
+        111: { name:'ベオウルフ', yomi:'べおうるふ', hp:16000, atk:680, helmet:'bone_helm', weapon:'odachi', color:'#5a4030', scale:2.0 },
+        // Stage 112 — Balor (anti-air via stones)
+        112: { name:'バロール', yomi:'ばろーる', hp:17500, atk:760, helmet:'green_giant', weapon:'big_stone', color:'#3a6a3a', scale:2.4, ranged:true, antiAir:true, range:300 },
+        // Stage 113 — Tenagaashinaga (anti-air via long arms)
+        113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'spear', color:'#886644', scale:2.1, ranged:true, antiAir:true, range:200 },
+        // Stage 114 — Frost Giant (anti-air via ice)
+        114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'magic_circle', color:'#aaccdd', scale:2.5, ranged:true, antiAir:true, range:240 },
+        // Stage 115 — Sun Wukong (anti-air via ruyibo)
+        115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'ruyibo', color:'#aa6644', scale:1.9, antiAir:true, range:140 },
+        // Stage 116 — Illuyanka (flying + anti-air + AOE fire)
+        116: { name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', hp:28000, atk:1100, helmet:'dragon_head', weapon:'fire_breath', color:'#1a4a6a', scale:2.6, flying:true, antiAir:true, ranged:true, aoe:true, range:300, wingColor:'#3a8a5a' },
+        // Stage 117
+        117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'odachi', color:'#1a3a5a', scale:2.3 },
+        // Stage 118 — Zeus (final, anti-air, ranged AOE thunder)
+        118: { name:'ゼウス', yomi:'ぜうす', hp:42000, atk:1700, helmet:'zeus_crown', weapon:'thunder_bolt', color:'#1060a0', scale:2.4, ranged:true, antiAir:true, aoe:true, range:340 }
     };
 
     // ステージ18は二段階ボス戦
@@ -2147,7 +2421,9 @@
             color: b.color, helmet: b.helmet, weapon: b.weapon,
             gold: b.gold || Math.floor(b.hp / 8),
             boss: true, scale: b.scale || 1.4,
-            ranged: b.ranged, aoe: b.aoe, mega: b.mega
+            ranged: b.ranged, aoe: b.aoe, mega: b.mega,
+            // 空中・対空属性
+            flying: b.flying, antiAir: b.antiAir, wingColor: b.wingColor
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
@@ -2866,6 +3142,310 @@
                     c.fillRect(i*2*scale, -12*scale, 1*scale, 3*scale);
                 }
                 break;
+            // ===== 超過去編 =====
+            case 'rex_jaw': // ティラノサウルス
+                c.fillStyle = '#3a5a30';
+                c.beginPath(); c.arc(0,-36*scale,11*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#5a8a3a';
+                c.beginPath();
+                c.moveTo(-2*scale, -36*scale);
+                c.lineTo(20*scale, -34*scale);
+                c.lineTo(22*scale, -28*scale);
+                c.lineTo(0*scale, -28*scale);
+                c.closePath(); c.fill();
+                c.fillStyle = '#fff';
+                for(let i=0;i<5;i++){
+                    c.fillRect((4+i*3)*scale, -32*scale, 1.2*scale, 3*scale);
+                    c.fillRect((4+i*3)*scale, -29*scale, 1.2*scale, -2*scale);
+                }
+                c.fillStyle = '#ffaa00';
+                c.beginPath(); c.arc(-3*scale, -38*scale, 1.5*scale, 0, Math.PI*2); c.fill();
+                break;
+            case 'mammoth_tusk': // マンモス
+                c.fillStyle = '#5a3a20';
+                c.beginPath(); c.arc(0,-36*scale,12*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#7a5a30';
+                c.beginPath(); c.ellipse(0,-46*scale,14*scale,8*scale,0,0,Math.PI*2); c.fill();
+                // 牙
+                c.fillStyle = '#f0e0c0';
+                c.beginPath();
+                c.moveTo(-8*scale,-32*scale); c.quadraticCurveTo(-14*scale,-22*scale,-6*scale,-18*scale); c.lineTo(-7*scale,-30*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(8*scale,-32*scale); c.quadraticCurveTo(14*scale,-22*scale,6*scale,-18*scale); c.lineTo(7*scale,-30*scale); c.closePath(); c.fill();
+                // 鼻
+                c.strokeStyle = '#5a3a20'; c.lineWidth = 4*scale;
+                c.beginPath(); c.moveTo(0,-32*scale); c.quadraticCurveTo(8*scale,-26*scale,4*scale,-18*scale); c.stroke();
+                break;
+            case 'beetle_horn': // ヘラクレスオオカブト
+                c.fillStyle = '#1a1004';
+                c.beginPath(); c.arc(0,-36*scale,10*scale,0,Math.PI*2); c.fill();
+                // 上角
+                c.fillStyle = '#3a2010';
+                c.beginPath();
+                c.moveTo(-2*scale,-44*scale); c.lineTo(0,-58*scale); c.lineTo(2*scale,-44*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(-4*scale,-50*scale); c.lineTo(-7*scale,-54*scale); c.lineTo(-2*scale,-46*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(4*scale,-50*scale); c.lineTo(7*scale,-54*scale); c.lineTo(2*scale,-46*scale); c.closePath(); c.fill();
+                // 下角
+                c.fillStyle = '#2a1a08';
+                c.beginPath();
+                c.moveTo(-2*scale,-30*scale); c.lineTo(0,-22*scale); c.lineTo(2*scale,-30*scale); c.closePath(); c.fill();
+                // 体表光沢
+                c.fillStyle = '#5a3a10';
+                c.fillRect(-6*scale,-38*scale,3*scale,2*scale);
+                break;
+            case 'dragon_head': // イルルヤンカシュ（青と緑の龍）
+                // 大きな頭
+                c.fillStyle = '#1a4a6a';
+                c.beginPath(); c.ellipse(0,-38*scale,14*scale,11*scale,0,0,Math.PI*2); c.fill();
+                c.fillStyle = '#3a8a5a';
+                c.beginPath(); c.ellipse(2*scale,-36*scale,12*scale,8*scale,0,0,Math.PI*2); c.fill();
+                // 鼻先
+                c.fillStyle = '#1a4a6a';
+                c.beginPath();
+                c.moveTo(8*scale,-36*scale); c.lineTo(20*scale,-34*scale); c.lineTo(20*scale,-28*scale); c.lineTo(6*scale,-30*scale); c.closePath(); c.fill();
+                // 牙
+                c.fillStyle = '#fff';
+                c.fillRect(15*scale,-31*scale,1.5*scale,3*scale);
+                c.fillRect(18*scale,-31*scale,1.5*scale,3*scale);
+                // 角
+                c.fillStyle = '#0a2a3a';
+                c.beginPath();
+                c.moveTo(-8*scale,-44*scale); c.lineTo(-12*scale,-54*scale); c.lineTo(-4*scale,-46*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(2*scale,-44*scale); c.lineTo(0,-54*scale); c.lineTo(6*scale,-46*scale); c.closePath(); c.fill();
+                // 目
+                c.fillStyle = '#ffe040';
+                c.beginPath(); c.arc(0,-38*scale,2*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-0.5*scale,-39*scale,1*scale,3*scale);
+                break;
+            case 'phoenix_crest': // 火の鳥
+                // 燃える頭
+                c.fillStyle = '#aa1a00';
+                c.beginPath(); c.arc(0,-36*scale,9*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ff6600';
+                c.beginPath(); c.arc(0,-36*scale,7*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(-2*scale,-37*scale,4*scale,0,Math.PI*2); c.fill();
+                // くちばし
+                c.fillStyle = '#ffaa00';
+                c.beginPath();
+                c.moveTo(8*scale,-36*scale); c.lineTo(16*scale,-34*scale); c.lineTo(8*scale,-32*scale); c.closePath(); c.fill();
+                // 炎の冠
+                c.fillStyle = '#ff3300';
+                for(let i=0;i<5;i++){
+                    const a = -Math.PI*0.85 + i*Math.PI*0.35;
+                    const fx = Math.cos(a)*10*scale, fy = Math.sin(a)*10*scale - 36*scale;
+                    c.beginPath();
+                    c.moveTo(fx, fy);
+                    c.lineTo(fx + Math.cos(a)*8*scale, fy + Math.sin(a)*8*scale);
+                    c.lineTo(fx + Math.cos(a+0.3)*4*scale, fy + Math.sin(a+0.3)*4*scale);
+                    c.closePath(); c.fill();
+                }
+                // 目
+                c.fillStyle = '#fff';
+                c.fillRect(-2*scale,-37*scale,1.5*scale,1.5*scale);
+                break;
+            case 'zeus_crown': // ゼウス
+                // 神々しい頭
+                c.fillStyle = '#f0d4a8';
+                c.beginPath(); c.arc(0,-34*scale,7*scale,0,Math.PI*2); c.fill();
+                // 髭
+                c.fillStyle = '#e8e8f0';
+                c.beginPath();
+                c.moveTo(-5*scale,-30*scale); c.lineTo(0,-22*scale); c.lineTo(5*scale,-30*scale); c.closePath(); c.fill();
+                // 月桂冠
+                c.fillStyle = '#ffd24a';
+                for(let i=-3;i<=3;i++){
+                    const a = i*0.3;
+                    c.save(); c.translate(Math.sin(a)*8*scale, -42*scale - Math.cos(a)*1*scale); c.rotate(a);
+                    c.beginPath();
+                    c.moveTo(0,0); c.lineTo(2*scale,-3*scale); c.lineTo(0,-2*scale); c.lineTo(-2*scale,-3*scale); c.closePath(); c.fill();
+                    c.restore();
+                }
+                // 雷光
+                c.strokeStyle = '#ffff80'; c.lineWidth = 1.5*scale;
+                c.beginPath(); c.moveTo(-10*scale,-46*scale); c.lineTo(-7*scale,-43*scale); c.lineTo(-9*scale,-40*scale); c.stroke();
+                c.beginPath(); c.moveTo(10*scale,-46*scale); c.lineTo(7*scale,-43*scale); c.lineTo(9*scale,-40*scale); c.stroke();
+                break;
+            case 'frost_crown': // フロストジャイアント
+                c.fillStyle = '#aaccdd';
+                c.beginPath(); c.arc(0,-34*scale,8*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#88aacc';
+                c.fillRect(-7*scale,-30*scale,14*scale,4*scale);
+                // 氷の角
+                c.fillStyle = '#e0f0ff';
+                c.beginPath();
+                c.moveTo(-7*scale,-40*scale); c.lineTo(-10*scale,-50*scale); c.lineTo(-3*scale,-42*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(7*scale,-40*scale); c.lineTo(10*scale,-50*scale); c.lineTo(3*scale,-42*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(0,-42*scale); c.lineTo(0,-54*scale); c.lineTo(3*scale,-44*scale); c.closePath(); c.fill();
+                // 凍った目
+                c.fillStyle = '#003366';
+                c.fillRect(-3*scale,-35*scale,1.5*scale,2*scale);
+                c.fillRect(2*scale,-35*scale,1.5*scale,2*scale);
+                break;
+            case 'monkey_circlet': // 孫悟空
+                c.fillStyle = '#aa6644';
+                c.beginPath(); c.arc(0,-34*scale,7*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ddaa88';
+                c.beginPath(); c.arc(0,-32*scale,4*scale,0,Math.PI*2); c.fill();
+                // 緊箍児（金の輪）
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 2*scale;
+                c.beginPath(); c.arc(0,-38*scale,7*scale,Math.PI,Math.PI*2); c.stroke();
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(-7*scale,-38*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(7*scale,-38*scale,1.5*scale,0,Math.PI*2); c.fill();
+                // 耳
+                c.fillStyle = '#aa6644';
+                c.beginPath(); c.arc(-7*scale,-34*scale,2.5*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(7*scale,-34*scale,2.5*scale,0,Math.PI*2); c.fill();
+                break;
+            case 'snake_giant': // ティタノボア / ナーガ
+                c.fillStyle = '#3a5a2a';
+                c.beginPath(); c.ellipse(0,-32*scale,12*scale,7*scale,0,0,Math.PI*2); c.fill();
+                c.fillStyle = '#5a8a3a';
+                c.beginPath(); c.ellipse(2*scale,-31*scale,10*scale,5*scale,0,0,Math.PI*2); c.fill();
+                // 牙
+                c.fillStyle = '#fff';
+                c.fillRect(8*scale,-29*scale,1*scale,4*scale);
+                c.fillRect(11*scale,-29*scale,1*scale,4*scale);
+                // 目
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(-2*scale,-34*scale,2*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-2.5*scale,-35*scale,0.8*scale,2*scale);
+                break;
+            case 'kangaroo_head': // プロコプトドン
+                c.fillStyle = '#a87040';
+                c.beginPath(); c.ellipse(0,-36*scale,7*scale,9*scale,0,0,Math.PI*2); c.fill();
+                // 耳
+                c.fillStyle = '#a87040';
+                c.beginPath(); c.ellipse(-5*scale,-44*scale,2*scale,5*scale,-0.3,0,Math.PI*2); c.fill();
+                c.beginPath(); c.ellipse(5*scale,-44*scale,2*scale,5*scale,0.3,0,Math.PI*2); c.fill();
+                c.fillStyle = '#ffaaaa';
+                c.beginPath(); c.ellipse(-5*scale,-43*scale,1*scale,3*scale,-0.3,0,Math.PI*2); c.fill();
+                c.beginPath(); c.ellipse(5*scale,-43*scale,1*scale,3*scale,0.3,0,Math.PI*2); c.fill();
+                // 鼻
+                c.fillStyle = '#000';
+                c.beginPath(); c.arc(0,-30*scale,1.5*scale,0,Math.PI*2); c.fill();
+                // 目
+                c.fillStyle = '#000';
+                c.fillRect(-3*scale,-37*scale,1.2*scale,1.5*scale);
+                c.fillRect(2*scale,-37*scale,1.2*scale,1.5*scale);
+                break;
+            case 'croc_jaw': // プルスサウルス
+                c.fillStyle = '#3a4030';
+                c.beginPath(); c.ellipse(0,-32*scale,11*scale,6*scale,0,0,Math.PI*2); c.fill();
+                c.fillStyle = '#1a2010';
+                c.beginPath(); c.ellipse(2*scale,-31*scale,10*scale,4*scale,0,0,Math.PI*2); c.fill();
+                // 顎の歯ぎざぎざ
+                c.fillStyle = '#fff';
+                for(let i=0;i<5;i++){
+                    c.beginPath();
+                    c.moveTo((-6+i*4)*scale, -28*scale);
+                    c.lineTo((-5+i*4)*scale, -25*scale);
+                    c.lineTo((-4+i*4)*scale, -28*scale);
+                    c.closePath(); c.fill();
+                }
+                // 目（黄）
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(-3*scale,-34*scale,1.5*scale,0,Math.PI*2); c.fill();
+                c.beginPath(); c.arc(3*scale,-34*scale,1.5*scale,0,Math.PI*2); c.fill();
+                break;
+            case 'stone_block': // ゴーレム
+                c.fillStyle = '#5a5a5a';
+                c.fillRect(-9*scale,-44*scale,18*scale,16*scale);
+                c.strokeStyle = '#2a2a2a'; c.lineWidth = 1.5*scale;
+                c.strokeRect(-9*scale,-44*scale,18*scale,16*scale);
+                // 亀裂
+                c.beginPath(); c.moveTo(-3*scale,-44*scale); c.lineTo(0,-38*scale); c.lineTo(3*scale,-30*scale); c.stroke();
+                // 光る目
+                c.fillStyle = '#ffaa00';
+                c.fillRect(-5*scale,-38*scale,3*scale,3*scale);
+                c.fillRect(2*scale,-38*scale,3*scale,3*scale);
+                break;
+            case 'worm_head': // サンドワーム
+                c.fillStyle = '#a07040';
+                c.beginPath(); c.arc(0,-32*scale,11*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#704020';
+                c.beginPath(); c.arc(0,-32*scale,7*scale,0,Math.PI*2); c.fill();
+                // 顎の歯
+                c.fillStyle = '#fff';
+                for(let i=0;i<6;i++){
+                    const a = i*Math.PI/3;
+                    c.beginPath();
+                    c.moveTo(Math.cos(a)*7*scale, Math.sin(a)*7*scale-32*scale);
+                    c.lineTo(Math.cos(a)*4*scale, Math.sin(a)*4*scale-32*scale);
+                    c.lineTo(Math.cos(a+0.3)*7*scale, Math.sin(a+0.3)*7*scale-32*scale);
+                    c.closePath(); c.fill();
+                }
+                break;
+            case 'bone_helm': // ベオウルフ
+                c.fillStyle = '#5a4030';
+                c.beginPath(); c.arc(0,-36*scale,9*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#7a5a40';
+                c.fillRect(-9*scale,-36*scale,18*scale,4*scale);
+                // 角
+                c.fillStyle = '#e8d8b8';
+                c.beginPath();
+                c.moveTo(-7*scale,-40*scale); c.lineTo(-12*scale,-48*scale); c.lineTo(-3*scale,-42*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(7*scale,-40*scale); c.lineTo(12*scale,-48*scale); c.lineTo(3*scale,-42*scale); c.closePath(); c.fill();
+                // 鎖帷子
+                c.strokeStyle = '#3a2a1a'; c.lineWidth = 1*scale;
+                for(let i=-2;i<=2;i++){
+                    c.beginPath(); c.arc(i*3*scale, -32*scale, 1.2*scale, 0, Math.PI*2); c.stroke();
+                }
+                break;
+            case 'green_giant': // バロール（緑の巨人・隻眼）
+                c.fillStyle = '#3a6a3a';
+                c.beginPath(); c.arc(0,-34*scale,10*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#5a8a4a';
+                c.beginPath(); c.arc(2*scale,-34*scale,7*scale,0,Math.PI*2); c.fill();
+                // 単眼
+                c.fillStyle = '#ff3344';
+                c.beginPath(); c.arc(0,-34*scale,3*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(-0.8*scale,-35*scale,1.5*scale,3*scale);
+                // 髪
+                c.fillStyle = '#1a3a1a';
+                c.fillRect(-9*scale,-44*scale,18*scale,4*scale);
+                break;
+            case 'twin_yokai': // 手長足長
+                // 細長の頭（足長）
+                c.fillStyle = '#aa8866';
+                c.beginPath(); c.ellipse(-4*scale,-40*scale,4*scale,8*scale,0,0,Math.PI*2); c.fill();
+                // 大きな頭（手長）
+                c.fillStyle = '#886644';
+                c.beginPath(); c.arc(4*scale,-34*scale,6*scale,0,Math.PI*2); c.fill();
+                // 笠
+                c.fillStyle = '#3a2a1a';
+                c.beginPath();
+                c.moveTo(-12*scale,-44*scale); c.lineTo(0,-54*scale); c.lineTo(12*scale,-44*scale); c.closePath(); c.fill();
+                // 目（白）
+                c.fillStyle = '#fff';
+                c.fillRect(-5*scale,-40*scale,1.5*scale,1.5*scale);
+                c.fillRect(3*scale,-34*scale,1.5*scale,1.5*scale);
+                break;
+            case 'susanoo_helm': // スサノオ
+                c.fillStyle = '#1a3a5a';
+                c.beginPath(); c.arc(0,-34*scale,8*scale,0,Math.PI*2); c.fill();
+                c.fillStyle = '#2a4a8a';
+                c.fillRect(-8*scale,-32*scale,16*scale,3*scale);
+                // 鬼の角
+                c.fillStyle = '#0a1030';
+                c.beginPath();
+                c.moveTo(-5*scale,-40*scale); c.lineTo(-9*scale,-50*scale); c.lineTo(-2*scale,-42*scale); c.closePath(); c.fill();
+                c.beginPath();
+                c.moveTo(5*scale,-40*scale); c.lineTo(9*scale,-50*scale); c.lineTo(2*scale,-42*scale); c.closePath(); c.fill();
+                // 月の輝き
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(0,-44*scale,2*scale,0,Math.PI*2); c.fill();
+                break;
         }
     }
 
@@ -3130,6 +3710,69 @@
                 // 装甲ライン
                 c.strokeStyle = '#000'; c.lineWidth = 1.5*scale;
                 c.strokeRect(0,-12*scale,40*scale,24*scale);
+                break;
+            // ===== 超過去編 =====
+            case 'ruyibo': // 如意棒（伸びる棒）
+                c.fillStyle = '#ffd24a';
+                c.fillRect(0, -2*scale, 38*scale, 4*scale);
+                c.strokeStyle = '#aa5500'; c.lineWidth = 1*scale;
+                c.strokeRect(0, -2*scale, 38*scale, 4*scale);
+                // 端のラインアクセント
+                c.fillStyle = '#aa3300';
+                c.fillRect(0, -3*scale, 3*scale, 6*scale);
+                c.fillRect(35*scale, -3*scale, 3*scale, 6*scale);
+                break;
+            case 'tusk': // 牙の一撃
+                c.fillStyle = '#f0e0c0';
+                c.beginPath();
+                c.moveTo(0, -2*scale);
+                c.quadraticCurveTo(20*scale, 6*scale, 30*scale, -10*scale);
+                c.lineTo(28*scale, -14*scale);
+                c.quadraticCurveTo(18*scale, 2*scale, 0, -6*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#aa9966'; c.lineWidth = 1*scale; c.stroke();
+                break;
+            case 'big_stone': // バロールの巨石
+                c.fillStyle = '#5a5a5a';
+                c.beginPath(); c.arc(20*scale, -4*scale, 12*scale, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#1a1a1a'; c.lineWidth = 1.5*scale;
+                c.stroke();
+                c.fillStyle = '#3a3a3a';
+                c.beginPath(); c.arc(16*scale, -1*scale, 3*scale, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(24*scale, -7*scale, 2*scale, 0, Math.PI*2); c.fill();
+                break;
+            case 'fire_breath': // 火の鳥／龍の火炎ブレス
+                c.fillStyle = '#aa1a00';
+                c.beginPath();
+                c.moveTo(0,-2*scale);
+                c.lineTo(36*scale, -10*scale);
+                c.lineTo(36*scale, 6*scale);
+                c.closePath(); c.fill();
+                c.fillStyle = '#ff6600';
+                c.beginPath();
+                c.moveTo(2*scale,-1*scale);
+                c.lineTo(30*scale, -6*scale);
+                c.lineTo(30*scale, 4*scale);
+                c.closePath(); c.fill();
+                c.fillStyle = '#ffd24a';
+                c.beginPath();
+                c.moveTo(4*scale,0);
+                c.lineTo(22*scale, -3*scale);
+                c.lineTo(22*scale, 3*scale);
+                c.closePath(); c.fill();
+                break;
+            case 'beetle_horn_attack': // ヘラクレスオオカブトの突進角
+                c.fillStyle = '#3a2010';
+                c.beginPath();
+                c.moveTo(0, -3*scale);
+                c.lineTo(28*scale, -8*scale);
+                c.lineTo(32*scale, -2*scale);
+                c.lineTo(28*scale, 4*scale);
+                c.lineTo(0, 3*scale);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#1a1004'; c.lineWidth = 1.2*scale; c.stroke();
+                c.fillStyle = '#5a3a10';
+                c.fillRect(2*scale, -2*scale, 22*scale, 1.5*scale);
                 break;
         }
         c.restore();
@@ -3602,8 +4245,9 @@
         game.comboTimer = 0;
         game.slowMoTimer = 0;
         game.clearTime = 0;
-        // ステージ別BGM（1-6:軽快 / 7-12:雅楽 / 13-18:シンセ）
-        game.stageBgm = stageId <= 6 ? 'startBGM' : stageId <= 12 ? 'startMidBGM' : 'startHardBGM';
+        // ステージ別BGM — 編内通し番号で決定（1-6:軽快 / 7-12:雅楽 / 13-18:シンセ）
+        const sn = stageNumInEra(s);
+        game.stageBgm = sn <= 6 ? 'startBGM' : sn <= 12 ? 'startMidBGM' : 'startHardBGM';
         snd.init();
         if(snd[game.stageBgm]) snd[game.stageBgm](); else snd.startBGM();
         document.getElementById('stage-title').innerText = s.name;
@@ -3724,9 +4368,11 @@
         const mult = 1 + upLv * 0.2;
         const hp = Math.round(data.hp * mult);
         const atk = Math.round(data.atk * mult);
+        // 空を飛ぶユニットは地面より上に位置する
+        const flyOffset = data.flying ? 90 : 0;
         const u = {
             side, data,
-            x, y: groundY(),
+            x, y: groundY() - flyOffset,
             hp, maxHp: hp,
             atk, atkSpeed: data.atkSpeed, range: data.range,
             speed: data.speed, atkCd: 0, swing: 0, hitFlash: 0,
@@ -3741,10 +4387,27 @@
         game.units.push(u);
     }
 
+    // 空中・地上の当たり判定: 空ユニットには「対空」または「飛行」攻撃者しか当たらない
+    function canHitTarget(attacker, target) {
+        if(!target || !target.data || target.isCastle) return true;
+        if(target.data.flying) {
+            return !!(attacker.data && (attacker.data.antiAir || attacker.data.flying));
+        }
+        return true;
+    }
+
     // 雑魚はステージが進むほど強く（ボスは spawnBoss で別管理なので影響しない）
     function getEnemyStageMult(stageId) {
-        const k = Math.max(0, (stageId || 1) - 1);
-        return { hp: 1 + k * 0.18, atk: 1 + k * 0.15 };
+        const stage = STAGE_DATA.find(s => s.id === stageId);
+        const era = (stage && stage.era) || 'past';
+        // 編内のステージインデックス（0始まり）
+        const stagesInEra = STAGE_DATA.filter(s => (s.era || 'past') === era);
+        const idx = Math.max(0, stagesInEra.findIndex(s => s.id === stageId));
+        if(era === 'super_past') {
+            // 超過去編は過去編より難度高め: ベース1倍, +20%/+16% per stage
+            return { hp: 1 + idx * 0.20, atk: 1 + idx * 0.16 };
+        }
+        return { hp: 1 + idx * 0.18, atk: 1 + idx * 0.15 };
     }
     function spawnEnemy(type) {
         const base = ENEMY_DATA[type];
@@ -3877,7 +4540,9 @@
                 side: attacker.side,
                 weapon: attacker.data.weapon,
                 hit: false,
-                aoe: attacker.aoe || isSpecial
+                aoe: attacker.aoe || isSpecial,
+                antiAir: !!(attacker.data && attacker.data.antiAir),
+                fromFlying: !!(attacker.data && attacker.data.flying)
             });
             snd.slash();
         } else {
@@ -3885,7 +4550,7 @@
             if(attacker.aoe || isSpecial) {
                 const aoeR = isSpecial ? 100 : 80;
                 game.units.forEach(t => {
-                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - target.x) < aoeR) {
+                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - target.x) < aoeR && canHitTarget(attacker, t)) {
                         damageUnit(t, atk);
                     }
                 });
@@ -3919,6 +4584,7 @@
         let best = null, bestDist = Infinity;
         for(const t of game.units) {
             if(t.side === u.side || t.dead) continue;
+            if(!canHitTarget(u, t)) continue;
             const d = Math.abs(t.x - u.x);
             if(d <= u.range && d < bestDist) { best = t; bestDist = d; }
         }
@@ -4066,8 +4732,9 @@
             const d = Math.hypot(b.x - b.tx, b.y - b.ty);
             if(d < 12) {
                 b.hit = true;
-                // 命中対象（直近の同陣営でない unit）
-                const candidates = game.units.filter(t => !t.dead && t.side !== b.side);
+                // 命中対象（空ユニットは対空属性なしの弾には当たらない）
+                const canHitFlying = !!(b.antiAir || b.fromFlying);
+                const candidates = game.units.filter(t => !t.dead && t.side !== b.side && (!t.data.flying || canHitFlying));
                 let target = null, best = Infinity;
                 for(const t of candidates) {
                     const dd = Math.hypot(t.x - b.x, (t.y - 30) - b.y);
@@ -4084,6 +4751,7 @@
                     if(b.aoe) {
                         game.units.forEach(t => {
                             if(t.side !== b.side && !t.dead && Math.abs(t.x - target.x) < aoeRange) {
+                                if(t.data.flying && !canHitFlying) return;
                                 damageUnit(t, b.dmg);
                                 applyStatus(t);
                             }
@@ -4404,13 +5072,50 @@
         const sorted = [...game.units].sort((a,b)=>a.x - b.x);
         for(const u of sorted) {
             const dir = u.side === 'p' ? 1 : -1;
-            const yWalk = u.target ? 0 : Math.sin(performance.now()*0.01 + u.x*0.1) * 1.5;
+            const isFly = !!(u.data && u.data.flying);
+            const yWalk = isFly
+                ? Math.sin(performance.now()*0.003 + u.x*0.011) * 5
+                : (u.target ? 0 : Math.sin(performance.now()*0.01 + u.x*0.1) * 1.5);
             const fade = u.dead ? Math.max(0, 1 - (u.deadTimer/0.5)) : 1;
             ctx.globalAlpha = fade;
+            // 飛行: 地面に楕円影
+            if(isFly && !u.dead) {
+                ctx.fillStyle = 'rgba(0,0,0,0.32)';
+                ctx.beginPath();
+                ctx.ellipse(u.x, groundY() - 1, 18 * (u.scale||1), 4, 0, 0, Math.PI*2);
+                ctx.fill();
+            }
             if(u.data && u.data.mega) {
                 if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
                 else drawDarkDragon(ctx, u);
             } else {
+                // 飛行: 本体の後ろに翼を描画
+                if(isFly) {
+                    const sc = u.scale || 1;
+                    const flap = Math.sin(performance.now() * 0.018 + u.x * 0.02);
+                    ctx.save();
+                    ctx.translate(u.x, u.y + yWalk);
+                    ctx.scale(dir, 1);
+                    const wingCol = u.data.wingColor || '#5a3a1a';
+                    ctx.fillStyle = wingCol;
+                    // 左翼
+                    ctx.beginPath();
+                    ctx.moveTo(-2*sc, -22*sc);
+                    ctx.lineTo(-26*sc, -28*sc + flap*8);
+                    ctx.lineTo(-30*sc, -16*sc + flap*4);
+                    ctx.lineTo(-6*sc, -12*sc);
+                    ctx.closePath(); ctx.fill();
+                    // 右翼
+                    ctx.beginPath();
+                    ctx.moveTo(2*sc, -22*sc);
+                    ctx.lineTo(26*sc, -28*sc + flap*8);
+                    ctx.lineTo(30*sc, -16*sc + flap*4);
+                    ctx.lineTo(6*sc, -12*sc);
+                    ctx.closePath(); ctx.fill();
+                    ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.lineWidth = 1;
+                    ctx.stroke();
+                    ctx.restore();
+                }
                 drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale);
             }
             // ヒットフラッシュ
