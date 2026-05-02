@@ -6036,6 +6036,313 @@
     }
 
     // 城（テーマ＋プレイヤーレベル対応）
+    // 超過去編専用の古代風の砦（石・土・藁）
+    function drawAncientCastle(c, x, gy, isPlayer, lv, hpRatio) {
+        const cw = 90;
+        // 配色（自城は明るめ、敵城は暗めで威圧感）
+        const stoneBase  = isPlayer ? '#9a8a78' : '#6a5848';
+        const stoneShade = isPlayer ? '#5a4a3a' : '#2a1f15';
+        const dirtBase   = isPlayer ? '#a8764a' : '#6a4828';
+        const dirtShade  = isPlayer ? '#7a4a20' : '#3a2008';
+        const woodPole   = '#3a2008';
+        const woodLight  = '#5a3a18';
+        const strawBase  = isPlayer ? '#dcaa50' : '#8a6a30';
+        const strawShade = isPlayer ? '#a87a30' : '#5a3a18';
+        const flagColor  = isPlayer ? '#c01010' : '#1a1a1a';
+        const accentColor= isPlayer ? '#ffd24a' : '#aa1010';
+
+        // 1. 下段：粗い石積み
+        c.fillStyle = stoneBase;
+        c.fillRect(x-cw/2, gy-50, cw, 50);
+        // 石ブロックの不規則な継ぎ目
+        c.strokeStyle = stoneShade; c.lineWidth = 2;
+        c.beginPath(); c.moveTo(x-cw/2, gy-32); c.lineTo(x+cw/2, gy-32); c.stroke();
+        c.beginPath(); c.moveTo(x-cw/2, gy-15); c.lineTo(x+cw/2, gy-15); c.stroke();
+        // 縦の継ぎ目（段ごとにずらして石ブロック感）
+        const cuts = [[24, -50, -32], [58, -50, -32], [16, -32, -15], [44, -32, -15], [70, -32, -15], [10, -15, 0], [38, -15, 0], [66, -15, 0]];
+        cuts.forEach(([dx, y1, y2]) => {
+            c.beginPath();
+            c.moveTo(x-cw/2 + dx, gy + y1);
+            c.lineTo(x-cw/2 + dx, gy + y2);
+            c.stroke();
+        });
+        // 苔とハイライト
+        c.fillStyle = '#5a8a4a';
+        c.fillRect(x-cw/2+5, gy-3, 10, 3);
+        c.fillRect(x+cw/2-18, gy-2, 12, 2);
+        c.fillRect(x-cw/2+34, gy-32, 6, 2);
+        // 石の光沢
+        c.fillStyle = isPlayer ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)';
+        c.fillRect(x-cw/2+3, gy-48, 12, 2);
+        c.fillRect(x-cw/2+30, gy-30, 10, 1);
+        // 外周枠
+        c.strokeStyle = woodPole; c.lineWidth = 1.5;
+        c.strokeRect(x-cw/2, gy-50, cw, 50);
+
+        // 2. 中段：土壁＋木の柵
+        c.fillStyle = dirtBase;
+        c.fillRect(x-cw/2+10, gy-100, cw-20, 50);
+        // 土の質感（小石）
+        c.fillStyle = dirtShade;
+        const rocks = [[14,-92],[28,-78],[42,-90],[56,-72],[68,-86],[20,-62],[48,-58],[60,-66]];
+        rocks.forEach(([dx,dy]) => c.fillRect(x-cw/2+dx, gy+dy, 3, 3));
+        // 縦の丸太（木柵）
+        c.fillStyle = woodLight;
+        for(let i = 0; i < 5; i++) {
+            const px = x-cw/2 + 14 + i*15;
+            c.fillRect(px, gy-100, 4, 50);
+            // 木目
+            c.strokeStyle = woodPole; c.lineWidth = 0.8;
+            c.beginPath(); c.moveTo(px+2, gy-95); c.lineTo(px+2, gy-55); c.stroke();
+        }
+        // 横木（縛り）
+        c.fillStyle = woodPole;
+        c.fillRect(x-cw/2+10, gy-78, cw-20, 3);
+        c.fillRect(x-cw/2+10, gy-58, cw-20, 3);
+
+        // 3. 上段：土と木の小屋
+        c.fillStyle = dirtBase;
+        c.fillRect(x-cw/2+18, gy-145, cw-36, 45);
+        c.strokeStyle = woodLight; c.lineWidth = 2;
+        c.strokeRect(x-cw/2+18, gy-145, cw-36, 45);
+        // 角の柱
+        c.fillStyle = woodLight;
+        c.fillRect(x-cw/2+18, gy-145, 4, 45);
+        c.fillRect(x+cw/2-22, gy-145, 4, 45);
+        // 梁
+        c.fillStyle = woodPole;
+        c.fillRect(x-cw/2+18, gy-105, cw-36, 3);
+        // 入口（暗い洞窟風）
+        c.fillStyle = '#0a0500';
+        c.fillRect(x-8, gy-130, 16, 30);
+        // 入口の上の梁
+        c.fillStyle = woodPole;
+        c.fillRect(x-10, gy-132, 20, 3);
+        // 入口横の松明（敵城のみ：燃える炎）
+        if(!isPlayer) {
+            const flicker = 0.7 + Math.sin(performance.now()*0.012) * 0.25;
+            c.fillStyle = `rgba(255,120,30,${flicker})`;
+            c.beginPath(); c.arc(x-cw/2+24, gy-126, 4, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,220,90,${flicker})`;
+            c.beginPath(); c.arc(x-cw/2+24, gy-127, 2, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,120,30,${flicker})`;
+            c.beginPath(); c.arc(x+cw/2-24, gy-126, 4, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255,220,90,${flicker})`;
+            c.beginPath(); c.arc(x+cw/2-24, gy-127, 2, 0, Math.PI*2); c.fill();
+        }
+
+        // 4. 藁葺き屋根（茅葺き感）
+        c.fillStyle = strawBase;
+        c.beginPath();
+        c.moveTo(x-cw/2+8, gy-145);
+        c.lineTo(x, gy-188);
+        c.lineTo(x+cw/2-8, gy-145);
+        c.closePath(); c.fill();
+        // 藁の流れ（縦線）
+        c.strokeStyle = strawShade; c.lineWidth = 1;
+        for(let i = 0; i < 14; i++) {
+            const ratio = i / 13;
+            const xi = x-cw/2+10 + (cw-20) * ratio;
+            const slope = ratio < 0.5 ? ratio*2 : (1-ratio)*2;
+            const yTop = gy-145 - slope * 41;
+            c.beginPath();
+            c.moveTo(xi, gy-145);
+            c.lineTo(xi + (ratio < 0.5 ? -2 : 2), yTop + 2);
+            c.stroke();
+        }
+        // 藁の重なり（横の太い帯）
+        c.fillStyle = strawShade;
+        c.fillRect(x-cw/2+12, gy-145, cw-24, 2);
+        // 屋根の下端、藁の束（垂れ下がり）
+        for(let i = 0; i < 7; i++) {
+            const px = x-cw/2+14 + i*11;
+            c.fillStyle = strawBase;
+            c.beginPath();
+            c.moveTo(px, gy-143);
+            c.lineTo(px-2, gy-136);
+            c.lineTo(px+3, gy-136);
+            c.closePath(); c.fill();
+        }
+        // 棟木の縄結び
+        c.fillStyle = woodPole;
+        c.fillRect(x-4, gy-190, 8, 5);
+        // 棟の藁束
+        c.fillStyle = strawShade;
+        for(let i = 0; i < 3; i++) {
+            c.fillRect(x-6 + i*5, gy-194, 2, 4);
+        }
+
+        // Lv3+ 4段目：物見やぐら
+        if(lv >= 3) {
+            // 木の足場
+            c.fillStyle = woodLight;
+            c.fillRect(x-cw/2+24, gy-200, 4, 18);
+            c.fillRect(x+cw/2-28, gy-200, 4, 18);
+            // 床
+            c.fillStyle = woodPole;
+            c.fillRect(x-cw/2+22, gy-200, cw-44, 4);
+            // 小屋
+            c.fillStyle = dirtBase;
+            c.fillRect(x-cw/2+24, gy-225, cw-48, 25);
+            c.strokeStyle = woodLight; c.lineWidth = 1.5;
+            c.strokeRect(x-cw/2+24, gy-225, cw-48, 25);
+            // 藁屋根（小）
+            c.fillStyle = strawBase;
+            c.beginPath();
+            c.moveTo(x-cw/2+22, gy-225);
+            c.lineTo(x, gy-244);
+            c.lineTo(x+cw/2-22, gy-225);
+            c.closePath(); c.fill();
+            c.strokeStyle = strawShade; c.lineWidth = 0.8;
+            for(let i = 0; i < 6; i++) {
+                const ratio = i / 5;
+                c.beginPath();
+                c.moveTo(x-cw/2+24 + ratio * (cw-48), gy-225);
+                c.lineTo(x-cw/2+24 + ratio * (cw-48) + (ratio<0.5?-1:1), gy-225 - (ratio<0.5?ratio*2:(1-ratio)*2)*18);
+                c.stroke();
+            }
+            c.fillStyle = strawShade;
+            c.fillRect(x-cw/2+24, gy-225, cw-48, 1);
+            // 棟の骨飾り（動物の角）
+            c.fillStyle = '#f0e6d4';
+            c.beginPath();
+            c.moveTo(x-3, gy-244); c.lineTo(x-1, gy-256); c.lineTo(x+1, gy-244); c.closePath(); c.fill();
+            c.beginPath();
+            c.moveTo(x+1, gy-244); c.lineTo(x+3, gy-256); c.lineTo(x+5, gy-244); c.closePath(); c.fill();
+        }
+
+        // 旗（木の棒に古代の布）
+        c.fillStyle = woodPole;
+        const flagTop = lv >= 3 ? gy-272 : gy-220;
+        c.fillRect(x-1, flagTop, 2, 30);
+        // 旗布（ボロボロの布）
+        c.fillStyle = flagColor;
+        c.beginPath();
+        c.moveTo(x+1, flagTop+2);
+        c.lineTo(x+22, flagTop+5);
+        c.lineTo(x+18, flagTop+9);
+        c.lineTo(x+22, flagTop+13);
+        c.lineTo(x+1, flagTop+15);
+        c.closePath(); c.fill();
+        // 旗のシンボル（原始的な手形/呪文符）
+        c.strokeStyle = accentColor; c.lineWidth = 1.5;
+        c.beginPath(); c.moveTo(x+5, flagTop+5); c.lineTo(x+10, flagTop+11); c.stroke();
+        c.beginPath(); c.moveTo(x+10, flagTop+5); c.lineTo(x+5, flagTop+11); c.stroke();
+        // 旗布の縁の羽根飾り
+        c.fillStyle = '#fff';
+        c.fillRect(x+22, flagTop+4, 1, 3);
+        c.fillRect(x+22, flagTop+11, 1, 3);
+
+        // 敵城特有の威圧装飾
+        if(!isPlayer) {
+            // 入口の上に動物の頭蓋骨
+            c.fillStyle = '#f0e6d4';
+            c.beginPath(); c.arc(x, gy-138, 6, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#000';
+            c.fillRect(x-3, gy-140, 2, 2);
+            c.fillRect(x+1, gy-140, 2, 2);
+            c.fillStyle = '#fff';
+            c.beginPath();
+            c.moveTo(x-2, gy-134); c.lineTo(x-1, gy-130); c.lineTo(x, gy-134); c.closePath(); c.fill();
+            c.beginPath();
+            c.moveTo(x+1, gy-134); c.lineTo(x+2, gy-130); c.lineTo(x+3, gy-134); c.closePath(); c.fill();
+            // 屋根に動物の角（左右）
+            c.fillStyle = '#f0e6d4';
+            c.beginPath();
+            c.moveTo(x-cw/2+8, gy-145);
+            c.lineTo(x-cw/2-2, gy-162);
+            c.lineTo(x-cw/2+12, gy-150);
+            c.closePath(); c.fill();
+            c.beginPath();
+            c.moveTo(x+cw/2-8, gy-145);
+            c.lineTo(x+cw/2+2, gy-162);
+            c.lineTo(x+cw/2-12, gy-150);
+            c.closePath(); c.fill();
+            // 中段の柵に串刺しの頭蓋骨2つ
+            for(let s = 0; s < 2; s++) {
+                const px = x-cw/2 + 28 + s*30;
+                c.fillStyle = '#f0e6d4';
+                c.beginPath(); c.arc(px, gy-104, 4, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#000';
+                c.fillRect(px-2, gy-105, 1, 1);
+                c.fillRect(px+1, gy-105, 1, 1);
+            }
+        } else {
+            // 自城：屋根の上に守護神獣の像（小）
+            c.fillStyle = '#aa6633';
+            c.fillRect(x-2, gy-150, 4, 5);
+            c.beginPath();
+            c.arc(x-3, gy-148, 2, 0, Math.PI*2); c.fill();
+        }
+
+        // 自城の弩弓（龍神レーザー砲の古代版）
+        if(isPlayer) {
+            const bx = x - cw/2 - 8;
+            const by = gy - 78;
+            // 木の土台
+            c.fillStyle = '#5a3a18';
+            c.fillRect(x - cw/2 - 4, gy-92, 24, 28);
+            c.strokeStyle = '#3a2008'; c.lineWidth = 1.5;
+            c.strokeRect(x - cw/2 - 4, gy-92, 24, 28);
+            // 動物頭装飾（獣頭）
+            c.fillStyle = '#aa6633';
+            c.beginPath();
+            c.moveTo(x - cw/2 + 4, gy-92); c.lineTo(x - cw/2 + 12, gy-100); c.lineTo(x - cw/2 + 16, gy-92); c.closePath(); c.fill();
+            // 牙
+            c.fillStyle = '#fff';
+            c.fillRect(x - cw/2 + 6, gy-92, 1, 3);
+            c.fillRect(x - cw/2 + 13, gy-92, 1, 3);
+            // 弩弓本体（木）
+            c.fillStyle = '#5a3a18';
+            c.fillRect(bx - 44, by - 8, 50, 16);
+            c.strokeStyle = '#3a2008'; c.lineWidth = 1.5;
+            c.strokeRect(bx - 44, by - 8, 50, 16);
+            // 木目
+            c.strokeStyle = '#3a2008'; c.lineWidth = 0.8;
+            c.beginPath(); c.moveTo(bx - 40, by - 4); c.lineTo(bx, by - 4); c.stroke();
+            c.beginPath(); c.moveTo(bx - 40, by + 4); c.lineTo(bx, by + 4); c.stroke();
+            // 弦の縛り
+            c.fillStyle = '#3a2008';
+            c.fillRect(bx - 30, by - 9, 2, 18);
+            c.fillRect(bx - 14, by - 9, 2, 18);
+            // 矢じり（先端で蓄積するエネルギー = 炎の矢）
+            const charge = game.laserCharge / game.laserMax;
+            const glowR = 5 + charge * 3 + (game.laserAnim > 0 ? 8 : 0);
+            c.fillStyle = `rgba(255, ${50 + charge*100}, 70, ${0.4 + charge*0.6})`;
+            c.beginPath(); c.arc(bx - 44, by, glowR + 4, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255, ${100 + charge*155}, 100, ${0.7 + charge*0.3})`;
+            c.beginPath(); c.arc(bx - 44, by, glowR, 0, Math.PI*2); c.fill();
+            if(charge >= 1) {
+                c.fillStyle = '#fff';
+                c.beginPath(); c.arc(bx - 44, by, 3, 0, Math.PI*2); c.fill();
+            }
+        }
+
+        // HPによる損傷
+        if(hpRatio < 0.5) {
+            // 石の崩れ
+            c.fillStyle = 'rgba(0,0,0,0.55)';
+            c.beginPath(); c.moveTo(x-22, gy-50); c.lineTo(x+12, gy-30); c.lineTo(x-32, gy-10); c.closePath(); c.fill();
+            // 落ちた石ブロック
+            c.fillStyle = stoneShade;
+            c.fillRect(x-30, gy-6, 8, 6);
+            c.fillRect(x-18, gy-4, 6, 4);
+        }
+        if(hpRatio < 0.25) {
+            // 屋根の藁が焼け焦げ
+            c.fillStyle = 'rgba(0,0,0,0.65)';
+            c.beginPath(); c.moveTo(x-18, gy-185); c.lineTo(x+10, gy-165); c.lineTo(x-10, gy-150); c.closePath(); c.fill();
+            // 中段の損傷
+            c.fillStyle = 'rgba(0,0,0,0.6)';
+            c.beginPath(); c.moveTo(x+5, gy-110); c.lineTo(x+25, gy-100); c.lineTo(x+15, gy-80); c.closePath(); c.fill();
+            // くすぶる煙
+            const tt = performance.now() * 0.001;
+            c.fillStyle = 'rgba(80,80,80,0.5)';
+            c.beginPath(); c.arc(x + Math.sin(tt*2)*4, gy-200 - (tt*8 % 30), 6, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(x-10 + Math.sin(tt*2+1)*4, gy-195 - ((tt*8+15) % 30), 5, 0, Math.PI*2); c.fill();
+        }
+    }
+
     function drawCastle(c, x, isPlayer, hpRatio) {
         const gy = groundY();
         c.save();
@@ -6045,6 +6352,12 @@
         // 影
         c.fillStyle = 'rgba(0,0,0,0.4)';
         c.beginPath(); c.ellipse(x, gy+4, cw*0.7, 8, 0, 0, Math.PI*2); c.fill();
+        // 超過去編は古代の砦デザイン（石・土・藁）に分岐
+        if(currentEra === 'super_past') {
+            drawAncientCastle(c, x, gy, isPlayer, lv, hpRatio);
+            c.restore();
+            return;
+        }
         // 色決定
         let baseColor, trimColor, flagColor;
         if(isPlayer) {
