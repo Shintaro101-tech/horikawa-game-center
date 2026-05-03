@@ -4281,10 +4281,10 @@
 
     function spawnBossFromData(b) {
         if(!b) return;
-        // 過去編のボスは強さ3倍
+        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍）
         const stage = STAGE_DATA.find(s => s.id === game.stageId);
         const era = (stage && stage.era) || 'past';
-        const bossMul = era === 'past' ? 3 : 1;
+        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : 1);
         const baseGold = b.gold || Math.floor(b.hp / 8);
         const data = {
             name: b.name, yomi: b.yomi,
@@ -6934,8 +6934,9 @@
         const stagesInEra = STAGE_DATA.filter(s => (s.era || 'past') === era);
         const idx = Math.max(0, stagesInEra.findIndex(s => s.id === stageId));
         if(era === 'super_past') {
-            // 超過去編は過去編より難度高め: ベース1倍, +20%/+16% per stage
-            return { hp: 1 + idx * 0.20, atk: 1 + idx * 0.16 };
+            // 超過去編: 雑魚の基本倍率を 2倍 にした上でステージ進行で増加
+            const baseMul = 2.0;
+            return { hp: baseMul * (1 + idx * 0.20), atk: baseMul * (1 + idx * 0.16) };
         }
         // 過去編: 雑魚の基本倍率を 1.5倍 にした上でステージ進行で増加
         const baseMul = 1.5;
