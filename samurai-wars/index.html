@@ -74,28 +74,19 @@
 
         /* レベルアップ演出 */
         @keyframes lvup-card-pulse {
-            0%   { transform: scale(1);    box-shadow: 0 0 0   rgba(255,210,74,0); border-color:#555; }
-            15%  { transform: scale(1.18); box-shadow: 0 0 36px rgba(255,210,74,0.95); border-color:var(--gold); }
-            45%  { transform: scale(1.06); box-shadow: 0 0 56px rgba(255,210,74,0.7);  border-color:var(--gold); }
-            100% { transform: scale(1);    box-shadow: 0 0 12px rgba(255,210,74,0.45); border-color:var(--gold); }
-        }
-        @keyframes lvup-card-shine {
-            0%   { transform: translateX(-150%) skewX(-25deg); opacity:0; }
-            30%  { opacity:0.85; }
-            100% { transform: translateX(160%)  skewX(-25deg); opacity:0; }
+            0%   { transform: scale(1);    box-shadow: 0 0 0   rgba(255,210,74,0)    , inset 0 0 0   rgba(255,255,200,0); }
+            15%  { transform: scale(1.14); box-shadow: 0 0 40px rgba(255,210,74,0.95), inset 0 0 40px rgba(255,255,200,0.6); }
+            45%  { transform: scale(1.05); box-shadow: 0 0 60px rgba(255,210,74,0.7) , inset 0 0 24px rgba(255,255,200,0.4); }
+            100% { transform: scale(1);    box-shadow: 0 0 12px rgba(255,210,74,0.45), inset 0 0 0   rgba(255,255,200,0); }
         }
         @keyframes lvup-stat-pop {
             0%   { transform: scale(1); color:#fff; }
             30%  { transform: scale(1.6); color:#FFEB3B; text-shadow:0 0 14px rgba(255,210,74,0.95); }
             100% { transform: scale(1); color:#fff; }
         }
-        .upgrade-card { position:relative; overflow:hidden; transition: border-color 0.3s; }
-        .upgrade-card.lvup { animation: lvup-card-pulse 1.0s cubic-bezier(0.2,0.8,0.4,1); }
-        .upgrade-card.lvup::before {
-            content:''; position:absolute; top:0; left:0; bottom:0; width:60%;
-            background:linear-gradient(90deg, transparent 0%, rgba(255,255,200,0.85) 50%, transparent 100%);
-            animation: lvup-card-shine 0.9s ease-out;
-            pointer-events:none;
+        .upgrade-card.lvup {
+            animation: lvup-card-pulse 1.0s cubic-bezier(0.2,0.8,0.4,1);
+            border-color: var(--gold) !important;
         }
         .upgrade-card.lvup .ulv { display:inline-block; animation: lvup-stat-pop 1.0s cubic-bezier(0.2,0.8,0.4,1); }
         .upgrade-card.lvup .ustats { color:#FFEB3B !important; text-shadow:0 0 10px rgba(255,210,74,0.7); }
@@ -4290,13 +4281,20 @@
 
     function spawnBossFromData(b) {
         if(!b) return;
+        // 過去編のボスは強さ3倍
+        const stage = STAGE_DATA.find(s => s.id === game.stageId);
+        const era = (stage && stage.era) || 'past';
+        const bossMul = era === 'past' ? 3 : 1;
+        const baseGold = b.gold || Math.floor(b.hp / 8);
         const data = {
-            name: b.name, yomi: b.yomi, hp: b.hp, atk: b.atk,
+            name: b.name, yomi: b.yomi,
+            hp: Math.round(b.hp * bossMul),
+            atk: Math.round(b.atk * bossMul),
             atkSpeed: b.atkSpeed || 1.8,
             range: b.range || (b.ranged ? 250 : 62),
             speed: b.speed != null ? b.speed : 0.45,
             color: b.color, helmet: b.helmet, weapon: b.weapon,
-            gold: b.gold || Math.floor(b.hp / 8),
+            gold: Math.round(baseGold * Math.sqrt(bossMul)),
             boss: true, scale: b.scale || 1.4,
             ranged: b.ranged, aoe: b.aoe, mega: b.mega,
             // 空中・対空属性
@@ -6939,7 +6937,9 @@
             // 超過去編は過去編より難度高め: ベース1倍, +20%/+16% per stage
             return { hp: 1 + idx * 0.20, atk: 1 + idx * 0.16 };
         }
-        return { hp: 1 + idx * 0.18, atk: 1 + idx * 0.15 };
+        // 過去編: 雑魚の基本倍率を 1.5倍 にした上でステージ進行で増加
+        const baseMul = 1.5;
+        return { hp: baseMul * (1 + idx * 0.18), atk: baseMul * (1 + idx * 0.15) };
     }
     function spawnEnemy(type) {
         const base = ENEMY_DATA[type];
