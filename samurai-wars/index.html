@@ -906,9 +906,9 @@
         { id:'onmyouji', name:'陰陽師', yomi:'おんみょうじ', cost:380, hp:380, atk:80, atkSpeed:1.4, range:260, speed:1.0,
           cooldown:11.0, color:'#7a3a8a', helmet:'onmyouji_hat', weapon:'magic_circle', rarity:2, ranged:true,
           desc:'紫の闇陰陽師。必殺は結界封印' },
-        { id:'kaen', name:'炎魔導士', yomi:'かえんまどうし', cost:650, hp:550, atk:160, atkSpeed:1.7, range:1100, speed:0.0,
+        { id:'kaen', name:'炎魔導士', yomi:'かえんまどうし', cost:650, hp:550, atk:160, atkSpeed:1.7, range:9999, speed:0.0,
           cooldown:16.0, color:'#a02020', helmet:'mahou_robe', weapon:'fireball', rarity:3, ranged:true, aoe:true,
-          desc:'画面端から画面端まで届く超遠距離の火球を放つ後方支援。動かない' },
+          desc:'戦場のどこに敵がいても届く超遠距離の火球を放つ後方支援。動かない' },
         { id:'raijin', name:'雷神', yomi:'らいじん', cost:950, hp:750, atk:280, atkSpeed:1.9, range:280, speed:0.85,
           cooldown:22.0, color:'#ddaa00', helmet:'raijin_horns', weapon:'thunder_bolt', rarity:4, ranged:true, aoe:true,
           desc:'黄金の電雷神。必殺は神鳴 雷雲呼び' }
@@ -1027,7 +1027,7 @@
           antiAir:true, clones:2,
           desc:'三体の分身が同時に襲いかかる西遊記の英雄' },
         // Stage 116: イルルヤンカシュ（東洋青龍・飛行 + 対空 + 範囲）
-        { id:'sp_irullu', name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', cost:3200, hp:9500, atk:850, atkSpeed:2.0, range:1100, speed:0.0,
+        { id:'sp_irullu', name:'イルルヤンカシュ', yomi:'いるるやんかしゅ', cost:3200, hp:9500, atk:850, atkSpeed:2.0, range:9999, speed:0.0,
           cooldown:62.0, color:'#3a8a5a', helmet:'dragon_head', weapon:'fire_breath', rarity:5, scale:1.85,
           flying:true, antiAir:true, ranged:true, aoe:true, noWings:true,
           desc:'神獣の如く宙を舞う中華龍。火炎で全てを焼き尽くす' },
@@ -2175,7 +2175,7 @@
         15: { name:'メカ怪獣',       yomi:'めかかいじゅう',       hp:19500, atk:810,  helmet:'mecha_kaiju',weapon:'laser_arm',     color:'#4a4a4a', scale:3.0, ranged:true },
         16: { name:'ロボット鬼',     yomi:'ろぼっとおに',         hp:22500, atk:945,  helmet:'robo_oni',   weapon:'laser_katana',  color:'#5a5a8a', scale:2.7 },
         17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:26250, atk:1150, helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:3.1, ranged:true, aoe:true },
-        18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0 },
+        18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.18 },
         // ===== 超過去編 ボス（クリアで仲間に） =====
         // Stage 101 — T-Rex (anti-air via size, opens up flying enemies for stage 2+)
         101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'fist', color:'#aa6644', scale:2.1, antiAir:true },
@@ -2212,13 +2212,13 @@
         // Stage 117 — スサノオ（十拳剣の横一閃）
         117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'slash_wave', color:'#ffd24a', scale:2.3, range:240 },
         // Stage 118 — Zeus (final megaboss: storm god with thunder pillar attack)
-        118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.0 }
+        118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.20 }
     };
 
     // ステージ18は二段階ボス戦
     const STAGE_18_BOSSES = [
-        { name:'天空魔機神', yomi:'てんくうまきしん', hp:38000, atk:1500, helmet:'mechagod',  weapon:'kyojin_blast', color:'#5a2a10', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.7, range:400, speed:0.0, threshold:2/3, gold:1500 },
-        { name:'暗黒大龍神', yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast', color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.0, threshold:1/3, gold:2000 }
+        { name:'天空魔機神', yomi:'てんくうまきしん', hp:38000, atk:1500, helmet:'mechagod',  weapon:'kyojin_blast', color:'#5a2a10', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.7, range:400, speed:0.16, threshold:2/3, gold:1500 },
+        { name:'暗黒大龍神', yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast', color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.18, threshold:1/3, gold:2000 }
     ];
 
     // 暗黒大龍神 — 画面下から上まで届く三頭の超巨大ボス
