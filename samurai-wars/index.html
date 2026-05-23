@@ -3070,6 +3070,52 @@
             }
             return;
         }
+        if(q.style === 'water_vortex') {
+            // メガロドンの大渦巻き — 攻撃者周辺に青い水の渦
+            const cx = q.x;
+            const cy = gy - 30;
+            if(t < 0.18) {
+                // チャージ（水たまり）
+                const tt = t / 0.18;
+                c.fillStyle = `rgba(0,100,180,${tt*0.5})`;
+                c.beginPath(); c.ellipse(cx, gy, q.range*0.5*tt, 8*tt, 0, 0, Math.PI*2); c.fill();
+            } else {
+                const tt = (t - 0.18) / 1.0;
+                // 青い渦（複数のアーク）
+                for(let k = 0; k < 15; k++){
+                    const ang = k * 0.8 + tt * Math.PI * 8;
+                    const rr = 12 + k * (q.range/30);
+                    if(rr > q.range) continue;
+                    c.strokeStyle = `rgba(170,238,255,${0.6 - k*0.03})`;
+                    c.lineWidth = Math.max(0.8, 4 - k*0.15);
+                    c.beginPath(); c.arc(cx, cy, rr, ang, ang + 1.5); c.stroke();
+                }
+                // 中央の水渦（濃い青）
+                c.fillStyle = `rgba(0,100,180,${0.6 - tt*0.3})`;
+                c.beginPath(); c.arc(cx, cy, 18, 0, Math.PI*2); c.fill();
+                c.fillStyle = `rgba(0,60,140,${0.7 - tt*0.3})`;
+                c.beginPath(); c.arc(cx, cy, 8, 0, Math.PI*2); c.fill();
+                // 水しぶき（飛び散る）
+                for(let i=0; i<8; i++){
+                    const ang = i*Math.PI/4 + tt*Math.PI*2;
+                    const rr = q.range * 0.85;
+                    c.fillStyle = `rgba(200,230,255,${0.7 - tt*0.3})`;
+                    c.beginPath(); c.arc(cx + Math.cos(ang)*rr, cy + Math.sin(ang)*rr*0.55, 4, 0, Math.PI*2); c.fill();
+                }
+                // 渦の範囲リング
+                c.strokeStyle = `rgba(170,238,255,${0.35 - tt*0.2})`;
+                c.lineWidth = 2;
+                c.beginPath(); c.ellipse(cx, gy - 20, q.range, q.range*0.55, 0, 0, Math.PI*2); c.stroke();
+                // 中央の小さな白い泡
+                for(let i=0; i<6; i++){
+                    const ang = i*Math.PI/3 + tt*Math.PI*5;
+                    const rr = 22 + Math.sin(tt*10+i)*4;
+                    c.fillStyle = `rgba(255,255,255,${0.65 - tt*0.4})`;
+                    c.beginPath(); c.arc(cx + Math.cos(ang)*rr, cy + Math.sin(ang)*rr*0.5, 2.5, 0, Math.PI*2); c.fill();
+                }
+            }
+            return;
+        }
         if(q.style === 'spin') {
             // 渦巻き攻撃（手長足長）— 攻撃者周辺に紫の渦
             if(t < 0.2) {
@@ -8803,11 +8849,14 @@
                 if(snd && snd.slash) snd.slash();
                 return;
             }
-            // 6. md_water_pillar (花子) — 水柱AOE（5本時間差・pillars 流用）
+            // 6. md_water_pillar (花子) — 水柱AOE（5本時間差・pillars 流用、味方は右→左に進む）
             if(mdWeapon === 'md_water_pillar') {
                 if(!game.pillars) game.pillars = [];
+                const isP = attacker.side === 'p';
                 for(let k=0;k<5;k++){
-                    const px = tgtX + (k-2)*40;
+                    // 味方は右(k=0)→左(k=4)、敵は左(k=0)→右(k=4)
+                    const kIdx = isP ? (4-k) : k;
+                    const px = tgtX + (kIdx-2)*40;
                     game.pillars.push({
                         x: px, timer: -k*0.12, damage: atk*0.6,
                         side: attacker.side, damageApplied:false,
@@ -8848,11 +8897,14 @@
                 if(snd && snd.explode) snd.explode();
                 return;
             }
-            // 8. md_acid_rain (スモッグ) — 全画面に酸性雨（複数ピラー降下）
+            // 8. md_acid_rain (スモッグ) — 全画面に酸性雨（味方は右→左に進む）
             if(mdWeapon === 'md_acid_rain') {
                 if(!game.pillars) game.pillars = [];
+                const isP = attacker.side === 'p';
                 for(let k=0;k<6;k++){
-                    const px = 100 + (W()-200) * (k/5);
+                    // 味方は右(W-100)から左(100)へ、敵は左から右へ
+                    const kIdx = isP ? (5-k) : k;
+                    const px = 100 + (W()-200) * (kIdx/5);
                     game.pillars.push({
                         x: px, timer: -k*0.15, damage: atk*0.55,
                         side: attacker.side, damageApplied:false,
@@ -8922,14 +8974,14 @@
                 if(snd && snd.slash) snd.slash();
                 return;
             }
-            // 12. md_vortex (メガロドン) — 大渦巻きAOE（spin_attack 流用）
+            // 12. md_vortex (メガロドン) — 大渦巻きAOE（青い水の渦）
             if(mdWeapon === 'md_vortex') {
                 if(!game.quakes) game.quakes = [];
                 game.quakes.push({
                     x: attacker.x, timer: 0, damage: atk,
                     side: attacker.side, damageApplied: false,
                     antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
-                    isSpecial, range: 180, style:'spin'
+                    isSpecial, range: 180, style:'water_vortex'
                 });
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🌊 大渦巻き 🌊', '#88ccff', true);
                 if(snd && snd.slash) snd.slash();
@@ -8954,7 +9006,7 @@
                 if(snd && snd.laser) snd.laser();
                 return;
             }
-            // 14. md_missile_storm (メカMK-III) — 12発ミサイル乱射
+            // 14. md_missile_storm (メカMK-III) — 12発ミサイル乱射（攻撃者の側から外へ進む）
             if(mdWeapon === 'md_missile_storm') {
                 const candidates = [];
                 for(const t of game.units) {
@@ -8962,6 +9014,8 @@
                     if(t.data.flying && !canHitTarget(attacker, t)) continue;
                     candidates.push(t);
                 }
+                // 攻撃者の側に近い敵から順にソート（味方=右側から、敵=左側から）
+                candidates.sort((a, b) => attacker.side === 'p' ? (b.x - a.x) : (a.x - b.x));
                 for(let k=0;k<12;k++){
                     const tg = candidates[k % Math.max(1, candidates.length)] || target;
                     const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*30;
@@ -8993,11 +9047,13 @@
                 if(snd && snd.explode) snd.explode();
                 return;
             }
-            // 16. md_killsat (サタライト) — キルセイト全画面爆撃（6箇所の時間差ピラー）
+            // 16. md_killsat (サタライト) — キルセイト全画面爆撃（味方は右→左に進む）
             if(mdWeapon === 'md_killsat') {
                 if(!game.pillars) game.pillars = [];
+                const isP = attacker.side === 'p';
                 for(let k=0;k<6;k++){
-                    const px = 120 + (W()-240) * (k/5);
+                    const kIdx = isP ? (5-k) : k;
+                    const px = 120 + (W()-240) * (kIdx/5);
                     game.pillars.push({
                         x: px, timer: -k*0.18, damage: atk*0.7,
                         side: attacker.side, damageApplied:false,
