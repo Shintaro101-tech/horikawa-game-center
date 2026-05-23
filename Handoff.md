@@ -192,6 +192,32 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-23
+- **現代編 全18キャラに固有デザイン＋固有必殺技を本実装**（プレビューの選択案を反映、ボス・味方共通）
+  - 新フィールド `mdRender` を `SAMURAI_DATA` と `STAGE_BOSSES` の md_* 18キャラに付与
+  - `spawnBossFromData` でも `mdRender` をボス data に伝播（ボス出現時も同じ見た目に）
+  - ユニット描画ループに分岐を追加 → `drawSamuraiCanvas` ではなく `drawModernUnit` を呼ぶ
+  - `drawModernUnit(c, x, y, u, dir, swing, scale)` が `MD_DRAW[u.mdRender]` テーブルを引いて 18体の固有 Canvas 描画を行う
+    - 非人型（メガロドン=ザメ／UFO=円盤＋グレイ宇宙人／サタライト=赤の戦略衛星／ラットキング=四足ネズミ＋王冠／スモッグ=紫の毒霧悪魔／ザイガス=銀のサイバー解体ロボ＋鉄球／AI兵器=4本足重装ロボ／メカMK-III=黒紫の重装メカ）は全身カスタム
+    - 人型（暴走族/怪盗/クチサケ/テケテケ/メリー/花子/ハッカー/ドローン軍団長/ブレットマン/CEO）も全身カスタム（脚・胴・頭・装飾を選択案に合わせて描画）
+  - ユーザー選択した攻撃を 16 個の `md_*` weapon で実装（残り 2 個は既存 `magic_circle`/`big_laser` を流用）
+    - md_bike → kamikaze horse_charge 流用（貫通）
+    - md_cards → 8方向 magic_circle 弾
+    - md_curse → slashWaves style:mega_flame
+    - md_tp_strike → cloneStrikes 3連
+    - md_doll_summon → jumpCombos 3体 style:snake
+    - md_water_pillar → 5本ピラー時間差 style:water
+    - md_guided → 3発の追尾 fireball 弾
+    - md_acid_rain → 全画面に6本ピラー style:acid
+    - md_swarm → jumpCombos 5体 style:snake
+    - md_sonic → 超高速 slashWaves style:charge_beam
+    - md_drill → kamikaze horse_charge 流用（×1.6 ダメ）
+    - md_vortex → quakes range:180 style:spin
+    - md_beam_burst → 5方向の magic_circle 弾
+    - md_missile_storm → 12発のランダム着弾 fireball 弾
+    - md_stamp → quakes style:binding_seal（スタン付き）
+    - md_killsat → 全画面6本ピラー
+  - 攻撃ハンドラは `attackTarget` 内の thunder_pillar の直後に `mdWeapon.startsWith('md_')` でディスパッチする一括ブロック
+  - 既存の `teleport:true`（テケテケ・花子さん）の瞬間移動能力は維持
 - **現代編 全18キャラのデザイン候補プレビューを追加**（3デザイン+3攻撃のコンパクト版）
   - `samurai-wars/modern-preview-index.html` に一覧（Phase別3グループ）
   - 18ファイル: `md_bouso/md_kaitou/md_kuchisake/md_teketeke/md_merry/md_hanako/md_hacker/md_drone_cmd/md_smog/md_ai_guard/md_rat_king/md_bullet/md_zigas/md_megalodon/md_ufo/md_mecha3/md_ceo/md_satellite-preview.html`

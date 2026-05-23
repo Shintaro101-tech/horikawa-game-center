@@ -1056,85 +1056,87 @@
     );
 
     // ===== 現代編 ボス→仲間（クリア報酬・18体） =====
+    // 各キャラに mdRender（固有描画キー）と固有 weapon を付与。
+    // ボスでも味方でも同じ見た目・必殺技が出るように spawnBossFromData でも mdRender が伝播する。
     SAMURAI_DATA.push(
-        // Stage 201: 暴走族頭領（バイク突進・速度）
-        { id:'md_bouso', name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', cost:900, hp:1400, atk:170, atkSpeed:1.2, range:55, speed:1.6,
-          cooldown:14.0, color:'#1a1a1a', helmet:'mohawk', weapon:'kanabo', rarity:3, scale:1.2,
-          desc:'夜の街を駆ける暴走族の頭。金棒で殴り飛ばす' },
-        // Stage 202: 怪盗ブラックタイガー（影分身）
-        { id:'md_kaitou', name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', cost:1200, hp:1500, atk:230, atkSpeed:0.7, range:48, speed:1.8,
-          cooldown:18.0, color:'#0a0a0a', helmet:'hood', weapon:'clone_rush', rarity:4, scale:1.15, antiAir:true, clones:2,
-          desc:'煙幕に紛れる怪盗。三体の影分身で同時に襲う' },
-        // Stage 203: クチサケ女（大鋏・前方広範囲）
-        { id:'md_kuchisake', name:'クチサケ女', yomi:'くちさけおんな', cost:1100, hp:2200, atk:260, atkSpeed:1.4, range:75, speed:1.0,
-          cooldown:16.0, color:'#aa1010', helmet:'rokuro', weapon:'naginata', rarity:3, scale:1.3, aoe:true,
-          desc:'都市伝説の口裂け女。大鋏で前方を薙ぎ払う' },
-        // Stage 204: テケテケ（瞬間移動して中央や敵城に出現）
+        // Stage 201: 暴走族頭領 — A 黒特攻服 + ② バイク特攻突進
+        { id:'md_bouso', name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', cost:900, hp:1400, atk:170, atkSpeed:1.4, range:200, speed:1.6,
+          cooldown:14.0, color:'#1a1a1a', helmet:'mohawk', weapon:'md_bike', rarity:3, scale:1.2, mdRender:'bouso',
+          desc:'黒特攻服の頭領。バイクで特攻突進して貫通する' },
+        // Stage 202: 怪盗ブラックタイガー — A 黒タキシード + ③ トランプ8方向投擲
+        { id:'md_kaitou', name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', cost:1200, hp:1500, atk:230, atkSpeed:1.6, range:280, speed:1.4,
+          cooldown:18.0, color:'#0a0a0a', helmet:'hood', weapon:'md_cards', rarity:4, scale:1.15, antiAir:true, ranged:true, mdRender:'kaitou',
+          desc:'黒タキシードの怪盗紳士。8方向にトランプを投擲する' },
+        // Stage 203: クチサケ女 — A 赤マスク + ③ 呪い波動
+        { id:'md_kuchisake', name:'クチサケ女', yomi:'くちさけおんな', cost:1100, hp:2200, atk:260, atkSpeed:1.6, range:300, speed:1.0,
+          cooldown:16.0, color:'#aa1010', helmet:'md_kuchi_mask', weapon:'md_curse', rarity:3, scale:1.3, ranged:true, mdRender:'kuchisake',
+          desc:'赤マスクの女。紫の呪い波動が前方を貫通する' },
+        // Stage 204: テケテケ — B 血染JK + ② 瞬間移動3連撃
         { id:'md_teketeke', name:'テケテケ', yomi:'てけてけ', cost:1300, hp:1700, atk:300, atkSpeed:1.6, range:200, speed:2.4,
-          cooldown:20.0, color:'#3a1a1a', helmet:'twin_yokai', weapon:'leap_slash', rarity:4, scale:1.1, teleport:true,
-          desc:'瞬間移動で戦場を駆け抜ける幽霊。中央や敵城近くに突然現れる' },
-        // Stage 205: 呪い人形メリー（針投げ・毒）
-        { id:'md_merry', name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', cost:1400, hp:1500, atk:320, atkSpeed:1.8, range:280, speed:0.9,
-          cooldown:22.0, color:'#ee9988', helmet:'miko', weapon:'poison_fog', rarity:4, scale:1.15, ranged:true, aoe:true,
-          desc:'動き出した西洋人形。毒の針霧を吐く' },
-        // Stage 206: トイレの花子さん（瞬間移動・紙の刃を放射）
-        { id:'md_hanako', name:'トイレの花子さん', yomi:'といれのはなこさん', cost:1500, hp:1800, atk:340, atkSpeed:1.6, range:260, speed:1.0,
-          cooldown:24.0, color:'#cc2244', helmet:'miko', weapon:'ofuda', rarity:4, scale:1.2, ranged:true, aoe:true, teleport:true,
-          desc:'学校怪談の少女。瞬間移動して紙の刃を放射状に飛ばす' },
-        // Stage 207: ハッカー帝王（グリッチ弾・スタン）
+          cooldown:20.0, color:'#1a1a4a', helmet:'md_sailor', weapon:'md_tp_strike', rarity:4, scale:1.1, teleport:true, mdRender:'teketeke',
+          desc:'血染めのセーラー服。瞬間移動で3連続斬りを叩き込む' },
+        // Stage 205: 呪い人形メリー — C 市松人形 + ③ 小人形3体召喚
+        { id:'md_merry', name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', cost:1400, hp:1500, atk:320, atkSpeed:1.8, range:240, speed:0.9,
+          cooldown:22.0, color:'#aa1010', helmet:'md_ichimatsu', weapon:'md_doll_summon', rarity:4, scale:1.15, ranged:true, mdRender:'merry',
+          desc:'赤と黒の市松人形。3体の小人形を召喚して襲わせる' },
+        // Stage 206: トイレの花子さん — B 白巫女 + ② 水柱AOE
+        { id:'md_hanako', name:'トイレの花子さん', yomi:'といれのはなこさん', cost:1500, hp:1800, atk:340, atkSpeed:1.6, range:240, speed:1.0,
+          cooldown:24.0, color:'#fff', helmet:'md_miko_hanako', weapon:'md_water_pillar', rarity:4, scale:1.2, ranged:true, aoe:true, teleport:true, mdRender:'hanako',
+          desc:'白の巫女装束の花子。瞬間移動して水柱AOEを連続噴出させる' },
+        // Stage 207: ハッカー帝王 — B 白衣天才 + ① グリッチ弾
         { id:'md_hacker', name:'ハッカー帝王', yomi:'はっかーていおう', cost:1700, hp:2200, atk:420, atkSpeed:1.8, range:300, speed:0.9,
-          cooldown:28.0, color:'#00f0ff', helmet:'hood', weapon:'magic_circle', rarity:5, scale:1.2, ranged:true, aoe:true,
-          desc:'デジタル戦の闇帝王。グリッチ弾で敵を麻痺させる' },
-        // Stage 208: ドローン軍団長（飛行＋ミサイル）
-        { id:'md_drone_cmd', name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', cost:1800, hp:2400, atk:460, atkSpeed:1.8, range:280, speed:1.2,
-          cooldown:30.0, color:'#5a6a8a', helmet:'antenna', weapon:'rocket', rarity:5, scale:1.2,
-          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#2a3050',
-          desc:'空中のドローン軍を率いる司令官。広範囲爆撃' },
-        // Stage 209: 公害怪獣スモッグマン（飛行・毒霧）
-        { id:'md_smog', name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', cost:2000, hp:3200, atk:540, atkSpeed:2.0, range:280, speed:0.8,
-          cooldown:34.0, color:'#5a7a3a', helmet:'onibi', weapon:'poison_fog', rarity:5, scale:1.4,
-          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#3a4a20',
-          desc:'空気を汚す公害の化身。緑の毒霧で範囲を蝕む' },
-        // Stage 210: AI兵器ガーディアン（チャージビーム）
+          cooldown:28.0, color:'#fff', helmet:'md_ar_glasses', weapon:'magic_circle', rarity:5, scale:1.2, ranged:true, aoe:true, mdRender:'hacker',
+          desc:'白衣の天才プログラマ。グリッチ弾で敵を麻痺させる' },
+        // Stage 208: ドローン軍団長 — A 紺軍曹 + ③ 精密誘導3連
+        { id:'md_drone_cmd', name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', cost:1800, hp:2400, atk:460, atkSpeed:1.8, range:300, speed:1.2,
+          cooldown:30.0, color:'#3a4a7a', helmet:'md_drone_helm', weapon:'md_guided', rarity:5, scale:1.2,
+          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#2a3050', mdRender:'drone_cmd',
+          desc:'紺の制服の司令官。3発の精密誘導ミサイルで複数の敵を撃つ' },
+        // Stage 209: 公害怪獣スモッグマン — B 紫毒霧 + ③ 酸性雨
+        { id:'md_smog', name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', cost:2000, hp:3200, atk:540, atkSpeed:2.4, range:9999, speed:0.6,
+          cooldown:34.0, color:'#7a3a8a', helmet:'md_smog_horns', weapon:'md_acid_rain', rarity:5, scale:1.4,
+          flying:true, antiAir:true, ranged:true, aoe:true, mdRender:'smog',
+          desc:'紫の毒霧悪魔。空から黄色い酸性雨を全域に降らせる' },
+        // Stage 210: AI兵器ガーディアン — B 漆黒 + ① チャージビーム
         { id:'md_ai_guard', name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', cost:2200, hp:4000, atk:620, atkSpeed:2.2, range:340, speed:0.7,
-          cooldown:38.0, color:'#7a7a90', helmet:'cannon', weapon:'big_laser', rarity:5, scale:1.4, ranged:true, antiAir:true,
-          desc:'自律型AI兵器。極太のチャージビームで貫く' },
-        // Stage 211: ラットキング（地下の巨大ネズミ王）
-        { id:'md_rat_king', name:'ラットキング', yomi:'らっときんぐ', cost:2300, hp:5500, atk:680, atkSpeed:1.5, range:60, speed:1.1,
-          cooldown:40.0, color:'#5a4a3a', helmet:'horn', weapon:'kunai', rarity:5, scale:1.45, antiAir:true, clones:2,
-          desc:'下水道の巨大ネズミ王。子ネズミを引き連れて襲う' },
-        // Stage 212: ブレットマン（新幹線怪人・超速突進）
-        { id:'md_bullet', name:'ブレットマン', yomi:'ぶれっとまん', cost:2500, hp:5800, atk:760, atkSpeed:2.0, range:240, speed:2.0,
-          cooldown:42.0, color:'#aaccff', helmet:'visor', weapon:'leap_slash', rarity:5, scale:1.35,
-          desc:'流線型の高速怪人。新幹線の如く一直線に貫通する' },
-        // Stage 213: 解体重機ザイガス（クレーン+鉄球）
-        { id:'md_zigas', name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', cost:2800, hp:7800, atk:850, atkSpeed:2.4, range:100, speed:0.55,
-          cooldown:46.0, color:'#aa6600', helmet:'reactor', weapon:'kanabo', rarity:5, scale:1.55, aoe:true,
-          desc:'巨大な解体重機。鉄球で範囲をなぎ倒す' },
-        // Stage 214: 巨大ザメ メガロドン（突進＋水柱）
-        { id:'md_megalodon', name:'メガロドン', yomi:'めがろどん', cost:2900, hp:8200, atk:920, atkSpeed:1.8, range:320, speed:0.85,
-          cooldown:48.0, color:'#5a6a7a', helmet:'rex_jaw', weapon:'water_shot', rarity:5, scale:1.65, ranged:true,
-          desc:'古代から復活した巨大鮫。高圧の水柱を放つ' },
-        // Stage 215: UFO円盤王ゼノス（飛行・誘導ビーム）
-        { id:'md_ufo', name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', cost:3100, hp:7500, atk:980, atkSpeed:1.6, range:320, speed:1.2,
-          cooldown:52.0, color:'#aaffaa', helmet:'dome', weapon:'beam', rarity:5, scale:1.5,
-          flying:true, antiAir:true, ranged:true, wingColor:'#5a8a5a',
-          desc:'宇宙人の円盤王。誘導ビームで敵を追尾する' },
-        // Stage 216: メカ怪獣 MK-III（ミサイル＋ビーム）
-        { id:'md_mecha3', name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', cost:3400, hp:11000, atk:1100, atkSpeed:2.0, range:340, speed:0.7,
-          cooldown:58.0, color:'#7a3030', helmet:'mecha_kaiju', weapon:'big_laser', rarity:5, scale:1.75,
-          ranged:true, antiAir:true, aoe:true,
-          desc:'新型ロボ怪獣。ミサイルと極太ビームで圧倒する' },
-        // Stage 217: 暗黒大企業CEO ザイバツ（札束弾＋ボディガード召喚）
-        { id:'md_ceo', name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', cost:3700, hp:9500, atk:1250, atkSpeed:1.9, range:300, speed:0.95,
-          cooldown:62.0, color:'#1a1a1a', helmet:'taisho', weapon:'fireball', rarity:5, scale:1.55,
-          ranged:true, aoe:true, clones:2,
-          desc:'闇の大企業の総帥。札束弾とボディガードで敵を圧倒' },
-        // Stage 218: サタライト・ゼロ（メガ・軌道レーザー）
-        { id:'md_satellite', name:'サタライト・ゼロ', yomi:'さたらいとぜろ', cost:4800, hp:10500, atk:1500, atkSpeed:1.6, range:360, speed:0.95,
-          cooldown:100.0, color:'#2a2a3a', helmet:'mecha_kaiju', weapon:'thunder_pillar', rarity:5, scale:1.6,
-          ranged:true, antiAir:true, aoe:true,
-          desc:'軌道から降臨する超兵器。標的に軌道レーザーを落とす' }
+          cooldown:38.0, color:'#1a1a1a', helmet:'md_ai_core', weapon:'big_laser', rarity:5, scale:1.4, ranged:true, antiAir:true, mdRender:'ai_guard',
+          desc:'漆黒のサイバネAI。極太のチャージビームで貫く' },
+        // Stage 211: ラットキング — A 茶 + ③ スウォーム5匹
+        { id:'md_rat_king', name:'ラットキング', yomi:'らっときんぐ', cost:2300, hp:5500, atk:680, atkSpeed:1.7, range:280, speed:1.1,
+          cooldown:40.0, color:'#7a5a3a', helmet:'md_rat_crown', weapon:'md_swarm', rarity:5, scale:1.45, antiAir:true, ranged:true, mdRender:'rat_king',
+          desc:'茶毛の巨大ネズミ王。5匹の子ネズミが同時に飛びかかる' },
+        // Stage 212: ブレットマン — A 銀流線 + ② 音速ダッシュ画面横断
+        { id:'md_bullet', name:'ブレットマン', yomi:'ぶれっとまん', cost:2500, hp:5800, atk:760, atkSpeed:2.0, range:9999, speed:2.0,
+          cooldown:42.0, color:'#dde8f0', helmet:'md_bullet_visor', weapon:'md_sonic', rarity:5, scale:1.35, mdRender:'bullet',
+          desc:'銀の流線型怪人。画面を音速で横断して全敵を貫通する' },
+        // Stage 213: 解体重機ザイガス — C サイバー + ③ ドリル突進貫通
+        { id:'md_zigas', name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', cost:2800, hp:7800, atk:850, atkSpeed:2.4, range:240, speed:0.6,
+          cooldown:46.0, color:'#aaaaaa', helmet:'md_zigas_cyber', weapon:'md_drill', rarity:5, scale:1.55, aoe:true, mdRender:'zigas',
+          desc:'サイバー解体ロボ。巨大ドリルで突進貫通する' },
+        // Stage 214: メガロドン — A 深海灰 + ③ 大渦巻きAOE
+        { id:'md_megalodon', name:'メガロドン', yomi:'めがろどん', cost:2900, hp:8200, atk:920, atkSpeed:2.0, range:160, speed:0.85,
+          cooldown:48.0, color:'#5a6a7a', helmet:'md_shark', weapon:'md_vortex', rarity:5, scale:1.65, aoe:true, mdRender:'megalodon',
+          desc:'深海の巨大灰色ザメ。周囲を大渦巻きで巻き込む' },
+        // Stage 215: UFO円盤王ゼノス — B グレイ型 + ③ 5方向同時ビーム
+        { id:'md_ufo', name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', cost:3100, hp:7500, atk:980, atkSpeed:1.8, range:320, speed:1.2,
+          cooldown:52.0, color:'#aaaaaa', helmet:'md_ufo_gray', weapon:'md_beam_burst', rarity:5, scale:1.5,
+          flying:true, antiAir:true, ranged:true, wingColor:'#666', mdRender:'ufo',
+          desc:'グレイ型宇宙人の銀円盤。5方向同時にビームを発射する' },
+        // Stage 216: メカ怪獣 MK-III — C 黒暗黒 + ② 全弾発射12連
+        { id:'md_mecha3', name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', cost:3400, hp:11000, atk:1100, atkSpeed:2.4, range:300, speed:0.7,
+          cooldown:58.0, color:'#1a1a1a', helmet:'md_mecha_dark', weapon:'md_missile_storm', rarity:5, scale:1.75,
+          ranged:true, antiAir:true, aoe:true, mdRender:'mecha3',
+          desc:'黒紫の暗黒メカ怪獣。12発のミサイルを乱射する' },
+        // Stage 217: CEOザイバツ — A 黒スーツ + ③ M&Aスタン
+        { id:'md_ceo', name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', cost:3700, hp:9500, atk:1250, atkSpeed:2.0, range:240, speed:0.95,
+          cooldown:62.0, color:'#0a0a0a', helmet:'md_ceo_glasses', weapon:'md_stamp', rarity:5, scale:1.55,
+          ranged:true, aoe:true, mdRender:'ceo',
+          desc:'黒スーツの闇総帥。巨大なハンコで敵をスタン押印する' },
+        // Stage 218: サタライト・ゼロ — C 赤戦略 + ② キルセイト全画面爆撃
+        { id:'md_satellite', name:'サタライト・ゼロ', yomi:'さたらいとぜろ', cost:4800, hp:10500, atk:1500, atkSpeed:2.2, range:9999, speed:0.95,
+          cooldown:100.0, color:'#aa1010', helmet:'md_sat_red', weapon:'md_killsat', rarity:5, scale:1.6,
+          ranged:true, antiAir:true, aoe:true, mdRender:'satellite',
+          desc:'赤と金の戦略軌道兵器。全画面に時間差爆撃を降らせる' }
     );
 
     // アチーブメント
@@ -2437,43 +2439,25 @@
         117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'slash_wave', color:'#ffd24a', scale:2.3, range:240 },
         // Stage 118 — Zeus (final megaboss: storm god with thunder pillar attack)
         118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.20 },
-        // ===== 現代編 ボス（クリアで仲間に） =====
-        // Stage 201: 暴走族頭領（バイクで突進・速度型）
-        201: { name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', hp:3300, atk:230, helmet:'mohawk', weapon:'kanabo', color:'#1a1a1a', scale:1.7, range:60, atkSpeed:1.6, speed:1.1 },
-        // Stage 202: 怪盗ブラックタイガー（影分身）
-        202: { name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', hp:4500, atk:280, helmet:'hood', weapon:'clone_rush', color:'#0a0a0a', scale:1.8, range:160, atkSpeed:1.7, antiAir:true, clones:2 },
-        // Stage 203: クチサケ女（大鋏で前方広範囲）
-        203: { name:'クチサケ女', yomi:'くちさけおんな', hp:5400, atk:330, helmet:'rokuro', weapon:'naginata', color:'#aa1010', scale:2.0, range:80, atkSpeed:1.7, aoe:true },
-        // Stage 204: テケテケ（瞬間移動して中央や城に出現）
-        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'twin_yokai', weapon:'leap_slash', color:'#3a1a1a', scale:1.7, range:220, atkSpeed:1.9, speed:1.4, teleport:true },
-        // Stage 205: 呪い人形メリー（針投げ・毒）
-        205: { name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', hp:6500, atk:420, helmet:'miko', weapon:'poison_fog', color:'#ee9988', scale:1.8, ranged:true, range:280, atkSpeed:2.0 },
-        // Stage 206: トイレの花子さん（瞬間移動して中央や城に出現・紙の刃を放射）
-        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'miko', weapon:'ofuda', color:'#cc2244', scale:1.9, ranged:true, range:260, atkSpeed:1.8, aoe:true, teleport:true },
-        // Stage 207: ハッカー帝王（グリッチ弾・スタン）
-        207: { name:'ハッカー帝王', yomi:'はっかーていおう', hp:9500, atk:560, helmet:'hood', weapon:'magic_circle', color:'#00f0ff', scale:1.9, ranged:true, range:300, atkSpeed:2.0, aoe:true },
-        // Stage 208: ドローン軍団長（飛行＋ミサイル）
-        208: { name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', hp:11000, atk:620, helmet:'antenna', weapon:'rocket', color:'#5a6a8a', scale:1.8, flying:true, antiAir:true, ranged:true, range:280, aoe:true, atkSpeed:2.0, wingColor:'#2a3050' },
-        // Stage 209: 公害怪獣スモッグマン（毒霧）
-        209: { name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', hp:13000, atk:700, helmet:'onibi', weapon:'poison_fog', color:'#5a7a3a', scale:2.1, flying:true, antiAir:true, ranged:true, range:280, aoe:true, atkSpeed:2.2, wingColor:'#3a4a20' },
-        // Stage 210: AI兵器ガーディアン（チャージビーム）
-        210: { name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', hp:15500, atk:820, helmet:'cannon', weapon:'big_laser', color:'#7a7a90', scale:2.1, ranged:true, range:340, antiAir:true, atkSpeed:2.4 },
-        // Stage 211: ラットキング（地下の巨大ネズミ王）
-        211: { name:'ラットキング', yomi:'らっときんぐ', hp:18000, atk:880, helmet:'horn', weapon:'kunai', color:'#5a4a3a', scale:2.3, range:60, atkSpeed:1.6, antiAir:true, clones:2 },
-        // Stage 212: ブレットマン（新幹線怪人・超速突進）
-        212: { name:'ブレットマン', yomi:'ぶれっとまん', hp:21000, atk:1000, helmet:'visor', weapon:'leap_slash', color:'#aaccff', scale:2.0, range:240, atkSpeed:2.2, speed:1.6 },
-        // Stage 213: 解体重機ザイガス（クレーン+鉄球）
-        213: { name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', hp:25000, atk:1100, helmet:'reactor', weapon:'kanabo', color:'#aa6600', scale:2.4, range:100, atkSpeed:2.5, aoe:true },
-        // Stage 214: 巨大ザメ メガロドン（突進＋水柱）
-        214: { name:'メガロドン', yomi:'めがろどん', hp:28000, atk:1200, helmet:'rex_jaw', weapon:'water_shot', color:'#5a6a7a', scale:2.6, ranged:true, range:320, atkSpeed:2.0 },
-        // Stage 215: UFO円盤王ゼノス（飛行・誘導ビーム）
-        215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'dome', weapon:'beam', color:'#aaffaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:320, atkSpeed:1.7, wingColor:'#5a8a5a' },
-        // Stage 216: メカ怪獣 MK-III（ミサイル＋ビーム）
-        216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'mecha_kaiju', weapon:'big_laser', color:'#7a3030', scale:2.7, ranged:true, range:340, antiAir:true, aoe:true, atkSpeed:2.0 },
-        // Stage 217: 暗黒大企業CEO ザイバツ（札束弾＋ボディガード召喚）
-        217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'taisho', weapon:'fireball', color:'#1a1a1a', scale:2.4, ranged:true, range:300, aoe:true, atkSpeed:1.9, clones:2 },
-        // Stage 218: 暗黒衛星兵器サタライト・ゼロ（メガ・軌道レーザー）
-        218: { name:'暗黒衛星兵器サタライト・ゼロ', yomi:'あんこくえいせいへいきさたらいと・ぜろ', hp:100000, atk:4000, helmet:'mecha_kaiju', weapon:'thunder_pillar', color:'#2a2a3a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.4, range:520, speed:0.22 }
+        // ===== 現代編 ボス（クリアで仲間に・mdRender付き、選択案を反映） =====
+        201: { name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', hp:3300, atk:230, helmet:'mohawk', weapon:'md_bike', color:'#1a1a1a', scale:1.7, range:200, atkSpeed:2.0, speed:1.0, mdRender:'bouso' },
+        202: { name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', hp:4500, atk:280, helmet:'hood', weapon:'md_cards', color:'#0a0a0a', scale:1.8, range:280, atkSpeed:2.0, antiAir:true, ranged:true, mdRender:'kaitou' },
+        203: { name:'クチサケ女', yomi:'くちさけおんな', hp:5400, atk:330, helmet:'md_kuchi_mask', weapon:'md_curse', color:'#aa1010', scale:2.0, range:300, atkSpeed:2.0, ranged:true, mdRender:'kuchisake' },
+        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'md_sailor', weapon:'md_tp_strike', color:'#1a1a4a', scale:1.7, range:200, atkSpeed:2.2, speed:1.4, teleport:true, mdRender:'teketeke' },
+        205: { name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', hp:6500, atk:420, helmet:'md_ichimatsu', weapon:'md_doll_summon', color:'#aa1010', scale:1.8, ranged:true, range:240, atkSpeed:2.2, mdRender:'merry' },
+        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'md_miko_hanako', weapon:'md_water_pillar', color:'#fff', scale:1.9, ranged:true, range:240, atkSpeed:2.0, aoe:true, teleport:true, mdRender:'hanako' },
+        207: { name:'ハッカー帝王', yomi:'はっかーていおう', hp:9500, atk:560, helmet:'md_ar_glasses', weapon:'magic_circle', color:'#fff', scale:1.9, ranged:true, range:300, atkSpeed:2.0, aoe:true, mdRender:'hacker' },
+        208: { name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', hp:11000, atk:620, helmet:'md_drone_helm', weapon:'md_guided', color:'#3a4a7a', scale:1.8, flying:true, antiAir:true, ranged:true, range:300, aoe:true, atkSpeed:2.2, wingColor:'#2a3050', mdRender:'drone_cmd' },
+        209: { name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', hp:13000, atk:700, helmet:'md_smog_horns', weapon:'md_acid_rain', color:'#7a3a8a', scale:2.1, flying:true, antiAir:true, ranged:true, range:9999, aoe:true, atkSpeed:2.6, speed:0.4, mdRender:'smog' },
+        210: { name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', hp:15500, atk:820, helmet:'md_ai_core', weapon:'big_laser', color:'#1a1a1a', scale:2.1, ranged:true, range:340, antiAir:true, atkSpeed:2.4, mdRender:'ai_guard' },
+        211: { name:'ラットキング', yomi:'らっときんぐ', hp:18000, atk:880, helmet:'md_rat_crown', weapon:'md_swarm', color:'#7a5a3a', scale:2.3, range:280, atkSpeed:2.0, antiAir:true, ranged:true, mdRender:'rat_king' },
+        212: { name:'ブレットマン', yomi:'ぶれっとまん', hp:21000, atk:1000, helmet:'md_bullet_visor', weapon:'md_sonic', color:'#dde8f0', scale:2.0, range:9999, atkSpeed:2.4, speed:1.6, mdRender:'bullet' },
+        213: { name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', hp:25000, atk:1100, helmet:'md_zigas_cyber', weapon:'md_drill', color:'#aaaaaa', scale:2.4, range:240, atkSpeed:2.6, aoe:true, mdRender:'zigas' },
+        214: { name:'メガロドン', yomi:'めがろどん', hp:28000, atk:1200, helmet:'md_shark', weapon:'md_vortex', color:'#5a6a7a', scale:2.6, range:160, atkSpeed:2.2, aoe:true, mdRender:'megalodon' },
+        215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'md_ufo_gray', weapon:'md_beam_burst', color:'#aaaaaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:320, atkSpeed:2.0, wingColor:'#666', mdRender:'ufo' },
+        216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'md_mecha_dark', weapon:'md_missile_storm', color:'#1a1a1a', scale:2.7, ranged:true, range:300, antiAir:true, aoe:true, atkSpeed:2.6, mdRender:'mecha3' },
+        217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'md_ceo_glasses', weapon:'md_stamp', color:'#0a0a0a', scale:2.4, ranged:true, range:240, aoe:true, atkSpeed:2.2, mdRender:'ceo' },
+        218: { name:'暗黒衛星兵器サタライト・ゼロ', yomi:'あんこくえいせいへいきさたらいと・ぜろ', hp:100000, atk:4000, helmet:'md_sat_red', weapon:'md_killsat', color:'#aa1010', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.22, mdRender:'satellite' }
     };
 
     // ステージ18は二段階ボス戦
@@ -4563,7 +4547,9 @@
             // 分身（孫悟空）
             clones: b.clones,
             // 瞬間移動（テケテケ・花子さん）
-            teleport: b.teleport
+            teleport: b.teleport,
+            // 現代編専用の固有描画（味方と同じ見た目になるように）
+            mdRender: b.mdRender
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
@@ -6296,6 +6282,529 @@
         c.restore();
     }
 
+    // ==========================================
+    // 現代編キャラ固有描画 — 18体（ボス・味方共通）
+    // ==========================================
+    function drawModernUnit(c, x, y, u, dir, swing, scale=1) {
+        c.save(); c.translate(x, y); c.scale(dir*scale, scale);
+        // 影
+        c.fillStyle = 'rgba(0,0,0,0.3)';
+        c.beginPath(); c.ellipse(0, 2, 18, 4, 0, 0, Math.PI*2); c.fill();
+        const fn = MD_DRAW[u.mdRender];
+        if(fn) fn(c, u, swing);
+        c.restore();
+    }
+    // 人型のベース（既存ユニットに似た脚・体・頭の枠組み）
+    function _mdHumanoidBase(c, u, opts) {
+        const body = opts.body || u.color;
+        const skin = opts.skin || '#f0d4a8';
+        // 脚（パンツ）
+        c.fillStyle = opts.legs || '#1a1a1a';
+        c.fillRect(-7, -10, 5, 12); c.fillRect(2, -10, 5, 12);
+        // 靴
+        if(opts.shoes !== false) { c.fillStyle = opts.shoeColor || '#000';
+            c.fillRect(-8, 0, 7, 2); c.fillRect(1, 0, 7, 2); }
+        // 胴体
+        c.fillStyle = body;
+        c.fillRect(-11, -28, 22, 22);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-11, -28, 22, 22);
+        // ハイライト
+        c.fillStyle = 'rgba(255,255,255,0.15)'; c.fillRect(-10,-27,5,4);
+        // 腕
+        c.fillStyle = body;
+        c.fillRect(-14, -25, 4, 14);
+        c.fillRect(10, -25, 4, 14);
+        c.strokeRect(-14, -25, 4, 14); c.strokeRect(10, -25, 4, 14);
+        // 首・頭
+        if(opts.skipHead !== true) {
+            c.fillStyle = skin;
+            c.beginPath(); c.arc(0, -34, 7, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#000'; c.stroke();
+        }
+    }
+
+    const MD_DRAW = {
+        // 1. 暴走族頭領 — A 黒特攻服 + リーゼント + 鉄パイプ
+        bouso(c, u) {
+            _mdHumanoidBase(c, u, { body:'#1a1a1a', shoeColor:'#000' });
+            // 紋章（特）
+            c.fillStyle='#ffd24a';c.font='bold 8px sans-serif';c.textAlign='center';c.fillText('特',0,-16);
+            // リーゼント
+            c.fillStyle='#000';c.beginPath();
+            c.moveTo(-7,-38);c.quadraticCurveTo(-12,-50,-2,-46);c.quadraticCurveTo(2,-50,6,-44);c.closePath();c.fill();
+            // 目（鋭く）
+            c.fillStyle='#000';c.fillRect(-3,-34,1.5,1.5);c.fillRect(2,-34,1.5,1.5);
+            // 鉄パイプ
+            c.save();c.translate(11,-18);c.rotate(-Math.PI/3);
+            c.strokeStyle='#777';c.lineWidth=3;c.beginPath();c.moveTo(0,0);c.lineTo(20,0);c.stroke();
+            c.fillStyle='#aaa';c.fillRect(18,-2,4,4);c.restore();
+        },
+        // 2. 怪盗ブラックタイガー — A 黒タキシード + 仮面 + シルクハット + ステッキ
+        kaitou(c, u) {
+            _mdHumanoidBase(c, u, { body:'#0a0a0a', skin:'#f0d4a8' });
+            // 白いシャツ
+            c.fillStyle='#fff';c.fillRect(-2,-28,4,22);
+            // 蝶ネクタイ
+            c.fillStyle='#aa1010';c.beginPath();c.moveTo(-3,-26);c.lineTo(-5,-23);c.lineTo(-3,-20);c.closePath();c.fill();
+            c.beginPath();c.moveTo(3,-26);c.lineTo(5,-23);c.lineTo(3,-20);c.closePath();c.fill();
+            // 仮面
+            c.fillStyle='#000';c.fillRect(-6,-36,12,2.5);
+            // 光る目
+            c.fillStyle='#ff3344';c.fillRect(-4,-35,1.5,1);c.fillRect(2.5,-35,1.5,1);
+            // シルクハット
+            c.fillStyle='#000';c.fillRect(-7,-46,14,7);c.fillRect(-9,-39,18,2);
+            c.fillStyle='#aa1010';c.fillRect(-7,-42,14,2);
+            // ステッキ
+            c.save();c.translate(12,-14);c.rotate(-Math.PI/5);
+            c.strokeStyle='#5a3010';c.lineWidth=2;c.beginPath();c.moveTo(0,0);c.lineTo(18,0);c.stroke();
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(18,0,2.5,0,Math.PI*2);c.fill();c.restore();
+        },
+        // 3. クチサケ女 — A 赤コート + 白マスクから血の口 + 大鋏
+        kuchisake(c, u) {
+            _mdHumanoidBase(c, u, { body:'#aa1010', skin:'#e8c8a8', skipHead:true });
+            // 長いスカート
+            c.fillStyle='#aa1010';c.beginPath();c.moveTo(-11,-6);c.lineTo(-14,12);c.lineTo(14,12);c.lineTo(11,-6);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+            // 顔
+            c.fillStyle='#e8c8a8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 黒髪（長め）
+            c.fillStyle='#0a0a0a';c.beginPath();c.arc(0,-36,7.5,Math.PI*1.05,Math.PI*1.95);c.fill();
+            c.beginPath();c.moveTo(-7,-34);c.lineTo(-9,-22);c.lineTo(-4,-26);c.closePath();c.fill();
+            c.beginPath();c.moveTo(7,-34);c.lineTo(9,-22);c.lineTo(4,-26);c.closePath();c.fill();
+            // 目
+            c.fillStyle='#000';c.fillRect(-3,-34,1.5,1.8);c.fillRect(2,-34,1.5,1.8);
+            // 白マスク
+            c.fillStyle='#fff';c.fillRect(-6,-31,12,4);c.strokeStyle='#000';c.strokeRect(-6,-31,12,4);
+            // マスクからのぞく血
+            c.fillStyle='#aa1010';c.fillRect(-3,-29,6,1.5);
+            // 大鋏
+            c.save();c.translate(13,-18);c.rotate(-Math.PI/4);
+            c.strokeStyle='#aaa';c.lineWidth=2.5;
+            c.beginPath();c.moveTo(0,0);c.lineTo(16,-4);c.stroke();
+            c.beginPath();c.moveTo(0,0);c.lineTo(16,4);c.stroke();
+            c.fillStyle='#5a5a5a';c.beginPath();c.arc(0,0,2.5,0,Math.PI*2);c.fill();c.restore();
+        },
+        // 4. テケテケ — B 血染JK セーラー服, 切断面+手をつく姿勢
+        teketeke(c, u) {
+            // 床の影は基底で描画済み
+            // 血だまり
+            c.fillStyle='#aa1010';c.beginPath();c.ellipse(0,1,16,2.5,0,0,Math.PI*2);c.fill();
+            // 切断面（脚なし）
+            c.fillStyle='#aa1010';c.fillRect(-10,-6,20,3);
+            c.fillStyle='#7a0010';c.beginPath();c.arc(-4,-5,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(4,-5,1.5,0,Math.PI*2);c.fill();
+            // セーラー服（紺）
+            c.fillStyle='#1a1a4a';c.fillRect(-11,-28,22,22);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-11,-28,22,22);
+            // セーラー襟
+            c.fillStyle='#fff';c.beginPath();c.moveTo(-11,-28);c.lineTo(0,-18);c.lineTo(11,-28);c.closePath();c.fill();
+            c.fillStyle='#1a1a4a';c.beginPath();c.moveTo(-3,-28);c.lineTo(0,-18);c.lineTo(3,-28);c.closePath();c.fill();
+            // 赤いスカーフ
+            c.fillStyle='#aa1010';c.beginPath();c.moveTo(-2,-20);c.lineTo(0,-12);c.lineTo(2,-20);c.closePath();c.fill();
+            // 血飛沫
+            c.fillStyle='#aa1010';c.beginPath();c.arc(-6,-22,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(7,-26,1.2,0,Math.PI*2);c.fill();
+            // 腕（地をつく）
+            c.fillStyle='#1a1a4a';c.fillRect(-16,-18,4,14);c.fillRect(12,-18,4,14);
+            // 爪
+            c.fillStyle='#aaa';c.beginPath();c.moveTo(-16,-4);c.lineTo(-19,0);c.lineTo(-14,-2);c.closePath();c.fill();
+            c.beginPath();c.moveTo(16,-4);c.lineTo(19,0);c.lineTo(14,-2);c.closePath();c.fill();
+            // 髪
+            c.fillStyle='#3a1010';c.beginPath();c.moveTo(-7,-38);c.lineTo(-10,-28);c.lineTo(-3,-32);c.closePath();c.fill();
+            c.beginPath();c.moveTo(7,-38);c.lineTo(10,-28);c.lineTo(3,-32);c.closePath();c.fill();
+            // 顔
+            c.fillStyle='#d0a8a8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 前髪
+            c.fillStyle='#3a1010';c.beginPath();c.arc(0,-36,7,Math.PI*1.1,Math.PI*1.9);c.fill();
+            // 赤い目
+            c.fillStyle='#aa1010';c.fillRect(-3.5,-34,2,1.5);c.fillRect(1.5,-34,2,1.5);
+            // 口
+            c.strokeStyle='#aa1010';c.lineWidth=1;c.beginPath();c.moveTo(-2,-30);c.lineTo(2,-30);c.stroke();
+        },
+        // 5. 呪い人形メリー — C 市松人形（赤と黒着物）+ 刀
+        merry(c, u) {
+            // 着物（裾広がり）
+            c.fillStyle='#aa1010';c.beginPath();c.moveTo(-7,-18);c.lineTo(-15,8);c.lineTo(15,8);c.lineTo(7,-18);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+            // 市松模様
+            c.fillStyle='#0a0a0a';
+            for(let r=0;r<3;r++)for(let cc=0;cc<5;cc++){if((r+cc)%2===0){c.fillRect(-12+cc*5,-12+r*6,4,4);}}
+            // 上半身（着物）
+            c.fillStyle='#aa1010';c.fillRect(-9,-28,18,12);c.strokeRect(-9,-28,18,12);
+            // 帯（金）
+            c.fillStyle='#ffd24a';c.fillRect(-9,-20,18,3);
+            // 腕
+            c.fillStyle='#aa1010';c.fillRect(-13,-26,4,14);c.fillRect(9,-26,4,14);
+            // 手
+            c.fillStyle='#f8e0c8';c.beginPath();c.arc(-11,-12,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(11,-12,2,0,Math.PI*2);c.fill();
+            // 首・顔
+            c.fillStyle='#f8e0c8';c.beginPath();c.arc(0,-34,8,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 黒髪（おかっぱ）
+            c.fillStyle='#0a0a0a';c.beginPath();c.arc(0,-36,8,Math.PI*1.05,Math.PI*1.95);c.fill();
+            c.fillRect(-8,-38,16,4);
+            // 黄リボン
+            c.fillStyle='#ffd24a';c.beginPath();c.moveTo(-3,-44);c.lineTo(-6,-48);c.lineTo(-3,-42);c.closePath();c.fill();
+            c.beginPath();c.moveTo(3,-44);c.lineTo(6,-48);c.lineTo(3,-42);c.closePath();c.fill();
+            c.beginPath();c.arc(0,-43,1.5,0,Math.PI*2);c.fill();
+            // 目（黒）
+            c.fillStyle='#000';c.beginPath();c.arc(-3,-34,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(3,-34,1.5,0,Math.PI*2);c.fill();
+            // ほっぺ
+            c.fillStyle='rgba(255,100,150,0.5)';c.beginPath();c.arc(-5,-30,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(5,-30,1.5,0,Math.PI*2);c.fill();
+            // 口
+            c.fillStyle='#aa1010';c.fillRect(-1,-31,2,1);
+            // 刀
+            c.save();c.translate(11,-14);c.rotate(-Math.PI/3);
+            c.strokeStyle='#444';c.lineWidth=1.5;c.beginPath();c.moveTo(0,0);c.lineTo(3,0);c.stroke();
+            c.fillStyle='#dde8f0';c.fillRect(3,-1,18,2);c.strokeStyle='#000';c.lineWidth=0.5;c.strokeRect(3,-1,18,2);c.restore();
+        },
+        // 6. トイレの花子さん — B 白巫女装束 + 御札
+        hanako(c, u) {
+            // 袴/装束
+            c.fillStyle='#fff';c.beginPath();c.moveTo(-9,-18);c.lineTo(-15,12);c.lineTo(15,12);c.lineTo(9,-18);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+            // 赤い袴ライン
+            c.fillStyle='#aa1010';c.fillRect(-14,4,28,2);
+            // 上半身（白）
+            c.fillStyle='#fff';c.fillRect(-10,-28,20,16);c.strokeRect(-10,-28,20,16);
+            // 赤い襷（×印）
+            c.strokeStyle='#aa1010';c.lineWidth=2;c.beginPath();c.moveTo(-10,-25);c.lineTo(10,-15);c.stroke();c.beginPath();c.moveTo(10,-25);c.lineTo(-10,-15);c.stroke();
+            // 腕
+            c.fillStyle='#fff';c.fillRect(-13,-26,4,14);c.fillRect(9,-26,4,14);
+            c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-13,-26,4,14);c.strokeRect(9,-26,4,14);
+            // 御札を持つ
+            c.fillStyle='#fff';c.fillRect(10,-16,5,9);c.strokeRect(10,-16,5,9);
+            c.fillStyle='#aa1010';c.font='bold 6px serif';c.textAlign='center';c.fillText('呪',12.5,-9);
+            // 首・顔
+            c.fillStyle='#f0d4a8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 黒髪（おかっぱ）
+            c.fillStyle='#0a0a0a';c.beginPath();c.arc(0,-36,7,Math.PI*1.1,Math.PI*1.9);c.fill();
+            c.fillRect(-7,-37,14,3);
+            // 黄リボン
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(-5,-42,2,0,Math.PI*2);c.fill();
+            // 目
+            c.fillStyle='#5a3030';c.fillRect(-3,-34,1.5,1.8);c.fillRect(1.5,-34,1.5,1.8);
+            c.fillStyle='#aa1010';c.fillRect(-1,-30,2,1);
+        },
+        // 7. ハッカー帝王 — B 白衣 + ARメガネ + ノートPC
+        hacker(c, u) {
+            _mdHumanoidBase(c, u, { body:'#fff', skipHead:true });
+            // 白衣のV
+            c.fillStyle='#1a1a30';c.beginPath();c.moveTo(-6,-28);c.lineTo(0,-18);c.lineTo(6,-28);c.closePath();c.fill();
+            // シアンネクタイ
+            c.fillStyle='#00f0ff';c.beginPath();c.moveTo(-1.5,-18);c.lineTo(0,-9);c.lineTo(1.5,-18);c.closePath();c.fill();
+            // ノートPC（手元）
+            c.fillStyle='#1a1a1a';c.fillRect(-11,-8,22,4);
+            c.fillStyle='#00f0ff';c.fillRect(-10,-7,20,2);
+            // 顔
+            c.fillStyle='#f0d4a8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 髪
+            c.fillStyle='#1a1a1a';c.beginPath();c.arc(0,-36,7,Math.PI*1.1,Math.PI*1.9);c.fill();
+            // ARメガネ
+            c.strokeStyle='#00f0ff';c.lineWidth=1.5;c.strokeRect(-6,-35,4.5,3);c.strokeRect(1.5,-35,4.5,3);
+            c.beginPath();c.moveTo(-1.5,-33.5);c.lineTo(1.5,-33.5);c.stroke();
+            // メガネの光
+            c.fillStyle='rgba(0,240,255,0.4)';c.fillRect(-6,-35,4.5,3);c.fillRect(1.5,-35,4.5,3);
+            // コード片
+            c.fillStyle='rgba(0,240,255,0.7)';c.font='5px monospace';
+            c.fillText('01',-13,-40);c.fillText('11',12,-42);
+        },
+        // 8. ドローン軍団長 — A 紺軍曹 + ヘルメット + コントローラー
+        drone_cmd(c, u) {
+            _mdHumanoidBase(c, u, { body:'#3a4a7a', skipHead:true });
+            // 階級章（金）
+            c.fillStyle='#ffd24a';c.fillRect(-9,-25,3,1.5);c.fillRect(-9,-22,3,1.5);
+            // ボタン
+            c.fillStyle='#ffd24a';c.fillRect(-1,-25,1.5,1.5);c.fillRect(-1,-21,1.5,1.5);c.fillRect(-1,-17,1.5,1.5);
+            // ベルト
+            c.fillStyle='#1a1a1a';c.fillRect(-11,-13,22,2);
+            // コントローラー（両手で持つ）
+            c.fillStyle='#1a1a1a';c.fillRect(-9,-8,18,3);
+            c.fillStyle='#00f0ff';c.fillRect(-8,-7,16,1.5);
+            // 首・顔
+            c.fillStyle='#e0c0a0';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // ヘルメット
+            c.fillStyle='#5a6a8a';c.beginPath();c.arc(0,-35,8,Math.PI*1.05,Math.PI*1.95);c.fill();c.strokeStyle='#000';c.stroke();
+            // ヘルメットの線
+            c.strokeStyle='#000';c.lineWidth=0.8;c.beginPath();c.moveTo(0,-43);c.lineTo(0,-34);c.stroke();
+            // 目
+            c.fillStyle='#000';c.fillRect(-3,-34,1.5,1.5);c.fillRect(2,-34,1.5,1.5);
+            // 取り巻きドローン
+            c.fillStyle='#1a1a1a';c.fillRect(-22,-40,7,3);c.fillStyle='#ff3344';c.beginPath();c.arc(-19,-38,1,0,Math.PI*2);c.fill();
+            c.fillStyle='#1a1a1a';c.fillRect(16,-42,7,3);c.fillStyle='#ff3344';c.beginPath();c.arc(19,-40,1,0,Math.PI*2);c.fill();
+        },
+        // 9. 公害怪獣スモッグマン — B 紫の毒霧悪魔 + 角
+        smog(c, u) {
+            const t = performance.now() * 0.001;
+            // 体（雲のような重なり、紫）
+            const blobs=[[-14,-12,15],[14,-12,15],[-8,-22,16],[8,-22,16],[0,-30,18],[-12,-32,12],[12,-32,12],[0,-12,15]];
+            blobs.forEach(([dx,dy,r])=>{
+                c.fillStyle='#3a1a4a';c.beginPath();c.arc(dx,dy+2,r,0,Math.PI*2);c.fill();
+                c.fillStyle='#7a3a8a';c.beginPath();c.arc(dx,dy,r,0,Math.PI*2);c.fill();
+            });
+            // 角
+            c.fillStyle='#1a0a1a';c.beginPath();c.moveTo(-8,-36);c.lineTo(-12,-50);c.lineTo(-4,-38);c.closePath();c.fill();
+            c.beginPath();c.moveTo(8,-36);c.lineTo(12,-50);c.lineTo(4,-38);c.closePath();c.fill();
+            // 赤い目
+            c.fillStyle='#ff3344';c.beginPath();c.arc(-5,-26,2.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(5,-26,2.5,0,Math.PI*2);c.fill();
+            c.fillStyle='#000';c.fillRect(-5.5,-26.5,1,1);c.fillRect(4.5,-26.5,1,1);
+            // 牙
+            c.fillStyle='#0a0a0a';c.beginPath();c.arc(0,-12,5,0.2,Math.PI-0.2);c.fill();
+            c.fillStyle='#fff';c.fillRect(-3,-13,1.5,2);c.fillRect(2,-13,1.5,2);
+            // 漂う煙粒
+            for(let i=0;i<4;i++){const ang=(i/4)*Math.PI*2+t*0.5;const rr=22+Math.sin(t*2+i)*3;
+                c.fillStyle='rgba(170,68,255,0.4)';c.beginPath();c.arc(Math.cos(ang)*rr,-20+Math.sin(ang)*rr*0.5,4,0,Math.PI*2);c.fill();}
+        },
+        // 10. AI兵器ガーディアン — B 漆黒の重装ロボ（4本足）
+        ai_guard(c, u) {
+            // 4本足
+            c.fillStyle='#1a1a1a';
+            c.fillRect(-13,-4,4,16);c.fillRect(-6,-4,4,16);c.fillRect(2,-4,4,16);c.fillRect(9,-4,4,16);
+            c.strokeStyle='#000';c.lineWidth=0.5;
+            // 関節
+            c.fillStyle='#0a0a0a';c.fillRect(-13,5,4,1.5);c.fillRect(-6,5,4,1.5);c.fillRect(2,5,4,1.5);c.fillRect(9,5,4,1.5);
+            // 本体（大きな箱）
+            c.fillStyle='#1a1a1a';c.fillRect(-16,-25,32,21);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-16,-25,32,21);
+            // 装飾パネル
+            c.fillStyle='#aa1010';c.fillRect(-13,-22,5,4);c.fillRect(8,-22,5,4);c.fillRect(-13,-12,26,3);
+            // 単眼カメラ
+            c.fillStyle='#0a0a0a';c.fillRect(-8,-22,16,7);
+            c.fillStyle='#ff0000';c.beginPath();c.arc(0,-18,2.5,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(0,-19,1,0,Math.PI*2);c.fill();
+            // 砲塔
+            c.fillStyle='#1a1a1a';c.fillRect(-10,-34,20,10);c.strokeRect(-10,-34,20,10);
+            c.fillStyle='#3a3a3a';c.fillRect(-3,-38,6,5);
+            // 砲身
+            c.fillStyle='#5a5a5a';c.fillRect(-3,-44,6,6);
+            // サブ砲
+            c.fillStyle='#3a3a3a';c.fillRect(-16,-32,4,5);c.fillRect(12,-32,4,5);
+        },
+        // 11. ラットキング — A 茶ネズミ王（四足）
+        rat_king(c, u) {
+            // しっぽ
+            c.strokeStyle='#7a5a3a';c.lineWidth=2.5;c.lineCap='round';
+            c.beginPath();c.moveTo(-12,8);c.quadraticCurveTo(-24,3,-26,-8);c.stroke();c.lineCap='butt';
+            // 後脚
+            c.fillStyle='#7a5a3a';c.fillRect(-9,4,6,12);c.fillRect(2,4,6,12);c.strokeStyle='#000';c.lineWidth=0.8;c.strokeRect(-9,4,6,12);c.strokeRect(2,4,6,12);
+            // 体（楕円）
+            c.fillStyle='#7a5a3a';c.beginPath();c.ellipse(0,-2,20,16,0,0,Math.PI*2);c.fill();c.stroke();
+            // 腹
+            c.fillStyle='#cc9966';c.beginPath();c.ellipse(0,2,14,10,0,0,Math.PI*2);c.fill();
+            // 前脚
+            c.fillStyle='#7a5a3a';c.fillRect(-13,-3,4,9);c.fillRect(9,-3,4,9);
+            c.fillStyle='#fff';c.beginPath();c.moveTo(-13,6);c.lineTo(-15,9);c.lineTo(-10,8);c.closePath();c.fill();
+            c.beginPath();c.moveTo(11,6);c.lineTo(13,9);c.lineTo(9,8);c.closePath();c.fill();
+            // 頭
+            c.fillStyle='#7a5a3a';c.beginPath();c.arc(0,-22,11,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.lineWidth=0.8;c.stroke();
+            // マズル
+            c.fillStyle='#cc9966';c.beginPath();c.ellipse(7,-20,8,5,0,0,Math.PI*2);c.fill();c.stroke();
+            // 鼻
+            c.fillStyle='#000';c.beginPath();c.arc(13,-20,1.5,0,Math.PI*2);c.fill();
+            // 耳
+            c.fillStyle='#7a5a3a';c.beginPath();c.arc(-7,-32,5,0,Math.PI*2);c.fill();c.beginPath();c.arc(5,-33,5,0,Math.PI*2);c.fill();
+            c.fillStyle='#ff99aa';c.beginPath();c.arc(-7,-32,2.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(5,-33,2.5,0,Math.PI*2);c.fill();
+            // 目（赤）
+            c.fillStyle='#ff3344';c.beginPath();c.arc(-3,-23,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(4,-24,2,0,Math.PI*2);c.fill();
+            c.fillStyle='#000';c.beginPath();c.arc(-3,-23,0.8,0,Math.PI*2);c.fill();c.beginPath();c.arc(4,-24,0.8,0,Math.PI*2);c.fill();
+            // 牙
+            c.fillStyle='#fff';c.beginPath();c.moveTo(10,-17);c.lineTo(11.5,-13);c.lineTo(9,-17);c.closePath();c.fill();
+            // 王冠
+            c.fillStyle='#ffd24a';c.beginPath();
+            c.moveTo(-8,-37);c.lineTo(-7,-43);c.lineTo(-3,-39);c.lineTo(0,-46);c.lineTo(3,-39);c.lineTo(7,-43);c.lineTo(8,-37);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=0.5;c.stroke();
+            c.fillStyle='#aa1010';c.beginPath();c.arc(0,-41,1.2,0,Math.PI*2);c.fill();
+        },
+        // 12. ブレットマン — A 銀流線型怪人
+        bullet(c, u) {
+            // 脚（速そう）
+            c.fillStyle='#dde8f0';c.fillRect(-6,-10,4,14);c.fillRect(2,-10,4,14);c.strokeStyle='#000';c.lineWidth=0.8;c.strokeRect(-6,-10,4,14);c.strokeRect(2,-10,4,14);
+            // 流線型のスニーカー
+            c.fillStyle='#1a1a1a';c.fillRect(-7,2,7,2);c.fillRect(0,2,7,2);
+            // 流線型の体（前傾）
+            c.fillStyle='#dde8f0';c.beginPath();c.moveTo(-11,-28);c.lineTo(13,-26);c.lineTo(11,-6);c.lineTo(-10,-6);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+            // 青いサイドライン
+            c.fillStyle='#0a3a8a';c.beginPath();c.moveTo(-11,-22);c.lineTo(13,-20);c.lineTo(13,-17);c.lineTo(-11,-19);c.closePath();c.fill();
+            // 腕（後ろに流れる）
+            c.fillStyle='#dde8f0';c.beginPath();c.moveTo(-13,-25);c.lineTo(-20,-18);c.lineTo(-15,-14);c.lineTo(-9,-22);c.closePath();c.fill();
+            c.beginPath();c.moveTo(13,-25);c.lineTo(20,-28);c.lineTo(17,-20);c.lineTo(11,-18);c.closePath();c.fill();
+            // 頭部（新幹線型の鼻先）
+            c.fillStyle='#fff';c.beginPath();c.moveTo(-6,-34);c.lineTo(11,-36);c.lineTo(13,-30);c.lineTo(-5,-30);c.closePath();c.fill();c.strokeStyle='#000';c.stroke();
+            // バイザー
+            c.fillStyle='#0a0a3a';c.beginPath();c.moveTo(-1,-34);c.lineTo(9,-35);c.lineTo(11,-32);c.lineTo(0,-31);c.closePath();c.fill();
+            // 光る目
+            c.fillStyle='#00f0ff';c.fillRect(5,-34,3,1);
+            // 速度線（後ろ）
+            c.strokeStyle='rgba(170,204,255,0.6)';c.lineWidth=1;
+            c.beginPath();c.moveTo(-20,-22);c.lineTo(-28,-22);c.stroke();
+            c.beginPath();c.moveTo(-22,-16);c.lineTo(-30,-16);c.stroke();
+        },
+        // 13. 解体重機ザイガス — C サイバー解体ロボ（キャタピラ + アーム + 鉄球）
+        zigas(c, u) {
+            // キャタピラ
+            c.fillStyle='#1a1a1a';c.fillRect(-20,2,40,12);c.strokeStyle='#000';c.lineWidth=0.8;c.strokeRect(-20,2,40,12);
+            // タイヤ
+            c.fillStyle='#2a2a2a';
+            for(let i=0;i<4;i++){c.beginPath();c.arc(-16+i*10,10,4,0,Math.PI*2);c.fill();}
+            // 本体（銀）
+            c.fillStyle='#aaaaaa';c.fillRect(-16,-14,32,16);c.strokeRect(-16,-14,32,16);
+            // ネオン青ライン
+            c.fillStyle='#00f0ff';c.fillRect(-15,-12,30,1);c.fillRect(-15,-3,30,1);
+            // コックピット
+            c.fillStyle='#1a1a3a';c.fillRect(-10,-28,20,14);c.strokeStyle='#000';c.strokeRect(-10,-28,20,14);
+            c.fillStyle='#00f0ff';c.fillRect(-8,-26,16,6);
+            // アーム（上）
+            c.fillStyle='#aaaaaa';c.fillRect(-1,-40,4,15);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-1,-40,4,15);
+            // 斜めアーム
+            c.save();c.translate(1,-40);c.rotate(-Math.PI/4);
+            c.fillStyle='#aaaaaa';c.fillRect(0,-2,24,4);c.strokeRect(0,-2,24,4);
+            c.strokeStyle='#5a5a5a';c.lineWidth=1;c.beginPath();c.moveTo(22,2);c.lineTo(18,14);c.stroke();
+            c.restore();
+            // 鉄球
+            const ballX=25,ballY=-26;
+            c.fillStyle='#3a3a3a';c.beginPath();c.arc(ballX+1,ballY+1,7,0,Math.PI*2);c.fill();
+            c.fillStyle='#5a5a5a';c.beginPath();c.arc(ballX,ballY,7,0,Math.PI*2);c.fill();
+            c.fillStyle='#00f0ff';c.beginPath();c.arc(ballX-2,ballY-2,2,0,Math.PI*2);c.fill();
+            // ZG ロゴ
+            c.fillStyle='#00f0ff';c.font='bold 6px sans-serif';c.textAlign='center';c.fillText('⚡',0,-2);
+        },
+        // 14. メガロドン — A 深海灰色ザメ
+        megalodon(c, u) {
+            // 体（流線型）
+            c.fillStyle='#3a4a5a';
+            c.beginPath();c.moveTo(-22,-2);c.quadraticCurveTo(-12,-22,12,-18);c.quadraticCurveTo(28,-14,32,-4);c.quadraticCurveTo(28,4,12,8);c.quadraticCurveTo(-12,6,-22,-2);c.closePath();c.fill();
+            // 体の上半身（より明るく）
+            c.fillStyle='#5a6a7a';
+            c.beginPath();c.moveTo(-22,-2);c.quadraticCurveTo(-12,-22,12,-18);c.quadraticCurveTo(28,-14,32,-4);c.lineTo(32,-5);c.quadraticCurveTo(28,-15,12,-19);c.quadraticCurveTo(-12,-23,-22,-2);c.closePath();c.fill();
+            // 腹（白）
+            c.fillStyle='#dde8f0';
+            c.beginPath();c.moveTo(-18,1);c.quadraticCurveTo(-2,9,16,7);c.quadraticCurveTo(24,3,24,-1);c.quadraticCurveTo(8,5,-18,1);c.closePath();c.fill();
+            // 背びれ
+            c.fillStyle='#3a4a5a';c.beginPath();c.moveTo(0,-18);c.lineTo(4,-32);c.lineTo(10,-16);c.closePath();c.fill();
+            // 尾びれ
+            c.beginPath();c.moveTo(-22,-2);c.lineTo(-38,-16);c.lineTo(-28,-6);c.lineTo(-32,12);c.lineTo(-22,-2);c.closePath();c.fill();
+            // 胸びれ
+            c.beginPath();c.moveTo(-4,6);c.lineTo(-12,18);c.lineTo(4,12);c.closePath();c.fill();
+            // 目
+            c.fillStyle='#fff';c.beginPath();c.arc(22,-6,2,0,Math.PI*2);c.fill();
+            c.fillStyle='#000';c.beginPath();c.arc(22,-6,1.2,0,Math.PI*2);c.fill();
+            // 口
+            c.fillStyle='#0a0a0a';c.beginPath();c.moveTo(30,-2);c.quadraticCurveTo(20,6,8,7);c.quadraticCurveTo(16,10,30,4);c.closePath();c.fill();
+            // 歯
+            c.fillStyle='#fff';
+            for(let i=0;i<5;i++){const tx=10+i*3;
+                c.beginPath();c.moveTo(tx,2);c.lineTo(tx+1,5);c.lineTo(tx+2,2);c.closePath();c.fill();
+                c.beginPath();c.moveTo(tx,7);c.lineTo(tx+1,4);c.lineTo(tx+2,7);c.closePath();c.fill();}
+            // エラ
+            c.strokeStyle='#1a2a3a';c.lineWidth=1;
+            for(let i=0;i<3;i++){c.beginPath();c.arc(6-i*3,0,4,Math.PI*0.3,Math.PI*0.7);c.stroke();}
+        },
+        // 15. UFO円盤王ゼノス — B グレイ型宇宙人 + 銀円盤
+        ufo(c, u) {
+            // 円盤（楕円）
+            c.fillStyle='#666';c.beginPath();c.ellipse(0,-12,26,8,0,0,Math.PI*2);c.fill();
+            c.fillStyle='#aaaaaa';c.beginPath();c.ellipse(0,-15,26,7,0,0,Math.PI*2);c.fill();
+            c.strokeStyle='#000';c.lineWidth=0.8;c.stroke();
+            // 円盤上のドーム
+            c.fillStyle='#cceeff';c.beginPath();c.arc(0,-18,10,Math.PI,0);c.fill();c.strokeStyle='#000';c.stroke();
+            // パイロット（グレイ型）
+            c.fillStyle='#dddddd';c.beginPath();c.ellipse(0,-23,5,7,0,0,Math.PI*2);c.fill();
+            // でかい目（リアル系）
+            c.fillStyle='#000';c.beginPath();c.ellipse(-2,-25,1.8,3,0,0,Math.PI*2);c.fill();c.beginPath();c.ellipse(2,-25,1.8,3,0,0,Math.PI*2);c.fill();
+            // 下部のライト
+            c.fillStyle='#00f0ff';
+            for(let i=0;i<5;i++){const lx=-20+i*10;c.beginPath();c.arc(lx,-9,1.5,0,Math.PI*2);c.fill();}
+            // 中央光線（弱）
+            c.fillStyle='rgba(0,240,255,0.3)';c.beginPath();c.moveTo(-6,-9);c.lineTo(-12,5);c.lineTo(12,5);c.lineTo(6,-9);c.closePath();c.fill();
+        },
+        // 16. メカ怪獣 MK-III — C 黒紫の暗黒メカ
+        mecha3(c, u) {
+            // 脚
+            c.fillStyle='#1a1a1a';c.fillRect(-11,-4,8,18);c.fillRect(3,-4,8,18);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-11,-4,8,18);c.strokeRect(3,-4,8,18);
+            c.fillStyle='#0a0a0a';c.fillRect(-12,12,9,3);c.fillRect(2,12,9,3);
+            // 胴体
+            c.fillStyle='#1a1a1a';c.fillRect(-16,-28,32,25);c.strokeRect(-16,-28,32,25);
+            // 胸部装甲
+            c.fillStyle='#3a0a3a';c.fillRect(-13,-26,26,15);c.strokeRect(-13,-26,26,15);
+            // 胸のコア（紫光）
+            c.fillStyle='#aa44ff';c.beginPath();c.arc(0,-18,5,0,Math.PI*2);c.fill();
+            c.fillStyle='rgba(255,255,255,0.6)';c.beginPath();c.arc(0,-18,2.5,0,Math.PI*2);c.fill();
+            c.strokeStyle='#ee99ff';c.lineWidth=1;c.beginPath();c.arc(0,-18,7,0,Math.PI*2);c.stroke();
+            // 肩
+            c.fillStyle='#1a1a1a';c.fillRect(-22,-27,6,12);c.fillRect(16,-27,6,12);c.strokeRect(-22,-27,6,12);c.strokeRect(16,-27,6,12);
+            // 肩のスパイク
+            c.fillStyle='#aa44ff';c.beginPath();c.moveTo(-22,-27);c.lineTo(-19,-34);c.lineTo(-16,-27);c.closePath();c.fill();
+            c.beginPath();c.moveTo(16,-27);c.lineTo(19,-34);c.lineTo(22,-27);c.closePath();c.fill();
+            // 腕（砲身）
+            c.fillStyle='#1a1a1a';c.fillRect(-23,-16,5,12);c.fillRect(18,-16,5,12);c.strokeRect(-23,-16,5,12);c.strokeRect(18,-16,5,12);
+            c.fillStyle='#0a0a0a';c.fillRect(-24,-3,7,3);c.fillRect(17,-3,7,3);
+            // ミサイルポッド（背中）
+            c.fillStyle='#0a0a0a';c.fillRect(-15,-28,4,8);c.fillRect(11,-28,4,8);
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(-13,-26,0.8,0,Math.PI*2);c.fill();c.beginPath();c.arc(-13,-23,0.8,0,Math.PI*2);c.fill();
+            c.beginPath();c.arc(13,-26,0.8,0,Math.PI*2);c.fill();c.beginPath();c.arc(13,-23,0.8,0,Math.PI*2);c.fill();
+            // 頭
+            c.fillStyle='#1a1a1a';c.fillRect(-9,-40,18,11);c.strokeRect(-9,-40,18,11);
+            // 紫バイザー
+            c.fillStyle='#0a0a0a';c.fillRect(-7,-36,14,4);
+            c.fillStyle='#aa44ff';c.fillRect(-6,-35,12,2);
+            // 角
+            c.fillStyle='#1a1a1a';c.beginPath();c.moveTo(-5,-40);c.lineTo(-7,-46);c.lineTo(-3,-41);c.closePath();c.fill();
+            c.beginPath();c.moveTo(5,-40);c.lineTo(7,-46);c.lineTo(3,-41);c.closePath();c.fill();
+        },
+        // 17. CEOザイバツ — A 黒スーツ + サングラス + 葉巻
+        ceo(c, u) {
+            _mdHumanoidBase(c, u, { body:'#0a0a0a', skin:'#e0c0a0', skipHead:true });
+            // 白シャツ
+            c.fillStyle='#fff';c.fillRect(-2,-28,4,22);
+            // 赤ネクタイ
+            c.fillStyle='#aa1010';c.beginPath();c.moveTo(-1,-28);c.lineTo(-2,-18);c.lineTo(0,-9);c.lineTo(2,-18);c.lineTo(1,-28);c.closePath();c.fill();
+            // 顔
+            c.fillStyle='#e0c0a0';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 髪（オールバック）
+            c.fillStyle='#1a1a1a';c.beginPath();c.arc(0,-37,7,Math.PI,0);c.fill();
+            // サングラス
+            c.fillStyle='#0a0a0a';c.fillRect(-6,-35,12,3);
+            c.fillStyle='rgba(255,255,255,0.3)';c.fillRect(-5,-35,3,1);c.fillRect(2,-35,3,1);
+            // 不敵な笑み
+            c.strokeStyle='#000';c.lineWidth=0.8;c.beginPath();c.arc(0,-30,2.5,Math.PI*0.1,Math.PI*0.9);c.stroke();
+            // 葉巻
+            c.fillStyle='#5a3010';c.fillRect(6,-32,6,1.2);
+            c.fillStyle='#ffaa44';c.beginPath();c.arc(12,-31.4,1.2,0,Math.PI*2);c.fill();
+            // 煙
+            c.fillStyle='rgba(170,170,170,0.5)';c.beginPath();c.arc(14,-36,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(16,-40,2,0,Math.PI*2);c.fill();
+        },
+        // 18. サタライト・ゼロ — C 赤と金の戦略軌道兵器
+        satellite(c, u) {
+            // ソーラーパネル（左右、赤）
+            c.fillStyle='#3a0808';c.fillRect(-45,-15,22,20);c.fillRect(23,-15,22,20);
+            c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-45,-15,22,20);c.strokeRect(23,-15,22,20);
+            // パネルの金グリッド
+            c.strokeStyle='#ffd24a';c.lineWidth=0.6;
+            for(let i=1;i<4;i++){c.beginPath();c.moveTo(-45+i*5.5,-15);c.lineTo(-45+i*5.5,5);c.stroke();c.beginPath();c.moveTo(23+i*5.5,-15);c.lineTo(23+i*5.5,5);c.stroke();}
+            // パネル光
+            c.fillStyle='rgba(255,210,74,0.3)';c.fillRect(-45,-15,22,20);c.fillRect(23,-15,22,20);
+            // 中央本体
+            c.fillStyle='#3a0808';c.fillRect(-20,-20,40,32);
+            c.fillStyle='#aa1010';c.fillRect(-18,-18,36,28);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-18,-18,36,28);
+            // 上部アンテナ
+            c.strokeStyle='#aaa';c.lineWidth=1.2;c.beginPath();c.moveTo(-5,-18);c.lineTo(-8,-30);c.stroke();c.beginPath();c.moveTo(5,-18);c.lineTo(8,-30);c.stroke();
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(-8,-30,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(8,-30,1.5,0,Math.PI*2);c.fill();
+            // パラボラアンテナ
+            c.fillStyle='#aaa';c.beginPath();c.ellipse(0,-18,10,5,0,0,Math.PI*2);c.fill();
+            c.fillStyle='#5a5a5a';c.beginPath();c.ellipse(0,-17,7,3,0,0,Math.PI*2);c.fill();
+            // 中央砲
+            c.fillStyle='#3a0808';c.fillRect(-7,0,14,18);
+            c.fillStyle='#5a0808';c.fillRect(-6,2,12,15);
+            // 砲身先端（光るコア）
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(0,15,4,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(0,15,2,0,Math.PI*2);c.fill();
+            // 砲のサイドライン
+            c.fillStyle='#ffd24a';c.fillRect(-7,6,1.5,9);c.fillRect(5.5,6,1.5,9);
+            // 中央のセンサー目
+            c.fillStyle='#0a0a0a';c.fillRect(-10,-10,20,6);
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(0,-7,2.5,0,Math.PI*2);c.fill();
+            c.fillStyle='rgba(255,255,255,0.7)';c.beginPath();c.arc(0,-8,1,0,Math.PI*2);c.fill();
+            // 装飾ライン
+            c.fillStyle='#ffd24a';c.fillRect(-18,-13,36,1);c.fillRect(-18,7,36,1);
+        }
+    };
+
     // 城（テーマ＋プレイヤーレベル対応）
     // 超過去編専用の古代風の砦（石・土・藁）
     function drawAncientCastle(c, x, gy, isPlayer, lv, hpRatio) {
@@ -7874,6 +8383,317 @@
             if(snd && snd.explode) snd.explode();
             return;
         }
+        // ====================================================
+        // 現代編 専用武器ハンドラ（味方とボス共通）
+        // ====================================================
+        const mdWeapon = attacker.data && attacker.data.weapon;
+        if(mdWeapon && mdWeapon.startsWith && mdWeapon.startsWith('md_')) {
+            attacker.swing = 1;
+            const fwdDir = attacker.side === 'p' ? -1 : 1;
+            const tgtX = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+            const tgtY = target.isCastle ? (groundY() - 30) : (target.y - 30);
+            // 1. md_bike (暴走族) — バイク特攻突進（horse_charge 流用：貫通）
+            if(mdWeapon === 'md_bike') {
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tgtX,
+                    timer: 0, damage: atk * 1.4, selfDamage: 0,
+                    side: attacker.side, attackerRef: null, damageApplied: false,
+                    hitUnits: [], pierce: true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: isSpecial, style: 'horse_charge'
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🏍 バイク特攻 🏍', '#ff3344', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 2. md_cards (怪盗) — 8方向トランプ投擲
+            if(mdWeapon === 'md_cards') {
+                for(let k=0;k<8;k++){
+                    const ang = (k/8)*Math.PI*2;
+                    const dx = Math.cos(ang)*1.3, dy = Math.sin(ang)*1.3;
+                    game.bullets.push({
+                        x: attacker.x, y: attacker.y - 30,
+                        tx: attacker.x + Math.cos(ang)*220, ty: attacker.y - 30 + Math.sin(ang)*150,
+                        vx: dx*4, vy: dy*4,
+                        dmg: atk*0.45, side: attacker.side,
+                        weapon: 'magic_circle', hit:false,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🎴 八方トランプ 🎴', '#88ccff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 3. md_curse (クチサケ) — 紫の呪い波動（前方貫通）
+            if(mdWeapon === 'md_curse') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 13, damage: atk, side: attacker.side,
+                    maxRange: attacker.range || 300, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial: isSpecial, style: 'mega_flame'
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '💢 呪い波動 💢', '#aa44ff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 4. md_tp_strike (テケテケ) — 瞬間移動3連撃
+            if(mdWeapon === 'md_tp_strike') {
+                if(!game.cloneStrikes) game.cloneStrikes = [];
+                const ty = target.isCastle ? (groundY() - 30) : target.y;
+                for(let k=0;k<3;k++){
+                    game.cloneStrikes.push({
+                        x: tgtX + (k-1)*22, y: ty,
+                        timer: 0, delay: k*0.18,
+                        damage: atk*0.85,
+                        side: attacker.side, damageApplied: false,
+                        cloneColor: '#88eeff',
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                        isSpecial, style: 'teleport'
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '✨ 瞬間3連撃 ✨', '#88eeff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 5. md_doll_summon (メリー) — 小人形3体召喚（jumpCombos style:snake 流用）
+            if(mdWeapon === 'md_doll_summon') {
+                const targets = [target];
+                const nearby = [];
+                for(const t of game.units) {
+                    if(t === target || t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    const d = Math.abs(t.x - attacker.x);
+                    if(d <= attacker.range) nearby.push({u:t,d});
+                }
+                nearby.sort((a,b)=>a.d-b.d);
+                targets.push(...nearby.slice(0,2).map(n=>n.u));
+                while(targets.length<3) targets.push(target);
+                if(!game.jumpCombos) game.jumpCombos = [];
+                targets.forEach((tg,i)=>{
+                    const ty=(tg && !tg.isCastle) ? tg.y : groundY();
+                    const tx=tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x;
+                    game.jumpCombos.push({
+                        startX: attacker.x, targetX: tx, targetY: ty,
+                        timer: 0, delay: i*0.15,
+                        damage: atk*0.8, side: attacker.side, damageApplied:false,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                        isSpecial, style:'snake'
+                    });
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🎀 小人形召喚 🎀', '#ff66cc', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 6. md_water_pillar (花子) — 水柱AOE（5本時間差・pillars 流用）
+            if(mdWeapon === 'md_water_pillar') {
+                if(!game.pillars) game.pillars = [];
+                for(let k=0;k<5;k++){
+                    const px = tgtX + (k-2)*40;
+                    game.pillars.push({
+                        x: px, timer: -k*0.12, damage: atk*0.6,
+                        side: attacker.side, damageApplied:false,
+                        isSpecial, style:'water'
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '💧 トイレ水柱 💧', '#88aaff', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 7. md_guided (ドローン軍団長) — 3発の誘導ミサイル
+            if(mdWeapon === 'md_guided') {
+                const targets = [target];
+                const nearby = [];
+                for(const t of game.units) {
+                    if(t === target || t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    const d = Math.abs(t.x - attacker.x);
+                    if(d <= attacker.range) nearby.push({u:t,d});
+                }
+                nearby.sort((a,b)=>a.d-b.d);
+                targets.push(...nearby.slice(0,2).map(n=>n.u));
+                while(targets.length<3) targets.push(target);
+                targets.forEach((tg)=>{
+                    const ty=(tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
+                    const tx=tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x;
+                    const bx = attacker.x + fwdDir*15;
+                    const by = attacker.y - 30;
+                    game.bullets.push({
+                        x: bx, y: by, tx: tx, ty: ty,
+                        vx: (tx-bx)/30, vy: (ty-by)/30,
+                        dmg: atk*0.7, side: attacker.side,
+                        weapon:'fireball', hit:false, aoe:true,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🚀 誘導3連射 🚀', '#ffd24a', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 8. md_acid_rain (スモッグ) — 全画面に酸性雨（複数ピラー降下）
+            if(mdWeapon === 'md_acid_rain') {
+                if(!game.pillars) game.pillars = [];
+                for(let k=0;k<6;k++){
+                    const px = 100 + (W()-200) * (k/5);
+                    game.pillars.push({
+                        x: px, timer: -k*0.15, damage: atk*0.55,
+                        side: attacker.side, damageApplied:false,
+                        isSpecial, style:'acid'
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '☠ 酸性雨 ☠', '#ffff66', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 9. md_swarm (ラットキング) — 5匹のネズミスウォーム
+            if(mdWeapon === 'md_swarm') {
+                const targets = [target];
+                const nearby = [];
+                for(const t of game.units) {
+                    if(t === target || t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    const d = Math.abs(t.x - attacker.x);
+                    if(d <= attacker.range) nearby.push({u:t,d});
+                }
+                nearby.sort((a,b)=>a.d-b.d);
+                targets.push(...nearby.slice(0,4).map(n=>n.u));
+                while(targets.length<5) targets.push(target);
+                if(!game.jumpCombos) game.jumpCombos = [];
+                targets.forEach((tg,i)=>{
+                    const ty=(tg && !tg.isCastle) ? tg.y : groundY();
+                    const tx=tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x;
+                    game.jumpCombos.push({
+                        startX: attacker.x, targetX: tx, targetY: ty,
+                        timer: 0, delay: i*0.1,
+                        damage: atk*0.6, side: attacker.side, damageApplied:false,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                        isSpecial, style:'snake'
+                    });
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🐀 5匹スウォーム 🐀', '#aa6644', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 10. md_sonic (ブレットマン) — 音速ダッシュ画面横断（slashWave 超高速）
+            if(mdWeapon === 'md_sonic') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 22, damage: atk, side: attacker.side,
+                    maxRange: 9999, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'charge_beam'
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🚄 音速突破 🚄', '#aaccff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 11. md_drill (ザイガス) — ドリル突進貫通
+            if(mdWeapon === 'md_drill') {
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tgtX,
+                    timer: 0, damage: atk * 1.6, selfDamage: 0,
+                    side: attacker.side, attackerRef: null, damageApplied: false,
+                    hitUnits: [], pierce: true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'horse_charge'
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '⚙ ドリル貫通 ⚙', '#ffd24a', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 12. md_vortex (メガロドン) — 大渦巻きAOE（spin_attack 流用）
+            if(mdWeapon === 'md_vortex') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: attacker.x, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, range: 180, style:'spin'
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🌊 大渦巻き 🌊', '#88ccff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 13. md_beam_burst (UFO) — 5方向同時ビーム
+            if(mdWeapon === 'md_beam_burst') {
+                for(let k=0;k<5;k++){
+                    const ang = -Math.PI*0.3 + (k/4)*Math.PI*0.6;
+                    const dx = fwdDir * Math.cos(ang);
+                    const dy = Math.sin(ang);
+                    game.bullets.push({
+                        x: attacker.x, y: attacker.y - 30,
+                        tx: attacker.x + dx*320, ty: attacker.y - 30 + dy*150,
+                        vx: dx*5, vy: dy*4,
+                        dmg: atk*0.5, side: attacker.side,
+                        weapon: 'magic_circle', hit:false,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🛸 5方向ビーム 🛸', '#aaffaa', true);
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // 14. md_missile_storm (メカMK-III) — 12発ミサイル乱射
+            if(mdWeapon === 'md_missile_storm') {
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    candidates.push(t);
+                }
+                for(let k=0;k<12;k++){
+                    const tg = candidates[k % Math.max(1, candidates.length)] || target;
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*30;
+                    const tty = (tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
+                    const bx = attacker.x + fwdDir*15 + (Math.random()-0.5)*20;
+                    const by = attacker.y - 30 + (Math.random()-0.5)*15;
+                    game.bullets.push({
+                        x: bx, y: by, tx: ttx, ty: tty,
+                        vx: (ttx-bx)/(28 + k*0.5), vy: (tty-by)/(28 + k*0.5),
+                        dmg: atk*0.35, side: attacker.side,
+                        weapon:'fireball', hit:false, aoe:true,
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🚀 12連ミサイル 🚀', '#ffd24a', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 15. md_stamp (CEO) — 巨大ハンコでスタン押印
+            if(mdWeapon === 'md_stamp') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: tgtX, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, range: 110, style:'binding_seal'
+                });
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🖋 M&A押印 🖋', '#aa1010', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 16. md_killsat (サタライト) — キルセイト全画面爆撃（6箇所の時間差ピラー）
+            if(mdWeapon === 'md_killsat') {
+                if(!game.pillars) game.pillars = [];
+                for(let k=0;k<6;k++){
+                    const px = 120 + (W()-240) * (k/5);
+                    game.pillars.push({
+                        x: px, timer: -k*0.18, damage: atk*0.7,
+                        side: attacker.side, damageApplied:false,
+                        isSpecial
+                    });
+                }
+                if(isSpecial) addFloat(attacker.x, attacker.y - 60, '☢ キルセイト ☢', '#ff3344', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+        }
         // ===== スターター5キャラの必殺技（8回ごと） =====
         if(isSpecial) {
             const aid = attacker.data && attacker.data.id;
@@ -9441,16 +10261,20 @@
                         ctx.fill();
                     }
                 }
+                // 現代編キャラは固有描画を使う（ボス・味方共通）
+                const drawBody = (u.data && u.data.mdRender)
+                    ? ((c, x, y, data, dir2, swing2, sc2) => drawModernUnit(c, x, y, data, dir2, swing2, sc2))
+                    : drawSamuraiCanvas;
                 if(u.knockback) {
                     // ノックバック中は後ろに少し傾く
                     const tilt = u.knockback.vx * 0.05;
                     ctx.save();
                     ctx.translate(u.x, u.y + yWalk);
                     ctx.rotate(tilt);
-                    drawSamuraiCanvas(ctx, 0, 0, u.data, dir, u.swing, u.scale * kishinkaScale);
+                    drawBody(ctx, 0, 0, u.data, dir, u.swing, u.scale * kishinkaScale);
                     ctx.restore();
                 } else {
-                    drawSamuraiCanvas(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale * kishinkaScale);
+                    drawBody(ctx, u.x, u.y + yWalk, u.data, dir, u.swing, u.scale * kishinkaScale);
                 }
             }
             // ヒットフラッシュ（メガボスは目に優しい控えめ表示）
