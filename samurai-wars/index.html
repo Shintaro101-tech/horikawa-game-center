@@ -4671,122 +4671,161 @@
         }
     }
 
-    // サテライト・砲（現代編専用）— 軌道衛星から6本ビームが空から地面に降下、右→左へスイープ
+    // サテライト・キャノン砲（現代編専用）— 案B: オービタル・ストライク
+    //   衛星が画面中央上空で停止チャージ → 1本の極太レーザーが垂直降下 → 巨大クレーター＋衝撃波
     function drawSatelliteCannon(c, w, h) {
         const t = 1 - Math.min(1, game.laserAnim / 1.6); // 0 → 1 の進行
         const gy = groundY();
-        // 全画面の青フラッシュ（着弾終盤）
-        if(t > 0.8) {
-            const fa = (t - 0.8) / 0.2;
-            c.fillStyle = `rgba(180,230,255,${fa*0.55})`;
-            c.fillRect(0, 0, w, h);
-        }
-        // 上空のうっすら青いオーラ（衛星のエネルギー場）
-        const auraGrad = c.createLinearGradient(0, 0, 0, h*0.3);
-        auraGrad.addColorStop(0, `rgba(0,240,255,${0.18 + t*0.1})`);
-        auraGrad.addColorStop(1, `rgba(0,240,255,0)`);
-        c.fillStyle = auraGrad;
-        c.fillRect(0, 0, w, h*0.3);
+        const cx = w * 0.5; // 着弾位置（画面中央）
+        const satX = cx;
+        const satY = h * 0.1;
 
-        // 軌道衛星（画面右上、左へ徐々に移動）
-        const satX = w * (0.85 - t * 0.6); // 右上から左上へ移動
-        const satY = h * 0.08;
+        // 上空のうっすら金色のオーラ（衛星のエネルギー場）
+        const auraGrad = c.createLinearGradient(0, 0, 0, h*0.35);
+        auraGrad.addColorStop(0, `rgba(255,210,74,${0.12 + t*0.1})`);
+        auraGrad.addColorStop(1, `rgba(255,210,74,0)`);
+        c.fillStyle = auraGrad;
+        c.fillRect(0, 0, w, h*0.35);
+
+        // 軌道衛星（中央上空に停止）
+        const hover = Math.sin(performance.now()*0.003) * 4;
         c.save();
-        c.translate(satX, satY);
+        c.translate(satX, satY + hover);
         // ソーラーパネル
-        c.fillStyle = '#3a0808'; c.fillRect(-44, -10, 22, 20); c.fillRect(22, -10, 22, 20);
-        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-44, -10, 22, 20); c.strokeRect(22, -10, 22, 20);
+        c.fillStyle = '#3a0808'; c.fillRect(-50, -12, 26, 24); c.fillRect(24, -12, 26, 24);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-50, -12, 26, 24); c.strokeRect(24, -12, 26, 24);
         c.strokeStyle = '#ffd24a';
-        for(let i=1;i<4;i++){ c.beginPath(); c.moveTo(-44+i*5.5,-10); c.lineTo(-44+i*5.5,10); c.stroke();
-            c.beginPath(); c.moveTo(22+i*5.5,-10); c.lineTo(22+i*5.5,10); c.stroke(); }
+        for(let i=1;i<4;i++){ c.beginPath(); c.moveTo(-50+i*6.5,-12); c.lineTo(-50+i*6.5,12); c.stroke();
+            c.beginPath(); c.moveTo(24+i*6.5,-12); c.lineTo(24+i*6.5,12); c.stroke(); }
+        c.fillStyle = `rgba(255,210,74,${0.3 + Math.sin(performance.now()*0.005)*0.1})`;
+        c.fillRect(-50, -12, 26, 24); c.fillRect(24, -12, 26, 24);
         // 本体（赤）
-        c.fillStyle = '#aa1010'; c.fillRect(-18, -16, 36, 28); c.strokeStyle = '#000'; c.strokeRect(-18, -16, 36, 28);
-        c.fillStyle = '#3a0808'; c.fillRect(-14, -12, 28, 6);
+        c.fillStyle = '#aa1010'; c.fillRect(-22, -20, 44, 34); c.strokeStyle = '#000'; c.strokeRect(-22, -20, 44, 34);
+        c.fillStyle = '#3a0808'; c.fillRect(-18, -16, 36, 8);
+        c.fillStyle = '#ffd24a'; c.fillRect(-22, -20, 44, 3); c.fillRect(-22, 11, 44, 3);
         // 中央センサー
-        c.fillStyle = '#0a0a0a'; c.fillRect(-10, -6, 20, 6);
-        c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(0, -3, 2.5, 0, Math.PI*2); c.fill();
-        // 砲身（下に向く）
-        c.fillStyle = '#3a3a3a'; c.fillRect(-6, 12, 12, 14);
-        c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(0, 26, 4, 0, Math.PI*2); c.fill();
-        c.fillStyle = '#fff'; c.beginPath(); c.arc(0, 26, 2, 0, Math.PI*2); c.fill();
-        // 衛星のエネルギーオーラ
-        const orbAura = c.createRadialGradient(0, 26, 0, 0, 26, 25);
-        orbAura.addColorStop(0, `rgba(0,240,255,0.9)`);
-        orbAura.addColorStop(1, `rgba(0,240,255,0)`);
-        c.fillStyle = orbAura;
-        c.beginPath(); c.arc(0, 26, 25, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#0a0a0a'; c.fillRect(-12, -8, 24, 8);
+        c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(0, -4, 3, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff'; c.beginPath(); c.arc(0, -4, 1.5, 0, Math.PI*2); c.fill();
+        // 砲身（下に向く・大きめ）
+        c.fillStyle = '#1a1a1a'; c.fillRect(-10, 14, 20, 22);
+        c.fillStyle = '#5a0808'; c.fillRect(-8, 16, 16, 18);
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 1.5;
+        c.strokeRect(-8, 16, 16, 18);
         c.restore();
 
-        // 6本のビーム（時間差、右→左スイープ）
-        const beamCount = 6;
-        for(let i = 0; i < beamCount; i++) {
-            const beamDelay = i * 0.13;
-            const beamT = t - beamDelay;
-            if(beamT <= 0) continue;
-            const beamLife = Math.min(1, beamT / 0.5);
-            const fade = beamT > 0.4 ? Math.max(0, 1 - (beamT - 0.4) / 0.3) : 1;
-            // ビームの着弾位置（右→左）
-            const tx = w * 0.95 - (w * 0.9) * (i / (beamCount - 1));
-            // 軌道線（衛星 → 地面）
-            const sx = satX, sy = satY + 26;
-            const grad = c.createLinearGradient(sx, sy, tx, gy);
-            grad.addColorStop(0, `rgba(0,240,255,${fade})`);
-            grad.addColorStop(0.5, `rgba(180,230,255,${fade*0.9})`);
-            grad.addColorStop(1, `rgba(255,255,255,${fade})`);
-            c.strokeStyle = grad;
-            c.lineWidth = 6 * fade;
-            c.beginPath(); c.moveTo(sx, sy); c.lineTo(tx, gy); c.stroke();
-            // 外側の太い光
-            c.strokeStyle = `rgba(0,240,255,${fade*0.4})`;
-            c.lineWidth = 14 * fade;
-            c.beginPath(); c.moveTo(sx, sy); c.lineTo(tx, gy); c.stroke();
-            // 中心の白い線
-            c.strokeStyle = `rgba(255,255,255,${fade})`;
+        // === フェーズ別演出 ===
+        // フェーズ1 (t=0..0.4): チャージ — 衛星周辺に光が集まる、地上にターゲットマーカー
+        if(t < 0.4) {
+            const tt = t / 0.4;
+            // 衛星周辺に集まる光粒子
+            for(let k = 0; k < 12; k++) {
+                const ang = k * Math.PI / 6 + performance.now() * 0.008;
+                const rr = 80 - tt * 60;
+                const px = satX + Math.cos(ang) * rr;
+                const py = satY + 34 + Math.sin(ang) * rr * 0.5;
+                c.fillStyle = `rgba(255,210,74,${tt})`;
+                c.beginPath(); c.arc(px, py, 3, 0, Math.PI*2); c.fill();
+            }
+            // 砲口の光（脈動）
+            const orbR = 10 + tt * 16 + Math.sin(performance.now()*0.02)*3;
+            const orbAura = c.createRadialGradient(satX, satY + 34, 0, satX, satY + 34, orbR);
+            orbAura.addColorStop(0, `rgba(255,255,255,${tt})`);
+            orbAura.addColorStop(0.5, `rgba(255,210,74,${tt*0.9})`);
+            orbAura.addColorStop(1, `rgba(255,80,40,0)`);
+            c.fillStyle = orbAura;
+            c.beginPath(); c.arc(satX, satY + 34, orbR, 0, Math.PI*2); c.fill();
+            // 地上ターゲットマーカー
+            c.strokeStyle = `rgba(255,80,40,${tt*0.9})`;
+            c.lineWidth = 3;
+            for(let r = 0; r < 3; r++) {
+                c.beginPath(); c.arc(cx, gy, 50 - r*10 + Math.sin(performance.now()*0.01+r)*3, 0, Math.PI*2); c.stroke();
+            }
+            // 十字の照準
+            c.strokeStyle = `rgba(255,80,40,${tt*0.6})`;
             c.lineWidth = 2;
-            c.beginPath(); c.moveTo(sx, sy); c.lineTo(tx, gy); c.stroke();
-            // 着弾エフェクト（地面の青いリング）
-            if(beamLife > 0.2) {
-                const ringR = (beamT - 0.1) * 200;
-                c.strokeStyle = `rgba(0,240,255,${fade * 0.7})`;
-                c.lineWidth = 4 * fade;
-                c.beginPath(); c.ellipse(tx, gy, ringR, ringR*0.3, 0, 0, Math.PI*2); c.stroke();
-                c.strokeStyle = `rgba(255,255,255,${fade * 0.6})`;
-                c.lineWidth = 2 * fade;
-                c.beginPath(); c.ellipse(tx, gy, ringR * 0.6, ringR*0.2, 0, 0, Math.PI*2); c.stroke();
-            }
-            // 着弾フラッシュ
-            const flashR = 60 * fade;
-            const flashGrad = c.createRadialGradient(tx, gy, 0, tx, gy, flashR);
-            flashGrad.addColorStop(0, `rgba(255,255,255,${fade})`);
-            flashGrad.addColorStop(0.4, `rgba(0,240,255,${fade*0.8})`);
-            flashGrad.addColorStop(1, `rgba(0,240,255,0)`);
-            c.fillStyle = flashGrad;
-            c.beginPath(); c.arc(tx, gy, flashR, 0, Math.PI*2); c.fill();
-            // 火花
-            if(beamLife > 0.3) {
-                for(let k = 0; k < 6; k++) {
-                    const ang = (k/6)*Math.PI*2 + beamT*3;
-                    const rr = 18 + Math.sin(beamT*10+k)*5;
-                    c.fillStyle = `rgba(255,255,255,${fade*0.8})`;
-                    c.fillRect(tx + Math.cos(ang)*rr, gy + Math.sin(ang)*rr*0.4, 3, 3);
+            c.beginPath(); c.moveTo(cx - 80, gy); c.lineTo(cx + 80, gy); c.stroke();
+            c.beginPath(); c.moveTo(cx, gy - 80); c.lineTo(cx, gy + 50); c.stroke();
+        }
+
+        // フェーズ2 (t=0.4..0.7): 極太レーザー降下
+        if(t >= 0.4 && t < 0.85) {
+            const tt = (t - 0.4) / 0.45;
+            const intensity = tt < 0.25 ? tt * 4 : Math.max(0.6, 1 - (tt-0.25)*0.5);
+            // 外炎（赤）— 超太
+            c.fillStyle = `rgba(255,80,40,${0.55 * intensity})`;
+            c.fillRect(cx - 80, satY + 34, 160, gy - (satY + 34));
+            // 中炎（金）
+            c.fillStyle = `rgba(255,210,74,${0.85 * intensity})`;
+            c.fillRect(cx - 50, satY + 34, 100, gy - (satY + 34));
+            // コア（白）
+            c.fillStyle = `rgba(255,255,255,${intensity})`;
+            c.fillRect(cx - 18, satY + 34, 36, gy - (satY + 34));
+            // 内側のうねるエネルギー線
+            c.strokeStyle = `rgba(255,255,255,${intensity * 0.9})`;
+            c.lineWidth = 2;
+            for(let k = 0; k < 6; k++) {
+                c.beginPath();
+                const phase = (performance.now() * 0.008 + k * 0.5) % 1;
+                for(let i = 0; i <= 12; i++) {
+                    const px = cx + Math.sin((i/12) * Math.PI * 4 + phase * Math.PI * 2 + k) * (16 - (i/12)*4);
+                    const py = satY + 34 + (i/12) * (gy - satY - 34);
+                    if(i === 0) c.moveTo(px, py); else c.lineTo(px, py);
                 }
+                c.stroke();
             }
-            // 警告マーカー（ビーム開始前の標的サークル）
-            if(beamT < 0.15) {
-                const wt = beamT / 0.15;
-                c.strokeStyle = `rgba(255,210,74,${1 - wt})`;
-                c.lineWidth = 2;
-                c.beginPath(); c.arc(tx, gy, 30 - wt*8, 0, Math.PI*2); c.stroke();
-                // 十字
-                c.beginPath(); c.moveTo(tx-40, gy); c.lineTo(tx+40, gy); c.stroke();
-                c.beginPath(); c.moveTo(tx, gy-30); c.lineTo(tx, gy+30); c.stroke();
+            // 砲口の発射フラッシュ
+            const flashR = 70 * intensity;
+            const flashGrad = c.createRadialGradient(satX, satY + 34, 0, satX, satY + 34, flashR);
+            flashGrad.addColorStop(0, `rgba(255,255,255,${intensity})`);
+            flashGrad.addColorStop(0.4, `rgba(255,210,74,${intensity*0.9})`);
+            flashGrad.addColorStop(1, `rgba(255,80,40,0)`);
+            c.fillStyle = flashGrad;
+            c.beginPath(); c.arc(satX, satY + 34, flashR, 0, Math.PI*2); c.fill();
+            // 全画面フラッシュ（発射直後の閃光）
+            if(tt < 0.3) {
+                c.fillStyle = `rgba(255,255,200,${(0.3 - tt) * 1.5})`;
+                c.fillRect(0, 0, w, h);
             }
         }
-        // ビーム発射音用の上空のチャージ光
-        if(t < 0.2) {
-            const wt = t / 0.2;
-            c.fillStyle = `rgba(0,240,255,${0.5*(1-wt)})`;
-            c.beginPath(); c.arc(satX, satY + 26, 30*wt, 0, Math.PI*2); c.fill();
+
+        // フェーズ3 (t=0.55..): 着弾クレーター＋衝撃波
+        if(t >= 0.55) {
+            const tt = (t - 0.55) / 0.45;
+            // クレーター（中央の地面の窪み）
+            c.fillStyle = `rgba(80,40,20,${0.8 * (1 - tt*0.3)})`;
+            c.beginPath(); c.ellipse(cx, gy + 4, 90 + tt*30, 12 + tt*4, 0, 0, Math.PI*2); c.fill();
+            // 着弾の白いコア
+            c.fillStyle = `rgba(255,255,255,${(1 - tt) * 0.95})`;
+            c.beginPath(); c.arc(cx, gy, 60 - tt*30, 0, Math.PI*2); c.fill();
+            // 外側の金の炎球
+            c.fillStyle = `rgba(255,210,74,${(1 - tt) * 0.85})`;
+            c.beginPath(); c.arc(cx, gy, 95 - tt*20, 0, Math.PI*2); c.fill();
+            // 赤い炎の輪
+            c.fillStyle = `rgba(255,80,40,${(1 - tt) * 0.7})`;
+            c.beginPath(); c.arc(cx, gy, 130 + tt*40, 0, Math.PI*2); c.fill();
+            // 衝撃波リング（3重）
+            for(let k = 0; k < 3; k++) {
+                const rt = Math.max(0, tt - k*0.15);
+                const r = 30 + rt * 280;
+                c.strokeStyle = `rgba(255,210,74,${1 - rt})`;
+                c.lineWidth = 6 - k*1.5;
+                c.beginPath(); c.ellipse(cx, gy, r, r*0.28, 0, 0, Math.PI*2); c.stroke();
+                c.strokeStyle = `rgba(255,255,255,${(1-rt)*0.6})`;
+                c.lineWidth = 2;
+                c.beginPath(); c.ellipse(cx, gy, r, r*0.28, 0, 0, Math.PI*2); c.stroke();
+            }
+            // 飛び散る火花・破片
+            for(let k = 0; k < 24; k++) {
+                const ang = (k / 24) * Math.PI * 2;
+                const rr = tt * 220 + (k % 3) * 8;
+                const px = cx + Math.cos(ang) * rr;
+                const py = gy + Math.sin(ang) * rr * 0.4;
+                if(py < gy + 4) {
+                    c.fillStyle = ['#ffd24a','#ff8800','#fff','#ff5544'][k % 4];
+                    c.fillRect(px, py - tt*40, 3, 3);
+                }
+            }
         }
     }
 
@@ -8133,10 +8172,12 @@
         c.restore();
     }
 
-    // 現代編の都市背景（テーマ別 + 東京タワー/スカイツリー）
+    // 現代編の都市背景（テーマ別 + ステージ毎の固有ランドマーク）
     function drawModernCityBg(c, t, w, h, gy) {
         const time = performance.now() * 0.001;
         const stageId = game.stageId || 0;
+        // ステージID別の決定的乱数（同じステージは毎回同じ配置）
+        const rnd = (n) => { const x = Math.sin(stageId * 73 + n * 137) * 10000; return x - Math.floor(x); };
         // テーマ別 ビル配色
         const palette = (() => {
             switch(t.id) {
@@ -8153,31 +8194,29 @@
         // === 遠景の小さな街明かり（地平線） ===
         c.fillStyle = `rgba(255,210,74,0.18)`;
         for(let i = 0; i < 25; i++) {
-            const lx = (i * 47) % w;
+            const lx = ((i * 47) + (stageId * 17)) % w;
             c.fillRect(lx, gy - 4, 2, 2);
         }
 
-        // === ビル群（中景） ===
+        // === ビル群（中景）— ステージ毎に配置を変える ===
         if(t.id !== 'sewer') {
-            // 遠景のシルエット
+            // 遠景のシルエット（ステージID をシードに変化）
             c.fillStyle = palette.shade;
-            const farBuildings = [
-                [0.05, 60, 30], [0.13, 75, 40], [0.22, 50, 28], [0.32, 90, 45],
-                [0.42, 65, 35], [0.55, 80, 42], [0.68, 55, 28], [0.78, 95, 48],
-                [0.88, 70, 36], [0.96, 60, 30]
-            ];
-            farBuildings.forEach(([px, ph, pw]) => {
+            const farCount = 8 + Math.floor(rnd(0) * 4);
+            for(let i = 0; i < farCount; i++) {
+                const px = (i + 0.5) / farCount + (rnd(i*3+1) - 0.5) * 0.06;
+                const ph = 50 + Math.floor(rnd(i*3+2) * 50);
+                const pw = 28 + Math.floor(rnd(i*3+3) * 22);
                 const bx = w * px;
                 c.fillRect(bx - pw/2, gy - ph, pw, ph);
-            });
+            }
 
             // 中景のビル（大きめ、灯り付き）
-            c.fillStyle = palette.wall;
-            const buildings = [
-                [0.08, 130, 60], [0.22, 170, 70], [0.36, 110, 55],
-                [0.50, 200, 80], [0.64, 140, 65], [0.78, 180, 72], [0.92, 120, 58]
-            ];
-            buildings.forEach(([px, ph, pw], idx) => {
+            const buildingCount = 6 + Math.floor(rnd(10) * 3);
+            for(let idx = 0; idx < buildingCount; idx++) {
+                const px = (idx + 0.5) / buildingCount + (rnd(idx*5+11) - 0.5) * 0.08;
+                const ph = 100 + Math.floor(rnd(idx*5+12) * 110);
+                const pw = 50 + Math.floor(rnd(idx*5+13) * 36);
                 const bx = w * px;
                 c.fillStyle = palette.wall;
                 c.fillRect(bx - pw/2, gy - ph, pw, ph);
@@ -8191,9 +8230,9 @@
                 const rows = Math.floor(ph / 10);
                 for(let row = 0; row < rows; row++) {
                     for(let col = 0; col < cols; col++) {
-                        const seed = (row * cols + col + idx * 13 + stageId) % 7;
+                        const seed = (row * cols + col + idx * 13 + stageId * 7) % 7;
                         if(seed < 4) {
-                            c.fillStyle = palette.win[(row + col + idx) % palette.win.length];
+                            c.fillStyle = palette.win[(row + col + idx + stageId) % palette.win.length];
                             c.fillRect(bx - pw/2 + 3 + col*8, gy - ph + 5 + row*10, 3, 4);
                         }
                     }
@@ -8206,31 +8245,11 @@
                     c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
                     c.beginPath(); c.arc(bx, gy - ph - 14, 2, 0, Math.PI*2); c.fill();
                 }
-            });
+            }
         }
 
-        // === ステージ別ランドマーク ===
-        // 東京タワー @ 銀座（stage 210）
-        if(stageId === 210) {
-            drawTokyoTower(c, w * 0.5, gy);
-        }
-        // 東京スカイツリー @ 摩天楼決戦（stage 217）
-        if(stageId === 217) {
-            drawSkytree(c, w * 0.5, gy);
-        }
-        // 新幹線（stage 212 新幹線追撃戦）— 走る新幹線シルエット
-        if(stageId === 212) {
-            const trainX = ((time * 60) % (w + 200)) - 100;
-            c.fillStyle = '#0a0a3a';
-            c.fillRect(trainX, gy - 28, 180, 14);
-            c.fillStyle = '#aaccff';
-            c.fillRect(trainX + 8, gy - 24, 8, 5);
-            for(let k = 0; k < 6; k++) c.fillRect(trainX + 24 + k*22, gy - 24, 16, 5);
-            c.fillStyle = '#0a0a3a';
-            c.beginPath(); c.moveTo(trainX, gy - 28); c.lineTo(trainX - 16, gy - 18); c.lineTo(trainX, gy - 14); c.closePath(); c.fill();
-            c.fillStyle = '#ffd24a';
-            c.beginPath(); c.arc(trainX - 12, gy - 18, 2, 0, Math.PI*2); c.fill();
-        }
+        // === ステージ毎の固有ランドマーク ===
+        drawStageLandmark(c, stageId, w, h, gy, time);
 
         // === テーマ別の追加装飾 ===
         if(t.id === 'neon') {
@@ -8338,6 +8357,333 @@
             c.fillRect(0, gy - 8, w, 8);
         }
         // city テーマは特にビル追加だけで完結
+    }
+
+    // ステージ毎の固有ランドマーク（現代編 全18ステージ）
+    function drawStageLandmark(c, stageId, w, h, gy, time) {
+        switch(stageId) {
+            case 201: { // 渋谷スクランブル — スクランブル交差点＋大きなビジョン
+                // 横断歩道（白いストライプ）
+                c.fillStyle = 'rgba(255,255,255,0.45)';
+                for(let i = 0; i < 6; i++) c.fillRect(w*0.2 + i*8, gy + 5, 5, 12);
+                for(let i = 0; i < 6; i++) c.fillRect(w*0.65 + i*8, gy + 5, 5, 12);
+                // 巨大ビジョン（右側のビル正面）
+                c.fillStyle = '#0a0a0a'; c.fillRect(w*0.75, gy - 100, 70, 40);
+                const pulse = Math.sin(time*2) > 0;
+                c.fillStyle = pulse ? '#ff3344' : '#ff66cc';
+                c.fillRect(w*0.76, gy - 98, 66, 36);
+                c.fillStyle = '#fff'; c.font = 'bold 14px sans-serif'; c.textAlign = 'center';
+                c.fillText('SHIBUYA', w*0.75 + 35, gy - 80);
+                c.font = 'bold 9px sans-serif';
+                c.fillText('CROSSING', w*0.75 + 35, gy - 67);
+                break;
+            }
+            case 202: { // 歌舞伎町夜戦 — 赤い歓楽街看板
+                // 派手な赤いゲート看板
+                c.fillStyle = '#aa1010'; c.fillRect(w*0.35, gy - 130, 180, 30);
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 2; c.strokeRect(w*0.35, gy - 130, 180, 30);
+                c.fillStyle = '#ffd24a'; c.font = 'bold 18px serif'; c.textAlign = 'center';
+                c.fillText('歌舞伎町', w*0.35 + 90, gy - 108);
+                // ネオン看板（縦長）
+                for(let i = 0; i < 4; i++) {
+                    const sx = w*0.1 + i*30;
+                    c.fillStyle = '#0a0a0a'; c.fillRect(sx, gy - 80, 20, 50);
+                    c.fillStyle = ['#ff3344','#ffd24a','#00f0ff','#ff66cc'][i];
+                    c.fillRect(sx+2, gy - 78, 16, 46);
+                }
+                break;
+            }
+            case 203: { // 駅前広場 — 駅の入口＋大時計
+                // 駅舎
+                c.fillStyle = '#3a4a5a'; c.fillRect(w*0.3, gy - 120, 200, 120);
+                c.strokeStyle = '#000'; c.lineWidth = 1.5; c.strokeRect(w*0.3, gy - 120, 200, 120);
+                // アーチ入口
+                c.fillStyle = '#0a0a14';
+                c.beginPath(); c.moveTo(w*0.4, gy); c.lineTo(w*0.4, gy - 50); c.arc(w*0.4 + 40, gy - 50, 40, Math.PI, 0); c.lineTo(w*0.4 + 80, gy); c.closePath(); c.fill();
+                // 大時計
+                c.fillStyle = '#fff'; c.beginPath(); c.arc(w*0.4 + 40, gy - 90, 14, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#000'; c.lineWidth = 1.5; c.stroke();
+                c.strokeStyle = '#000'; c.lineWidth = 2;
+                c.beginPath(); c.moveTo(w*0.4 + 40, gy - 90); c.lineTo(w*0.4 + 40, gy - 100); c.stroke();
+                c.beginPath(); c.moveTo(w*0.4 + 40, gy - 90); c.lineTo(w*0.4 + 48, gy - 88); c.stroke();
+                // 駅名看板
+                c.fillStyle = '#ffd24a'; c.fillRect(w*0.3 + 80, gy - 30, 40, 12);
+                c.fillStyle = '#000'; c.font = 'bold 10px sans-serif'; c.textAlign = 'center';
+                c.fillText('STATION', w*0.3 + 100, gy - 21);
+                break;
+            }
+            case 204: { // 廃校の怪談 — 校舎は school テーマで描画済み、追加で時計塔の影
+                // 古びた時計塔
+                c.fillStyle = '#1a2818'; c.fillRect(w*0.7, gy - 160, 30, 160);
+                c.strokeStyle = '#0a140a'; c.strokeRect(w*0.7, gy - 160, 30, 160);
+                c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(w*0.7 + 15, gy - 145, 8, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#000'; c.stroke();
+                // 怪しい光（窓に揺れる影）
+                if(Math.sin(time*1.5) > 0.3) {
+                    c.fillStyle = '#88ff88';
+                    c.fillRect(w*0.7 + 5, gy - 100, 6, 12); c.fillRect(w*0.7 + 19, gy - 60, 6, 12);
+                }
+                break;
+            }
+            case 205: { // 地下道の遭遇 — 地下入口階段
+                // 地下入口の手すり＋階段
+                c.fillStyle = '#3a3a3a'; c.fillRect(w*0.4, gy - 8, 80, 8);
+                c.fillStyle = '#0a0a0a'; c.fillRect(w*0.4 + 10, gy, 60, 30);
+                // 階段の段
+                c.strokeStyle = '#5a5a5a'; c.lineWidth = 1;
+                for(let i = 0; i < 4; i++) {
+                    c.beginPath(); c.moveTo(w*0.4 + 10, gy + 5 + i*6); c.lineTo(w*0.4 + 70, gy + 5 + i*6); c.stroke();
+                }
+                // 「地下道」サイン
+                c.fillStyle = '#ffd24a'; c.fillRect(w*0.4 - 4, gy - 28, 30, 14);
+                c.fillStyle = '#000'; c.font = 'bold 10px sans-serif'; c.textAlign = 'center';
+                c.fillText('地下道', w*0.4 + 11, gy - 18);
+                break;
+            }
+            case 206: { // オフィス街の異変 — 巨大オフィスタワー（左側）
+                c.fillStyle = '#2a2030'; c.fillRect(w*0.08, gy - 240, 70, 240);
+                c.strokeStyle = '#150818'; c.lineWidth = 2; c.strokeRect(w*0.08, gy - 240, 70, 240);
+                // ガラス格子窓（多数）
+                for(let row = 0; row < 28; row++) {
+                    for(let col = 0; col < 6; col++) {
+                        const wx = w*0.08 + 5 + col * 10;
+                        const wy = gy - 234 + row * 8;
+                        c.fillStyle = (row + col) % 5 === 0 ? '#ffd24a' : '#1a1828';
+                        c.fillRect(wx, wy, 7, 6);
+                    }
+                }
+                // 屋上の会社名
+                c.fillStyle = '#ff66cc'; c.fillRect(w*0.08 + 5, gy - 240, 60, 8);
+                c.fillStyle = '#fff'; c.font = 'bold 6px sans-serif'; c.textAlign = 'center';
+                c.fillText('MEGA CORP', w*0.08 + 35, gy - 234);
+                break;
+            }
+            case 207: { // 高速道路の襲撃 — 高架高速道路
+                // 高架の橋脚
+                c.fillStyle = '#3a3a3a';
+                for(let i = 0; i < 5; i++) c.fillRect(w*0.1 + i*w*0.2 - 5, gy - 100, 10, 100);
+                // 高架道路
+                c.fillStyle = '#1a1a1a'; c.fillRect(0, gy - 110, w, 14);
+                c.fillStyle = '#5a5a5a'; c.fillRect(0, gy - 110, w, 2);
+                // 中央線（黄）
+                c.fillStyle = '#ffd24a';
+                for(let i = 0; i < 20; i++) c.fillRect(i*w/20 + (time*100)%30, gy - 103, 14, 2);
+                // 走る車（小さい）
+                const carX = ((time*120) % (w + 100)) - 50;
+                c.fillStyle = '#ff3344'; c.fillRect(carX, gy - 116, 22, 7);
+                c.fillStyle = '#88ccff'; c.fillRect(carX + 14, gy - 114, 6, 3);
+                c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(carX + 22, gy - 113, 1.5, 0, Math.PI*2); c.fill();
+                break;
+            }
+            case 208: { // 空港テロ — 管制塔＋飛行機
+                // 管制塔
+                c.fillStyle = '#5a6a7a'; c.fillRect(w*0.7, gy - 150, 18, 150);
+                c.fillStyle = '#88ccee'; c.fillRect(w*0.7 - 8, gy - 160, 34, 22);
+                c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(w*0.7 - 8, gy - 160, 34, 22);
+                // 回転灯
+                const blink = Math.sin(time*5) > 0;
+                c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.4)';
+                c.beginPath(); c.arc(w*0.7 + 9, gy - 168, 4, 0, Math.PI*2); c.fill();
+                // 飛行機（上空を横切る）
+                const planeX = ((time*60) % (w + 200)) - 100;
+                c.fillStyle = '#ccc';
+                c.beginPath();
+                c.ellipse(planeX, h*0.2, 30, 6, 0, 0, Math.PI*2); c.fill();
+                // 翼
+                c.beginPath(); c.moveTo(planeX, h*0.2);
+                c.lineTo(planeX - 8, h*0.2 + 12); c.lineTo(planeX + 8, h*0.2 + 12); c.closePath(); c.fill();
+                // 尾翼
+                c.beginPath(); c.moveTo(planeX - 22, h*0.2);
+                c.lineTo(planeX - 30, h*0.2 - 8); c.lineTo(planeX - 18, h*0.2); c.closePath(); c.fill();
+                c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(planeX + 26, h*0.2, 1.5, 0, Math.PI*2); c.fill();
+                break;
+            }
+            case 209: { // 港湾倉庫街 — コンテナ群
+                // コンテナを積み重ねる
+                const colors = ['#aa3030','#3a4a8a','#3a8a4a','#aa6600','#5a5a5a'];
+                for(let row = 0; row < 3; row++) {
+                    for(let col = 0; col < 7; col++) {
+                        const cx = w*0.15 + col*45;
+                        const cy = gy - 25 - row*22;
+                        if(cx > w*0.85) continue;
+                        c.fillStyle = colors[(row*7+col + stageId) % colors.length];
+                        c.fillRect(cx, cy, 42, 20);
+                        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(cx, cy, 42, 20);
+                        // コンテナの溝
+                        c.strokeStyle = 'rgba(0,0,0,0.3)';
+                        for(let s = 1; s < 4; s++) {
+                            c.beginPath(); c.moveTo(cx + s*10, cy); c.lineTo(cx + s*10, cy+20); c.stroke();
+                        }
+                    }
+                }
+                break;
+            }
+            case 210: { // 銀座の悪夢 — 東京タワー
+                drawTokyoTower(c, w * 0.5, gy);
+                break;
+            }
+            case 211: { // 地下鉄路線網 — トンネル＋線路
+                // トンネル奥（暗い円弧）
+                c.fillStyle = '#0a0a0a';
+                c.beginPath();
+                c.moveTo(w*0.35, gy); c.lineTo(w*0.35, gy - 50);
+                c.arc(w*0.5, gy - 50, w*0.15, Math.PI, 0); c.lineTo(w*0.65, gy); c.closePath(); c.fill();
+                // トンネル枠
+                c.strokeStyle = '#3a3a3a'; c.lineWidth = 3;
+                c.beginPath();
+                c.moveTo(w*0.35, gy); c.lineTo(w*0.35, gy - 50);
+                c.arc(w*0.5, gy - 50, w*0.15, Math.PI, 0); c.lineTo(w*0.65, gy); c.stroke();
+                // トンネルの遠景の光
+                c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(w*0.5, gy - 30, 3, 0, Math.PI*2); c.fill();
+                // 線路
+                c.fillStyle = '#5a3a18';
+                for(let i = 0; i < 8; i++) c.fillRect(w*0.4 + i*15, gy - 4, 8, 4);
+                c.strokeStyle = '#aaa'; c.lineWidth = 1.5;
+                c.beginPath(); c.moveTo(w*0.35, gy - 1); c.lineTo(w*0.65, gy - 1); c.stroke();
+                c.beginPath(); c.moveTo(w*0.35, gy + 2); c.lineTo(w*0.65, gy + 2); c.stroke();
+                break;
+            }
+            case 212: { // 新幹線追撃戦 — 走る新幹線（既存ロジック）
+                const trainX = ((time * 60) % (w + 200)) - 100;
+                c.fillStyle = '#0a0a3a';
+                c.fillRect(trainX, gy - 28, 180, 14);
+                c.fillStyle = '#aaccff';
+                c.fillRect(trainX + 8, gy - 24, 8, 5);
+                for(let k = 0; k < 6; k++) c.fillRect(trainX + 24 + k*22, gy - 24, 16, 5);
+                c.fillStyle = '#0a0a3a';
+                c.beginPath(); c.moveTo(trainX, gy - 28); c.lineTo(trainX - 16, gy - 18); c.lineTo(trainX, gy - 14); c.closePath(); c.fill();
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(trainX - 12, gy - 18, 2, 0, Math.PI*2); c.fill();
+                break;
+            }
+            case 213: { // 解体現場 — 解体クレーン＋足場＋瓦礫
+                // 大型クレーン
+                c.fillStyle = '#ffd24a'; c.fillRect(w*0.55, gy - 200, 8, 200);
+                c.fillRect(w*0.55 - 60, gy - 200, 130, 8);
+                c.strokeStyle = '#5a3010'; c.lineWidth = 1; c.beginPath();
+                c.moveTo(w*0.55 + 65, gy - 200); c.lineTo(w*0.55 + 55, gy - 160); c.stroke();
+                // 鉄球
+                c.fillStyle = '#3a3a3a'; c.beginPath(); c.arc(w*0.55 + 55, gy - 155, 12, 0, Math.PI*2); c.fill();
+                // 解体中のビル（半壊）
+                c.fillStyle = '#3a3030'; c.fillRect(w*0.65, gy - 130, 70, 130);
+                c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(w*0.65, gy - 130, 70, 130);
+                // 崩壊した上部（ギザギザ）
+                c.fillStyle = palette ? '#150818' : '#0a0a14';
+                c.beginPath();
+                c.moveTo(w*0.65, gy - 130);
+                c.lineTo(w*0.65 + 20, gy - 90); c.lineTo(w*0.65 + 35, gy - 110);
+                c.lineTo(w*0.65 + 50, gy - 80); c.lineTo(w*0.65 + 70, gy - 100);
+                c.lineTo(w*0.65 + 70, gy - 130); c.closePath(); c.fill();
+                // 瓦礫
+                c.fillStyle = '#3a3030';
+                for(let i = 0; i < 5; i++) c.fillRect(w*0.62 + i*15, gy - 8, 10, 8);
+                // 安全コーン
+                c.fillStyle = '#ff8800';
+                for(let i = 0; i < 3; i++) {
+                    const cx = w*0.15 + i*40;
+                    c.beginPath(); c.moveTo(cx, gy); c.lineTo(cx-6, gy-18); c.lineTo(cx+6, gy-18); c.closePath(); c.fill();
+                    c.fillStyle = '#fff'; c.fillRect(cx-5, gy-10, 10, 2);
+                    c.fillStyle = '#ff8800';
+                }
+                break;
+            }
+            case 214: { // 臨海工業地帯 — 工業煙突から黒煙
+                // 4本の煙突
+                for(let i = 0; i < 4; i++) {
+                    const cx = w*0.2 + i*w*0.18;
+                    c.fillStyle = '#5a4040'; c.fillRect(cx - 8, gy - 120, 16, 120);
+                    c.fillStyle = '#3a2020'; c.fillRect(cx - 10, gy - 125, 20, 8);
+                    // 赤い警告ライン
+                    c.fillStyle = '#aa1010'; c.fillRect(cx - 8, gy - 80, 16, 3); c.fillRect(cx - 8, gy - 50, 16, 3);
+                    // 煙（時間変化）
+                    for(let k = 0; k < 4; k++) {
+                        const sx = cx + Math.sin(time + i + k) * 6;
+                        const sy = gy - 130 - k*15 - time*8 % 60;
+                        c.fillStyle = `rgba(80,80,80,${0.6 - k*0.1})`;
+                        c.beginPath(); c.arc(sx, sy, 8 + k*2, 0, Math.PI*2); c.fill();
+                    }
+                }
+                // 工場の屋根群（低い）
+                c.fillStyle = '#3a3a3a';
+                for(let i = 0; i < 5; i++) c.fillRect(w*0.1 + i*w*0.18, gy - 30, w*0.15, 30);
+                break;
+            }
+            case 215: { // 軌道上の襲来 — 上空に複数の衛星が降下中
+                for(let i = 0; i < 4; i++) {
+                    const sx = w*(0.15 + i*0.22);
+                    const sy = h*(0.1 + (i%2)*0.05) + Math.sin(time + i)*4;
+                    // 小型UFO/衛星
+                    c.fillStyle = '#888'; c.beginPath(); c.ellipse(sx, sy, 18, 5, 0, 0, Math.PI*2); c.fill();
+                    c.fillStyle = '#aaa'; c.beginPath(); c.ellipse(sx, sy-3, 18, 4, 0, 0, Math.PI*2); c.fill();
+                    c.fillStyle = '#aa44ff'; c.beginPath(); c.arc(sx, sy-5, 5, Math.PI, 0); c.fill();
+                    // 下に放つ光線
+                    const beamA = 0.3 + Math.sin(time*2 + i)*0.2;
+                    c.fillStyle = `rgba(170,68,255,${beamA})`;
+                    c.beginPath(); c.moveTo(sx - 5, sy + 2); c.lineTo(sx - 10, sy + 60); c.lineTo(sx + 10, sy + 60); c.lineTo(sx + 5, sy + 2); c.closePath(); c.fill();
+                }
+                // 警告サイレン（画面赤化、控えめ）
+                c.fillStyle = `rgba(255,40,40,${0.08 + Math.sin(time*4)*0.05})`;
+                c.fillRect(0, 0, w, gy);
+                break;
+            }
+            case 216: { // 政府機関突入 — 政府庁舎＋日の丸
+                // 立派な石造の建物
+                c.fillStyle = '#aaaaaa'; c.fillRect(w*0.3, gy - 140, 220, 140);
+                c.strokeStyle = '#5a5a5a'; c.lineWidth = 2; c.strokeRect(w*0.3, gy - 140, 220, 140);
+                // 屋根（三角）
+                c.fillStyle = '#5a5a5a';
+                c.beginPath(); c.moveTo(w*0.3 - 8, gy - 140); c.lineTo(w*0.3 + 110, gy - 175); c.lineTo(w*0.3 + 228, gy - 140); c.closePath(); c.fill();
+                // 柱（4本）
+                c.fillStyle = '#fff';
+                for(let i = 0; i < 4; i++) c.fillRect(w*0.3 + 20 + i*52, gy - 130, 12, 130);
+                // 玄関（中央の門）
+                c.fillStyle = '#1a1a1a'; c.fillRect(w*0.3 + 100, gy - 60, 30, 60);
+                c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(w*0.3 + 115, gy - 30, 2, 0, Math.PI*2); c.fill();
+                // 日の丸（旗）
+                c.strokeStyle = '#1a1a1a'; c.lineWidth = 2;
+                c.beginPath(); c.moveTo(w*0.3 + 110, gy - 175); c.lineTo(w*0.3 + 110, gy - 215); c.stroke();
+                c.fillStyle = '#fff'; c.fillRect(w*0.3 + 110, gy - 215, 30, 18);
+                c.strokeStyle = '#1a1a1a'; c.lineWidth = 1; c.strokeRect(w*0.3 + 110, gy - 215, 30, 18);
+                c.fillStyle = '#ff3344'; c.beginPath(); c.arc(w*0.3 + 125, gy - 206, 5, 0, Math.PI*2); c.fill();
+                break;
+            }
+            case 217: { // 摩天楼決戦 — 東京スカイツリー
+                drawSkytree(c, w * 0.5, gy);
+                break;
+            }
+            case 218: { // 軌道兵器降臨・最終決戦 — 多数の衛星が降下＋崩壊するビル
+                // 上空の複数の衛星（小さめ）
+                for(let i = 0; i < 5; i++) {
+                    const sx = w*(0.1 + i*0.2) + Math.sin(time + i)*3;
+                    const sy = h*0.06 + i*8;
+                    c.fillStyle = '#3a0808'; c.fillRect(sx-12, sy-3, 6, 6); c.fillRect(sx+6, sy-3, 6, 6);
+                    c.fillStyle = '#aa1010'; c.fillRect(sx-5, sy-4, 10, 8);
+                    c.fillStyle = '#ffd24a'; c.fillRect(sx-2, sy-2, 4, 2);
+                    // 警告ライン（薄い赤）
+                    c.strokeStyle = `rgba(255,80,80,${0.2 + Math.sin(time*3+i)*0.1})`; c.lineWidth = 1;
+                    c.beginPath(); c.moveTo(sx, sy+3); c.lineTo(sx, gy); c.stroke();
+                }
+                // 崩壊中の高層ビル（左）
+                c.fillStyle = '#2a2030'; c.fillRect(w*0.06, gy - 200, 60, 200);
+                // 半壊の上部
+                c.fillStyle = '#080410';
+                c.beginPath();
+                c.moveTo(w*0.06, gy - 200);
+                c.lineTo(w*0.06 + 15, gy - 150); c.lineTo(w*0.06 + 30, gy - 180);
+                c.lineTo(w*0.06 + 45, gy - 140); c.lineTo(w*0.06 + 60, gy - 170);
+                c.lineTo(w*0.06 + 60, gy - 200); c.closePath(); c.fill();
+                // 上昇する黒煙
+                for(let k = 0; k < 5; k++) {
+                    const sy = gy - 200 - (k*30 + time*20)%180;
+                    c.fillStyle = `rgba(60,60,60,${0.5 - k*0.07})`;
+                    c.beginPath(); c.arc(w*0.06 + 30 + Math.sin(time + k)*5, sy, 12 + k*2, 0, Math.PI*2); c.fill();
+                }
+                // 画面全体の赤い警告
+                c.fillStyle = `rgba(255,40,40,${0.1 + Math.sin(time*5)*0.05})`;
+                c.fillRect(0, 0, w, gy);
+                break;
+            }
+        }
     }
 
     // 東京タワー（赤白の鉄塔）
