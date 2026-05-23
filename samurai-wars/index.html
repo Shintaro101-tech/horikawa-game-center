@@ -928,7 +928,14 @@
         sp_ptero:    { name:'翼竜',       yomi:'よくりゅう',   hp:540,  atk:70,  atkSpeed:0.9, range:42, speed:1.5, color:'#7a4a3a', helmet:'rag',    weapon:'fist',  gold:40, flying:true, antiAir:true, wingColor:'#5a2a18' },
         sp_wyvern:   { name:'赤竜',       yomi:'せきりゅう',   hp:1300, atk:170, atkSpeed:1.5, range:240, speed:1.0, color:'#aa3010', helmet:'horn',   weapon:'fireball', gold:130, flying:true, antiAir:true, ranged:true, wingColor:'#5a1010' },
         sp_giant_ape:{ name:'大猿',       yomi:'おおざる',     hp:3200, atk:340, atkSpeed:1.8, range:55, speed:0.8, color:'#3a2a18', helmet:'monkey_circlet', weapon:'kanabo', gold:240, scale:1.35 },
-        sp_giantbat: { name:'巨大コウモリ', yomi:'きょだいこうもり', hp:380, atk:50, atkSpeed:0.6, range:36, speed:1.7, color:'#2a1a3a', helmet:'hood', weapon:'kunai', gold:24, flying:true, antiAir:true, wingColor:'#1a0820' }
+        sp_giantbat: { name:'巨大コウモリ', yomi:'きょだいこうもり', hp:380, atk:50, atkSpeed:0.6, range:36, speed:1.7, color:'#2a1a3a', helmet:'hood', weapon:'kunai', gold:24, flying:true, antiAir:true, wingColor:'#1a0820' },
+        // ===== 現代編 雑魚 =====
+        md_thug:     { name:'チンピラ',     yomi:'ちんぴら',     hp:340,  atk:42,  atkSpeed:1.0, range:36, speed:1.4, color:'#1a1a1a', helmet:'mohawk', weapon:'club',  gold:18 },
+        md_riot:     { name:'機動隊員',     yomi:'きどうたいいん', hp:780, atk:88,  atkSpeed:1.2, range:40, speed:0.9, color:'#1a2a4a', helmet:'jingasa', weapon:'fist',  gold:42 },
+        md_zombie:   { name:'ゾンビ会社員',  yomi:'ぞんびかいしゃいん', hp:520, atk:60, atkSpeed:0.8, range:34, speed:0.7, color:'#5a4a3a', helmet:'rag',    weapon:'fist',  gold:28 },
+        md_cyborg:   { name:'サイボーグ兵', yomi:'さいぼーぐへい', hp:1500, atk:170, atkSpeed:1.5, range:42, speed:1.1, color:'#5a6a7a', helmet:'visor',  weapon:'laser_arm', gold:120 },
+        md_drone:    { name:'警備ドローン', yomi:'けいびどろーん', hp:480,  atk:78,  atkSpeed:0.9, range:80, speed:1.7, color:'#3a3a3a', helmet:'dome',   weapon:'beam',  gold:38, flying:true, antiAir:true, ranged:true, wingColor:'#1a1a1a' },
+        md_heli:     { name:'攻撃ヘリ',     yomi:'こうげきへり', hp:1700, atk:220, atkSpeed:1.7, range:280, speed:1.0, color:'#3a4030', helmet:'turret', weapon:'rocket', gold:180, flying:true, antiAir:true, ranged:true, wingColor:'#1a2010', aoe:true }
     };
 
     const STAGE_UNLOCKS = {
@@ -942,7 +949,13 @@
         105:'sp_sandworm',       106:'sp_golem',      107:'sp_titanoboa', 108:'sp_hercules',
         109:'sp_naga',           110:'sp_phoenix',    111:'sp_beowulf',   112:'sp_balor',
         113:'sp_tenagaashinaga', 114:'sp_frost',      115:'sp_gokuu',     116:'sp_irullu',
-        117:'sp_susanoo',        118:'sp_zeus'
+        117:'sp_susanoo',        118:'sp_zeus',
+        // 現代編 — クリアするとボスが仲間に
+        201:'md_bouso',     202:'md_kaitou',    203:'md_kuchisake', 204:'md_teketeke',
+        205:'md_merry',     206:'md_hanako',    207:'md_hacker',    208:'md_drone_cmd',
+        209:'md_smog',      210:'md_ai_guard',  211:'md_rat_king',  212:'md_bullet',
+        213:'md_zigas',     214:'md_megalodon', 215:'md_ufo',       216:'md_mecha3',
+        217:'md_ceo',       218:'md_satellite'
     };
 
     // ガチャ専用の隠し3キャラ（既存の兜/武器を流用）
@@ -1042,6 +1055,88 @@
           desc:'嵐を纏う神々の王。標的に天雷柱を落とす' }
     );
 
+    // ===== 現代編 ボス→仲間（クリア報酬・18体） =====
+    SAMURAI_DATA.push(
+        // Stage 201: 暴走族頭領（バイク突進・速度）
+        { id:'md_bouso', name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', cost:900, hp:1400, atk:170, atkSpeed:1.2, range:55, speed:1.6,
+          cooldown:14.0, color:'#1a1a1a', helmet:'mohawk', weapon:'kanabo', rarity:3, scale:1.2,
+          desc:'夜の街を駆ける暴走族の頭。金棒で殴り飛ばす' },
+        // Stage 202: 怪盗ブラックタイガー（影分身）
+        { id:'md_kaitou', name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', cost:1200, hp:1500, atk:230, atkSpeed:0.7, range:48, speed:1.8,
+          cooldown:18.0, color:'#0a0a0a', helmet:'hood', weapon:'clone_rush', rarity:4, scale:1.15, antiAir:true, clones:2,
+          desc:'煙幕に紛れる怪盗。三体の影分身で同時に襲う' },
+        // Stage 203: クチサケ女（大鋏・前方広範囲）
+        { id:'md_kuchisake', name:'クチサケ女', yomi:'くちさけおんな', cost:1100, hp:2200, atk:260, atkSpeed:1.4, range:75, speed:1.0,
+          cooldown:16.0, color:'#aa1010', helmet:'rokuro', weapon:'naginata', rarity:3, scale:1.3, aoe:true,
+          desc:'都市伝説の口裂け女。大鋏で前方を薙ぎ払う' },
+        // Stage 204: テケテケ（超高速突進）
+        { id:'md_teketeke', name:'テケテケ', yomi:'てけてけ', cost:1300, hp:1700, atk:300, atkSpeed:1.6, range:200, speed:2.4,
+          cooldown:20.0, color:'#3a1a1a', helmet:'twin_yokai', weapon:'leap_slash', rarity:4, scale:1.1,
+          desc:'上半身だけの超高速幽霊。地を這って急襲する' },
+        // Stage 205: 呪い人形メリー（針投げ・毒）
+        { id:'md_merry', name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', cost:1400, hp:1500, atk:320, atkSpeed:1.8, range:280, speed:0.9,
+          cooldown:22.0, color:'#ee9988', helmet:'miko', weapon:'poison_fog', rarity:4, scale:1.15, ranged:true, aoe:true,
+          desc:'動き出した西洋人形。毒の針霧を吐く' },
+        // Stage 206: トイレの花子さん（紙の刃を放射）
+        { id:'md_hanako', name:'トイレの花子さん', yomi:'といれのはなこさん', cost:1500, hp:1800, atk:340, atkSpeed:1.6, range:260, speed:1.0,
+          cooldown:24.0, color:'#cc2244', helmet:'miko', weapon:'ofuda', rarity:4, scale:1.2, ranged:true, aoe:true,
+          desc:'学校怪談の少女。紙の刃を放射状に飛ばす' },
+        // Stage 207: ハッカー帝王（グリッチ弾・スタン）
+        { id:'md_hacker', name:'ハッカー帝王', yomi:'はっかーていおう', cost:1700, hp:2200, atk:420, atkSpeed:1.8, range:300, speed:0.9,
+          cooldown:28.0, color:'#00f0ff', helmet:'hood', weapon:'magic_circle', rarity:5, scale:1.2, ranged:true, aoe:true,
+          desc:'デジタル戦の闇帝王。グリッチ弾で敵を麻痺させる' },
+        // Stage 208: ドローン軍団長（飛行＋ミサイル）
+        { id:'md_drone_cmd', name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', cost:1800, hp:2400, atk:460, atkSpeed:1.8, range:280, speed:1.2,
+          cooldown:30.0, color:'#5a6a8a', helmet:'antenna', weapon:'rocket', rarity:5, scale:1.2,
+          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#2a3050',
+          desc:'空中のドローン軍を率いる司令官。広範囲爆撃' },
+        // Stage 209: 公害怪獣スモッグマン（飛行・毒霧）
+        { id:'md_smog', name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', cost:2000, hp:3200, atk:540, atkSpeed:2.0, range:280, speed:0.8,
+          cooldown:34.0, color:'#5a7a3a', helmet:'onibi', weapon:'poison_fog', rarity:5, scale:1.4,
+          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#3a4a20',
+          desc:'空気を汚す公害の化身。緑の毒霧で範囲を蝕む' },
+        // Stage 210: AI兵器ガーディアン（チャージビーム）
+        { id:'md_ai_guard', name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', cost:2200, hp:4000, atk:620, atkSpeed:2.2, range:340, speed:0.7,
+          cooldown:38.0, color:'#7a7a90', helmet:'cannon', weapon:'big_laser', rarity:5, scale:1.4, ranged:true, antiAir:true,
+          desc:'自律型AI兵器。極太のチャージビームで貫く' },
+        // Stage 211: ラットキング（地下の巨大ネズミ王）
+        { id:'md_rat_king', name:'ラットキング', yomi:'らっときんぐ', cost:2300, hp:5500, atk:680, atkSpeed:1.5, range:60, speed:1.1,
+          cooldown:40.0, color:'#5a4a3a', helmet:'horn', weapon:'kunai', rarity:5, scale:1.45, antiAir:true, clones:2,
+          desc:'下水道の巨大ネズミ王。子ネズミを引き連れて襲う' },
+        // Stage 212: ブレットマン（新幹線怪人・超速突進）
+        { id:'md_bullet', name:'ブレットマン', yomi:'ぶれっとまん', cost:2500, hp:5800, atk:760, atkSpeed:2.0, range:240, speed:2.0,
+          cooldown:42.0, color:'#aaccff', helmet:'visor', weapon:'leap_slash', rarity:5, scale:1.35,
+          desc:'流線型の高速怪人。新幹線の如く一直線に貫通する' },
+        // Stage 213: 解体重機ザイガス（クレーン+鉄球）
+        { id:'md_zigas', name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', cost:2800, hp:7800, atk:850, atkSpeed:2.4, range:100, speed:0.55,
+          cooldown:46.0, color:'#aa6600', helmet:'reactor', weapon:'kanabo', rarity:5, scale:1.55, aoe:true,
+          desc:'巨大な解体重機。鉄球で範囲をなぎ倒す' },
+        // Stage 214: 巨大ザメ メガロドン（突進＋水柱）
+        { id:'md_megalodon', name:'メガロドン', yomi:'めがろどん', cost:2900, hp:8200, atk:920, atkSpeed:1.8, range:320, speed:0.85,
+          cooldown:48.0, color:'#5a6a7a', helmet:'rex_jaw', weapon:'water_shot', rarity:5, scale:1.65, ranged:true,
+          desc:'古代から復活した巨大鮫。高圧の水柱を放つ' },
+        // Stage 215: UFO円盤王ゼノス（飛行・誘導ビーム）
+        { id:'md_ufo', name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', cost:3100, hp:7500, atk:980, atkSpeed:1.6, range:320, speed:1.2,
+          cooldown:52.0, color:'#aaffaa', helmet:'dome', weapon:'beam', rarity:5, scale:1.5,
+          flying:true, antiAir:true, ranged:true, wingColor:'#5a8a5a',
+          desc:'宇宙人の円盤王。誘導ビームで敵を追尾する' },
+        // Stage 216: メカ怪獣 MK-III（ミサイル＋ビーム）
+        { id:'md_mecha3', name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', cost:3400, hp:11000, atk:1100, atkSpeed:2.0, range:340, speed:0.7,
+          cooldown:58.0, color:'#7a3030', helmet:'mecha_kaiju', weapon:'big_laser', rarity:5, scale:1.75,
+          ranged:true, antiAir:true, aoe:true,
+          desc:'新型ロボ怪獣。ミサイルと極太ビームで圧倒する' },
+        // Stage 217: 暗黒大企業CEO ザイバツ（札束弾＋ボディガード召喚）
+        { id:'md_ceo', name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', cost:3700, hp:9500, atk:1250, atkSpeed:1.9, range:300, speed:0.95,
+          cooldown:62.0, color:'#1a1a1a', helmet:'taisho', weapon:'fireball', rarity:5, scale:1.55,
+          ranged:true, aoe:true, clones:2,
+          desc:'闇の大企業の総帥。札束弾とボディガードで敵を圧倒' },
+        // Stage 218: サタライト・ゼロ（メガ・軌道レーザー）
+        { id:'md_satellite', name:'サタライト・ゼロ', yomi:'さたらいとぜろ', cost:4800, hp:10500, atk:1500, atkSpeed:1.6, range:360, speed:0.95,
+          cooldown:100.0, color:'#2a2a3a', helmet:'mecha_kaiju', weapon:'thunder_pillar', rarity:5, scale:1.6,
+          ranged:true, antiAir:true, aoe:true,
+          desc:'軌道から降臨する超兵器。標的に軌道レーザーを落とす' }
+    );
+
     // アチーブメント
     const ACHIEVEMENTS = [
         { id:'first_win',  name:'初陣',         desc:'初めてステージをクリア',   check:() => saveData.clearedStages.length >= 1 },
@@ -1086,7 +1181,11 @@
         // 超過去編 ボス→仲間
         'sp_trex', 'sp_pulrus', 'sp_kangaroo', 'sp_mammoth', 'sp_sandworm', 'sp_golem',
         'sp_titanoboa', 'sp_hercules', 'sp_naga', 'sp_phoenix', 'sp_beowulf', 'sp_balor',
-        'sp_tenagaashinaga', 'sp_frost', 'sp_gokuu', 'sp_irullu', 'sp_susanoo', 'sp_zeus'
+        'sp_tenagaashinaga', 'sp_frost', 'sp_gokuu', 'sp_irullu', 'sp_susanoo', 'sp_zeus',
+        // 現代編 ボス→仲間
+        'md_bouso', 'md_kaitou', 'md_kuchisake', 'md_teketeke', 'md_merry', 'md_hanako',
+        'md_hacker', 'md_drone_cmd', 'md_smog', 'md_ai_guard', 'md_rat_king', 'md_bullet',
+        'md_zigas', 'md_megalodon', 'md_ufo', 'md_mecha3', 'md_ceo', 'md_satellite'
     ];
     SAMURAI_DATA.sort((a, b) => {
         const ai = CHARACTER_ORDER.indexOf(a.id);
@@ -1107,7 +1206,7 @@
           color:'#ff3344', glow:'rgba(255,51,68,0.45)', available:true  },
         { id:'modern',       name:'現代編',   yomi:'げんだいへん',       emoji:'🏙',
           desc:'<ruby>高層<rt>こうそう</rt></ruby>ビルとSNSが<ruby>渦巻<rt>うずま</rt></ruby>く<ruby>現代<rt>げんだい</rt></ruby><ruby>都市<rt>とし</rt></ruby>の<ruby>戦<rt>たたか</rt></ruby>い',
-          color:'#18FFFF', glow:'rgba(24,255,255,0.45)', available:false },
+          color:'#18FFFF', glow:'rgba(24,255,255,0.45)', available:false, unlockHint:'<ruby>超過去編<rt>ちょうかこへん</rt></ruby><ruby>全<rt>ぜん</rt></ruby><ruby>制覇<rt>せいは</rt></ruby>で<ruby>解放<rt>かいほう</rt></ruby>' },
         { id:'future',       name:'未来編',   yomi:'みらいへん',         emoji:'🛸',
           desc:'AIとサイボーグが<ruby>覇<rt>は</rt></ruby>を<ruby>競<rt>きそ</rt></ruby>う<ruby>近<rt>きん</rt></ruby><ruby>未来<rt>みらい</rt></ruby>',
           color:'#b94dff', glow:'rgba(185,77,255,0.45)', available:false },
@@ -1123,6 +1222,10 @@
         if(era.available) return true;
         if(era.id === 'super_past') {
             const cleared = (saveData.clearedStages || []).filter(id => id >= 1 && id <= 18);
+            return cleared.length >= 18;
+        }
+        if(era.id === 'modern') {
+            const cleared = (saveData.clearedStages || []).filter(id => id >= 101 && id <= 118);
             return cleared.length >= 18;
         }
         return false;
@@ -1323,7 +1426,109 @@
             { type:'sp_saber',  start:1.5, every:2.4 },
             { type:'sp_wyvern', start:4, every:6 },
             { type:'sp_giantbat', start:6, every:6 },
-            { type:'sp_giant_ape', start:12, every:10 } ]}
+            { type:'sp_giant_ape', start:12, every:10 } ]},
+        // ===== 現代編 (id:201-218) — 超過去編より少し難度高め =====
+        { id:201, era:'modern', theme:'city', name:'渋谷スクランブル', yomi:'しぶやすくらんぶる',
+          castleHp:7500, enemyCastleHp:7500, reward:340, spawns:[
+            { type:'md_thug', start:1.5, every:4.2 } ]},
+        { id:202, era:'modern', theme:'city', name:'歌舞伎町夜戦', yomi:'かぶきちょうやせん',
+          castleHp:10500, enemyCastleHp:10500, reward:480, spawns:[
+            { type:'md_thug', start:1.2, every:3.8 },
+            { type:'md_zombie', start:18, every:18 } ]},
+        { id:203, era:'modern', theme:'downtown', name:'駅前広場の決戦', yomi:'えきまえひろばのけっせん',
+          castleHp:13500, enemyCastleHp:13500, reward:620, spawns:[
+            { type:'md_thug', start:1.0, every:3.2 },
+            { type:'md_zombie', start:14, every:14 },
+            { type:'md_drone', start:30, every:22 } ]},
+        { id:204, era:'modern', theme:'school', name:'廃校の怪談', yomi:'はいこうのかいだん',
+          castleHp:17000, enemyCastleHp:17000, reward:780, spawns:[
+            { type:'md_thug', start:1.0, every:3.0 },
+            { type:'md_zombie', start:10, every:12 },
+            { type:'md_drone', start:24, every:18 } ]},
+        { id:205, era:'modern', theme:'city', name:'地下道の遭遇',   yomi:'ちかどうのそうぐう',
+          castleHp:20500, enemyCastleHp:20500, reward:940, spawns:[
+            { type:'md_thug', start:1.0, every:2.8 },
+            { type:'md_zombie', start:8, every:10 },
+            { type:'md_drone', start:18, every:14 } ]},
+        { id:206, era:'modern', theme:'downtown', name:'オフィス街の異変', yomi:'おふぃすがいのいへん',
+          castleHp:25000, enemyCastleHp:25000, reward:1120, spawns:[
+            { type:'md_thug', start:1.0, every:2.6 },
+            { type:'md_riot', start:7, every:9 },
+            { type:'md_drone', start:15, every:13 } ]},
+        { id:207, era:'modern', theme:'neon', name:'高速道路の襲撃', yomi:'こうそくどうろのしゅうげき',
+          castleHp:30000, enemyCastleHp:30000, reward:1320, spawns:[
+            { type:'md_thug', start:1.0, every:2.4 },
+            { type:'md_riot', start:6, every:8 },
+            { type:'md_drone', start:12, every:11 },
+            { type:'md_cyborg', start:40, every:32 } ]},
+        { id:208, era:'modern', theme:'neon', name:'空港テロ', yomi:'くうこうてろ',
+          castleHp:36000, enemyCastleHp:36000, reward:1560, spawns:[
+            { type:'md_thug', start:1.0, every:2.2 },
+            { type:'md_riot', start:5, every:7 },
+            { type:'md_drone', start:10, every:9 },
+            { type:'md_heli', start:30, every:28 } ]},
+        { id:209, era:'modern', theme:'harbor', name:'港湾倉庫街',   yomi:'こうわんそうこがい',
+          castleHp:42000, enemyCastleHp:42000, reward:1800, spawns:[
+            { type:'md_thug', start:1.0, every:2.0 },
+            { type:'md_riot', start:5, every:6.5 },
+            { type:'md_zombie', start:10, every:9 },
+            { type:'md_cyborg', start:25, every:22 } ]},
+        { id:210, era:'modern', theme:'downtown', name:'銀座の悪夢',   yomi:'ぎんざのあくむ',
+          castleHp:50000, enemyCastleHp:50000, reward:2100, spawns:[
+            { type:'md_thug', start:1.0, every:1.9 },
+            { type:'md_riot', start:4, every:6 },
+            { type:'md_drone', start:8, every:8 },
+            { type:'md_cyborg', start:20, every:18 } ]},
+        { id:211, era:'modern', theme:'sewer', name:'地下鉄路線網',   yomi:'ちかてつろせんもう',
+          castleHp:60000, enemyCastleHp:60000, reward:2400, spawns:[
+            { type:'md_thug', start:1.0, every:1.8 },
+            { type:'md_zombie', start:3, every:5 },
+            { type:'md_riot', start:8, every:8 },
+            { type:'md_cyborg', start:18, every:16 } ]},
+        { id:212, era:'modern', theme:'neon', name:'新幹線追撃戦', yomi:'しんかんせんついげきせん',
+          castleHp:72000, enemyCastleHp:72000, reward:2750, spawns:[
+            { type:'md_thug', start:1.0, every:1.7 },
+            { type:'md_riot', start:3, every:5 },
+            { type:'md_drone', start:7, every:7 },
+            { type:'md_heli', start:18, every:18 } ]},
+        { id:213, era:'modern', theme:'downtown', name:'解体現場の決戦', yomi:'かいたいげんばのけっせん',
+          castleHp:85000, enemyCastleHp:85000, reward:3100, spawns:[
+            { type:'md_thug', start:1.0, every:1.6 },
+            { type:'md_riot', start:3, every:4.5 },
+            { type:'md_cyborg', start:8, every:8 },
+            { type:'md_drone', start:6, every:6 } ]},
+        { id:214, era:'modern', theme:'harbor', name:'臨海工業地帯', yomi:'りんかいこうぎょうちたい',
+          castleHp:100000, enemyCastleHp:100000, reward:3550, spawns:[
+            { type:'md_thug', start:1.0, every:1.5 },
+            { type:'md_riot', start:2.5, every:4 },
+            { type:'md_cyborg', start:7, every:7 },
+            { type:'md_heli', start:14, every:14 } ]},
+        { id:215, era:'modern', theme:'neon', name:'軌道上の襲来', yomi:'きどうじょうのしゅうらい',
+          castleHp:120000, enemyCastleHp:120000, reward:4050, spawns:[
+            { type:'md_thug', start:1.0, every:1.4 },
+            { type:'md_riot', start:2.5, every:3.8 },
+            { type:'md_drone', start:5, every:6 },
+            { type:'md_heli', start:12, every:12 } ]},
+        { id:216, era:'modern', theme:'downtown', name:'政府機関突入', yomi:'せいふきかんとつにゅう',
+          castleHp:145000, enemyCastleHp:145000, reward:4700, spawns:[
+            { type:'md_thug', start:1.0, every:1.3 },
+            { type:'md_riot', start:2, every:3.4 },
+            { type:'md_cyborg', start:5, every:5.5 },
+            { type:'md_heli', start:10, every:10 } ]},
+        { id:217, era:'modern', theme:'neon', name:'摩天楼決戦', yomi:'まてんろうけっせん',
+          castleHp:175000, enemyCastleHp:175000, reward:5500, spawns:[
+            { type:'md_thug', start:1.0, every:1.2 },
+            { type:'md_riot', start:2, every:3 },
+            { type:'md_cyborg', start:4, every:5 },
+            { type:'md_drone', start:5, every:6 },
+            { type:'md_heli', start:9, every:9 } ]},
+        { id:218, era:'modern', theme:'neon', name:'軌道兵器降臨・最終決戦', yomi:'きどうへいきこうりん・さいしゅうけっせん',
+          castleHp:215000, enemyCastleHp:215000, reward:7000, spawns:[
+            { type:'md_thug', start:1.0, every:1.1 },
+            { type:'md_riot', start:1.5, every:2.6 },
+            { type:'md_cyborg', start:3.5, every:4.4 },
+            { type:'md_drone', start:5, every:5 },
+            { type:'md_heli', start:8, every:8 } ]}
     ];
 
     // 各レベルの max は「次レベルへのアップグレードコスト」より大きく設定
@@ -2136,7 +2341,26 @@
           accent:'rgba(255,80,30,0.25)', enemyStyle:'demon', enemyColor:'#3a0808', enemyTrim:'#ff5500' },
         { id:'mythic',   name:'神々の頂', skyTop:'#1a0a40', skyBottom:'#503090', moon:'#ffd24a', moonGlow:'#ffea80',
           mtFar:'#2a1858', mtNear:'#100a30', groundTop:'#3a2060', groundBottom:'#0a0420',
-          accent:'rgba(255,210,74,0.22)', enemyStyle:'cosmic', enemyColor:'#3a1850', enemyTrim:'#ffd24a' }
+          accent:'rgba(255,210,74,0.22)', enemyStyle:'cosmic', enemyColor:'#3a1850', enemyTrim:'#ffd24a' },
+        // ===== 現代編 =====
+        { id:'city',     name:'都市', skyTop:'#0a1228', skyBottom:'#2a3850', moon:'#aaccff', moonGlow:'#88aaee',
+          mtFar:'#1a2438', mtNear:'#0a1220', groundTop:'#2a2a2a', groundBottom:'#0a0a0a',
+          accent:'rgba(180,200,255,0.18)', enemyStyle:'modern', enemyColor:'#2a2a30', enemyTrim:'#88aaee' },
+        { id:'downtown', name:'繁華街', skyTop:'#1a0820', skyBottom:'#3a1838', moon:'#ff66aa', moonGlow:'#ff3388',
+          mtFar:'#2a1030', mtNear:'#100618', groundTop:'#2a1828', groundBottom:'#0a0408',
+          accent:'rgba(255,80,150,0.22)', enemyStyle:'modern', enemyColor:'#3a1838', enemyTrim:'#ff66aa' },
+        { id:'school',   name:'廃校', skyTop:'#0a1010', skyBottom:'#1a2818', moon:'#aaffaa', moonGlow:'#88dd88',
+          mtFar:'#101a10', mtNear:'#040804', groundTop:'#1a2018', groundBottom:'#040804',
+          accent:'rgba(120,255,140,0.16)', enemyStyle:'modern', enemyColor:'#1a2010', enemyTrim:'#88ff88' },
+        { id:'neon',     name:'ネオン街', skyTop:'#080018', skyBottom:'#180a30', moon:'#ff00cc', moonGlow:'#ff44aa',
+          mtFar:'#1a0828', mtNear:'#08041a', groundTop:'#100820', groundBottom:'#02000a',
+          accent:'rgba(255,0,200,0.22)', enemyStyle:'modern', enemyColor:'#1a0a30', enemyTrim:'#ff44ff' },
+        { id:'harbor',   name:'港湾',     skyTop:'#0a1828', skyBottom:'#1a3548', moon:'#cceeff', moonGlow:'#aaccff',
+          mtFar:'#1a2838', mtNear:'#081020', groundTop:'#1a2a3a', groundBottom:'#040810',
+          accent:'rgba(100,180,220,0.18)', enemyStyle:'modern', enemyColor:'#1a2838', enemyTrim:'#88ccee' },
+        { id:'sewer',    name:'地下',     skyTop:'#0a0608', skyBottom:'#1a1018', moon:'#88aa44', moonGlow:'#88dd44',
+          mtFar:'#100808', mtNear:'#040204', groundTop:'#1a1410', groundBottom:'#040404',
+          accent:'rgba(140,220,80,0.14)', enemyStyle:'modern', enemyColor:'#1a1810', enemyTrim:'#aabb44' }
     ];
     function getTheme(stageId) {
         // ステージに theme が明示されていればそれを使う
@@ -2212,7 +2436,44 @@
         // Stage 117 — スサノオ（十拳剣の横一閃）
         117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'slash_wave', color:'#ffd24a', scale:2.3, range:240 },
         // Stage 118 — Zeus (final megaboss: storm god with thunder pillar attack)
-        118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.20 }
+        118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.20 },
+        // ===== 現代編 ボス（クリアで仲間に） =====
+        // Stage 201: 暴走族頭領（バイクで突進・速度型）
+        201: { name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', hp:3300, atk:230, helmet:'mohawk', weapon:'kanabo', color:'#1a1a1a', scale:1.7, range:60, atkSpeed:1.6, speed:1.1 },
+        // Stage 202: 怪盗ブラックタイガー（影分身）
+        202: { name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', hp:4500, atk:280, helmet:'hood', weapon:'clone_rush', color:'#0a0a0a', scale:1.8, range:160, atkSpeed:1.7, antiAir:true, clones:2 },
+        // Stage 203: クチサケ女（大鋏で前方広範囲）
+        203: { name:'クチサケ女', yomi:'くちさけおんな', hp:5400, atk:330, helmet:'rokuro', weapon:'naginata', color:'#aa1010', scale:2.0, range:80, atkSpeed:1.7, aoe:true },
+        // Stage 204: テケテケ（超高速突進）
+        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'twin_yokai', weapon:'leap_slash', color:'#3a1a1a', scale:1.7, range:220, atkSpeed:1.9, speed:1.4 },
+        // Stage 205: 呪い人形メリー（針投げ・毒）
+        205: { name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', hp:6500, atk:420, helmet:'miko', weapon:'poison_fog', color:'#ee9988', scale:1.8, ranged:true, range:280, atkSpeed:2.0 },
+        // Stage 206: トイレの花子さん（紙の刃を放射）
+        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'miko', weapon:'ofuda', color:'#cc2244', scale:1.9, ranged:true, range:260, atkSpeed:1.8, aoe:true },
+        // Stage 207: ハッカー帝王（グリッチ弾・スタン）
+        207: { name:'ハッカー帝王', yomi:'はっかーていおう', hp:9500, atk:560, helmet:'hood', weapon:'magic_circle', color:'#00f0ff', scale:1.9, ranged:true, range:300, atkSpeed:2.0, aoe:true },
+        // Stage 208: ドローン軍団長（飛行＋ミサイル）
+        208: { name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', hp:11000, atk:620, helmet:'antenna', weapon:'rocket', color:'#5a6a8a', scale:1.8, flying:true, antiAir:true, ranged:true, range:280, aoe:true, atkSpeed:2.0, wingColor:'#2a3050' },
+        // Stage 209: 公害怪獣スモッグマン（毒霧）
+        209: { name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', hp:13000, atk:700, helmet:'onibi', weapon:'poison_fog', color:'#5a7a3a', scale:2.1, flying:true, antiAir:true, ranged:true, range:280, aoe:true, atkSpeed:2.2, wingColor:'#3a4a20' },
+        // Stage 210: AI兵器ガーディアン（チャージビーム）
+        210: { name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', hp:15500, atk:820, helmet:'cannon', weapon:'big_laser', color:'#7a7a90', scale:2.1, ranged:true, range:340, antiAir:true, atkSpeed:2.4 },
+        // Stage 211: ラットキング（地下の巨大ネズミ王）
+        211: { name:'ラットキング', yomi:'らっときんぐ', hp:18000, atk:880, helmet:'horn', weapon:'kunai', color:'#5a4a3a', scale:2.3, range:60, atkSpeed:1.6, antiAir:true, clones:2 },
+        // Stage 212: ブレットマン（新幹線怪人・超速突進）
+        212: { name:'ブレットマン', yomi:'ぶれっとまん', hp:21000, atk:1000, helmet:'visor', weapon:'leap_slash', color:'#aaccff', scale:2.0, range:240, atkSpeed:2.2, speed:1.6 },
+        // Stage 213: 解体重機ザイガス（クレーン+鉄球）
+        213: { name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', hp:25000, atk:1100, helmet:'reactor', weapon:'kanabo', color:'#aa6600', scale:2.4, range:100, atkSpeed:2.5, aoe:true },
+        // Stage 214: 巨大ザメ メガロドン（突進＋水柱）
+        214: { name:'メガロドン', yomi:'めがろどん', hp:28000, atk:1200, helmet:'rex_jaw', weapon:'water_shot', color:'#5a6a7a', scale:2.6, ranged:true, range:320, atkSpeed:2.0 },
+        // Stage 215: UFO円盤王ゼノス（飛行・誘導ビーム）
+        215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'dome', weapon:'beam', color:'#aaffaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:320, atkSpeed:1.7, wingColor:'#5a8a5a' },
+        // Stage 216: メカ怪獣 MK-III（ミサイル＋ビーム）
+        216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'mecha_kaiju', weapon:'big_laser', color:'#7a3030', scale:2.7, ranged:true, range:340, antiAir:true, aoe:true, atkSpeed:2.0 },
+        // Stage 217: 暗黒大企業CEO ザイバツ（札束弾＋ボディガード召喚）
+        217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'taisho', weapon:'fireball', color:'#1a1a1a', scale:2.4, ranged:true, range:300, aoe:true, atkSpeed:1.9, clones:2 },
+        // Stage 218: 暗黒衛星兵器サタライト・ゼロ（メガ・軌道レーザー）
+        218: { name:'暗黒衛星兵器サタライト・ゼロ', yomi:'あんこくえいせいへいきさたらいと・ぜろ', hp:100000, atk:4000, helmet:'mecha_kaiju', weapon:'thunder_pillar', color:'#2a2a3a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.4, range:520, speed:0.22 }
     };
 
     // ステージ18は二段階ボス戦
@@ -4281,10 +4542,10 @@
 
     function spawnBossFromData(b) {
         if(!b) return;
-        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍）
+        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍、現代編=2.4倍）
         const stage = STAGE_DATA.find(s => s.id === game.stageId);
         const era = (stage && stage.era) || 'past';
-        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : 1);
+        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : (era === 'modern' ? 2.4 : 1));
         const baseGold = b.gold || Math.floor(b.hp / 8);
         const data = {
             name: b.name, yomi: b.yomi,
@@ -6341,6 +6602,240 @@
         }
     }
 
+    // 現代編 — 高層ビル・マンション（自城は4段階で進化、屋上に衛星アンテナ砲台）
+    function drawModernCastle(c, x, gy, isPlayer, lv, hpRatio) {
+        const cw = 90;
+        // 配色
+        const wallBase   = isPlayer ? '#c0c8d4' : '#3a3a48';
+        const wallShade  = isPlayer ? '#7a8090' : '#1a1820';
+        const wallTrim   = isPlayer ? '#5a6478' : '#0a0810';
+        const glassBase  = isPlayer ? '#88ccee' : '#1a2438';
+        const glassLit   = isPlayer ? '#ddeefa' : '#ffd24a';
+        const roofColor  = isPlayer ? '#aab4c4' : '#2a2030';
+        const accent     = isPlayer ? '#00f0ff' : '#ff3344';
+        const time = performance.now() * 0.001;
+
+        // === 1段目: 一軒家 / アパート部分 (Lv1 base) ===
+        // 基礎
+        c.fillStyle = wallBase;
+        c.fillRect(x-cw/2, gy-50, cw, 50);
+        c.strokeStyle = wallTrim; c.lineWidth = 1.5;
+        c.strokeRect(x-cw/2, gy-50, cw, 50);
+        // 窓（横3列）
+        for(let i=0; i<3; i++) {
+            const wx = x-cw/2 + 12 + i*22;
+            const lit = ((i + (isPlayer?0:1)) % 3 !== 0);
+            c.fillStyle = lit ? glassLit : glassBase;
+            c.fillRect(wx, gy-42, 14, 14);
+            c.strokeStyle = wallTrim; c.lineWidth = 1;
+            c.strokeRect(wx, gy-42, 14, 14);
+            // 窓枠十字
+            c.beginPath(); c.moveTo(wx+7, gy-42); c.lineTo(wx+7, gy-28); c.stroke();
+            c.beginPath(); c.moveTo(wx, gy-35); c.lineTo(wx+14, gy-35); c.stroke();
+        }
+        // 玄関ドア
+        c.fillStyle = isPlayer ? '#aa6644' : '#1a1010';
+        c.fillRect(x-7, gy-22, 14, 22);
+        c.fillStyle = accent;
+        c.beginPath(); c.arc(x+4, gy-12, 1.5, 0, Math.PI*2); c.fill();
+
+        // === 2段目: マンション部分 (Lv1+) ===
+        c.fillStyle = wallBase;
+        c.fillRect(x-cw/2+6, gy-110, cw-12, 60);
+        c.strokeStyle = wallTrim; c.lineWidth = 1.5;
+        c.strokeRect(x-cw/2+6, gy-110, cw-12, 60);
+        // 窓（4×3グリッド）
+        for(let row=0; row<3; row++) {
+            for(let col=0; col<4; col++) {
+                const wx = x-cw/2 + 12 + col*16;
+                const wy = gy-104 + row*17;
+                const litSeed = (row*4+col + (isPlayer?0:3));
+                const lit = (litSeed % 4 !== 0);
+                c.fillStyle = lit ? glassLit : glassBase;
+                c.fillRect(wx, wy, 12, 12);
+                c.strokeStyle = wallTrim; c.lineWidth = 0.8;
+                c.strokeRect(wx, wy, 12, 12);
+            }
+        }
+        // バルコニー手すり
+        c.strokeStyle = wallTrim; c.lineWidth = 1.5;
+        c.beginPath(); c.moveTo(x-cw/2+6, gy-68); c.lineTo(x+cw/2-6, gy-68); c.stroke();
+        c.beginPath(); c.moveTo(x-cw/2+6, gy-85); c.lineTo(x+cw/2-6, gy-85); c.stroke();
+
+        // === 3段目: タワーマンション (Lv2+ または常時表示) ===
+        c.fillStyle = wallShade;
+        c.fillRect(x-cw/2+14, gy-170, cw-28, 60);
+        c.strokeStyle = wallTrim; c.lineWidth = 1.5;
+        c.strokeRect(x-cw/2+14, gy-170, cw-28, 60);
+        // ガラス張り（連続窓）
+        for(let row=0; row<4; row++) {
+            const wy = gy-164 + row*14;
+            c.fillStyle = glassBase;
+            c.fillRect(x-cw/2+18, wy, cw-36, 10);
+            // 縦の柱（細線）
+            for(let i=1; i<5; i++) {
+                const px = x-cw/2+18 + i*((cw-36)/5);
+                c.strokeStyle = wallTrim; c.lineWidth = 0.6;
+                c.beginPath(); c.moveTo(px, wy); c.lineTo(px, wy+10); c.stroke();
+            }
+            // 点灯した部屋（決定的にチカチカしない）
+            for(let i=0; i<5; i++) {
+                const seed = (row*5 + i + (isPlayer?1:2));
+                if(seed % 3 === 0) {
+                    const px = x-cw/2+18 + i*((cw-36)/5);
+                    c.fillStyle = glassLit;
+                    c.fillRect(px+1, wy+1, ((cw-36)/5)-2, 8);
+                }
+            }
+        }
+
+        // === 4段目: 超高層ビル先端 (Lv3+) ===
+        if(lv >= 3 || !isPlayer) {
+            c.fillStyle = wallShade;
+            c.fillRect(x-cw/2+22, gy-225, cw-44, 55);
+            c.strokeStyle = wallTrim; c.lineWidth = 1.5;
+            c.strokeRect(x-cw/2+22, gy-225, cw-44, 55);
+            // 連続ガラス窓
+            for(let row=0; row<4; row++) {
+                const wy = gy-220 + row*13;
+                c.fillStyle = glassBase;
+                c.fillRect(x-cw/2+25, wy, cw-50, 9);
+                // 点灯
+                for(let i=0; i<4; i++) {
+                    const seed = (row*4 + i + (isPlayer?2:0));
+                    if(seed % 4 !== 0) {
+                        const px = x-cw/2+25 + i*((cw-50)/4);
+                        c.fillStyle = glassLit;
+                        c.fillRect(px+1, wy+1, ((cw-50)/4)-2, 7);
+                    }
+                }
+            }
+        }
+
+        // === 屋根（フラット屋上） ===
+        c.fillStyle = roofColor;
+        c.fillRect(x-cw/2+14, gy-174, cw-28, 4);
+        if(lv >= 3 || !isPlayer) {
+            c.fillRect(x-cw/2+22, gy-229, cw-44, 4);
+        }
+
+        // === 屋上の衛星アンテナ砲台（自城のみ・龍神レーザー砲ポジション） ===
+        if(isPlayer) {
+            const topY = (lv >= 3) ? gy-229 : gy-174;
+            // 三脚台座
+            c.fillStyle = '#2a2a2a';
+            c.fillRect(x-12, topY-8, 24, 8);
+            c.strokeStyle = '#0a0a0a'; c.lineWidth = 1;
+            c.strokeRect(x-12, topY-8, 24, 8);
+            // パラボラアンテナ（皿）
+            c.fillStyle = '#aaaaaa';
+            c.beginPath(); c.ellipse(x, topY-16, 18, 8, 0, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#5a5a5a'; c.lineWidth = 1.2;
+            c.beginPath(); c.ellipse(x, topY-16, 18, 8, 0, 0, Math.PI*2); c.stroke();
+            // 内側のリング
+            c.fillStyle = '#5a5a5a';
+            c.beginPath(); c.ellipse(x, topY-15, 12, 5, 0, 0, Math.PI*2); c.fill();
+            // 中央の発信器
+            c.fillStyle = accent;
+            c.beginPath(); c.arc(x, topY-19, 3, 0, Math.PI*2); c.fill();
+            // 支柱
+            c.strokeStyle = '#2a2a2a'; c.lineWidth = 2;
+            c.beginPath(); c.moveTo(x, topY-13); c.lineTo(x, topY-8); c.stroke();
+            // 信号の点滅光（決定的なタイミング）
+            const blink = Math.sin(time * 4) > 0;
+            if(blink) {
+                c.fillStyle = 'rgba(0,240,255,0.6)';
+                c.beginPath(); c.arc(x, topY-19, 6, 0, Math.PI*2); c.fill();
+            }
+        } else {
+            // 敵城: 屋上に巨大なアンテナ群＋赤いブリンカー
+            const topY = gy-229;
+            // 鉄塔
+            c.strokeStyle = '#0a0a0a'; c.lineWidth = 2;
+            c.beginPath(); c.moveTo(x-8, topY); c.lineTo(x-2, topY-30); c.stroke();
+            c.beginPath(); c.moveTo(x+8, topY); c.lineTo(x+2, topY-30); c.stroke();
+            c.beginPath(); c.moveTo(x-2, topY-30); c.lineTo(x+2, topY-30); c.stroke();
+            // 横木
+            c.beginPath(); c.moveTo(x-6, topY-10); c.lineTo(x+6, topY-10); c.stroke();
+            c.beginPath(); c.moveTo(x-4, topY-20); c.lineTo(x+4, topY-20); c.stroke();
+            // 先端の赤いブリンカー
+            const blink = Math.sin(time * 3) > 0;
+            c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
+            c.beginPath(); c.arc(x, topY-32, 3.5, 0, Math.PI*2); c.fill();
+            if(blink) {
+                c.fillStyle = 'rgba(255,51,68,0.4)';
+                c.beginPath(); c.arc(x, topY-32, 7, 0, Math.PI*2); c.fill();
+            }
+        }
+
+        // === ネオン看板（敵城のみ・横にデカデカ） ===
+        if(!isPlayer) {
+            const sx = x-cw/2-2;
+            const blink2 = Math.sin(time*5)>0;
+            c.fillStyle = '#0a0a0a';
+            c.fillRect(sx-6, gy-150, 12, 60);
+            c.fillStyle = blink2 ? '#ff00cc' : 'rgba(255,0,200,0.5)';
+            c.fillRect(sx-4, gy-148, 8, 56);
+            // 看板文字風
+            c.fillStyle = blink2 ? '#ffd24a' : '#aa7a20';
+            for(let i=0; i<4; i++) {
+                c.fillRect(sx-3, gy-145 + i*13, 6, 4);
+            }
+        }
+
+        // === ヘリポート (Lv3+ 自城のみ) ===
+        if(isPlayer && lv >= 3) {
+            const hY = gy-229;
+            c.fillStyle = '#1a1a1a';
+            c.fillRect(x-cw/2+24, hY-3, cw-48, 3);
+            // "H" マーク
+            c.fillStyle = '#ffd24a';
+            c.fillRect(x-3, hY-2, 1.5, 2);
+            c.fillRect(x+1.5, hY-2, 1.5, 2);
+            c.fillRect(x-3, hY-1.2, 6, 0.8);
+        }
+
+        // === 旗ポール (Lv4 / 強化済み) ===
+        if(isPlayer && lv >= 4) {
+            const topY = gy-229;
+            // 派手な金の旗
+            c.strokeStyle = '#1a1a1a'; c.lineWidth = 1.5;
+            c.beginPath(); c.moveTo(x-cw/2+28, topY); c.lineTo(x-cw/2+28, topY-25); c.stroke();
+            c.fillStyle = '#ffd24a';
+            c.beginPath();
+            c.moveTo(x-cw/2+28, topY-25);
+            c.lineTo(x-cw/2+44, topY-22);
+            c.lineTo(x-cw/2+28, topY-15);
+            c.closePath(); c.fill();
+        }
+
+        // === HPによる損傷 ===
+        if(hpRatio < 0.5) {
+            // ガラス割れ
+            c.fillStyle = 'rgba(0,0,0,0.55)';
+            c.beginPath(); c.moveTo(x-20, gy-100); c.lineTo(x+10, gy-75); c.lineTo(x-28, gy-65); c.closePath(); c.fill();
+            // 散らばったガラス片
+            c.fillStyle = glassLit;
+            c.fillRect(x-30, gy-4, 3, 3);
+            c.fillRect(x-20, gy-2, 2, 2);
+            c.fillRect(x+15, gy-3, 3, 3);
+        }
+        if(hpRatio < 0.25) {
+            // 上層の崩壊
+            c.fillStyle = 'rgba(0,0,0,0.7)';
+            c.beginPath(); c.moveTo(x-18, gy-215); c.lineTo(x+12, gy-195); c.lineTo(x-8, gy-175); c.closePath(); c.fill();
+            // 黒煙
+            const tt = time;
+            c.fillStyle = 'rgba(60,60,60,0.55)';
+            c.beginPath(); c.arc(x + Math.sin(tt*2)*4, gy-235 - (tt*8 % 30), 8, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(x-12 + Math.sin(tt*2+1)*4, gy-228 - ((tt*8+15) % 30), 7, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(x+10 + Math.sin(tt*2+2)*4, gy-220 - ((tt*8+22) % 30), 6, 0, Math.PI*2); c.fill();
+            // 火花
+            c.fillStyle = 'rgba(255,120,30,0.7)';
+            c.beginPath(); c.arc(x-5, gy-205, 3, 0, Math.PI*2); c.fill();
+        }
+    }
+
     function drawCastle(c, x, isPlayer, hpRatio) {
         const gy = groundY();
         c.save();
@@ -6353,6 +6848,12 @@
         // 超過去編は古代の砦デザイン（石・土・藁）に分岐
         if(currentEra === 'super_past') {
             drawAncientCastle(c, x, gy, isPlayer, lv, hpRatio);
+            c.restore();
+            return;
+        }
+        // 現代編はビル・マンションデザインに分岐
+        if(currentEra === 'modern') {
+            drawModernCastle(c, x, gy, isPlayer, lv, hpRatio);
             c.restore();
             return;
         }
@@ -6937,6 +7438,11 @@
             // 超過去編: 雑魚の基本倍率を 2倍 にした上でステージ進行で増加
             const baseMul = 2.0;
             return { hp: baseMul * (1 + idx * 0.20), atk: baseMul * (1 + idx * 0.16) };
+        }
+        if(era === 'modern') {
+            // 現代編: 超過去編より少し上 (基本2.4倍)
+            const baseMul = 2.4;
+            return { hp: baseMul * (1 + idx * 0.22), atk: baseMul * (1 + idx * 0.18) };
         }
         // 過去編: 雑魚の基本倍率を 1.5倍 にした上でステージ進行で増加
         const baseMul = 1.5;
@@ -8564,6 +9070,7 @@
                 let unlockedNew = null;
                 let eraUnlockedNew = null;
                 const wasPastCleared = (saveData.clearedStages || []).filter(id => id >= 1 && id <= 18).length >= 18;
+                const wasSuperPastCleared = (saveData.clearedStages || []).filter(id => id >= 101 && id <= 118).length >= 18;
                 if(!saveData.clearedStages.includes(game.stageId)) {
                     saveData.clearedStages.push(game.stageId);
                     const u = STAGE_UNLOCKS[game.stageId];
@@ -8576,6 +9083,11 @@
                     const nowPastCleared = saveData.clearedStages.filter(id => id >= 1 && id <= 18).length >= 18;
                     if(!wasPastCleared && nowPastCleared) {
                         eraUnlockedNew = getEra('super_past');
+                    }
+                    // 超過去編全クリアで現代編が解放されたタイミングを検知
+                    const nowSuperPastCleared = saveData.clearedStages.filter(id => id >= 101 && id <= 118).length >= 18;
+                    if(!wasSuperPastCleared && nowSuperPastCleared) {
+                        eraUnlockedNew = getEra('modern');
                     }
                 }
                 // 星評価（残HP割合）
