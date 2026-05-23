@@ -797,7 +797,7 @@
                 <button id="wallet-btn" onclick="upgradeWallet()">🔧 <ruby>財布<rt>さいふ</rt></ruby>Lv1</button>
             </div>
             <div id="laser-panel">
-                <div style="color:var(--red); font-size:0.75rem; letter-spacing:2px; text-align:center;">⚡ <ruby>龍神<rt>りゅうじん</rt></ruby>レーザー<ruby>砲<rt>ほう</rt></ruby></div>
+                <div id="laser-label" style="color:var(--red); font-size:0.75rem; letter-spacing:2px; text-align:center;">⚡ <ruby>龍神<rt>りゅうじん</rt></ruby>レーザー<ruby>砲<rt>ほう</rt></ruby></div>
                 <div id="laser-bar-outer"><div id="laser-bar"></div></div>
                 <button id="laser-btn" onclick="fireLaser()"><ruby>発射<rt>はっしゃ</rt></ruby>！</button>
             </div>
@@ -1132,8 +1132,8 @@
           cooldown:62.0, color:'#0a0a0a', helmet:'md_ceo_glasses', weapon:'md_stamp', rarity:5, scale:1.55,
           ranged:true, aoe:true, mdRender:'ceo',
           desc:'黒スーツの闇総帥。巨大なハンコで敵をスタン押印する' },
-        // Stage 218: サタライト・ゼロ — C 赤戦略 + ② キルセイト全画面爆撃
-        { id:'md_satellite', name:'サタライト・ゼロ', yomi:'さたらいとぜろ', cost:4800, hp:10500, atk:1500, atkSpeed:2.2, range:9999, speed:0.95,
+        // Stage 218: サテライト・ゼロ — C 赤戦略 + ② キルセイト全画面爆撃
+        { id:'md_satellite', name:'サテライト・ゼロ', yomi:'さてらいとぜろ', cost:4800, hp:10500, atk:1500, atkSpeed:2.2, range:9999, speed:0.95,
           cooldown:100.0, color:'#aa1010', helmet:'md_sat_red', weapon:'md_killsat', rarity:5, scale:1.6,
           ranged:true, antiAir:true, aoe:true, mdRender:'satellite',
           desc:'赤と金の戦略軌道兵器。全画面に時間差爆撃を降らせる' }
@@ -2457,7 +2457,7 @@
         215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'md_ufo_gray', weapon:'md_beam_burst', color:'#aaaaaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:320, atkSpeed:2.0, wingColor:'#666', mdRender:'ufo' },
         216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'md_mecha_dark', weapon:'md_missile_storm', color:'#1a1a1a', scale:2.7, ranged:true, range:300, antiAir:true, aoe:true, atkSpeed:2.6, mdRender:'mecha3' },
         217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'md_ceo_glasses', weapon:'md_stamp', color:'#0a0a0a', scale:2.4, ranged:true, range:240, aoe:true, atkSpeed:2.2, mdRender:'ceo' },
-        218: { name:'暗黒衛星兵器サタライト・ゼロ', yomi:'あんこくえいせいへいきさたらいと・ぜろ', hp:100000, atk:4000, helmet:'md_sat_red', weapon:'md_killsat', color:'#aa1010', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.22, mdRender:'satellite' }
+        218: { name:'暗黒衛星兵器サテライト・ゼロ', yomi:'あんこくえいせいへいきさてらいと・ぜろ', hp:100000, atk:4000, helmet:'md_sat_red', weapon:'md_killsat', color:'#aa1010', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.22, mdRender:'satellite' }
     };
 
     // ステージ18は二段階ボス戦
@@ -4668,6 +4668,125 @@
             // フェードする残光
             c.fillStyle = `rgba(255,234,34,${0.4*(1-tt)})`;
             c.beginPath(); c.ellipse(x, gy, 60, 8, 0, 0, Math.PI*2); c.fill();
+        }
+    }
+
+    // サテライト・砲（現代編専用）— 軌道衛星から6本ビームが空から地面に降下、右→左へスイープ
+    function drawSatelliteCannon(c, w, h) {
+        const t = 1 - Math.min(1, game.laserAnim / 1.6); // 0 → 1 の進行
+        const gy = groundY();
+        // 全画面の青フラッシュ（着弾終盤）
+        if(t > 0.8) {
+            const fa = (t - 0.8) / 0.2;
+            c.fillStyle = `rgba(180,230,255,${fa*0.55})`;
+            c.fillRect(0, 0, w, h);
+        }
+        // 上空のうっすら青いオーラ（衛星のエネルギー場）
+        const auraGrad = c.createLinearGradient(0, 0, 0, h*0.3);
+        auraGrad.addColorStop(0, `rgba(0,240,255,${0.18 + t*0.1})`);
+        auraGrad.addColorStop(1, `rgba(0,240,255,0)`);
+        c.fillStyle = auraGrad;
+        c.fillRect(0, 0, w, h*0.3);
+
+        // 軌道衛星（画面右上、左へ徐々に移動）
+        const satX = w * (0.85 - t * 0.6); // 右上から左上へ移動
+        const satY = h * 0.08;
+        c.save();
+        c.translate(satX, satY);
+        // ソーラーパネル
+        c.fillStyle = '#3a0808'; c.fillRect(-44, -10, 22, 20); c.fillRect(22, -10, 22, 20);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-44, -10, 22, 20); c.strokeRect(22, -10, 22, 20);
+        c.strokeStyle = '#ffd24a';
+        for(let i=1;i<4;i++){ c.beginPath(); c.moveTo(-44+i*5.5,-10); c.lineTo(-44+i*5.5,10); c.stroke();
+            c.beginPath(); c.moveTo(22+i*5.5,-10); c.lineTo(22+i*5.5,10); c.stroke(); }
+        // 本体（赤）
+        c.fillStyle = '#aa1010'; c.fillRect(-18, -16, 36, 28); c.strokeStyle = '#000'; c.strokeRect(-18, -16, 36, 28);
+        c.fillStyle = '#3a0808'; c.fillRect(-14, -12, 28, 6);
+        // 中央センサー
+        c.fillStyle = '#0a0a0a'; c.fillRect(-10, -6, 20, 6);
+        c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(0, -3, 2.5, 0, Math.PI*2); c.fill();
+        // 砲身（下に向く）
+        c.fillStyle = '#3a3a3a'; c.fillRect(-6, 12, 12, 14);
+        c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(0, 26, 4, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff'; c.beginPath(); c.arc(0, 26, 2, 0, Math.PI*2); c.fill();
+        // 衛星のエネルギーオーラ
+        const orbAura = c.createRadialGradient(0, 26, 0, 0, 26, 25);
+        orbAura.addColorStop(0, `rgba(0,240,255,0.9)`);
+        orbAura.addColorStop(1, `rgba(0,240,255,0)`);
+        c.fillStyle = orbAura;
+        c.beginPath(); c.arc(0, 26, 25, 0, Math.PI*2); c.fill();
+        c.restore();
+
+        // 6本のビーム（時間差、右→左スイープ）
+        const beamCount = 6;
+        for(let i = 0; i < beamCount; i++) {
+            const beamDelay = i * 0.13;
+            const beamT = t - beamDelay;
+            if(beamT <= 0) continue;
+            const beamLife = Math.min(1, beamT / 0.5);
+            const fade = beamT > 0.4 ? Math.max(0, 1 - (beamT - 0.4) / 0.3) : 1;
+            // ビームの着弾位置（右→左）
+            const tx = w * 0.95 - (w * 0.9) * (i / (beamCount - 1));
+            // 軌道線（衛星 → 地面）
+            const sx = satX, sy = satY + 26;
+            const grad = c.createLinearGradient(sx, sy, tx, gy);
+            grad.addColorStop(0, `rgba(0,240,255,${fade})`);
+            grad.addColorStop(0.5, `rgba(180,230,255,${fade*0.9})`);
+            grad.addColorStop(1, `rgba(255,255,255,${fade})`);
+            c.strokeStyle = grad;
+            c.lineWidth = 6 * fade;
+            c.beginPath(); c.moveTo(sx, sy); c.lineTo(tx, gy); c.stroke();
+            // 外側の太い光
+            c.strokeStyle = `rgba(0,240,255,${fade*0.4})`;
+            c.lineWidth = 14 * fade;
+            c.beginPath(); c.moveTo(sx, sy); c.lineTo(tx, gy); c.stroke();
+            // 中心の白い線
+            c.strokeStyle = `rgba(255,255,255,${fade})`;
+            c.lineWidth = 2;
+            c.beginPath(); c.moveTo(sx, sy); c.lineTo(tx, gy); c.stroke();
+            // 着弾エフェクト（地面の青いリング）
+            if(beamLife > 0.2) {
+                const ringR = (beamT - 0.1) * 200;
+                c.strokeStyle = `rgba(0,240,255,${fade * 0.7})`;
+                c.lineWidth = 4 * fade;
+                c.beginPath(); c.ellipse(tx, gy, ringR, ringR*0.3, 0, 0, Math.PI*2); c.stroke();
+                c.strokeStyle = `rgba(255,255,255,${fade * 0.6})`;
+                c.lineWidth = 2 * fade;
+                c.beginPath(); c.ellipse(tx, gy, ringR * 0.6, ringR*0.2, 0, 0, Math.PI*2); c.stroke();
+            }
+            // 着弾フラッシュ
+            const flashR = 60 * fade;
+            const flashGrad = c.createRadialGradient(tx, gy, 0, tx, gy, flashR);
+            flashGrad.addColorStop(0, `rgba(255,255,255,${fade})`);
+            flashGrad.addColorStop(0.4, `rgba(0,240,255,${fade*0.8})`);
+            flashGrad.addColorStop(1, `rgba(0,240,255,0)`);
+            c.fillStyle = flashGrad;
+            c.beginPath(); c.arc(tx, gy, flashR, 0, Math.PI*2); c.fill();
+            // 火花
+            if(beamLife > 0.3) {
+                for(let k = 0; k < 6; k++) {
+                    const ang = (k/6)*Math.PI*2 + beamT*3;
+                    const rr = 18 + Math.sin(beamT*10+k)*5;
+                    c.fillStyle = `rgba(255,255,255,${fade*0.8})`;
+                    c.fillRect(tx + Math.cos(ang)*rr, gy + Math.sin(ang)*rr*0.4, 3, 3);
+                }
+            }
+            // 警告マーカー（ビーム開始前の標的サークル）
+            if(beamT < 0.15) {
+                const wt = beamT / 0.15;
+                c.strokeStyle = `rgba(255,210,74,${1 - wt})`;
+                c.lineWidth = 2;
+                c.beginPath(); c.arc(tx, gy, 30 - wt*8, 0, Math.PI*2); c.stroke();
+                // 十字
+                c.beginPath(); c.moveTo(tx-40, gy); c.lineTo(tx+40, gy); c.stroke();
+                c.beginPath(); c.moveTo(tx, gy-30); c.lineTo(tx, gy+30); c.stroke();
+            }
+        }
+        // ビーム発射音用の上空のチャージ光
+        if(t < 0.2) {
+            const wt = t / 0.2;
+            c.fillStyle = `rgba(0,240,255,${0.5*(1-wt)})`;
+            c.beginPath(); c.arc(satX, satY + 26, 30*wt, 0, Math.PI*2); c.fill();
         }
     }
 
@@ -7130,7 +7249,7 @@
             // 煙
             c.fillStyle='rgba(170,170,170,0.5)';c.beginPath();c.arc(14,-36,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(16,-40,2,0,Math.PI*2);c.fill();
         },
-        // 18. サタライト・ゼロ — C 赤と金の戦略軌道兵器
+        // 18. サテライト・ゼロ — C 赤と金の戦略軌道兵器
         satellite(c, u) {
             // ソーラーパネル（左右、赤）
             c.fillStyle='#3a0808';c.fillRect(-45,-15,22,20);c.fillRect(23,-15,22,20);
@@ -8154,6 +8273,17 @@
         snd.init();
         if(snd[game.stageBgm]) snd[game.stageBgm](); else snd.startBGM();
         document.getElementById('stage-title').innerText = s.name;
+        // レーザー砲名を編に応じて変更
+        const laserLabel = document.getElementById('laser-label');
+        if(laserLabel) {
+            if(currentEra === 'modern') {
+                laserLabel.innerHTML = '🛰 <ruby>サテライト</ruby>・キャノン<ruby>砲<rt>ほう</rt></ruby>';
+            } else if(currentEra === 'super_past') {
+                laserLabel.innerHTML = '🏹 <ruby>巨大<rt>きょだい</rt></ruby><ruby>弩弓<rt>どきゅう</rt></ruby>';
+            } else {
+                laserLabel.innerHTML = '⚡ <ruby>龍神<rt>りゅうじん</rt></ruby>レーザー<ruby>砲<rt>ほう</rt></ruby>';
+            }
+        }
         showScreen(null);
         document.getElementById('battle-hud').classList.remove('hidden');
         renderUnitCards();
@@ -9047,7 +9177,7 @@
                 if(snd && snd.explode) snd.explode();
                 return;
             }
-            // 16. md_killsat (サタライト) — キルセイト全画面爆撃（味方は右→左に進む）
+            // 16. md_killsat (サテライト) — キルセイト全画面爆撃（味方は右→左に進む）
             if(mdWeapon === 'md_killsat') {
                 if(!game.pillars) game.pillars = [];
                 const isP = attacker.side === 'p';
@@ -10980,8 +11110,11 @@
                 ctx.stroke();
             }
         }
-        // 龍神レーザー砲（発射本体）
-        if(game.laserAnim > 0) {
+        // 龍神レーザー砲 / サテライト・砲（発射本体）
+        if(game.laserAnim > 0 && currentEra === 'modern') {
+            // 現代編はサテライト・砲（複数ビームが空から右→左にスイープ）
+            drawSatelliteCannon(ctx, w, h);
+        } else if(game.laserAnim > 0) {
             const t = Math.min(1, game.laserAnim / 1.6);
             const cannonX = w - 100 - 90/2 - 8 - 44;
             const cannonY = groundY() - 78;
