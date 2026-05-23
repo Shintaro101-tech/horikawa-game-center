@@ -4671,27 +4671,17 @@
         }
     }
 
-    // サテライト・キャノン砲（現代編専用）— 案B: オービタル・ストライク
-    //   衛星が画面中央上空で停止チャージ → 1本の極太レーザーが垂直降下 → 巨大クレーター＋衝撃波
+    // サテライト・キャノン砲（現代編専用）— 案B改: 全画面オービタル・ストライク
+    //   即発射 → 衛星から複数の極太レーザーが画面全域に同時降下 → 全画面爆発
     function drawSatelliteCannon(c, w, h) {
         const t = 1 - Math.min(1, game.laserAnim / 1.6); // 0 → 1 の進行
         const gy = groundY();
-        const cx = w * 0.5; // 着弾位置（画面中央）
-        const satX = cx;
+        const satX = w * 0.5;
         const satY = h * 0.1;
-
-        // 上空のうっすら金色のオーラ（衛星のエネルギー場）
-        const auraGrad = c.createLinearGradient(0, 0, 0, h*0.35);
-        auraGrad.addColorStop(0, `rgba(255,210,74,${0.12 + t*0.1})`);
-        auraGrad.addColorStop(1, `rgba(255,210,74,0)`);
-        c.fillStyle = auraGrad;
-        c.fillRect(0, 0, w, h*0.35);
-
-        // 軌道衛星（中央上空に停止）
+        // 衛星本体（中央上空）
         const hover = Math.sin(performance.now()*0.003) * 4;
         c.save();
         c.translate(satX, satY + hover);
-        // ソーラーパネル
         c.fillStyle = '#3a0808'; c.fillRect(-50, -12, 26, 24); c.fillRect(24, -12, 26, 24);
         c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-50, -12, 26, 24); c.strokeRect(24, -12, 26, 24);
         c.strokeStyle = '#ffd24a';
@@ -4699,133 +4689,126 @@
             c.beginPath(); c.moveTo(24+i*6.5,-12); c.lineTo(24+i*6.5,12); c.stroke(); }
         c.fillStyle = `rgba(255,210,74,${0.3 + Math.sin(performance.now()*0.005)*0.1})`;
         c.fillRect(-50, -12, 26, 24); c.fillRect(24, -12, 26, 24);
-        // 本体（赤）
         c.fillStyle = '#aa1010'; c.fillRect(-22, -20, 44, 34); c.strokeStyle = '#000'; c.strokeRect(-22, -20, 44, 34);
         c.fillStyle = '#3a0808'; c.fillRect(-18, -16, 36, 8);
         c.fillStyle = '#ffd24a'; c.fillRect(-22, -20, 44, 3); c.fillRect(-22, 11, 44, 3);
-        // 中央センサー
         c.fillStyle = '#0a0a0a'; c.fillRect(-12, -8, 24, 8);
         c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(0, -4, 3, 0, Math.PI*2); c.fill();
         c.fillStyle = '#fff'; c.beginPath(); c.arc(0, -4, 1.5, 0, Math.PI*2); c.fill();
-        // 砲身（下に向く・大きめ）
         c.fillStyle = '#1a1a1a'; c.fillRect(-10, 14, 20, 22);
         c.fillStyle = '#5a0808'; c.fillRect(-8, 16, 16, 18);
         c.strokeStyle = '#ffd24a'; c.lineWidth = 1.5;
         c.strokeRect(-8, 16, 16, 18);
         c.restore();
 
-        // === フェーズ別演出 ===
-        // フェーズ1 (t=0..0.4): チャージ — 衛星周辺に光が集まる、地上にターゲットマーカー
-        if(t < 0.4) {
-            const tt = t / 0.4;
-            // 衛星周辺に集まる光粒子
-            for(let k = 0; k < 12; k++) {
-                const ang = k * Math.PI / 6 + performance.now() * 0.008;
-                const rr = 80 - tt * 60;
-                const px = satX + Math.cos(ang) * rr;
-                const py = satY + 34 + Math.sin(ang) * rr * 0.5;
-                c.fillStyle = `rgba(255,210,74,${tt})`;
-                c.beginPath(); c.arc(px, py, 3, 0, Math.PI*2); c.fill();
-            }
-            // 砲口の光（脈動）
-            const orbR = 10 + tt * 16 + Math.sin(performance.now()*0.02)*3;
-            const orbAura = c.createRadialGradient(satX, satY + 34, 0, satX, satY + 34, orbR);
-            orbAura.addColorStop(0, `rgba(255,255,255,${tt})`);
-            orbAura.addColorStop(0.5, `rgba(255,210,74,${tt*0.9})`);
-            orbAura.addColorStop(1, `rgba(255,80,40,0)`);
-            c.fillStyle = orbAura;
-            c.beginPath(); c.arc(satX, satY + 34, orbR, 0, Math.PI*2); c.fill();
-            // 地上ターゲットマーカー
-            c.strokeStyle = `rgba(255,80,40,${tt*0.9})`;
-            c.lineWidth = 3;
-            for(let r = 0; r < 3; r++) {
-                c.beginPath(); c.arc(cx, gy, 50 - r*10 + Math.sin(performance.now()*0.01+r)*3, 0, Math.PI*2); c.stroke();
-            }
-            // 十字の照準
-            c.strokeStyle = `rgba(255,80,40,${tt*0.6})`;
-            c.lineWidth = 2;
-            c.beginPath(); c.moveTo(cx - 80, gy); c.lineTo(cx + 80, gy); c.stroke();
-            c.beginPath(); c.moveTo(cx, gy - 80); c.lineTo(cx, gy + 50); c.stroke();
-        }
+        // === 全画面に同時降下する 5本のレーザー（即発射） ===
+        // インパクトポイント（画面全体に分散）
+        const impactPoints = [
+            { x: w * 0.10 },
+            { x: w * 0.30 },
+            { x: w * 0.50 },
+            { x: w * 0.70 },
+            { x: w * 0.90 }
+        ];
 
-        // フェーズ2 (t=0.4..0.7): 極太レーザー降下
-        if(t >= 0.4 && t < 0.85) {
-            const tt = (t - 0.4) / 0.45;
-            const intensity = tt < 0.25 ? tt * 4 : Math.max(0.6, 1 - (tt-0.25)*0.5);
-            // 外炎（赤）— 超太
-            c.fillStyle = `rgba(255,80,40,${0.55 * intensity})`;
-            c.fillRect(cx - 80, satY + 34, 160, gy - (satY + 34));
-            // 中炎（金）
-            c.fillStyle = `rgba(255,210,74,${0.85 * intensity})`;
-            c.fillRect(cx - 50, satY + 34, 100, gy - (satY + 34));
-            // コア（白）
-            c.fillStyle = `rgba(255,255,255,${intensity})`;
-            c.fillRect(cx - 18, satY + 34, 36, gy - (satY + 34));
-            // 内側のうねるエネルギー線
-            c.strokeStyle = `rgba(255,255,255,${intensity * 0.9})`;
-            c.lineWidth = 2;
-            for(let k = 0; k < 6; k++) {
-                c.beginPath();
-                const phase = (performance.now() * 0.008 + k * 0.5) % 1;
-                for(let i = 0; i <= 12; i++) {
-                    const px = cx + Math.sin((i/12) * Math.PI * 4 + phase * Math.PI * 2 + k) * (16 - (i/12)*4);
-                    const py = satY + 34 + (i/12) * (gy - satY - 34);
-                    if(i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+        // フェーズ1 (t < 0.65): 極太レーザー降下
+        if(t < 0.65) {
+            const tt = t / 0.65;
+            const intensity = tt < 0.3 ? tt * 3.3 : Math.max(0.5, 1 - (tt-0.3) * 0.7);
+            const beamSrcY = satY + 34;
+            impactPoints.forEach(p => {
+                // 軌道（衛星 → インパクトポイント）
+                const angle = Math.atan2(gy - beamSrcY, p.x - satX);
+                // 外炎（赤）— 極太の縦帯
+                c.fillStyle = `rgba(255,80,40,${0.55 * intensity})`;
+                c.fillRect(p.x - 50, beamSrcY, 100, gy - beamSrcY);
+                // 中炎（金）
+                c.fillStyle = `rgba(255,210,74,${0.85 * intensity})`;
+                c.fillRect(p.x - 28, beamSrcY, 56, gy - beamSrcY);
+                // コア（白）
+                c.fillStyle = `rgba(255,255,255,${intensity})`;
+                c.fillRect(p.x - 10, beamSrcY, 20, gy - beamSrcY);
+                // 衛星から各インパクトへの斜め軌跡（青白の細い線）
+                const traceGrad = c.createLinearGradient(satX, beamSrcY, p.x, beamSrcY + 40);
+                traceGrad.addColorStop(0, `rgba(255,255,255,${intensity})`);
+                traceGrad.addColorStop(1, `rgba(255,255,255,0)`);
+                c.strokeStyle = traceGrad; c.lineWidth = 3;
+                c.beginPath(); c.moveTo(satX, beamSrcY); c.lineTo(p.x, beamSrcY + 60); c.stroke();
+                // うねるエネルギー線（縦帯内）
+                c.strokeStyle = `rgba(255,255,255,${intensity * 0.7})`;
+                c.lineWidth = 1.5;
+                for(let k = 0; k < 3; k++) {
+                    c.beginPath();
+                    const phase = (performance.now() * 0.008 + k * 0.5 + p.x * 0.01) % 1;
+                    for(let i = 0; i <= 8; i++) {
+                        const px = p.x + Math.sin((i/8) * Math.PI * 3 + phase * Math.PI * 2 + k) * (10 - (i/8)*3);
+                        const py = beamSrcY + (i/8) * (gy - beamSrcY);
+                        if(i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+                    }
+                    c.stroke();
                 }
-                c.stroke();
-            }
+            });
             // 砲口の発射フラッシュ
-            const flashR = 70 * intensity;
-            const flashGrad = c.createRadialGradient(satX, satY + 34, 0, satX, satY + 34, flashR);
+            const flashR = 80 * intensity;
+            const flashGrad = c.createRadialGradient(satX, satY + 34 + hover, 0, satX, satY + 34 + hover, flashR);
             flashGrad.addColorStop(0, `rgba(255,255,255,${intensity})`);
             flashGrad.addColorStop(0.4, `rgba(255,210,74,${intensity*0.9})`);
             flashGrad.addColorStop(1, `rgba(255,80,40,0)`);
             c.fillStyle = flashGrad;
-            c.beginPath(); c.arc(satX, satY + 34, flashR, 0, Math.PI*2); c.fill();
-            // 全画面フラッシュ（発射直後の閃光）
-            if(tt < 0.3) {
-                c.fillStyle = `rgba(255,255,200,${(0.3 - tt) * 1.5})`;
+            c.beginPath(); c.arc(satX, satY + 34 + hover, flashR, 0, Math.PI*2); c.fill();
+            // 発射直後の全画面フラッシュ
+            if(tt < 0.25) {
+                c.fillStyle = `rgba(255,255,200,${(0.25 - tt) * 2.2})`;
                 c.fillRect(0, 0, w, h);
             }
         }
 
-        // フェーズ3 (t=0.55..): 着弾クレーター＋衝撃波
-        if(t >= 0.55) {
-            const tt = (t - 0.55) / 0.45;
-            // クレーター（中央の地面の窪み）
-            c.fillStyle = `rgba(80,40,20,${0.8 * (1 - tt*0.3)})`;
-            c.beginPath(); c.ellipse(cx, gy + 4, 90 + tt*30, 12 + tt*4, 0, 0, Math.PI*2); c.fill();
-            // 着弾の白いコア
-            c.fillStyle = `rgba(255,255,255,${(1 - tt) * 0.95})`;
-            c.beginPath(); c.arc(cx, gy, 60 - tt*30, 0, Math.PI*2); c.fill();
-            // 外側の金の炎球
-            c.fillStyle = `rgba(255,210,74,${(1 - tt) * 0.85})`;
-            c.beginPath(); c.arc(cx, gy, 95 - tt*20, 0, Math.PI*2); c.fill();
-            // 赤い炎の輪
-            c.fillStyle = `rgba(255,80,40,${(1 - tt) * 0.7})`;
-            c.beginPath(); c.arc(cx, gy, 130 + tt*40, 0, Math.PI*2); c.fill();
-            // 衝撃波リング（3重）
-            for(let k = 0; k < 3; k++) {
-                const rt = Math.max(0, tt - k*0.15);
-                const r = 30 + rt * 280;
-                c.strokeStyle = `rgba(255,210,74,${1 - rt})`;
-                c.lineWidth = 6 - k*1.5;
-                c.beginPath(); c.ellipse(cx, gy, r, r*0.28, 0, 0, Math.PI*2); c.stroke();
-                c.strokeStyle = `rgba(255,255,255,${(1-rt)*0.6})`;
-                c.lineWidth = 2;
-                c.beginPath(); c.ellipse(cx, gy, r, r*0.28, 0, 0, Math.PI*2); c.stroke();
-            }
-            // 飛び散る火花・破片
-            for(let k = 0; k < 24; k++) {
-                const ang = (k / 24) * Math.PI * 2;
-                const rr = tt * 220 + (k % 3) * 8;
-                const px = cx + Math.cos(ang) * rr;
-                const py = gy + Math.sin(ang) * rr * 0.4;
-                if(py < gy + 4) {
-                    c.fillStyle = ['#ffd24a','#ff8800','#fff','#ff5544'][k % 4];
-                    c.fillRect(px, py - tt*40, 3, 3);
+        // フェーズ2 (t >= 0.35): 全画面に広がる爆発＋衝撃波
+        if(t >= 0.35) {
+            const tt = (t - 0.35) / 0.65;
+            // 全画面の赤いフラッシュ（薄め）
+            c.fillStyle = `rgba(255,80,40,${(1-tt) * 0.18})`;
+            c.fillRect(0, 0, w, h);
+            // 各インパクトポイントで爆発
+            impactPoints.forEach(p => {
+                // クレーター
+                c.fillStyle = `rgba(80,40,20,${0.7 * (1 - tt*0.3)})`;
+                c.beginPath(); c.ellipse(p.x, gy + 4, 70 + tt*20, 10 + tt*3, 0, 0, Math.PI*2); c.fill();
+                // 白コア
+                c.fillStyle = `rgba(255,255,255,${(1 - tt) * 0.95})`;
+                c.beginPath(); c.arc(p.x, gy, 45 - tt*22, 0, Math.PI*2); c.fill();
+                // 金の炎球
+                c.fillStyle = `rgba(255,210,74,${(1 - tt) * 0.85})`;
+                c.beginPath(); c.arc(p.x, gy, 70 - tt*15, 0, Math.PI*2); c.fill();
+                // 赤い炎の輪
+                c.fillStyle = `rgba(255,80,40,${(1 - tt) * 0.65})`;
+                c.beginPath(); c.arc(p.x, gy, 100 + tt*30, 0, Math.PI*2); c.fill();
+                // 衝撃波（3重）
+                for(let k = 0; k < 3; k++) {
+                    const rt = Math.max(0, tt - k*0.15);
+                    const r = 30 + rt * 200;
+                    c.strokeStyle = `rgba(255,210,74,${1 - rt})`;
+                    c.lineWidth = 5 - k*1.3;
+                    c.beginPath(); c.ellipse(p.x, gy, r, r*0.28, 0, 0, Math.PI*2); c.stroke();
+                    c.strokeStyle = `rgba(255,255,255,${(1-rt)*0.6})`;
+                    c.lineWidth = 1.5;
+                    c.beginPath(); c.ellipse(p.x, gy, r, r*0.28, 0, 0, Math.PI*2); c.stroke();
                 }
-            }
+                // 飛び散る火花
+                for(let k = 0; k < 14; k++) {
+                    const ang = (k / 14) * Math.PI * 2;
+                    const rr = tt * 160 + (k % 3) * 6;
+                    const px = p.x + Math.cos(ang) * rr;
+                    const py = gy + Math.sin(ang) * rr * 0.4;
+                    if(py < gy + 4) {
+                        c.fillStyle = ['#ffd24a','#ff8800','#fff','#ff5544'][k % 4];
+                        c.fillRect(px, py - tt*30, 3, 3);
+                    }
+                }
+            });
+            // 横一線の地面の衝撃帯
+            c.fillStyle = `rgba(255,210,74,${(1-tt) * 0.6})`;
+            c.fillRect(0, gy - 6, w, 8);
         }
     }
 
@@ -9183,8 +9166,13 @@
             return;
         }
         game.laserCharge = 0;
-        game.laserChargeUp = 1.0; // 1秒のタメ
         snd.coin();
+        // 現代編は事前チャージをスキップして即発射
+        if(currentEra === 'modern') {
+            actuallyFireLaser();
+        } else {
+            game.laserChargeUp = 1.0; // 1秒のタメ
+        }
         updateHUD();
     }
     function actuallyFireLaser() {
