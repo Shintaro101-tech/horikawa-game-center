@@ -3513,6 +3513,98 @@
         if(elapsed < 0 || elapsed > 0.6) return;
         const p = Math.min(1, elapsed / 0.6);
         const gy = groundY();
+        // 小人形召喚（メリー）— 3体のミニ市松人形が飛びかかる
+        if(jc.style === 'md_doll') {
+            if(p < 0.7) {
+                const tt = p / 0.7;
+                const x = jc.startX + (jc.targetX - jc.startX) * tt;
+                const y = gy - Math.sin(tt * Math.PI) * 70 - 18;
+                // ピンクの残光
+                for(let k = 0; k < 4; k++){
+                    const tk = Math.max(0, tt - k*0.05);
+                    const xk = jc.startX + (jc.targetX - jc.startX) * tk;
+                    const yk = gy - Math.sin(tk * Math.PI) * 70 - 18;
+                    c.fillStyle = `rgba(255,102,204,${0.4 - k*0.08})`;
+                    c.beginPath(); c.arc(xk, yk, 8 - k, 0, Math.PI*2); c.fill();
+                }
+                // 人形（小さい着物姿）
+                c.fillStyle = '#aa1010';
+                c.beginPath(); c.moveTo(x-5,y-2); c.lineTo(x-9,y+9); c.lineTo(x+9,y+9); c.lineTo(x+5,y-2); c.closePath(); c.fill();
+                // 市松模様
+                c.fillStyle = '#0a0a0a';
+                c.fillRect(x-6,y+2,3,3); c.fillRect(x,y+2,3,3); c.fillRect(x-3,y+5,3,3); c.fillRect(x+3,y+5,3,3);
+                // 頭
+                c.fillStyle = '#f8e0c8';
+                c.beginPath(); c.arc(x, y-10, 5, 0, Math.PI*2); c.fill();
+                // 黒髪おかっぱ
+                c.fillStyle = '#0a0a0a';
+                c.beginPath(); c.arc(x, y-12, 5, Math.PI*1.05, Math.PI*1.95); c.fill();
+                c.fillRect(x-5, y-12, 10, 2);
+                // 黄リボン
+                c.fillStyle = '#ffd24a';
+                c.beginPath(); c.arc(x-3, y-15, 1.5, 0, Math.PI*2); c.fill();
+                // 目
+                c.fillStyle = '#000';
+                c.fillRect(x-2,y-10,1,1); c.fillRect(x+1,y-10,1,1);
+            } else {
+                // 着弾エフェクト（ピンク）
+                const tt = (p - 0.7) / 0.3;
+                c.fillStyle = `rgba(255,102,204,${(1-tt)*0.7})`;
+                c.beginPath(); c.arc(jc.targetX, jc.targetY - 16, 20 + tt*14, 0, Math.PI*2); c.fill();
+                // 花びら
+                for(let k=0; k<6; k++){
+                    const a = k*Math.PI/3 + tt;
+                    c.fillStyle = '#ff66cc';
+                    c.beginPath(); c.arc(jc.targetX + Math.cos(a)*tt*26, jc.targetY - 16 + Math.sin(a)*tt*18, 3, 0, Math.PI*2); c.fill();
+                }
+            }
+            return;
+        }
+        // ネズミスウォーム（ラットキング）— 5匹の子ネズミが飛びかかる
+        if(jc.style === 'md_rat') {
+            if(p < 0.7) {
+                const tt = p / 0.7;
+                const x = jc.startX + (jc.targetX - jc.startX) * tt;
+                const y = gy - Math.sin(tt * Math.PI) * 45 - 12;
+                // 茶色の残光
+                for(let k = 0; k < 4; k++){
+                    const tk = Math.max(0, tt - k*0.05);
+                    const xk = jc.startX + (jc.targetX - jc.startX) * tk;
+                    const yk = gy - Math.sin(tk * Math.PI) * 45 - 12;
+                    c.fillStyle = `rgba(122,90,58,${0.4 - k*0.08})`;
+                    c.beginPath(); c.ellipse(xk, yk, 8 - k*0.5, 4 - k*0.3, 0, 0, Math.PI*2); c.fill();
+                }
+                // 子ネズミ本体
+                const dir = jc.targetX > jc.startX ? 1 : -1;
+                c.save(); c.translate(x, y); c.scale(dir, 1);
+                // しっぽ
+                c.strokeStyle = '#7a5a3a'; c.lineWidth = 1.2; c.lineCap = 'round';
+                c.beginPath(); c.moveTo(-6, 2); c.quadraticCurveTo(-12, -2, -14, -8); c.stroke(); c.lineCap='butt';
+                // 体
+                c.fillStyle = '#7a5a3a';
+                c.beginPath(); c.ellipse(0, 0, 8, 5, 0, 0, Math.PI*2); c.fill();
+                // 頭
+                c.beginPath(); c.arc(6, -2, 4, 0, Math.PI*2); c.fill();
+                // 耳
+                c.beginPath(); c.arc(4, -6, 2, 0, Math.PI*2); c.fill();
+                // 目（赤）
+                c.fillStyle = '#ff3344';
+                c.beginPath(); c.arc(8, -3, 1, 0, Math.PI*2); c.fill();
+                // 鼻
+                c.fillStyle = '#000';
+                c.beginPath(); c.arc(10, -2, 0.8, 0, Math.PI*2); c.fill();
+                c.restore();
+            } else {
+                // 着弾エフェクト
+                const tt = (p - 0.7) / 0.3;
+                c.fillStyle = `rgba(170,102,68,${(1-tt)*0.7})`;
+                c.beginPath(); c.arc(jc.targetX, jc.targetY - 16, 16 + tt*12, 0, Math.PI*2); c.fill();
+                // 噛みつきマーク
+                c.fillStyle = `rgba(255,255,200,${1-tt})`;
+                c.beginPath(); c.arc(jc.targetX, jc.targetY - 16, 8, 0, Math.PI*2); c.fill();
+            }
+            return;
+        }
         if(jc.style === 'snake') {
             // 蛇の弧（小さい蛇が放物線で飛ぶ）
             if(p < 0.7) {
@@ -3799,7 +3891,115 @@
         else if(k.style === 'horse_charge') drawHorseCharge(c, k);
         else if(k.style === 'final_crash') drawFinalCrash(c, k);
         else if(k.style === 'mountain_throw') drawMountainThrow(c, k);
+        else if(k.style === 'md_bike') drawBikeCharge(c, k);
+        else if(k.style === 'md_drill') drawDrillCharge(c, k);
         else drawKamikazeRush(c, k);
+    }
+
+    // バイク特攻（暴走族頭領）— バイクで突進
+    function drawBikeCharge(c, k) {
+        if(k.timer < 0.18 || k.timer > 0.7) return;
+        const gy = groundY();
+        const tt = (k.timer - 0.18) / 0.52;
+        const x = k.startX + (k.targetX - k.startX) * tt;
+        const dir = k.targetX > k.startX ? 1 : -1;
+        // 残像（赤）
+        for(let kk = 1; kk < 6; kk++) {
+            const tk = Math.max(0, tt - kk*0.04);
+            const xk = k.startX + (k.targetX - k.startX) * tk;
+            c.fillStyle = `rgba(255,85,68,${0.5 - kk*0.08})`;
+            c.fillRect(xk - 18*dir, gy - 26, 30, 6);
+        }
+        // 砂埃
+        for(let kk = 0; kk < 3; kk++) {
+            c.fillStyle = `rgba(180,180,180,${0.6 - kk*0.15})`;
+            c.beginPath(); c.arc(x - 22*dir + Math.random()*6, gy - 4, 5+Math.random()*3, 0, Math.PI*2); c.fill();
+        }
+        c.save(); c.translate(x, gy); c.scale(dir, 1);
+        // バイク本体
+        c.fillStyle = '#1a1a1a';
+        c.fillRect(-20, -20, 40, 12);
+        // タイヤ
+        c.fillStyle = '#0a0a0a';
+        c.beginPath(); c.arc(-15, -6, 7, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(18, -6, 7, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.arc(-15, -6, 3, 0, Math.PI*2); c.fill();
+        c.beginPath(); c.arc(18, -6, 3, 0, Math.PI*2); c.fill();
+        // タンク（赤）
+        c.fillStyle = '#ff3344';
+        c.fillRect(-10, -28, 18, 10);
+        // ライダー（黒特攻服）
+        c.fillStyle = '#1a1a1a';
+        c.fillRect(-2, -42, 10, 18);
+        // 頭
+        c.fillStyle = '#e0b888';
+        c.beginPath(); c.arc(3, -45, 5, 0, Math.PI*2); c.fill();
+        // リーゼント
+        c.fillStyle = '#000';
+        c.beginPath(); c.moveTo(0, -47); c.quadraticCurveTo(-3, -55, 4, -52); c.quadraticCurveTo(7, -57, 9, -48); c.closePath(); c.fill();
+        // ヘッドライト
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.arc(22, -18, 3, 0, Math.PI*2); c.fill();
+        c.fillStyle = 'rgba(255,210,74,0.5)';
+        c.beginPath(); c.moveTo(22, -18); c.lineTo(50, -22); c.lineTo(50, -14); c.closePath(); c.fill();
+        c.restore();
+    }
+
+    // ドリル突進（解体重機ザイガス）— 巨大ドリルで貫通
+    function drawDrillCharge(c, k) {
+        if(k.timer < 0.18 || k.timer > 0.7) return;
+        const gy = groundY();
+        const tt = (k.timer - 0.18) / 0.52;
+        const x = k.startX + (k.targetX - k.startX) * tt;
+        const dir = k.targetX > k.startX ? 1 : -1;
+        const t = performance.now() * 0.001;
+        // 残像
+        for(let kk = 1; kk < 6; kk++) {
+            const tk = Math.max(0, tt - kk*0.04);
+            const xk = k.startX + (k.targetX - k.startX) * tk;
+            c.fillStyle = `rgba(255,210,74,${0.4 - kk*0.06})`;
+            c.beginPath(); c.arc(xk, gy - 28, 18 - kk*1.5, 0, Math.PI*2); c.fill();
+        }
+        // 火花（多数）
+        for(let kk = 0; kk < 6; kk++) {
+            const ang = Math.random() * Math.PI * 2;
+            c.fillStyle = ['#ffd24a','#ff8800','#fff'][Math.floor(Math.random()*3)];
+            c.beginPath(); c.arc(x + 32*dir + Math.cos(ang)*12, gy - 28 + Math.sin(ang)*12, 2+Math.random()*2, 0, Math.PI*2); c.fill();
+        }
+        c.save(); c.translate(x, gy); c.scale(dir, 1);
+        // 重機本体
+        c.fillStyle = '#aaaaaa';
+        c.fillRect(-22, -38, 28, 28);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-22, -38, 28, 28);
+        // ネオン青ライン
+        c.fillStyle = '#00f0ff';
+        c.fillRect(-20, -35, 24, 1.5); c.fillRect(-20, -16, 24, 1.5);
+        // コックピット
+        c.fillStyle = '#1a1a3a';
+        c.fillRect(-18, -32, 18, 12);
+        c.fillStyle = '#00f0ff';
+        c.fillRect(-16, -30, 14, 6);
+        // キャタピラ
+        c.fillStyle = '#1a1a1a';
+        c.fillRect(-26, -10, 36, 10);
+        // タイヤ
+        c.fillStyle = '#2a2a2a';
+        for(let i = 0; i < 4; i++) {
+            c.beginPath(); c.arc(-22 + i*10, -3, 4, 0, Math.PI*2); c.fill();
+        }
+        // ドリル先端（高速回転）
+        c.save(); c.translate(8, -22); c.rotate(t * 30);
+        for(let kk = 0; kk < 5; kk++) {
+            c.fillStyle = ['#ffd24a','#aa6600'][kk % 2];
+            c.beginPath(); c.moveTo(0, 0); c.lineTo(30, (-8 + kk*3.5)); c.lineTo(36, 0); c.closePath(); c.fill();
+            c.beginPath(); c.moveTo(0, 0); c.lineTo(30, (8 - kk*3.5)); c.lineTo(36, 0); c.closePath(); c.fill();
+        }
+        // ドリル軸
+        c.fillStyle = '#888';
+        c.fillRect(0, -3, 8, 6);
+        c.restore();
+        c.restore();
     }
 
     // ファイナルクラッシュ（超合金鬼神）— 跳び上がって地に叩きつける
@@ -4241,8 +4441,114 @@
     }
 
     // 雷柱（ゼウス専用攻撃 / 雷神の神鳴雷雲）
+    // 水柱（花子さん）— 地面から青い水柱が噴出
+    function drawWaterPillar(c, p) {
+        if(p.timer < 0) return;
+        const x = p.x;
+        const gy = groundY();
+        const t = p.timer / 1.4;
+        if(t < 0.14) {
+            // 地面の波紋
+            const tt = t / 0.14;
+            c.strokeStyle = `rgba(136,200,255,${tt*0.85})`; c.lineWidth = 2;
+            c.beginPath(); c.ellipse(x, gy, 40, 8, 0, 0, Math.PI*2); c.stroke();
+            // 中央の水溜り
+            c.fillStyle = `rgba(136,200,255,${tt*0.5})`;
+            c.beginPath(); c.ellipse(x, gy, 30, 6, 0, 0, Math.PI*2); c.fill();
+        } else if(t < 0.5) {
+            // 水柱が噴出
+            const tt = (t - 0.14) / 0.36;
+            const hh = Math.sin(tt * Math.PI) * 130;
+            const wd = 24 + Math.sin(tt*15)*4;
+            // 外水
+            const grad = c.createLinearGradient(0, gy - hh, 0, gy);
+            grad.addColorStop(0, 'rgba(136,200,255,0)');
+            grad.addColorStop(1, 'rgba(136,200,255,0.85)');
+            c.fillStyle = grad;
+            c.fillRect(x - wd, gy - hh, wd*2, hh);
+            // 中央コア（明るい）
+            const grad2 = c.createLinearGradient(0, gy - hh, 0, gy);
+            grad2.addColorStop(0, 'rgba(200,230,255,0.2)');
+            grad2.addColorStop(1, 'rgba(220,240,255,0.95)');
+            c.fillStyle = grad2;
+            c.fillRect(x - 6, gy - hh, 12, hh);
+            // 飛沫
+            for(let k = 0; k < 8; k++) {
+                const ang = (k/8) * Math.PI - Math.PI/2;
+                const r = 18 + Math.sin(tt*10+k)*6;
+                c.fillStyle = `rgba(200,230,255,${0.7})`;
+                c.beginPath(); c.arc(x + Math.cos(ang)*r, gy - hh*0.3 + Math.sin(ang)*r*0.5, 3, 0, Math.PI*2); c.fill();
+            }
+            // 着水パーティクル
+            if(tt > 0.5) {
+                for(let k = 0; k < 5; k++) {
+                    const ang = Math.random() * Math.PI;
+                    c.fillStyle = 'rgba(180,220,255,0.7)';
+                    c.beginPath(); c.arc(x + Math.cos(ang)*20, gy + Math.sin(ang)*(-8), 2.5, 0, Math.PI*2); c.fill();
+                }
+            }
+        } else {
+            // 余韻（水溜り）
+            const tt = (t - 0.5) / 0.5;
+            c.fillStyle = `rgba(136,200,255,${(1-tt)*0.5})`;
+            c.beginPath(); c.ellipse(x, gy, 30*(1+tt*0.5), 5, 0, 0, Math.PI*2); c.fill();
+        }
+    }
+
+    // 酸性雨ピラー（スモッグマン）— 黄色い酸性雨が降る
+    function drawAcidPillar(c, p) {
+        if(p.timer < 0) return;
+        const x = p.x;
+        const gy = groundY();
+        const t = p.timer / 1.4;
+        if(t < 0.14) {
+            // 警告マーカー（黄色）
+            const tt = t / 0.14;
+            c.strokeStyle = `rgba(255,255,80,${tt*0.85})`; c.lineWidth = 2;
+            c.beginPath(); c.arc(x, gy, 40 - tt*5, 0, Math.PI*2); c.stroke();
+        } else if(t < 0.5) {
+            // 上から黄色い雨が降下
+            const tt = (t - 0.14) / 0.36;
+            const intensity = tt < 0.3 ? tt*3.3 : Math.max(0, 1 - (tt-0.3)/0.7);
+            // 雲（上空）
+            c.fillStyle = `rgba(200,180,40,${0.6*intensity})`;
+            c.beginPath(); c.ellipse(x, 18, 50, 8, 0, 0, Math.PI*2); c.fill();
+            // 雨滴（複数）
+            const dropCount = 14;
+            for(let k = 0; k < dropCount; k++) {
+                const offsetX = (k - dropCount/2) * 4;
+                const seed = k * 17;
+                const fallT = (tt + (seed % 100)/100) % 1;
+                const dy = 30 + fallT * (gy - 30);
+                c.fillStyle = `rgba(255,255,80,${intensity*0.9})`;
+                c.beginPath(); c.ellipse(x + offsetX + Math.sin(seed)*8, dy, 1.8, 6, 0, 0, Math.PI*2); c.fill();
+            }
+            // 着地飛沫
+            if(tt > 0.4) {
+                for(let k = 0; k < 4; k++) {
+                    const ang = (k/4) * Math.PI - Math.PI/2;
+                    c.fillStyle = `rgba(255,255,80,${0.6})`;
+                    c.beginPath(); c.arc(x + Math.cos(ang)*15, gy + Math.sin(ang)*(-5), 2, 0, Math.PI*2); c.fill();
+                }
+                // ☠
+                c.fillStyle = `rgba(200,200,40,${1-tt*0.5})`;
+                c.font = 'bold 14px sans-serif'; c.textAlign = 'center';
+                c.fillText('☠', x, gy - 8);
+            }
+        } else {
+            // 余韻（地面に残る黄色い水たまり）
+            const tt = (t - 0.5) / 0.5;
+            c.fillStyle = `rgba(200,200,40,${(1-tt)*0.4})`;
+            c.beginPath(); c.ellipse(x, gy, 22, 4, 0, 0, Math.PI*2); c.fill();
+        }
+    }
+
     function drawThunderPillar(c, p) {
         if(p.timer < 0) return; // delay中は描画スキップ
+        // 水柱（花子さん）
+        if(p.style === 'water') { drawWaterPillar(c, p); return; }
+        // 酸性雨（スモッグマン）
+        if(p.style === 'acid')  { drawAcidPillar(c, p); return; }
         const x = p.x;
         const gy = groundY();
         const t = p.timer / 1.4;
@@ -6580,8 +6886,10 @@
             // サブ砲
             c.fillStyle='#3a3a3a';c.fillRect(-16,-32,4,5);c.fillRect(12,-32,4,5);
         },
-        // 11. ラットキング — A 茶ネズミ王（四足）
+        // 11. ラットキング — A 茶ネズミ王（四足、デフォルトは左向き）
         rat_king(c, u) {
+            // 描画は右向きで作成しているので左右反転して標準の「左向き」に
+            c.scale(-1, 1);
             // しっぽ
             c.strokeStyle='#7a5a3a';c.lineWidth=2.5;c.lineCap='round';
             c.beginPath();c.moveTo(-12,8);c.quadraticCurveTo(-24,3,-26,-8);c.stroke();c.lineCap='butt';
@@ -6669,8 +6977,10 @@
             // ZG ロゴ
             c.fillStyle='#00f0ff';c.font='bold 6px sans-serif';c.textAlign='center';c.fillText('⚡',0,-2);
         },
-        // 14. メガロドン — A 深海灰色ザメ
+        // 14. メガロドン — A 深海灰色ザメ（デフォルトは左向き）
         megalodon(c, u) {
+            // 描画は右向きで作成しているので左右反転して標準の「左向き」に
+            c.scale(-1, 1);
             // 体（流線型）
             c.fillStyle='#3a4a5a';
             c.beginPath();c.moveTo(-22,-2);c.quadraticCurveTo(-12,-22,12,-18);c.quadraticCurveTo(28,-14,32,-4);c.quadraticCurveTo(28,4,12,8);c.quadraticCurveTo(-12,6,-22,-2);c.closePath();c.fill();
@@ -8397,7 +8707,7 @@
             const fwdDir = attacker.side === 'p' ? -1 : 1;
             const tgtX = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
             const tgtY = target.isCastle ? (groundY() - 30) : (target.y - 30);
-            // 1. md_bike (暴走族) — バイク特攻突進（horse_charge 流用：貫通）
+            // 1. md_bike (暴走族) — バイク特攻突進（貫通）
             if(mdWeapon === 'md_bike') {
                 if(!game.kamikazes) game.kamikazes = [];
                 game.kamikazes.push({
@@ -8406,7 +8716,7 @@
                     side: attacker.side, attackerRef: null, damageApplied: false,
                     hitUnits: [], pierce: true,
                     antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
-                    isSpecial: isSpecial, style: 'horse_charge'
+                    isSpecial: isSpecial, style: 'md_bike'
                 });
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🏍 バイク特攻 🏍', '#ff3344', true);
                 if(snd && snd.slash) snd.slash();
@@ -8486,7 +8796,7 @@
                         timer: 0, delay: i*0.15,
                         damage: atk*0.8, side: attacker.side, damageApplied:false,
                         antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
-                        isSpecial, style:'snake'
+                        isSpecial, style:'md_doll'
                     });
                 });
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🎀 小人形召喚 🎀', '#ff66cc', true);
@@ -8575,7 +8885,7 @@
                         timer: 0, delay: i*0.1,
                         damage: atk*0.6, side: attacker.side, damageApplied:false,
                         antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
-                        isSpecial, style:'snake'
+                        isSpecial, style:'md_rat'
                     });
                 });
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '🐀 5匹スウォーム 🐀', '#aa6644', true);
@@ -8606,7 +8916,7 @@
                     side: attacker.side, attackerRef: null, damageApplied: false,
                     hitUnits: [], pierce: true,
                     antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
-                    isSpecial, style: 'horse_charge'
+                    isSpecial, style: 'md_drill'
                 });
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '⚙ ドリル貫通 ⚙', '#ffd24a', true);
                 if(snd && snd.slash) snd.slash();
@@ -9658,8 +9968,8 @@
         if(!game.kamikazes) game.kamikazes = [];
         for(const k of game.kamikazes) {
             k.timer += dt;
-            // 騎馬突撃: 貫通モード（突進中に通過する敵全員をヒット）
-            if(k.style === 'horse_charge') {
+            // 貫通モード（騎馬突撃 / バイク特攻 / ドリル突進）
+            if(k.style === 'horse_charge' || k.style === 'md_bike' || k.style === 'md_drill') {
                 if(!k.hitUnits) k.hitUnits = [];
                 if(k.timer >= 0.18 && k.timer < 0.7) {
                     const tt = (k.timer - 0.18) / 0.52;
