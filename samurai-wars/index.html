@@ -6245,6 +6245,11 @@
 
     // 侍/敵描画
     function drawSamuraiCanvas(c, x, y, u, dir, swing, scale=1) {
+        // 現代編キャラは固有描画にディスパッチ（侍名簿/編成/ガチャ/出撃カードなどすべて）
+        if(u && u.mdRender && typeof MD_DRAW !== 'undefined' && MD_DRAW[u.mdRender]) {
+            drawModernUnit(c, x, y, u, dir, swing, scale);
+            return;
+        }
         // dir: 1=facing left, -1=facing right
         c.save(); c.translate(x, y); c.scale(dir*scale, scale);
 
