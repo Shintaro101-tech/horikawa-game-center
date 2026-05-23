@@ -8247,15 +8247,62 @@
                 c.strokeStyle = neonColors[i]; c.lineWidth = 1.5;
                 c.beginPath(); c.moveTo(0, gy - i*5 - 2); c.lineTo(w, gy - i*5 - 2); c.stroke();
             }
-            // 浮遊するネオン広告
-            for(let i = 0; i < 3; i++) {
-                const sx = w * (0.15 + i * 0.3) + Math.sin(time + i) * 8;
-                const sy = h * 0.25 + i * 25;
-                c.fillStyle = ['#ff44ff', '#00f0ff', '#ffd24a'][i];
-                c.fillRect(sx - 30, sy, 60, 14);
-                c.fillStyle = '#0a0010'; c.font = 'bold 8px sans-serif'; c.textAlign = 'center';
-                c.fillText(['SALE','OPEN','★24h'][i], sx, sy + 10);
-            }
+            // 夜空を漂う飛行船（3機）
+            const blimps = [
+                { col:'#aa44cc', fin:'#5a2080', light:'#ffd24a', speed:14, yRatio:0.18, mark:'Z' },
+                { col:'#00aaff', fin:'#0a4080', light:'#ffd24a', speed:18, yRatio:0.26, mark:'★' },
+                { col:'#ff8800', fin:'#5a3010', light:'#fff',    speed:22, yRatio:0.34, mark:'M' }
+            ];
+            blimps.forEach((b, i) => {
+                // 横に流れる（offset で位置をずらす）
+                const sx = ((time * b.speed + i * 280) % (w + 220)) - 110;
+                const sy = h * b.yRatio + Math.sin(time * 0.5 + i) * 3;
+                // 影（薄い）
+                c.fillStyle = 'rgba(0,0,0,0.18)';
+                c.beginPath(); c.ellipse(sx, sy + 5, 32, 3, 0, 0, Math.PI*2); c.fill();
+                // 本体（楕円）
+                c.fillStyle = b.col;
+                c.beginPath(); c.ellipse(sx, sy, 34, 10, 0, 0, Math.PI*2); c.fill();
+                c.strokeStyle = '#000'; c.lineWidth = 1;
+                c.beginPath(); c.ellipse(sx, sy, 34, 10, 0, 0, Math.PI*2); c.stroke();
+                // 上部のハイライト
+                c.fillStyle = 'rgba(255,255,255,0.28)';
+                c.beginPath(); c.ellipse(sx - 4, sy - 5, 16, 2.5, 0, 0, Math.PI*2); c.fill();
+                // 後部の縦尾翼（三角フィン）
+                c.fillStyle = b.fin;
+                c.beginPath();
+                c.moveTo(sx - 30, sy);
+                c.lineTo(sx - 40, sy - 9);
+                c.lineTo(sx - 40, sy + 9);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#000'; c.lineWidth = 0.8; c.stroke();
+                // 水平尾翼
+                c.fillStyle = b.fin;
+                c.fillRect(sx - 38, sy - 1, 8, 2.5);
+                // ゴンドラ
+                c.fillStyle = '#3a3a3a';
+                c.fillRect(sx - 8, sy + 9, 16, 6);
+                c.strokeStyle = '#000'; c.lineWidth = 0.8;
+                c.strokeRect(sx - 8, sy + 9, 16, 6);
+                // ゴンドラの窓
+                c.fillStyle = b.light;
+                c.fillRect(sx - 6, sy + 10, 3, 3);
+                c.fillRect(sx, sy + 10, 3, 3);
+                // 横腹のロゴ
+                c.fillStyle = b.light;
+                c.font = 'bold 8px sans-serif'; c.textAlign = 'center';
+                c.fillText(b.mark, sx, sy + 3);
+                // 前方ライト
+                c.fillStyle = b.light;
+                c.beginPath(); c.arc(sx + 34, sy, 1.8, 0, Math.PI*2); c.fill();
+                // ライトのグロー
+                c.fillStyle = `rgba(255,210,74,0.35)`;
+                c.beginPath(); c.arc(sx + 34, sy, 5, 0, Math.PI*2); c.fill();
+                // 点滅する側面ライト（赤ブリンカー）
+                const blink = Math.sin(time * 3 + i*2) > 0;
+                c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
+                c.beginPath(); c.arc(sx, sy + 11, 1.2, 0, Math.PI*2); c.fill();
+            });
             // ネオン雨
             c.strokeStyle = 'rgba(255,0,200,0.45)'; c.lineWidth = 1.2;
             for(let i = 0; i < 28; i++) {
