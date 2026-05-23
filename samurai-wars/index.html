@@ -7667,46 +7667,48 @@
             c.arc(x-3, gy-148, 2, 0, Math.PI*2); c.fill();
         }
 
-        // 自城の弩弓（龍神レーザー砲の古代版）
+        // 自城の龍神レーザー砲（過去編と統一）
         if(isPlayer) {
             const bx = x - cw/2 - 8;
             const by = gy - 78;
-            // 木の土台
-            c.fillStyle = '#5a3a18';
+            // 砲台土台（石積み）
+            c.fillStyle = '#5a5a5a';
             c.fillRect(x - cw/2 - 4, gy-92, 24, 28);
-            c.strokeStyle = '#3a2008'; c.lineWidth = 1.5;
+            c.strokeStyle = '#2a2a2a'; c.lineWidth = 1.5;
             c.strokeRect(x - cw/2 - 4, gy-92, 24, 28);
-            // 動物頭装飾（獣頭）
-            c.fillStyle = '#aa6633';
+            // 龍頭装飾
+            c.fillStyle = '#ffd24a';
             c.beginPath();
-            c.moveTo(x - cw/2 + 4, gy-92); c.lineTo(x - cw/2 + 12, gy-100); c.lineTo(x - cw/2 + 16, gy-92); c.closePath(); c.fill();
+            c.moveTo(x - cw/2 + 4, gy-92); c.lineTo(x - cw/2 + 10, gy-104); c.lineTo(x - cw/2 + 16, gy-92); c.closePath(); c.fill();
             // 牙
             c.fillStyle = '#fff';
             c.fillRect(x - cw/2 + 6, gy-92, 1, 3);
             c.fillRect(x - cw/2 + 13, gy-92, 1, 3);
-            // 弩弓本体（木）
-            c.fillStyle = '#5a3a18';
+            // 砲身（金属＋金縁）
+            c.fillStyle = '#2a2a2a';
             c.fillRect(bx - 44, by - 8, 50, 16);
-            c.strokeStyle = '#3a2008'; c.lineWidth = 1.5;
+            c.fillStyle = '#5a5a5a';
+            c.fillRect(bx - 44, by - 6, 50, 12);
+            c.strokeStyle = '#ffd24a'; c.lineWidth = 1.5;
             c.strokeRect(bx - 44, by - 8, 50, 16);
-            // 木目
-            c.strokeStyle = '#3a2008'; c.lineWidth = 0.8;
-            c.beginPath(); c.moveTo(bx - 40, by - 4); c.lineTo(bx, by - 4); c.stroke();
-            c.beginPath(); c.moveTo(bx - 40, by + 4); c.lineTo(bx, by + 4); c.stroke();
-            // 弦の縛り
-            c.fillStyle = '#3a2008';
-            c.fillRect(bx - 30, by - 9, 2, 18);
-            c.fillRect(bx - 14, by - 9, 2, 18);
-            // 矢じり（先端で蓄積するエネルギー = 炎の矢）
+            // 龍鱗のリング
+            c.strokeStyle = '#ffd24a'; c.lineWidth = 1;
+            c.beginPath(); c.moveTo(bx - 38, by - 7); c.lineTo(bx - 38, by + 7); c.stroke();
+            c.beginPath(); c.moveTo(bx - 26, by - 7); c.lineTo(bx - 26, by + 7); c.stroke();
+            c.beginPath(); c.moveTo(bx - 14, by - 7); c.lineTo(bx - 14, by + 7); c.stroke();
+            // 砲口（先端）
+            c.fillStyle = '#0a0a0a';
+            c.fillRect(bx - 48, by - 6, 4, 12);
+            // チャージ光（龍神の炎）
             const charge = game.laserCharge / game.laserMax;
             const glowR = 5 + charge * 3 + (game.laserAnim > 0 ? 8 : 0);
             c.fillStyle = `rgba(255, ${50 + charge*100}, 70, ${0.4 + charge*0.6})`;
-            c.beginPath(); c.arc(bx - 44, by, glowR + 4, 0, Math.PI*2); c.fill();
-            c.fillStyle = `rgba(255, ${100 + charge*155}, 100, ${0.7 + charge*0.3})`;
-            c.beginPath(); c.arc(bx - 44, by, glowR, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(bx - 48, by, glowR + 4, 0, Math.PI*2); c.fill();
+            c.fillStyle = `rgba(255, ${180 + charge*75}, 100, ${0.7 + charge*0.3})`;
+            c.beginPath(); c.arc(bx - 48, by, glowR, 0, Math.PI*2); c.fill();
             if(charge >= 1) {
                 c.fillStyle = '#fff';
-                c.beginPath(); c.arc(bx - 44, by, 3, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(bx - 48, by, 3, 0, Math.PI*2); c.fill();
             }
         }
 
@@ -8753,9 +8755,8 @@
         if(laserLabel) {
             if(currentEra === 'modern') {
                 laserLabel.innerHTML = '🛰 <ruby>サテライト</ruby>・キャノン<ruby>砲<rt>ほう</rt></ruby>';
-            } else if(currentEra === 'super_past') {
-                laserLabel.innerHTML = '🏹 <ruby>巨大<rt>きょだい</rt></ruby><ruby>弩弓<rt>どきゅう</rt></ruby>';
             } else {
+                // 過去編・超過去編は共通で龍神レーザー砲
                 laserLabel.innerHTML = '⚡ <ruby>龍神<rt>りゅうじん</rt></ruby>レーザー<ruby>砲<rt>ほう</rt></ruby>';
             }
         }

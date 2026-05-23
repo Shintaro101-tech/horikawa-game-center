@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サテライト・キャノン砲 デザイン候補</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;background:radial-gradient(ellipse at top,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.6rem;font-weight:900;background:linear-gradient(180deg,#00f0ff 0%,#ff6b00 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 30px rgba(0,240,255,0.4);letter-spacing:2px;margin-bottom:6px}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:18px;grid-template-columns:1fr;max-width:1200px;margin:0 auto}
+@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#00f0ff);border-radius:14px;padding:16px;box-shadow:0 0 24px var(--g,rgba(0,240,255,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#000020 0%,#0a0a40 60%,#1a1a3a 80%,#2a2030 100%);border-radius:10px;padding:6px;margin-bottom:12px;min-height:240px;position:relative;overflow:hidden}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:1.05rem;color:var(--c,#00f0ff);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.85rem;color:#cdf;line-height:1.5}
+.meta{font-size:0.75rem;color:#888;margin-top:6px;letter-spacing:1px}
+footer{text-align:center;margin-top:30px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🛰 サテライト・キャノン砲 デザイン候補</h1>
+<div class="sub">SATELLITE CANNON ATTACK STYLES — pick one</div>
+
+<div class="grid">
+<div class="card" style="--c:#00f0ff;--g:rgba(0,240,255,0.5)">
+  <div class="canv-wrap"><canvas id="ca-a" width="500" height="280"></canvas></div>
+  <h2>案A. スライド・スイープ（現行）</h2>
+  <p>軌道衛星が画面上空を右→左にスライドしながら、6本のシアンビームを時間差で降下。標的サークル予告付き、ワイドに掃射するタイプ。</p>
+  <div class="meta">範囲：全画面ワイド／ビーム数：6／持続：長め</div>
+</div>
+
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)">
+  <div class="canv-wrap"><canvas id="ca-b" width="500" height="280"></canvas></div>
+  <h2>案B. オービタル・ストライク（単発巨大）</h2>
+  <p>1機の衛星が画面中央で停止チャージ → 1本の極太レーザーが垂直に降下し、巨大なクレーター＋衝撃波。1点集中の威圧的な攻撃。</p>
+  <div class="meta">範囲：中央集中／ビーム数：1（超極太）／持続：短く爆発的</div>
+</div>
+
+<div class="card" style="--c:#ff44cc;--g:rgba(255,68,204,0.5)">
+  <div class="canv-wrap"><canvas id="ca-c" width="500" height="280"></canvas></div>
+  <h2>案C. マルチ・サテライト斉射</h2>
+  <p>3機の衛星が編隊で画面上空に整列 → 3本のビームが同時に降下。整列＋同期演出が派手。</p>
+  <div class="meta">範囲：3点同時／ビーム数：3／持続：中</div>
+</div>
+
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)">
+  <div class="canv-wrap"><canvas id="ca-d" width="500" height="280"></canvas></div>
+  <h2>案D. EMPバースト（円形拡散）</h2>
+  <p>衛星が中央でチャージ → 巨大な紫青のEMP球が広がり、画面全体に電磁パルスが拡散。スタン＋スパーク。</p>
+  <div class="meta">範囲：円形拡散／持続：中</div>
+</div>
+</div>
+
+<footer>© HORIKAWA FAMILY · SATELLITE CANNON PREVIEW</footer>
+
+<script>
+function startAnim(id, fn, dur){
+  const cv = document.getElementById(id);
+  const ctx = cv.getContext('2d');
+  const start = performance.now();
+  function loop(){
+    const t = ((performance.now()-start)%dur)/dur;
+    ctx.clearRect(0,0,cv.width,cv.height);
+    drawScene(ctx, cv.width, cv.height);
+    fn(ctx, t, cv.width, cv.height);
+    requestAnimationFrame(loop);
+  }
+  loop();
+}
+function drawScene(c,w,h){
+  // 空（夜）
+  const sky = c.createLinearGradient(0,0,0,h*0.7);
+  sky.addColorStop(0,'#000020'); sky.addColorStop(1,'#1a0a40');
+  c.fillStyle=sky; c.fillRect(0,0,w,h*0.7);
+  // 星
+  for(let i=0;i<20;i++){c.fillStyle='#fff';c.fillRect((i*47)%w,(i*29)%(h*0.4),1,1);}
+  // 地面（都市）
+  c.fillStyle='#0a0a14';c.fillRect(0,h*0.7,w,h*0.3);
+  c.fillStyle='#00f0ff';c.fillRect(0,h*0.7,w,1);
+  // ビル群（背景）
+  c.fillStyle='#1a1a28';
+  const bs=[[0.08,40,30],[0.22,55,40],[0.35,30,28],[0.50,65,45],[0.65,40,35],[0.80,50,40],[0.93,35,28]];
+  bs.forEach(([px,ph,pw])=>{const bx=w*px;c.fillRect(bx-pw/2,h*0.7-ph,pw,ph);
+    c.fillStyle='#ffd24a';for(let r=0;r<3;r++)for(let cc=0;cc<3;cc++){if((r*cc+px*10)%3===0)c.fillRect(bx-pw/2+3+cc*8,h*0.7-ph+4+r*9,3,4);}
+    c.fillStyle='#1a1a28';});
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,9,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-5,y-20,10,20);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-24,4,0,Math.PI*2);c.fill();}
+function drawSat(c,x,y,scale=1,color='#aa1010'){
+  c.save();c.translate(x,y);c.scale(scale,scale);
+  c.fillStyle='#3a0808';c.fillRect(-30,-8,15,16);c.fillRect(15,-8,15,16);
+  c.strokeStyle='#ffd24a';c.lineWidth=0.6;
+  for(let i=1;i<3;i++){c.beginPath();c.moveTo(-30+i*5,-8);c.lineTo(-30+i*5,8);c.stroke();
+    c.beginPath();c.moveTo(15+i*5,-8);c.lineTo(15+i*5,8);c.stroke();}
+  c.fillStyle=color;c.fillRect(-14,-12,28,22);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-14,-12,28,22);
+  c.fillStyle='#3a0808';c.fillRect(-10,-8,20,5);
+  c.fillStyle='#0a0a0a';c.fillRect(-8,-3,16,5);c.fillStyle='#ffd24a';c.beginPath();c.arc(0,-0.5,1.5,0,Math.PI*2);c.fill();
+  c.fillStyle='#3a3a3a';c.fillRect(-5,10,10,9);c.fillStyle='#ffd24a';c.beginPath();c.arc(0,17,2.5,0,Math.PI*2);c.fill();
+  c.restore();
+}
+
+// 案A: スライド・スイープ
+startAnim('ca-a',(c,t,w,h)=>{
+  const gy=h*0.7;
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*w*0.18,gy);
+  // 衛星が右→左へスライド
+  const satX = w*(0.85 - t*0.6);
+  const satY = h*0.15;
+  drawSat(c,satX,satY,1);
+  // 6本ビーム時間差
+  for(let k=0;k<6;k++){
+    const beamDelay = k*0.13;
+    const beamT = t - beamDelay;
+    if(beamT<=0) continue;
+    const fade = beamT>0.4 ? Math.max(0,1-(beamT-0.4)/0.3) : 1;
+    const tx = w*0.95 - w*0.9 * (k/5);
+    // ビーム
+    const g = c.createLinearGradient(satX,satY+17,tx,gy);
+    g.addColorStop(0,`rgba(0,240,255,${fade})`);
+    g.addColorStop(0.5,`rgba(180,230,255,${fade*0.9})`);
+    g.addColorStop(1,`rgba(255,255,255,${fade})`);
+    c.strokeStyle=g;c.lineWidth=5*fade;
+    c.beginPath();c.moveTo(satX,satY+17);c.lineTo(tx,gy);c.stroke();
+    // 着弾
+    c.fillStyle=`rgba(0,240,255,${fade*0.7})`;c.beginPath();c.arc(tx,gy,12*fade,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${fade})`;c.beginPath();c.arc(tx,gy,5*fade,0,Math.PI*2);c.fill();
+    // 標的サークル（ビーム前）
+    if(beamT<0.13){
+      const wt = beamT/0.13;
+      c.strokeStyle=`rgba(255,210,74,${1-wt})`;c.lineWidth=2;
+      c.beginPath();c.arc(tx,gy,28-wt*8,0,Math.PI*2);c.stroke();
+    }
+  }
+  c.fillStyle='#00f0ff';c.font='bold 12px monospace';c.textAlign='left';
+  c.fillText('SCANNING →', 10, h-10);
+},3500);
+
+// 案B: オービタル・ストライク（単発巨大）
+startAnim('ca-b',(c,t,w,h)=>{
+  const gy=h*0.7;
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*w*0.18,gy);
+  const cx = w*0.5;
+  const satY = h*0.15;
+  drawSat(c,cx,satY,1.3,'#ffd24a');
+  if(t<0.4){
+    // チャージ（衛星周辺に光が集まる）
+    const tt = t/0.4;
+    for(let k=0;k<8;k++){
+      const ang = k*Math.PI/4 + t*Math.PI*4;
+      const rr = 50 - tt*40;
+      c.fillStyle=`rgba(255,210,74,${tt})`;
+      c.beginPath();c.arc(cx+Math.cos(ang)*rr,satY+17+Math.sin(ang)*rr*0.5,3,0,Math.PI*2);c.fill();
+    }
+    c.fillStyle=`rgba(255,255,200,${tt*0.7})`;c.beginPath();c.arc(cx,satY+17,16*tt,0,Math.PI*2);c.fill();
+  } else {
+    const tt = (t-0.4)/0.6;
+    const intensity = tt<0.3 ? tt*3.3 : Math.max(0,1-(tt-0.3)/0.7);
+    // 極太レーザー（垂直）
+    c.fillStyle=`rgba(255,80,40,${0.5*intensity})`;c.fillRect(cx-60,satY+17,120,gy-satY);
+    c.fillStyle=`rgba(255,210,74,${0.85*intensity})`;c.fillRect(cx-35,satY+17,70,gy-satY);
+    c.fillStyle=`rgba(255,255,255,${intensity})`;c.fillRect(cx-12,satY+17,24,gy-satY);
+    // 着弾クレーター
+    c.fillStyle=`rgba(255,200,80,${0.7*intensity})`;c.beginPath();c.arc(cx,gy,80*intensity,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${intensity})`;c.beginPath();c.arc(cx,gy,30*intensity,0,Math.PI*2);c.fill();
+    // 衝撃波リング
+    for(let k=0;k<3;k++){
+      const rt = Math.max(0,tt-k*0.2);
+      c.strokeStyle=`rgba(255,210,74,${1-rt})`;c.lineWidth=4-k;
+      c.beginPath();c.ellipse(cx,gy,30+rt*200,8+rt*30,0,0,Math.PI*2);c.stroke();
+    }
+    // 全画面フラッシュ
+    if(tt<0.2){
+      c.fillStyle=`rgba(255,255,200,${(0.2-tt)*1.5})`;c.fillRect(0,0,w,h);
+    }
+  }
+  c.fillStyle='#ffd24a';c.font='bold 12px monospace';c.textAlign='left';
+  c.fillText('ORBITAL STRIKE!', 10, h-10);
+},3000);
+
+// 案C: マルチサテライト斉射（3機）
+startAnim('ca-c',(c,t,w,h)=>{
+  const gy=h*0.7;
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*w*0.18,gy);
+  const satY = h*0.13;
+  const positions = [w*0.25, w*0.5, w*0.75];
+  // 衛星3機
+  positions.forEach((sx,i)=>{
+    // 軽くふわふわ
+    const hover = Math.sin(t*Math.PI*2 + i)*4;
+    drawSat(c,sx,satY+hover,0.85,'#ff44cc');
+    // 衛星間の同期ライン（編隊感）
+    if(i<2){
+      c.strokeStyle='rgba(255,68,204,0.3)';c.lineWidth=1;
+      c.setLineDash([4,4]);
+      c.beginPath();c.moveTo(sx,satY+hover);c.lineTo(positions[i+1],satY+Math.sin(t*Math.PI*2+i+1)*4);c.stroke();
+      c.setLineDash([]);
+    }
+  });
+  if(t<0.3){
+    // 同期チャージ
+    positions.forEach((sx,i)=>{
+      const hover = Math.sin(t*Math.PI*2 + i)*4;
+      const tt = t/0.3;
+      c.fillStyle=`rgba(255,68,204,${tt*0.8})`;c.beginPath();c.arc(sx,satY+17+hover,12*tt,0,Math.PI*2);c.fill();
+    });
+  } else {
+    const tt = (t-0.3)/0.7;
+    const intensity = tt<0.3 ? tt*3.3 : Math.max(0,1-(tt-0.3)/0.7);
+    positions.forEach((sx,i)=>{
+      const hover = Math.sin(t*Math.PI*2 + i)*4;
+      const tx = sx;
+      // ビーム
+      const g = c.createLinearGradient(sx,satY+17+hover,tx,gy);
+      g.addColorStop(0,`rgba(255,68,204,${intensity})`);
+      g.addColorStop(0.5,`rgba(255,170,230,${intensity*0.9})`);
+      g.addColorStop(1,`rgba(255,255,255,${intensity})`);
+      c.strokeStyle=g;c.lineWidth=10*intensity;
+      c.beginPath();c.moveTo(sx,satY+17+hover);c.lineTo(tx,gy);c.stroke();
+      // 着弾
+      c.fillStyle=`rgba(255,68,204,${intensity*0.6})`;c.beginPath();c.arc(tx,gy,30*intensity,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,255,255,${intensity})`;c.beginPath();c.arc(tx,gy,12*intensity,0,Math.PI*2);c.fill();
+      // 衝撃リング
+      c.strokeStyle=`rgba(255,68,204,${intensity*0.8})`;c.lineWidth=3*intensity;
+      c.beginPath();c.ellipse(tx,gy,40*tt,8*tt,0,0,Math.PI*2);c.stroke();
+    });
+  }
+  c.fillStyle='#ff44cc';c.font='bold 12px monospace';c.textAlign='left';
+  c.fillText('SYNC FIRE! ×3', 10, h-10);
+},3200);
+
+// 案D: EMPバースト（円形拡散）
+startAnim('ca-d',(c,t,w,h)=>{
+  const gy=h*0.7;
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*w*0.18,gy);
+  const cx = w*0.5;
+  const cy = h*0.45;
+  // 衛星（中央上空）
+  drawSat(c,cx,h*0.18,1.1,'#aa44ff');
+  if(t<0.3){
+    // チャージ（紫の球が衛星の下に集まる）
+    const tt = t/0.3;
+    c.fillStyle=`rgba(170,68,255,${tt*0.9})`;
+    c.beginPath();c.arc(cx,h*0.18+17,20*tt,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${tt*0.7})`;
+    c.beginPath();c.arc(cx,h*0.18+17,8*tt,0,Math.PI*2);c.fill();
+    // 上昇する小さな粒子
+    for(let k=0;k<8;k++){
+      const ang = k*Math.PI/4 + t*Math.PI*5;
+      c.fillStyle=`rgba(170,68,255,${tt})`;
+      c.beginPath();c.arc(cx+Math.cos(ang)*30,h*0.18+17+Math.sin(ang)*15,2,0,Math.PI*2);c.fill();
+    }
+  } else {
+    const tt = (t-0.3)/0.7;
+    // 中央から放射状にEMP波（複数リング）
+    for(let k=0;k<5;k++){
+      const rt = Math.max(0,tt-k*0.15);
+      const r = rt * 300;
+      c.strokeStyle=`rgba(170,68,255,${1-rt})`;c.lineWidth=6-k;
+      c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.stroke();
+      c.strokeStyle=`rgba(255,255,255,${(1-rt)*0.6})`;c.lineWidth=2;
+      c.beginPath();c.arc(cx,cy,r,0,Math.PI*2);c.stroke();
+    }
+    // 中央のコア
+    c.fillStyle=`rgba(170,68,255,${0.6+Math.sin(tt*15)*0.3})`;
+    c.beginPath();c.arc(cx,cy,30+Math.sin(tt*15)*5,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,0.8)`;
+    c.beginPath();c.arc(cx,cy,15,0,Math.PI*2);c.fill();
+    // 電気の枝（雷）
+    for(let k=0;k<8;k++){
+      const ang = k*Math.PI/4 + tt*Math.PI*2;
+      c.strokeStyle=`rgba(170,68,255,${(1-tt)*0.8})`;c.lineWidth=2;
+      c.beginPath();c.moveTo(cx,cy);
+      let lx=cx,ly=cy;
+      for(let kk=0;kk<6;kk++){
+        lx += Math.cos(ang)*(15+Math.random()*5) + (Math.random()-0.5)*8;
+        ly += Math.sin(ang)*(15+Math.random()*5) + (Math.random()-0.5)*8;
+        c.lineTo(lx,ly);
+      }
+      c.stroke();
+    }
+    // 全画面の紫フラッシュ
+    if(tt<0.3){
+      c.fillStyle=`rgba(170,68,255,${(0.3-tt)*1.0})`;c.fillRect(0,0,w,h);
+    }
+    // 各敵に★（スタン表示）
+    if(tt > 0.4){
+      [w*0.15,w*0.33,w*0.51,w*0.69].forEach(x=>{
+        for(let k=0;k<3;k++){
+          const ang = k*Math.PI*0.66+tt*Math.PI*4;
+          c.fillStyle='#ffd24a';c.font='bold 12px sans-serif';c.textAlign='center';
+          c.fillText('★',x+Math.cos(ang)*10,gy-26+Math.sin(ang)*6);
+        }
+      });
+    }
+  }
+  c.fillStyle='#aa44ff';c.font='bold 12px monospace';c.textAlign='left';
+  c.fillText('EMP BURST!', 10, h-10);
+},3200);
+</script>
+</body></html>
