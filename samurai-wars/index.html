@@ -4812,15 +4812,20 @@
         }
     }
 
-    // サテライト・ゼロ（最終ボス・メガ）— 画面上空に浮かぶ巨大軌道兵器
+    // サテライト・ゼロ（最終ボス・メガ）— 基本は地上近くにいて、たまに上空へ浮上
     function drawSatelliteMega(c, u) {
         const w = W(), h = H();
         const baseX = u.x;
-        const skyY = h * 0.18;
         const time = performance.now() * 0.001;
-        // ふわふわと浮遊
-        const hover = Math.sin(time * 0.6) * 8;
-        const cx = baseX, cy = skyY + hover;
+        // 上下サイクル: 約13秒周期で sin が +1 になるときだけ大きく浮上する。
+        // pow を効かせて「ほとんど下にいて、ごく稀に浮上」のパターン
+        const cycle = (Math.sin(time * 0.48) + 1) / 2; // 0..1
+        const elevation = Math.pow(cycle, 5); // 多くの時間を 0（低位置）で過ごす
+        const lowY  = groundY() - 120; // 攻撃が届く高さ（基本ポジション）
+        const highY = groundY() - 300; // たまにここまで上昇
+        const baseY = lowY + (highY - lowY) * elevation;
+        const hover = Math.sin(time * 1.5) * 5; // 微振動
+        const cx = baseX, cy = baseY + hover;
 
         // 地面の影（巨大）
         c.fillStyle = 'rgba(0,0,0,0.4)';
