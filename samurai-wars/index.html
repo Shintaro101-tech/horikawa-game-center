@@ -1069,18 +1069,18 @@
         { id:'md_kuchisake', name:'クチサケ女', yomi:'くちさけおんな', cost:1100, hp:2200, atk:260, atkSpeed:1.4, range:75, speed:1.0,
           cooldown:16.0, color:'#aa1010', helmet:'rokuro', weapon:'naginata', rarity:3, scale:1.3, aoe:true,
           desc:'都市伝説の口裂け女。大鋏で前方を薙ぎ払う' },
-        // Stage 204: テケテケ（超高速突進）
+        // Stage 204: テケテケ（瞬間移動して中央や敵城に出現）
         { id:'md_teketeke', name:'テケテケ', yomi:'てけてけ', cost:1300, hp:1700, atk:300, atkSpeed:1.6, range:200, speed:2.4,
-          cooldown:20.0, color:'#3a1a1a', helmet:'twin_yokai', weapon:'leap_slash', rarity:4, scale:1.1,
-          desc:'上半身だけの超高速幽霊。地を這って急襲する' },
+          cooldown:20.0, color:'#3a1a1a', helmet:'twin_yokai', weapon:'leap_slash', rarity:4, scale:1.1, teleport:true,
+          desc:'瞬間移動で戦場を駆け抜ける幽霊。中央や敵城近くに突然現れる' },
         // Stage 205: 呪い人形メリー（針投げ・毒）
         { id:'md_merry', name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', cost:1400, hp:1500, atk:320, atkSpeed:1.8, range:280, speed:0.9,
           cooldown:22.0, color:'#ee9988', helmet:'miko', weapon:'poison_fog', rarity:4, scale:1.15, ranged:true, aoe:true,
           desc:'動き出した西洋人形。毒の針霧を吐く' },
-        // Stage 206: トイレの花子さん（紙の刃を放射）
+        // Stage 206: トイレの花子さん（瞬間移動・紙の刃を放射）
         { id:'md_hanako', name:'トイレの花子さん', yomi:'といれのはなこさん', cost:1500, hp:1800, atk:340, atkSpeed:1.6, range:260, speed:1.0,
-          cooldown:24.0, color:'#cc2244', helmet:'miko', weapon:'ofuda', rarity:4, scale:1.2, ranged:true, aoe:true,
-          desc:'学校怪談の少女。紙の刃を放射状に飛ばす' },
+          cooldown:24.0, color:'#cc2244', helmet:'miko', weapon:'ofuda', rarity:4, scale:1.2, ranged:true, aoe:true, teleport:true,
+          desc:'学校怪談の少女。瞬間移動して紙の刃を放射状に飛ばす' },
         // Stage 207: ハッカー帝王（グリッチ弾・スタン）
         { id:'md_hacker', name:'ハッカー帝王', yomi:'はっかーていおう', cost:1700, hp:2200, atk:420, atkSpeed:1.8, range:300, speed:0.9,
           cooldown:28.0, color:'#00f0ff', helmet:'hood', weapon:'magic_circle', rarity:5, scale:1.2, ranged:true, aoe:true,
@@ -2444,12 +2444,12 @@
         202: { name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', hp:4500, atk:280, helmet:'hood', weapon:'clone_rush', color:'#0a0a0a', scale:1.8, range:160, atkSpeed:1.7, antiAir:true, clones:2 },
         // Stage 203: クチサケ女（大鋏で前方広範囲）
         203: { name:'クチサケ女', yomi:'くちさけおんな', hp:5400, atk:330, helmet:'rokuro', weapon:'naginata', color:'#aa1010', scale:2.0, range:80, atkSpeed:1.7, aoe:true },
-        // Stage 204: テケテケ（超高速突進）
-        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'twin_yokai', weapon:'leap_slash', color:'#3a1a1a', scale:1.7, range:220, atkSpeed:1.9, speed:1.4 },
+        // Stage 204: テケテケ（瞬間移動して中央や城に出現）
+        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'twin_yokai', weapon:'leap_slash', color:'#3a1a1a', scale:1.7, range:220, atkSpeed:1.9, speed:1.4, teleport:true },
         // Stage 205: 呪い人形メリー（針投げ・毒）
         205: { name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', hp:6500, atk:420, helmet:'miko', weapon:'poison_fog', color:'#ee9988', scale:1.8, ranged:true, range:280, atkSpeed:2.0 },
-        // Stage 206: トイレの花子さん（紙の刃を放射）
-        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'miko', weapon:'ofuda', color:'#cc2244', scale:1.9, ranged:true, range:260, atkSpeed:1.8, aoe:true },
+        // Stage 206: トイレの花子さん（瞬間移動して中央や城に出現・紙の刃を放射）
+        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'miko', weapon:'ofuda', color:'#cc2244', scale:1.9, ranged:true, range:260, atkSpeed:1.8, aoe:true, teleport:true },
         // Stage 207: ハッカー帝王（グリッチ弾・スタン）
         207: { name:'ハッカー帝王', yomi:'はっかーていおう', hp:9500, atk:560, helmet:'hood', weapon:'magic_circle', color:'#00f0ff', scale:1.9, ranged:true, range:300, atkSpeed:2.0, aoe:true },
         // Stage 208: ドローン軍団長（飛行＋ミサイル）
@@ -4561,7 +4561,9 @@
             // 空中・対空属性
             flying: b.flying, antiAir: b.antiAir, wingColor: b.wingColor, noWings: b.noWings,
             // 分身（孫悟空）
-            clones: b.clones
+            clones: b.clones,
+            // 瞬間移動（テケテケ・花子さん）
+            teleport: b.teleport
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
@@ -8575,6 +8577,57 @@
                     u.knockback = null;
                 }
                 if(u.knockback) continue;
+            }
+
+            // 瞬間移動（テケテケ・花子さん）— 6秒ごとに中央/敵城近くにワープ
+            if(u.data && u.data.teleport && !u.data.mega) {
+                if(u.teleportTimer == null) u.teleportTimer = 3.5;
+                u.teleportTimer -= dt;
+                if(u.teleportTimer <= 0) {
+                    // 行き先: 中央(50%) と 相手城近く(50%) を交互に
+                    u.teleportPhase = (u.teleportPhase || 0) + 1;
+                    const enemyCastleX = u.side === 'p' ? 100 : (W() - 100);
+                    let destX;
+                    if(u.teleportPhase % 2 === 1) {
+                        destX = W() / 2 + (Math.random() - 0.5) * 80;
+                    } else {
+                        // 相手城のすぐ手前（攻撃可能範囲内）
+                        const offset = u.side === 'p' ? 140 : -140;
+                        destX = enemyCastleX + offset + (Math.random() - 0.5) * 50;
+                    }
+                    // 消失エフェクト
+                    const oldX = u.x;
+                    for(let i=0;i<24;i++){
+                        game.particles.push({
+                            x: oldX + (Math.random()-0.5)*30,
+                            y: u.y - Math.random()*60,
+                            vx: (Math.random()-0.5)*4, vy: -Math.random()*3-1,
+                            life: 0.8,
+                            color: u.side === 'p' ? '#88eeff' : '#ff66cc',
+                            size: 3 + Math.random()*4
+                        });
+                    }
+                    // テキスト
+                    const label = u.data.name === 'テケテケ' ? '✨ 瞬間移動 ✨' : '✨ 神隠し ✨';
+                    addFloat(u.x, u.y - 60, label, u.side === 'p' ? '#88eeff' : '#ff66cc', true);
+                    // 移動
+                    u.x = destX;
+                    // 出現エフェクト
+                    for(let i=0;i<28;i++){
+                        game.particles.push({
+                            x: destX + (Math.random()-0.5)*40,
+                            y: u.y - Math.random()*70,
+                            vx: (Math.random()-0.5)*5, vy: -Math.random()*3,
+                            life: 1.0,
+                            color: u.side === 'p' ? ['#88eeff','#ddffff','#fff'][Math.floor(Math.random()*3)] : ['#ff66cc','#ffaadd','#fff'][Math.floor(Math.random()*3)],
+                            size: 3 + Math.random()*5
+                        });
+                    }
+                    // 出現時は次の攻撃をすぐ撃てる
+                    u.atkCd = 0;
+                    u.teleportTimer = 5.5 + Math.random() * 1.5;
+                    if(snd && snd.coin) snd.coin();
+                }
             }
 
             const target = findEnemyInRange(u);
