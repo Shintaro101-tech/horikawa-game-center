@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI兵器ガーディアン デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🤖 AI兵器ガーディアン デザイン & 攻撃 候補</h1>
+<div class="sub">AI WEAPON GUARDIAN CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#7a7a90;--g:rgba(122,122,144,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 銀の重装ロボ（現行）</h2><p>銀+紫アクセント、4本足の重装AI兵器。</p></div>
+<div class="card" style="--c:#0a0a0a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 漆黒のサイバネ</h2><p>全身漆黒、赤い単眼の威圧的AI。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 金の最終AI</h2><p>金+青の高貴な姿。神格化されたAI。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① チャージビーム（現行）</h2><p>極太赤レーザーで貫通。</p></div>
+<div class="card" style="--c:#00f0ff;--g:rgba(0,240,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② シールドバッシュ突進</h2><p>シールドで突進+AOEノックバック。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 衛星3連レーザー降下</h2><p>上空から3発のレーザーが時間差で降る。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=80){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawAI(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,120);
+  c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,cy+40,40,7,0,0,Math.PI*2);c.fill();
+  // 脚（4本足）
+  c.fillStyle=p.legs||p.body;
+  c.fillRect(cx-30,cy-8,8,38);c.fillRect(cx-15,cy-8,8,38);c.fillRect(cx+7,cy-8,8,38);c.fillRect(cx+22,cy-8,8,38);
+  c.strokeStyle='#000';c.lineWidth=1;
+  c.strokeRect(cx-30,cy-8,8,38);c.strokeRect(cx-15,cy-8,8,38);c.strokeRect(cx+7,cy-8,8,38);c.strokeRect(cx+22,cy-8,8,38);
+  // 関節
+  c.fillStyle='#0a0a0a';c.fillRect(cx-30,cy+10,8,3);c.fillRect(cx-15,cy+10,8,3);c.fillRect(cx+7,cy+10,8,3);c.fillRect(cx+22,cy+10,8,3);
+  // 本体（大きな箱型）
+  c.fillStyle=p.body;c.fillRect(cx-36,cy-50,72,42);c.strokeRect(cx-36,cy-50,72,42);
+  // パネル装飾
+  c.fillStyle=p.bodyHl||'#aa1010';c.fillRect(cx-30,cy-44,12,10);c.fillRect(cx+18,cy-44,12,10);c.fillRect(cx-30,cy-22,60,8);
+  // 単眼カメラ
+  c.fillStyle='#0a0a0a';c.fillRect(cx-15,cy-44,30,12);
+  c.fillStyle=p.eye||'#ff3344';c.beginPath();c.arc(cx,cy-38,5,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy-39,2,0,Math.PI*2);c.fill();
+  // 砲塔（上部）
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-70,44,20);c.strokeRect(cx-22,cy-70,44,20);
+  // メイン砲
+  c.fillStyle='#1a1a1a';c.fillRect(cx-6,cy-78,12,12);
+  // 砲身
+  c.fillStyle=p.cannon||'#5a5a5a';c.fillRect(cx-6,cy-90,12,12);
+  c.fillStyle='#aaa';c.fillRect(cx-3,cy-92,6,2);
+  // サブ砲（左右）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-36,cy-66,8,10);c.fillRect(cx+28,cy-66,8,10);
+  c.fillStyle=p.subCannon||'#7a7a7a';c.fillRect(cx-44,cy-64,8,6);c.fillRect(cx+36,cy-64,8,6);
+  // ライト
+  c.fillStyle=p.accent||'#aa44ff';c.beginPath();c.arc(cx-26,cy-60,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+26,cy-60,2,0,Math.PI*2);c.fill();
+}
+drawAI(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(122,122,144,0.4)',body:'#aaaaaa',bodyHl:'#aa44ff',eye:'#ff3344',accent:'#aa44ff'});
+drawAI(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(255,0,0,0.5)',body:'#1a1a1a',bodyHl:'#aa1010',eye:'#ff0000',cannon:'#3a3a3a',subCannon:'#2a2a2a',accent:'#ff0000'});
+drawAI(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#ffd24a',bodyHl:'#0a6aff',eye:'#00f0ff',cannon:'#aa7a00',subCannon:'#aa7a00',accent:'#00f0ff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1a28';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#fff';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① チャージビーム
+startAnim('at-a',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.4+i*60,h*0.7);
+  const sx=40,sy=h*0.55;
+  if(t<0.4){const tt=t/0.4;
+    // チャージ
+    c.fillStyle=`rgba(255,51,68,${tt})`;c.beginPath();c.arc(sx,sy,20*tt,0,Math.PI*2);c.fill();
+    // 集光
+    for(let k=0;k<6;k++){const ang=k*Math.PI/3+t*Math.PI*2;
+      c.fillStyle=`rgba(255,255,200,${tt*0.7})`;c.beginPath();c.arc(sx+Math.cos(ang)*(20-tt*16),sy+Math.sin(ang)*(20-tt*16),3,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.4)/0.6;
+    // 極太レーザー
+    c.fillStyle=`rgba(255,51,68,${1-tt*0.3})`;c.fillRect(sx,sy-18,w-sx,36);
+    c.fillStyle=`rgba(255,255,200,${0.9-tt*0.3})`;c.fillRect(sx,sy-10,w-sx,20);
+    c.fillStyle=`rgba(255,255,255,${0.7})`;c.fillRect(sx,sy-3,w-sx,6);
+    // 発射元の閃光
+    c.fillStyle=`rgba(255,200,200,${1-tt*0.5})`;c.beginPath();c.arc(sx,sy,25,0,Math.PI*2);c.fill();}
+},2200);
+
+// ② シールドバッシュ突進
+startAnim('at-b',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.5+i*40,h*0.7);
+  const x=20+t*(w-30);
+  // 残像
+  for(let k=0;k<6;k++){const xk=Math.max(20,x-k*12);
+    c.fillStyle=`rgba(0,240,255,${0.5-k*0.07})`;c.fillRect(xk-25,h*0.6,30,20);}
+  // 本体（簡易ロボ）
+  c.fillStyle='#aaa';c.fillRect(x-18,h*0.55,30,28);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(x-18,h*0.55,30,28);
+  // シールド（前方）
+  c.fillStyle='#00f0ff';c.fillRect(x+12,h*0.5,8,38);
+  c.strokeStyle='#0080ff';c.lineWidth=2;c.strokeRect(x+12,h*0.5,8,38);
+  // 衝撃波
+  if(t>0.5){const tt=(t-0.5)/0.5;
+    c.strokeStyle=`rgba(0,240,255,${1-tt})`;c.lineWidth=4;c.beginPath();c.arc(x+15,h*0.6,30+tt*40,0,Math.PI*2);c.stroke();}
+},2000);
+
+// ③ 衛星3連レーザー降下
+startAnim('at-c',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.3+i*60,h*0.7);
+  // 衛星
+  c.fillStyle='#aaa';c.fillRect(w-30,15,16,10);
+  c.fillStyle='#00f0ff';c.fillRect(w-32,17,4,6);c.fillRect(w-14,17,4,6);
+  // 3発の時間差レーザー
+  for(let k=0;k<3;k++){const ph=t-k*0.2;
+    if(ph>0&&ph<0.5){const tx=w*0.3+k*60;
+      // 警告マーカー
+      c.strokeStyle=`rgba(255,210,74,${1-ph*2})`;c.lineWidth=2;c.beginPath();c.arc(tx,h*0.7,20-ph*10,0,Math.PI*2);c.stroke();
+    }
+    if(ph>=0.5&&ph<0.9){const tx=w*0.3+k*60;const tt=(ph-0.5)/0.4;
+      // 降下レーザー
+      const gr=c.createLinearGradient(tx,0,tx,h*0.7);gr.addColorStop(0,`rgba(255,210,74,0)`);gr.addColorStop(1,`rgba(255,210,74,${1-tt})`);
+      c.fillStyle=gr;c.fillRect(tx-12,0,24,h*0.7);
+      c.fillStyle=`rgba(255,255,200,${1-tt})`;c.fillRect(tx-3,0,6,h*0.7);
+      // 着弾
+      c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(tx,h*0.7,20+tt*15,0,Math.PI*2);c.fill();}}
+},3000);
+</script></body></html>

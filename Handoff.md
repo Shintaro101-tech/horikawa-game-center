@@ -192,6 +192,10 @@
 ## 直近の作業ログ（新しい順）
 
 ### 2026-05-23
+- **現代編 全18キャラのデザイン候補プレビューを追加**（3デザイン+3攻撃のコンパクト版）
+  - `samurai-wars/modern-preview-index.html` に一覧（Phase別3グループ）
+  - 18ファイル: `md_bouso/md_kaitou/md_kuchisake/md_teketeke/md_merry/md_hanako/md_hacker/md_drone_cmd/md_smog/md_ai_guard/md_rat_king/md_bullet/md_zigas/md_megalodon/md_ufo/md_mecha3/md_ceo/md_satellite-preview.html`
+  - ユーザーが選択した案を本実装に反映する流れ（過去編と同じ）
 - **テケテケ・トイレの花子さんに瞬間移動能力**（ボス・味方の両方）
   - データに `teleport:true` を付与（`STAGE_BOSSES[204]`/`[206]` + `SAMURAI_DATA` の `md_teketeke`/`md_hanako`）
   - `spawnBossFromData` で `b.teleport` を `data.teleport` に伝播

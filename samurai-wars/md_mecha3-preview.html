@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>メカ怪獣MK-III デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🤖 メカ怪獣 MK-III デザイン & 攻撃 候補</h1>
+<div class="sub">MECHA KAIJU MK-III CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 赤の重装メカ怪獣（現行）</h2><p>赤+黒の重装ロボ。胸部にビームコア。</p></div>
+<div class="card" style="--c:#aaccff;--g:rgba(170,204,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 銀の高機動メカ</h2><p>銀+青の高機動型。スリムな戦闘形態。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黒の暗黒メカ</h2><p>黒+紫の禍々しい意匠。闇のメカ怪獣。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 胸部メガビーム（現行）</h2><p>胸からの極太赤ビーム。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 全弾発射12連ミサイル</h2><p>12発のミサイルを乱射。広範囲。</p></div>
+<div class="card" style="--c:#00f0ff;--g:rgba(0,240,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 飛行モード空中急襲</h2><p>変形して空中から急襲ダイブ。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=80){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawMecha(c,p){
+  const cx=110,cy=185;
+  if(p.aura)aura(c,cx,cy-30,p.aura,130);
+  c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,cy+38,45,7,0,0,Math.PI*2);c.fill();
+  // 脚（メカ）
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-10,16,38);c.fillRect(cx+6,cy-10,16,38);
+  c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(cx-22,cy-10,16,38);c.strokeRect(cx+6,cy-10,16,38);
+  // 膝関節
+  c.fillStyle='#0a0a0a';c.fillRect(cx-22,cy+12,16,4);c.fillRect(cx+6,cy+12,16,4);
+  // 足
+  c.fillStyle=p.bodyShade||'#1a1a1a';c.fillRect(cx-24,cy+26,18,6);c.fillRect(cx+6,cy+26,18,6);
+  // 胴体
+  c.fillStyle=p.body;c.fillRect(cx-32,cy-58,64,50);c.strokeRect(cx-32,cy-58,64,50);
+  // 胸部装甲
+  c.fillStyle=p.armor||'#0a0a0a';c.fillRect(cx-26,cy-52,52,30);c.strokeRect(cx-26,cy-52,52,30);
+  // 胸のコア（光る）
+  c.fillStyle=p.core||'#ff3344';c.beginPath();c.arc(cx,cy-35,10,0,Math.PI*2);c.fill();
+  c.fillStyle=`rgba(255,255,255,0.6)`;c.beginPath();c.arc(cx,cy-35,5,0,Math.PI*2);c.fill();
+  // コアの周りの溝
+  c.strokeStyle=p.coreLine||'#aa1010';c.lineWidth=2;c.beginPath();c.arc(cx,cy-35,14,0,Math.PI*2);c.stroke();
+  // 肩
+  c.fillStyle=p.body;c.fillRect(cx-44,cy-54,12,22);c.fillRect(cx+32,cy-54,12,22);
+  c.strokeRect(cx-44,cy-54,12,22);c.strokeRect(cx+32,cy-54,12,22);
+  // 肩のスパイク（A,C案）
+  if(p.spike){c.fillStyle=p.spikeColor||'#aaa';
+    c.beginPath();c.moveTo(cx-48,cy-54);c.lineTo(cx-44,cy-65);c.lineTo(cx-40,cy-54);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+40,cy-54);c.lineTo(cx+44,cy-65);c.lineTo(cx+48,cy-54);c.closePath();c.fill();}
+  // 腕
+  c.fillStyle=p.body;c.fillRect(cx-46,cy-32,14,30);c.fillRect(cx+32,cy-32,14,30);
+  c.strokeRect(cx-46,cy-32,14,30);c.strokeRect(cx+32,cy-32,14,30);
+  // 砲身（腕）
+  c.fillStyle='#0a0a0a';c.fillRect(cx-48,cy-4,18,8);c.fillRect(cx+30,cy-4,18,8);
+  // 頭
+  c.fillStyle=p.body;c.fillRect(cx-18,cy-80,36,22);c.strokeRect(cx-18,cy-80,36,22);
+  // 目（バイザー）
+  c.fillStyle='#0a0a0a';c.fillRect(cx-14,cy-72,28,8);
+  c.fillStyle=p.eye||'#ff3344';c.fillRect(cx-12,cy-71,24,4);
+  // 頭部の触角/角
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-10,cy-80);c.lineTo(cx-14,cy-92);c.lineTo(cx-6,cy-82);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+10,cy-80);c.lineTo(cx+14,cy-92);c.lineTo(cx+6,cy-82);c.closePath();c.fill();
+  // ミサイルポッド（C案：背中）
+  if(p.missile){c.fillStyle='#0a0a0a';c.fillRect(cx-30,cy-58,8,16);c.fillRect(cx+22,cy-58,8,16);
+    for(let i=0;i<2;i++){c.fillStyle='#ffd24a';c.beginPath();c.arc(cx-26,cy-55+i*8,2,0,Math.PI*2);c.fill();}}
+}
+drawMecha(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(170,16,16,0.5)',body:'#aa1010',bodyShade:'#5a0808',armor:'#3a0808',core:'#ff3344',coreLine:'#ffd24a',eye:'#ffd24a',spike:true,spikeColor:'#888'});
+drawMecha(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,204,255,0.4)',body:'#aacccc',bodyShade:'#5a7a7a',armor:'#1a3a5a',core:'#00f0ff',coreLine:'#aaccff',eye:'#00f0ff'});
+drawMecha(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,68,255,0.5)',body:'#1a1a1a',bodyShade:'#0a0a0a',armor:'#3a0a3a',core:'#aa44ff',coreLine:'#ee99ff',eye:'#aa44ff',spike:true,spikeColor:'#aa44ff',missile:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#3a1818');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1010';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#ff3344';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 胸部メガビーム
+startAnim('at-a',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.4+i*60,h*0.7);
+  const sx=40,sy=h*0.55;
+  if(t<0.4){const tt=t/0.4;
+    // チャージ
+    c.fillStyle=`rgba(255,51,68,${tt})`;c.beginPath();c.arc(sx,sy,20+tt*10,0,Math.PI*2);c.fill();
+    for(let k=0;k<6;k++){const ang=k*Math.PI/3+t*Math.PI*4;
+      c.fillStyle=`rgba(255,255,200,${tt*0.7})`;c.beginPath();c.arc(sx+Math.cos(ang)*(25-tt*20),sy+Math.sin(ang)*(25-tt*20),3,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.4)/0.6;
+    // 極太赤ビーム
+    c.fillStyle=`rgba(255,51,68,${1-tt*0.3})`;c.fillRect(sx,sy-25,w-sx,50);
+    c.fillStyle=`rgba(255,200,150,${0.9-tt*0.3})`;c.fillRect(sx,sy-14,w-sx,28);
+    c.fillStyle=`rgba(255,255,255,${0.8})`;c.fillRect(sx,sy-5,w-sx,10);
+    // 発射元
+    c.fillStyle=`rgba(255,200,200,${1})`;c.beginPath();c.arc(sx,sy,30,0,Math.PI*2);c.fill();
+    // 着弾爆発
+    if(tt>0.3){c.fillStyle=`rgba(255,150,50,${1-tt})`;c.beginPath();c.arc(w*0.7,sy,30+tt*30,0,Math.PI*2);c.fill();}}
+},2400);
+
+// ② 全弾発射12連ミサイル
+startAnim('at-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.4+i*45,h*0.7);
+  // 12発のミサイル（時間差）
+  for(let k=0;k<12;k++){const ph=(t-k*0.04)%1;
+    if(ph>0&&ph<0.7){const sx=40+(k%3)*5,sy=h*0.4+(k%4)*5;
+      const tx=w*0.5+(k-6)*8,ty=h*0.7-5;
+      const x=sx+ph*(tx-sx);const y=sy+ph*(ty-sy)-Math.sin(ph*Math.PI)*30;
+      c.fillStyle='#aaa';c.fillRect(x-6,y-2,12,4);
+      c.fillStyle='#ff5544';c.beginPath();c.moveTo(x+6,y-2);c.lineTo(x+10,y);c.lineTo(x+6,y+2);c.closePath();c.fill();
+      // 噴射
+      c.fillStyle='#ffd24a';c.fillRect(x-12,y-1,6,2);
+    }
+    if(ph>=0.7&&ph<0.95){const tx=w*0.5+(k-6)*8;c.fillStyle=`rgba(255,150,50,${1-(ph-0.7)*4})`;c.beginPath();c.arc(tx,h*0.7-5,12,0,Math.PI*2);c.fill();}}
+},2400);
+
+// ③ 飛行モード空中急襲
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.3){const tt=t/0.3;
+    // 変形（簡易）
+    c.fillStyle='#aaa';c.fillRect(40-tt*10,h*0.3,20+tt*20,12-tt*4);
+    c.fillStyle='#00f0ff';c.fillRect(45-tt*5,h*0.32,10,4-tt);
+  }else if(t<0.7){const tt=(t-0.3)/0.4;const x=40+tt*(tg.x-50);const y=h*0.3+tt*(tg.y-50-h*0.3);
+    // 飛行モード機体
+    c.fillStyle='#aaa';c.beginPath();c.moveTo(x-15,y);c.lineTo(x+15,y-5);c.lineTo(x+20,y);c.lineTo(x+15,y+5);c.closePath();c.fill();
+    c.fillStyle='#00f0ff';c.fillRect(x-5,y-2,10,4);
+    // 軌跡
+    for(let k=1;k<6;k++){const tk=Math.max(0,tt-k*0.05);const xk=40+tk*(tg.x-50);const yk=h*0.3+tk*(tg.y-50-h*0.3);
+      c.fillStyle=`rgba(0,240,255,${0.4-k*0.07})`;c.beginPath();c.arc(xk,yk,8-k,0,Math.PI*2);c.fill();}}
+  else{const tt=(t-0.7)/0.3;
+    c.fillStyle=`rgba(255,150,50,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,35+tt*20,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();}
+},2400);
+</script></body></html>

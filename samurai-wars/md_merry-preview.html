@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>呪い人形メリー デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🎀 呪い人形メリー デザイン & 攻撃 候補</h1>
+<div class="sub">CURSED DOLL MERRY CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ee9988;--g:rgba(238,153,136,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. ピンクドレス西洋人形（現行）</h2><p>ピンクのフリルドレス、金髪縦ロール。古典的西洋人形。</p></div>
+<div class="card" style="--c:#3a0a3a;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. ゴシック黒人形</h2><p>黒ドレス+紫リボン+真っ赤な目。ゴシックロリータ。</p></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 武家の市松人形</h2><p>赤と黒の着物、刀を持った日本人形。市松模様。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 毒針霧吹き（現行）</h2><p>緑の毒霧を前方コーンに吐き出す。</p></div>
+<div class="card" style="--c:#dde8f0;--g:rgba(221,232,240,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 針千本8方向投擲</h2><p>8方向に針を放射状に発射。</p></div>
+<div class="card" style="--c:#ff66cc;--g:rgba(255,102,204,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 小人形3体召喚</h2><p>3体の小さな分身人形が同時攻撃。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawMerry(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);
+  c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,cy+34,30,5,0,0,Math.PI*2);c.fill();
+  // ドレス（三角）
+  c.fillStyle=p.dress;c.beginPath();c.moveTo(cx-12,cy-20);c.lineTo(cx-34,cy+30);c.lineTo(cx+34,cy+30);c.lineTo(cx+12,cy-20);c.closePath();c.fill();c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+  // 着物の市松模様（C案）
+  if(p.ichimatsu){for(let r=0;r<5;r++)for(let cc=0;cc<6;cc++){if((r+cc)%2===0){c.fillStyle='#0a0a0a';c.fillRect(cx-30+cc*10,cy-15+r*10,10,10);}}}
+  // フリル
+  if(p.frill){c.fillStyle=p.frillColor||'#fff';for(let i=0;i<3;i++){const y=cy-10+i*12;c.beginPath();c.arc(cx,y,18+i*4,0,Math.PI);c.fill();}}
+  // 上半身
+  c.fillStyle=p.body||p.dress;c.fillRect(cx-12,cy-48,24,28);c.strokeRect(cx-12,cy-48,24,28);
+  // 襟
+  c.fillStyle=p.collar||'#fff';c.fillRect(cx-12,cy-48,24,5);
+  // 腕
+  c.fillStyle=p.body||p.dress;c.fillRect(cx-22,cy-44,8,24);c.fillRect(cx+14,cy-44,8,24);c.strokeRect(cx-22,cy-44,8,24);c.strokeRect(cx+14,cy-44,8,24);
+  // 手
+  c.fillStyle=p.skin||'#f0d4a8';c.beginPath();c.arc(cx-18,cy-18,4,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+18,cy-18,4,0,Math.PI*2);c.fill();
+  // 首
+  c.fillStyle=p.skin||'#f0d4a8';c.fillRect(cx-4,cy-54,8,8);
+  // 顔（人形だから少し丸く）
+  c.fillStyle=p.skin||'#f8e0c8';c.beginPath();c.arc(cx,cy-64,13,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+  // 髪（縦ロール）
+  c.fillStyle=p.hairColor||'#ffd24a';
+  c.beginPath();c.arc(cx-12,cy-58,8,Math.PI*0.5,Math.PI*1.5);c.fill();
+  c.beginPath();c.arc(cx+12,cy-58,8,Math.PI*1.5,Math.PI*0.5);c.fill();
+  // 前髪
+  c.beginPath();c.arc(cx,cy-68,13,Math.PI*1.1,Math.PI*1.9);c.fill();
+  // リボン
+  if(p.ribbon){c.fillStyle=p.ribbonColor||'#aa1010';c.beginPath();c.moveTo(cx-8,cy-76);c.lineTo(cx-14,cy-82);c.lineTo(cx-8,cy-72);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+8,cy-76);c.lineTo(cx+14,cy-82);c.lineTo(cx+8,cy-72);c.closePath();c.fill();
+    c.fillStyle=p.ribbonColor||'#aa1010';c.beginPath();c.arc(cx,cy-76,3,0,Math.PI*2);c.fill();}
+  // 目（光る）
+  c.fillStyle=p.eye||'#3a4aff';c.beginPath();c.arc(cx-5,cy-62,2.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+5,cy-62,2.5,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx-5,cy-63,1,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+5,cy-63,1,0,Math.PI*2);c.fill();
+  // ほっぺた
+  c.fillStyle='rgba(255,100,150,0.5)';c.beginPath();c.arc(cx-8,cy-58,2.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+8,cy-58,2.5,0,Math.PI*2);c.fill();
+  // 口
+  c.fillStyle='#aa1010';c.fillRect(cx-2,cy-58,4,2);
+  // 刀（C案）
+  if(p.katana){c.save();c.translate(cx+24,cy-10);c.rotate(-Math.PI/3);
+    c.strokeStyle='#444';c.lineWidth=2;c.beginPath();c.moveTo(0,0);c.lineTo(8,0);c.stroke();
+    c.fillStyle='#dde8f0';c.fillRect(8,-2,40,4);c.strokeStyle='#000';c.lineWidth=0.5;c.strokeRect(8,-2,40,4);c.restore();}
+}
+drawMerry(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(255,153,170,0.5)',dress:'#ee99bb',body:'#ee99bb',frill:true,frillColor:'#fff',hairColor:'#ffd24a',ribbon:true,ribbonColor:'#aa1010',eye:'#3a4aff',collar:'#fff'});
+drawMerry(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,68,255,0.5)',dress:'#1a0a1a',body:'#1a0a1a',frill:true,frillColor:'#aa44ff',hairColor:'#0a0a0a',ribbon:true,ribbonColor:'#aa44ff',eye:'#ff3344',collar:'#aa44ff'});
+drawMerry(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.5)',dress:'#aa1010',body:'#aa1010',hairColor:'#0a0a0a',ribbon:true,ribbonColor:'#ffd24a',eye:'#0a0a0a',ichimatsu:true,collar:'#ffd24a',katana:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#2a1828';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#aa1010';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawDoll(c,x,y,col,alpha){c.globalAlpha=alpha;c.fillStyle=col;c.beginPath();c.moveTo(x-6,y-14);c.lineTo(x-12,y);c.lineTo(x+12,y);c.lineTo(x+6,y-14);c.closePath();c.fill();
+  c.fillStyle='#f8e0c8';c.beginPath();c.arc(x,y-20,5,0,Math.PI*2);c.fill();c.fillStyle='#ffd24a';c.beginPath();c.arc(x,y-23,5,Math.PI*1.1,Math.PI*1.9);c.fill();
+  c.fillStyle='#3a4aff';c.fillRect(x-2,y-21,1,1);c.fillRect(x+1,y-21,1,1);c.globalAlpha=1;}
+
+// ① 毒針霧吹き
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  // 毒霧コーン
+  for(let i=0;i<30;i++){const ang=-0.3+(Math.random()-0.5)*0.6;const dist=t*180+Math.random()*30;
+    c.fillStyle=`rgba(136,221,102,${0.4-t*0.3+Math.random()*0.2})`;c.beginPath();c.arc(40+Math.cos(ang)*dist,h*0.6+Math.sin(ang)*dist*0.3,4+Math.random()*4,0,Math.PI*2);c.fill();}
+  // 毒マーク
+  if(t<0.5){c.fillStyle='#88dd66';c.font='bold 18px sans-serif';c.textAlign='center';c.fillText('☠',tg.x,tg.y-30+Math.sin(t*Math.PI*4)*4);}
+},2000);
+
+// ② 針千本8方向
+startAnim('at-b',(c,t,w,h)=>{const cx=60,cy=h*0.55;
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.5+i*40,h*0.7);
+  for(let k=0;k<8;k++){const ang=k*Math.PI/4;const dist=t*180;
+    const x=cx+Math.cos(ang)*dist,y=cy+Math.sin(ang)*dist*0.7;
+    // 軌跡
+    c.strokeStyle=`rgba(221,232,240,${0.5-t*0.4})`;c.lineWidth=1.5;c.beginPath();c.moveTo(cx,cy);c.lineTo(x,y);c.stroke();
+    // 針
+    c.save();c.translate(x,y);c.rotate(ang);
+    c.strokeStyle='#dde8f0';c.lineWidth=2;c.beginPath();c.moveTo(-12,0);c.lineTo(12,0);c.stroke();
+    c.fillStyle='#aaa';c.beginPath();c.moveTo(12,-3);c.lineTo(18,0);c.lineTo(12,3);c.closePath();c.fill();c.restore();}
+  drawDoll(c,cx,cy+10,'#ee99bb',1);
+},1800);
+
+// ③ 小人形3体召喚
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawDoll(c,40,h*0.6,'#ee99bb',1);
+  // 3体の小人形が突進
+  for(let k=0;k<3;k++){const ph=(t+k/3)%1;const x=60+ph*(tg.x-80);const y=h*0.6+Math.sin(ph*Math.PI)*-20+k*5-5;
+    drawDoll(c,x,y,['#ee99bb','#aa44ff','#aa1010'][k],1);
+    // 軌跡ピンク
+    for(let kk=1;kk<4;kk++){const phk=Math.max(0,ph-kk*0.05);const xk=60+phk*(tg.x-80);const yk=h*0.6+Math.sin(phk*Math.PI)*-20+k*5-5;
+      c.fillStyle=`rgba(255,102,204,${0.4-kk*0.1})`;c.beginPath();c.arc(xk,yk-5,5,0,Math.PI*2);c.fill();}
+    if(ph>0.85){c.fillStyle=`rgba(255,255,200,${1-(ph-0.85)*6})`;c.beginPath();c.arc(tg.x,tg.y-16,14,0,Math.PI*2);c.fill();}}
+},2400);
+</script></body></html>

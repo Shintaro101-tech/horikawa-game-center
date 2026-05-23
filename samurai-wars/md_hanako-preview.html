@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>トイレの花子さん デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>🚽 トイレの花子さん デザイン & 攻撃 候補</h1>
+<div class="sub">TOILET HANAKO CANDIDATES — 瞬間移動能力は維持</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cc2244;--g:rgba(204,34,68,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 赤吊りスカートの少女（現行）</h2><p>赤い吊りスカート+おかっぱ。学校怪談の定番。</p></div>
+<div class="card" style="--c:#ffffff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 浄化の白巫女花子</h2><p>白い巫女装束+御札。神聖な姿の花子さん。</p></div>
+<div class="card" style="--c:#0a0a0a;--g:rgba(80,0,80,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 怨霊の黒花子</h2><p>黒髪が長く伸び、怒りの形相。怨念の塊。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 御札放射（現行）</h2><p>紙の刃/御札を放射状に飛ばす。</p></div>
+<div class="card" style="--c:#88aaff;--g:rgba(136,170,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② トイレ水柱AOE</h2><p>地面から水柱が連続噴出。広範囲AOE。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 子幽霊3体召喚</h2><p>3体の子供幽霊を召喚して同時攻撃。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawHanako(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);
+  c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,cy+34,28,5,0,0,Math.PI*2);c.fill();
+  // スカート/装束
+  c.fillStyle=p.skirt;c.beginPath();c.moveTo(cx-14,cy-18);c.lineTo(cx-30,cy+30);c.lineTo(cx+30,cy+30);c.lineTo(cx+14,cy-18);c.closePath();c.fill();c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+  // 巫女の袴ライン（B案）
+  if(p.miko){c.fillStyle='#aa1010';c.fillRect(cx-30,cy+20,60,4);}
+  // 脚
+  c.fillStyle=p.legs||'#f0d4a8';c.fillRect(cx-10,cy+20,7,18);c.fillRect(cx+3,cy+20,7,18);
+  c.fillStyle='#0a0a0a';c.fillRect(cx-12,cy+36,11,4);c.fillRect(cx+1,cy+36,11,4);
+  // 上半身
+  c.fillStyle=p.body||p.skirt;c.fillRect(cx-14,cy-50,28,32);c.strokeRect(cx-14,cy-50,28,32);
+  // 吊りベルト（A案）
+  if(p.suspender){c.fillStyle=p.shirt||'#fff';c.fillRect(cx-14,cy-46,28,42);c.strokeRect(cx-14,cy-46,28,42);
+    c.fillStyle=p.suspenderColor||'#cc2244';c.fillRect(cx-10,cy-46,3,28);c.fillRect(cx+7,cy-46,3,28);
+    c.fillStyle=p.suspenderColor||'#cc2244';c.fillRect(cx-14,cy-22,28,4);}
+  // 巫女の襷
+  if(p.miko){c.fillStyle='#fff';c.fillRect(cx-14,cy-50,28,28);c.strokeRect(cx-14,cy-50,28,28);
+    c.fillStyle='#aa1010';c.beginPath();c.moveTo(cx-14,cy-44);c.lineTo(cx+14,cy-30);c.lineTo(cx+14,cy-26);c.lineTo(cx-14,cy-40);c.closePath();c.fill();}
+  // 腕
+  c.fillStyle=p.body||p.skirt;c.fillRect(cx-22,cy-46,8,28);c.fillRect(cx+14,cy-46,8,28);
+  c.strokeRect(cx-22,cy-46,8,28);c.strokeRect(cx+14,cy-46,8,28);
+  // 手
+  c.fillStyle=p.skin||'#f0d4a8';c.beginPath();c.arc(cx-18,cy-14,4,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+18,cy-14,4,0,Math.PI*2);c.fill();
+  // 御札を持つ（B案）
+  if(p.ofuda){c.fillStyle='#fff';c.fillRect(cx+15,cy-22,8,18);c.strokeRect(cx+15,cy-22,8,18);
+    c.fillStyle='#aa1010';c.font='bold 9px serif';c.fillText('呪',cx+19,cy-10);}
+  // 首
+  c.fillStyle=p.skin||'#f0d4a8';c.fillRect(cx-4,cy-56,8,8);
+  // 顔
+  c.fillStyle=p.skin||'#f0d4a8';c.beginPath();c.arc(cx,cy-66,12,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+  // 髪
+  c.fillStyle=p.hairColor||'#0a0a0a';
+  if(p.longHair){c.beginPath();c.moveTo(cx-16,cy-64);c.lineTo(cx-26,cy+10);c.lineTo(cx-8,cy+5);c.lineTo(cx-4,cy-50);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+16,cy-64);c.lineTo(cx+26,cy+10);c.lineTo(cx+8,cy+5);c.lineTo(cx+4,cy-50);c.closePath();c.fill();}
+  // おかっぱ
+  c.beginPath();c.moveTo(cx-14,cy-60);c.lineTo(cx-14,cy-72);c.lineTo(cx,cy-80);c.lineTo(cx+14,cy-72);c.lineTo(cx+14,cy-60);c.closePath();c.fill();
+  // 前髪
+  c.beginPath();c.arc(cx,cy-72,13,Math.PI*1.05,Math.PI*1.95);c.fill();
+  // リボン（B案）
+  if(p.ribbon){c.fillStyle=p.ribbonColor||'#aa1010';c.beginPath();c.arc(cx-10,cy-78,4,0,Math.PI*2);c.fill();}
+  // 目
+  c.fillStyle=p.eye||'#000';c.fillRect(cx-7,cy-66,3,3);c.fillRect(cx+4,cy-66,3,3);
+  // 怨み目（C案）
+  if(p.evilEye){c.fillStyle='#ff3344';c.beginPath();c.arc(cx-5,cy-64,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+5,cy-64,2,0,Math.PI*2);c.fill();
+    // 涙血
+    c.strokeStyle='#aa1010';c.lineWidth=1.5;c.beginPath();c.moveTo(cx-5,cy-62);c.lineTo(cx-6,cy-54);c.stroke();c.beginPath();c.moveTo(cx+5,cy-62);c.lineTo(cx+6,cy-54);c.stroke();}
+  // 口
+  c.fillStyle='#aa1010';c.fillRect(cx-2,cy-58,4,2);
+}
+drawHanako(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(204,34,68,0.5)',skirt:'#cc2244',body:'#cc2244',shirt:'#fff',skin:'#f0d4a8',hairColor:'#0a0a0a',suspender:true,suspenderColor:'#cc2244',eye:'#0a0a0a'});
+drawHanako(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(255,255,255,0.4)',skirt:'#aa1010',body:'#fff',skin:'#f0d4a8',hairColor:'#0a0a0a',miko:true,ofuda:true,ribbon:true,ribbonColor:'#ffd24a',eye:'#5a3030'});
+drawHanako(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(80,0,80,0.5)',skirt:'#1a0a1a',body:'#1a0a1a',shirt:'#3a0a30',skin:'#c8a8b8',hairColor:'#0a0a0a',longHair:true,suspender:true,suspenderColor:'#aa44ff',evilEye:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0a08');sky.addColorStop(1,'#1a2818');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1410';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#3a3838';c.fillRect(0,h*0.7,w,1);
+  // タイル
+  for(let i=0;i<6;i++){c.strokeStyle='rgba(255,255,255,0.06)';c.lineWidth=1;c.beginPath();c.moveTo(i*50,h*0.7);c.lineTo(i*50,h);c.stroke();}}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 御札放射
+startAnim('at-a',(c,t,w,h)=>{const cx=60,cy=h*0.55;
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.45+i*45,h*0.7);
+  for(let k=0;k<8;k++){const ang=k*Math.PI/4;const dist=t*180;
+    const x=cx+Math.cos(ang)*dist,y=cy+Math.sin(ang)*dist*0.7;
+    c.save();c.translate(x,y);c.rotate(ang+t*4);
+    c.fillStyle='#fff';c.fillRect(-7,-12,14,24);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-7,-12,14,24);
+    c.fillStyle='#aa1010';c.font='bold 11px serif';c.textAlign='center';c.fillText('呪',0,2);c.restore();}
+  // 中央発光
+  c.fillStyle=`rgba(255,210,74,${0.5-t*0.4})`;c.beginPath();c.arc(cx,cy+10,20,0,Math.PI*2);c.fill();
+},1800);
+
+// ② トイレ水柱AOE
+startAnim('at-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.3+i*45,h*0.7);
+  // 5本の水柱が時間差で噴出
+  for(let k=0;k<5;k++){const ph=(t-k*0.1);
+    if(ph>0&&ph<0.7){const x=w*0.25+k*45;const hh=Math.sin(ph*Math.PI/0.7)*70;
+      // 水柱
+      const gr=c.createLinearGradient(0,h*0.7-hh,0,h*0.7);gr.addColorStop(0,'rgba(136,200,255,0.9)');gr.addColorStop(1,'rgba(136,200,255,0.4)');
+      c.fillStyle=gr;c.fillRect(x-8,h*0.7-hh,16,hh);
+      // 飛沫
+      for(let i=0;i<3;i++){const ang=Math.random()*Math.PI;
+        c.fillStyle='rgba(180,220,255,0.8)';c.beginPath();c.arc(x+Math.cos(ang)*15,h*0.7-hh+Math.sin(ang)*(-5),3,0,Math.PI*2);c.fill();}}}
+  // 全体の青グロー
+  c.fillStyle=`rgba(136,200,255,${0.1+Math.sin(t*Math.PI*2)*0.05})`;c.fillRect(0,h*0.6,w,h*0.15);
+},2200);
+
+// ③ 子幽霊召喚
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  function drawGhost(x,y,col,alpha){c.globalAlpha=alpha;c.fillStyle=col;
+    c.beginPath();c.moveTo(x-10,y);c.quadraticCurveTo(x-10,y-20,x,y-20);c.quadraticCurveTo(x+10,y-20,x+10,y);
+    c.lineTo(x+8,y+3);c.lineTo(x+5,y);c.lineTo(x+2,y+3);c.lineTo(x-2,y);c.lineTo(x-5,y+3);c.lineTo(x-8,y);c.closePath();c.fill();
+    c.fillStyle='#000';c.fillRect(x-4,y-12,2,3);c.fillRect(x+2,y-12,2,3);c.globalAlpha=1;}
+  drawGhost(40,h*0.55,'#aa44ff',1);
+  // 3体の子幽霊
+  for(let k=0;k<3;k++){const ph=(t+k/3)%1;const sx=60,sy=h*0.55;
+    const x=sx+ph*(tg.x-sx-20);const y=sy+Math.sin(ph*Math.PI*2)*15+k*5;
+    drawGhost(x,y,['#fff','#aa44ff','#ee99ff'][k],0.8);
+    if(ph>0.85){c.fillStyle=`rgba(255,255,200,${1-(ph-0.85)*6})`;c.beginPath();c.arc(tg.x,tg.y-16,14,0,Math.PI*2);c.fill();}}
+},2400);
+</script></body></html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CEOザイバツ デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>💼 CEO ザイバツ デザイン & 攻撃 候補</h1>
+<div class="sub">DARK CORP CEO CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#0a0a0a;--g:rgba(80,80,80,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 黒スーツの巨悪（現行）</h2><p>黒スーツ+赤ネクタイ+葉巻。冷酷な総帥。</p></div>
+<div class="card" style="--c:#ffffff;--g:rgba(220,220,220,0.4)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 白のエリート</h2><p>白スーツ+金時計+赤ネクタイ。上品な悪。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 黄金鎧スーツ</h2><p>黄金の鎧スーツ。富の象徴の魔王。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 札束弾＋ボディガード（現行）</h2><p>札束弾を投げる+護衛2体召喚。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 金融崩壊（闇波動デバフ）</h2><p>紫の闇波動で広範囲AOE+デバフ。</p></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ M&A（敵をスタン）</h2><p>巨大なハンコで敵を押印してスタン。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=80){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawCEO(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);
+  c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,cy+34,32,5,0,0,Math.PI*2);c.fill();
+  // 脚
+  c.fillStyle=p.body;c.fillRect(cx-12,cy-10,9,40);c.fillRect(cx+3,cy-10,9,40);
+  c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(cx-12,cy-10,9,40);c.strokeRect(cx+3,cy-10,9,40);
+  // 革靴
+  c.fillStyle='#1a1a1a';c.fillRect(cx-14,cy+28,12,5);c.fillRect(cx+2,cy+28,12,5);
+  // スーツ
+  c.fillStyle=p.body;c.fillRect(cx-28,cy-52,56,44);c.strokeRect(cx-28,cy-52,56,44);
+  // 黄金鎧の装飾（C案）
+  if(p.armor){c.fillStyle=p.armorAccent||'#aa7700';
+    c.fillRect(cx-26,cy-50,52,4);c.fillRect(cx-26,cy-28,52,4);c.fillRect(cx-26,cy-12,52,4);
+    // 肩当て
+    c.fillStyle='#cca000';c.beginPath();c.moveTo(cx-36,cy-50);c.lineTo(cx-22,cy-58);c.lineTo(cx-22,cy-44);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx+36,cy-50);c.lineTo(cx+22,cy-58);c.lineTo(cx+22,cy-44);c.closePath();c.fill();}
+  // 白シャツ
+  c.fillStyle=p.shirt||'#fff';c.fillRect(cx-6,cy-52,12,44);
+  // ネクタイ
+  c.fillStyle=p.tie||'#aa1010';c.beginPath();c.moveTo(cx-4,cy-50);c.lineTo(cx-7,cy-30);c.lineTo(cx,cy-10);c.lineTo(cx+7,cy-30);c.lineTo(cx+4,cy-50);c.closePath();c.fill();
+  // 襟
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-12,cy-52);c.lineTo(cx-4,cy-50);c.lineTo(cx-4,cy-46);c.lineTo(cx-15,cy-46);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+12,cy-52);c.lineTo(cx+4,cy-50);c.lineTo(cx+4,cy-46);c.lineTo(cx+15,cy-46);c.closePath();c.fill();
+  // 肩
+  c.fillStyle=p.body;c.fillRect(cx-36,cy-48,8,26);c.fillRect(cx+28,cy-48,8,26);
+  c.strokeRect(cx-36,cy-48,8,26);c.strokeRect(cx+28,cy-48,8,26);
+  // 金時計（B,C案）
+  if(p.watch){c.fillStyle='#ffd24a';c.fillRect(cx-32,cy-22,8,4);}
+  // 手
+  c.fillStyle=p.skin||'#f0d4a8';c.beginPath();c.arc(cx-32,cy-20,4,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+32,cy-20,4,0,Math.PI*2);c.fill();
+  // 葉巻
+  if(p.cigar){c.fillStyle='#5a3010';c.fillRect(cx+32,cy-26,10,2);
+    c.fillStyle='#ffaa44';c.beginPath();c.arc(cx+42,cy-25,2,0,Math.PI*2);c.fill();
+    // 煙
+    c.fillStyle='rgba(170,170,170,0.4)';c.beginPath();c.arc(cx+45,cy-32,3,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+48,cy-38,4,0,Math.PI*2);c.fill();}
+  // 札束を持つ（A案）
+  if(p.money){c.fillStyle='#88dd66';c.fillRect(cx-38,cy-22,12,6);c.strokeRect(cx-38,cy-22,12,6);
+    c.fillStyle='#1a4a1a';c.font='bold 6px sans-serif';c.fillText('$',cx-32,cy-17);}
+  // 首
+  c.fillStyle=p.skin||'#f0d4a8';c.fillRect(cx-4,cy-58,8,8);
+  // 顔
+  c.fillStyle=p.skin||'#f0d4a8';c.beginPath();c.arc(cx,cy-66,11,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+  // 髪（オールバック）
+  c.fillStyle=p.hairColor||'#1a1a1a';c.beginPath();c.arc(cx,cy-70,11,Math.PI,0);c.fill();
+  // サングラス/目
+  if(p.glasses){c.fillStyle='#0a0a0a';c.fillRect(cx-10,cy-67,20,4);
+    c.fillStyle='rgba(255,255,255,0.3)';c.fillRect(cx-8,cy-67,5,2);c.fillRect(cx+3,cy-67,5,2);}
+  else {c.fillStyle='#000';c.fillRect(cx-6,cy-66,2,3);c.fillRect(cx+3,cy-66,2,3);}
+  // 口（不敵な笑み）
+  c.strokeStyle='#000';c.lineWidth=1;c.beginPath();c.arc(cx,cy-60,4,Math.PI*0.1,Math.PI*0.9);c.stroke();
+  // 王冠（C案）
+  if(p.crown){c.fillStyle='#ffd24a';c.beginPath();
+    c.moveTo(cx-12,cy-76);c.lineTo(cx-10,cy-86);c.lineTo(cx-4,cy-80);c.lineTo(cx,cy-92);c.lineTo(cx+4,cy-80);c.lineTo(cx+10,cy-86);c.lineTo(cx+12,cy-76);c.closePath();c.fill();c.strokeStyle='#000';c.stroke();
+    c.fillStyle='#aa1010';c.beginPath();c.arc(cx,cy-82,2,0,Math.PI*2);c.fill();}
+}
+drawCEO(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(80,80,80,0.4)',body:'#0a0a0a',shirt:'#fff',tie:'#aa1010',skin:'#e0c0a0',hairColor:'#1a1a1a',glasses:true,cigar:true});
+drawCEO(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(220,220,220,0.4)',body:'#eee',shirt:'#fff',tie:'#aa1010',skin:'#e0c0a0',hairColor:'#5a3010',watch:true,money:true});
+drawCEO(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#ffd24a',shirt:'#fff',tie:'#aa1010',skin:'#e0c0a0',hairColor:'#1a1a1a',armor:true,armorAccent:'#aa7700',crown:true,watch:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1a28';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#ffd24a';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawGuard(c,x,y){c.fillStyle='#0a0a0a';c.fillRect(x-7,y-22,14,22);c.fillStyle='#fff';c.fillRect(x-2,y-22,3,22);c.fillStyle='#f0d4a8';c.beginPath();c.arc(x,y-28,5,0,Math.PI*2);c.fill();c.fillStyle='#0a0a0a';c.fillRect(x-5,y-30,10,4);}
+
+// ① 札束弾+ボディガード
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  // 札束飛ぶ
+  if(t<0.7){const tt=t/0.7;const x=40+tt*(tg.x-50);const y=h*0.55-Math.sin(tt*Math.PI)*15;
+    c.save();c.translate(x,y);c.rotate(t*8);
+    c.fillStyle='#88dd66';c.fillRect(-8,-5,16,10);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-8,-5,16,10);
+    c.fillStyle='#1a4a1a';c.font='bold 9px sans-serif';c.textAlign='center';c.fillText('$',0,3);c.restore();
+    // 飛ぶ札
+    for(let k=1;k<5;k++){const tk=Math.max(0,tt-k*0.06);const xk=40+tk*(tg.x-50);
+      c.fillStyle=`rgba(136,221,102,${0.4-k*0.08})`;c.fillRect(xk-6,h*0.55-3,12,6);}}
+  // ボディガード召喚
+  if(t>0.3){drawGuard(c,60,h*0.7);drawGuard(c,90,h*0.7);}
+  if(t>0.7){c.fillStyle=`rgba(255,255,200,${1-(t-0.7)*3})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();}
+},2400);
+
+// ② 金融崩壊
+startAnim('at-b',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.4+i*55,h*0.7);
+  // 紫闇波動
+  for(let k=0;k<4;k++){const rt=(t+k*0.25)%1;
+    c.strokeStyle=`rgba(170,68,255,${1-rt})`;c.lineWidth=3;c.beginPath();c.arc(40,h*0.6,30+rt*150,0,Math.PI*2);c.stroke();}
+  // 中心
+  c.fillStyle='rgba(170,68,255,0.6)';c.beginPath();c.arc(40,h*0.6,20,0,Math.PI*2);c.fill();
+  // ✕マーク（金融破綻）
+  c.strokeStyle='#aa1010';c.lineWidth=3;c.beginPath();c.moveTo(35,h*0.55);c.lineTo(45,h*0.65);c.stroke();c.beginPath();c.moveTo(45,h*0.55);c.lineTo(35,h*0.65);c.stroke();
+  c.fillStyle='#aa44ff';c.font='bold 14px monospace';c.textAlign='center';c.fillText('CRASH',w*0.55,h*0.4);
+},2200);
+
+// ③ M&A（ハンコ押印）
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.5){const tt=t/0.5;const y=h*0.2+tt*(h*0.5);
+    // 巨大ハンコ降下
+    c.fillStyle='#5a3010';c.fillRect(tg.x-25,y-40,50,30);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(tg.x-25,y-40,50,30);
+    c.fillStyle='#aa1010';c.beginPath();c.arc(tg.x,y,18,0,Math.PI*2);c.fill();c.strokeStyle='#5a0808';c.lineWidth=2;c.beginPath();c.arc(tg.x,y,18,0,Math.PI*2);c.stroke();
+    c.fillStyle='#fff';c.font='bold 14px serif';c.textAlign='center';c.fillText('印',tg.x,y+5);}
+  else{const tt=(t-0.5)/0.5;
+    // 押印エフェクト
+    c.fillStyle=`rgba(170,16,16,${0.8-tt*0.6})`;c.beginPath();c.arc(tg.x,tg.y-16,22+tt*15,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(170,16,16,${0.6-tt*0.5})`;c.fillRect(tg.x-18,tg.y-20,36,12);
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.font='bold 14px serif';c.textAlign='center';c.fillText('M&A',tg.x,tg.y-10);
+    // 星（スタン）
+    for(let k=0;k<4;k++){const ang=k*Math.PI/2+t*Math.PI*4;
+      c.fillStyle='#ffd24a';c.font='bold 12px sans-serif';c.fillText('★',tg.x+Math.cos(ang)*16,tg.y-30+Math.sin(ang)*5);}}
+},2400);
+</script></body></html>

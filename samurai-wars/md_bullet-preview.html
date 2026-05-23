@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ブレットマン デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🚄 ブレットマン デザイン & 攻撃 候補</h1>
+<div class="sub">BULLET TRAIN MAN CANDIDATES</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaccff;--g:rgba(170,204,255,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 流線型銀の新幹線怪人（現行）</h2><p>銀の流線型ボディ、青ライン。新幹線型の顔。</p></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案B. 真紅の超特急</h2><p>真紅+黒ライン。スピード重視のリニア型。</p></div>
+<div class="card" style="--c:#0a0a0a;--g:rgba(80,0,80,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案C. 暗黒影列車</h2><p>黒+紫ネオン。地獄の特急怪人。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaccff;--g:rgba(170,204,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 跳躍突進（現行）</h2><p>飛び込み突進、貫通。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 音速ダッシュ画面横断</h2><p>画面を超速で横断、全敵に貫通ヒット。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 急停止衝撃波</h2><p>急停止して周囲に衝撃波AOE。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=80){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawBullet(c,p){
+  const cx=110,cy=180;
+  if(p.aura)aura(c,cx,cy-20,p.aura,110);
+  c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,cy+38,40,7,0,0,Math.PI*2);c.fill();
+  // 脚（速そうな）
+  c.fillStyle=p.body;c.fillRect(cx-12,cy-10,9,38);c.fillRect(cx+3,cy-10,9,38);
+  c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(cx-12,cy-10,9,38);c.strokeRect(cx+3,cy-10,9,38);
+  // 流線型のスニーカー
+  c.fillStyle=p.shoe||'#1a1a1a';c.beginPath();c.moveTo(cx-14,cy+28);c.lineTo(cx-2,cy+28);c.lineTo(cx+2,cy+32);c.lineTo(cx-14,cy+32);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+2,cy+28);c.lineTo(cx+14,cy+28);c.lineTo(cx+14,cy+32);c.lineTo(cx-2,cy+32);c.closePath();c.fill();
+  // 流線型の体（前傾）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-22,cy-50);c.lineTo(cx+30,cy-46);c.lineTo(cx+25,cy-10);c.lineTo(cx-20,cy-10);c.closePath();c.fill();
+  c.strokeStyle='#000';c.stroke();
+  // サイドのライン
+  c.fillStyle=p.line||'#0a0a3a';c.beginPath();c.moveTo(cx-22,cy-38);c.lineTo(cx+30,cy-34);c.lineTo(cx+30,cy-28);c.lineTo(cx-22,cy-32);c.closePath();c.fill();
+  // ネオンライン（C案）
+  if(p.neon){c.fillStyle=p.neonColor||'#aa44ff';c.beginPath();c.moveTo(cx-22,cy-34);c.lineTo(cx+30,cy-30);c.lineTo(cx+30,cy-28);c.lineTo(cx-22,cy-32);c.closePath();c.fill();
+    // グロー
+    c.shadowColor=p.neonColor||'#aa44ff';c.shadowBlur=10;c.fill();c.shadowBlur=0;}
+  // 腕（後ろに流れる）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-26,cy-44);c.lineTo(cx-40,cy-30);c.lineTo(cx-30,cy-22);c.lineTo(cx-18,cy-36);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+30,cy-44);c.lineTo(cx+44,cy-50);c.lineTo(cx+38,cy-32);c.lineTo(cx+22,cy-28);c.closePath();c.fill();
+  // 頭部（新幹線型の鼻先）
+  c.fillStyle=p.head||p.body;c.beginPath();c.moveTo(cx-12,cy-58);c.lineTo(cx+20,cy-62);c.lineTo(cx+25,cy-50);c.lineTo(cx-10,cy-50);c.closePath();c.fill();c.stroke();
+  // バイザー（前面）
+  c.fillStyle=p.visor||'#0a0a3a';c.beginPath();c.moveTo(cx-2,cy-58);c.lineTo(cx+18,cy-60);c.lineTo(cx+23,cy-54);c.lineTo(cx,cy-52);c.closePath();c.fill();
+  // 目（光る）
+  c.fillStyle=p.eye||'#00f0ff';c.fillRect(cx+10,cy-58,6,2);
+  // 速度線（自分から後ろに）
+  c.strokeStyle=p.aura||'rgba(170,204,255,0.6)';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-40,cy-40);c.lineTo(cx-60,cy-40);c.stroke();
+  c.beginPath();c.moveTo(cx-44,cy-30);c.lineTo(cx-65,cy-30);c.stroke();
+  c.beginPath();c.moveTo(cx-38,cy-20);c.lineTo(cx-58,cy-20);c.stroke();
+}
+drawBullet(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(170,204,255,0.5)',body:'#dde8f0',line:'#0a3a8a',head:'#fff',visor:'#0a0a3a',eye:'#00f0ff'});
+drawBullet(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(170,16,16,0.5)',body:'#aa1010',line:'#0a0a0a',head:'#cc1010',visor:'#0a0a0a',eye:'#ffd24a'});
+drawBullet(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,68,255,0.5)',body:'#1a1a1a',line:'#aa44ff',head:'#1a1a1a',visor:'#0a0a1a',eye:'#aa44ff',neon:true,neonColor:'#aa44ff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0820');sky.addColorStop(1,'#1a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1a28';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#fff';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// ① 跳躍突進
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  const sx=40,sy=h*0.7;
+  if(t<0.5){const tt=t/0.5;const x=sx+tt*(tg.x-sx-20);const y=sy-Math.sin(tt*Math.PI)*45;
+    c.fillStyle='#dde8f0';c.beginPath();c.ellipse(x,y,18,8,Math.atan2(-Math.cos(tt*Math.PI)*45,tg.x-sx-20),0,Math.PI*2);c.fill();
+    for(let k=1;k<5;k++){const tk=Math.max(0,tt-k*0.04);const xk=sx+tk*(tg.x-sx-20);const yk=sy-Math.sin(tk*Math.PI)*45;
+      c.fillStyle=`rgba(170,204,255,${0.4-k*0.08})`;c.beginPath();c.ellipse(xk,yk,16,7,0,0,Math.PI*2);c.fill();}}
+  else{const tt=(t-0.5)/0.5;
+    c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,25+tt*15,0,Math.PI*2);c.fill();
+    c.strokeStyle=`rgba(170,204,255,${1-tt})`;c.lineWidth=4;c.beginPath();c.moveTo(tg.x-30,tg.y-10);c.lineTo(tg.x+20,tg.y-25);c.stroke();}
+},2000);
+
+// ② 音速ダッシュ画面横断
+startAnim('at-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.3+i*45,h*0.7);
+  const x=20+t*(w+30);
+  // 強い残像
+  for(let k=0;k<10;k++){const xk=Math.max(20,x-k*15);
+    c.fillStyle=`rgba(255,210,74,${0.6-k*0.06})`;c.beginPath();c.ellipse(xk,h*0.6,18-k*1,8-k*0.5,0,0,Math.PI*2);c.fill();}
+  c.fillStyle='#dde8f0';c.beginPath();c.ellipse(x,h*0.6,18,8,0,0,Math.PI*2);c.fill();
+  // 速度線
+  for(let i=0;i<12;i++){const yy=h*0.5+i*4;
+    c.strokeStyle=`rgba(255,210,74,${0.5-i*0.04})`;c.lineWidth=1.5;c.beginPath();c.moveTo(x-100+i*4,yy);c.lineTo(x-40+i*4,yy);c.stroke();}
+  // ブーンエフェクト
+  c.fillStyle='#ffd24a';c.font='bold 22px sans-serif';c.textAlign='center';c.fillText('SONIC!',x-30,h*0.4);
+},1400);
+
+// ③ 急停止衝撃波
+startAnim('at-c',(c,t,w,h)=>{const sx=w*0.55;
+  for(let i=0;i<3;i++)drawEnemy(c,sx-50+i*40,h*0.7);
+  // 接近フェーズ
+  if(t<0.3){const tt=t/0.3;const x=20+tt*(sx-20);
+    c.fillStyle='#aaccff';c.beginPath();c.ellipse(x,h*0.6,18,8,0,0,Math.PI*2);c.fill();
+    for(let k=1;k<5;k++){c.fillStyle=`rgba(170,204,255,${0.4-k*0.08})`;c.beginPath();c.ellipse(x-k*10,h*0.6,16,7,0,0,Math.PI*2);c.fill();}}
+  else{const tt=(t-0.3)/0.7;
+    // 急停止 + 衝撃波
+    c.fillStyle='#aaccff';c.beginPath();c.ellipse(sx,h*0.6,18,8,0,0,Math.PI*2);c.fill();
+    // 衝撃波（3重）
+    for(let k=0;k<3;k++){const rt=Math.max(0,tt-k*0.15);
+      c.strokeStyle=`rgba(255,85,68,${1-rt})`;c.lineWidth=4;c.beginPath();c.arc(sx,h*0.6,30+rt*70,0,Math.PI*2);c.stroke();}}
+},2200);
+</script></body></html>

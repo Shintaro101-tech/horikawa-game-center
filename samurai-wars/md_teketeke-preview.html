@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>テケテケ デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),radial-gradient(ellipse at bottom,#001f4d 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3344;text-shadow:0 0 30px rgba(255,51,68,0.6);letter-spacing:2px;margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px;letter-spacing:1px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem;letter-spacing:2px}
+</style></head><body>
+<h1>👻 テケテケ デザイン & 攻撃 候補</h1>
+<div class="sub">TEKETEKE CANDIDATES — 瞬間移動能力は維持</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#3a1a1a;--g:rgba(120,40,40,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 闇のテケテケ（現行）</h2><p>黒コート+赤目+両手の鋭い爪。王道恐怖。</p></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 血染めセーラー女子</h2><p>セーラー服に血飛沫、腰から下なし。怨念のJK。</p></div>
+<div class="card" style="--c:#88aabb;--g:rgba(136,170,187,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 機械蛇腹型サイボーグ</h2><p>下半身が金属の蛇腹+鎌。サイバー化したテケテケ。</p></div>
+</div>
+
+<h3 class="section">— 攻撃方法3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案① 跳躍斬り（現行）</h2><p>飛び込み突進+爪斬り。</p></div>
+<div class="card" style="--c:#88eeff;--g:rgba(136,238,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案② 瞬間移動3連撃</h2><p>瞬間移動で位置を変え3連続斬り。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案③ 地這い超速貫通</h2><p>地を這って画面横断、貫通ダメージ。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=70){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawTeke(c,p){
+  const cx=110,cy=200;
+  if(p.aura)aura(c,cx,cy-30,p.aura,110);
+  // 床の影（手をついて這う）
+  c.fillStyle='rgba(0,0,0,0.5)';c.beginPath();c.ellipse(cx,cy,40,7,0,0,Math.PI*2);c.fill();
+  // 血だまり
+  if(p.blood){c.fillStyle='#aa1010';c.beginPath();c.ellipse(cx,cy-2,32,5,0,0,Math.PI*2);c.fill();
+    for(let i=0;i<4;i++){c.fillStyle='#aa1010';c.beginPath();c.arc(cx-25+i*15,cy+3,2,0,Math.PI*2);c.fill();}}
+  // 蛇腹（C案）
+  if(p.machine){c.fillStyle=p.machineColor||'#88aabb';
+    for(let i=0;i<5;i++){c.fillRect(cx-10,cy-12+i*4,20,3);c.strokeStyle='#000';c.strokeRect(cx-10,cy-12+i*4,20,3);}}
+  // 切断面
+  if(p.cutOff){c.fillStyle='#aa1010';c.fillRect(cx-18,cy-12,36,4);
+    // はらわた
+    c.fillStyle='#7a0010';c.beginPath();c.arc(cx-8,cy-9,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+8,cy-9,2,0,Math.PI*2);c.fill();}
+  // 上半身（体）
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-50,44,38);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(cx-22,cy-50,44,38);
+  if(p.bodyHl){c.fillStyle=p.bodyHl;c.fillRect(cx-20,cy-48,8,8);}
+  // セーラー襟（B案）
+  if(p.sailor){c.fillStyle='#1a1a4a';c.beginPath();c.moveTo(cx-22,cy-50);c.lineTo(cx,cy-38);c.lineTo(cx+22,cy-50);c.closePath();c.fill();
+    c.fillStyle='#fff';c.fillRect(cx-3,cy-44,6,12);
+    c.fillStyle='#aa1010';c.beginPath();c.moveTo(cx-3,cy-44);c.lineTo(cx,cy-30);c.lineTo(cx+3,cy-44);c.closePath();c.fill();}
+  // 血飛沫（B案）
+  if(p.blood){c.fillStyle='#aa1010';c.beginPath();c.arc(cx-12,cy-36,3,0,Math.PI*2);c.fill();
+    c.beginPath();c.arc(cx+8,cy-44,2,0,Math.PI*2);c.fill();
+    c.beginPath();c.arc(cx+18,cy-26,2.5,0,Math.PI*2);c.fill();}
+  // 腕（地をついて支える）
+  c.fillStyle=p.body;c.fillRect(cx-32,cy-30,8,22);c.fillRect(cx+24,cy-30,8,22);
+  c.strokeRect(cx-32,cy-30,8,22);c.strokeRect(cx+24,cy-30,8,22);
+  // 鋭い爪
+  c.fillStyle=p.claw||'#aaa';
+  c.beginPath();c.moveTo(cx-32,cy-10);c.lineTo(cx-38,cy);c.lineTo(cx-28,cy-4);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+32,cy-10);c.lineTo(cx+38,cy);c.lineTo(cx+28,cy-4);c.closePath();c.fill();
+  // 鎌（C案）
+  if(p.scythe){c.save();c.translate(cx+30,cy-5);c.rotate(0.3);
+    c.strokeStyle='#444';c.lineWidth=3;c.beginPath();c.moveTo(0,0);c.lineTo(20,-25);c.stroke();
+    c.fillStyle='#aaa';c.beginPath();c.moveTo(20,-25);c.quadraticCurveTo(35,-20,30,0);c.lineTo(18,-15);c.closePath();c.fill();c.restore();}
+  // 髪
+  c.fillStyle=p.hairColor||'#0a0a0a';c.beginPath();c.moveTo(cx-15,cy-66);c.lineTo(cx-22,cy-48);c.lineTo(cx-5,cy-54);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+15,cy-66);c.lineTo(cx+22,cy-48);c.lineTo(cx+5,cy-54);c.closePath();c.fill();
+  // 顔
+  c.fillStyle=p.skin||'#d0a8a8';c.beginPath();c.arc(cx,cy-62,11,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+  // 髪（前髪）
+  c.fillStyle=p.hairColor||'#0a0a0a';c.beginPath();c.arc(cx,cy-66,11,Math.PI*1.1,Math.PI*1.9);c.fill();
+  // 目（赤く光る）
+  c.fillStyle=p.eye||'#ff3344';c.fillRect(cx-7,cy-62,4,3);c.fillRect(cx+3,cy-62,4,3);
+  // 口（不気味）
+  c.strokeStyle='#aa1010';c.lineWidth=1.5;c.beginPath();c.moveTo(cx-5,cy-55);c.lineTo(cx+5,cy-55);c.stroke();
+}
+drawTeke(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(170,16,16,0.5)',body:'#1a0a0a',bodyHl:'#3a1a1a',skin:'#d0a8a8',hairColor:'#0a0a0a',eye:'#ff3344',cutOff:true});
+drawTeke(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(170,16,16,0.4)',body:'#1a1a4a',skin:'#e8c8a8',hairColor:'#3a1010',eye:'#aa1010',sailor:true,cutOff:true,blood:true});
+drawTeke(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(136,170,187,0.5)',body:'#3a4a5a',skin:'#aaa',hairColor:'#88aabb',eye:'#00f0ff',machine:true,machineColor:'#88aabb',scythe:true,claw:'#5a6a7a'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#080010');sky.addColorStop(1,'#2a0830');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a0a1a';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#aa1010';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawTekeSmall(c,x,y,alpha){c.globalAlpha=alpha;c.fillStyle='rgba(0,0,0,0.3)';c.beginPath();c.ellipse(x,y,16,3,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#1a0a0a';c.fillRect(x-10,y-22,20,20);c.fillStyle='#d0a8a8';c.beginPath();c.arc(x,y-28,6,0,Math.PI*2);c.fill();
+  c.fillStyle='#ff3344';c.fillRect(x-3,y-28,2,2);c.fillRect(x+1,y-28,2,2);
+  c.globalAlpha=1;}
+
+// ① 跳躍斬り
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  const sx=40,sy=h*0.7;
+  if(t<0.5){const tt=t/0.5;const x=sx+tt*(tg.x-sx-20);const y=sy-Math.sin(tt*Math.PI)*50;
+    drawTekeSmall(c,x,y+12,1);
+    // 軌跡
+    for(let k=1;k<5;k++){const tk=Math.max(0,tt-k*0.06);const xk=sx+tk*(tg.x-sx-20);const yk=sy-Math.sin(tk*Math.PI)*50;
+      c.fillStyle=`rgba(255,85,68,${0.4-k*0.08})`;c.beginPath();c.arc(xk,yk+5,8,0,Math.PI*2);c.fill();}
+  }else{drawTekeSmall(c,tg.x-20,tg.y,1);
+    const tt=(t-0.5)/0.5;
+    c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18+tt*20,0,Math.PI*2);c.fill();
+    c.strokeStyle=`rgba(255,85,68,${1-tt})`;c.lineWidth=5;c.beginPath();c.moveTo(tg.x-25,tg.y-10);c.lineTo(tg.x+15,tg.y-25);c.stroke();}
+},2000);
+
+// ② 瞬間移動3連撃
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  const positions=[[tg.x-40,tg.y],[tg.x+40,tg.y-10],[tg.x,tg.y-30]];
+  const phase=Math.floor(t*3);
+  // 過去の位置にエフェクト
+  positions.slice(0,phase+1).forEach((pos,i)=>{const localT=Math.min(1,(t*3-i));
+    if(localT<0.3){// 出現エフェクト
+      for(let k=0;k<8;k++){const ang=(k/8)*Math.PI*2;const dist=localT*30;
+        c.fillStyle=`rgba(136,238,255,${0.8-localT*2})`;c.beginPath();c.arc(pos[0]+Math.cos(ang)*dist,pos[1]+Math.sin(ang)*dist,4,0,Math.PI*2);c.fill();}}
+    if(localT>=0.2&&localT<0.7){drawTekeSmall(c,pos[0],pos[1],1);
+      c.strokeStyle='#88eeff';c.lineWidth=3;c.beginPath();c.moveTo(pos[0]-15,pos[1]-15);c.lineTo(tg.x+(Math.random()-0.5)*4,tg.y-16);c.stroke();}
+    if(localT>0.5){c.fillStyle=`rgba(255,255,200,${1-(localT-0.5)*2})`;c.beginPath();c.arc(tg.x,tg.y-16,16,0,Math.PI*2);c.fill();}
+  });
+  c.fillStyle='#88eeff';c.font='bold 22px sans-serif';c.textAlign='center';c.fillText('✨'+Math.min(phase+1,3)+' HIT✨',tg.x,h*0.95);
+},2200);
+
+// ③ 地這い超速貫通
+startAnim('at-c',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.35+i*55,h*0.7);
+  const x=20+t*(w-30);
+  // 残像
+  for(let k=0;k<8;k++){const xk=Math.max(20,x-k*22);
+    c.fillStyle=`rgba(255,210,74,${0.6-k*0.07})`;c.fillRect(xk-15,h*0.69,18,4);
+    if(k<4)drawTekeSmall(c,xk,h*0.7,0.7-k*0.15);}
+  drawTekeSmall(c,x,h*0.7,1);
+  // 速度線
+  for(let i=0;i<10;i++){const yy=h*0.6+Math.sin(t*10+i)*4+i*3;
+    c.strokeStyle=`rgba(255,210,74,${0.5-i*0.04})`;c.lineWidth=1.5;c.beginPath();c.moveTo(x-80+i*5,yy);c.lineTo(x-30+i*5,yy);c.stroke();}
+},1400);
+</script></body></html>
