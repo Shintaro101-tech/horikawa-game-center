@@ -4790,6 +4790,148 @@
         }
     }
 
+    // サテライト・ゼロ（最終ボス・メガ）— 画面上空に浮かぶ巨大軌道兵器
+    function drawSatelliteMega(c, u) {
+        const w = W(), h = H();
+        const baseX = u.x;
+        const skyY = h * 0.18;
+        const time = performance.now() * 0.001;
+        // ふわふわと浮遊
+        const hover = Math.sin(time * 0.6) * 8;
+        const cx = baseX, cy = skyY + hover;
+
+        // 地面の影（巨大）
+        c.fillStyle = 'rgba(0,0,0,0.4)';
+        c.beginPath(); c.ellipse(cx, groundY()-2, 130, 16, 0, 0, Math.PI*2); c.fill();
+
+        // 赤いオーラ（脈動）
+        const pulse = 0.5 + Math.sin(time*2)*0.2;
+        const auraGrad = c.createRadialGradient(cx, cy+20, 30, cx, cy+20, 280);
+        auraGrad.addColorStop(0, `rgba(255,40,40,${0.5*pulse})`);
+        auraGrad.addColorStop(0.5, `rgba(170,16,16,${0.25*pulse})`);
+        auraGrad.addColorStop(1, 'rgba(255,0,0,0)');
+        c.fillStyle = auraGrad;
+        c.beginPath(); c.arc(cx, cy+20, 280, 0, Math.PI*2); c.fill();
+
+        // 左右のソーラーパネル（巨大）
+        c.fillStyle = '#3a0808';
+        c.fillRect(cx-180, cy-40, 100, 80); c.fillRect(cx+80, cy-40, 100, 80);
+        c.strokeStyle = '#000'; c.lineWidth = 2;
+        c.strokeRect(cx-180, cy-40, 100, 80); c.strokeRect(cx+80, cy-40, 100, 80);
+        // 金のグリッド
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 1.2;
+        for(let i = 1; i < 5; i++) {
+            c.beginPath(); c.moveTo(cx-180+i*20, cy-40); c.lineTo(cx-180+i*20, cy+40); c.stroke();
+            c.beginPath(); c.moveTo(cx+80+i*20, cy-40); c.lineTo(cx+80+i*20, cy+40); c.stroke();
+            c.beginPath(); c.moveTo(cx-180, cy-40+i*16); c.lineTo(cx-80, cy-40+i*16); c.stroke();
+            c.beginPath(); c.moveTo(cx+80, cy-40+i*16); c.lineTo(cx+180, cy-40+i*16); c.stroke();
+        }
+        // パネル光沢（赤の発光）
+        c.fillStyle = `rgba(255,80,80,${0.3 + Math.sin(time*3)*0.1})`;
+        c.fillRect(cx-180, cy-40, 100, 80); c.fillRect(cx+80, cy-40, 100, 80);
+        // パネル支柱
+        c.fillStyle = '#5a5a5a';
+        c.fillRect(cx-90, cy-6, 12, 12); c.fillRect(cx+78, cy-6, 12, 12);
+
+        // 本体（中央の大きな箱）
+        c.fillStyle = '#3a0808';
+        c.fillRect(cx-78, cy-70, 156, 140);
+        c.fillStyle = '#aa1010';
+        c.fillRect(cx-72, cy-64, 144, 128);
+        c.strokeStyle = '#000'; c.lineWidth = 2;
+        c.strokeRect(cx-72, cy-64, 144, 128);
+        // 上部の金パネル
+        c.fillStyle = '#ffd24a';
+        c.fillRect(cx-72, cy-64, 144, 6);
+        c.fillRect(cx-72, cy+18, 144, 6);
+        // 装飾ライン
+        c.fillStyle = '#3a0808';
+        c.fillRect(cx-72, cy-50, 144, 4);
+        c.fillRect(cx-72, cy+38, 144, 4);
+
+        // 上部アンテナ群
+        c.strokeStyle = '#aaa'; c.lineWidth = 3;
+        for(let i = 0; i < 5; i++) {
+            const ax = cx - 40 + i * 20;
+            c.beginPath(); c.moveTo(ax, cy-64); c.lineTo(ax + (i-2)*3, cy-110); c.stroke();
+            const blink = Math.sin(time * 4 + i) > 0;
+            c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
+            c.beginPath(); c.arc(ax + (i-2)*3, cy-110, 3.5, 0, Math.PI*2); c.fill();
+        }
+        // 中央の大パラボラアンテナ
+        c.fillStyle = '#aaaaaa';
+        c.beginPath(); c.ellipse(cx, cy-64, 40, 18, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#5a5a5a'; c.lineWidth = 1.5;
+        c.beginPath(); c.ellipse(cx, cy-64, 40, 18, 0, 0, Math.PI*2); c.stroke();
+        c.fillStyle = '#5a5a5a';
+        c.beginPath(); c.ellipse(cx, cy-62, 28, 11, 0, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.arc(cx, cy-68, 6, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#fff';
+        c.beginPath(); c.arc(cx, cy-68, 3, 0, Math.PI*2); c.fill();
+
+        // 中央のセンサー目（巨大、光る）
+        c.fillStyle = '#0a0a0a';
+        c.fillRect(cx-50, cy-30, 100, 28);
+        const eyeBlink = 0.7 + Math.sin(time*2.5)*0.3;
+        c.fillStyle = `rgba(255,51,68,${eyeBlink})`;
+        c.beginPath(); c.arc(cx, cy-16, 12, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(255,255,255,${eyeBlink})`;
+        c.beginPath(); c.arc(cx, cy-18, 5, 0, Math.PI*2); c.fill();
+        // 目から放射する赤い光線
+        c.strokeStyle = `rgba(255,40,40,${0.3*eyeBlink})`;
+        c.lineWidth = 1.5;
+        for(let i = 0; i < 8; i++) {
+            const ang = i*Math.PI/4 + time;
+            c.beginPath(); c.moveTo(cx, cy-16);
+            c.lineTo(cx + Math.cos(ang)*60, cy-16 + Math.sin(ang)*60); c.stroke();
+        }
+
+        // 装飾装甲（左右の角）
+        c.fillStyle = '#ffd24a';
+        c.beginPath(); c.moveTo(cx-72, cy-64); c.lineTo(cx-90, cy-80); c.lineTo(cx-72, cy-46); c.closePath(); c.fill();
+        c.beginPath(); c.moveTo(cx+72, cy-64); c.lineTo(cx+90, cy-80); c.lineTo(cx+72, cy-46); c.closePath(); c.fill();
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.stroke();
+
+        // 中央砲（下に向く）
+        c.fillStyle = '#1a1a1a';
+        c.fillRect(cx-30, cy+64, 60, 60);
+        c.fillStyle = '#5a0808';
+        c.fillRect(cx-26, cy+68, 52, 52);
+        c.strokeStyle = '#ffd24a'; c.lineWidth = 2;
+        c.strokeRect(cx-26, cy+68, 52, 52);
+        // 砲口の発光コア
+        const coreGlow = 0.6 + Math.sin(time*5)*0.3;
+        const coreGrad = c.createRadialGradient(cx, cy+118, 0, cx, cy+118, 30);
+        coreGrad.addColorStop(0, `rgba(255,255,255,${coreGlow})`);
+        coreGrad.addColorStop(0.4, `rgba(255,210,74,${coreGlow})`);
+        coreGrad.addColorStop(1, 'rgba(255,80,40,0)');
+        c.fillStyle = coreGrad;
+        c.beginPath(); c.arc(cx, cy+118, 30, 0, Math.PI*2); c.fill();
+        // 砲のサイドエネルギー線
+        c.fillStyle = `rgba(255,210,74,${coreGlow})`;
+        c.fillRect(cx-28, cy+78, 4, 38); c.fillRect(cx+24, cy+78, 4, 38);
+
+        // 装甲側面のリベット
+        c.fillStyle = '#ffd24a';
+        for(let i = 0; i < 5; i++) {
+            const ry = cy-58 + i*22;
+            c.beginPath(); c.arc(cx-66, ry, 2, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(cx+66, ry, 2, 0, Math.PI*2); c.fill();
+        }
+
+        // SATロゴ
+        c.fillStyle = '#ffd24a';
+        c.font = 'bold 14px monospace'; c.textAlign = 'center';
+        c.fillText('SAT-ZERO', cx, cy+12);
+
+        // 雷の警告マーク（ロゴ周辺）
+        if(Math.sin(time*4) > 0.5) {
+            c.fillStyle = '#ffd24a'; c.font = 'bold 18px sans-serif';
+            c.fillText('⚠', cx-60, cy+12); c.fillText('⚠', cx+60, cy+12);
+        }
+    }
+
     // 天空魔機神 — 6本腕の浮遊メカ神
     function drawMechaGod(c, u) {
         const w = W(), h = H();
@@ -4997,10 +5139,10 @@
 
     function spawnBossFromData(b) {
         if(!b) return;
-        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍、現代編=2.4倍）
+        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍、現代編=4.8倍）
         const stage = STAGE_DATA.find(s => s.id === game.stageId);
         const era = (stage && stage.era) || 'past';
-        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : (era === 'modern' ? 2.4 : 1));
+        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : (era === 'modern' ? 4.8 : 1));
         const baseGold = b.gold || Math.floor(b.hp / 8);
         const data = {
             name: b.name, yomi: b.yomi,
@@ -7989,6 +8131,335 @@
         c.restore();
     }
 
+    // 現代編の都市背景（テーマ別 + 東京タワー/スカイツリー）
+    function drawModernCityBg(c, t, w, h, gy) {
+        const time = performance.now() * 0.001;
+        const stageId = game.stageId || 0;
+        // テーマ別 ビル配色
+        const palette = (() => {
+            switch(t.id) {
+                case 'city':     return { wall:'#1a1a28', shade:'#0a0a14', win:['#ffd24a','#88ccff','#fff'], accent:'#88aaee' };
+                case 'downtown': return { wall:'#2a1828', shade:'#150818', win:['#ff66cc','#ffd24a','#00f0ff'], accent:'#ff66cc' };
+                case 'neon':     return { wall:'#100820', shade:'#080410', win:['#ff00cc','#00f0ff','#ffd24a','#ff44ff'], accent:'#ff44ff' };
+                case 'school':   return { wall:'#1a2818', shade:'#0a140a', win:['#88ff88','#ffd24a'], accent:'#88ff88' };
+                case 'harbor':   return { wall:'#1a2838', shade:'#0a141c', win:['#aaccee','#ffd24a'], accent:'#88ccee' };
+                case 'sewer':    return { wall:'#1a1410', shade:'#0a0804', win:['#aabb44','#88aa44'], accent:'#aabb44' };
+                default:         return { wall:'#1a1a28', shade:'#0a0a14', win:['#ffd24a','#88ccff'], accent:'#88aaee' };
+            }
+        })();
+
+        // === 遠景の小さな街明かり（地平線） ===
+        c.fillStyle = `rgba(255,210,74,0.18)`;
+        for(let i = 0; i < 25; i++) {
+            const lx = (i * 47) % w;
+            c.fillRect(lx, gy - 4, 2, 2);
+        }
+
+        // === ビル群（中景） ===
+        if(t.id !== 'sewer') {
+            // 遠景のシルエット
+            c.fillStyle = palette.shade;
+            const farBuildings = [
+                [0.05, 60, 30], [0.13, 75, 40], [0.22, 50, 28], [0.32, 90, 45],
+                [0.42, 65, 35], [0.55, 80, 42], [0.68, 55, 28], [0.78, 95, 48],
+                [0.88, 70, 36], [0.96, 60, 30]
+            ];
+            farBuildings.forEach(([px, ph, pw]) => {
+                const bx = w * px;
+                c.fillRect(bx - pw/2, gy - ph, pw, ph);
+            });
+
+            // 中景のビル（大きめ、灯り付き）
+            c.fillStyle = palette.wall;
+            const buildings = [
+                [0.08, 130, 60], [0.22, 170, 70], [0.36, 110, 55],
+                [0.50, 200, 80], [0.64, 140, 65], [0.78, 180, 72], [0.92, 120, 58]
+            ];
+            buildings.forEach(([px, ph, pw], idx) => {
+                const bx = w * px;
+                c.fillStyle = palette.wall;
+                c.fillRect(bx - pw/2, gy - ph, pw, ph);
+                c.strokeStyle = palette.shade; c.lineWidth = 1;
+                c.strokeRect(bx - pw/2, gy - ph, pw, ph);
+                // 屋上
+                c.fillStyle = palette.shade;
+                c.fillRect(bx - pw/2 - 2, gy - ph, pw + 4, 4);
+                // 窓（グリッド配置）
+                const cols = Math.floor(pw / 8);
+                const rows = Math.floor(ph / 10);
+                for(let row = 0; row < rows; row++) {
+                    for(let col = 0; col < cols; col++) {
+                        const seed = (row * cols + col + idx * 13 + stageId) % 7;
+                        if(seed < 4) {
+                            c.fillStyle = palette.win[(row + col + idx) % palette.win.length];
+                            c.fillRect(bx - pw/2 + 3 + col*8, gy - ph + 5 + row*10, 3, 4);
+                        }
+                    }
+                }
+                // 屋上のアンテナ赤ブリンカー
+                if(ph > 150 && idx % 2 === 0) {
+                    c.strokeStyle = '#aaa'; c.lineWidth = 1.5;
+                    c.beginPath(); c.moveTo(bx, gy - ph); c.lineTo(bx, gy - ph - 12); c.stroke();
+                    const blink = Math.sin(time * 3 + idx) > 0;
+                    c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
+                    c.beginPath(); c.arc(bx, gy - ph - 14, 2, 0, Math.PI*2); c.fill();
+                }
+            });
+        }
+
+        // === ステージ別ランドマーク ===
+        // 東京タワー @ 銀座（stage 210）
+        if(stageId === 210) {
+            drawTokyoTower(c, w * 0.5, gy);
+        }
+        // 東京スカイツリー @ 摩天楼決戦（stage 217）
+        if(stageId === 217) {
+            drawSkytree(c, w * 0.5, gy);
+        }
+        // 新幹線（stage 212 新幹線追撃戦）— 走る新幹線シルエット
+        if(stageId === 212) {
+            const trainX = ((time * 60) % (w + 200)) - 100;
+            c.fillStyle = '#0a0a3a';
+            c.fillRect(trainX, gy - 28, 180, 14);
+            c.fillStyle = '#aaccff';
+            c.fillRect(trainX + 8, gy - 24, 8, 5);
+            for(let k = 0; k < 6; k++) c.fillRect(trainX + 24 + k*22, gy - 24, 16, 5);
+            c.fillStyle = '#0a0a3a';
+            c.beginPath(); c.moveTo(trainX, gy - 28); c.lineTo(trainX - 16, gy - 18); c.lineTo(trainX, gy - 14); c.closePath(); c.fill();
+            c.fillStyle = '#ffd24a';
+            c.beginPath(); c.arc(trainX - 12, gy - 18, 2, 0, Math.PI*2); c.fill();
+        }
+
+        // === テーマ別の追加装飾 ===
+        if(t.id === 'neon') {
+            // ネオン水平線（複数色）
+            const neonColors = ['rgba(255,0,200,0.5)', 'rgba(0,240,255,0.5)', 'rgba(255,210,74,0.5)'];
+            for(let i = 0; i < 3; i++) {
+                c.strokeStyle = neonColors[i]; c.lineWidth = 1.5;
+                c.beginPath(); c.moveTo(0, gy - i*5 - 2); c.lineTo(w, gy - i*5 - 2); c.stroke();
+            }
+            // 浮遊するネオン広告
+            for(let i = 0; i < 3; i++) {
+                const sx = w * (0.15 + i * 0.3) + Math.sin(time + i) * 8;
+                const sy = h * 0.25 + i * 25;
+                c.fillStyle = ['#ff44ff', '#00f0ff', '#ffd24a'][i];
+                c.fillRect(sx - 30, sy, 60, 14);
+                c.fillStyle = '#0a0010'; c.font = 'bold 8px sans-serif'; c.textAlign = 'center';
+                c.fillText(['SALE','OPEN','★24h'][i], sx, sy + 10);
+            }
+            // ネオン雨
+            c.strokeStyle = 'rgba(255,0,200,0.45)'; c.lineWidth = 1.2;
+            for(let i = 0; i < 28; i++) {
+                const rx = ((i*101 + time*700)%w);
+                const ry = ((i*47 + time*1600)%gy);
+                c.beginPath(); c.moveTo(rx, ry); c.lineTo(rx, ry+12); c.stroke();
+            }
+        } else if(t.id === 'downtown') {
+            // 看板（赤い提灯型）
+            for(let i = 0; i < 5; i++) {
+                const lx = w * (0.1 + i * 0.18);
+                const ly = gy - 18 - (i%3)*6;
+                c.fillStyle = 'rgba(255,80,120,0.85)';
+                c.fillRect(lx-3, ly, 6, 12);
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 0.5;
+                c.strokeRect(lx-3, ly, 6, 12);
+            }
+            // 街灯
+            for(let i = 0; i < 4; i++) {
+                const px = w * (0.18 + i * 0.22);
+                c.fillStyle = '#0a0a0a'; c.fillRect(px-1, gy-22, 2, 22);
+                c.fillStyle = '#ffd24a'; c.beginPath(); c.arc(px, gy-24, 3, 0, Math.PI*2); c.fill();
+                c.fillStyle = 'rgba(255,210,74,0.3)'; c.beginPath(); c.arc(px, gy-24, 7, 0, Math.PI*2); c.fill();
+            }
+        } else if(t.id === 'school') {
+            // 校舎（左側に大きな建物）
+            c.fillStyle = '#1a2818';
+            c.fillRect(w*0.05, gy - 90, w*0.25, 90);
+            c.strokeStyle = '#0a140a'; c.lineWidth = 2;
+            c.strokeRect(w*0.05, gy - 90, w*0.25, 90);
+            // 校舎の窓（多数）
+            for(let row = 0; row < 5; row++) {
+                for(let col = 0; col < 6; col++) {
+                    const wx = w*0.05 + 8 + col*(w*0.25/6 - 1);
+                    const wy = gy - 86 + row*16;
+                    c.fillStyle = (row*6+col + stageId) % 4 === 0 ? '#88ff88' : '#0a140a';
+                    c.fillRect(wx, wy, 6, 10);
+                }
+            }
+            // 屋上の時計
+            c.fillStyle = '#ffd24a';
+            c.beginPath(); c.arc(w*0.175, gy - 100, 8, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#000'; c.lineWidth = 1;
+            c.beginPath(); c.arc(w*0.175, gy - 100, 8, 0, Math.PI*2); c.stroke();
+            c.beginPath(); c.moveTo(w*0.175, gy - 100); c.lineTo(w*0.175, gy - 106); c.stroke();
+            c.beginPath(); c.moveTo(w*0.175, gy - 100); c.lineTo(w*0.18, gy - 100); c.stroke();
+        } else if(t.id === 'harbor') {
+            // 港の巨大クレーン（複数）
+            for(let i = 0; i < 3; i++) {
+                const cx = w * (0.2 + i * 0.3);
+                const cy = gy - 100;
+                // 縦柱
+                c.fillStyle = '#3a4a5a';
+                c.fillRect(cx-3, gy - 100, 6, 100);
+                // 水平アーム
+                c.fillRect(cx-40, cy, 80, 5);
+                // ケーブル
+                c.strokeStyle = '#5a6a7a'; c.lineWidth = 1;
+                c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx-30, cy+30); c.stroke();
+                c.beginPath(); c.moveTo(cx, cy); c.lineTo(cx+30, cy+30); c.stroke();
+                // ヘッドライト（赤ブリンカー）
+                const blink = Math.sin(time * 3 + i) > 0;
+                c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
+                c.beginPath(); c.arc(cx, cy-3, 2, 0, Math.PI*2); c.fill();
+            }
+            // 港の波
+            c.strokeStyle = 'rgba(170,204,238,0.4)'; c.lineWidth = 1;
+            for(let i = 0; i < 4; i++) {
+                c.beginPath();
+                const wy = gy - 4 + i;
+                for(let x = 0; x <= w; x += 12) c.lineTo(x, wy + Math.sin(x*0.08 + time + i)*1.5);
+                c.stroke();
+            }
+        } else if(t.id === 'sewer') {
+            // 地下のパイプ・配管
+            c.fillStyle = '#3a3a3a';
+            for(let i = 0; i < 5; i++) {
+                const px = w * (0.1 + i * 0.2);
+                c.fillRect(px, gy - 30, 8, 30);
+                c.fillRect(px - 30, gy - 30, 60, 6);
+                c.fillStyle = '#5a5a5a';
+                c.beginPath(); c.arc(px+4, gy-27, 2, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#3a3a3a';
+            }
+            // 緑のシミ（汚水）
+            c.fillStyle = 'rgba(140,200,80,0.3)';
+            c.fillRect(0, gy - 8, w, 8);
+        }
+        // city テーマは特にビル追加だけで完結
+    }
+
+    // 東京タワー（赤白の鉄塔）
+    function drawTokyoTower(c, baseX, gy) {
+        const towerH = 220;
+        const baseW = 90;
+        const topY = gy - towerH;
+        // 4本の支柱（赤）
+        c.strokeStyle = '#ff3344'; c.lineWidth = 4;
+        c.beginPath(); c.moveTo(baseX - baseW/2, gy); c.lineTo(baseX - 5, topY + 40); c.stroke();
+        c.beginPath(); c.moveTo(baseX + baseW/2, gy); c.lineTo(baseX + 5, topY + 40); c.stroke();
+        c.lineWidth = 2;
+        c.beginPath(); c.moveTo(baseX - baseW/2 + 15, gy); c.lineTo(baseX - 3, topY + 60); c.stroke();
+        c.beginPath(); c.moveTo(baseX + baseW/2 - 15, gy); c.lineTo(baseX + 3, topY + 60); c.stroke();
+        // 横の梁（多段）
+        c.strokeStyle = '#ff3344'; c.lineWidth = 2;
+        for(let k = 0; k < 8; k++) {
+            const ky = gy - 20 - k*20;
+            const wkw = baseW * (1 - k * 0.11);
+            if(wkw < 10) break;
+            c.beginPath(); c.moveTo(baseX - wkw/2, ky); c.lineTo(baseX + wkw/2, ky); c.stroke();
+            // クロスブレース
+            if(k < 7) {
+                const nkw = baseW * (1 - (k+1) * 0.11);
+                c.beginPath();
+                c.moveTo(baseX - wkw/2, ky); c.lineTo(baseX + nkw/2, ky - 20);
+                c.moveTo(baseX + wkw/2, ky); c.lineTo(baseX - nkw/2, ky - 20);
+                c.stroke();
+            }
+        }
+        // 展望台（白い箱）
+        c.fillStyle = '#fff';
+        c.fillRect(baseX - 22, gy - 130, 44, 18);
+        c.strokeStyle = '#ff3344'; c.lineWidth = 1;
+        c.strokeRect(baseX - 22, gy - 130, 44, 18);
+        // 窓
+        c.fillStyle = '#ffd24a';
+        for(let i = 0; i < 5; i++) c.fillRect(baseX - 19 + i*9, gy - 126, 5, 10);
+        // 上部の展望台（小さい）
+        c.fillStyle = '#fff';
+        c.fillRect(baseX - 14, gy - 180, 28, 12);
+        c.strokeStyle = '#ff3344'; c.strokeRect(baseX - 14, gy - 180, 28, 12);
+        c.fillStyle = '#ffd24a';
+        for(let i = 0; i < 3; i++) c.fillRect(baseX - 12 + i*9, gy - 177, 5, 6);
+        // てっぺんのアンテナ
+        c.strokeStyle = '#ff3344'; c.lineWidth = 3;
+        c.beginPath(); c.moveTo(baseX, gy - 180); c.lineTo(baseX, topY - 10); c.stroke();
+        // てっぺんの赤いブリンカー
+        const t = performance.now() * 0.001;
+        const blink = Math.sin(t * 2.5) > 0;
+        c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.4)';
+        c.beginPath(); c.arc(baseX, topY - 12, 3, 0, Math.PI*2); c.fill();
+        if(blink) {
+            c.fillStyle = 'rgba(255,51,68,0.4)';
+            c.beginPath(); c.arc(baseX, topY - 12, 7, 0, Math.PI*2); c.fill();
+        }
+        // ベースの白パネル
+        c.fillStyle = '#fff';
+        c.fillRect(baseX - baseW/2 - 2, gy - 10, baseW + 4, 10);
+    }
+
+    // 東京スカイツリー（青く光るすらりとした塔）
+    function drawSkytree(c, baseX, gy) {
+        const towerH = 280;
+        const topY = gy - towerH;
+        // 三角の脚（広め）
+        c.strokeStyle = '#aaccee'; c.lineWidth = 3;
+        c.beginPath(); c.moveTo(baseX - 50, gy); c.lineTo(baseX - 6, topY + 80); c.stroke();
+        c.beginPath(); c.moveTo(baseX + 50, gy); c.lineTo(baseX + 6, topY + 80); c.stroke();
+        c.beginPath(); c.moveTo(baseX, gy); c.lineTo(baseX, topY); c.stroke();
+        // 横梁
+        c.strokeStyle = '#88aacc'; c.lineWidth = 1.5;
+        for(let k = 0; k < 12; k++) {
+            const ky = gy - 20 - k*20;
+            const wkw = 60 * (1 - k * 0.08);
+            if(wkw < 4) break;
+            c.beginPath(); c.moveTo(baseX - wkw/2, ky); c.lineTo(baseX + wkw/2, ky); c.stroke();
+        }
+        // クロス模様（細い）
+        c.strokeStyle = '#5a8aaa'; c.lineWidth = 0.8;
+        for(let k = 0; k < 11; k++) {
+            const ky = gy - 20 - k*20;
+            const wkw = 60 * (1 - k * 0.08);
+            const nkw = 60 * (1 - (k+1) * 0.08);
+            if(nkw < 2) break;
+            c.beginPath();
+            c.moveTo(baseX - wkw/2, ky); c.lineTo(baseX + nkw/2, ky - 20);
+            c.moveTo(baseX + wkw/2, ky); c.lineTo(baseX - nkw/2, ky - 20);
+            c.stroke();
+        }
+        // 第一展望台（円盤）
+        c.fillStyle = '#88aacc';
+        c.beginPath(); c.ellipse(baseX, gy - 160, 32, 14, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#0a3a5a'; c.lineWidth = 1; c.stroke();
+        c.fillStyle = '#00f0ff';
+        for(let i = 0; i < 6; i++) c.fillRect(baseX - 25 + i*9, gy - 162, 6, 6);
+        // 第二展望台（小さい円盤）
+        c.fillStyle = '#88aacc';
+        c.beginPath(); c.ellipse(baseX, gy - 210, 20, 9, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = '#0a3a5a'; c.stroke();
+        c.fillStyle = '#00f0ff';
+        for(let i = 0; i < 4; i++) c.fillRect(baseX - 14 + i*8, gy - 212, 5, 4);
+        // 上部のアンテナ（直線）
+        c.strokeStyle = '#aaccee'; c.lineWidth = 2.5;
+        c.beginPath(); c.moveTo(baseX, gy - 210); c.lineTo(baseX, topY - 6); c.stroke();
+        // 青いライトアップ（脈動）
+        const t = performance.now() * 0.001;
+        const glow = 0.5 + Math.sin(t * 1.5) * 0.3;
+        c.fillStyle = `rgba(0,240,255,${0.15 * glow})`;
+        c.beginPath(); c.moveTo(baseX - 60, gy); c.lineTo(baseX, topY); c.lineTo(baseX + 60, gy); c.closePath(); c.fill();
+        // てっぺんの白いブリンカー
+        const blink = Math.sin(t * 3) > 0;
+        c.fillStyle = blink ? '#fff' : 'rgba(255,255,255,0.3)';
+        c.beginPath(); c.arc(baseX, topY - 8, 2.5, 0, Math.PI*2); c.fill();
+        if(blink) {
+            c.fillStyle = 'rgba(0,240,255,0.5)';
+            c.beginPath(); c.arc(baseX, topY - 8, 8, 0, Math.PI*2); c.fill();
+        }
+        // 名札
+        c.fillStyle = 'rgba(0,240,255,0.7)';
+        c.font = 'bold 10px sans-serif'; c.textAlign = 'center';
+        c.fillText('SKYTREE', baseX, gy - 4);
+    }
+
     // 背景（テーマ別）
     function drawBackground() {
         const w = W(), h = H(), gy = groundY();
@@ -8169,23 +8640,27 @@
                 ctx.arc(w*(0.2 + i*0.3), h*0.18, 22 + i*6, 0, Math.PI*2);
                 ctx.stroke();
             }
+        } else if(t.id === 'city' || t.id === 'downtown' || t.id === 'neon' || t.id === 'school' || t.id === 'harbor' || t.id === 'sewer') {
+            drawModernCityBg(ctx, t, w, h, gy);
         }
-        // 遠景の山
-        ctx.fillStyle = t.mtFar;
-        ctx.beginPath(); ctx.moveTo(0, gy);
-        for(let i=0;i<=10;i++){
-            const x = i/10*w; const y = gy - 60 - Math.sin(i)*30 - (i%2)*20;
-            ctx.lineTo(x, y);
+        // 遠景の山（現代編はビルが背景なのでスキップ）
+        if(currentEra !== 'modern') {
+            ctx.fillStyle = t.mtFar;
+            ctx.beginPath(); ctx.moveTo(0, gy);
+            for(let i=0;i<=10;i++){
+                const x = i/10*w; const y = gy - 60 - Math.sin(i)*30 - (i%2)*20;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, gy); ctx.closePath(); ctx.fill();
+            // 中景の山
+            ctx.fillStyle = t.mtNear;
+            ctx.beginPath(); ctx.moveTo(0, gy);
+            for(let i=0;i<=8;i++){
+                const x = i/8*w; const y = gy - 30 - Math.sin(i*1.7)*16;
+                ctx.lineTo(x, y);
+            }
+            ctx.lineTo(w, gy); ctx.closePath(); ctx.fill();
         }
-        ctx.lineTo(w, gy); ctx.closePath(); ctx.fill();
-        // 中景の山
-        ctx.fillStyle = t.mtNear;
-        ctx.beginPath(); ctx.moveTo(0, gy);
-        for(let i=0;i<=8;i++){
-            const x = i/8*w; const y = gy - 30 - Math.sin(i*1.7)*16;
-            ctx.lineTo(x, y);
-        }
-        ctx.lineTo(w, gy); ctx.closePath(); ctx.fill();
         // 地面
         const ground = ctx.createLinearGradient(0,gy,0,h);
         ground.addColorStop(0, t.groundTop);
@@ -10698,6 +11173,7 @@
             if(u.data && u.data.mega) {
                 if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
                 else if(u.data.helmet === 'zeus_crown') drawZeus(ctx, u);
+                else if(u.data.helmet === 'md_sat_red') drawSatelliteMega(ctx, u);
                 else drawDarkDragon(ctx, u);
             } else {
                 // 飛行: 本体の後ろに翼を描画（noWingsの場合はスキップ）
@@ -10807,7 +11283,7 @@
                 ctx.fillRect(mbx, mby, mw * Math.max(0, u.hp/u.maxHp), 14);
                 ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
                 ctx.lineWidth = 4; ctx.strokeStyle = '#000';
-                const icon = u.data.helmet === 'mechagod' ? '⚔️' : '🐉';
+                const icon = u.data.helmet === 'mechagod' ? '⚔️' : (u.data.helmet === 'md_sat_red' ? '🛰' : '🐉');
                 const hpTxt = `${icon} ${u.data.name}  ${Math.ceil(u.hp).toLocaleString()} / ${u.maxHp.toLocaleString()}`;
                 ctx.strokeText(hpTxt, w/2, mby - 8);
                 ctx.fillStyle = '#ffaaaa';
