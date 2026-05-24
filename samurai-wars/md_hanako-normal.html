@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>花子さん 通常攻撃3案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#ff3344;margin-bottom:6px}.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:8px}.note{text-align:center;color:#888;font-size:0.78rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ff3344);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,51,68,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ff3344);margin-bottom:6px}p{font-size:0.8rem;color:#cdf;line-height:1.4}footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🚽 トイレの花子さん — 通常攻撃 3案</h1>
+<div class="sub">NORMAL ATTACK CANDIDATES</div>
+<div class="note">※ 必殺技（水柱AOE）はそのまま。瞬間移動能力も維持</div>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案A. 御札投げ</h2><p>1枚の御札を遠距離単発で投擲。</p></div>
+<div class="card" style="--c:#88aaff;--g:rgba(136,170,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案B. 水弾</h2><p>蛇口から水弾を一発、中距離で発射。</p></div>
+<div class="card" style="--c:#ff66cc;--g:rgba(255,102,204,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案C. 呪いの叫び</h2><p>前方に伸びる怨念の波。中範囲。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · NORMAL ATTACK PREVIEW</footer>
+<script>
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0a08');sky.addColorStop(1,'#1a2818');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a1410';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#3a3838';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawHanako(c,x,y){c.fillStyle='#fff';c.beginPath();c.moveTo(x-9,y-14);c.lineTo(x-15,y);c.lineTo(x+15,y);c.lineTo(x+9,y-14);c.closePath();c.fill();c.fillStyle='#aa1010';c.fillRect(x-14,y-2,28,2);c.fillStyle='#fff';c.fillRect(x-10,y-26,20,12);c.strokeStyle='#aa1010';c.lineWidth=2;c.beginPath();c.moveTo(x-10,y-25);c.lineTo(x+10,y-15);c.stroke();c.beginPath();c.moveTo(x+10,y-25);c.lineTo(x-10,y-15);c.stroke();c.fillStyle='#f0d4a8';c.beginPath();c.arc(x,y-32,5,0,Math.PI*2);c.fill();c.fillStyle='#0a0a0a';c.beginPath();c.arc(x,y-34,5,Math.PI,0);c.fill();c.fillRect(x-5,y-35,10,2);c.fillStyle='#5a3030';c.fillRect(x-2,y-32,1,1);c.fillRect(x+1,y-32,1,1);}
+
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHanako(c,w*0.25,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.25+12+tt*(tg.x-w*0.25-25);const y=h*0.55-Math.sin(tt*Math.PI)*15;
+    c.save();c.translate(x,y);c.rotate(tt*Math.PI*4);
+    c.fillStyle='#fff';c.fillRect(-7,-12,14,24);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-7,-12,14,24);
+    c.fillStyle='#aa1010';c.font='bold 11px serif';c.textAlign='center';c.fillText('呪',0,2);c.restore();
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18,0,Math.PI*2);c.fill();}
+},1700);
+
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHanako(c,w*0.25,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.25+15+tt*(tg.x-w*0.25-30);
+    c.fillStyle='rgba(136,170,255,0.85)';c.beginPath();c.arc(x,h*0.6,8,0,Math.PI*2);c.fill();
+    c.fillStyle='rgba(220,240,255,0.9)';c.beginPath();c.arc(x-2,h*0.59,4,0,Math.PI*2);c.fill();
+    for(let k=1;k<5;k++){const tk=Math.max(0,tt-k*0.05);const xk=w*0.25+15+tk*(tg.x-w*0.25-30);
+      c.fillStyle=`rgba(136,170,255,${0.4-k*0.08})`;c.beginPath();c.arc(xk,h*0.6,6-k,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.7)/0.3;
+    c.fillStyle=`rgba(136,200,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,20+tt*5,0,Math.PI*2);c.fill();
+    // 飛沫
+    for(let i=0;i<6;i++){const ang=Math.random()*Math.PI;
+      c.fillStyle='rgba(200,230,255,0.7)';c.beginPath();c.arc(tg.x+Math.cos(ang)*tt*22,tg.y-16+Math.sin(ang)*(-tt*15),3,0,Math.PI*2);c.fill();}}
+},1700);
+
+startAnim('at-c',(c,t,w,h)=>{const enemies=[{x:w*0.55,y:h*0.7},{x:w*0.7,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));drawHanako(c,w*0.25,h*0.7);
+  // ピンクの怨念波
+  const x=w*0.3+t*(w*0.6);
+  for(let k=0;k<6;k++){const xk=Math.max(w*0.3,x-k*15);
+    c.fillStyle=`rgba(255,102,204,${0.6-k*0.1})`;
+    c.beginPath();c.moveTo(xk,h*0.55-20);c.lineTo(xk+12,h*0.6);c.lineTo(xk,h*0.65+20);c.lineTo(xk-8,h*0.6);c.closePath();c.fill();}
+  // 顔の形（中央）
+  c.fillStyle=`rgba(255,102,204,0.5)`;c.beginPath();c.ellipse(x,h*0.6,20,30,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#aa1010';c.fillRect(x-6,h*0.58,3,5);c.fillRect(x+3,h*0.58,3,5);
+  c.fillStyle='#aa1010';c.fillRect(x-4,h*0.62,8,2);
+  c.fillStyle='#ff66cc';c.font='bold 16px sans-serif';c.textAlign='center';c.fillText('呪',x,h*0.55);
+},2000);
+</script></body></html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAIA-MIND デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#0a4030 0%,transparent 60%),linear-gradient(180deg,#001818 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#22dd99;text-shadow:0 0 30px rgba(34,221,153,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#22dd99;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(10,30,25,0.7);border:2px solid var(--c,#22dd99);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(34,221,153,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#001020 0%,#0a2030 70%,#1a3040 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#22dd99);margin-bottom:6px}
+p{font-size:0.8rem;color:#cfe;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🌿 都市制御AI GAIA-MIND</h1>
+<div class="sub">🇸🇬 SINGAPORE · VERTICAL CITY AI BOSS</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#22dd99;--g:rgba(34,221,153,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 緑の女神ホログラム</h2><p>半透明緑の女性ホログラム。葉のドレス、髪は蔓、優しい目。</p></div>
+<div class="card" style="--c:#00ddff;--g:rgba(0,221,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 青の球体コア</h2><p>中央に青い大球体、周囲6つのサブ球が公転、光線。</p></div>
+<div class="card" style="--c:#888888;--g:rgba(255,221,68,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 都市そのものを身体に</h2><p>ビル群が手足を持つ巨大都市生命体、頭=最高層ビル。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#22dd99;--g:rgba(34,221,153,0.5)"><div class="canv-wrap"><canvas id="n1" width="280" height="200"></canvas></div><h2>N① 触手叩き</h2><p>緑の植物触手が伸びて叩く。</p></div>
+<div class="card" style="--c:#44aa55;--g:rgba(68,170,85,0.5)"><div class="canv-wrap"><canvas id="n2" width="280" height="200"></canvas></div><h2>N② 緑エネルギー弾</h2><p>緑の球状弾が飛ぶ＋光跡。</p></div>
+<div class="card" style="--c:#8a5a18;--g:rgba(138,90,24,0.5)"><div class="canv-wrap"><canvas id="n3" width="280" height="200"></canvas></div><h2>N③ 木の根束縛攻撃</h2><p>茶色い木の根が地面から伸びて拘束＋範囲。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#22dd99;--g:rgba(34,221,153,0.5)"><div class="canv-wrap"><canvas id="s1" width="280" height="200"></canvas></div><h2>S① 都市制御グリッド</h2><p>全画面に緑の格子ビーム＋格子交点で複数AOE爆発。</p></div>
+<div class="card" style="--c:#00ddff;--g:rgba(0,221,255,0.5)"><div class="canv-wrap"><canvas id="s2" width="280" height="200"></canvas></div><h2>S② 浮遊球体爆破</h2><p>6つのサブ球が周囲に飛んで時間差6箇所同時AOE。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="s3" width="280" height="200"></canvas></div><h2>S③ 引力場</h2><p>範囲中央に渦巻き＋敵が吸い寄せ＋紫の重力線。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawGoddess(c,p){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(34,221,153,0.5)',130);
+  // ドレス (葉)
+  c.fillStyle='rgba(68,170,85,0.7)';c.beginPath();c.moveTo(cx-35,cy+70);c.lineTo(cx,cy+10);c.lineTo(cx+35,cy+70);c.fill();
+  // 葉の装飾
+  c.fillStyle='#22dd99';for(let i=0;i<5;i++){const ly=cy+20+i*10;const lw=10+i*4;
+    c.beginPath();c.ellipse(cx-lw,ly,6,3,-0.3,0,Math.PI*2);c.fill();
+    c.beginPath();c.ellipse(cx+lw,ly,6,3,0.3,0,Math.PI*2);c.fill();}
+  // 体 (半透明)
+  c.fillStyle='rgba(34,221,153,0.5)';c.fillRect(cx-12,cy-20,24,30);
+  // 頭
+  c.fillStyle='rgba(34,221,153,0.7)';c.beginPath();c.arc(cx,cy-30,14,0,Math.PI*2);c.fill();
+  // 髪 (植物の蔓)
+  c.strokeStyle='#22dd99';c.lineWidth=3;
+  for(let i=0;i<6;i++){const ang=Math.PI+i*Math.PI/5;
+    c.beginPath();c.moveTo(cx+Math.cos(ang)*12,cy-30+Math.sin(ang)*12);
+    c.quadraticCurveTo(cx+Math.cos(ang)*25,cy-30+Math.sin(ang)*5,cx+Math.cos(ang)*20,cy-5);c.stroke();
+    // 葉
+    c.fillStyle='#44aa55';c.beginPath();c.ellipse(cx+Math.cos(ang)*22,cy-12,4,2,ang,0,Math.PI*2);c.fill();}
+  // 優しい目
+  c.fillStyle='#aaffdd';c.fillRect(cx-7,cy-32,4,2);c.fillRect(cx+3,cy-32,4,2);
+  // 口
+  c.strokeStyle='#aaffdd';c.lineWidth=1;c.beginPath();c.arc(cx,cy-26,3,0.2,Math.PI-0.2);c.stroke();
+  // 腕
+  c.fillStyle='rgba(34,221,153,0.6)';c.fillRect(cx-22,cy-15,8,30);c.fillRect(cx+14,cy-15,8,30);
+}
+
+function drawOrbCore(c,p){
+  const cx=110,cy=130;
+  aura(c,cx,cy,'rgba(0,221,255,0.6)',130);
+  // 公転サブ球 (背面用)
+  for(let i=0;i<6;i++){const ang=i*Math.PI/3;const rx=cx+Math.cos(ang)*70;const ry=cy+Math.sin(ang)*40;
+    if(Math.sin(ang)>0)continue;
+    c.fillStyle='#88ddff';c.beginPath();c.arc(rx,ry,10,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(rx-2,ry-2,4,0,Math.PI*2);c.fill();}
+  // 中央大球体
+  const g=c.createRadialGradient(cx-10,cy-10,4,cx,cy,40);g.addColorStop(0,'#aaeeff');g.addColorStop(0.5,'#00ddff');g.addColorStop(1,'#0066aa');
+  c.fillStyle=g;c.beginPath();c.arc(cx,cy,40,0,Math.PI*2);c.fill();
+  // ハイライト
+  c.fillStyle='rgba(255,255,255,0.4)';c.beginPath();c.arc(cx-12,cy-12,14,0,Math.PI*2);c.fill();
+  // コアから光線
+  c.strokeStyle='rgba(0,221,255,0.6)';c.lineWidth=1;
+  for(let i=0;i<6;i++){const ang=i*Math.PI/3;
+    c.beginPath();c.moveTo(cx+Math.cos(ang)*40,cy+Math.sin(ang)*40);c.lineTo(cx+Math.cos(ang)*70,cy+Math.sin(ang)*40);c.stroke();}
+  // 公転サブ球 (前面)
+  for(let i=0;i<6;i++){const ang=i*Math.PI/3;const rx=cx+Math.cos(ang)*70;const ry=cy+Math.sin(ang)*40;
+    if(Math.sin(ang)<=0)continue;
+    c.fillStyle='#88ddff';c.beginPath();c.arc(rx,ry,10,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(rx-2,ry-2,4,0,Math.PI*2);c.fill();}
+}
+
+function drawCityBeing(c,p){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(255,221,68,0.3)',130);
+  // 脚 (ビル)
+  c.fillStyle='#666';c.fillRect(cx-30,cy+30,18,50);c.fillRect(cx+12,cy+30,18,50);
+  // 脚の窓
+  c.fillStyle='#ffdd44';for(let i=0;i<5;i++)for(let j=0;j<2;j++){c.fillRect(cx-28+j*8,cy+34+i*8,3,4);c.fillRect(cx+14+j*8,cy+34+i*8,3,4);}
+  // 胴 (ビル群)
+  c.fillStyle='#888';c.fillRect(cx-35,cy-20,70,52);
+  c.fillStyle='#555';c.fillRect(cx-35,cy-20,70,3);
+  // 胴の窓
+  c.fillStyle='#ffdd44';for(let i=0;i<5;i++)for(let j=0;j<8;j++){c.fillRect(cx-32+j*9,cy-15+i*9,4,5);}
+  // 腕 (ビル)
+  c.fillStyle='#666';c.fillRect(cx-55,cy-10,15,40);c.fillRect(cx+40,cy-10,15,40);
+  c.fillStyle='#ffdd44';for(let i=0;i<4;i++){c.fillRect(cx-53,cy-6+i*8,4,4);c.fillRect(cx+42,cy-6+i*8,4,4);}
+  // 頭 (一番高いビル)
+  c.fillStyle='#888';c.fillRect(cx-15,cy-65,30,45);
+  c.fillStyle='#555';c.fillRect(cx-15,cy-65,30,3);
+  // 頭の窓
+  c.fillStyle='#ffdd44';for(let i=0;i<4;i++)for(let j=0;j<3;j++){c.fillRect(cx-12+j*9,cy-60+i*9,4,5);}
+  // 目 (上部の赤窓)
+  c.fillStyle='#ff2244';c.fillRect(cx-10,cy-58,6,4);c.fillRect(cx+4,cy-58,6,4);
+  // アンテナ
+  c.strokeStyle='#aaa';c.lineWidth=2;c.beginPath();c.moveTo(cx,cy-65);c.lineTo(cx,cy-78);c.stroke();
+  c.fillStyle='#ff2244';c.beginPath();c.arc(cx,cy-78,2,0,Math.PI*2);c.fill();
+  // 植物の蔓 (絡む)
+  c.strokeStyle='#22dd99';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-35,cy+30);c.quadraticCurveTo(cx-20,cy,cx-35,cy-20);c.stroke();
+  c.beginPath();c.moveTo(cx+35,cy+30);c.quadraticCurveTo(cx+20,cy,cx+35,cy-20);c.stroke();
+}
+
+drawGoddess(document.getElementById('ch-a').getContext('2d'),{});
+drawOrbCore(document.getElementById('ch-b').getContext('2d'),{});
+drawCityBeing(document.getElementById('ch-c').getContext('2d'),{});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){
+  // 夜空
+  const sky=c.createLinearGradient(0,0,0,h*0.65);sky.addColorStop(0,'#001028');sky.addColorStop(1,'#0a2840');c.fillStyle=sky;c.fillRect(0,0,w,h*0.65);
+  // 星
+  for(let i=0;i<15;i++){c.fillStyle='#fff';c.fillRect((i*19)%w,(i*7)%(h*0.4),1,1);}
+  // 超高層ビル群 (背景奥)
+  const builds=[[0.05,0.6,40],[0.15,0.35,35],[0.25,0.45,30],[0.4,0.25,50],[0.55,0.4,38],[0.7,0.3,45],[0.85,0.5,35],[0.95,0.4,28]];
+  builds.forEach(([bx,bh,bw])=>{c.fillStyle='#1a2540';c.fillRect(w*bx-bw/2,h*(1-bh)*0.65,bw,h*bh*0.65);
+    // 窓
+    c.fillStyle='#ffdd44';for(let i=0;i<Math.floor(bh*8);i++)for(let j=0;j<Math.floor(bw/8);j++){if((i+j)%2)c.fillRect(w*bx-bw/2+4+j*8,h*(1-bh)*0.65+8+i*8,3,4);}});
+  // マリーナベイサンズ風 (3本柱+上に板)
+  c.fillStyle='#2a3550';c.fillRect(w*0.45-3,h*0.2,6,h*0.45);c.fillRect(w*0.5-3,h*0.2,6,h*0.45);c.fillRect(w*0.55-3,h*0.2,6,h*0.45);
+  c.fillStyle='#3a4560';c.fillRect(w*0.42,h*0.17,w*0.16,8);
+  // ホログラム緑の植物 (建物に絡む)
+  c.strokeStyle='rgba(34,221,153,0.6)';c.lineWidth=2;
+  builds.forEach(([bx,bh])=>{c.beginPath();c.moveTo(w*bx,h*0.65);c.quadraticCurveTo(w*bx+10,h*(1-bh/2)*0.65,w*bx-5,h*(1-bh)*0.65+5);c.stroke();});
+  // 海面
+  c.fillStyle='#0a1828';c.fillRect(0,h*0.65,w,h*0.35);
+  c.fillStyle='#22dd99';c.fillRect(0,h*0.65,w,1);
+  // 海面反射
+  for(let i=0;i<8;i++){c.fillStyle='rgba(255,221,68,0.3)';c.fillRect((i*30)%w,h*0.67+(i%3)*3,4,1);}
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawBoss(c,x,y,col='#22dd99'){
+  c.fillStyle=`rgba(34,221,153,0.6)`;c.beginPath();c.arc(x,y-25,15,0,Math.PI*2);c.fill();
+  c.fillStyle=col;c.fillRect(x-10,y-15,20,15);
+  c.fillStyle='#aaffdd';c.fillRect(x-6,y-28,3,2);c.fillRect(x+3,y-28,3,2);}
+
+// N① 触手叩き
+startAnim('n1',(c,t,w,h)=>{drawBoss(c,w*0.25,h*0.65);drawEnemy(c,w*0.7,h*0.7);
+  // 触手 (curve)
+  const ext=Math.min(t*2,1);
+  c.strokeStyle='#22dd99';c.lineWidth=8;
+  c.beginPath();c.moveTo(w*0.25+12,h*0.65-25);
+  c.bezierCurveTo(w*0.4,h*0.4,w*0.55,h*0.5,w*0.25+12+(w*0.7-w*0.25-12)*ext,h*0.7-15-(t>0.5?(t-0.5)*30:0));
+  c.stroke();
+  // 触手の節
+  c.strokeStyle='#44aa55';c.lineWidth=4;c.beginPath();
+  c.moveTo(w*0.25+12,h*0.65-25);
+  c.bezierCurveTo(w*0.4,h*0.4,w*0.55,h*0.5,w*0.25+12+(w*0.7-w*0.25-12)*ext,h*0.7-15-(t>0.5?(t-0.5)*30:0));
+  c.stroke();
+  // 着弾衝撃
+  if(t>0.7){const tt=(t-0.7)/0.3;c.fillStyle=`rgba(34,221,153,${1-tt})`;c.beginPath();c.arc(w*0.7,h*0.7-15,20*(1+tt),0,Math.PI*2);c.fill();}
+},2400);
+
+// N② 緑エネルギー弾
+startAnim('n2',(c,t,w,h)=>{drawBoss(c,w*0.2,h*0.65);drawEnemy(c,w*0.8,h*0.65);
+  const bx=w*0.2+12+t*(w*0.6),by=h*0.65-25;
+  // 光跡
+  for(let i=0;i<8;i++){const tt=t-i*0.03;if(tt<0)continue;const tbx=w*0.2+12+tt*(w*0.6);
+    c.fillStyle=`rgba(34,221,153,${0.6-i*0.08})`;c.beginPath();c.arc(tbx,by,4,0,Math.PI*2);c.fill();}
+  // 弾本体
+  const g=c.createRadialGradient(bx,by,2,bx,by,10);g.addColorStop(0,'#aaffdd');g.addColorStop(0.5,'#22dd99');g.addColorStop(1,'rgba(34,221,153,0)');
+  c.fillStyle=g;c.beginPath();c.arc(bx,by,10,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(bx,by,3,0,Math.PI*2);c.fill();
+},2200);
+
+// N③ 木の根束縛
+startAnim('n3',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.55+i*40,h*0.7);
+  drawBoss(c,w*0.15,h*0.65);
+  if(t>0.2){const tt=(t-0.2)/0.8;
+    // 木の根が地面から伸びる
+    for(let k=0;k<4;k++){const tx=w*0.5+k*35;const grow=Math.min(tt*2,1);
+      c.strokeStyle='#8a5a18';c.lineWidth=4;
+      c.beginPath();c.moveTo(tx,h*0.7);
+      c.bezierCurveTo(tx-10,h*0.7-15*grow,tx+10,h*0.7-25*grow,tx,h*0.7-35*grow);c.stroke();
+      // 細枝
+      if(grow>0.5){c.strokeStyle='#6a4010';c.lineWidth=2;
+        c.beginPath();c.moveTo(tx,h*0.7-25*grow);c.lineTo(tx-8,h*0.7-30*grow);c.stroke();
+        c.beginPath();c.moveTo(tx,h*0.7-25*grow);c.lineTo(tx+8,h*0.7-30*grow);c.stroke();}}
+    // 拘束マーク
+    if(tt>0.5){for(let i=0;i<3;i++){c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.fillText('×',w*0.55+i*40-5,h*0.7-35);}}}
+},2600);
+
+// S① 都市制御グリッド (全画面)
+startAnim('s1',(c,t,w,h)=>{
+  for(let i=0;i<5;i++)drawEnemy(c,w*0.15+i*45,h*0.7);
+  if(t<0.4){const tt=t/0.4;
+    // 格子展開
+    c.strokeStyle=`rgba(34,221,153,${tt})`;c.lineWidth=2;
+    for(let i=0;i<6;i++){const x=w*i/5;c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke();}
+    for(let i=0;i<5;i++){const y=h*i/4;c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}
+  }else{const tt=(t-0.4)/0.6;
+    // 格子定常
+    c.strokeStyle=`rgba(34,221,153,${1-tt*0.3})`;c.lineWidth=2;
+    for(let i=0;i<6;i++){const x=w*i/5;c.beginPath();c.moveTo(x,0);c.lineTo(x,h);c.stroke();}
+    for(let i=0;i<5;i++){const y=h*i/4;c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke();}
+    // 格子交点で爆発
+    for(let i=0;i<6;i++)for(let j=0;j<5;j++){const x=w*i/5;const y=h*j/4;
+      const phase=(tt*2+i*0.1+j*0.07)%1;
+      if(phase<0.5){const pt=phase/0.5;
+        c.fillStyle=`rgba(34,221,153,${0.8-pt*0.8})`;c.beginPath();c.arc(x,y,8+pt*10,0,Math.PI*2);c.fill();
+        c.fillStyle=`rgba(170,255,221,${1-pt})`;c.beginPath();c.arc(x,y,4,0,Math.PI*2);c.fill();}}}
+},2800);
+
+// S② 浮遊球体爆破 (6箇所)
+startAnim('s2',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.2+i*45,h*0.7);
+  const cx=w*0.5,cy=h*0.35;
+  // 中央コア
+  c.fillStyle='#00ddff';c.beginPath();c.arc(cx,cy,12,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy,5,0,Math.PI*2);c.fill();
+  // 6つのサブ球が飛ぶ
+  const targets=[[w*0.15,h*0.6],[w*0.35,h*0.65],[w*0.5,h*0.55],[w*0.65,h*0.65],[w*0.85,h*0.6],[w*0.5,h*0.7]];
+  for(let k=0;k<6;k++){const ph=(t+k*0.05)%1;const [tx,ty]=targets[k];
+    if(ph<0.5){const tt=ph/0.5;const sx=cx+(tx-cx)*tt;const sy=cy+(ty-cy)*tt;
+      c.fillStyle='#88ddff';c.beginPath();c.arc(sx,sy,8,0,Math.PI*2);c.fill();
+      c.fillStyle='#fff';c.beginPath();c.arc(sx,sy,3,0,Math.PI*2);c.fill();
+      // 軌跡
+      c.strokeStyle=`rgba(0,221,255,${0.4})`;c.lineWidth=1;c.beginPath();c.moveTo(cx,cy);c.lineTo(sx,sy);c.stroke();
+    }else if(ph<0.85){const tt=(ph-0.5)/0.35;
+      // AOE爆発
+      c.fillStyle=`rgba(0,221,255,${1-tt})`;c.beginPath();c.arc(tx,ty,20*(1+tt),0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(170,255,255,${1-tt})`;c.beginPath();c.arc(tx,ty,10,0,Math.PI*2);c.fill();
+      // 衝撃波
+      c.strokeStyle=`rgba(0,221,255,${1-tt})`;c.lineWidth=2;c.beginPath();c.arc(tx,ty,15+tt*25,0,Math.PI*2);c.stroke();}}
+},3000);
+
+// S③ 引力場 (渦巻き+紫の重力線)
+startAnim('s3',(c,t,w,h)=>{
+  const cx=w*0.5,cy=h*0.55;
+  // 渦巻き背景
+  c.fillStyle=`rgba(170,68,255,0.2)`;c.beginPath();c.arc(cx,cy,80,0,Math.PI*2);c.fill();
+  // 紫の重力線 (回転)
+  for(let k=0;k<8;k++){const ang=k*Math.PI/4+t*Math.PI*4;
+    c.strokeStyle=`rgba(170,68,255,0.6)`;c.lineWidth=2;
+    c.beginPath();
+    for(let r=80;r>10;r-=4){const a=ang+r*0.05;c.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);}
+    c.stroke();}
+  // 敵が吸い寄せられる
+  const enemies=[[w*0.1,h*0.7],[w*0.3,h*0.75],[w*0.7,h*0.75],[w*0.9,h*0.7]];
+  enemies.forEach(([ex,ey])=>{
+    const dx=cx-ex,dy=cy-ey;const dist=Math.sqrt(dx*dx+dy*dy);
+    const pullX=ex+dx/dist*(t*40);const pullY=ey+dy/dist*(t*40);
+    drawEnemy(c,pullX,pullY);
+    // 吸引線
+    c.strokeStyle=`rgba(170,68,255,${0.5})`;c.lineWidth=1;
+    c.beginPath();c.moveTo(pullX,pullY);c.lineTo(cx,cy);c.stroke();
+    // ダメ
+    if(t>0.5){c.fillStyle=`rgba(170,68,255,${1-(t-0.5)*2})`;c.font='bold 11px sans-serif';c.fillText('-8',pullX-5,pullY-25-(t-0.5)*20);}});
+  // 中心の渦
+  c.fillStyle='#aa44ff';c.beginPath();c.arc(cx,cy,12,0,Math.PI*2);c.fill();
+  c.fillStyle='#000';c.beginPath();c.arc(cx,cy,6,0,Math.PI*2);c.fill();
+},3000);
+</script></body></html>

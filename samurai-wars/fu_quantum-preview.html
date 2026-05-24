@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>量子龍 GOLD QUANTUM デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#5a3a0a 0%,transparent 60%),linear-gradient(180deg,#1a0a00 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ffd24a;text-shadow:0 0 30px rgba(255,210,74,0.7);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#ffe88a;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(255,210,74,0.5)}
+.sub{text-align:center;color:#ffe88a;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(30,20,10,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#1a0a20 0%,#3a1830 50%,#5a2820 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#fec;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🐉 量子龍 GOLD QUANTUM デザイン & 攻撃 候補</h1>
+<div class="sub">DUBAI DESERT SKYTOWER BOSS — 未来編 2098</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 純金のドラゴン</h2><p>純金鱗+碧目。雲の中の東洋龍。</p></div>
+<div class="card" style="--c:#00d4ff;--g:rgba(0,212,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 青量子龍</h2><p>体がグリッチ＋量子粒子。ホロ風。</p></div>
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 銀の無限ループ龍</h2><p>体が∞を描く神秘的ホログラム龍。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>N① 噛みつき</h2><p>龍の頭が前進して顎で噛みつき。</p></div>
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>N② 黄金単発弾</h2><p>黄金の球状弾＋火粒。</p></div>
+<div class="card" style="--c:#ffe88a;--g:rgba(255,232,138,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>N③ 龍の咆哮</h2><p>音波円＋空気の歪み。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.7)"><div class="canv-wrap"><canvas id="sp-a" width="280" height="200"></canvas></div><h2>S① 黄金ブレス</h2><p>極太の黄金ビーム水平発射。</p></div>
+<div class="card" style="--c:#00d4ff;--g:rgba(0,212,255,0.7)"><div class="canv-wrap"><canvas id="sp-b" width="280" height="200"></canvas></div><h2>S② 量子分裂3体</h2><p>3体に分裂＋それぞれブレス。</p></div>
+<div class="card" style="--c:#fff8dd;--g:rgba(255,248,221,0.7)"><div class="canv-wrap"><canvas id="sp-c" width="280" height="200"></canvas></div><h2>S③ 龍翔斬撃</h2><p>斜めに高速突進＋金の軌跡。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawDragon(c,p){
+  const cx=110,cy=140;
+  if(p.aura)aura(c,cx,cy,p.aura,140);
+  // 龍の体（蛇行・東洋龍）
+  const segs=p.variant==='C'?14:10;
+  for(let i=0;i<segs;i++){
+    const tt=i/segs;
+    let bx,by;
+    if(p.variant==='C'){
+      // 無限ループ∞
+      const ang=tt*Math.PI*2;
+      bx=cx+Math.sin(ang*2)*45;
+      by=cy+Math.sin(ang)*35;
+    }else{
+      bx=cx-50+i*10+Math.sin(i*0.8)*8;
+      by=cy-30+Math.sin(i*0.6)*25+i*3;
+    }
+    const r=8-tt*3;
+    if(p.variant==='B'){
+      // 青量子・グリッチ
+      c.fillStyle=i%3===0?'rgba(0,212,255,0.4)':'#00d4ff';
+      c.fillRect(bx-r,by-r,r*2,r*2);
+      // 粒子
+      if(i%2===0){c.fillStyle='rgba(0,212,255,0.6)';c.fillRect(bx+r+2,by,2,2);c.fillRect(bx-r-3,by-2,2,2);}
+    }else{
+      c.fillStyle=p.body;c.beginPath();c.arc(bx,by,r,0,Math.PI*2);c.fill();
+      // 鱗ハイライト
+      c.fillStyle=p.scale;c.beginPath();c.arc(bx-1,by-1,r*0.4,0,Math.PI*2);c.fill();
+      c.strokeStyle=p.outline||'#000';c.lineWidth=0.8;c.beginPath();c.arc(bx,by,r,0,Math.PI*2);c.stroke();
+    }
+  }
+  // 頭
+  let hx,hy;
+  if(p.variant==='C'){hx=cx;hy=cy-35;}
+  else{hx=cx+50;hy=cy;}
+  if(p.variant==='B'){
+    c.fillStyle='#00d4ff';c.fillRect(hx-12,hy-10,24,20);
+    c.fillStyle='rgba(0,212,255,0.3)';c.fillRect(hx-14,hy-12,4,4);c.fillRect(hx+10,hy+8,4,4);
+  }else{
+    c.fillStyle=p.body;c.beginPath();c.ellipse(hx,hy,14,11,0,0,Math.PI*2);c.fill();
+    c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+    // 角
+    c.strokeStyle=p.body;c.lineWidth=3;
+    c.beginPath();c.moveTo(hx-5,hy-10);c.lineTo(hx-10,hy-22);c.stroke();
+    c.beginPath();c.moveTo(hx+5,hy-10);c.lineTo(hx+10,hy-22);c.stroke();
+    // ヒゲ
+    if(p.variant==='A'){c.strokeStyle='#ffd24a';c.lineWidth=1.5;
+      c.beginPath();c.moveTo(hx-10,hy+5);c.quadraticCurveTo(hx-20,hy+15,hx-25,hy+25);c.stroke();
+      c.beginPath();c.moveTo(hx+10,hy+5);c.quadraticCurveTo(hx+20,hy+15,hx+25,hy+25);c.stroke();}
+  }
+  // 目
+  c.fillStyle=p.eye;c.beginPath();c.arc(hx-4,hy-2,2.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(hx+5,hy-2,2.5,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.fillRect(hx-5,hy-3,1,1);c.fillRect(hx+4,hy-3,1,1);
+  // A案：雲
+  if(p.variant==='A'){
+    c.fillStyle='rgba(204,204,204,0.5)';
+    [[40,180],[160,190],[60,60],[170,70]].forEach(p=>{
+      c.beginPath();c.arc(p[0],p[1],14,0,Math.PI*2);c.arc(p[0]+10,p[1]-3,11,0,Math.PI*2);c.arc(p[0]-10,p[1]+2,10,0,Math.PI*2);c.fill();});
+  }
+  // C案：∞中心の輝き
+  if(p.variant==='C'){
+    c.fillStyle='rgba(204,204,204,0.5)';c.beginPath();c.arc(cx,cy,8,0,Math.PI*2);c.fill();
+    c.font='bold 20px sans-serif';c.fillStyle='rgba(204,204,204,0.7)';c.fillText('∞',cx-10,cy+200);
+  }
+  // B案：消えかかる部分
+  if(p.variant==='B'){
+    c.fillStyle='rgba(0,212,255,0.15)';c.fillRect(60,100,30,5);c.fillRect(140,150,25,4);
+  }
+}
+drawDragon(document.getElementById('ch-a').getContext('2d'),{variant:'A',aura:'rgba(255,210,74,0.5)',body:'#ffd24a',scale:'#fff5b0',eye:'#44dd99'});
+drawDragon(document.getElementById('ch-b').getContext('2d'),{variant:'B',aura:'rgba(0,212,255,0.5)',body:'#00d4ff',scale:'#88eeff',eye:'#fff'});
+drawDragon(document.getElementById('ch-c').getContext('2d'),{variant:'C',aura:'rgba(204,204,204,0.5)',body:'#cccccc',scale:'#ffffff',eye:'#aaccff'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+
+function drawScene(c,w,h){
+  // 夜空（金色がかった星空）
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#1a0830');sky.addColorStop(0.6,'#3a1830');sky.addColorStop(1,'#5a2820');
+  c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // 砂漠
+  const dune=c.createLinearGradient(0,h*0.7,0,h);dune.addColorStop(0,'#aa6628');dune.addColorStop(1,'#5a3018');
+  c.fillStyle=dune;c.fillRect(0,h*0.7,w,h*0.3);
+  // 砂丘
+  c.fillStyle='#cc7833';c.beginPath();c.moveTo(0,h*0.78);c.quadraticCurveTo(w*0.3,h*0.7,w*0.6,h*0.76);c.quadraticCurveTo(w*0.8,h*0.8,w,h*0.78);c.lineTo(w,h);c.lineTo(0,h);c.closePath();c.fill();
+  // 黄金星
+  for(let i=0;i<18;i++){c.fillStyle=i%3===0?'#ffd24a':'#fff';c.fillRect((i*23)%w,(i*11)%(h*0.5),1,1);}
+  for(let i=0;i<5;i++){c.fillStyle='#ffd24a';c.fillRect((i*47+15)%w,(i*19)%(h*0.4),2,2);}
+  // ブルジュハリファ風スカイタワー
+  c.fillStyle='#2a2030';c.beginPath();c.moveTo(w*0.78,h*0.7);c.lineTo(w*0.8,h*0.18);c.lineTo(w*0.82,h*0.7);c.closePath();c.fill();
+  c.fillStyle='#3a2840';c.fillRect(w*0.79,h*0.3,4,h*0.4);
+  // タワー窓灯り
+  for(let i=0;i<10;i++){c.fillStyle='#ffd24a';c.fillRect(w*0.8-1+((i%2)*2),h*0.25+i*h*0.04,1,2);}
+  // 雲
+  c.fillStyle='rgba(204,204,204,0.25)';
+  c.beginPath();c.arc(w*0.2,h*0.4,12,0,Math.PI*2);c.arc(w*0.28,h*0.38,9,0,Math.PI*2);c.arc(w*0.15,h*0.42,8,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(w*0.55,h*0.25,10,0,Math.PI*2);c.arc(w*0.6,h*0.24,8,0,Math.PI*2);c.fill();
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawMiniDragon(c,x,y,col='#ffd24a',scale=1){
+  // ミニ龍頭部
+  c.fillStyle=col;c.beginPath();c.ellipse(x,y,12*scale,9*scale,0,0,Math.PI*2);c.fill();
+  c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+  c.strokeStyle=col;c.lineWidth=2;
+  c.beginPath();c.moveTo(x-4*scale,y-7*scale);c.lineTo(x-8*scale,y-16*scale);c.stroke();
+  c.beginPath();c.moveTo(x+4*scale,y-7*scale);c.lineTo(x+8*scale,y-16*scale);c.stroke();
+  c.fillStyle='#44dd99';c.beginPath();c.arc(x-3*scale,y-1,2*scale,0,Math.PI*2);c.fill();c.beginPath();c.arc(x+4*scale,y-1,2*scale,0,Math.PI*2);c.fill();
+  // 体
+  for(let i=1;i<6;i++){c.fillStyle=col;c.beginPath();c.arc(x-i*10*scale,y+Math.sin(i)*5*scale,(7-i*0.5)*scale,0,Math.PI*2);c.fill();}
+}
+
+// N① 噛みつき
+startAnim('at-a',(c,t,w,h)=>{
+  drawEnemy(c,w*0.75,h*0.7);
+  // 龍の頭が前進
+  const dx=w*0.3+t*(w*0.35);
+  const opening=t<0.6?(t*0.3):(0.18-(t-0.6)*0.45);
+  // 上顎
+  c.fillStyle='#ffd24a';
+  c.beginPath();c.moveTo(dx-15,h*0.6-opening*50);c.lineTo(dx+20,h*0.55-opening*30);c.lineTo(dx+25,h*0.58-opening*30);c.lineTo(dx-10,h*0.62-opening*40);c.closePath();c.fill();
+  c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+  // 下顎
+  c.fillStyle='#cc9928';
+  c.beginPath();c.moveTo(dx-15,h*0.62+opening*30);c.lineTo(dx+20,h*0.6+opening*40);c.lineTo(dx+25,h*0.63+opening*40);c.lineTo(dx-10,h*0.66+opening*30);c.closePath();c.fill();c.stroke();
+  // 牙
+  c.fillStyle='#fff';
+  for(let k=0;k<4;k++){c.beginPath();c.moveTo(dx+k*8-5,h*0.6-opening*30);c.lineTo(dx+k*8-3,h*0.6-opening*20);c.lineTo(dx+k*8-7,h*0.6-opening*20);c.closePath();c.fill();}
+  for(let k=0;k<4;k++){c.beginPath();c.moveTo(dx+k*8-5,h*0.62+opening*25);c.lineTo(dx+k*8-3,h*0.62+opening*15);c.lineTo(dx+k*8-7,h*0.62+opening*15);c.closePath();c.fill();}
+  // 目
+  c.fillStyle='#44dd99';c.beginPath();c.arc(dx-5,h*0.6-opening*45,3,0,Math.PI*2);c.fill();
+  // 噛みつきフラッシュ
+  if(t>0.65&&t<0.85){const tt=(t-0.65)/0.2;
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(w*0.75,h*0.65,25,0,Math.PI*2);c.fill();
+    c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=3;c.beginPath();c.arc(w*0.75,h*0.65,30+tt*15,0,Math.PI*2);c.stroke();}
+},2400);
+
+// N② 黄金単発弾
+startAnim('at-b',(c,t,w,h)=>{
+  drawEnemy(c,w*0.78,h*0.7);
+  drawMiniDragon(c,w*0.2,h*0.55);
+  // 弾の位置
+  const px=w*0.25+t*(w*0.55);const py=h*0.55-Math.sin(t*Math.PI)*15;
+  // 黄金弾
+  const grd=c.createRadialGradient(px,py,2,px,py,14);grd.addColorStop(0,'#fff8dd');grd.addColorStop(0.5,'#ffd24a');grd.addColorStop(1,'rgba(255,170,68,0)');
+  c.fillStyle=grd;c.beginPath();c.arc(px,py,16,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(px,py,5,0,Math.PI*2);c.fill();
+  // 火粒（トレイル）
+  for(let k=0;k<8;k++){const tt=k*0.04;const tx=px-t*(w*0.55)*tt*2+(w*0.55)*0;
+    const trailx=px-(k*8);const traily=py+Math.sin((t-tt)*Math.PI)*15-Math.sin(t*Math.PI)*15;
+    c.fillStyle=`rgba(255,170,68,${0.7-k*0.08})`;c.fillRect(trailx,traily,3,3);}
+},2000);
+
+// N③ 龍の咆哮
+startAnim('at-c',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.55+i*40,h*0.7);
+  drawMiniDragon(c,w*0.2,h*0.55);
+  // 音波（同心円）
+  for(let k=0;k<4;k++){const ph=(t+k*0.25)%1;
+    const rx=ph*120;
+    c.strokeStyle=`rgba(255,232,138,${1-ph})`;c.lineWidth=3;
+    c.beginPath();c.ellipse(w*0.3,h*0.55,rx,rx*0.5,0,-Math.PI/2,Math.PI/2);c.stroke();
+  }
+  // 空気の歪み
+  c.strokeStyle='rgba(255,210,74,0.3)';c.lineWidth=1;
+  for(let k=0;k<5;k++){c.beginPath();
+    for(let x=w*0.35;x<w*0.85;x+=4){const yy=h*0.55+k*5-10+Math.sin(x*0.1+t*Math.PI*4)*2;
+      if(x===Math.floor(w*0.35))c.moveTo(x,yy);else c.lineTo(x,yy);}
+    c.stroke();}
+},2400);
+
+// S① 黄金ブレス
+startAnim('sp-a',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.3+i*45,h*0.7);
+  drawMiniDragon(c,w*0.15,h*0.55,'#ffd24a',1.2);
+  // チャージ
+  if(t<0.25){const tt=t/0.25;
+    c.fillStyle=`rgba(255,210,74,${tt})`;c.beginPath();c.arc(w*0.22,h*0.55,8+tt*8,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.25)/0.75;
+    // 極太ビーム
+    const beamY=h*0.55;const beamH=30+Math.sin(t*Math.PI*8)*5;
+    const grd=c.createLinearGradient(w*0.22,0,w,0);grd.addColorStop(0,`rgba(255,255,255,${1-tt*0.3})`);grd.addColorStop(0.3,`rgba(255,210,74,${1-tt*0.2})`);grd.addColorStop(1,`rgba(255,170,68,${(1-tt)*0.7})`);
+    c.fillStyle=grd;c.fillRect(w*0.22,beamY-beamH/2,w*0.8,beamH);
+    // 内部の白いコア
+    c.fillStyle=`rgba(255,255,255,${1-tt*0.5})`;c.fillRect(w*0.22,beamY-5,w*0.8,10);
+    // 金粒子飛散
+    for(let k=0;k<30;k++){const sx=w*0.22+((k*37)%(w*0.8));const sy=beamY+Math.sin(k+t*10)*40;
+      c.fillStyle=`rgba(255,210,74,${Math.random()*0.8})`;c.fillRect(sx,sy,2,2);}
+    // 発射口フラッシュ
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(w*0.22,beamY,20,0,Math.PI*2);c.fill();
+  }
+},2800);
+
+// S② 量子分裂3体
+startAnim('sp-b',(c,t,w,h)=>{
+  drawEnemy(c,w*0.3,h*0.7);drawEnemy(c,w*0.55,h*0.7);drawEnemy(c,w*0.8,h*0.7);
+  // 3体の龍
+  const positions=[[w*0.25,h*0.4],[w*0.5,h*0.3],[w*0.75,h*0.4]];
+  positions.forEach((pos,i)=>{
+    const appear=Math.min(1,Math.max(0,(t-i*0.08)/0.2));
+    c.globalAlpha=appear;
+    drawMiniDragon(c,pos[0],pos[1],'#00d4ff',0.9);
+    c.globalAlpha=1;
+    // グリッチエフェクト
+    if(appear>0.5){
+      c.fillStyle='rgba(0,212,255,0.4)';c.fillRect(pos[0]-15,pos[1]-3,30,2);
+      c.fillStyle='rgba(0,212,255,0.3)';c.fillRect(pos[0]-12,pos[1]+5,24,1);}
+  });
+  // 同時ブレス×3
+  if(t>0.4){const tt=Math.min(1,(t-0.4)/0.5);
+    positions.forEach((pos,i)=>{
+      const tgt=[[w*0.3,h*0.7],[w*0.55,h*0.7],[w*0.8,h*0.7]][i];
+      const grd=c.createLinearGradient(pos[0],pos[1],tgt[0],tgt[1]);
+      grd.addColorStop(0,`rgba(255,255,255,${tt})`);grd.addColorStop(1,`rgba(0,212,255,${tt*0.5})`);
+      c.strokeStyle=grd;c.lineWidth=8;
+      c.beginPath();c.moveTo(pos[0]+5,pos[1]+5);c.lineTo(tgt[0],tgt[1]-15);c.stroke();
+      c.strokeStyle=`rgba(255,255,255,${tt})`;c.lineWidth=3;c.stroke();
+      // 着弾
+      c.fillStyle=`rgba(0,212,255,${tt*0.6})`;c.beginPath();c.arc(tgt[0],tgt[1]-15,15,0,Math.PI*2);c.fill();
+    });
+  }
+},2800);
+
+// S③ 龍翔斬撃
+startAnim('sp-c',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.2+i*55,h*0.7);
+  // 突進ライン
+  const sx=w*0.05,sy=h*0.15;
+  const ex=w*0.95,ey=h*0.85;
+  const px=sx+(ex-sx)*t;const py=sy+(ey-sy)*t;
+  // 軌跡（金）
+  const grd=c.createLinearGradient(sx,sy,px,py);grd.addColorStop(0,'rgba(255,210,74,0)');grd.addColorStop(1,'rgba(255,255,221,0.9)');
+  c.strokeStyle=grd;c.lineWidth=14;
+  c.beginPath();c.moveTo(sx,sy);c.lineTo(px,py);c.stroke();
+  // 内側ハイライト
+  c.strokeStyle='rgba(255,255,255,0.8)';c.lineWidth=4;
+  c.beginPath();c.moveTo(sx+(ex-sx)*Math.max(0,t-0.3),sy+(ey-sy)*Math.max(0,t-0.3));c.lineTo(px,py);c.stroke();
+  // 龍本体
+  drawMiniDragon(c,px,py,'#ffd24a',1.1);
+  // 衝撃線
+  if(t>0.3){
+    for(let k=0;k<8;k++){const ang=Math.atan2(ey-sy,ex-sx)+(k-4)*0.1;
+      const ll=20+Math.random()*15;
+      c.strokeStyle=`rgba(255,210,74,${0.6})`;c.lineWidth=1;
+      c.beginPath();c.moveTo(px,py);c.lineTo(px+Math.cos(ang+Math.PI)*ll,py+Math.sin(ang+Math.PI)*ll);c.stroke();}
+  }
+  // 金粒子
+  for(let k=0;k<15;k++){const tt=k/15;const trx=sx+(ex-sx)*tt*t;const try_=sy+(ey-sy)*tt*t+(Math.sin(k+t*10))*5;
+    c.fillStyle=`rgba(255,210,74,${0.7-tt*0.5})`;c.fillRect(trx,try_,2,2);}
+  // 斜め貫通フラッシュ
+  if(t>0.8){const tt=(t-0.8)/0.2;
+    c.fillStyle=`rgba(255,210,74,${(1-tt)*0.25})`;c.fillRect(0,0,w,h);}
+},2400);
+</script></body></html>

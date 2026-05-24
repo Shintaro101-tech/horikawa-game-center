@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANUBIS-OS デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#3a1a5a 0%,transparent 60%),linear-gradient(180deg,#1a0a30 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ffd24a;text-shadow:0 0 30px rgba(255,210,74,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#cc88ff;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(204,136,255,0.5)}
+.sub{text-align:center;color:#cc88ff;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0a30 0%,#2a1850 50%,#5a3a40 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#fcf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🐺 ANUBIS-OS 古代AI 候補</h1>
+<div class="sub">EGYPT PYRAMID CYBER GOD · 2098 砂漠</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 黒金ジャッカル神</h2><p>黒+金縁。赤眼+杖。象形文字。</p></div>
+<div class="card" style="--c:#00d4ff;--g:rgba(0,212,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 青ホログラム古代神</h2><p>半透明青。天秤＋流れる文字。</p></div>
+<div class="card" style="--c:#ccaa66;--g:rgba(204,170,102,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 砂塵の異形巨人</h2><p>砂で構成。崩れる輪郭。緑目。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案N① 黄金杖振り</h2><p>金の杖を振る＋金光。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案N② 紫の死の光線</h2><p>紫の細レーザー単発。</p></div>
+<div class="card" style="--c:#ccaa66;--g:rgba(204,170,102,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案N③ 砂弾投擲</h2><p>砂の塊が飛ぶ＋飛散。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="sp-a" width="280" height="200"></canvas></div><h2>案S① 死者の天秤</h2><p>巨大天秤降下＋左右ダメ。</p></div>
+<div class="card" style="--c:#ddbb44;--g:rgba(221,187,68,0.5)"><div class="canv-wrap"><canvas id="sp-b" width="280" height="200"></canvas></div><h2>案S② 砂の大竜巻</h2><p>巨大トルネード貫通。</p></div>
+<div class="card" style="--c:#cc66ff;--g:rgba(204,102,255,0.5)"><div class="canv-wrap"><canvas id="sp-c" width="280" height="200"></canvas></div><h2>案S③ 古代呪文</h2><p>魔法陣＋5本ピラー時間差。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawAnubis(c,p){
+  const cx=110,cy=140;
+  if(p.aura)aura(c,cx,cy,p.aura,140);
+  // 杖（左手側）
+  if(p.staff){c.strokeStyle=p.staff;c.lineWidth=4;c.beginPath();c.moveTo(cx-50,cy-60);c.lineTo(cx-55,cy+80);c.stroke();
+    c.fillStyle=p.staff;c.beginPath();c.arc(cx-50,cy-60,8,0,Math.PI*2);c.fill();
+    c.fillStyle=p.eye||'#ff2222';c.beginPath();c.arc(cx-50,cy-60,3,0,Math.PI*2);c.fill();}
+  // 天秤(B案)
+  if(p.scale){c.strokeStyle=p.body;c.lineWidth=2;c.beginPath();c.moveTo(cx+40,cy-30);c.lineTo(cx+90,cy-30);c.stroke();
+    c.beginPath();c.arc(cx+40,cy-15,8,0,Math.PI*2);c.stroke();c.beginPath();c.arc(cx+90,cy-15,8,0,Math.PI*2);c.stroke();}
+  // 体（ローブ）
+  c.fillStyle=p.body;c.beginPath();c.moveTo(cx-32,cy-20);c.lineTo(cx-42,cy+80);c.lineTo(cx+42,cy+80);c.lineTo(cx+32,cy-20);c.closePath();c.fill();
+  // 金縁(A案)
+  if(p.border){c.strokeStyle=p.border;c.lineWidth=2;c.beginPath();c.moveTo(cx-32,cy-20);c.lineTo(cx-42,cy+80);c.moveTo(cx+32,cy-20);c.lineTo(cx+42,cy+80);c.moveTo(cx-42,cy+80);c.lineTo(cx+42,cy+80);c.stroke();
+    c.fillStyle=p.border;c.fillRect(cx-32,cy,64,3);}
+  // ヒエログリフ(体表)
+  if(p.hiero){c.fillStyle=p.hieroCol;c.font='10px sans-serif';
+    ['◇','♁','☥','◈'].forEach((s,i)=>c.fillText(s,cx-20+i*12,cy+30));
+    ['☥','◇','♁'].forEach((s,i)=>c.fillText(s,cx-15+i*12,cy+50));}
+  // 砂粒輪郭(C案)
+  if(p.crumble){c.fillStyle=p.crumbleCol;
+    for(let i=0;i<15;i++){const a=i*0.4;c.beginPath();c.arc(cx+Math.cos(a)*42,cy-10+Math.sin(a)*55,2,0,Math.PI*2);c.fill();}
+    for(let i=0;i<8;i++){c.beginPath();c.arc(cx-30+i*8,cy+85+(i%2)*3,1.5,0,Math.PI*2);c.fill();}}
+  // 頭（ジャッカル/球/王冠）
+  if(p.head==='jackal'){
+    c.fillStyle=p.body;c.beginPath();c.ellipse(cx,cy-40,18,22,0,0,Math.PI*2);c.fill();
+    // 耳
+    c.beginPath();c.moveTo(cx-12,cy-55);c.lineTo(cx-18,cy-78);c.lineTo(cx-6,cy-58);c.fill();
+    c.beginPath();c.moveTo(cx+12,cy-55);c.lineTo(cx+18,cy-78);c.lineTo(cx+6,cy-58);c.fill();
+    // 鼻先
+    c.fillStyle=p.body;c.beginPath();c.ellipse(cx,cy-30,8,12,0,0,Math.PI*2);c.fill();
+    if(p.border){c.strokeStyle=p.border;c.lineWidth=1.5;c.beginPath();c.ellipse(cx,cy-40,18,22,0,0,Math.PI*2);c.stroke();}
+    // 額の赤眼
+    c.fillStyle='#000';c.fillRect(cx-3,cy-50,6,3);
+    c.fillStyle=p.eye||'#ff2222';c.beginPath();c.arc(cx,cy-49,2,0,Math.PI*2);c.fill();
+    // 目
+    c.fillStyle=p.border||'#ffd24a';c.fillRect(cx-10,cy-40,5,2);c.fillRect(cx+5,cy-40,5,2);
+  }
+  if(p.head==='holo'){
+    c.fillStyle=p.body;c.beginPath();c.ellipse(cx,cy-45,20,24,0,0,Math.PI*2);c.fill();
+    // 王冠
+    c.fillStyle=p.border||'#ffd24a';c.beginPath();c.moveTo(cx-12,cy-65);c.lineTo(cx-12,cy-75);c.lineTo(cx-6,cy-70);c.lineTo(cx,cy-78);c.lineTo(cx+6,cy-70);c.lineTo(cx+12,cy-75);c.lineTo(cx+12,cy-65);c.fill();
+    // ホログラム目
+    c.fillStyle='#fff';c.beginPath();c.arc(cx-7,cy-45,3,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+7,cy-45,3,0,Math.PI*2);c.fill();
+    // 流れる文字
+    c.fillStyle=p.hieroCol||'rgba(255,255,255,0.6)';c.font='8px sans-serif';
+    ['◇','☥','♁'].forEach((s,i)=>c.fillText(s,cx-15,cy-35+i*8));
+  }
+  if(p.head==='giant'){
+    c.fillStyle=p.body;c.beginPath();c.ellipse(cx,cy-45,22,26,0,0,Math.PI*2);c.fill();
+    // 古い王冠
+    c.fillStyle=p.border||'#ddbb44';c.beginPath();c.moveTo(cx-15,cy-65);c.lineTo(cx-10,cy-78);c.lineTo(cx-3,cy-70);c.lineTo(cx+3,cy-80);c.lineTo(cx+10,cy-72);c.lineTo(cx+15,cy-65);c.fill();
+    // 緑目
+    c.fillStyle='#000';c.fillRect(cx-12,cy-48,8,3);c.fillRect(cx+4,cy-48,8,3);
+    c.fillStyle='#44ff88';c.beginPath();c.arc(cx-8,cy-47,2.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+8,cy-47,2.5,0,Math.PI*2);c.fill();
+    // 砂粒の頭
+    c.fillStyle=p.crumbleCol;for(let i=0;i<8;i++){c.beginPath();c.arc(cx-20+i*5,cy-70,1.5,0,Math.PI*2);c.fill();}
+  }
+}
+drawAnubis(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(255,210,74,0.4)',body:'#1a1a1a',border:'#ffd24a',head:'jackal',eye:'#ff2222',staff:'#ffd24a',hiero:true,hieroCol:'#ffd24a'});
+drawAnubis(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(0,212,255,0.5)',body:'rgba(0,212,255,0.6)',border:'#88eeff',head:'holo',scale:true,hiero:true,hieroCol:'rgba(255,255,255,0.7)'});
+drawAnubis(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(204,170,102,0.4)',body:'#ccaa66',border:'#ddbb44',head:'giant',crumble:true,crumbleCol:'#aa8844'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){
+  // 夜空
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0a30');sky.addColorStop(1,'#3a1a50');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // 砂漠
+  c.fillStyle='#5a3a40';c.fillRect(0,h*0.7,w,h*0.3);
+  c.fillStyle='#ddbb44';c.fillRect(0,h*0.7,w,1);
+  // 月
+  c.fillStyle='#ffffcc';c.beginPath();c.arc(w*0.85,30,14,0,Math.PI*2);c.fill();
+  c.fillStyle='rgba(255,255,200,0.3)';c.beginPath();c.arc(w*0.85,30,22,0,Math.PI*2);c.fill();
+  // ピラミッドシルエット
+  c.fillStyle='#1a0a20';c.beginPath();c.moveTo(20,h*0.7);c.lineTo(70,h*0.4);c.lineTo(120,h*0.7);c.fill();
+  c.beginPath();c.moveTo(w-30,h*0.7);c.lineTo(w-90,h*0.45);c.lineTo(w-150,h*0.7);c.fill();
+  // 紫の光柱
+  const gr=c.createLinearGradient(w*0.5,0,w*0.5,h*0.7);gr.addColorStop(0,'rgba(170,68,255,0)');gr.addColorStop(1,'rgba(170,68,255,0.3)');
+  c.fillStyle=gr;c.fillRect(w*0.5-3,0,6,h*0.7);
+  // ネオン ヒエログリフ（空中）
+  c.fillStyle='rgba(0,212,255,0.7)';c.font='12px sans-serif';
+  const hi=[['☥',40,60],['♁',100,40],['◇',170,70],['◈',220,50],['☥',60,100]];
+  hi.forEach(p=>c.fillText(p[0],p[1],p[2]));
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#3a2a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#1a1208';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawMiniAnubis(c,x,y){
+  c.save();c.translate(x,y);
+  c.fillStyle='#1a1a1a';c.beginPath();c.moveTo(-15,-15);c.lineTo(-20,35);c.lineTo(20,35);c.lineTo(15,-15);c.closePath();c.fill();
+  c.fillStyle='#1a1a1a';c.beginPath();c.ellipse(0,-25,12,15,0,0,Math.PI*2);c.fill();
+  c.beginPath();c.moveTo(-8,-35);c.lineTo(-12,-50);c.lineTo(-3,-38);c.fill();
+  c.beginPath();c.moveTo(8,-35);c.lineTo(12,-50);c.lineTo(3,-38);c.fill();
+  c.strokeStyle='#ffd24a';c.lineWidth=1.5;c.beginPath();c.ellipse(0,-25,12,15,0,0,Math.PI*2);c.stroke();
+  c.fillStyle='#ff2222';c.beginPath();c.arc(0,-30,2,0,Math.PI*2);c.fill();
+  c.restore();
+}
+
+// N① 黄金杖振り
+startAnim('at-a',(c,t,w,h)=>{
+  drawEnemy(c,w*0.7,h*0.7);
+  drawMiniAnubis(c,w*0.3,h*0.55);
+  // 杖振り
+  const ang=Math.PI*(0.2+t*0.8);
+  c.save();c.translate(w*0.3+12,h*0.55);c.rotate(ang);
+  c.strokeStyle='#ffd24a';c.lineWidth=4;c.beginPath();c.moveTo(0,0);c.lineTo(70,0);c.stroke();
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(70,0,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(70,0,3,0,Math.PI*2);c.fill();
+  c.restore();
+  // 金光
+  if(t>0.5){const tt=(t-0.5)*2;
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(w*0.7,h*0.7-10,25+tt*15,0,Math.PI*2);c.fill();
+    // 光粒
+    for(let k=0;k<6;k++){const a=k*Math.PI/3;c.fillStyle=`rgba(255,255,180,${1-tt})`;c.beginPath();c.arc(w*0.7+Math.cos(a)*(20+tt*20),h*0.7-10+Math.sin(a)*(15+tt*15),2,0,Math.PI*2);c.fill();}}
+},2400);
+
+// N② 紫の死の光線
+startAnim('at-b',(c,t,w,h)=>{
+  drawEnemy(c,w*0.8,h*0.7);
+  drawMiniAnubis(c,w*0.2,h*0.55);
+  // チャージ
+  if(t<0.3){const tt=t/0.3;
+    c.fillStyle=`rgba(170,68,255,${tt})`;c.beginPath();c.arc(w*0.25,h*0.55,8*tt,0,Math.PI*2);c.fill();}
+  else{const tt=(t-0.3)/0.7;
+    // レーザー
+    c.fillStyle=`rgba(170,68,255,${1-tt*0.5})`;c.fillRect(w*0.25,h*0.55-3,w*0.55,6);
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.fillRect(w*0.25,h*0.55-1,w*0.55,2);
+    // 着弾
+    c.fillStyle=`rgba(204,102,255,${1-tt})`;c.beginPath();c.arc(w*0.8,h*0.55,18-tt*5,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.font='bold 14px sans-serif';c.fillText('-50',w*0.75,h*0.45);}
+},2200);
+
+// N③ 砂弾投擲
+startAnim('at-c',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.55+i*40,h*0.7);
+  drawMiniAnubis(c,w*0.2,h*0.55);
+  // 砂弾
+  const fx=w*0.25+t*150;const fy=h*0.55+Math.sin(t*Math.PI)*-30;
+  c.fillStyle='#ccaa66';c.beginPath();c.arc(fx,fy,11,0,Math.PI*2);c.fill();
+  c.fillStyle='#aa8844';c.beginPath();c.arc(fx-3,fy-3,5,0,Math.PI*2);c.fill();
+  // 砂飛散
+  for(let k=0;k<5;k++){c.fillStyle=`rgba(204,170,102,${0.6})`;c.beginPath();c.arc(fx-10-k*6,fy+Math.sin(t*8+k)*5,3-k*0.4,0,Math.PI*2);c.fill();}
+  // 着弾
+  if(fx>w*0.55){
+    for(let k=0;k<8;k++){const a=k*Math.PI/4;c.fillStyle=`rgba(204,170,102,0.7)`;c.beginPath();c.arc(w*0.55+Math.cos(a)*15,h*0.7-10+Math.sin(a)*8,2.5,0,Math.PI*2);c.fill();}}
+},2400);
+
+// S① 死者の天秤
+startAnim('sp-a',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*45,h*0.7);
+  drawMiniAnubis(c,w*0.85,h*0.55);
+  // 天秤降下
+  const dy=Math.min(1,t*2)*60;
+  c.strokeStyle='#aa44ff';c.lineWidth=5;c.beginPath();c.moveTo(w*0.5,0);c.lineTo(w*0.5,30+dy);c.stroke();
+  c.beginPath();c.moveTo(w*0.2,30+dy);c.lineTo(w*0.8,30+dy);c.stroke();
+  c.fillStyle='#aa44ff';c.beginPath();c.arc(w*0.5,30+dy,8,0,Math.PI*2);c.fill();
+  // 皿
+  c.strokeStyle='#aa44ff';c.lineWidth=3;
+  c.beginPath();c.moveTo(w*0.2,30+dy);c.lineTo(w*0.2,60+dy);c.stroke();
+  c.beginPath();c.arc(w*0.2,75+dy,20,0,Math.PI);c.stroke();
+  c.beginPath();c.moveTo(w*0.8,30+dy);c.lineTo(w*0.8,60+dy);c.stroke();
+  c.beginPath();c.arc(w*0.8,75+dy,20,0,Math.PI);c.stroke();
+  // 呪い表示
+  if(t>0.5){const tt=(t-0.5)/0.5;
+    c.fillStyle=`rgba(170,68,255,${0.4*(1-tt)})`;c.fillRect(0,h*0.6,w*0.5,h*0.4);
+    c.fillStyle=`rgba(255,80,80,${1-tt})`;c.font='bold 22px sans-serif';c.fillText('☠呪☠',w*0.15,h*0.85);}
+},3000);
+
+// S② 砂の大竜巻
+startAnim('sp-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*45,h*0.7);
+  // トルネード
+  const tx=w*0.1+t*w*0.85;
+  c.fillStyle='rgba(204,170,102,0.3)';c.beginPath();c.moveTo(tx-20,0);c.lineTo(tx+20,0);c.lineTo(tx+50,h*0.7);c.lineTo(tx-50,h*0.7);c.closePath();c.fill();
+  c.fillStyle='rgba(221,187,68,0.5)';c.beginPath();c.moveTo(tx-12,0);c.lineTo(tx+12,0);c.lineTo(tx+35,h*0.7);c.lineTo(tx-35,h*0.7);c.closePath();c.fill();
+  // 渦線
+  c.strokeStyle='rgba(255,255,255,0.4)';c.lineWidth=1.5;
+  for(let k=0;k<6;k++){const ph=(t*4+k*0.2)%1;const y=ph*h*0.7;const wd=20+ph*30;
+    c.beginPath();c.ellipse(tx,y,wd,5,0,0,Math.PI*2);c.stroke();}
+  // 砂粒
+  for(let k=0;k<20;k++){const a=(t*8+k*0.5)%(Math.PI*2);const r=15+(k%4)*8;const ky=(k*30+t*100)%(h*0.7);
+    c.fillStyle='rgba(204,170,102,0.7)';c.beginPath();c.arc(tx+Math.cos(a)*r,ky,2,0,Math.PI*2);c.fill();}
+},3000);
+
+// S③ 古代呪文
+startAnim('sp-c',(c,t,w,h)=>{
+  for(let i=0;i<5;i++)drawEnemy(c,w*0.1+i*45,h*0.7);
+  // 魔法陣
+  const op=Math.min(1,t*3);
+  c.save();c.translate(w*0.5,h*0.4);c.rotate(t*Math.PI);
+  c.strokeStyle=`rgba(204,102,255,${op})`;c.lineWidth=2;c.beginPath();c.arc(0,0,50,0,Math.PI*2);c.stroke();
+  c.beginPath();c.arc(0,0,40,0,Math.PI*2);c.stroke();
+  // ヒエログリフ円
+  c.fillStyle=`rgba(204,102,255,${op})`;c.font='14px sans-serif';
+  for(let k=0;k<8;k++){const a=k*Math.PI/4;c.fillText(['☥','◇','♁','◈','☥','◇','♁','◈'][k],Math.cos(a)*45-5,Math.sin(a)*45+5);}
+  // 五芒星
+  c.beginPath();for(let k=0;k<5;k++){const a=k*Math.PI*0.8-Math.PI/2;c.lineTo(Math.cos(a)*35,Math.sin(a)*35);}c.closePath();c.stroke();
+  c.restore();
+  // 5本ピラー時間差
+  for(let k=0;k<5;k++){const ph=Math.max(0,(t-0.3-k*0.1)/0.4);if(ph<=0||ph>1)continue;
+    const px=w*0.15+k*45;
+    const gr=c.createLinearGradient(px,0,px,h*0.7);gr.addColorStop(0,`rgba(204,102,255,0)`);gr.addColorStop(1,`rgba(204,102,255,${1-ph})`);
+    c.fillStyle=gr;c.fillRect(px-10,0,20,h*0.7);
+    c.fillStyle=`rgba(255,255,255,${1-ph})`;c.fillRect(px-3,0,6,h*0.7);
+    c.fillStyle=`rgba(204,102,255,${1-ph})`;c.beginPath();c.arc(px,h*0.7,18,0,Math.PI*2);c.fill();}
+},3000);
+</script></body></html>

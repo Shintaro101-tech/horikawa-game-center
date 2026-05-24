@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AERO-SEOUL デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#5500aa 0%,transparent 60%),linear-gradient(180deg,#0a0030 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff3366;text-shadow:0 0 30px rgba(255,51,102,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,40,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#1a0040 0%,#2a0858 60%,#1a0040 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🚗 AERO-SEOUL デザイン & 攻撃 候補</h1>
+<div class="sub">FLYING CARS · SEOUL VR ARENA — 未来編 2098</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#dd2222;--g:rgba(221,34,34,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 真っ赤スポーツカー型</h2><p>フェラーリ風流線形+ジェット噴射。空中浮遊。</p></div>
+<div class="card" style="--c:#ddaa44;--g:rgba(221,170,68,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒タクシー型</h2><p>金縁の高級リムジン。屋根にTAXIサイン。</p></div>
+<div class="card" style="--c:#ccccdd;--g:rgba(204,204,221,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 銀のSF球体型</h2><p>銀球体+3サブカー衛星が周回。青グロー。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#dd2222;--g:rgba(221,34,34,0.5)"><div class="canv-wrap"><canvas id="n-a" width="280" height="200"></canvas></div><h2>N① ボディタックル</h2><p>突進＋衝撃線。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="n-b" width="280" height="200"></canvas></div><h2>N② ヘッドライト黄ビーム</h2><p>前方に黄色いコーン光線。</p></div>
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="n-c" width="280" height="200"></canvas></div><h2>N③ クラクション衝撃波</h2><p>短距離の赤い同心円波。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff6622;--g:rgba(255,102,34,0.5)"><div class="canv-wrap"><canvas id="s-a" width="280" height="200"></canvas></div><h2>S① ジェット噴射突進貫通</h2><p>高速突進＋尾翼炎。敵を貫通。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="s-b" width="280" height="200"></canvas></div><h2>S② 隊列スパイラル</h2><p>3-5台のミニカー周回突撃。</p></div>
+<div class="card" style="--c:#ffee88;--g:rgba(255,238,136,0.5)"><div class="canv-wrap"><canvas id="s-c" width="280" height="200"></canvas></div><h2>S③ ヘッドライト・メガビーム</h2><p>前方極太の黄白ビーム＋チャージ光。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawCarA(c){const cx=110,cy=140;aura(c,cx,cy,'rgba(221,34,34,0.5)',120);
+  // ジェット噴射
+  const jg=c.createLinearGradient(cx-90,cy,cx-50,cy);jg.addColorStop(0,'rgba(255,210,74,0)');jg.addColorStop(0.5,'rgba(255,150,30,0.8)');jg.addColorStop(1,'#ffd24a');c.fillStyle=jg;
+  c.beginPath();c.moveTo(cx-50,cy-8);c.lineTo(cx-95,cy);c.lineTo(cx-50,cy+8);c.fill();
+  // 車体（流線形）
+  c.fillStyle='#dd2222';c.beginPath();c.moveTo(cx-50,cy+10);c.lineTo(cx-40,cy-5);c.lineTo(cx-10,cy-18);c.lineTo(cx+30,cy-18);c.lineTo(cx+55,cy-5);c.lineTo(cx+55,cy+12);c.lineTo(cx-50,cy+12);c.closePath();c.fill();
+  c.strokeStyle='#000';c.lineWidth=1.5;c.stroke();
+  // フロントガラス
+  c.fillStyle='rgba(80,200,255,0.6)';c.beginPath();c.moveTo(cx-5,cy-15);c.lineTo(cx+25,cy-15);c.lineTo(cx+30,cy-3);c.lineTo(cx-8,cy-3);c.closePath();c.fill();
+  // ヘッドライト（丸）
+  c.fillStyle='#ffeecc';c.beginPath();c.arc(cx+50,cy-3,4,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+50,cy+6,4,0,Math.PI*2);c.fill();
+  // サイドライン金
+  c.fillStyle='#ffd24a';c.fillRect(cx-45,cy+5,95,2);
+  // 影
+  c.fillStyle='rgba(0,0,0,0.3)';c.beginPath();c.ellipse(cx,cy+35,55,6,0,0,Math.PI*2);c.fill();
+  // ロゴ
+  c.fillStyle='#fff';c.font='bold 10px sans-serif';c.fillText('AERO',cx-12,cy+1);
+}
+function drawCarB(c){const cx=110,cy=140;aura(c,cx,cy,'rgba(221,170,68,0.4)',120);
+  // 影
+  c.fillStyle='rgba(0,0,0,0.3)';c.beginPath();c.ellipse(cx,cy+40,75,6,0,0,Math.PI*2);c.fill();
+  // 車体（長い）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-75,cy-5,150,30);
+  c.fillStyle='#0a0a0a';c.fillRect(cx-70,cy-22,135,17);
+  // 金縁
+  c.strokeStyle='#ddaa44';c.lineWidth=2;c.strokeRect(cx-75,cy-22,150,47);
+  c.fillStyle='#ddaa44';c.fillRect(cx-75,cy+10,150,2);
+  // 窓
+  c.fillStyle='rgba(80,160,255,0.5)';c.fillRect(cx-65,cy-18,40,12);c.fillRect(cx-20,cy-18,40,12);c.fillRect(cx+25,cy-18,40,12);
+  // 運転手シルエット
+  c.fillStyle='#000';c.beginPath();c.arc(cx-50,cy-9,5,0,Math.PI*2);c.fill();
+  // TAXIサイン
+  c.fillStyle='#ddaa44';c.fillRect(cx-15,cy-38,30,12);
+  c.fillStyle='#000';c.font='bold 10px sans-serif';c.fillText('TAXI',cx-12,cy-29);
+  // 浮遊エフェクト
+  c.fillStyle='rgba(170,200,255,0.4)';c.fillRect(cx-70,cy+30,140,3);
+  // ヘッドライト
+  c.fillStyle='#ffeecc';c.beginPath();c.arc(cx+72,cy+5,3,0,Math.PI*2);c.fill();
+}
+function drawCarC(c){const cx=110,cy=140;aura(c,cx,cy,'rgba(80,200,255,0.5)',130);
+  // メイン球体
+  const sg=c.createRadialGradient(cx-10,cy-10,5,cx,cy,55);sg.addColorStop(0,'#fff');sg.addColorStop(0.5,'#ccccdd');sg.addColorStop(1,'#666688');
+  c.fillStyle=sg;c.beginPath();c.arc(cx,cy,45,0,Math.PI*2);c.fill();
+  c.strokeStyle='#00f0ff';c.lineWidth=1.5;c.stroke();
+  // リング
+  c.strokeStyle='rgba(0,240,255,0.6)';c.lineWidth=2;c.beginPath();c.ellipse(cx,cy,52,12,0,0,Math.PI*2);c.stroke();
+  // センサー目
+  c.fillStyle='#00f0ff';c.beginPath();c.arc(cx,cy-5,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx-2,cy-7,3,0,Math.PI*2);c.fill();
+  // サブカー衛星3つ
+  for(let k=0;k<3;k++){const ang=k*Math.PI*2/3;const sx=cx+Math.cos(ang)*75;const sy=cy+Math.sin(ang)*30;
+    c.fillStyle='#ccccdd';c.beginPath();c.arc(sx,sy,8,0,Math.PI*2);c.fill();
+    c.fillStyle='#00f0ff';c.beginPath();c.arc(sx,sy,3,0,Math.PI*2);c.fill();
+    c.strokeStyle='rgba(0,240,255,0.3)';c.lineWidth=1;c.beginPath();c.arc(cx,cy,Math.hypot(sx-cx,sy-cy),0,Math.PI*2);c.stroke();}
+}
+drawCarA(document.getElementById('ch-a').getContext('2d'));
+drawCarB(document.getElementById('ch-b').getContext('2d'));
+drawCarC(document.getElementById('ch-c').getContext('2d'));
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){
+  // VRグリッチ空
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#1a0040');sky.addColorStop(0.5,'#3a0a70');sky.addColorStop(1,'#5a1090');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // ネオングリッド地平線（透視）
+  c.fillStyle='#0a0028';c.fillRect(0,h*0.7,w,h*0.3);
+  c.strokeStyle='rgba(0,240,255,0.4)';c.lineWidth=1;
+  for(let i=0;i<8;i++){c.beginPath();c.moveTo(0,h*0.7+i*i*0.8);c.lineTo(w,h*0.7+i*i*0.8);c.stroke();}
+  for(let i=-4;i<=4;i++){c.beginPath();c.moveTo(w/2,h*0.7);c.lineTo(w/2+i*60,h);c.stroke();}
+  // 紫格子（空中）
+  c.strokeStyle='rgba(170,68,255,0.25)';
+  for(let i=0;i<6;i++){c.beginPath();c.moveTo(i*w/6,0);c.lineTo(i*w/6,h*0.7);c.stroke();}
+  // ハングル看板
+  c.fillStyle='rgba(255,51,102,0.7)';c.fillRect(8,20,42,16);
+  c.fillStyle='#fff';c.font='bold 11px sans-serif';c.fillText('서울',12,32);
+  c.fillStyle='rgba(0,240,255,0.7)';c.fillRect(w-50,30,42,16);
+  c.fillStyle='#000';c.fillText('VR',w-40,42);
+  // 地平線
+  c.fillStyle='#ff3366';c.fillRect(0,h*0.7,w,1);
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#1a4a6a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#0a2a3a';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+// N① ボディタックル
+startAnim('n-a',(c,t,w,h)=>{const tg={x:w*0.75,y:h*0.65};drawEnemy(c,tg.x,tg.y);
+  const cx=w*0.15+t*(w*0.55);const cy=h*0.6;
+  // 衝撃線
+  if(t>0.7){const tt=(t-0.7)/0.3;for(let k=0;k<5;k++){const a=k*Math.PI*0.4;c.strokeStyle=`rgba(255,210,74,${1-tt})`;c.lineWidth=2;c.beginPath();c.moveTo(tg.x+Math.cos(a)*20,tg.y+Math.sin(a)*10);c.lineTo(tg.x+Math.cos(a)*(40+tt*15),tg.y+Math.sin(a)*(20+tt*8));c.stroke();}}
+  // 小型車
+  c.fillStyle='#dd2222';c.fillRect(cx-18,cy-6,36,14);
+  c.fillStyle='rgba(80,200,255,0.6)';c.fillRect(cx-10,cy-4,20,6);
+  c.fillStyle='#ffd24a';c.fillRect(cx-25,cy-2,7,6);
+  // 速度線
+  c.strokeStyle='rgba(255,255,255,0.5)';c.lineWidth=1;for(let k=0;k<3;k++){c.beginPath();c.moveTo(cx-40-k*8,cy-4+k*4);c.lineTo(cx-25-k*8,cy-4+k*4);c.stroke();}
+},2000);
+
+// N② ヘッドライト黄ビーム
+startAnim('n-b',(c,t,w,h)=>{const cx=w*0.2,cy=h*0.55;for(let i=0;i<3;i++)drawEnemy(c,w*0.6+i*40,h*0.65);
+  // 車
+  c.fillStyle='#dd2222';c.fillRect(cx-18,cy-6,36,14);
+  c.fillStyle='rgba(80,200,255,0.6)';c.fillRect(cx-10,cy-4,20,6);
+  // チャージ
+  if(t<0.3){const tt=t/0.3;c.fillStyle=`rgba(255,238,136,${tt})`;c.beginPath();c.arc(cx+22,cy,5+tt*3,0,Math.PI*2);c.fill();}
+  else{const tt=(t-0.3)/0.7;
+    // コーン光線
+    c.fillStyle=`rgba(255,238,136,${(1-tt)*0.7})`;c.beginPath();c.moveTo(cx+20,cy-4);c.lineTo(w,cy-40);c.lineTo(w,cy+40);c.lineTo(cx+20,cy+4);c.closePath();c.fill();
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.moveTo(cx+20,cy-2);c.lineTo(w,cy-20);c.lineTo(w,cy+20);c.lineTo(cx+20,cy+2);c.closePath();c.fill();}
+},2500);
+
+// N③ クラクション衝撃波
+startAnim('n-c',(c,t,w,h)=>{const cx=w*0.5,cy=h*0.55;for(let i=0;i<3;i++)drawEnemy(c,w*0.2+i*60,h*0.7);
+  // 車
+  c.fillStyle='#dd2222';c.fillRect(cx-22,cy-8,44,18);
+  c.fillStyle='rgba(80,200,255,0.6)';c.fillRect(cx-12,cy-5,24,8);
+  // 同心円波
+  for(let k=0;k<3;k++){const tt=(t+k*0.2)%1;c.strokeStyle=`rgba(255,51,68,${1-tt})`;c.lineWidth=4-tt*3;c.beginPath();c.arc(cx,cy,15+tt*70,0,Math.PI*2);c.stroke();}
+  // 「PRRRRP」
+  c.fillStyle='#ffd24a';c.font='bold 12px sans-serif';c.fillText('PRRRP!',cx-20,cy-22);
+},2200);
+
+// S① ジェット噴射突進貫通
+startAnim('s-a',(c,t,w,h)=>{for(let i=0;i<4;i++)drawEnemy(c,w*0.3+i*50,h*0.65);
+  const cx=-30+t*(w+60),cy=h*0.55;
+  // 尾翼炎（長い）
+  const jg=c.createLinearGradient(cx-90,cy,cx-15,cy);jg.addColorStop(0,'rgba(255,210,74,0)');jg.addColorStop(0.4,'rgba(255,102,34,0.8)');jg.addColorStop(1,'#fff');c.fillStyle=jg;
+  c.beginPath();c.moveTo(cx-15,cy-10);c.lineTo(cx-95,cy);c.lineTo(cx-15,cy+10);c.fill();
+  // 車（スポーツカー）
+  c.fillStyle='#dd2222';c.beginPath();c.moveTo(cx-15,cy+12);c.lineTo(cx-5,cy-5);c.lineTo(cx+25,cy-15);c.lineTo(cx+40,cy);c.lineTo(cx+40,cy+12);c.closePath();c.fill();
+  c.fillStyle='rgba(80,200,255,0.6)';c.fillRect(cx+5,cy-12,18,8);
+  // 貫通エフェクト（敵の周りに×）
+  for(let i=0;i<4;i++){const ex=w*0.3+i*50;if(Math.abs(cx-ex)<30){c.strokeStyle='#ff6622';c.lineWidth=3;c.beginPath();c.moveTo(ex-10,h*0.65-20);c.lineTo(ex+10,h*0.65);c.moveTo(ex+10,h*0.65-20);c.lineTo(ex-10,h*0.65);c.stroke();}}
+},2400);
+
+// S② 隊列スパイラル
+startAnim('s-b',(c,t,w,h)=>{for(let i=0;i<3;i++)drawEnemy(c,w*0.3+i*60,h*0.65);
+  const cx=w*0.5,cy=h*0.5;
+  // 軌跡（楕円）
+  c.strokeStyle='rgba(170,68,255,0.4)';c.lineWidth=1;c.beginPath();c.ellipse(cx,cy,80,35,0,0,Math.PI*2);c.stroke();
+  // 4台ミニカー
+  for(let k=0;k<4;k++){const ang=k*Math.PI/2+t*Math.PI*4;const mx=cx+Math.cos(ang)*80;const my=cy+Math.sin(ang)*35;
+    // 軌跡尾
+    c.strokeStyle=`rgba(170,68,255,0.6)`;c.lineWidth=2;c.beginPath();c.arc(cx,cy,Math.hypot(mx-cx,my-cy)*0.9,ang-0.5,ang);c.stroke();
+    c.fillStyle='#dd2222';c.fillRect(mx-9,my-4,18,8);
+    c.fillStyle='#ffd24a';c.fillRect(mx+7,my-2,3,4);
+    c.fillStyle='rgba(170,68,255,0.8)';c.beginPath();c.arc(mx-9,my,3,0,Math.PI*2);c.fill();
+  }
+  c.fillStyle='rgba(170,68,255,0.5)';c.beginPath();c.arc(cx,cy,15,0,Math.PI*2);c.fill();
+},2500);
+
+// S③ ヘッドライト・メガビーム
+startAnim('s-c',(c,t,w,h)=>{const cx=w*0.15,cy=h*0.5;for(let i=0;i<4;i++)drawEnemy(c,w*0.5+i*40,h*0.7);
+  // 車（巨大）
+  c.fillStyle='#dd2222';c.fillRect(cx-22,cy-12,44,24);
+  c.fillStyle='rgba(80,200,255,0.6)';c.fillRect(cx-15,cy-9,30,10);
+  // チャージ
+  if(t<0.35){const tt=t/0.35;
+    c.fillStyle=`rgba(255,238,136,${tt*0.6})`;c.beginPath();c.arc(cx+22,cy,8+tt*12,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,255,${tt})`;c.beginPath();c.arc(cx+22,cy,4+tt*6,0,Math.PI*2);c.fill();
+    // チャージ吸い込み線
+    for(let k=0;k<6;k++){const ang=k*Math.PI/3+t*Math.PI*2;c.strokeStyle=`rgba(255,238,136,${tt})`;c.lineWidth=2;c.beginPath();c.moveTo(cx+22+Math.cos(ang)*(35-tt*30),cy+Math.sin(ang)*(35-tt*30));c.lineTo(cx+22+Math.cos(ang)*15,cy+Math.sin(ang)*15);c.stroke();}
+  }else{const tt=(t-0.35)/0.65;
+    // 極太ビーム
+    const bg=c.createLinearGradient(0,cy-50,0,cy+50);bg.addColorStop(0,'rgba(255,238,136,0)');bg.addColorStop(0.5,`rgba(255,238,136,${(1-tt)*0.9})`);bg.addColorStop(1,'rgba(255,238,136,0)');c.fillStyle=bg;
+    c.fillRect(cx+22,cy-55,w-cx-22,110);
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.fillRect(cx+22,cy-15,w-cx-22,30);
+    // 端の星
+    for(let k=0;k<5;k++){c.fillStyle=`rgba(255,238,136,${1-tt})`;c.font='bold 14px sans-serif';c.fillText('★',w-30-k*40,cy-25+Math.sin(t*10+k)*8);}
+  }
+},2800);
+</script></body></html>

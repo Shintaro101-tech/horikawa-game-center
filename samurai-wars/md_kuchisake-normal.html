@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クチサケ女 通常攻撃3案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#ff3344;text-shadow:0 0 20px rgba(255,51,68,0.5);margin-bottom:6px}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:8px}
+.note{text-align:center;color:#888;font-size:0.78rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ff3344);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,51,68,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ff3344);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>✂ クチサケ女 — 通常攻撃 3案</h1>
+<div class="sub">NORMAL ATTACK CANDIDATES</div>
+<div class="note">※ 必殺技（呪い波動）はそのまま。通常攻撃のみを選びます</div>
+
+<div class="grid">
+<div class="card" style="--c:#dde8f0;--g:rgba(221,232,240,0.4)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案A. 鋏チョキ斬り</h2><p>大鋏で「チョキッ」と単発の近距離攻撃。</p></div>
+<div class="card" style="--c:#ff8888;--g:rgba(255,136,136,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案B. 鋏連続3連斬り</h2><p>高速で3連続斬り。素早く敵を切り刻む。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案C. 鋏投擲</h2><p>大鋏を回転させながら投げる中距離単発。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · NORMAL ATTACK PREVIEW</footer>
+
+<script>
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0010');sky.addColorStop(1,'#3a0820');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a0a1a';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#aa1010';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawKuchi(c,x,y){c.fillStyle='#aa1010';c.beginPath();c.moveTo(x-11,y-18);c.lineTo(x-14,y);c.lineTo(x+14,y);c.lineTo(x+11,y-18);c.closePath();c.fill();c.fillRect(x-11,y-40,22,22);c.fillStyle='#e8c8a8';c.beginPath();c.arc(x,y-46,5,0,Math.PI*2);c.fill();c.fillStyle='#000';c.fillRect(x-3,y-46,1,1);c.fillRect(x+2,y-46,1,1);c.fillStyle='#fff';c.fillRect(x-4,y-43,8,2);}
+function drawScissors(c,x,y,ang){c.save();c.translate(x,y);c.rotate(ang);c.strokeStyle='#aaa';c.lineWidth=3;
+  c.beginPath();c.moveTo(0,0);c.lineTo(20,-4);c.stroke();
+  c.beginPath();c.moveTo(0,0);c.lineTo(20,4);c.stroke();
+  c.fillStyle='#5a5a5a';c.beginPath();c.arc(0,0,3,0,Math.PI*2);c.fill();c.restore();}
+
+// 案A: 鋏チョキ斬り
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawKuchi(c,50,h*0.7);
+  if(t<0.3){const tt=t/0.3;drawScissors(c,60+tt*5,h*0.55,-Math.PI/3-tt*0.2);
+  }else if(t<0.55){const tt=(t-0.3)/0.25;const x=60+(tg.x-70)*tt;drawScissors(c,x,h*0.6,-Math.PI/4);}
+  else{const tt=(t-0.55)/0.45;
+    // チョキッエフェクト
+    c.fillStyle=`rgba(255,255,200,${(1-tt)*0.8})`;c.beginPath();c.arc(tg.x,tg.y-16,18,0,Math.PI*2);c.fill();
+    // ×印
+    c.strokeStyle=`rgba(255,51,68,${1-tt})`;c.lineWidth=3;
+    c.beginPath();c.moveTo(tg.x-8,tg.y-20);c.lineTo(tg.x+8,tg.y-10);c.stroke();
+    c.beginPath();c.moveTo(tg.x+8,tg.y-20);c.lineTo(tg.x-8,tg.y-10);c.stroke();}
+},1700);
+
+// 案B: 連続3連斬り
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawKuchi(c,50,h*0.7);
+  const phase=t*3;const idx=Math.floor(phase);const sub=phase-idx;
+  // 残像
+  for(let k=0;k<4;k++){const a=Math.sin(t*Math.PI*6+k)*0.3-0.5;const sy=Math.sin(t*Math.PI*10+k)*6;
+    drawScissors(c,tg.x-10+sy,h*0.6+sy*0.5,a);}
+  // ヒットエフェクト
+  if(sub<0.4){c.fillStyle=`rgba(255,255,200,${(1-sub*2.5)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,18,0,Math.PI*2);c.fill();
+    // 血飛沫
+    for(let i=0;i<5;i++){const ang=Math.random()*Math.PI*2;const d=12+Math.random()*10;
+      c.fillStyle='#aa1010';c.beginPath();c.arc(tg.x+Math.cos(ang)*d,tg.y-16+Math.sin(ang)*d,2,0,Math.PI*2);c.fill();}}
+  c.fillStyle='#ff8888';c.font='bold 18px sans-serif';c.textAlign='center';c.fillText((idx+1)+' HIT',tg.x,h*0.95);
+},1400);
+
+// 案C: 鋏投擲
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawKuchi(c,50,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=60+tt*(tg.x-70);const y=h*0.55-Math.sin(tt*Math.PI)*20;
+    // 軌跡（紫の螺旋）
+    for(let k=0;k<5;k++){const tk=Math.max(0,tt-k*0.06);const xk=60+tk*(tg.x-70);const yk=h*0.55-Math.sin(tk*Math.PI)*20;
+      c.strokeStyle=`rgba(170,68,255,${0.5-k*0.1})`;c.lineWidth=2;
+      c.beginPath();c.arc(xk,yk,8+k*2,0,Math.PI*2);c.stroke();}
+    drawScissors(c,x,y,tt*Math.PI*8);
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(170,68,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,20+tt*10,0,Math.PI*2);c.fill();
+    // ×印
+    c.strokeStyle=`rgba(255,51,68,${1-tt})`;c.lineWidth=4;
+    c.beginPath();c.moveTo(tg.x-10,tg.y-22);c.lineTo(tg.x+10,tg.y-10);c.stroke();
+    c.beginPath();c.moveTo(tg.x+10,tg.y-22);c.lineTo(tg.x-10,tg.y-10);c.stroke();}
+},1800);
+</script></body></html>

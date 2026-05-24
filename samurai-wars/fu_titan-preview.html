@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>戦闘用ロボ TITAN-X デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a1a00 0%,transparent 60%),linear-gradient(180deg,#200500 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ffd24a;text-shadow:0 0 30px rgba(255,210,74,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#ffaa44;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(30,15,10,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#2a0808 0%,#5a1a10 60%,#7a2818 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#fdc;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🤖 戦闘用ロボ TITAN-X デザイン & 攻撃 候補</h1>
+<div class="sub">RUINED MANHATTAN 2098 — 戦闘用ロボ</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 重装黄黒ミリタリー</h2><p>黄/黒装甲、肩にミニガン、胸に×マーク。</p></div>
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 銀ステルスメカ</h2><p>白銀+青グローライン、シャープな鋭利フォルム。</p></div>
+<div class="card" style="--c:#aa5544;--g:rgba(170,85,68,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 朽ちた赤錆メカ</h2><p>赤錆色、緑の蔦が絡む、片目だけ赤光。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="na-a" width="280" height="200"></canvas></div><h2>N① ロケット拳殴打</h2><p>拳がジョイント伸びてロケット噴射。</p></div>
+<div class="card" style="--c:#ffaa44;--g:rgba(255,170,68,0.5)"><div class="canv-wrap"><canvas id="na-b" width="280" height="200"></canvas></div><h2>N② アサルトライフル連射</h2><p>黄色い弾6発バラバラ連射。</p></div>
+<div class="card" style="--c:#ff6644;--g:rgba(255,102,68,0.5)"><div class="canv-wrap"><canvas id="na-c" width="280" height="200"></canvas></div><h2>N③ ロケット単発</h2><p>1発の大ロケット→小爆発。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="sa-a" width="280" height="200"></canvas></div><h2>S① ガトリング7連扇状掃射</h2><p>7発のレーザー弾が扇状に拡散。</p></div>
+<div class="card" style="--c:#ff8844;--g:rgba(255,136,68,0.5)"><div class="canv-wrap"><canvas id="sa-b" width="280" height="200"></canvas></div><h2>S② 拳ロケット2連</h2><p>両拳同時発射→2箇所大AOE爆発。</p></div>
+<div class="card" style="--c:#ff2200;--g:rgba(255,34,0,0.5)"><div class="canv-wrap"><canvas id="sa-c" width="280" height="200"></canvas></div><h2>S③ 自爆突撃</h2><p>突進→中央巨大爆発、3重衝撃波。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawTitanA(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(255,210,74,0.4)',110);
+  // 脚（ゴツい）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-22,cy+40,18,38);c.fillRect(cx+4,cy+40,18,38);
+  c.fillStyle='#ffd24a';c.fillRect(cx-20,cy+42,14,8);c.fillRect(cx+6,cy+42,14,8);
+  // 胴（四角ゴツい）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-35,cy-20,70,65);
+  c.fillStyle='#ffd24a';c.fillRect(cx-32,cy-17,64,59);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-28,cy-13,56,51);
+  // 胸の×マーク
+  c.strokeStyle='#ffd24a';c.lineWidth=4;
+  c.beginPath();c.moveTo(cx-15,cy-5);c.lineTo(cx+15,cy+20);c.stroke();
+  c.beginPath();c.moveTo(cx+15,cy-5);c.lineTo(cx-15,cy+20);c.stroke();
+  // 肩（左右、ゴツい）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-50,cy-25,20,28);c.fillRect(cx+30,cy-25,20,28);
+  c.fillStyle='#ffd24a';c.fillRect(cx-48,cy-23,16,5);c.fillRect(cx+32,cy-23,16,5);
+  // 肩のミニガン（右肩）
+  c.fillStyle='#3a3a3a';c.fillRect(cx+38,cy-40,8,25);
+  c.fillStyle='#1a1a1a';c.beginPath();c.arc(cx+42,cy-42,5,0,Math.PI*2);c.fill();
+  c.fillStyle='#3a3a3a';c.fillRect(cx+40,cy-50,4,8);
+  // 腕
+  c.fillStyle='#1a1a1a';c.fillRect(cx-52,cy+3,16,38);c.fillRect(cx+36,cy+3,16,38);
+  c.fillStyle='#ffd24a';c.fillRect(cx-50,cy+5,12,4);c.fillRect(cx+38,cy+5,12,4);
+  // 頭
+  c.fillStyle='#1a1a1a';c.fillRect(cx-16,cy-42,32,22);
+  c.fillStyle='#ff3344';c.fillRect(cx-12,cy-36,24,4);
+}
+
+function drawTitanB(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(0,221,255,0.4)',110);
+  // 脚（シャープ）
+  c.fillStyle='#cccccc';c.beginPath();c.moveTo(cx-15,cy+40);c.lineTo(cx-22,cy+78);c.lineTo(cx-5,cy+78);c.lineTo(cx-5,cy+40);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+15,cy+40);c.lineTo(cx+22,cy+78);c.lineTo(cx+5,cy+78);c.lineTo(cx+5,cy+40);c.closePath();c.fill();
+  c.fillStyle='#00ddff';c.fillRect(cx-12,cy+50,3,20);c.fillRect(cx+9,cy+50,3,20);
+  // 胴（鋭利、台形）
+  c.fillStyle='#cccccc';c.beginPath();c.moveTo(cx-30,cy-20);c.lineTo(cx+30,cy-20);c.lineTo(cx+24,cy+42);c.lineTo(cx-24,cy+42);c.closePath();c.fill();
+  c.strokeStyle='#00ddff';c.lineWidth=2;c.stroke();
+  // グローライン
+  c.strokeStyle='#00ddff';c.lineWidth=2;c.beginPath();c.moveTo(cx-26,cy);c.lineTo(cx+26,cy);c.stroke();
+  c.beginPath();c.moveTo(cx,cy-20);c.lineTo(cx,cy+42);c.stroke();
+  // 肩（鋭利）
+  c.fillStyle='#cccccc';c.beginPath();c.moveTo(cx-30,cy-20);c.lineTo(cx-50,cy-12);c.lineTo(cx-44,cy+5);c.lineTo(cx-30,cy);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+30,cy-20);c.lineTo(cx+50,cy-12);c.lineTo(cx+44,cy+5);c.lineTo(cx+30,cy);c.closePath();c.fill();
+  // 腕（細い）
+  c.fillStyle='#aaaaaa';c.fillRect(cx-46,cy+5,12,35);c.fillRect(cx+34,cy+5,12,35);
+  c.fillStyle='#00ddff';c.fillRect(cx-44,cy+15,2,15);c.fillRect(cx+42,cy+15,2,15);
+  // 頭（バイザー）
+  c.fillStyle='#cccccc';c.beginPath();c.moveTo(cx-14,cy-40);c.lineTo(cx+14,cy-40);c.lineTo(cx+10,cy-20);c.lineTo(cx-10,cy-20);c.closePath();c.fill();
+  c.fillStyle='#0a1830';c.fillRect(cx-12,cy-34,24,6);
+  c.fillStyle='#00ddff';c.fillRect(cx-10,cy-32,20,2);
+}
+
+function drawTitanC(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(170,85,68,0.3)',110);
+  // 脚
+  c.fillStyle='#aa5544';c.fillRect(cx-22,cy+40,18,38);c.fillRect(cx+4,cy+40,18,38);
+  c.fillStyle='#5a2a1a';c.fillRect(cx-22,cy+55,8,5);c.fillRect(cx+10,cy+62,10,3);
+  // 胴
+  c.fillStyle='#aa5544';c.fillRect(cx-35,cy-20,70,65);
+  c.strokeStyle='#5a2a1a';c.lineWidth=1;c.strokeRect(cx-35,cy-20,70,65);
+  // 装甲欠け
+  c.fillStyle='#1a0808';c.beginPath();c.moveTo(cx+20,cy-20);c.lineTo(cx+35,cy-10);c.lineTo(cx+35,cy-20);c.closePath();c.fill();
+  c.fillStyle='#1a0808';c.fillRect(cx-30,cy+30,12,8);
+  // 蔦（緑）
+  c.strokeStyle='#44aa55';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-40,cy-30);c.quadraticCurveTo(cx-25,cy-10,cx-20,cy+10);c.quadraticCurveTo(cx-10,cy+30,cx+5,cy+45);c.stroke();
+  c.beginPath();c.moveTo(cx+50,cy+20);c.quadraticCurveTo(cx+30,cy+25,cx+25,cy+40);c.stroke();
+  // 蔦の葉
+  c.fillStyle='#44aa55';c.beginPath();c.ellipse(cx-30,cy-15,4,2,0.5,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(cx-12,cy+20,4,2,-0.5,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(cx+35,cy+30,4,2,0.5,0,Math.PI*2);c.fill();
+  // 肩
+  c.fillStyle='#aa5544';c.fillRect(cx-50,cy-25,20,28);c.fillRect(cx+30,cy-25,20,28);
+  c.fillStyle='#5a2a1a';c.fillRect(cx-50,cy-25,20,5);
+  // 腕
+  c.fillStyle='#aa5544';c.fillRect(cx-52,cy+3,16,38);c.fillRect(cx+36,cy+3,16,38);
+  // 頭
+  c.fillStyle='#aa5544';c.fillRect(cx-16,cy-42,32,22);
+  c.fillStyle='#1a0808';c.fillRect(cx-12,cy-36,24,4);
+  // 片目だけ赤光
+  c.fillStyle='#ff2222';c.beginPath();c.arc(cx-5,cy-34,2.5,0,Math.PI*2);c.fill();
+  c.fillStyle='rgba(255,34,34,0.4)';c.beginPath();c.arc(cx-5,cy-34,5,0,Math.PI*2);c.fill();
+}
+
+drawTitanA(document.getElementById('ch-a').getContext('2d'));
+drawTitanB(document.getElementById('ch-b').getContext('2d'));
+drawTitanC(document.getElementById('ch-c').getContext('2d'));
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+
+// 廃墟マンハッタンのシーン
+function drawScene(c,w,h){
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#3a0808');sky.addColorStop(0.5,'#aa3010');sky.addColorStop(1,'#ff6620');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // 摩天楼シルエット
+  const buildings=[[10,60,28,90],[40,30,32,120],[75,50,24,100],[100,20,30,130],[135,45,26,105],[165,35,32,115],[200,55,28,95],[235,25,30,125]];
+  buildings.forEach(b=>{if(b[0]<w){c.fillStyle='#1a0808';c.fillRect(b[0],b[1],b[2],b[3]);
+    // 砕けた窓
+    for(let r=0;r<4;r++)for(let cc=0;cc<2;cc++){if(Math.random()>0.5)continue;c.fillStyle=(r+cc)%3?'#3a1a08':'#000';c.fillRect(b[0]+4+cc*10,b[1]+10+r*15,5,7);}
+  }});
+  // 蔦が垂れる
+  c.strokeStyle='#44aa55';c.lineWidth=2;
+  c.beginPath();c.moveTo(50,30);c.quadraticCurveTo(55,60,48,90);c.stroke();
+  c.beginPath();c.moveTo(180,40);c.quadraticCurveTo(185,80,175,120);c.stroke();
+  // 地面（瓦礫）
+  c.fillStyle='#3a1a10';c.fillRect(0,h*0.7,w,h*0.3);
+  c.fillStyle='#5a2a18';
+  for(let i=0;i<8;i++){const x=(i*38+10)%w;c.fillRect(x,h*0.72+(i%2)*8,12,5);}
+  c.fillStyle='#1a0808';
+  for(let i=0;i<5;i++){const x=(i*55+20)%w;c.beginPath();c.arc(x,h*0.85,4,0,Math.PI*2);c.fill();}
+}
+
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawTitanSmall(c,x,y){
+  c.fillStyle='#1a1a1a';c.fillRect(x-14,y-30,28,30);
+  c.fillStyle='#ffd24a';c.fillRect(x-12,y-28,24,5);
+  c.fillStyle='#1a1a1a';c.fillRect(x-8,y-42,16,12);
+  c.fillStyle='#ff3344';c.fillRect(x-6,y-38,12,2);
+}
+
+// N① ロケット拳殴打
+startAnim('na-a',(c,t,w,h)=>{
+  const tg={x:w*0.8,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  drawTitanSmall(c,w*0.2,h*0.7);
+  if(t<0.6){const tt=t/0.6;const fx=w*0.25+tt*(w*0.5);const fy=h*0.65;
+    // ジョイント（伸びる）
+    c.strokeStyle='#3a3a3a';c.lineWidth=3;c.beginPath();c.moveTo(w*0.25,fy);c.lineTo(fx,fy);c.stroke();
+    // ロケット噴射
+    c.fillStyle=`rgba(255,170,68,${1-tt*0.3})`;c.beginPath();c.moveTo(fx-22,fy);c.lineTo(fx-10,fy-5);c.lineTo(fx-10,fy+5);c.closePath();c.fill();
+    c.fillStyle='rgba(255,210,74,0.8)';c.beginPath();c.moveTo(fx-15,fy);c.lineTo(fx-8,fy-3);c.lineTo(fx-8,fy+3);c.closePath();c.fill();
+    // 拳
+    c.fillStyle='#ffd24a';c.fillRect(fx-8,fy-10,16,20);
+    c.fillStyle='#1a1a1a';c.strokeStyle='#1a1a1a';c.lineWidth=1;c.strokeRect(fx-8,fy-10,16,20);
+  }else{const tt=(t-0.6)/0.4;
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x-10,tg.y-10,18+tt*8,0,Math.PI*2);c.fill();
+  }
+},2200);
+
+// N② アサルトライフル連射
+startAnim('na-b',(c,t,w,h)=>{
+  const tg={x:w*0.85,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  drawTitanSmall(c,w*0.15,h*0.7);
+  for(let k=0;k<6;k++){const ph=(t-k*0.09)%1;const yo=(k%3-1)*4;
+    if(ph>0&&ph<0.08){c.fillStyle=`rgba(255,210,74,${1-ph*12})`;c.beginPath();c.arc(w*0.22,h*0.65+yo,7,0,Math.PI*2);c.fill();}
+    if(ph>0.04&&ph<0.45){const tt=(ph-0.04)/0.41;const bx=w*0.22+tt*(w*0.6);const by=h*0.65+yo+(Math.random()-0.5)*2;
+      c.fillStyle='#ffd24a';c.beginPath();c.arc(bx,by,3,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(255,210,74,0.3)';c.fillRect(w*0.22,by-1,tt*w*0.6,1.5);}}
+},2400);
+
+// N③ ロケット単発
+startAnim('na-c',(c,t,w,h)=>{
+  const tg={x:w*0.85,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  drawTitanSmall(c,w*0.15,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.22+tt*(w*0.6);const y=h*0.6-Math.sin(tt*Math.PI)*20;
+    // 軌跡
+    for(let k=0;k<8;k++){const tk=Math.max(0,tt-k*0.04);const xk=w*0.22+tk*(w*0.6);const yk=h*0.6-Math.sin(tk*Math.PI)*20;
+      c.fillStyle=`rgba(255,102,68,${0.6-k*0.07})`;c.beginPath();c.arc(xk,yk,4-k*0.3,0,Math.PI*2);c.fill();}
+    // ロケット本体
+    c.fillStyle='#aaaaaa';c.fillRect(x-8,y-3,16,6);
+    c.fillStyle='#ff6644';c.beginPath();c.moveTo(x+8,y-3);c.lineTo(x+14,y);c.lineTo(x+8,y+3);c.closePath();c.fill();
+    // 噴射
+    c.fillStyle='rgba(255,170,68,0.8)';c.beginPath();c.moveTo(x-8,y-3);c.lineTo(x-18,y);c.lineTo(x-8,y+3);c.closePath();c.fill();
+  }else{const tt=(t-0.7)/0.3;
+    c.fillStyle=`rgba(255,102,68,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-10,20+tt*10,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,150,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-10,10,0,Math.PI*2);c.fill();
+  }
+},2200);
+
+// S① ガトリング7連扇状掃射
+startAnim('sa-a',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.3+i*40,h*0.7);
+  drawTitanSmall(c,w*0.12,h*0.7);
+  for(let k=0;k<7;k++){const ph=(t-k*0.06)%1;
+    const ang=-0.5+k*0.17;
+    if(ph>0&&ph<0.05){c.fillStyle=`rgba(255,51,68,${1-ph*20})`;c.beginPath();c.arc(w*0.2,h*0.62,8,0,Math.PI*2);c.fill();}
+    if(ph>0.03&&ph<0.5){const tt=(ph-0.03)/0.47;const bx=w*0.2+Math.cos(ang)*tt*w*0.7;const by=h*0.62+Math.sin(ang)*tt*w*0.7;
+      // 軌跡
+      c.strokeStyle=`rgba(255,51,68,0.5)`;c.lineWidth=2;
+      c.beginPath();c.moveTo(w*0.2,h*0.62);c.lineTo(bx,by);c.stroke();
+      // 弾
+      c.fillStyle='#ff3344';c.beginPath();c.arc(bx,by,4,0,Math.PI*2);c.fill();
+      c.fillStyle='#fff';c.beginPath();c.arc(bx,by,2,0,Math.PI*2);c.fill();
+    }}
+},2800);
+
+// S② 拳ロケット2連
+startAnim('sa-b',(c,t,w,h)=>{
+  for(let i=0;i<2;i++)drawEnemy(c,w*0.6+i*60,h*0.7);
+  drawTitanSmall(c,w*0.15,h*0.7);
+  for(let k=0;k<2;k++){const tx=w*0.65+k*55;const ty=h*0.65;
+    if(t<0.55){const tt=t/0.55;const fx=w*0.22+tt*(tx-w*0.22);const fy=h*0.62+k*8;
+      c.strokeStyle='#3a3a3a';c.lineWidth=3;c.beginPath();c.moveTo(w*0.22,fy);c.lineTo(fx,fy);c.stroke();
+      c.fillStyle='rgba(255,170,68,0.7)';c.beginPath();c.moveTo(fx-20,fy);c.lineTo(fx-8,fy-5);c.lineTo(fx-8,fy+5);c.closePath();c.fill();
+      c.fillStyle='#ff8844';c.fillRect(fx-8,fy-9,16,18);
+    }else{const tt=(t-0.55)/0.45;
+      // 大AOE爆発
+      c.fillStyle=`rgba(255,136,68,${1-tt})`;c.beginPath();c.arc(tx,ty,30+tt*30,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,210,74,${1-tt*1.5})`;c.beginPath();c.arc(tx,ty,15+tt*20,0,Math.PI*2);c.fill();
+      // 火粒
+      for(let j=0;j<8;j++){const ang=j*Math.PI/4;c.fillStyle=`rgba(255,170,68,${1-tt})`;
+        c.beginPath();c.arc(tx+Math.cos(ang)*tt*40,ty+Math.sin(ang)*tt*40,3,0,Math.PI*2);c.fill();}
+    }}
+},2600);
+
+// S③ 自爆突撃
+startAnim('sa-c',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.3+i*40,h*0.7);
+  if(t<0.5){const tt=t/0.5;const x=w*0.15+tt*w*0.35;
+    drawTitanSmall(c,x,h*0.7);
+    // 警告
+    c.strokeStyle=`rgba(255,34,0,${0.5+0.5*Math.sin(t*40)})`;c.lineWidth=3;c.beginPath();c.arc(x,h*0.65,25,0,Math.PI*2);c.stroke();
+    // 突進ライン
+    c.fillStyle='rgba(255,34,0,0.3)';c.fillRect(w*0.15,h*0.68,tt*w*0.35,8);
+  }else{const tt=(t-0.5)/0.5;const cx=w*0.5,cy=h*0.65;
+    // 巨大爆発
+    c.fillStyle=`rgba(255,34,0,${1-tt*0.5})`;c.beginPath();c.arc(cx,cy,40+tt*70,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,170,68,${1-tt*0.8})`;c.beginPath();c.arc(cx,cy,25+tt*50,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(cx,cy,15+tt*25,0,Math.PI*2);c.fill();
+    // 3重衝撃波
+    for(let k=0;k<3;k++){const rt=Math.max(0,tt-k*0.18);
+      c.strokeStyle=`rgba(255,210,74,${1-rt})`;c.lineWidth=4-k;c.beginPath();c.arc(cx,cy,40+rt*110,0,Math.PI*2);c.stroke();}
+    // 火粒
+    for(let j=0;j<14;j++){const ang=j*Math.PI/7;c.fillStyle=`rgba(255,170,68,${1-tt})`;
+      c.beginPath();c.arc(cx+Math.cos(ang)*tt*100,cy+Math.sin(ang)*tt*100,3,0,Math.PI*2);c.fill();}
+  }
+},2600);
+</script></body></html>

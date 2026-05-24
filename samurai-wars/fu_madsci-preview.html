@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>マッドサイエンティスト ヴォルフ博士 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#88ff44;text-shadow:0 0 30px rgba(136,255,68,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#aa44ff;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(170,68,255,0.5)}
+.sub{text-align:center;color:#aa44ff;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#88ff44);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(136,255,68,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#1a0a2a 0%,#2a1040 70%,#3a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#88ff44);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🧪 マッドサイエンティスト ヴォルフ博士</h1>
+<div class="sub">DR. WOLF — BERLIN LABORATORY 2098</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffffff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 白衣ロングヘア狂気型</h2><p>白衣＋乱れた銀髪＋赤縁眼鏡。フラスコを掲げてにやけた狂気の博士。</p></div>
+<div class="card" style="--c:#aaccff;--g:rgba(170,204,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. サイボーグ化博士</h2><p>右半身機械化＋透明カプセルに浮かぶ脳＋背中に4本の機械腕。</p></div>
+<div class="card" style="--c:#cc4444;--g:rgba(204,68,68,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 巨大エクソスーツ型</h2><p>巨大エクソスーツに搭乗。両腕は赤液の入った巨大注射器。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="na" width="280" height="200"></canvas></div><h2>案N① 杖殴打</h2><p>杖を振り下ろし＋振動線。</p></div>
+<div class="card" style="--c:#ffee88;--g:rgba(255,238,136,0.5)"><div class="canv-wrap"><canvas id="nb" width="280" height="200"></canvas></div><h2>案N② 拳銃単発</h2><p>銃口フラッシュ＋黄色い弾。</p></div>
+<div class="card" style="--c:#88ff44;--g:rgba(136,255,68,0.5)"><div class="canv-wrap"><canvas id="nc" width="280" height="200"></canvas></div><h2>案N③ 試験管投擲</h2><p>緑フラスコが飛ぶ→着弾で小さな毒霧AOE。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#88ff44;--g:rgba(136,255,68,0.5)"><div class="canv-wrap"><canvas id="sa" width="280" height="200"></canvas></div><h2>案S① 毒薬フラスコ3発投擲</h2><p>3つの緑フラスコが放物線→着弾で毒霧AOE＋☠マーク。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="sb" width="280" height="200"></canvas></div><h2>案S② 改造クリーチャー3体召喚</h2><p>3体の異形クリーチャーが召喚されて前進。</p></div>
+<div class="card" style="--c:#cc4444;--g:rgba(204,68,68,0.5)"><div class="canv-wrap"><canvas id="sc" width="280" height="200"></canvas></div><h2>案S③ 巨大注射器突進</h2><p>注射器を構えて突進＋突き刺し＋赤い毒液エフェクト＋継続ダメ。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+// 案A: 白衣ロングヘア狂気型
+(function(){const c=document.getElementById('ch-a').getContext('2d');const cx=110,cy=130;
+  aura(c,cx,cy,'rgba(136,255,68,0.4)',120);
+  // 白衣胴体
+  c.fillStyle='#fff';c.fillRect(cx-32,cy,64,90);
+  c.fillStyle='#eee';c.fillRect(cx-32,cy,4,90);c.fillRect(cx+28,cy,4,90);
+  // 中央のVライン（白衣の前合わせ）
+  c.strokeStyle='#aaa';c.lineWidth=1;c.beginPath();c.moveTo(cx,cy);c.lineTo(cx-8,cy+90);c.stroke();
+  c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+8,cy+90);c.stroke();
+  // 腕（左：手袋でフラスコ持つ）
+  c.fillStyle='#fff';c.fillRect(cx-44,cy+10,12,40);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-46,cy+48,16,12); // 黒手袋
+  // フラスコ
+  c.fillStyle='#ddd';c.fillRect(cx-44,cy+38,12,4);
+  c.fillStyle='rgba(255,255,255,0.3)';c.beginPath();c.moveTo(cx-50,cy+42);c.lineTo(cx-26,cy+42);c.lineTo(cx-30,cy+68);c.lineTo(cx-46,cy+68);c.closePath();c.fill();
+  c.fillStyle='#88ff44';c.beginPath();c.moveTo(cx-48,cy+55);c.lineTo(cx-28,cy+55);c.lineTo(cx-30,cy+68);c.lineTo(cx-46,cy+68);c.closePath();c.fill();
+  c.strokeStyle='#444';c.lineWidth=1;c.beginPath();c.moveTo(cx-50,cy+42);c.lineTo(cx-46,cy+68);c.lineTo(cx-30,cy+68);c.lineTo(cx-26,cy+42);c.stroke();
+  // 右腕（手袋）
+  c.fillStyle='#fff';c.fillRect(cx+32,cy+10,12,40);
+  c.fillStyle='#1a1a1a';c.fillRect(cx+30,cy+48,16,12);
+  // 顔
+  c.fillStyle='#f4d4b4';c.beginPath();c.arc(cx,cy-20,22,0,Math.PI*2);c.fill();
+  // 銀色の乱れた髪
+  c.fillStyle='#ddd';
+  for(let i=-3;i<=3;i++){c.fillRect(cx+i*7-3,cy-40,6,18+Math.abs(i)*3);}
+  // 後ろに伸びる長髪
+  c.fillStyle='#ccc';c.fillRect(cx-24,cy-25,4,30);c.fillRect(cx+20,cy-25,4,30);
+  // 赤縁眼鏡
+  c.strokeStyle='#cc2222';c.lineWidth=2;
+  c.beginPath();c.arc(cx-8,cy-18,5,0,Math.PI*2);c.stroke();
+  c.beginPath();c.arc(cx+8,cy-18,5,0,Math.PI*2);c.stroke();
+  c.beginPath();c.moveTo(cx-3,cy-18);c.lineTo(cx+3,cy-18);c.stroke();
+  // 目（白＋黒点）
+  c.fillStyle='#fff';c.fillRect(cx-11,cy-20,6,4);c.fillRect(cx+5,cy-20,6,4);
+  c.fillStyle='#000';c.fillRect(cx-9,cy-19,2,2);c.fillRect(cx+7,cy-19,2,2);
+  // にやけた口
+  c.strokeStyle='#660000';c.lineWidth=2;c.beginPath();c.arc(cx,cy-6,7,0.1,Math.PI-0.1);c.stroke();
+  c.fillStyle='#fff';c.fillRect(cx-5,cy-4,10,1);
+})();
+
+// 案B: サイボーグ化博士
+(function(){const c=document.getElementById('ch-b').getContext('2d');const cx=110,cy=130;
+  aura(c,cx,cy,'rgba(170,204,255,0.5)',120);
+  // 機械腕4本（背中から放射状）
+  c.strokeStyle='#5a5a6a';c.lineWidth=4;
+  for(let i=0;i<4;i++){const ang=-Math.PI*0.7+i*Math.PI*0.45;
+    c.beginPath();c.moveTo(cx,cy);c.lineTo(cx+Math.cos(ang)*55,cy+Math.sin(ang)*55);c.stroke();
+    c.fillStyle='#aaa';c.beginPath();c.arc(cx+Math.cos(ang)*55,cy+Math.sin(ang)*55,4,0,Math.PI*2);c.fill();}
+  // 胴体（左半分白衣・右半分機械）
+  c.fillStyle='#fff';c.fillRect(cx-32,cy,32,90);
+  c.fillStyle='#5a5a6a';c.fillRect(cx,cy,32,90);
+  c.fillStyle='#aaa';c.fillRect(cx+4,cy+10,4,80);c.fillRect(cx+18,cy+10,4,80);
+  c.fillStyle='#00ddff';c.fillRect(cx+10,cy+20,6,6);c.fillRect(cx+10,cy+40,6,6);c.fillRect(cx+10,cy+60,6,6);
+  // 左腕（人間）
+  c.fillStyle='#fff';c.fillRect(cx-44,cy+10,12,40);
+  c.fillStyle='#f4d4b4';c.fillRect(cx-44,cy+48,12,10);
+  // 右腕（機械）
+  c.fillStyle='#5a5a6a';c.fillRect(cx+32,cy+10,12,40);
+  c.fillStyle='#aaa';c.fillRect(cx+32,cy+48,12,10);
+  c.fillStyle='#00ddff';c.fillRect(cx+34,cy+50,8,2);
+  // 透明カプセル
+  c.fillStyle='rgba(170,204,255,0.35)';c.beginPath();c.arc(cx,cy-25,24,0,Math.PI*2);c.fill();
+  c.strokeStyle='#aaccff';c.lineWidth=2;c.beginPath();c.arc(cx,cy-25,24,0,Math.PI*2);c.stroke();
+  // 中の脳
+  c.fillStyle='#ffaaaa';c.beginPath();c.arc(cx,cy-25,14,0,Math.PI*2);c.fill();
+  c.strokeStyle='#cc6666';c.lineWidth=1;
+  c.beginPath();c.moveTo(cx-12,cy-28);c.bezierCurveTo(cx-8,cy-35,cx-2,cy-30,cx,cy-25);c.stroke();
+  c.beginPath();c.moveTo(cx,cy-25);c.bezierCurveTo(cx+4,cy-30,cx+10,cy-35,cx+12,cy-28);c.stroke();
+  c.beginPath();c.moveTo(cx-10,cy-20);c.bezierCurveTo(cx-4,cy-22,cx+4,cy-22,cx+10,cy-20);c.stroke();
+  // 配線（カプセル上）
+  c.strokeStyle='#888';c.lineWidth=2;c.beginPath();c.moveTo(cx-8,cy-48);c.lineTo(cx-8,cy-55);c.stroke();
+  c.beginPath();c.moveTo(cx+8,cy-48);c.lineTo(cx+8,cy-55);c.stroke();
+})();
+
+// 案C: 巨大エクソスーツ型
+(function(){const c=document.getElementById('ch-c').getContext('2d');const cx=110,cy=130;
+  aura(c,cx,cy,'rgba(204,68,68,0.4)',130);
+  // エクソスーツ本体
+  c.fillStyle='#3a3a5a';c.fillRect(cx-55,cy-20,110,110);
+  c.fillStyle='#5a5a8a';c.fillRect(cx-50,cy-15,100,100);
+  c.strokeStyle='#1a1a3a';c.lineWidth=2;c.strokeRect(cx-50,cy-15,100,100);
+  // 関節ライン
+  c.strokeStyle='#2a2a4a';c.lineWidth=1;c.beginPath();c.moveTo(cx-50,cy+30);c.lineTo(cx+50,cy+30);c.stroke();
+  // コックピット（透明窓）
+  c.fillStyle='rgba(170,204,255,0.4)';c.fillRect(cx-22,cy-5,44,30);
+  c.strokeStyle='#aaccff';c.lineWidth=2;c.strokeRect(cx-22,cy-5,44,30);
+  // 中の小さな博士の顔
+  c.fillStyle='#f4d4b4';c.beginPath();c.arc(cx,cy+10,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#ddd';c.fillRect(cx-7,cy+2,14,5);
+  c.fillStyle='#000';c.fillRect(cx-4,cy+10,2,2);c.fillRect(cx+2,cy+10,2,2);
+  // 巨大注射器（左右）
+  // 左
+  c.fillStyle='#888';c.fillRect(cx-90,cy+10,10,12);
+  c.fillStyle='#ddd';c.fillRect(cx-80,cy+8,28,18);
+  c.fillStyle='#cc4444';c.fillRect(cx-78,cy+10,26,14);
+  c.strokeStyle='#444';c.lineWidth=1;c.strokeRect(cx-80,cy+8,28,18);
+  c.fillStyle='#888';c.fillRect(cx-52,cy+12,4,10);
+  c.fillStyle='#aaa';c.beginPath();c.moveTo(cx-48,cy+15);c.lineTo(cx-40,cy+17);c.lineTo(cx-48,cy+19);c.closePath();c.fill();
+  // 右
+  c.fillStyle='#888';c.fillRect(cx+80,cy+10,10,12);
+  c.fillStyle='#ddd';c.fillRect(cx+52,cy+8,28,18);
+  c.fillStyle='#cc4444';c.fillRect(cx+52,cy+10,26,14);
+  c.strokeRect(cx+52,cy+8,28,18);
+  c.fillStyle='#888';c.fillRect(cx+48,cy+12,4,10);
+  c.fillStyle='#aaa';c.beginPath();c.moveTo(cx+48,cy+15);c.lineTo(cx+40,cy+17);c.lineTo(cx+48,cy+19);c.closePath();c.fill();
+  // 装甲ライン
+  c.fillStyle='#cc4444';c.fillRect(cx-50,cy-15,100,4);c.fillRect(cx-50,cy+81,100,4);
+  // 脚（短く）
+  c.fillStyle='#3a3a5a';c.fillRect(cx-30,cy+90,18,12);c.fillRect(cx+12,cy+90,18,12);
+})();
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){
+  // 暗い研究所
+  const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#1a0a2a');sky.addColorStop(1,'#2a1040');c.fillStyle=sky;c.fillRect(0,0,w,h);
+  // 床
+  c.fillStyle='#1a0820';c.fillRect(0,h*0.72,w,h*0.28);
+  c.fillStyle='#aa44ff';c.fillRect(0,h*0.72,w,1);
+  // 試験管棚（背景）
+  c.fillStyle='#2a1a3a';c.fillRect(0,h*0.2,w,h*0.5);
+  for(let i=0;i<8;i++){const x=10+i*(w-20)/7;
+    c.fillStyle='#1a0820';c.fillRect(x-3,h*0.25,6,30);
+    c.fillStyle='#88ff44';c.fillRect(x-2,h*0.32,4,22);
+    c.fillStyle='rgba(136,255,68,0.4)';c.fillRect(x-3,h*0.25,6,8);}
+  // モニター画面
+  c.fillStyle='#0a2a4a';c.fillRect(w*0.05,h*0.05,w*0.25,h*0.12);
+  c.fillStyle='#00ddff';c.font='8px monospace';c.fillText('DNA>>>',w*0.07,h*0.1);c.fillText('████░░',w*0.07,h*0.14);
+  c.fillStyle='#0a2a4a';c.fillRect(w*0.7,h*0.05,w*0.25,h*0.12);
+  c.fillStyle='#88ff44';c.font='8px monospace';c.fillText('SAMPLE-7',w*0.72,h*0.1);c.fillText('LIVE',w*0.72,h*0.14);
+  // 紫の薬品光
+  const g=c.createRadialGradient(w*0.5,h*0.5,10,w*0.5,h*0.5,w*0.5);g.addColorStop(0,'rgba(170,68,255,0.2)');g.addColorStop(1,'transparent');c.fillStyle=g;c.fillRect(0,0,w,h);
+  // 電気スパーク（ランダム位置だが固定）
+  c.strokeStyle='rgba(255,255,150,0.5)';c.lineWidth=1;
+  const sparks=[[0.15,0.2],[0.85,0.3],[0.4,0.18]];
+  sparks.forEach(s=>{c.beginPath();c.moveTo(w*s[0],h*s[1]);c.lineTo(w*s[0]+4,h*s[1]+6);c.lineTo(w*s[0]-2,h*s[1]+10);c.stroke();});
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawBoss(c,x,y){
+  // 小さな博士アイコン
+  c.fillStyle='#fff';c.fillRect(x-10,y-20,20,30);
+  c.fillStyle='#f4d4b4';c.beginPath();c.arc(x,y-26,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#ddd';c.fillRect(x-7,y-32,14,5);
+  c.fillStyle='#000';c.fillRect(x-3,y-26,2,2);c.fillRect(x+1,y-26,2,2);
+}
+
+// N① 杖殴打
+startAnim('na',(c,t,w,h)=>{drawBoss(c,w*0.25,h*0.65);drawEnemy(c,w*0.55,h*0.7);
+  const px=w*0.25+12,py=h*0.65-15;
+  const ang=t<0.5?(-Math.PI*0.4+t*Math.PI*1.6):(Math.PI*0.4);
+  c.strokeStyle='#aa6622';c.lineWidth=4;c.beginPath();c.moveTo(px,py);c.lineTo(px+Math.cos(ang)*40,py+Math.sin(ang)*40);c.stroke();
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(px+Math.cos(ang)*40,py+Math.sin(ang)*40,5,0,Math.PI*2);c.fill();
+  if(t>0.5){const tt=(t-0.5)/0.5;
+    // 振動線
+    c.strokeStyle=`rgba(255,210,74,${1-tt})`;c.lineWidth=2;
+    for(let i=0;i<3;i++){c.beginPath();c.arc(w*0.55,h*0.7-10,15+i*8,-Math.PI*0.3,-Math.PI*0.7,true);c.stroke();}
+    c.fillStyle=`rgba(255,255,200,${1-tt})`;c.beginPath();c.arc(w*0.55,h*0.7-5,12,0,Math.PI*2);c.fill();}
+},2200);
+
+// N② 拳銃単発
+startAnim('nb',(c,t,w,h)=>{drawBoss(c,w*0.2,h*0.65);drawEnemy(c,w*0.75,h*0.7);
+  const px=w*0.2+15,py=h*0.65-5;
+  // 銃
+  c.fillStyle='#333';c.fillRect(px,py-3,18,6);c.fillRect(px+4,py+3,4,8);
+  if(t<0.15){
+    // フラッシュ
+    aura(c,px+18,py,'rgba(255,238,136,0.9)',25);
+    c.fillStyle='#fff';c.beginPath();c.arc(px+18,py,6,0,Math.PI*2);c.fill();
+  }
+  if(t>0.1&&t<0.6){const tt=(t-0.1)/0.5;const bx=px+18+tt*(w*0.75-px-18);
+    c.fillStyle='#ffee88';c.fillRect(bx-4,py-2,8,4);
+    c.strokeStyle='rgba(255,238,136,0.5)';c.lineWidth=2;c.beginPath();c.moveTo(bx-12,py);c.lineTo(bx-4,py);c.stroke();}
+  if(t>=0.6){const tt=(t-0.6)/0.4;
+    c.fillStyle=`rgba(255,238,136,${1-tt})`;c.beginPath();c.arc(w*0.75,h*0.7-10,15+tt*8,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(255,200,80,${1-tt})`;c.font='bold 14px sans-serif';c.fillText('!',w*0.75-2,h*0.7-10);}
+},2400);
+
+// N③ 試験管投擲
+startAnim('nc',(c,t,w,h)=>{drawBoss(c,w*0.2,h*0.65);drawEnemy(c,w*0.75,h*0.7);
+  if(t<0.7){const tt=t/0.7;const fx=w*0.2+15+tt*(w*0.55);const fy=h*0.65-30-Math.sin(tt*Math.PI)*60;
+    // フラスコ
+    c.fillStyle='#ddd';c.fillRect(fx-2,fy-8,4,3);
+    c.beginPath();c.moveTo(fx-6,fy-5);c.lineTo(fx+6,fy-5);c.lineTo(fx+4,fy+6);c.lineTo(fx-4,fy+6);c.closePath();c.fillStyle='#88ff44';c.fill();
+    c.strokeStyle='#444';c.lineWidth=1;c.stroke();
+  }else{const tt=(t-0.7)/0.3;
+    // 毒霧AOE
+    c.fillStyle=`rgba(136,255,68,${0.5-tt*0.5})`;c.beginPath();c.arc(w*0.75,h*0.7-5,25+tt*10,0,Math.PI*2);c.fill();
+    for(let i=0;i<5;i++){const ang=i*Math.PI*0.4+t*5;
+      c.fillStyle=`rgba(136,255,68,${1-tt})`;c.beginPath();c.arc(w*0.75+Math.cos(ang)*(15+tt*15),h*0.7-5+Math.sin(ang)*(8+tt*8),3,0,Math.PI*2);c.fill();}}
+},2400);
+
+// S① 毒薬フラスコ3発投擲
+startAnim('sa',(c,t,w,h)=>{drawBoss(c,w*0.15,h*0.65);
+  const targets=[w*0.5,w*0.7,w*0.88];
+  targets.forEach((tx,i)=>drawEnemy(c,tx,h*0.7));
+  targets.forEach((tx,i)=>{const offs=i*0.1;const lt=(t-offs)%1;if(lt<0||lt>1)return;
+    if(lt<0.55){const tt=lt/0.55;const fx=w*0.15+15+tt*(tx-w*0.15-15);const fy=h*0.65-25-Math.sin(tt*Math.PI)*70;
+      c.fillStyle='#ddd';c.fillRect(fx-2,fy-8,4,3);
+      c.beginPath();c.moveTo(fx-6,fy-5);c.lineTo(fx+6,fy-5);c.lineTo(fx+4,fy+6);c.lineTo(fx-4,fy+6);c.closePath();c.fillStyle='#88ff44';c.fill();
+    }else if(lt<1){const tt=(lt-0.55)/0.45;
+      c.fillStyle=`rgba(136,255,68,${0.6-tt*0.6})`;c.beginPath();c.arc(tx,h*0.7-5,30+tt*15,0,Math.PI*2);c.fill();
+      // ☠
+      c.fillStyle=`rgba(255,255,255,${1-tt})`;c.font='bold 18px sans-serif';c.fillText('☠',tx-7,h*0.7-15);
+      for(let k=0;k<6;k++){const ang=k*Math.PI/3+t*4;
+        c.fillStyle=`rgba(136,255,68,${0.8-tt*0.8})`;c.beginPath();c.arc(tx+Math.cos(ang)*(20+tt*10),h*0.7-5+Math.sin(ang)*(10+tt*5),3,0,Math.PI*2);c.fill();}}});
+},3000);
+
+// S② 改造クリーチャー3体召喚
+startAnim('sb',(c,t,w,h)=>{drawBoss(c,w*0.15,h*0.65);
+  const spawns=[w*0.4,w*0.6,w*0.8];
+  spawns.forEach((sx,i)=>{const offs=i*0.12;const lt=(t-offs+1)%1;
+    if(lt<0.25){const tt=lt/0.25;
+      // 召喚エフェクト
+      aura(c,sx,h*0.7-10,`rgba(170,68,255,${tt})`,30);
+      c.strokeStyle=`rgba(170,68,255,${1-tt})`;c.lineWidth=2;c.beginPath();c.arc(sx,h*0.7,20-tt*10,0,Math.PI*2);c.stroke();
+    }
+    if(lt>=0.2){const tt=(lt-0.2)/0.8;const cx=sx-tt*40;
+      // クリーチャー
+      c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(cx,h*0.7,9,3,0,0,Math.PI*2);c.fill();
+      c.fillStyle='#4a8a3a';c.beginPath();c.arc(cx,h*0.7-10,9,0,Math.PI*2);c.fill();
+      c.fillStyle='#aa44ff';c.fillRect(cx-7,h*0.7-3,14,5);
+      // 目
+      c.fillStyle='#ff4444';c.fillRect(cx-4,h*0.7-13,2,2);c.fillRect(cx+2,h*0.7-13,2,2);
+      // 触手
+      c.strokeStyle='#aa44ff';c.lineWidth=2;
+      c.beginPath();c.moveTo(cx-5,h*0.7);c.lineTo(cx-8,h*0.7+5+Math.sin(t*8)*2);c.stroke();
+      c.beginPath();c.moveTo(cx+5,h*0.7);c.lineTo(cx+8,h*0.7+5+Math.sin(t*8+1)*2);c.stroke();}});
+},2800);
+
+// S③ 巨大注射器突進
+startAnim('sc',(c,t,w,h)=>{drawEnemy(c,w*0.7,h*0.7);
+  let bx=w*0.2;
+  if(t<0.3){bx=w*0.2;}
+  else if(t<0.55){bx=w*0.2+(t-0.3)/0.25*(w*0.45);}
+  else{bx=w*0.65;}
+  drawBoss(c,bx,h*0.65);
+  // 注射器
+  c.fillStyle='#888';c.fillRect(bx-2,h*0.65-3,8,4);
+  c.fillStyle='#ddd';c.fillRect(bx+6,h*0.65-6,22,10);
+  c.fillStyle='#cc4444';c.fillRect(bx+8,h*0.65-4,18,6);
+  c.fillStyle='#888';c.fillRect(bx+28,h*0.65-2,3,4);
+  c.fillStyle='#aaa';c.beginPath();c.moveTo(bx+31,h*0.65);c.lineTo(bx+40,h*0.65);c.lineTo(bx+31,h*0.65+1);c.closePath();c.fill();
+  if(t<0.3){
+    // 構え（赤い液体光る）
+    aura(c,bx+16,h*0.65,'rgba(204,68,68,0.6)',25);
+  }
+  if(t>=0.55){const tt=(t-0.55)/0.45;
+    // 突き刺し
+    c.fillStyle=`rgba(204,68,68,${1-tt*0.5})`;c.beginPath();c.arc(w*0.7,h*0.7-10,15+tt*10,0,Math.PI*2);c.fill();
+    // 赤い毒液飛沫
+    for(let i=0;i<8;i++){const ang=i*Math.PI/4;
+      c.fillStyle=`rgba(204,68,68,${1-tt})`;c.beginPath();c.arc(w*0.7+Math.cos(ang)*(15+tt*20),h*0.7-10+Math.sin(ang)*(15+tt*20),3,0,Math.PI*2);c.fill();}
+    // 継続ダメ表示
+    c.fillStyle=`rgba(255,80,80,${1-tt})`;c.font='bold 12px sans-serif';c.fillText('DOT -5',w*0.7-15,h*0.7-30-tt*15);}
+},2800);
+</script></body></html>

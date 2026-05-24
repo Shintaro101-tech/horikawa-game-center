@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAXIMUS-3 デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#5a1010 0%,transparent 60%),linear-gradient(180deg,#1a0808 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ffd24a;text-shadow:0 0 30px rgba(255,210,74,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#ffd24a;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(30,15,10,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#1a0a0a 0%,#3a1a10 70%,#5a2818 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#fdc;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>⚔ サイボーグ剣闘士 MAXIMUS-3</h1>
+<div class="sub">🇮🇹 ROME · CYBER COLOSSEUM BOSS</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cc2222;--g:rgba(204,34,34,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 赤金の重装剣闘士</h2><p>赤+金縁。古代ローマ風メカ鎧、大盾(ライオン紋)、ショートソード。</p></div>
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 黒銀スマート剣闘士</h2><p>シャープな黒+銀。鎖鉄球＋短剣、バイザーヘルメット。</p></div>
+<div class="card" style="--c:#3366cc;--g:rgba(51,102,204,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 青のトライデント剣闘士</h2><p>青+銀の海神風。三叉戟+投網、肩に魚の装飾。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="n1" width="280" height="200"></canvas></div><h2>N① 剣振り</h2><p>剣を上から下に振る＋斬撃線。</p></div>
+<div class="card" style="--c:#cc2222;--g:rgba(204,34,34,0.5)"><div class="canv-wrap"><canvas id="n2" width="280" height="200"></canvas></div><h2>N② 盾バッシュ突進</h2><p>盾を構えて突進＋衝撃線。</p></div>
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="n3" width="280" height="200"></canvas></div><h2>N③ 投げナイフ</h2><p>銀のナイフが回転しながら飛ぶ＋軌跡。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="s1" width="280" height="200"></canvas></div><h2>S① 巨大剣回転斬り</h2><p>周囲を高速回転斬撃＋連続斬撃線＋AOE円。</p></div>
+<div class="card" style="--c:#3366cc;--g:rgba(51,102,204,0.5)"><div class="canv-wrap"><canvas id="s2" width="280" height="200"></canvas></div><h2>S② 投網拘束</h2><p>ネットが扇状に広がり投擲＋着弾で拘束。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="s3" width="280" height="200"></canvas></div><h2>S③ 闘技場の歓声</h2><p>自己バフ：金光＋6秒atk×2＋一瞬無敵バリア。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+function drawGladiator(c,p){
+  const cx=110,cy=140;
+  if(p.aura)aura(c,cx,cy,p.aura,130);
+  // 脚
+  c.fillStyle=p.bodyShade;c.fillRect(cx-18,cy+30,12,40);c.fillRect(cx+6,cy+30,12,40);
+  c.fillStyle=p.body;c.fillRect(cx-16,cy+32,8,36);c.fillRect(cx+8,cy+32,8,36);
+  // 胴鎧
+  c.fillStyle=p.bodyShade;c.fillRect(cx-26,cy-10,52,46);
+  c.fillStyle=p.body;c.fillRect(cx-22,cy-6,44,38);
+  c.strokeStyle=p.accent;c.lineWidth=2;c.strokeRect(cx-22,cy-6,44,38);
+  // 胸の装飾ライン
+  c.fillStyle=p.accent;c.fillRect(cx-22,cy+8,44,3);c.fillRect(cx-22,cy+22,44,2);
+  // 肩アーマー
+  c.fillStyle=p.bodyShade;c.beginPath();c.arc(cx-26,cy-6,10,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+26,cy-6,10,0,Math.PI*2);c.fill();
+  c.fillStyle=p.accent;c.beginPath();c.arc(cx-26,cy-6,7,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+26,cy-6,7,0,Math.PI*2);c.fill();
+  // 肩飾り(C案=魚)
+  if(p.fish){c.fillStyle=p.fish;c.beginPath();c.ellipse(cx-30,cy-14,8,4,0,0,Math.PI*2);c.fill();c.beginPath();c.ellipse(cx+30,cy-14,8,4,0,0,Math.PI*2);c.fill();}
+  // 頭
+  c.fillStyle=p.bodyShade;c.fillRect(cx-14,cy-40,28,30);
+  c.fillStyle=p.helmet||p.body;c.fillRect(cx-12,cy-38,24,28);
+  // バイザー(B案)またはセンサー目
+  c.fillStyle='#0a0a0a';c.fillRect(cx-11,cy-28,22,8);
+  c.fillStyle=p.eye||'#ff3344';c.fillRect(cx-9,cy-26,18,4);
+  // 兜飾り (A案=赤い兜飾り)
+  if(p.crest){c.fillStyle=p.crest;c.beginPath();c.moveTo(cx-10,cy-40);c.lineTo(cx,cy-58);c.lineTo(cx+10,cy-40);c.fill();
+    c.fillStyle=p.crest;c.fillRect(cx-3,cy-58,6,8);}
+  // 右手の武器
+  if(p.weapon==='sword'){
+    // ショートソード
+    c.fillStyle='#888';c.fillRect(cx+30,cy-2,4,28);
+    c.fillStyle=p.accent;c.fillRect(cx+27,cy+24,10,4);
+    c.fillStyle='#5a3a18';c.fillRect(cx+30,cy+27,4,8);
+  }else if(p.weapon==='chain'){
+    // 鎖+鉄球
+    c.strokeStyle='#888';c.lineWidth=2;
+    for(let i=0;i<4;i++){c.beginPath();c.arc(cx+34+i*5,cy+i*5,3,0,Math.PI*2);c.stroke();}
+    c.fillStyle='#444';c.beginPath();c.arc(cx+58,cy+28,8,0,Math.PI*2);c.fill();
+    c.fillStyle='#222';c.beginPath();c.arc(cx+58,cy+28,5,0,Math.PI*2);c.fill();
+  }else if(p.weapon==='trident'){
+    // 三叉戟
+    c.fillStyle='#5a3a18';c.fillRect(cx+30,cy-30,3,60);
+    c.fillStyle='#cccccc';
+    c.beginPath();c.moveTo(cx+31.5,cy-30);c.lineTo(cx+25,cy-44);c.lineTo(cx+28,cy-30);c.fill();
+    c.beginPath();c.moveTo(cx+31.5,cy-30);c.lineTo(cx+31.5,cy-46);c.lineTo(cx+34,cy-30);c.fill();
+    c.beginPath();c.moveTo(cx+31.5,cy-30);c.lineTo(cx+38,cy-44);c.lineTo(cx+35,cy-30);c.fill();
+  }
+  // 左手の装備
+  if(p.shield){
+    // 大盾
+    c.fillStyle=p.shieldBg||'#8a5a18';c.beginPath();c.ellipse(cx-38,cy+10,14,22,0,0,Math.PI*2);c.fill();
+    c.fillStyle=p.shield;c.beginPath();c.ellipse(cx-38,cy+10,11,18,0,0,Math.PI*2);c.fill();
+    // ライオン紋
+    c.fillStyle='#5a3a18';c.beginPath();c.arc(cx-38,cy+8,5,0,Math.PI*2);c.fill();
+    c.fillStyle='#3a2010';c.fillRect(cx-40,cy+9,4,1);c.fillRect(cx-38,cy+11,2,2);
+  }else if(p.dagger){
+    // 短剣
+    c.fillStyle='#cccccc';c.fillRect(cx-36,cy+0,3,20);
+    c.fillStyle=p.accent;c.fillRect(cx-39,cy+18,9,3);
+  }else if(p.net){
+    // 投網
+    c.strokeStyle=p.net;c.lineWidth=1;
+    for(let i=0;i<5;i++)for(let j=0;j<4;j++){c.beginPath();c.arc(cx-44+i*4,cy+0+j*5,2,0,Math.PI*2);c.stroke();}
+  }
+}
+drawGladiator(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(255,210,74,0.5)',body:'#cc2222',bodyShade:'#7a1010',accent:'#ffd24a',eye:'#ffd24a',helmet:'#cc2222',crest:'#ff3344',weapon:'sword',shield:'#ddaa44',shieldBg:'#8a5a18'});
+drawGladiator(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(204,204,204,0.4)',body:'#1a1a1a',bodyShade:'#000',accent:'#cccccc',eye:'#00f0ff',helmet:'#1a1a1a',weapon:'chain',dagger:true});
+drawGladiator(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(51,102,204,0.5)',body:'#3366cc',bodyShade:'#1a3380',accent:'#aaccff',eye:'#00f0ff',helmet:'#3366cc',weapon:'trident',net:'#aaaaaa',fish:'#5588dd'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){
+  // 夜空+コロッセオ内部
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#1a0808');sky.addColorStop(1,'#3a1810');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // 砂アリーナ
+  const sand=c.createLinearGradient(0,h*0.7,0,h);sand.addColorStop(0,'#8a6840');sand.addColorStop(1,'#5a4020');c.fillStyle=sand;c.fillRect(0,h*0.7,w,h*0.3);
+  // アーチ列
+  c.fillStyle='#2a1808';for(let i=0;i<5;i++){const ax=w*0.1+i*w*0.2;c.fillRect(ax-15,h*0.25,30,h*0.45);
+    c.fillStyle='#1a0a04';c.beginPath();c.arc(ax,h*0.25,15,Math.PI,0);c.fill();c.fillStyle='#2a1808';}
+  // ホログラム観衆 (上部)
+  for(let i=0;i<20;i++){c.fillStyle=`rgba(120,180,255,${0.2+(i%3)*0.1})`;c.fillRect((i*15)%w,8+(i%3)*4,8,6);}
+  // 松明 (青いLED炎)
+  for(let i=0;i<4;i++){const tx=w*0.15+i*w*0.25;
+    c.fillStyle='#3a2010';c.fillRect(tx-2,h*0.35,4,16);
+    c.fillStyle='#00ddff';c.beginPath();c.ellipse(tx,h*0.33,5,8,0,0,Math.PI*2);c.fill();
+    c.fillStyle='#aaeeff';c.beginPath();c.ellipse(tx,h*0.34,2,4,0,0,Math.PI*2);c.fill();}
+  // アリーナ境界
+  c.fillStyle='#3a2818';c.fillRect(0,h*0.7-2,w,2);
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawBoss(c,x,y,col='#cc2222'){c.fillStyle=col;c.fillRect(x-12,y-30,24,30);c.fillStyle='#ffd24a';c.fillRect(x-12,y-32,24,4);c.fillStyle='#7a1010';c.beginPath();c.arc(x,y-36,8,0,Math.PI*2);c.fill();}
+
+// N① 剣振り
+startAnim('n1',(c,t,w,h)=>{drawBoss(c,w*0.3,h*0.7);drawEnemy(c,w*0.65,h*0.7);
+  const ang=-Math.PI*0.6+t*Math.PI*1.4;const sx=w*0.3+18,sy=h*0.7-20;
+  // 剣
+  c.save();c.translate(sx,sy);c.rotate(ang);
+  c.fillStyle='#888';c.fillRect(0,-2,40,4);c.fillStyle='#ffd24a';c.fillRect(38,-4,4,8);c.restore();
+  // 斬撃線
+  if(t>0.4&&t<0.7){const tt=(t-0.4)/0.3;c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=3;
+    c.beginPath();c.arc(sx,sy,40,-Math.PI*0.3,Math.PI*0.3);c.stroke();}
+},2400);
+
+// N② 盾バッシュ突進
+startAnim('n2',(c,t,w,h)=>{drawEnemy(c,w*0.7,h*0.7);
+  const bx=w*0.2+t*w*0.4;
+  drawBoss(c,bx,h*0.7);
+  // 盾
+  c.fillStyle='#8a5a18';c.beginPath();c.ellipse(bx+18,h*0.7-18,10,16,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#ddaa44';c.beginPath();c.ellipse(bx+18,h*0.7-18,7,12,0,0,Math.PI*2);c.fill();
+  // 衝撃線
+  if(t>0.5){for(let i=0;i<5;i++){c.strokeStyle=`rgba(255,255,255,${(t-0.5)*2})`;c.lineWidth=2;
+    c.beginPath();c.moveTo(bx+30,h*0.7-30+i*6);c.lineTo(bx+50,h*0.7-30+i*6);c.stroke();}}
+  // 着弾光
+  if(t>0.7){const tt=(t-0.7)/0.3;c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(w*0.7,h*0.7-15,20*(1+tt),0,Math.PI*2);c.fill();}
+},2400);
+
+// N③ 投げナイフ
+startAnim('n3',(c,t,w,h)=>{drawBoss(c,w*0.2,h*0.7);drawEnemy(c,w*0.8,h*0.7);
+  const kx=w*0.2+t*w*0.6,ky=h*0.7-25;
+  // 軌跡
+  for(let i=0;i<6;i++){const tt=t-i*0.03;if(tt<0)continue;const tkx=w*0.2+tt*w*0.6;
+    c.fillStyle=`rgba(204,204,204,${0.6-i*0.1})`;c.beginPath();c.arc(tkx,ky,2,0,Math.PI*2);c.fill();}
+  // ナイフ(回転)
+  c.save();c.translate(kx,ky);c.rotate(t*Math.PI*6);
+  c.fillStyle='#cccccc';c.fillRect(-10,-2,16,4);
+  c.fillStyle='#5a3a18';c.fillRect(-12,-3,4,6);c.restore();
+},2200);
+
+// S① 巨大剣回転斬り
+startAnim('s1',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.25+i*40,h*0.7);
+  const cx=w*0.5,cy=h*0.6;drawBoss(c,cx,cy+15,'#ff3344');
+  // AOE円
+  c.fillStyle=`rgba(255,51,68,0.15)`;c.beginPath();c.arc(cx,cy,80,0,Math.PI*2);c.fill();
+  c.strokeStyle='#ff3344';c.lineWidth=2;c.beginPath();c.arc(cx,cy,80,0,Math.PI*2);c.stroke();
+  // 巨大剣 (回転)
+  const baseAng=t*Math.PI*4;
+  c.save();c.translate(cx,cy);c.rotate(baseAng);
+  c.fillStyle='#888';c.fillRect(0,-3,70,6);c.fillStyle='#ffd24a';c.fillRect(65,-5,8,10);c.restore();
+  // 6本の連続斬撃線
+  for(let i=0;i<6;i++){const ang=baseAng-i*0.3;const a=1-i*0.15;
+    c.strokeStyle=`rgba(255,255,255,${a})`;c.lineWidth=4-i*0.5;
+    c.beginPath();c.arc(cx,cy,55,ang-0.2,ang+0.2);c.stroke();}
+},2400);
+
+// S② 投網拘束
+startAnim('s2',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.55+i*40,h*0.7);
+  drawBoss(c,w*0.2,h*0.7,'#3366cc');
+  if(t<0.5){const tt=t/0.5;
+    // 扇状ネット展開
+    const sx=w*0.2+18,sy=h*0.7-18;
+    c.strokeStyle=`rgba(170,170,170,${0.8})`;c.lineWidth=1;
+    for(let i=0;i<6;i++){const ang=-Math.PI*0.5+(i-3)*0.2;const d=tt*120;
+      c.beginPath();c.moveTo(sx,sy);c.lineTo(sx+Math.cos(ang)*d,sy+Math.sin(ang)*d);c.stroke();}
+    // ネットの結び目
+    for(let r=1;r<5;r++)for(let i=0;i<6;i++){const ang=-Math.PI*0.5+(i-3)*0.2;const d=tt*120*r/4;
+      c.fillStyle='#aaaaaa';c.fillRect(sx+Math.cos(ang)*d-1,sy+Math.sin(ang)*d-1,2,2);}
+  }else{const tt=(t-0.5)/0.5;
+    // 拘束ネット
+    c.strokeStyle=`rgba(170,170,170,${1-tt*0.3})`;c.lineWidth=1;
+    for(let i=0;i<3;i++){const ex=w*0.55+i*40;
+      for(let r=0;r<5;r++)for(let cc=0;cc<5;cc++){c.beginPath();c.moveTo(ex-15+r*7,h*0.7-25+cc*5);c.lineTo(ex-15+r*7,h*0.7);c.stroke();
+        c.beginPath();c.moveTo(ex-15,h*0.7-25+cc*5);c.lineTo(ex+15,h*0.7-25+cc*5);c.stroke();}
+      // 拘束マーク
+      c.fillStyle=`rgba(255,210,74,${0.8})`;c.font='bold 14px sans-serif';c.fillText('×',ex-6,h*0.7-30);
+      // ダメージ
+      c.fillStyle=`rgba(255,51,68,${1-tt})`;c.font='bold 12px sans-serif';c.fillText('-15',ex-10,h*0.7-40-tt*10);}}
+},2800);
+
+// S③ 闘技場の歓声 (自己バフ)
+startAnim('s3',(c,t,w,h)=>{
+  const bx=w*0.5,by=h*0.65;drawBoss(c,bx,by,'#cc2222');
+  // 観衆の歓声波 (3重)
+  for(let k=0;k<3;k++){const tt=(t+k*0.3)%1;
+    c.strokeStyle=`rgba(255,210,74,${1-tt})`;c.lineWidth=3-k;
+    c.beginPath();c.arc(bx,by-15,20+tt*70,0,Math.PI*2);c.stroke();}
+  // 金光オーラ
+  aura(c,bx,by-15,`rgba(255,210,74,${0.4+Math.sin(t*Math.PI*4)*0.2})`,80);
+  // 無敵バリア (一瞬)
+  if(t<0.4){const tt=t/0.4;c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=2;
+    c.beginPath();c.arc(bx,by-15,30+tt*10,0,Math.PI*2);c.stroke();}
+  // atk×2 マーク
+  if(t>0.3){c.fillStyle='#ffd24a';c.font='bold 16px sans-serif';c.fillText('ATK ×2',bx-28,by-45-Math.sin(t*Math.PI*6)*3);
+    c.fillStyle='#ff3344';c.font='bold 12px sans-serif';c.fillText('6秒間', bx-22,by-30);}
+  // 歓声の文字
+  for(let i=0;i<5;i++){const tt=(t+i*0.2)%1;c.fillStyle=`rgba(255,255,180,${1-tt})`;c.font='bold 10px sans-serif';
+    c.fillText('★',(i*55)%w+10,h*0.2+Math.sin(t*Math.PI*4+i)*5);}
+},2600);
+</script></body></html>

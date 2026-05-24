@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>クライオキング デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#1a4a80 0%,transparent 60%),linear-gradient(180deg,#001830 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#aaeeff;text-shadow:0 0 30px rgba(170,238,255,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#88ddff;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(136,221,255,0.5)}
+.sub{text-align:center;color:#88ddff;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(10,20,40,0.7);border:2px solid var(--c,#aaeeff);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(170,238,255,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#001830 0%,#103860 50%,#205880 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#aaeeff);margin-bottom:6px}
+p{font-size:0.8rem;color:#cef;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>❄ クライオキング 候補</h1>
+<div class="sub">ARCTIC CRYO KING · 2098 北極ドーム基地</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaeeff;--g:rgba(170,238,255,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 青白い氷の王</h2><p>氷王冠＋杖。白髭＋冷気。</p></div>
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 機械仕掛けの氷魔</h2><p>銀重装＋冷気パイプ＋氷ブレード。</p></div>
+<div class="card" style="--c:#eeeeee;--g:rgba(238,238,238,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 雪豹型獣神</h2><p>雪豹獣人＋氷鎧＋青目。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaeeff;--g:rgba(170,238,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案N① 氷剣斬り</h2><p>氷の剣振り＋破片。</p></div>
+<div class="card" style="--c:#88ddff;--g:rgba(136,221,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案N② 氷弾単発</h2><p>青い氷塊＋着弾散布。</p></div>
+<div class="card" style="--c:#ccffff;--g:rgba(204,255,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案N③ 冷気コーンブレス</h2><p>青白コーン＋雪粒。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aaeeff;--g:rgba(170,238,255,0.5)"><div class="canv-wrap"><canvas id="sp-a" width="280" height="200"></canvas></div><h2>案S① 絶対零度ブレス</h2><p>広範囲コーン＋凍結＋結晶。</p></div>
+<div class="card" style="--c:#88ddff;--g:rgba(136,221,255,0.5)"><div class="canv-wrap"><canvas id="sp-b" width="280" height="200"></canvas></div><h2>案S② 氷柱乱立</h2><p>5本巨大氷柱が時間差で出現。</p></div>
+<div class="card" style="--c:#ffffff;--g:rgba(255,255,255,0.5)"><div class="canv-wrap"><canvas id="sp-c" width="280" height="200"></canvas></div><h2>案S③ ブリザード波動</h2><p>全画面吹雪＋多段ダメ。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawCryo(c,p){
+  const cx=110,cy=140;
+  if(p.aura)aura(c,cx,cy,p.aura,140);
+  // 杖(A案)
+  if(p.staff){c.strokeStyle=p.staffCol;c.lineWidth=4;c.beginPath();c.moveTo(cx+50,cy-60);c.lineTo(cx+55,cy+70);c.stroke();
+    // 杖頭の氷
+    c.fillStyle=p.staffCol;c.beginPath();c.moveTo(cx+50,cy-70);c.lineTo(cx+45,cy-55);c.lineTo(cx+55,cy-55);c.fill();
+    c.beginPath();c.moveTo(cx+50,cy-75);c.lineTo(cx+40,cy-58);c.lineTo(cx+60,cy-58);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(cx+50,cy-65,3,0,Math.PI*2);c.fill();}
+  // マント
+  c.fillStyle=p.mantle;c.beginPath();c.moveTo(cx-35,cy-15);c.lineTo(cx-50,cy+80);c.lineTo(cx+50,cy+80);c.lineTo(cx+35,cy-15);c.closePath();c.fill();
+  // 体
+  c.fillStyle=p.body;c.fillRect(cx-25,cy-15,50,55);
+  // 装飾(B案メカ)
+  if(p.mech){c.fillStyle='#888';c.fillRect(cx-30,cy-20,60,8);
+    // パイプ
+    c.strokeStyle='#666';c.lineWidth=4;c.beginPath();c.moveTo(cx-25,cy-25);c.lineTo(cx-35,cy-45);c.stroke();
+    c.beginPath();c.moveTo(cx+25,cy-25);c.lineTo(cx+35,cy-45);c.stroke();
+    // 蒸気
+    c.fillStyle='rgba(136,221,255,0.7)';c.beginPath();c.arc(cx-35,cy-50,5,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx-32,cy-58,4,0,Math.PI*2);c.fill();
+    c.beginPath();c.arc(cx+35,cy-50,5,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+32,cy-58,4,0,Math.PI*2);c.fill();
+    // 氷ブレード両腕
+    c.fillStyle='#aaeeff';c.beginPath();c.moveTo(cx-28,cy+10);c.lineTo(cx-50,cy+25);c.lineTo(cx-28,cy+18);c.fill();
+    c.beginPath();c.moveTo(cx+28,cy+10);c.lineTo(cx+50,cy+25);c.lineTo(cx+28,cy+18);c.fill();
+  }
+  if(p.fur){
+    // 雪豹斑点
+    c.fillStyle='#222';for(let i=0;i<10;i++){c.beginPath();c.arc(cx-20+(i%5)*10,cy+(Math.floor(i/5))*15,2,0,Math.PI*2);c.fill();}
+    // 氷鎧
+    c.strokeStyle='#aaeeff';c.lineWidth=2;c.strokeRect(cx-25,cy-15,50,30);
+    c.fillStyle='rgba(170,238,255,0.4)';c.fillRect(cx-25,cy-15,50,30);
+  }
+  // 頭
+  if(p.head==='king'){
+    c.fillStyle=p.skin||'#ffddbb';c.beginPath();c.arc(cx,cy-40,18,0,Math.PI*2);c.fill();
+    // 王冠
+    c.fillStyle=p.crown||'#aaeeff';c.beginPath();c.moveTo(cx-15,cy-55);c.lineTo(cx-12,cy-72);c.lineTo(cx-5,cy-60);c.lineTo(cx,cy-78);c.lineTo(cx+5,cy-60);c.lineTo(cx+12,cy-72);c.lineTo(cx+15,cy-55);c.fill();
+    c.fillStyle='#88ddff';c.beginPath();c.arc(cx,cy-72,2,0,Math.PI*2);c.fill();
+    // 髭（白）
+    c.fillStyle='#fff';c.beginPath();c.ellipse(cx,cy-26,12,8,0,0,Math.PI*2);c.fill();
+    // 目
+    c.fillStyle='#88ddff';c.fillRect(cx-8,cy-42,4,2);c.fillRect(cx+4,cy-42,4,2);
+  }
+  if(p.head==='mech'){
+    c.fillStyle='#cccccc';c.beginPath();c.arc(cx,cy-40,20,0,Math.PI*2);c.fill();
+    // 冷却フィン
+    c.fillStyle='#888';c.fillRect(cx-22,cy-50,3,15);c.fillRect(cx-15,cy-58,3,12);c.fillRect(cx+12,cy-58,3,12);c.fillRect(cx+19,cy-50,3,15);
+    // 目（青光）
+    c.fillStyle='#000';c.fillRect(cx-12,cy-42,24,6);
+    c.fillStyle='#00d4ff';c.fillRect(cx-10,cy-41,8,4);c.fillRect(cx+2,cy-41,8,4);
+    c.fillStyle='#fff';c.fillRect(cx-8,cy-40,2,2);c.fillRect(cx+4,cy-40,2,2);
+  }
+  if(p.head==='leopard'){
+    c.fillStyle='#eeeeee';c.beginPath();c.ellipse(cx,cy-40,20,22,0,0,Math.PI*2);c.fill();
+    // 耳
+    c.beginPath();c.moveTo(cx-15,cy-55);c.lineTo(cx-18,cy-68);c.lineTo(cx-8,cy-58);c.fill();
+    c.beginPath();c.moveTo(cx+15,cy-55);c.lineTo(cx+18,cy-68);c.lineTo(cx+8,cy-58);c.fill();
+    // 斑点
+    c.fillStyle='#222';for(let i=0;i<6;i++){c.beginPath();c.arc(cx-12+(i%3)*12,cy-50+Math.floor(i/3)*8,1.5,0,Math.PI*2);c.fill();}
+    // 目（青）
+    c.fillStyle='#000';c.beginPath();c.arc(cx-7,cy-38,3,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+7,cy-38,3,0,Math.PI*2);c.fill();
+    c.fillStyle='#00d4ff';c.beginPath();c.arc(cx-7,cy-38,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+7,cy-38,2,0,Math.PI*2);c.fill();
+    // 鼻＋牙
+    c.fillStyle='#222';c.beginPath();c.arc(cx,cy-30,2,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.moveTo(cx-4,cy-26);c.lineTo(cx-2,cy-20);c.lineTo(cx-6,cy-24);c.fill();
+    c.beginPath();c.moveTo(cx+4,cy-26);c.lineTo(cx+2,cy-20);c.lineTo(cx+6,cy-24);c.fill();
+  }
+  // 冷気オーラ粒
+  if(p.cold){c.fillStyle='rgba(170,238,255,0.7)';
+    const pts=[[cx-50,cy-30],[cx+50,cy-30],[cx-40,cy+20],[cx+40,cy+20],[cx-55,cy+50],[cx+55,cy+50]];
+    pts.forEach(pt=>{c.beginPath();c.arc(pt[0],pt[1],2.5,0,Math.PI*2);c.fill();});}
+}
+drawCryo(document.getElementById('ch-a').getContext('2d'),{aura:'rgba(170,238,255,0.5)',body:'#aaeeff',mantle:'#88ddff',head:'king',skin:'#ffddbb',crown:'#aaeeff',staff:true,staffCol:'#aaeeff',cold:true});
+drawCryo(document.getElementById('ch-b').getContext('2d'),{aura:'rgba(204,204,204,0.4)',body:'#cccccc',mantle:'#888',head:'mech',mech:true,cold:true});
+drawCryo(document.getElementById('ch-c').getContext('2d'),{aura:'rgba(238,238,238,0.4)',body:'#eeeeee',mantle:'#aaeeff',head:'leopard',fur:true,cold:true});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){
+  // 空（オーロラ）
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#001830');sky.addColorStop(0.5,'#0a4060');sky.addColorStop(1,'#205880');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // オーロラ
+  c.fillStyle='rgba(68,255,170,0.25)';c.beginPath();c.moveTo(0,30);c.quadraticCurveTo(w*0.3,10,w*0.6,40);c.quadraticCurveTo(w*0.8,60,w,30);c.lineTo(w,55);c.quadraticCurveTo(w*0.8,80,w*0.6,60);c.quadraticCurveTo(w*0.3,40,0,55);c.closePath();c.fill();
+  c.fillStyle='rgba(170,68,255,0.2)';c.beginPath();c.moveTo(0,50);c.quadraticCurveTo(w*0.4,30,w*0.7,60);c.quadraticCurveTo(w,80,w,55);c.lineTo(w,75);c.quadraticCurveTo(w*0.7,80,w*0.4,55);c.quadraticCurveTo(0,75,0,75);c.closePath();c.fill();
+  // 地面（氷）
+  c.fillStyle='#205880';c.fillRect(0,h*0.7,w,h*0.3);
+  c.fillStyle='#aaeeff';c.fillRect(0,h*0.7,w,1);
+  // 氷山
+  c.fillStyle='#1a4868';c.beginPath();c.moveTo(0,h*0.7);c.lineTo(30,h*0.5);c.lineTo(60,h*0.65);c.lineTo(90,h*0.55);c.lineTo(110,h*0.7);c.fill();
+  c.beginPath();c.moveTo(w-110,h*0.7);c.lineTo(w-80,h*0.6);c.lineTo(w-50,h*0.5);c.lineTo(w-20,h*0.65);c.lineTo(w,h*0.7);c.fill();
+  c.fillStyle='rgba(170,238,255,0.4)';c.beginPath();c.moveTo(30,h*0.5);c.lineTo(45,h*0.6);c.lineTo(60,h*0.65);c.lineTo(30,h*0.5);c.fill();
+  // ドーム上部（左右）
+  c.strokeStyle='#88ddff';c.lineWidth=1;c.beginPath();c.arc(w*0.5,h,h*0.95,Math.PI*1.1,Math.PI*1.9);c.stroke();
+  // 雪（位置固定）
+  const snow=[[20,30],[60,80],[100,40],[160,100],[200,30],[240,80],[80,110],[180,50],[120,70],[260,120]];
+  snow.forEach(s=>{c.fillStyle='rgba(255,255,255,0.7)';c.beginPath();c.arc(s[0],s[1],1.5,0,Math.PI*2);c.fill();});
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#3a2a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#1a1208';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawMiniCryo(c,x,y){
+  c.save();c.translate(x,y);
+  c.fillStyle='#88ddff';c.beginPath();c.moveTo(-18,-15);c.lineTo(-25,40);c.lineTo(25,40);c.lineTo(18,-15);c.closePath();c.fill();
+  c.fillStyle='#aaeeff';c.fillRect(-12,-15,24,28);
+  c.fillStyle='#ffddbb';c.beginPath();c.arc(0,-30,14,0,Math.PI*2);c.fill();
+  c.fillStyle='#aaeeff';c.beginPath();c.moveTo(-12,-43);c.lineTo(-8,-58);c.lineTo(-3,-46);c.lineTo(0,-62);c.lineTo(3,-46);c.lineTo(8,-58);c.lineTo(12,-43);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.ellipse(0,-20,10,6,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#88ddff';c.fillRect(-6,-32,3,2);c.fillRect(3,-32,3,2);
+  c.restore();
+}
+
+// N① 氷剣斬り
+startAnim('at-a',(c,t,w,h)=>{
+  drawEnemy(c,w*0.7,h*0.7);
+  drawMiniCryo(c,w*0.3,h*0.55);
+  // 剣振り（上→下）
+  const ang=Math.PI*(-0.3+t*1.1);
+  c.save();c.translate(w*0.3+18,h*0.55);c.rotate(ang);
+  c.fillStyle='#aaeeff';c.beginPath();c.moveTo(0,-5);c.lineTo(60,-3);c.lineTo(65,0);c.lineTo(60,3);c.lineTo(0,5);c.closePath();c.fill();
+  c.fillStyle='#fff';c.beginPath();c.moveTo(0,-2);c.lineTo(55,0);c.lineTo(0,2);c.fill();
+  c.fillStyle='#666';c.fillRect(-8,-4,8,8);
+  c.restore();
+  // 氷の破片
+  if(t>0.6){const tt=(t-0.6)/0.4;
+    for(let k=0;k<6;k++){const a=k*Math.PI/3;c.fillStyle=`rgba(170,238,255,${1-tt})`;
+      c.beginPath();c.moveTo(w*0.7+Math.cos(a)*(15+tt*20),h*0.7-10+Math.sin(a)*(10+tt*15));c.lineTo(w*0.7+Math.cos(a)*(20+tt*20),h*0.7-15+Math.sin(a)*(10+tt*15));c.lineTo(w*0.7+Math.cos(a)*(18+tt*22),h*0.7-5+Math.sin(a)*(10+tt*15));c.fill();}}
+},2400);
+
+// N② 氷弾単発
+startAnim('at-b',(c,t,w,h)=>{
+  drawEnemy(c,w*0.8,h*0.7);
+  drawMiniCryo(c,w*0.2,h*0.55);
+  // 氷弾
+  const fx=w*0.25+t*150;
+  c.fillStyle='#88ddff';c.beginPath();c.moveTo(fx-10,0+0);c.lineTo(fx,h*0+0);c.fill();
+  c.fillStyle='#aaeeff';c.beginPath();c.moveTo(fx-12,h*0.55);c.lineTo(fx,h*0.55-8);c.lineTo(fx+12,h*0.55);c.lineTo(fx+5,h*0.55+8);c.lineTo(fx-5,h*0.55+8);c.closePath();c.fill();
+  c.fillStyle='#fff';c.beginPath();c.moveTo(fx-5,h*0.55-3);c.lineTo(fx+3,h*0.55-3);c.lineTo(fx,h*0.55+2);c.fill();
+  // トレイル
+  for(let k=0;k<5;k++){c.fillStyle=`rgba(170,238,255,${0.4-k*0.07})`;c.beginPath();c.arc(fx-15-k*8,h*0.55+Math.sin(k)*2,4-k*0.5,0,Math.PI*2);c.fill();}
+  // 着弾
+  if(fx>w*0.8){
+    for(let k=0;k<8;k++){const a=k*Math.PI/4;c.fillStyle='#aaeeff';
+      c.beginPath();c.moveTo(w*0.8+Math.cos(a)*5,h*0.7-10+Math.sin(a)*5);c.lineTo(w*0.8+Math.cos(a)*18,h*0.7-10+Math.sin(a)*12);c.lineTo(w*0.8+Math.cos(a)*20,h*0.7-10+Math.sin(a)*8);c.fill();}}
+},2400);
+
+// N③ 冷気コーンブレス
+startAnim('at-c',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.55+i*40,h*0.7);
+  drawMiniCryo(c,w*0.2,h*0.55);
+  // コーン
+  const op=Math.min(1,t*3);
+  c.fillStyle=`rgba(204,255,255,${0.5*op})`;
+  c.beginPath();c.moveTo(w*0.25,h*0.5);c.lineTo(w,h*0.4);c.lineTo(w,h*0.7);c.lineTo(w*0.25,h*0.6);c.closePath();c.fill();
+  c.fillStyle=`rgba(170,238,255,${0.4*op})`;
+  c.beginPath();c.moveTo(w*0.25,h*0.52);c.lineTo(w,h*0.45);c.lineTo(w,h*0.65);c.lineTo(w*0.25,h*0.58);c.closePath();c.fill();
+  // 雪粒
+  for(let k=0;k<14;k++){const px=w*0.3+(k*30+t*100)%(w*0.7);const py=h*0.42+Math.sin(t*5+k)*15+(k%3)*8;
+    c.fillStyle='#fff';c.beginPath();c.arc(px,py,2,0,Math.PI*2);c.fill();
+    // 結晶
+    c.strokeStyle='rgba(255,255,255,0.7)';c.lineWidth=1;
+    c.beginPath();c.moveTo(px-3,py);c.lineTo(px+3,py);c.moveTo(px,py-3);c.lineTo(px,py+3);c.stroke();}
+},2400);
+
+// S① 絶対零度ブレス
+startAnim('sp-a',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.4+i*40,h*0.7);
+  drawMiniCryo(c,w*0.15,h*0.55);
+  // 大コーン
+  const op=Math.min(1,t*3);
+  c.fillStyle=`rgba(170,238,255,${0.4*op})`;
+  c.beginPath();c.moveTo(w*0.2,h*0.4);c.lineTo(w,h*0.2);c.lineTo(w,h*0.9);c.lineTo(w*0.2,h*0.7);c.closePath();c.fill();
+  c.fillStyle=`rgba(204,255,255,${0.5*op})`;
+  c.beginPath();c.moveTo(w*0.2,h*0.45);c.lineTo(w,h*0.3);c.lineTo(w,h*0.85);c.lineTo(w*0.2,h*0.65);c.closePath();c.fill();
+  // 大量結晶
+  for(let k=0;k<25;k++){const px=w*0.3+(k*22+t*80)%(w*0.7);const py=h*0.35+Math.sin(t*4+k)*40+(k%4)*15;
+    c.strokeStyle='rgba(255,255,255,0.8)';c.lineWidth=1.5;
+    c.beginPath();c.moveTo(px-4,py);c.lineTo(px+4,py);c.moveTo(px,py-4);c.lineTo(px,py+4);
+    c.moveTo(px-3,py-3);c.lineTo(px+3,py+3);c.moveTo(px-3,py+3);c.lineTo(px+3,py-3);c.stroke();}
+  // 凍結マーク
+  if(t>0.5){const tt=(t-0.5)/0.5;
+    for(let i=0;i<4;i++){const ex=w*0.4+i*40;c.fillStyle=`rgba(170,238,255,${0.7*(1-tt*0.5)})`;
+      c.fillRect(ex-12,h*0.7-25,24,28);
+      c.fillStyle=`rgba(0,212,255,${1-tt})`;c.font='bold 18px sans-serif';c.fillText('❄',ex-7,h*0.7-30);}}
+},3000);
+
+// S② 氷柱乱立
+startAnim('sp-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*55,h*0.7);
+  // 5本氷柱
+  const positions=[w*0.15,w*0.32,w*0.5,w*0.68,w*0.85];
+  positions.forEach((px,k)=>{
+    const ph=Math.max(0,Math.min(1,(t-k*0.12)*2.5));if(ph<=0)return;
+    const ht=ph*120;
+    // 氷柱本体
+    c.fillStyle='#88ddff';c.beginPath();c.moveTo(px-15,h*0.7);c.lineTo(px-8,h*0.7-ht);c.lineTo(px,h*0.7-ht-15);c.lineTo(px+8,h*0.7-ht);c.lineTo(px+15,h*0.7);c.closePath();c.fill();
+    c.fillStyle='#aaeeff';c.beginPath();c.moveTo(px-8,h*0.7);c.lineTo(px-3,h*0.7-ht+10);c.lineTo(px,h*0.7-ht-5);c.fill();
+    c.fillStyle='#fff';c.fillRect(px-2,h*0.7-ht+5,2,ht-15);
+    // ダメ
+    if(ph>0.5){c.fillStyle=`rgba(255,80,80,${1-(ph-0.5)*2})`;c.font='bold 14px sans-serif';c.fillText('-40',px-10,h*0.7-ht-20);}
+    // 地面の破片
+    c.fillStyle='rgba(170,238,255,0.6)';for(let i=0;i<4;i++){c.beginPath();c.arc(px-12+i*8,h*0.7+5,2,0,Math.PI*2);c.fill();}
+  });
+},3000);
+
+// S③ ブリザード波動
+startAnim('sp-c',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*45,h*0.7);
+  // 全画面吹雪オーバーレイ
+  c.fillStyle='rgba(170,238,255,0.2)';c.fillRect(0,0,w,h);
+  // 風線
+  c.strokeStyle='rgba(255,255,255,0.5)';c.lineWidth=1.5;
+  for(let k=0;k<10;k++){const y=(k*22+t*200)%h;
+    c.beginPath();c.moveTo(0,y);c.lineTo(w,y-15);c.stroke();}
+  // 大量雪粒
+  for(let k=0;k<50;k++){const px=(k*23+t*300)%w;const py=(k*17+t*250)%h;
+    c.fillStyle='#fff';c.beginPath();c.arc(px,py,1.5+(k%3),0,Math.PI*2);c.fill();}
+  // 結晶
+  for(let k=0;k<15;k++){const px=(k*40+t*180)%w;const py=(k*30+t*200)%h;
+    c.strokeStyle='rgba(170,238,255,0.9)';c.lineWidth=1;
+    c.beginPath();c.moveTo(px-3,py);c.lineTo(px+3,py);c.moveTo(px,py-3);c.lineTo(px,py+3);c.stroke();}
+  // 多段ダメ
+  const phase=Math.floor(t*4);
+  if(t*4-phase<0.3){
+    [w*0.15,w*0.35,w*0.55,w*0.75].forEach((x,i)=>{c.fillStyle='#ff5050';c.font='bold 14px sans-serif';c.fillText('-15',x,h*0.55-i%2*8);});
+  }
+  // 中央タイトル
+  c.fillStyle='rgba(255,255,255,0.9)';c.font='bold 16px sans-serif';c.fillText('BLIZZARD',w*0.35,h*0.2);
+},3000);
+</script></body></html>

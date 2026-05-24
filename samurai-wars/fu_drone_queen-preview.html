@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ドローン女王 MIRAI-Q デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#5a1080 0%,transparent 60%),linear-gradient(180deg,#1a0530 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#cc44ff;text-shadow:0 0 30px rgba(204,68,255,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#ff88dd;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#cc44ff);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(204,68,255,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#2a0840 0%,#5a1a78 50%,#aa4488 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#cc44ff);margin-bottom:6px}
+p{font-size:0.8rem;color:#fcd;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>👑 ドローン女王 MIRAI-Q デザイン & 攻撃 候補</h1>
+<div class="sub">SHANGHAI CLOUD CITY 2098 — ドローン女王</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cc44ff;--g:rgba(204,68,255,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 紫黒の女王蜂型</h2><p>蜂モチーフ+金縁、紫コア、6枚の翅。</p></div>
+<div class="card" style="--c:#00ddff;--g:rgba(0,221,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 純白セラフ型</h2><p>白+シアン、6枚の発光プロペラ翼、王冠。</p></div>
+<div class="card" style="--c:#cc2222;--g:rgba(204,34,34,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 朱赤ジェネラル型</h2><p>朱赤軍服+黒帯+金縁、モノクル、指揮棒。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff3344;--g:rgba(255,51,68,0.5)"><div class="canv-wrap"><canvas id="na-a" width="280" height="200"></canvas></div><h2>N① レーザーポインター単発</h2><p>赤い細いレーザーが一直線。</p></div>
+<div class="card" style="--c:#aa66ff;--g:rgba(170,102,255,0.5)"><div class="canv-wrap"><canvas id="na-b" width="280" height="200"></canvas></div><h2>N② プロペラ回転斬り</h2><p>短距離の円弧回転攻撃。</p></div>
+<div class="card" style="--c:#cc44ff;--g:rgba(204,68,255,0.5)"><div class="canv-wrap"><canvas id="na-c" width="280" height="200"></canvas></div><h2>N③ 小ドローン1体特攻</h2><p>小型ドローンが弧を描き突撃。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cc44ff;--g:rgba(204,68,255,0.5)"><div class="canv-wrap"><canvas id="sa-a" width="280" height="200"></canvas></div><h2>S① ドローン大群召喚</h2><p>5体のミニドローンが時間差で突撃。</p></div>
+<div class="card" style="--c:#ff44aa;--g:rgba(255,68,170,0.5)"><div class="canv-wrap"><canvas id="sa-b" width="280" height="200"></canvas></div><h2>S② レーザーグリッド</h2><p>全画面に5本の降下ビーム。</p></div>
+<div class="card" style="--c:#44aaff;--g:rgba(68,170,255,0.5)"><div class="canv-wrap"><canvas id="sa-c" width="280" height="200"></canvas></div><h2>S③ ハッキング電撃</h2><p>範囲AOE紫青パルス3重+スタン星。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawQueenA(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(204,68,255,0.5)',120);
+  // 6枚の翅
+  c.fillStyle='rgba(204,68,255,0.4)';
+  for(let k=0;k<6;k++){const ang=Math.PI/2+(k-2.5)*0.35;const r=50;
+    c.beginPath();c.ellipse(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r,18,8,ang,0,Math.PI*2);c.fill();}
+  c.strokeStyle='rgba(255,255,255,0.3)';c.lineWidth=1;
+  for(let k=0;k<6;k++){const ang=Math.PI/2+(k-2.5)*0.35;const r=50;
+    c.beginPath();c.ellipse(cx+Math.cos(ang)*r,cy+Math.sin(ang)*r,18,8,ang,0,Math.PI*2);c.stroke();}
+  // 胴（蜂・縞模様）
+  c.fillStyle='#4a1a4a';c.beginPath();c.ellipse(cx,cy+10,22,35,0,0,Math.PI*2);c.fill();
+  c.strokeStyle='#ddaa44';c.lineWidth=2;c.stroke();
+  c.fillStyle='#ddaa44';c.fillRect(cx-22,cy,44,4);c.fillRect(cx-20,cy+15,40,4);c.fillRect(cx-15,cy+30,30,3);
+  // 紫コア（背中）
+  c.fillStyle='#cc44ff';c.beginPath();c.arc(cx,cy-5,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy-5,4,0,Math.PI*2);c.fill();
+  // 頭
+  c.fillStyle='#4a1a4a';c.beginPath();c.arc(cx,cy-35,18,0,Math.PI*2);c.fill();
+  c.strokeStyle='#ddaa44';c.lineWidth=2;c.stroke();
+  // 触覚
+  c.strokeStyle='#1a0a1a';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-8,cy-48);c.quadraticCurveTo(cx-15,cy-62,cx-12,cy-72);c.stroke();
+  c.beginPath();c.moveTo(cx+8,cy-48);c.quadraticCurveTo(cx+15,cy-62,cx+12,cy-72);c.stroke();
+  c.fillStyle='#ddaa44';c.beginPath();c.arc(cx-12,cy-72,2.5,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(cx+12,cy-72,2.5,0,Math.PI*2);c.fill();
+  // 目
+  c.fillStyle='#cc44ff';c.beginPath();c.arc(cx-7,cy-35,4,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+7,cy-35,4,0,Math.PI*2);c.fill();
+}
+
+function drawQueenB(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(0,221,255,0.5)',130);
+  // 後光（光輪）
+  c.strokeStyle='rgba(255,210,74,0.8)';c.lineWidth=3;c.beginPath();c.arc(cx,cy-40,25,0,Math.PI*2);c.stroke();
+  c.strokeStyle='rgba(255,255,150,0.5)';c.lineWidth=1;c.beginPath();c.arc(cx,cy-40,28,0,Math.PI*2);c.stroke();
+  // 6枚プロペラ翼（背後）
+  for(let k=0;k<6;k++){const ang=Math.PI/2+(k-2.5)*0.4;const r=55;const px=cx+Math.cos(ang)*r;const py=cy+Math.sin(ang)*r-10;
+    c.fillStyle='rgba(0,221,255,0.4)';c.beginPath();c.ellipse(px,py,16,6,ang,0,Math.PI*2);c.fill();
+    // プロペラ中心
+    c.fillStyle='#00ddff';c.beginPath();c.arc(px,py,3,0,Math.PI*2);c.fill();}
+  // 胴（白いドレス）
+  c.fillStyle='#fff';c.beginPath();c.moveTo(cx-20,cy-15);c.lineTo(cx+20,cy-15);c.lineTo(cx+30,cy+50);c.lineTo(cx-30,cy+50);c.closePath();c.fill();
+  c.strokeStyle='#00ddff';c.lineWidth=2;c.stroke();
+  // 装飾
+  c.fillStyle='#00ddff';c.fillRect(cx-3,cy-10,6,40);
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(cx,cy+10,5,0,Math.PI*2);c.fill();
+  // 腕
+  c.fillStyle='#fff';c.fillRect(cx-35,cy-10,12,35);c.fillRect(cx+23,cy-10,12,35);
+  // 頭
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy-35,15,0,Math.PI*2);c.fill();
+  c.strokeStyle='#00ddff';c.stroke();
+  // 王冠
+  c.fillStyle='#ffd24a';c.beginPath();c.moveTo(cx-12,cy-48);c.lineTo(cx-10,cy-58);c.lineTo(cx-5,cy-50);c.lineTo(cx,cy-60);c.lineTo(cx+5,cy-50);c.lineTo(cx+10,cy-58);c.lineTo(cx+12,cy-48);c.closePath();c.fill();
+  c.fillStyle='#cc44ff';c.beginPath();c.arc(cx,cy-54,2,0,Math.PI*2);c.fill();
+  // 目
+  c.fillStyle='#00ddff';c.fillRect(cx-7,cy-36,4,3);c.fillRect(cx+3,cy-36,4,3);
+}
+
+function drawQueenC(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(204,34,34,0.4)',110);
+  // ベレー帽
+  c.fillStyle='#1a1a1a';c.beginPath();c.ellipse(cx,cy-50,20,8,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#cc2222';c.beginPath();c.ellipse(cx,cy-54,18,6,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#ddaa44';c.beginPath();c.arc(cx-10,cy-56,2,0,Math.PI*2);c.fill();
+  // 頭
+  c.fillStyle='#f0d8c0';c.beginPath();c.arc(cx,cy-35,15,0,Math.PI*2);c.fill();
+  // モノクル（右目）
+  c.strokeStyle='#ddaa44';c.lineWidth=2;c.beginPath();c.arc(cx+6,cy-34,5,0,Math.PI*2);c.stroke();
+  c.fillStyle='rgba(204,34,34,0.3)';c.beginPath();c.arc(cx+6,cy-34,5,0,Math.PI*2);c.fill();
+  // 左目
+  c.fillStyle='#1a1a1a';c.fillRect(cx-9,cy-36,4,2);
+  // 軍服（朱赤）
+  c.fillStyle='#cc2222';c.beginPath();c.moveTo(cx-28,cy-18);c.lineTo(cx+28,cy-18);c.lineTo(cx+32,cy+50);c.lineTo(cx-32,cy+50);c.closePath();c.fill();
+  c.strokeStyle='#ddaa44';c.lineWidth=2;c.stroke();
+  // 黒帯（縦中央）
+  c.fillStyle='#1a1a1a';c.fillRect(cx-4,cy-18,8,68);
+  // 金縁（横）
+  c.fillStyle='#ddaa44';c.fillRect(cx-28,cy-12,56,3);c.fillRect(cx-28,cy+10,56,3);
+  // 金ボタン
+  c.fillStyle='#ddaa44';for(let k=0;k<3;k++){c.beginPath();c.arc(cx-12,cy-5+k*15,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(cx+12,cy-5+k*15,2,0,Math.PI*2);c.fill();}
+  // 腕
+  c.fillStyle='#cc2222';c.fillRect(cx-42,cy-12,12,40);c.fillRect(cx+30,cy-12,12,40);
+  c.fillStyle='#ddaa44';c.fillRect(cx-42,cy+20,12,3);c.fillRect(cx+30,cy+20,12,3);
+  // 右手の指揮棒（金）
+  c.strokeStyle='#ddaa44';c.lineWidth=3;c.beginPath();c.moveTo(cx+36,cy+28);c.lineTo(cx+55,cy-10);c.stroke();
+  c.fillStyle='#ddaa44';c.beginPath();c.arc(cx+55,cy-10,3,0,Math.PI*2);c.fill();
+}
+
+drawQueenA(document.getElementById('ch-a').getContext('2d'));
+drawQueenB(document.getElementById('ch-b').getContext('2d'));
+drawQueenC(document.getElementById('ch-c').getContext('2d'));
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+
+// 上海雲海都市シーン
+function drawScene(c,w,h){
+  const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#5a1080');sky.addColorStop(0.5,'#aa3088');sky.addColorStop(1,'#ff66aa');c.fillStyle=sky;c.fillRect(0,0,w,h);
+  // 紫雲
+  c.fillStyle='rgba(204,68,255,0.3)';
+  c.beginPath();c.ellipse(40,30,40,12,0,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(w-50,55,45,14,0,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(w*0.5,90,50,10,0,0,Math.PI*2);c.fill();
+  // 浮遊する塔
+  c.fillStyle='rgba(20,5,40,0.7)';
+  c.fillRect(15,60,18,75);
+  c.fillRect(w-40,75,20,80);
+  c.fillRect(w*0.5-12,95,24,90);
+  // 塔の屋根（中華風）
+  c.fillStyle='#cc2222';
+  c.beginPath();c.moveTo(10,60);c.lineTo(38,60);c.lineTo(24,52);c.closePath();c.fill();
+  c.beginPath();c.moveTo(w-42,75);c.lineTo(w-18,75);c.lineTo(w-30,67);c.closePath();c.fill();
+  c.beginPath();c.moveTo(w*0.5-15,95);c.lineTo(w*0.5+15,95);c.lineTo(w*0.5,86);c.closePath();c.fill();
+  // ネオン漢字看板
+  c.fillStyle='#ff66cc';c.font='bold 12px sans-serif';c.fillText('龍',18,100);c.fillText('雲',w-32,115);
+  c.fillStyle='#00ddff';c.fillText('夢',w*0.5-6,130);
+  // 地面
+  c.fillStyle='rgba(40,10,60,0.5)';c.fillRect(0,h*0.85,w,h*0.15);
+}
+
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawQueenSmall(c,x,y){
+  // 浮遊（蜂型ベース）
+  c.fillStyle='rgba(204,68,255,0.4)';
+  c.beginPath();c.ellipse(x-12,y-22,8,3,0,0,Math.PI*2);c.fill();
+  c.beginPath();c.ellipse(x+12,y-22,8,3,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#4a1a4a';c.beginPath();c.ellipse(x,y-20,12,18,0,0,Math.PI*2);c.fill();
+  c.fillStyle='#ddaa44';c.fillRect(x-12,y-25,24,2);c.fillRect(x-10,y-15,20,2);
+  c.fillStyle='#4a1a4a';c.beginPath();c.arc(x,y-38,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#cc44ff';c.fillRect(x-4,y-39,3,2);c.fillRect(x+1,y-39,3,2);
+}
+
+// N① レーザーポインター単発
+startAnim('na-a',(c,t,w,h)=>{
+  const tg={x:w*0.85,y:h*0.85};drawEnemy(c,tg.x,tg.y);
+  drawQueenSmall(c,w*0.18,h*0.3);
+  if(t<0.2){const tt=t/0.2;
+    c.fillStyle=`rgba(255,51,68,${tt})`;c.beginPath();c.arc(w*0.18,h*0.3,6,0,Math.PI*2);c.fill();
+  }else if(t<0.85){const tt=(t-0.2)/0.65;
+    // 細いレーザー
+    c.strokeStyle='#ff3344';c.lineWidth=2;c.beginPath();c.moveTo(w*0.18,h*0.3);c.lineTo(tg.x,tg.y);c.stroke();
+    c.strokeStyle='rgba(255,255,255,0.8)';c.lineWidth=0.5;c.beginPath();c.moveTo(w*0.18,h*0.3);c.lineTo(tg.x,tg.y);c.stroke();
+    // ターゲット
+    c.fillStyle='#ff3344';c.beginPath();c.arc(tg.x,tg.y,5+Math.sin(tt*10)*2,0,Math.PI*2);c.fill();
+  }
+},2000);
+
+// N② プロペラ回転斬り
+startAnim('na-b',(c,t,w,h)=>{
+  const tg={x:w*0.55,y:h*0.65};drawEnemy(c,tg.x,tg.y);
+  drawQueenSmall(c,w*0.3,h*0.4);
+  if(t>0.2&&t<0.8){const tt=(t-0.2)/0.6;
+    // 円弧の回転攻撃
+    c.save();c.translate(tg.x,tg.y-12);
+    c.strokeStyle=`rgba(170,102,255,${1-tt*0.5})`;c.lineWidth=6;
+    c.beginPath();c.arc(0,0,25,-Math.PI/2,-Math.PI/2+tt*Math.PI*2);c.stroke();
+    c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=2;
+    c.beginPath();c.arc(0,0,25,-Math.PI/2,-Math.PI/2+tt*Math.PI*2);c.stroke();
+    c.restore();
+    // 中央の渦
+    c.fillStyle=`rgba(170,102,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-12,8,0,Math.PI*2);c.fill();
+  }
+},2200);
+
+// N③ 小ドローン1体特攻
+startAnim('na-c',(c,t,w,h)=>{
+  const tg={x:w*0.85,y:h*0.85};drawEnemy(c,tg.x,tg.y);
+  drawQueenSmall(c,w*0.15,h*0.3);
+  if(t<0.85){const tt=t/0.85;
+    // 弧を描く
+    const sx=w*0.18,sy=h*0.35;
+    const x=sx+(tg.x-sx)*tt;
+    const y=sy+(tg.y-sy)*tt-Math.sin(tt*Math.PI)*30;
+    // 軌跡
+    for(let k=0;k<6;k++){const tk=Math.max(0,tt-k*0.04);const xk=sx+(tg.x-sx)*tk;const yk=sy+(tg.y-sy)*tk-Math.sin(tk*Math.PI)*30;
+      c.fillStyle=`rgba(204,68,255,${0.5-k*0.08})`;c.beginPath();c.arc(xk,yk,3-k*0.3,0,Math.PI*2);c.fill();}
+    // ドローン（十字）
+    c.fillStyle='#cc44ff';c.fillRect(x-6,y-1,12,2);c.fillRect(x-1,y-6,2,12);
+    c.fillStyle='#fff';c.beginPath();c.arc(x,y,2,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.85)/0.15;
+    c.fillStyle=`rgba(204,68,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-10,15+tt*8,0,Math.PI*2);c.fill();
+  }
+},2400);
+
+// S① ドローン大群召喚
+startAnim('sa-a',(c,t,w,h)=>{
+  drawEnemy(c,w*0.85,h*0.85);
+  drawQueenSmall(c,w*0.15,h*0.25);
+  const sx=w*0.18,sy=h*0.3;const tx=w*0.85,ty=h*0.85;
+  for(let k=0;k<5;k++){const ph=(t-k*0.12);
+    if(ph<=0||ph>1)continue;
+    if(ph<0.85){const tt=ph/0.85;
+      // 各ドローンが異なる弧を描く
+      const ox=Math.sin(k*1.3)*30;
+      const x=sx+(tx-sx)*tt+ox*Math.sin(tt*Math.PI);
+      const y=sy+(ty-sy)*tt-Math.sin(tt*Math.PI)*(20+k*5);
+      // 軌跡
+      for(let j=0;j<4;j++){const tj=Math.max(0,tt-j*0.05);const xj=sx+(tx-sx)*tj+ox*Math.sin(tj*Math.PI);const yj=sy+(ty-sy)*tj-Math.sin(tj*Math.PI)*(20+k*5);
+        c.fillStyle=`rgba(204,68,255,${0.4-j*0.1})`;c.beginPath();c.arc(xj,yj,2,0,Math.PI*2);c.fill();}
+      // 紫の十字ドローン
+      c.fillStyle='#cc44ff';c.fillRect(x-5,y-1,10,2);c.fillRect(x-1,y-5,2,10);
+      c.fillStyle='#fff';c.beginPath();c.arc(x,y,1.5,0,Math.PI*2);c.fill();
+    }else{const tt=(ph-0.85)/0.15;
+      c.fillStyle=`rgba(204,68,255,${1-tt})`;c.beginPath();c.arc(tx,ty-10,8+tt*5,0,Math.PI*2);c.fill();
+    }
+  }
+},2800);
+
+// S② レーザーグリッド
+startAnim('sa-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.2+i*45,h*0.85);
+  for(let k=0;k<5;k++){const ph=(t-k*0.12)%1;const lx=w*0.15+k*w*0.175;
+    if(ph>0&&ph<0.15){
+      // 警告
+      c.strokeStyle=`rgba(255,68,170,${1-ph*6})`;c.lineWidth=2;c.beginPath();c.arc(lx,h*0.85,15,0,Math.PI*2);c.stroke();
+    }
+    if(ph>=0.15&&ph<0.55){const tt=(ph-0.15)/0.4;
+      // 降下ビーム（紫→赤）
+      const col1=`rgba(204,68,255,${1-tt*0.5})`;const col2=`rgba(255,68,170,${1-tt*0.5})`;
+      const gr=c.createLinearGradient(lx,0,lx,h*0.85);gr.addColorStop(0,col1);gr.addColorStop(1,col2);
+      c.fillStyle=gr;c.fillRect(lx-5,0,10,h*0.85);
+      c.fillStyle=`rgba(255,255,255,${1-tt})`;c.fillRect(lx-1.5,0,3,h*0.85);
+    }
+    if(ph>=0.55&&ph<0.85){const tt=(ph-0.55)/0.3;
+      c.fillStyle=`rgba(255,68,170,${1-tt})`;c.beginPath();c.arc(lx,h*0.85,12+tt*8,0,Math.PI*2);c.fill();
+    }}
+},2800);
+
+// S③ ハッキング電撃
+startAnim('sa-c',(c,t,w,h)=>{
+  const enemies=[w*0.2,w*0.4,w*0.6,w*0.8];
+  enemies.forEach(x=>drawEnemy(c,x,h*0.85));
+  const cx=w*0.5,cy=h*0.55;
+  // 中心パルス
+  if(t<0.25){const tt=t/0.25;c.fillStyle=`rgba(68,170,255,${tt})`;c.beginPath();c.arc(cx,cy,30*tt,0,Math.PI*2);c.fill();
+    c.fillStyle=`rgba(204,68,255,${tt})`;c.beginPath();c.arc(cx,cy,15*tt,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.25)/0.75;
+    // 3重パルス波
+    for(let k=0;k<3;k++){const rt=Math.max(0,tt-k*0.2);
+      c.strokeStyle=`rgba(68,170,255,${1-rt})`;c.lineWidth=4;c.beginPath();c.arc(cx,cy,30+rt*160,0,Math.PI*2);c.stroke();
+      c.strokeStyle=`rgba(204,68,255,${(1-rt)*0.7})`;c.lineWidth=2;c.beginPath();c.arc(cx,cy,32+rt*160,0,Math.PI*2);c.stroke();}
+    // 電撃
+    for(let k=0;k<10;k++){const ang=k*Math.PI/5+t*Math.PI*2;
+      c.strokeStyle=`rgba(68,170,255,0.7)`;c.lineWidth=1.5;c.beginPath();c.moveTo(cx,cy);
+      const tx=cx+Math.cos(ang)*70;const ty=cy+Math.sin(ang)*70;
+      const mx=cx+Math.cos(ang)*35+(Math.random()-0.5)*10;const my=cy+Math.sin(ang)*35+(Math.random()-0.5)*10;
+      c.lineTo(mx,my);c.lineTo(tx,ty);c.stroke();}
+  }
+  // スタン星（敵の上）
+  if(t>0.5){enemies.forEach(x=>{
+    for(let k=0;k<3;k++){const ang=k*Math.PI*0.66+t*Math.PI*4;
+      c.fillStyle='#ffd24a';c.font='bold 14px sans-serif';c.fillText('★',x+Math.cos(ang)*12,h*0.7+Math.sin(ang)*5);}});}
+},2600);
+</script></body></html>

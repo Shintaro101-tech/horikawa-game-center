@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMNIAS 全人類監視AI ラスボス プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#5a0a2a 0%,transparent 60%),linear-gradient(180deg,#000010 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff2266;text-shadow:0 0 30px rgba(255,34,102,0.8);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#ff5588;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(255,34,102,0.6)}
+.sub{text-align:center;color:#ff5588;font-size:0.85rem;letter-spacing:3px;opacity:0.85;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,5,15,0.75);border:2px solid var(--c,#ff2266);border-radius:14px;padding:14px;box-shadow:0 0 22px var(--g,rgba(255,34,102,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#000008 0%,#0a0420 60%,#1a0830 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ff2266);margin-bottom:6px}
+p{font-size:0.8rem;color:#fcd;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🛰 OMNIAS 全人類監視AI — ラスボス</h1>
+<div class="sub">INTERNATIONAL SPACE STATION "ARK" — 未来編 2098</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.6)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 巨大AI顔型ホログラム</h2><p>黒紫の巨顔+サブ画面+中央に赤目。</p></div>
+<div class="card" style="--c:#888888;--g:rgba(0,221,255,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 機械神型</h2><p>全身金属+6本の腕+背後にサーバー。</p></div>
+<div class="card" style="--c:#ff2266;--g:rgba(255,34,102,0.7)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 全画面背景型</h2><p>巨大OS UI＋中央に巨大赤目玉。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>N① データ弾連射</h2><p>紫のデータパケット(0と1)を連射。</p></div>
+<div class="card" style="--c:#ff2266;--g:rgba(255,34,102,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>N② AI赤レーザー単発</h2><p>赤い極太レーザー水平発射。</p></div>
+<div class="card" style="--c:#cc88ff;--g:rgba(204,136,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>N③ 巨大ホロ拳出現</h2><p>巨大紫ホロ拳が振り下ろし。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#ff2266;--g:rgba(255,34,102,0.8)"><div class="canv-wrap"><canvas id="sp-a" width="280" height="200"></canvas></div><h2>S① オムニス砲</h2><p>全画面に8本のメガレーザー降下。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.8)"><div class="canv-wrap"><canvas id="sp-b" width="280" height="200"></canvas></div><h2>S② AIマインドコントロール</h2><p>紫の鎖＋呪い＋長時間スタン。</p></div>
+<div class="card" style="--c:#ff8844;--g:rgba(255,136,68,0.8)"><div class="canv-wrap"><canvas id="sp-c" width="280" height="200"></canvas></div><h2>S③ 軌道爆撃</h2><p>20発の爆弾雨＋赤い警告サークル。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawOmnias(c,p){
+  const cx=110;
+  if(p.variant==='A'){
+    aura(c,cx,120,'rgba(170,68,255,0.5)',130);
+    // 巨大AI顔 黒紫
+    c.fillStyle='#2a0a4a';
+    c.beginPath();c.moveTo(cx-55,30);c.lineTo(cx+55,30);c.lineTo(cx+65,180);c.lineTo(cx-65,180);c.closePath();c.fill();
+    c.strokeStyle='#aa44ff';c.lineWidth=2;c.stroke();
+    // 顔の輪郭線
+    c.strokeStyle='rgba(170,68,255,0.6)';c.lineWidth=1;
+    c.beginPath();c.moveTo(cx-50,50);c.lineTo(cx-55,170);c.moveTo(cx+50,50);c.lineTo(cx+55,170);c.stroke();
+    // サブ画面（多数浮遊）
+    [[20,40],[180,50],[15,170],[185,160],[35,210],[170,215]].forEach(p=>{
+      c.fillStyle='rgba(170,68,255,0.4)';c.fillRect(p[0]-10,p[1]-7,20,14);
+      c.strokeStyle='#aa44ff';c.lineWidth=1;c.strokeRect(p[0]-10,p[1]-7,20,14);
+      // コード文字
+      c.fillStyle='#fff';c.font='6px monospace';c.fillText('01',p[0]-8,p[1]+2);
+    });
+    // 中央 大きな赤目
+    c.fillStyle='#1a0010';c.beginPath();c.ellipse(cx,110,30,18,0,0,Math.PI*2);c.fill();
+    c.fillStyle='#ff2222';c.beginPath();c.arc(cx,110,14,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(cx-3,107,5,0,Math.PI*2);c.fill();
+    c.fillStyle='#1a0010';c.beginPath();c.arc(cx,110,5,0,Math.PI*2);c.fill();
+    // 赤グロー
+    aura(c,cx,110,'rgba(255,34,34,0.5)',40);
+    // 顎ライン
+    c.strokeStyle='#aa44ff';c.lineWidth=2;
+    c.beginPath();c.moveTo(cx-40,150);c.lineTo(cx-30,160);c.lineTo(cx+30,160);c.lineTo(cx+40,150);c.stroke();
+    // 顔周辺コード文字
+    c.fillStyle='rgba(170,68,255,0.7)';c.font='8px monospace';
+    ['0110','1010','OMNI','AS//','1101'].forEach((s,i)=>{c.fillText(s,5+i*5,15);c.fillText(s,180+(i%3)*5,230);});
+  }else if(p.variant==='B'){
+    aura(c,cx,120,'rgba(0,221,255,0.4)',120);
+    // 背後サーバーラック
+    c.fillStyle='#1a1a1a';c.fillRect(20,30,180,200);
+    c.strokeStyle='#888';c.lineWidth=1;c.strokeRect(20,30,180,200);
+    for(let i=0;i<10;i++){c.fillStyle='#0a0a0a';c.fillRect(25,35+i*19,170,15);
+      // LED
+      for(let k=0;k<6;k++){c.fillStyle='#00ddff';c.fillRect(30+k*25,40+i*19,4,2);}}
+    // 機械神 全身金属
+    c.fillStyle='#888';c.fillRect(cx-22,90,44,80);
+    c.strokeStyle='#444';c.lineWidth=1;c.strokeRect(cx-22,90,44,80);
+    // パネル線
+    c.strokeStyle='#00ddff';c.lineWidth=1;
+    c.beginPath();c.moveTo(cx-15,105);c.lineTo(cx+15,105);c.stroke();
+    c.beginPath();c.moveTo(cx-15,135);c.lineTo(cx+15,135);c.stroke();
+    // 頭部AI顔
+    c.fillStyle='#aaa';c.fillRect(cx-18,55,36,32);
+    c.strokeStyle='#444';c.strokeRect(cx-18,55,36,32);
+    c.fillStyle='#ff2222';c.beginPath();c.arc(cx,72,7,0,Math.PI*2);c.fill();
+    c.fillStyle='#fff';c.beginPath();c.arc(cx-1,71,3,0,Math.PI*2);c.fill();
+    // 6本の腕
+    c.fillStyle='#888';c.strokeStyle='#444';c.lineWidth=1;
+    // 上の腕
+    [[-22,100],[22,100]].forEach(a=>{c.fillRect(cx+a[0]-(a[0]<0?15:0),a[1],15,8);c.strokeRect(cx+a[0]-(a[0]<0?15:0),a[1],15,8);
+      c.fillRect(cx+a[0]+(a[0]<0?-30:15),a[1]-2,15,12);});
+    // 中の腕
+    [[-22,130],[22,130]].forEach(a=>{c.fillRect(cx+a[0]-(a[0]<0?20:0),a[1],20,7);c.strokeRect(cx+a[0]-(a[0]<0?20:0),a[1],20,7);});
+    // 下の腕
+    [[-22,155],[22,155]].forEach(a=>{c.fillRect(cx+a[0]-(a[0]<0?18:0),a[1],18,7);c.strokeRect(cx+a[0]-(a[0]<0?18:0),a[1],18,7);});
+    // 足
+    c.fillStyle='#666';c.fillRect(cx-18,170,12,20);c.fillRect(cx+6,170,12,20);
+  }else{
+    // 全画面背景型 OS UI
+    c.fillStyle='#1a1a1a';c.fillRect(0,0,220,240);
+    // 赤の枠線
+    c.strokeStyle='#ff2266';c.lineWidth=2;c.strokeRect(5,5,210,230);
+    // ウィンドウ枠（複数）
+    [[15,20,90,55],[115,20,90,40],[15,90,80,40],[105,90,100,50],[15,150,190,75]].forEach(w=>{
+      c.fillStyle='rgba(255,34,102,0.05)';c.fillRect(w[0],w[1],w[2],w[3]);
+      c.strokeStyle='#ff2266';c.lineWidth=1;c.strokeRect(w[0],w[1],w[2],w[3]);
+      // タイトルバー
+      c.fillStyle='#ff2266';c.fillRect(w[0],w[1],w[2],8);
+    });
+    // テキスト
+    c.fillStyle='#ff2266';c.font='bold 7px monospace';
+    c.fillText('SYSTEM CONTROL',18,18);
+    c.fillText('OMNIAS',118,18);
+    c.fillText('USR',18,88);
+    c.fillText('NET MONITOR',108,88);
+    c.fillText('SURVEILLANCE FEED',18,148);
+    // 中央の巨大赤目玉
+    c.fillStyle='#1a0008';c.beginPath();c.ellipse(110,180,50,28,0,0,Math.PI*2);c.fill();
+    c.strokeStyle='#ff2266';c.lineWidth=2;c.stroke();
+    c.fillStyle='#ff2222';c.beginPath();c.arc(110,180,22,0,Math.PI*2);c.fill();
+    aura(c,110,180,'rgba(255,34,34,0.6)',40);
+    c.fillStyle='#fff';c.beginPath();c.arc(105,176,7,0,Math.PI*2);c.fill();
+    c.fillStyle='#1a0008';c.beginPath();c.arc(110,180,8,0,Math.PI*2);c.fill();
+    // 小データ
+    c.fillStyle='#ff5588';c.font='6px monospace';
+    ['01010101','11001100','OMNIAS://','>>>EXEC','HACK_MODE'].forEach((s,i)=>{c.fillText(s,20,100+i*8);});
+    ['CTRL_ALL','>>RUN','SYS:OK'].forEach((s,i)=>{c.fillText(s,115,100+i*8);});
+  }
+}
+drawOmnias(document.getElementById('ch-a').getContext('2d'),{variant:'A'});
+drawOmnias(document.getElementById('ch-b').getContext('2d'),{variant:'B'});
+drawOmnias(document.getElementById('ch-c').getContext('2d'),{variant:'C'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+
+function drawScene(c,w,h){
+  // 宇宙（深い黒）
+  c.fillStyle='#000010';c.fillRect(0,0,w,h);
+  // 星空
+  for(let i=0;i<30;i++){c.fillStyle=i%5===0?'#aaccff':'#fff';c.fillRect((i*23+7)%w,(i*11+3)%h,1,1);}
+  for(let i=0;i<5;i++){c.fillStyle='#fff';c.fillRect((i*47+15)%w,(i*19+7)%h,2,2);}
+  // 地球（背景下部）
+  const grd=c.createRadialGradient(w*0.5,h*1.05,30,w*0.5,h*1.05,h*0.7);
+  grd.addColorStop(0,'#3a88dd');grd.addColorStop(0.5,'#1a4488');grd.addColorStop(1,'transparent');
+  c.fillStyle=grd;c.beginPath();c.arc(w*0.5,h*1.05,h*0.7,0,Math.PI*2);c.fill();
+  // 大陸シルエット
+  c.fillStyle='rgba(60,140,80,0.5)';
+  c.beginPath();c.arc(w*0.35,h*0.92,12,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(w*0.55,h*0.95,15,0,Math.PI*2);c.fill();
+  c.beginPath();c.arc(w*0.7,h*0.88,8,0,Math.PI*2);c.fill();
+  // 赤と紫の警告ライン
+  c.strokeStyle='rgba(255,34,102,0.3)';c.lineWidth=1;
+  c.beginPath();c.moveTo(0,h*0.15);c.lineTo(w,h*0.18);c.stroke();
+  c.strokeStyle='rgba(170,68,255,0.3)';
+  c.beginPath();c.moveTo(0,h*0.22);c.lineTo(w,h*0.2);c.stroke();
+  // ホログラム文字
+  c.fillStyle='rgba(170,68,255,0.4)';c.font='6px monospace';
+  ['01010110','OMNIAS//','SYS_OK','>>EXEC','1101'].forEach((s,i)=>{c.fillText(s,5+i*55,h*0.1);});
+  // ステーション巨大シルエット（上部）
+  c.fillStyle='rgba(30,30,50,0.8)';c.fillRect(0,0,w,h*0.06);
+  c.fillRect(w*0.4,h*0.06,w*0.2,h*0.04);
+  c.fillStyle='rgba(255,34,102,0.5)';
+  for(let i=0;i<8;i++){c.fillRect(i*w/8+5,2,3,2);}
+  c.fillStyle='#ff2266';c.fillRect(0,h*0.06,w,1);
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawBoss(c,x,y){
+  // ミニOMNIAS赤目
+  c.fillStyle='#2a0a4a';c.beginPath();c.ellipse(x,y,22,16,0,0,Math.PI*2);c.fill();
+  c.strokeStyle='#aa44ff';c.lineWidth=1;c.stroke();
+  c.fillStyle='#ff2222';c.beginPath();c.arc(x,y,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(x-2,y-1,3,0,Math.PI*2);c.fill();
+}
+
+// N① データ弾連射
+startAnim('at-a',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.6+i*45,h*0.7);
+  drawBoss(c,w*0.2,h*0.4);
+  // データパケット連射
+  for(let k=0;k<6;k++){const ph=(t+k*0.16)%1;
+    const px=w*0.25+ph*(w*0.6);const py=h*0.45+Math.sin(k+ph*Math.PI)*15;
+    // パケット背景
+    c.fillStyle='rgba(170,68,255,0.7)';c.fillRect(px-10,py-6,20,12);
+    c.strokeStyle='#cc88ff';c.lineWidth=1;c.strokeRect(px-10,py-6,20,12);
+    // 0/1テキスト
+    c.fillStyle='#fff';c.font='bold 9px monospace';c.fillText(k%2===0?'01':'10',px-7,py+3);
+    // トレイル
+    c.fillStyle=`rgba(170,68,255,0.3)`;c.fillRect(px-15,py-2,5,4);}
+},2400);
+
+// N② AI赤レーザー単発
+startAnim('at-b',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.6+i*45,h*0.7);
+  drawBoss(c,w*0.2,h*0.4);
+  // チャージ
+  if(t<0.3){const tt=t/0.3;
+    c.fillStyle=`rgba(255,34,102,${tt})`;c.beginPath();c.arc(w*0.25,h*0.4,6+tt*8,0,Math.PI*2);c.fill();
+    c.strokeStyle=`rgba(255,255,255,${tt})`;c.lineWidth=2;c.beginPath();c.arc(w*0.25,h*0.4,14,0,Math.PI*2);c.stroke();
+  }else{const tt=(t-0.3)/0.7;
+    // 赤レーザー
+    const beamH=24+Math.sin(t*Math.PI*10)*3;
+    const grd=c.createLinearGradient(w*0.25,0,w,0);grd.addColorStop(0,`rgba(255,255,255,${1-tt*0.3})`);grd.addColorStop(0.3,`rgba(255,34,102,${1-tt*0.2})`);grd.addColorStop(1,`rgba(255,34,102,${(1-tt)*0.6})`);
+    c.fillStyle=grd;c.fillRect(w*0.25,h*0.4-beamH/2,w*0.75,beamH);
+    c.fillStyle=`rgba(255,255,255,${1-tt*0.5})`;c.fillRect(w*0.25,h*0.4-4,w*0.75,8);
+    // 発射口
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(w*0.25,h*0.4,18,0,Math.PI*2);c.fill();
+  }
+},2400);
+
+// N③ 巨大ホロ拳出現
+startAnim('at-c',(c,t,w,h)=>{
+  drawEnemy(c,w*0.7,h*0.7);
+  drawBoss(c,w*0.2,h*0.3);
+  // ホロ拳出現
+  const fx=w*0.55,fy=t<0.5?h*0.2+t*h*0.5:h*0.45+(t-0.5)*h*0.6;
+  const appear=Math.min(1,t*3);
+  // 拳本体（紫ホロ）
+  c.fillStyle=`rgba(170,68,255,${appear*0.6})`;
+  c.beginPath();
+  c.arc(fx,fy,28,0,Math.PI*2);
+  c.fill();
+  // 指
+  c.fillStyle=`rgba(204,136,255,${appear*0.7})`;
+  for(let k=0;k<4;k++){c.fillRect(fx-20+k*10,fy-35,8,18);}
+  c.fillRect(fx-30,fy-15,12,18);
+  // 拳輪郭
+  c.strokeStyle=`rgba(255,255,255,${appear})`;c.lineWidth=2;
+  c.beginPath();c.arc(fx,fy,28,0,Math.PI*2);c.stroke();
+  // グリッチ走査線
+  for(let k=0;k<5;k++){c.fillStyle=`rgba(204,136,255,${appear*0.3})`;c.fillRect(fx-30,fy-30+k*15,60,2);}
+  // 振り下ろし衝撃
+  if(t>0.85){const tt=(t-0.85)/0.15;
+    c.fillStyle=`rgba(170,68,255,${1-tt})`;c.beginPath();c.arc(w*0.7,h*0.7,30+tt*20,0,Math.PI*2);c.fill();
+    c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=3;c.beginPath();c.arc(w*0.7,h*0.7,40+tt*20,0,Math.PI*2);c.stroke();}
+},2800);
+
+// S① オムニス砲
+startAnim('sp-a',(c,t,w,h)=>{
+  for(let i=0;i<5;i++)drawEnemy(c,w*0.1+i*55,h*0.7);
+  // 警告フェーズ
+  if(t<0.25){const tt=t/0.25;
+    for(let k=0;k<8;k++){const lx=w*0.08+k*w*0.11;
+      c.strokeStyle=`rgba(255,34,102,${tt})`;c.lineWidth=2;
+      c.beginPath();c.arc(lx,h*0.7,15,0,Math.PI*2);c.stroke();
+      c.fillStyle=`rgba(255,34,102,${tt*0.3})`;c.beginPath();c.arc(lx,h*0.7,15,0,Math.PI*2);c.fill();
+      c.fillStyle='#fff';c.font='bold 8px monospace';c.fillText('!',lx-2,h*0.7+3);
+    }
+  }else{const tt=(t-0.25)/0.75;
+    // 8本のメガレーザー降下
+    for(let k=0;k<8;k++){const lx=w*0.08+k*w*0.11;
+      const col=k%2===0?'255,34,102':'170,68,255';
+      const grd=c.createLinearGradient(lx,0,lx,h*0.7);
+      grd.addColorStop(0,`rgba(${col},0)`);grd.addColorStop(1,`rgba(${col},${1-tt*0.5})`);
+      c.fillStyle=grd;c.fillRect(lx-10,0,20,h*0.7);
+      // 中央コア
+      c.fillStyle=`rgba(255,255,255,${1-tt*0.5})`;c.fillRect(lx-3,0,6,h*0.7);
+      // 着弾爆発
+      c.fillStyle=`rgba(${col},${(1-tt)*0.8})`;c.beginPath();c.arc(lx,h*0.7,25+tt*10,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,200,100,${(1-tt)*0.6})`;c.beginPath();c.arc(lx,h*0.7,18,0,Math.PI*2);c.fill();
+    }
+    // 全画面白フラッシュ
+    if(tt<0.3){c.fillStyle=`rgba(255,255,255,${(0.3-tt)/0.3*0.7})`;c.fillRect(0,0,w,h);}
+  }
+},3000);
+
+// S② AIマインドコントロール
+startAnim('sp-b',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*55,h*0.7);
+  drawBoss(c,w*0.5,h*0.25);
+  // 紫の鎖（各敵に）
+  for(let i=0;i<4;i++){const ex=w*0.15+i*55,ey=h*0.7-15;
+    // 鎖
+    c.strokeStyle='rgba(170,68,255,0.8)';c.lineWidth=3;
+    const segs=8;
+    for(let k=0;k<segs;k++){const sx=w*0.5+(ex-w*0.5)*(k/segs);const sy=h*0.25+(ey-h*0.25)*(k/segs)+Math.sin(k+t*Math.PI*2)*3;
+      c.beginPath();c.arc(sx,sy,3,0,Math.PI*2);c.fillStyle='#aa44ff';c.fill();}
+    // 鎖の繋ぎ
+    c.strokeStyle='rgba(204,136,255,0.6)';c.lineWidth=1;
+    c.beginPath();c.moveTo(w*0.5,h*0.25);c.lineTo(ex,ey);c.stroke();
+    // 呪いマーク（敵周り）
+    c.strokeStyle='#aa44ff';c.lineWidth=2;
+    c.beginPath();c.arc(ex,ey,12,0,Math.PI*2);c.stroke();
+    // 五芒星マーク風
+    c.strokeStyle='rgba(255,34,102,0.7)';c.lineWidth=1;
+    c.beginPath();
+    for(let k=0;k<5;k++){const ang=k*Math.PI*0.8-Math.PI/2+t*Math.PI;
+      const px=ex+Math.cos(ang)*8;const py=ey+Math.sin(ang)*8;
+      if(k===0)c.moveTo(px,py);else c.lineTo(px,py);}
+    c.closePath();c.stroke();
+    // //HACK テキスト
+    c.fillStyle='#ff2266';c.font='bold 9px monospace';c.fillText('//HACK',ex-15,ey-20);
+    // 持続ダメ パーティクル
+    if(t>0.5){for(let k=0;k<3;k++){const ph=(t+k*0.2)%1;
+      c.fillStyle=`rgba(170,68,255,${1-ph})`;c.fillRect(ex-5+k*5,ey-15-ph*15,2,2);}}
+  }
+  // 紫オーバーレイ
+  c.fillStyle='rgba(170,68,255,0.1)';c.fillRect(0,0,w,h);
+},3000);
+
+// S③ 軌道爆撃
+startAnim('sp-c',(c,t,w,h)=>{
+  // 画面振動
+  const shake=Math.sin(t*Math.PI*30)*2;
+  c.save();c.translate(shake,0);
+  for(let i=0;i<5;i++)drawEnemy(c,w*0.1+i*55,h*0.7);
+  // 20発の爆弾雨
+  for(let k=0;k<20;k++){const offset=(k*0.05)%1;const ph=(t+offset)%1;
+    const bx=((k*47+13)%((w*0.9)|0))+w*0.05;
+    if(ph<0.5){
+      // 警告サークル（降下中）
+      c.strokeStyle=`rgba(255,34,102,${0.4+Math.sin(t*Math.PI*8)*0.3})`;c.lineWidth=2;
+      c.beginPath();c.arc(bx,h*0.7,12-ph*4,0,Math.PI*2);c.stroke();
+      c.fillStyle=`rgba(255,34,102,${0.15})`;c.beginPath();c.arc(bx,h*0.7,12-ph*4,0,Math.PI*2);c.fill();
+      // 爆弾本体（降下）
+      const by=ph*h*0.65;
+      c.fillStyle='#1a1a1a';c.beginPath();c.arc(bx,by,4,0,Math.PI*2);c.fill();
+      c.fillStyle='#ff2266';c.beginPath();c.arc(bx,by,2,0,Math.PI*2);c.fill();
+      // 火の尾
+      c.fillStyle='rgba(255,136,68,0.6)';c.fillRect(bx-2,by-8,4,6);
+    }else{
+      // 爆発
+      const et=(ph-0.5)/0.5;
+      c.fillStyle=`rgba(255,136,68,${1-et})`;c.beginPath();c.arc(bx,h*0.7,20+et*15,0,Math.PI*2);c.fill();
+      c.fillStyle=`rgba(255,255,200,${(1-et)*0.7})`;c.beginPath();c.arc(bx,h*0.7,10+et*8,0,Math.PI*2);c.fill();
+      // 連鎖の煙
+      c.fillStyle=`rgba(80,40,30,${(1-et)*0.4})`;c.beginPath();c.arc(bx,h*0.7-10-et*15,12,0,Math.PI*2);c.fill();
+    }
+  }
+  c.restore();
+  // 振動エフェクト線
+  if(Math.abs(shake)>1){c.strokeStyle='rgba(255,34,102,0.2)';c.lineWidth=1;
+    c.beginPath();c.moveTo(0,h*0.3);c.lineTo(w,h*0.3);c.stroke();
+    c.beginPath();c.moveTo(0,h*0.5);c.lineTo(w,h*0.5);c.stroke();}
+},3000);
+</script></body></html>

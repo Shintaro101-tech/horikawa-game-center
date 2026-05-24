@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>メガロドン 通常攻撃3案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#ff3344;margin-bottom:6px}.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:8px}.note{text-align:center;color:#888;font-size:0.78rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ff3344);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,51,68,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0820 0%,#1a2858 70%,#1a3868 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ff3344);margin-bottom:6px}p{font-size:0.8rem;color:#cdf;line-height:1.4}footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>🦈 メガロドン — 通常攻撃 3案</h1>
+<div class="sub">NORMAL ATTACK CANDIDATES</div>
+<div class="note">※ 必殺技（大渦巻きAOE）はそのまま。通常攻撃のみを選びます</div>
+<div class="grid">
+<div class="card" style="--c:#fff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案A. 噛みつき</h2><p>巨大な顎で近距離単発の噛みつき。</p></div>
+<div class="card" style="--c:#88ccff;--g:rgba(136,204,255,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案B. 尾びれ叩き</h2><p>尾びれで地面ごと敵を払う近距離AOE。</p></div>
+<div class="card" style="--c:#5a8aff;--g:rgba(90,138,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案C. 水鉄砲</h2><p>口から水弾を1発、遠距離発射。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · NORMAL ATTACK PREVIEW</footer>
+<script>
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a1828');sky.addColorStop(1,'#1a3548');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#1a2a3a';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#88ccff';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawShark(c,x,y){c.fillStyle='#3a4a5a';c.beginPath();c.ellipse(x,y-15,28,12,0,0,Math.PI*2);c.fill();c.fillStyle='#dde8f0';c.beginPath();c.ellipse(x,y-8,22,5,0,0,Math.PI*2);c.fill();c.fillStyle='#3a4a5a';c.beginPath();c.moveTo(x,y-25);c.lineTo(x+5,y-35);c.lineTo(x+10,y-23);c.closePath();c.fill();c.beginPath();c.moveTo(x-28,y-15);c.lineTo(x-40,y-23);c.lineTo(x-38,y-8);c.closePath();c.fill();c.fillStyle='#000';c.beginPath();c.arc(x+20,y-18,1.5,0,Math.PI*2);c.fill();c.fillStyle='#0a0a0a';c.beginPath();c.arc(x+25,y-10,8,0.3,Math.PI-0.3);c.fill();c.fillStyle='#fff';for(let i=0;i<3;i++){c.beginPath();c.moveTo(x+22+i*3,y-7);c.lineTo(x+23+i*3,y-3);c.lineTo(x+24+i*3,y-7);c.closePath();c.fill();}}
+
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawShark(c,w*0.25,h*0.7);
+  if(t<0.4){const tt=t/0.4;const x=w*0.25+25+tt*(tg.x-w*0.25-30);
+    // 大口で突進
+    c.fillStyle='#0a0a0a';c.beginPath();c.arc(x,h*0.62,16,0.1,Math.PI-0.1);c.fill();
+    c.fillStyle='#fff';for(let i=0;i<5;i++){c.beginPath();c.moveTo(x-12+i*6,h*0.62);c.lineTo(x-10+i*6,h*0.62+8);c.lineTo(x-8+i*6,h*0.62);c.closePath();c.fill();
+      c.beginPath();c.moveTo(x-12+i*6,h*0.62+15);c.lineTo(x-10+i*6,h*0.62+7);c.lineTo(x-8+i*6,h*0.62+15);c.closePath();c.fill();}
+  }else{const tt=(t-0.4)/0.6;
+    c.fillStyle=`rgba(255,255,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,22+tt*5,0,Math.PI*2);c.fill();
+    // 噛み痕
+    for(let i=0;i<6;i++){const ang=i*Math.PI/3;c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=2;
+      c.beginPath();c.moveTo(tg.x+Math.cos(ang)*8,tg.y-16+Math.sin(ang)*8);c.lineTo(tg.x+Math.cos(ang)*16,tg.y-16+Math.sin(ang)*16);c.stroke();}}
+},1500);
+
+startAnim('at-b',(c,t,w,h)=>{const enemies=[{x:w*0.5,y:h*0.7},{x:w*0.6,y:h*0.7}];enemies.forEach(e=>drawEnemy(c,e.x,e.y));drawShark(c,w*0.25,h*0.7);
+  // 尾びれが横に振られる
+  if(t<0.5){const tt=t/0.5;const ang=Math.sin(tt*Math.PI*2)*0.8;
+    c.save();c.translate(w*0.25-30,h*0.55);c.rotate(ang);
+    c.fillStyle='#3a4a5a';c.beginPath();c.moveTo(0,0);c.lineTo(-15,-15);c.lineTo(-10,5);c.lineTo(-12,20);c.lineTo(0,0);c.closePath();c.fill();
+    c.restore();
+    // 水しぶき
+    for(let i=0;i<8;i++){const angI=i*Math.PI/4;
+      c.fillStyle=`rgba(136,204,255,${0.5+Math.random()*0.3})`;c.beginPath();c.arc(w*0.25+15+Math.cos(angI)*tt*60,h*0.6+Math.sin(angI)*tt*30,4,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.5)/0.5;
+    // AOE波
+    c.strokeStyle=`rgba(136,204,255,${1-tt})`;c.lineWidth=4;
+    c.beginPath();c.ellipse(w*0.45,h*0.7,40+tt*60,10,0,0,Math.PI*2);c.stroke();}
+},1600);
+
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawShark(c,w*0.2,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.2+30+tt*(tg.x-w*0.2-40);
+    c.fillStyle='rgba(90,138,255,0.9)';c.beginPath();c.ellipse(x,h*0.6,12-tt*2,5,0,0,Math.PI*2);c.fill();
+    c.fillStyle='rgba(200,230,255,0.95)';c.beginPath();c.ellipse(x-3,h*0.6,6,3,0,0,Math.PI*2);c.fill();
+    for(let k=1;k<5;k++){const tk=Math.max(0,tt-k*0.06);const xk=w*0.2+30+tk*(tg.x-w*0.2-40);
+      c.fillStyle=`rgba(90,138,255,${0.5-k*0.1})`;c.beginPath();c.ellipse(xk,h*0.6,10-k,4-k*0.5,0,0,Math.PI*2);c.fill();}
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(136,200,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();
+    for(let i=0;i<6;i++){const ang=Math.random()*Math.PI;c.fillStyle='rgba(200,230,255,0.7)';c.beginPath();c.arc(tg.x+Math.cos(ang)*tt*22,tg.y-16+Math.sin(ang)*(-tt*15),3,0,Math.PI*2);c.fill();}}
+},1700);
+</script></body></html>

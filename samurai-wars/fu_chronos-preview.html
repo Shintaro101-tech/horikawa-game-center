@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>時空王 CHRONOS デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#3a0a5a 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#aa44ff;text-shadow:0 0 30px rgba(170,68,255,0.7);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#cc88ff;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(170,68,255,0.5)}
+.sub{text-align:center;color:#cc88ff;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#aa44ff);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(170,68,255,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#000020 0%,#1a0838 70%,#2a1048 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#aa44ff);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>⏳ 時空王 CHRONOS デザイン & 攻撃 候補</h1>
+<div class="sub">LONDON CHRONOLAB BOSS — 未来編 2098</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cccccc;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 黒銀のゴシック王</h2><p>黒衣+銀の時計装飾。時計の王冠と長杖。</p></div>
+<div class="card" style="--c:#ddaa44;--g:rgba(221,170,68,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 老人型時空神</h2><p>白髭+ローブ。両手の大時計杖と砂時計の額。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 半身ガラス透明</h2><p>下半身が透明。時空裂け目が裏側に見える。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>N① 時計杖殴打</h2><p>時計の杖を振る。紫の時計マーク。</p></div>
+<div class="card" style="--c:#ddaa44;--g:rgba(221,170,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>N② 飛ぶ懐中時計弾</h2><p>金の懐中時計が回転しながら飛ぶ。</p></div>
+<div class="card" style="--c:#e0c878;--g:rgba(224,200,120,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>N③ 時間の砂弾</h2><p>砂時計の砂が範囲に降る。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.7)"><div class="canv-wrap"><canvas id="sp-a" width="280" height="200"></canvas></div><h2>S① 時間停止</h2><p>全画面が紫に染まり、全敵がスタン。</p></div>
+<div class="card" style="--c:#cc88ff;--g:rgba(204,136,255,0.7)"><div class="canv-wrap"><canvas id="sp-b" width="280" height="200"></canvas></div><h2>S② 過去召喚</h2><p>3体の半透明分身が同時攻撃。</p></div>
+<div class="card" style="--c:#ff44ff;--g:rgba(255,68,255,0.7)"><div class="canv-wrap"><canvas id="sp-c" width="280" height="200"></canvas></div><h2>S③ 時空裂斬</h2><p>紫の時空亀裂が画面を斜めに貫通。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawChronos(c,p){
+  const cx=110,cy=140;
+  if(p.aura)aura(c,cx,cy,p.aura,140);
+  if(p.variant==='A'){
+    // 黒銀ゴシック王
+    // 王冠（時計型）
+    c.fillStyle='#cccccc';c.beginPath();c.arc(cx,cy-70,18,Math.PI,0);c.fill();
+    c.fillStyle='#aa44ff';c.beginPath();c.arc(cx,cy-70,10,0,Math.PI*2);c.fill();
+    c.strokeStyle='#1a1a1a';c.lineWidth=2;
+    for(let k=0;k<12;k++){const a=k*Math.PI/6;c.beginPath();c.moveTo(cx+Math.cos(a)*7,cy-70+Math.sin(a)*7);c.lineTo(cx+Math.cos(a)*10,cy-70+Math.sin(a)*10);c.stroke();}
+    c.strokeStyle='#ffffff';c.lineWidth=2;c.beginPath();c.moveTo(cx,cy-70);c.lineTo(cx+5,cy-76);c.moveTo(cx,cy-70);c.lineTo(cx-3,cy-77);c.stroke();
+    // 頭
+    c.fillStyle='#e0d0c0';c.beginPath();c.arc(cx,cy-50,12,0,Math.PI*2);c.fill();
+    // 赤目
+    c.fillStyle='#ff2222';c.fillRect(cx-7,cy-52,4,3);c.fillRect(cx+3,cy-52,4,3);
+    // 黒衣
+    c.fillStyle='#1a1a1a';c.beginPath();c.moveTo(cx-40,cy+60);c.lineTo(cx-25,cy-38);c.lineTo(cx+25,cy-38);c.lineTo(cx+40,cy+60);c.closePath();c.fill();
+    // 銀の縁取り
+    c.strokeStyle='#cccccc';c.lineWidth=2;c.stroke();
+    // 銀の時計装飾（胸）
+    c.fillStyle='#cccccc';c.beginPath();c.arc(cx,cy-10,12,0,Math.PI*2);c.fill();
+    c.fillStyle='#1a1a1a';c.beginPath();c.arc(cx,cy-10,8,0,Math.PI*2);c.fill();
+    c.strokeStyle='#cccccc';c.lineWidth=1.5;c.beginPath();c.moveTo(cx,cy-10);c.lineTo(cx+5,cy-15);c.moveTo(cx,cy-10);c.lineTo(cx-2,cy-4);c.stroke();
+    // 長杖
+    c.strokeStyle='#cccccc';c.lineWidth=3;c.beginPath();c.moveTo(cx+40,cy-70);c.lineTo(cx+50,cy+70);c.stroke();
+    c.fillStyle='#aa44ff';c.beginPath();c.arc(cx+40,cy-70,7,0,Math.PI*2);c.fill();
+    c.fillStyle='#ffffff';c.beginPath();c.arc(cx+40,cy-71,3,0,Math.PI*2);c.fill();
+  }else if(p.variant==='B'){
+    // 老人型時空神
+    // ローブ
+    c.fillStyle='#3a3a5a';c.beginPath();c.moveTo(cx-45,cy+60);c.lineTo(cx-22,cy-30);c.lineTo(cx+22,cy-30);c.lineTo(cx+45,cy+60);c.closePath();c.fill();
+    c.strokeStyle='#ddaa44';c.lineWidth=2;c.stroke();
+    // 頭
+    c.fillStyle='#f0e0c8';c.beginPath();c.arc(cx,cy-45,14,0,Math.PI*2);c.fill();
+    // 砂時計（額）
+    c.fillStyle='#ddaa44';c.beginPath();c.moveTo(cx-4,cy-55);c.lineTo(cx+4,cy-55);c.lineTo(cx,cy-50);c.closePath();c.fill();
+    c.beginPath();c.moveTo(cx-4,cy-45);c.lineTo(cx+4,cy-45);c.lineTo(cx,cy-50);c.closePath();c.fill();
+    // 目
+    c.fillStyle='#222';c.fillRect(cx-7,cy-42,3,2);c.fillRect(cx+4,cy-42,3,2);
+    // 白髭
+    c.fillStyle='#ffffff';c.beginPath();c.moveTo(cx-10,cy-35);c.lineTo(cx-12,cy-10);c.lineTo(cx,cy-15);c.lineTo(cx+12,cy-10);c.lineTo(cx+10,cy-35);c.closePath();c.fill();
+    // 両手の大時計杖
+    c.strokeStyle='#ddaa44';c.lineWidth=3;
+    c.beginPath();c.moveTo(cx-35,cy-30);c.lineTo(cx-40,cy+70);c.stroke();
+    c.beginPath();c.moveTo(cx+35,cy-30);c.lineTo(cx+40,cy+70);c.stroke();
+    // 大時計（杖先）
+    [-35,35].forEach(dx=>{
+      c.fillStyle='#ddaa44';c.beginPath();c.arc(cx+dx,cy-40,9,0,Math.PI*2);c.fill();
+      c.fillStyle='#1a1a1a';c.beginPath();c.arc(cx+dx,cy-40,6,0,Math.PI*2);c.fill();
+      c.strokeStyle='#ddaa44';c.lineWidth=1.5;c.beginPath();c.moveTo(cx+dx,cy-40);c.lineTo(cx+dx+4,cy-43);c.stroke();
+    });
+  }else{
+    // 半身ガラス透明
+    // 紫衣 上半身
+    c.fillStyle='#aa44ff';c.beginPath();c.moveTo(cx-30,cy-5);c.lineTo(cx-20,cy-35);c.lineTo(cx+20,cy-35);c.lineTo(cx+30,cy-5);c.closePath();c.fill();
+    c.strokeStyle='#ffffff';c.lineWidth=1.5;c.stroke();
+    // 頭
+    c.fillStyle='#e0d0e0';c.beginPath();c.arc(cx,cy-50,12,0,Math.PI*2);c.fill();
+    // 紫眼
+    c.fillStyle='#aa44ff';c.fillRect(cx-7,cy-52,4,3);c.fillRect(cx+3,cy-52,4,3);
+    c.fillStyle='#fff';c.fillRect(cx-6,cy-52,1,1);c.fillRect(cx+4,cy-52,1,1);
+    // 髪
+    c.fillStyle='#5a3a7a';c.beginPath();c.arc(cx,cy-58,11,Math.PI,0);c.fill();
+    // 下半身（透明・時空裂け目）
+    c.fillStyle='rgba(170,68,255,0.25)';c.beginPath();c.moveTo(cx-30,cy-5);c.lineTo(cx-40,cy+70);c.lineTo(cx+40,cy+70);c.lineTo(cx+30,cy-5);c.closePath();c.fill();
+    // ジグザグ亀裂
+    c.strokeStyle='#aa44ff';c.lineWidth=2;
+    c.beginPath();c.moveTo(cx-25,cy);c.lineTo(cx-15,cy+15);c.lineTo(cx-22,cy+30);c.lineTo(cx-10,cy+50);c.lineTo(cx-18,cy+65);c.stroke();
+    c.beginPath();c.moveTo(cx+10,cy+5);c.lineTo(cx+22,cy+20);c.lineTo(cx+15,cy+35);c.lineTo(cx+28,cy+55);c.stroke();
+    c.strokeStyle='#ffffff';c.lineWidth=1;
+    c.beginPath();c.moveTo(cx-25,cy);c.lineTo(cx-15,cy+15);c.lineTo(cx-22,cy+30);c.stroke();
+    // 輪郭線
+    c.strokeStyle='rgba(255,255,255,0.6)';c.lineWidth=1;
+    c.beginPath();c.moveTo(cx-30,cy-5);c.lineTo(cx-40,cy+70);c.moveTo(cx+30,cy-5);c.lineTo(cx+40,cy+70);c.stroke();
+  }
+}
+drawChronos(document.getElementById('ch-a').getContext('2d'),{variant:'A',aura:'rgba(170,68,255,0.5)'});
+drawChronos(document.getElementById('ch-b').getContext('2d'),{variant:'B',aura:'rgba(221,170,68,0.4)'});
+drawChronos(document.getElementById('ch-c').getContext('2d'),{variant:'C',aura:'rgba(170,68,255,0.6)'});
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+
+function drawScene(c,w,h){
+  // 夜空
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0020');sky.addColorStop(1,'#2a1048');
+  c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // 地面
+  c.fillStyle='#1a0828';c.fillRect(0,h*0.7,w,h*0.3);
+  c.fillStyle='#aa44ff';c.fillRect(0,h*0.7,w,1);
+  // 月
+  c.fillStyle='rgba(240,240,200,0.9)';c.beginPath();c.arc(w*0.85,h*0.15,12,0,Math.PI*2);c.fill();
+  c.fillStyle='rgba(240,240,200,0.2)';c.beginPath();c.arc(w*0.85,h*0.15,20,0,Math.PI*2);c.fill();
+  // 星
+  for(let i=0;i<12;i++){c.fillStyle='#fff';c.fillRect((i*23)%w,(i*11)%(h*0.4),1,1);}
+  // ビッグベン時計塔
+  c.fillStyle='#2a1a3a';c.fillRect(w*0.15,h*0.25,18,h*0.45);
+  c.fillStyle='#3a2848';c.fillRect(w*0.14,h*0.22,20,5);
+  // 時計面
+  c.fillStyle='#e0d8b0';c.beginPath();c.arc(w*0.15+9,h*0.35,7,0,Math.PI*2);c.fill();
+  c.strokeStyle='#1a1a1a';c.lineWidth=1;c.beginPath();c.moveTo(w*0.15+9,h*0.35);c.lineTo(w*0.15+9,h*0.35-5);c.moveTo(w*0.15+9,h*0.35);c.lineTo(w*0.15+12,h*0.35);c.stroke();
+  // 尖塔
+  c.fillStyle='#2a1a3a';c.beginPath();c.moveTo(w*0.15,h*0.22);c.lineTo(w*0.15+9,h*0.16);c.lineTo(w*0.15+18,h*0.22);c.closePath();c.fill();
+  // 時空裂け目（空中）
+  c.strokeStyle='#aa44ff';c.lineWidth=2;
+  c.beginPath();c.moveTo(w*0.5,h*0.1);c.lineTo(w*0.55,h*0.18);c.lineTo(w*0.48,h*0.25);c.lineTo(w*0.56,h*0.32);c.stroke();
+  c.strokeStyle='rgba(204,136,255,0.5)';c.lineWidth=4;c.stroke();
+  // 霧
+  c.fillStyle='rgba(170,68,255,0.08)';c.fillRect(0,h*0.55,w,h*0.2);
+  c.fillStyle='rgba(204,136,255,0.06)';c.fillRect(0,h*0.6,w,h*0.15);
+}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawBoss(c,x,y){
+  // ミニCHRONOS
+  c.fillStyle='#1a1a1a';c.beginPath();c.moveTo(x-18,y+20);c.lineTo(x-10,y-15);c.lineTo(x+10,y-15);c.lineTo(x+18,y+20);c.closePath();c.fill();
+  c.fillStyle='#e0d0c0';c.beginPath();c.arc(x,y-22,7,0,Math.PI*2);c.fill();
+  c.fillStyle='#ff2222';c.fillRect(x-4,y-23,2,2);c.fillRect(x+2,y-23,2,2);
+  c.fillStyle='#cccccc';c.beginPath();c.arc(x,y-32,8,Math.PI,0);c.fill();
+  c.fillStyle='#aa44ff';c.beginPath();c.arc(x,y-32,4,0,Math.PI*2);c.fill();
+}
+
+// N① 時計杖殴打
+startAnim('at-a',(c,t,w,h)=>{
+  drawEnemy(c,w*0.7,h*0.7);
+  const bx=w*0.35,by=h*0.55;
+  drawBoss(c,bx,by);
+  // 杖の振り
+  const ang=t<0.5?(-Math.PI/3+t*Math.PI):(Math.PI/6-(t-0.5)*Math.PI*0.5);
+  c.strokeStyle='#cccccc';c.lineWidth=4;
+  c.beginPath();c.moveTo(bx+15,by-10);c.lineTo(bx+15+Math.cos(ang)*40,by-10+Math.sin(ang)*40);c.stroke();
+  // 時計（杖先）
+  const tx=bx+15+Math.cos(ang)*40,ty=by-10+Math.sin(ang)*40;
+  c.fillStyle='#aa44ff';c.beginPath();c.arc(tx,ty,8,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(tx,ty,4,0,Math.PI*2);c.fill();
+  // 紫の時計マーク（振った瞬間）
+  if(t>0.4&&t<0.8){const tt=(t-0.4)/0.4;
+    c.strokeStyle=`rgba(170,68,255,${1-tt})`;c.lineWidth=2;
+    c.beginPath();c.arc(w*0.7,h*0.55,15+tt*10,0,Math.PI*2);c.stroke();
+    c.font='bold 20px sans-serif';c.fillStyle=`rgba(170,68,255,${1-tt})`;
+    c.fillText('⏰',w*0.7-10,h*0.55+8);
+  }
+},2400);
+
+// N② 飛ぶ懐中時計弾
+startAnim('at-b',(c,t,w,h)=>{
+  drawEnemy(c,w*0.75,h*0.7);
+  drawBoss(c,w*0.25,h*0.55);
+  // 弾の位置
+  const px=w*0.3+t*(w*0.45);const py=h*0.5-Math.sin(t*Math.PI)*20;
+  // 懐中時計
+  c.save();c.translate(px,py);c.rotate(t*Math.PI*4);
+  c.fillStyle='#ddaa44';c.beginPath();c.arc(0,0,12,0,Math.PI*2);c.fill();
+  c.fillStyle='#1a1a1a';c.beginPath();c.arc(0,0,9,0,Math.PI*2);c.fill();
+  // 時計の針
+  c.strokeStyle='#ddaa44';c.lineWidth=1.5;
+  c.beginPath();c.moveTo(0,0);c.lineTo(0,-7);c.stroke();
+  c.beginPath();c.moveTo(0,0);c.lineTo(5,2);c.stroke();
+  // 鎖
+  c.fillStyle='#ddaa44';c.fillRect(-1,-15,2,4);
+  c.restore();
+  // グロー
+  c.fillStyle='rgba(221,170,68,0.2)';c.beginPath();c.arc(px,py,18,0,Math.PI*2);c.fill();
+},2000);
+
+// N③ 時間の砂弾
+startAnim('at-c',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.55+i*40,h*0.7);
+  drawBoss(c,w*0.2,h*0.55);
+  // 砂時計（空中）
+  const hx=w*0.65,hy=h*0.3;
+  c.fillStyle='#ddaa44';
+  c.beginPath();c.moveTo(hx-10,hy-10);c.lineTo(hx+10,hy-10);c.lineTo(hx,hy);c.closePath();c.fill();
+  c.beginPath();c.moveTo(hx-10,hy+10);c.lineTo(hx+10,hy+10);c.lineTo(hx,hy);c.closePath();c.fill();
+  c.strokeStyle='#e0c878';c.lineWidth=2;c.beginPath();c.moveTo(hx-12,hy-12);c.lineTo(hx+12,hy-12);c.moveTo(hx-12,hy+12);c.lineTo(hx+12,hy+12);c.stroke();
+  // 砂粒（降る）
+  for(let k=0;k<20;k++){const ph=(t+k*0.05)%1;
+    const sx=hx-15+((k*7)%30);const sy=hy+10+ph*(h*0.55-hy);
+    c.fillStyle=`rgba(224,200,120,${1-ph*0.5})`;c.fillRect(sx,sy,2,2);}
+  // 範囲インジケータ
+  c.strokeStyle='rgba(221,170,68,0.4)';c.lineWidth=1;
+  c.beginPath();c.ellipse(w*0.65,h*0.7,55,8,0,0,Math.PI*2);c.stroke();
+},2400);
+
+// S① 時間停止
+startAnim('sp-a',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*60,h*0.7);
+  drawBoss(c,w*0.5,h*0.4);
+  // 紫オーバーレイ
+  if(t>0.2){const tt=Math.min(1,(t-0.2)/0.3);
+    c.fillStyle=`rgba(170,68,255,${tt*0.45})`;c.fillRect(0,0,w,h);}
+  // 中央時計UI
+  if(t>0.3){const tt=Math.min(1,(t-0.3)/0.3);
+    c.strokeStyle=`rgba(255,255,255,${tt})`;c.lineWidth=3;
+    c.beginPath();c.arc(w*0.5,h*0.5,40,0,Math.PI*2);c.stroke();
+    c.strokeStyle=`rgba(170,68,255,${tt})`;c.lineWidth=5;
+    c.beginPath();c.arc(w*0.5,h*0.5,50,-Math.PI/2,-Math.PI/2+Math.PI*1.5);c.stroke();
+    // 止まった針
+    c.strokeStyle=`rgba(255,255,255,${tt})`;c.lineWidth=3;
+    c.beginPath();c.moveTo(w*0.5,h*0.5);c.lineTo(w*0.5,h*0.5-25);c.stroke();
+    c.beginPath();c.moveTo(w*0.5,h*0.5);c.lineTo(w*0.5+30,h*0.5+10);c.stroke();
+    c.font='bold 14px sans-serif';c.fillStyle=`rgba(255,255,255,${tt})`;c.textAlign='center';
+    c.fillText('TIME STOP',w*0.5,h*0.5+62);c.textAlign='start';
+  }
+  // 停止マーク（敵周り）
+  if(t>0.4){
+    for(let i=0;i<4;i++){const ex=w*0.15+i*60,ey=h*0.7;
+      c.strokeStyle='rgba(170,68,255,0.9)';c.lineWidth=2;
+      c.beginPath();c.arc(ex,ey-12,10,0,Math.PI*2);c.stroke();
+      // スタン星
+      for(let k=0;k<3;k++){const ang=k*Math.PI*0.66+t*Math.PI*4;
+        c.fillStyle='#ffd24a';c.font='bold 10px sans-serif';c.fillText('★',ex+Math.cos(ang)*9,ey-25+Math.sin(ang)*5);}}}
+},3000);
+
+// S② 過去召喚
+startAnim('sp-b',(c,t,w,h)=>{
+  drawEnemy(c,w*0.5,h*0.7);
+  // 3体の分身が出現
+  const positions=[[w*0.25,h*0.5],[w*0.5,h*0.4],[w*0.75,h*0.5]];
+  positions.forEach((pos,i)=>{
+    const appear=Math.min(1,Math.max(0,(t-i*0.1)/0.2));
+    c.globalAlpha=appear*0.6;
+    drawBoss(c,pos[0],pos[1]);
+    c.globalAlpha=1;
+    // 紫オーラ
+    if(appear>0.5){
+      c.fillStyle=`rgba(170,68,255,${(appear-0.5)*0.5})`;
+      c.beginPath();c.arc(pos[0],pos[1]-10,30,0,Math.PI*2);c.fill();}
+  });
+  // 同時斬撃×3
+  if(t>0.5){const tt=(t-0.5)/0.5;
+    positions.forEach((pos,i)=>{
+      c.strokeStyle=`rgba(204,136,255,${1-tt})`;c.lineWidth=4;
+      c.beginPath();c.moveTo(pos[0]+15,pos[1]);c.lineTo(w*0.5-5+(i-1)*8,h*0.7-10);c.stroke();
+      // 斬撃エフェクト
+      c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=2;c.stroke();
+    });
+    // 着弾フラッシュ
+    c.fillStyle=`rgba(204,136,255,${(1-tt)*0.6})`;c.beginPath();c.arc(w*0.5,h*0.7-10,20+tt*15,0,Math.PI*2);c.fill();
+  }
+},2800);
+
+// S③ 時空裂斬
+startAnim('sp-c',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.15+i*60,h*0.7);
+  drawBoss(c,w*0.15,h*0.3);
+  // 亀裂が斜めに伸びる
+  if(t>0.2){const tt=Math.min(1,(t-0.2)/0.5);
+    // メイン亀裂（斜め）
+    const x1=w*0.1,y1=h*0.1;
+    const x2=w*(0.1+tt*0.9),y2=h*(0.1+tt*0.9);
+    c.strokeStyle=`rgba(255,68,255,${0.9})`;c.lineWidth=6;
+    c.beginPath();
+    let px=x1,py=y1;
+    const steps=20;
+    for(let k=1;k<=steps*tt;k++){
+      const xt=x1+(x2-x1)*(k/steps);
+      const yt=y1+(y2-y1)*(k/steps);
+      const off=(k%2===0?1:-1)*8;
+      const nx=xt+Math.cos(Math.atan2(y2-y1,x2-x1)+Math.PI/2)*off*0.3;
+      const ny=yt+Math.sin(Math.atan2(y2-y1,x2-x1)+Math.PI/2)*off*0.3;
+      c.lineTo(nx,ny);
+      px=nx;py=ny;
+    }
+    c.stroke();
+    // 白フラッシュ亀裂
+    c.strokeStyle=`rgba(255,255,255,${tt})`;c.lineWidth=2;c.stroke();
+    // グロー
+    c.strokeStyle=`rgba(170,68,255,${tt*0.5})`;c.lineWidth=14;c.stroke();
+    // サブ亀裂
+    if(tt>0.5){
+      c.strokeStyle=`rgba(255,68,255,0.6)`;c.lineWidth=2;
+      c.beginPath();c.moveTo(w*0.4,h*0.35);c.lineTo(w*0.5,h*0.45);c.lineTo(w*0.45,h*0.55);c.stroke();
+      c.beginPath();c.moveTo(w*0.65,h*0.55);c.lineTo(w*0.7,h*0.65);c.stroke();
+    }
+  }
+  // 空間の歪み（フラッシュ）
+  if(t>0.7){const tt=(t-0.7)/0.3;
+    c.fillStyle=`rgba(170,68,255,${(1-tt)*0.3})`;c.fillRect(0,0,w,h);}
+},2800);
+</script></body></html>

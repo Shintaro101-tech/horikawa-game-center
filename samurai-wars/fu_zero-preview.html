@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>サムライ将軍 ZERO デザイン候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#ff6ec7;text-shadow:0 0 30px rgba(255,110,199,0.6);margin-bottom:6px}
+h3.section{text-align:center;font-size:1.1rem;color:#18FFFF;letter-spacing:4px;margin:28px 0 14px;text-shadow:0 0 12px rgba(24,255,255,0.5)}
+.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:18px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1000px;margin:0 auto}
+@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0530 70%,#2a0a3a 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}
+p{font-size:0.8rem;color:#cdf;line-height:1.4}
+footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>⚔ サムライ将軍 ZERO デザイン & 攻撃 候補</h1>
+<div class="sub">NEO TOKYO 2098 — 量子サムライ</div>
+
+<h3 class="section">— キャラデザイン3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#4a2a8a;--g:rgba(74,42,138,0.5)"><div class="canv-wrap"><canvas id="ch-a" width="220" height="240"></canvas></div><h2>案A. 紺紫の量子サムライ</h2><p>半透明紺紫の量子鎧、ホログラム羽織、シアン発光の目。</p></div>
+<div class="card" style="--c:#aa1010;--g:rgba(170,16,16,0.5)"><div class="canv-wrap"><canvas id="ch-b" width="220" height="240"></canvas></div><h2>案B. 真紅メカ将軍</h2><p>赤黒重装メカ、金の鬼面、背中に4本のサブアーム。</p></div>
+<div class="card" style="--c:#eeeeee;--g:rgba(238,238,238,0.5)"><div class="canv-wrap"><canvas id="ch-c" width="220" height="240"></canvas></div><h2>案C. 純白禅サムライ</h2><p>白銀+金縁の流麗な未来鎧、頭上に5本の電子刀。</p></div>
+</div>
+
+<h3 class="section">— 通常攻撃3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="na-a" width="280" height="200"></canvas></div><h2>N① 二刀流接近斬り</h2><p>接近して2本の紫刀でクロス斬撃。</p></div>
+<div class="card" style="--c:#cc66ff;--g:rgba(204,102,255,0.5)"><div class="canv-wrap"><canvas id="na-b" width="280" height="200"></canvas></div><h2>N② プラズマ刀1本投げ</h2><p>紫の刀が回転しながら飛ぶ。</p></div>
+<div class="card" style="--c:#ff66cc;--g:rgba(255,102,204,0.5)"><div class="canv-wrap"><canvas id="na-c" width="280" height="200"></canvas></div><h2>N③ ハンドガン3連射</h2><p>紫の弾3発を時間差発射。</p></div>
+</div>
+
+<h3 class="section">— 必殺技3案 —</h3>
+<div class="grid">
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="sa-a" width="280" height="200"></canvas></div><h2>S① 量子斬閃</h2><p>横断する紫の三日月斬撃波と空間の亀裂。</p></div>
+<div class="card" style="--c:#cc88ff;--g:rgba(204,136,255,0.5)"><div class="canv-wrap"><canvas id="sa-b" width="280" height="200"></canvas></div><h2>S② 浮遊刀5本同時射出</h2><p>周囲に浮かぶ5本の電子刀が5方向に放射。</p></div>
+<div class="card" style="--c:#ff3366;--g:rgba(255,51,102,0.5)"><div class="canv-wrap"><canvas id="sa-c" width="280" height="200"></canvas></div><h2>S③ 鬼神転身</h2><p>赤紫オーラ脈動・刀巨大化・本体赤光。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · PREVIEW BUILD</footer>
+
+<script>
+function aura(c,x,y,col,r=100){const g=c.createRadialGradient(x,y,4,x,y,r);g.addColorStop(0,col);g.addColorStop(1,'transparent');c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
+
+function drawSamuraiA(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(74,42,138,0.6)',120);
+  // ホログラム羽織（背後）
+  c.fillStyle='rgba(120,80,200,0.3)';c.beginPath();c.moveTo(cx-55,cy-30);c.lineTo(cx-70,cy+60);c.lineTo(cx-30,cy+60);c.lineTo(cx-30,cy-30);c.closePath();c.fill();
+  c.fillStyle='rgba(120,80,200,0.3)';c.beginPath();c.moveTo(cx+55,cy-30);c.lineTo(cx+70,cy+60);c.lineTo(cx+30,cy+60);c.lineTo(cx+30,cy-30);c.closePath();c.fill();
+  // 胴鎧（半透明）
+  c.fillStyle='rgba(74,42,138,0.85)';c.fillRect(cx-30,cy-15,60,55);
+  c.strokeStyle='#00f0ff';c.lineWidth=1;c.strokeRect(cx-30,cy-15,60,55);
+  c.fillStyle='rgba(0,240,255,0.4)';c.fillRect(cx-28,cy-13,56,4);c.fillRect(cx-28,cy+35,56,4);
+  // 腕
+  c.fillStyle='#4a2a8a';c.fillRect(cx-45,cy-10,15,40);c.fillRect(cx+30,cy-10,15,40);
+  // 頭
+  c.fillStyle='#3a1a6a';c.beginPath();c.arc(cx,cy-30,16,0,Math.PI*2);c.fill();
+  // バイザー
+  c.fillStyle='#0a0a2a';c.fillRect(cx-14,cy-32,28,8);
+  c.fillStyle='#00f0ff';c.fillRect(cx-12,cy-30,10,3);c.fillRect(cx+2,cy-30,10,3);
+  // 頭頂バイザー突起
+  c.fillStyle='#00f0ff';c.fillRect(cx-2,cy-48,4,8);
+  // 腰の電子刀
+  c.strokeStyle='#00f0ff';c.lineWidth=2;c.beginPath();c.moveTo(cx-30,cy+25);c.lineTo(cx-60,cy+15);c.stroke();
+  c.strokeStyle='#aa44ff';c.lineWidth=4;c.beginPath();c.moveTo(cx-32,cy+24);c.lineTo(cx-38,cy+22);c.stroke();
+  // 脚
+  c.fillStyle='#4a2a8a';c.fillRect(cx-18,cy+40,14,30);c.fillRect(cx+4,cy+40,14,30);
+}
+
+function drawSamuraiB(c){
+  const cx=110,cy=140;
+  aura(c,cx,cy,'rgba(170,16,16,0.5)',120);
+  // サブアーム（X字、背後）
+  c.strokeStyle='#1a1a1a';c.lineWidth=6;
+  c.beginPath();c.moveTo(cx-30,cy-10);c.lineTo(cx-65,cy-35);c.stroke();
+  c.beginPath();c.moveTo(cx+30,cy-10);c.lineTo(cx+65,cy-35);c.stroke();
+  c.beginPath();c.moveTo(cx-30,cy+10);c.lineTo(cx-65,cy+45);c.stroke();
+  c.beginPath();c.moveTo(cx+30,cy+10);c.lineTo(cx+65,cy+45);c.stroke();
+  // サブアーム先端の刀
+  c.strokeStyle='#aaa';c.lineWidth=2;
+  c.beginPath();c.moveTo(cx-65,cy-35);c.lineTo(cx-78,cy-50);c.stroke();
+  c.beginPath();c.moveTo(cx+65,cy-35);c.lineTo(cx+78,cy-50);c.stroke();
+  c.beginPath();c.moveTo(cx-65,cy+45);c.lineTo(cx-78,cy+60);c.stroke();
+  c.beginPath();c.moveTo(cx+65,cy+45);c.lineTo(cx+78,cy+60);c.stroke();
+  // 胴
+  c.fillStyle='#1a1a1a';c.fillRect(cx-32,cy-18,64,60);
+  c.fillStyle='#aa1010';c.fillRect(cx-28,cy-14,56,52);
+  c.strokeStyle='#ffd24a';c.lineWidth=1;c.strokeRect(cx-28,cy-14,56,52);
+  c.fillStyle='#ffd24a';c.fillRect(cx-28,cy-2,56,3);
+  // メイン腕
+  c.fillStyle='#1a1a1a';c.fillRect(cx-45,cy-10,14,45);c.fillRect(cx+31,cy-10,14,45);
+  // 両手刀
+  c.strokeStyle='#ccc';c.lineWidth=3;
+  c.beginPath();c.moveTo(cx-38,cy+35);c.lineTo(cx-50,cy+60);c.stroke();
+  c.beginPath();c.moveTo(cx+38,cy+35);c.lineTo(cx+50,cy+60);c.stroke();
+  // 頭（鬼面ヘルメット）
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(cx,cy-32,18,0,Math.PI*2);c.fill();
+  c.strokeStyle='#1a1a1a';c.lineWidth=1;c.stroke();
+  // 角
+  c.fillStyle='#ffd24a';c.beginPath();c.moveTo(cx-12,cy-44);c.lineTo(cx-18,cy-58);c.lineTo(cx-8,cy-50);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+12,cy-44);c.lineTo(cx+18,cy-58);c.lineTo(cx+8,cy-50);c.closePath();c.fill();
+  // 目
+  c.fillStyle='#ff3344';c.fillRect(cx-10,cy-32,5,3);c.fillRect(cx+5,cy-32,5,3);
+  // 脚
+  c.fillStyle='#1a1a1a';c.fillRect(cx-18,cy+42,14,28);c.fillRect(cx+4,cy+42,14,28);
+}
+
+function drawSamuraiC(c){
+  const cx=110,cy=150;
+  aura(c,cx,cy,'rgba(255,255,200,0.4)',130);
+  // 頭上の浮遊刀（5本円形）
+  for(let i=0;i<5;i++){const ang=-Math.PI/2+i*Math.PI*2/5-Math.PI/2;const r=38;const sx=cx+Math.cos(ang)*r;const sy=cy-65+Math.sin(ang)*r;
+    c.strokeStyle='#00f0ff';c.lineWidth=2;c.beginPath();c.moveTo(sx,sy);c.lineTo(sx+Math.cos(ang+Math.PI/2)*14,sy+Math.sin(ang+Math.PI/2)*14);c.stroke();
+    c.fillStyle='#ffd24a';c.beginPath();c.arc(sx,sy,2,0,Math.PI*2);c.fill();}
+  // 胴鎧
+  c.fillStyle='#eeeeee';c.fillRect(cx-30,cy-15,60,55);
+  c.strokeStyle='#ffd24a';c.lineWidth=2;c.strokeRect(cx-30,cy-15,60,55);
+  // 家紋（発光）
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(cx,cy+10,10,0,Math.PI*2);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy+10,5,0,Math.PI*2);c.fill();
+  // 流麗な肩
+  c.fillStyle='#fff';c.beginPath();c.moveTo(cx-30,cy-15);c.lineTo(cx-48,cy-5);c.lineTo(cx-48,cy+15);c.lineTo(cx-30,cy+5);c.closePath();c.fill();
+  c.beginPath();c.moveTo(cx+30,cy-15);c.lineTo(cx+48,cy-5);c.lineTo(cx+48,cy+15);c.lineTo(cx+30,cy+5);c.closePath();c.fill();
+  c.strokeStyle='#ffd24a';c.lineWidth=1;c.strokeRect(cx-48,cy-5,18,20);
+  // 腕
+  c.fillStyle='#eeeeee';c.fillRect(cx-45,cy+5,14,38);c.fillRect(cx+31,cy+5,14,38);
+  // 頭
+  c.fillStyle='#fff';c.beginPath();c.arc(cx,cy-30,15,0,Math.PI*2);c.fill();
+  c.strokeStyle='#ffd24a';c.stroke();
+  // 目
+  c.fillStyle='#ffd24a';c.fillRect(cx-8,cy-31,5,2);c.fillRect(cx+3,cy-31,5,2);
+  // 脚
+  c.fillStyle='#eeeeee';c.fillRect(cx-18,cy+42,14,28);c.fillRect(cx+4,cy+42,14,28);
+  c.strokeStyle='#ffd24a';c.strokeRect(cx-18,cy+42,14,28);c.strokeRect(cx+4,cy+42,14,28);
+}
+
+drawSamuraiA(document.getElementById('ch-a').getContext('2d'));
+drawSamuraiB(document.getElementById('ch-b').getContext('2d'));
+drawSamuraiC(document.getElementById('ch-c').getContext('2d'));
+
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+
+// ネオ東京の夜景シーン
+function drawScene(c,w,h){
+  const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#0a0020');sky.addColorStop(1,'#2a0840');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);
+  // 地面（ネオン反射）
+  const gr=c.createLinearGradient(0,h*0.7,0,h);gr.addColorStop(0,'#1a0530');gr.addColorStop(1,'#3a1858');c.fillStyle=gr;c.fillRect(0,h*0.7,w,h*0.3);
+  c.fillStyle='#ff6ec7';c.fillRect(0,h*0.7,w,1);
+  // ネオン看板
+  c.fillStyle='#ff6ec7';c.fillRect(10,30,30,10);
+  c.fillStyle='#00f0ff';c.fillRect(50,50,25,8);
+  c.fillStyle='#ff6ec7';c.fillRect(w-50,40,35,8);
+  c.fillStyle='#00f0ff';c.fillRect(w-80,70,20,6);
+  // 桜の花びら
+  for(let i=0;i<6;i++){const px=(i*47+30)%w;const py=(i*31+15)%(h*0.65);c.fillStyle='rgba(255,180,220,0.7)';c.beginPath();c.arc(px,py,2,0,Math.PI*2);c.fill();}
+  // 地面ネオン反射
+  c.fillStyle='rgba(255,110,199,0.2)';c.fillRect(0,h*0.72,w,3);
+  c.fillStyle='rgba(0,240,255,0.15)';c.fillRect(0,h*0.78,w,2);
+}
+
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+
+function drawSamuraiSmall(c,x,y){
+  c.fillStyle='#4a2a8a';c.fillRect(x-8,y-26,16,26);
+  c.fillStyle='#3a1a6a';c.beginPath();c.arc(x,y-32,7,0,Math.PI*2);c.fill();
+  c.fillStyle='#00f0ff';c.fillRect(x-5,y-33,10,2);
+}
+
+// N① 二刀流接近斬り
+startAnim('na-a',(c,t,w,h)=>{
+  const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  // サムライ位置（接近）
+  const sx = w*0.25 + (t<0.4?t/0.4*w*0.3:w*0.3);
+  drawSamuraiSmall(c,sx,h*0.7);
+  if(t>=0.4&&t<0.8){const tt=(t-0.4)/0.4;
+    // 2本のクロス斬撃
+    c.strokeStyle=`rgba(170,68,255,${1-tt})`;c.lineWidth=4;
+    c.beginPath();c.moveTo(tg.x-28,tg.y-30);c.lineTo(tg.x+28,tg.y+5);c.stroke();
+    c.beginPath();c.moveTo(tg.x+28,tg.y-30);c.lineTo(tg.x-28,tg.y+5);c.stroke();
+    // 残光
+    c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=2;
+    c.beginPath();c.moveTo(tg.x-28,tg.y-30);c.lineTo(tg.x+28,tg.y+5);c.stroke();
+    c.beginPath();c.moveTo(tg.x+28,tg.y-30);c.lineTo(tg.x-28,tg.y+5);c.stroke();
+  }
+},2200);
+
+// N② プラズマ刀1本投げ
+startAnim('na-b',(c,t,w,h)=>{
+  const tg={x:w*0.85,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  drawSamuraiSmall(c,w*0.15,h*0.7);
+  if(t<0.85){const tt=t/0.85;const x=w*0.2+tt*w*0.6;const y=h*0.55-Math.sin(tt*Math.PI)*15;
+    // 軌跡
+    for(let k=0;k<5;k++){const tk=Math.max(0,tt-k*0.05);const xk=w*0.2+tk*w*0.6;const yk=h*0.55-Math.sin(tk*Math.PI)*15;
+      c.fillStyle=`rgba(204,102,255,${0.5-k*0.1})`;c.beginPath();c.arc(xk,yk,3,0,Math.PI*2);c.fill();}
+    // 回転する刀
+    c.save();c.translate(x,y);c.rotate(tt*Math.PI*8);
+    c.strokeStyle='#cc66ff';c.lineWidth=3;c.beginPath();c.moveTo(-14,0);c.lineTo(14,0);c.stroke();
+    c.strokeStyle='#fff';c.lineWidth=1;c.beginPath();c.moveTo(-14,0);c.lineTo(14,0);c.stroke();
+    c.restore();
+  }else{const tt=(t-0.85)/0.15;
+    c.fillStyle=`rgba(204,102,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y,15+tt*10,0,Math.PI*2);c.fill();
+  }
+},2400);
+
+// N③ ハンドガン3連射
+startAnim('na-c',(c,t,w,h)=>{
+  const tg={x:w*0.85,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  drawSamuraiSmall(c,w*0.15,h*0.7);
+  for(let k=0;k<3;k++){const ph=(t-k*0.18)%1;
+    if(ph>0&&ph<0.1){c.fillStyle=`rgba(255,102,204,${1-ph*10})`;c.beginPath();c.arc(w*0.2,h*0.65-k*3,8,0,Math.PI*2);c.fill();}
+    if(ph>0.05&&ph<0.55){const tt=(ph-0.05)/0.5;const x=w*0.2+tt*w*0.6;const y=h*0.65-k*3;
+      c.fillStyle='#ff66cc';c.beginPath();c.arc(x,y,4,0,Math.PI*2);c.fill();
+      c.fillStyle='rgba(255,102,204,0.4)';c.fillRect(w*0.2,y-1,tt*w*0.6,2);}}
+},2400);
+
+// S① 量子斬閃
+startAnim('sa-a',(c,t,w,h)=>{
+  for(let i=0;i<4;i++)drawEnemy(c,w*0.25+i*45,h*0.7);
+  if(t<0.3){const tt=t/0.3;
+    // 溜め
+    c.strokeStyle=`rgba(170,68,255,${tt})`;c.lineWidth=2;
+    for(let k=0;k<8;k++){const ang=k*Math.PI/4;c.beginPath();c.moveTo(w*0.5,h*0.5);c.lineTo(w*0.5+Math.cos(ang)*40*tt,h*0.5+Math.sin(ang)*40*tt);c.stroke();}
+  }else{const tt=(t-0.3)/0.7;
+    // 巨大三日月斬撃
+    c.save();c.translate(w*0.5,h*0.5);
+    c.strokeStyle=`rgba(170,68,255,${1-tt*0.6})`;c.lineWidth=14;
+    c.beginPath();c.arc(0,40,w*0.6*tt,-Math.PI*0.7,-Math.PI*0.3);c.stroke();
+    c.strokeStyle=`rgba(255,255,255,${1-tt})`;c.lineWidth=5;
+    c.beginPath();c.arc(0,40,w*0.6*tt,-Math.PI*0.7,-Math.PI*0.3);c.stroke();
+    c.restore();
+    // 空間の亀裂
+    for(let k=0;k<4;k++){const yk=h*0.4+k*15;
+      c.strokeStyle=`rgba(170,68,255,${(1-tt)*0.8})`;c.lineWidth=2;
+      c.beginPath();c.moveTo(w*0.1,yk);c.lineTo(w*0.3,yk+5);c.lineTo(w*0.5,yk-3);c.lineTo(w*0.7,yk+4);c.lineTo(w*0.9,yk-2);c.stroke();}
+  }
+},2600);
+
+// S② 浮遊刀5本同時射出
+startAnim('sa-b',(c,t,w,h)=>{
+  for(let i=0;i<3;i++)drawEnemy(c,w*0.2+i*60,h*0.7);
+  const cx=w*0.5,cy=h*0.45;
+  // 周囲の5本の刀
+  for(let k=0;k<5;k++){const ang=-Math.PI/2+k*Math.PI*2/5;
+    const ph=(t-k*0.1);
+    let dist=30;
+    if(ph>0.2){dist=30+(ph-0.2)*200;}
+    const sx=cx+Math.cos(ang)*dist;const sy=cy+Math.sin(ang)*dist;
+    if(dist<200){
+      c.save();c.translate(sx,sy);c.rotate(ang+Math.PI/2);
+      c.strokeStyle='#cc88ff';c.lineWidth=3;c.beginPath();c.moveTo(0,-12);c.lineTo(0,12);c.stroke();
+      c.strokeStyle='#fff';c.lineWidth=1;c.beginPath();c.moveTo(0,-12);c.lineTo(0,12);c.stroke();
+      c.restore();
+      // 軌跡
+      if(ph>0.2){c.strokeStyle=`rgba(204,136,255,0.4)`;c.lineWidth=2;
+        c.beginPath();c.moveTo(cx+Math.cos(ang)*30,cy+Math.sin(ang)*30);c.lineTo(sx,sy);c.stroke();}
+    }
+  }
+  // 中心オーラ
+  aura(c,cx,cy,'rgba(204,136,255,0.6)',40);
+},2800);
+
+// S③ 鬼神転身（自己バフ）
+startAnim('sa-c',(c,t,w,h)=>{
+  const cx=w*0.5,cy=h*0.55;
+  // 脈動オーラ
+  const pulse=0.5+0.5*Math.sin(t*Math.PI*4);
+  aura(c,cx,cy,`rgba(255,51,102,${0.4+pulse*0.4})`,100+pulse*30);
+  // 衝撃波
+  for(let k=0;k<3;k++){const rt=(t+k*0.33)%1;
+    c.strokeStyle=`rgba(170,68,255,${1-rt})`;c.lineWidth=3;c.beginPath();c.arc(cx,cy,20+rt*80,0,Math.PI*2);c.stroke();}
+  // 本体（赤光）
+  c.fillStyle=`rgba(170,16,16,${0.7+pulse*0.3})`;c.fillRect(cx-18,cy-30,36,50);
+  c.fillStyle='#1a1a1a';c.fillRect(cx-15,cy-27,30,44);
+  c.fillStyle=`rgba(255,51,68,${0.8+pulse*0.2})`;c.fillRect(cx-10,cy-15,20,6);
+  // 頭
+  c.fillStyle='#ffd24a';c.beginPath();c.arc(cx,cy-40,12,0,Math.PI*2);c.fill();
+  c.fillStyle='#ff3344';c.fillRect(cx-7,cy-41,4,2);c.fillRect(cx+3,cy-41,4,2);
+  // 巨大化した刀（両手）
+  c.strokeStyle='#aa44ff';c.lineWidth=5;c.beginPath();c.moveTo(cx-22,cy+15);c.lineTo(cx-55,cy-25-pulse*10);c.stroke();
+  c.strokeStyle='#fff';c.lineWidth=2;c.beginPath();c.moveTo(cx-22,cy+15);c.lineTo(cx-55,cy-25-pulse*10);c.stroke();
+  c.strokeStyle='#aa44ff';c.lineWidth=5;c.beginPath();c.moveTo(cx+22,cy+15);c.lineTo(cx+55,cy-25-pulse*10);c.stroke();
+  c.strokeStyle='#fff';c.lineWidth=2;c.beginPath();c.moveTo(cx+22,cy+15);c.lineTo(cx+55,cy-25-pulse*10);c.stroke();
+},2000);
+</script></body></html>

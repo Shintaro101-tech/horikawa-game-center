@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ハッカー帝王 通常攻撃3案</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#4a0080 0%,transparent 60%),linear-gradient(180deg,#0a0020 0%,#000 100%);min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#ff3344;margin-bottom:6px}.sub{text-align:center;color:#18FFFF;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:8px}.note{text-align:center;color:#888;font-size:0.78rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#ff3344);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,51,68,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a0020 0%,#1a0a40 70%,#2a1858 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ff3344);margin-bottom:6px}p{font-size:0.8rem;color:#cdf;line-height:1.4}footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}
+</style></head><body>
+<h1>💻 ハッカー帝王 — 通常攻撃 3案</h1>
+<div class="sub">NORMAL ATTACK CANDIDATES</div>
+<div class="note">※ 必殺技（グリッチ弾）はそのまま。通常攻撃のみを選びます</div>
+<div class="grid">
+<div class="card" style="--c:#00f0ff;--g:rgba(0,240,255,0.5)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案A. コード弾</h2><p>「01」「FF」などの数字弾を1発撃つ。</p></div>
+<div class="card" style="--c:#88dd44;--g:rgba(136,221,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案B. ウイルス散布</h2><p>緑のウイルス粒子を前方に拡散。中範囲。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案C. ハッキング光線</h2><p>細い緑のレーザー光線で狙撃する遠距離。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · NORMAL ATTACK PREVIEW</footer>
+<script>
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){const sky=c.createLinearGradient(0,0,0,h*0.7);sky.addColorStop(0,'#000020');sky.addColorStop(1,'#0a1850');c.fillStyle=sky;c.fillRect(0,0,w,h*0.7);c.fillStyle='#0a0a28';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#00f0ff';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawHacker(c,x,y){c.fillStyle='#fff';c.fillRect(x-12,y-28,24,28);c.fillStyle='#1a1a30';c.beginPath();c.moveTo(x-6,y-28);c.lineTo(x,y-18);c.lineTo(x+6,y-28);c.closePath();c.fill();c.fillStyle='#00f0ff';c.beginPath();c.moveTo(x-1.5,y-18);c.lineTo(x,y-9);c.lineTo(x+1.5,y-18);c.closePath();c.fill();c.fillStyle='#1a1a1a';c.fillRect(x-10,y-8,20,4);c.fillStyle='#00f0ff';c.fillRect(x-9,y-7,18,2);c.fillStyle='#f0d4a8';c.beginPath();c.arc(x,y-34,5,0,Math.PI*2);c.fill();c.strokeStyle='#00f0ff';c.lineWidth=1.2;c.strokeRect(x-5,y-35,4,3);c.strokeRect(x+1,y-35,4,3);}
+
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHacker(c,w*0.2,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.2+12+tt*(tg.x-w*0.2-25);
+    c.fillStyle='#00f0ff';c.font='bold 12px monospace';c.textAlign='center';c.fillText(['0x01','FF','10','BUG'][Math.floor(tt*4)%4],x,h*0.6);
+    for(let k=1;k<4;k++){const tk=Math.max(0,tt-k*0.06);const xk=w*0.2+12+tk*(tg.x-w*0.2-25);
+      c.fillStyle=`rgba(0,240,255,${0.4-k*0.08})`;c.font='bold 10px monospace';c.fillText('01',xk,h*0.6);}
+  }else{const tt=(t-0.7)/0.3;c.fillStyle=`rgba(0,240,255,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,18,0,Math.PI*2);c.fill();}
+},1700);
+
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHacker(c,w*0.2,h*0.7);
+  // 緑のウイルス粒子コーン
+  for(let i=0;i<24;i++){const ang=-0.3+(Math.sin(i*7+t*5)*0.5);const dist=t*180+Math.sin(i*3)*30+30;
+    c.fillStyle=`rgba(136,221,68,${0.4+Math.random()*0.3})`;c.beginPath();c.arc(w*0.2+12+Math.cos(ang)*dist,h*0.6+Math.sin(ang)*dist*0.3,4+Math.sin(i)*2,0,Math.PI*2);c.fill();}
+  c.fillStyle='#88dd44';c.font='bold 16px monospace';c.textAlign='center';c.fillText('☣',tg.x,tg.y-30+Math.sin(t*Math.PI*4)*4);
+},1800);
+
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHacker(c,w*0.2,h*0.7);
+  if(t<0.3){const tt=t/0.3;
+    c.fillStyle=`rgba(136,221,68,${tt*0.8})`;c.beginPath();c.arc(w*0.2+15,h*0.6,10*tt,0,Math.PI*2);c.fill();
+  }else{const tt=(t-0.3)/0.7;
+    // 細い緑のレーザー
+    c.strokeStyle=`rgba(136,221,68,${1-tt*0.4})`;c.lineWidth=4;c.beginPath();c.moveTo(w*0.2+15,h*0.6);c.lineTo(tg.x,tg.y-16);c.stroke();
+    c.strokeStyle=`rgba(255,255,200,${1-tt*0.4})`;c.lineWidth=1.5;c.beginPath();c.moveTo(w*0.2+15,h*0.6);c.lineTo(tg.x,tg.y-16);c.stroke();
+    // 着弾
+    c.fillStyle=`rgba(255,210,74,${1-tt})`;c.beginPath();c.arc(tg.x,tg.y-16,12+tt*8,0,Math.PI*2);c.fill();}
+},1500);
+</script></body></html>
