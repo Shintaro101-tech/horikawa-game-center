@@ -4648,6 +4648,44 @@
     }
 
     // 分身ラッシュ（孫悟空専用攻撃）
+    // OMNIAS 用：ホログラム赤紫拳の単体描画
+    function drawHoloFist(c, fx, fy, scale) {
+        const s = scale || 1;
+        c.save();
+        c.translate(fx, fy);
+        c.scale(s, s);
+        // 半透明ハロ
+        c.fillStyle = 'rgba(255,34,102,0.25)';
+        c.beginPath(); c.arc(0, 0, 28, 0, Math.PI*2); c.fill();
+        // 拳の本体（紫黒）
+        c.fillStyle = 'rgba(60,10,40,0.85)';
+        c.fillRect(-16, -8, 32, 22);
+        c.strokeStyle = '#ff2266'; c.lineWidth = 1.5;
+        c.strokeRect(-16, -8, 32, 22);
+        // 指の関節（4本）
+        c.fillStyle = 'rgba(255,34,102,0.75)';
+        for(let k = 0; k < 4; k++) {
+            c.fillRect(-14 + k*8, -16, 6, 10);
+            c.strokeStyle = '#ff2266'; c.lineWidth = 1;
+            c.strokeRect(-14 + k*8, -16, 6, 10);
+        }
+        // 親指
+        c.fillStyle = 'rgba(255,34,102,0.75)';
+        c.fillRect(14, -4, 8, 10);
+        c.strokeRect(14, -4, 8, 10);
+        // 中央の発光コア
+        c.fillStyle = 'rgba(255,255,255,0.85)';
+        c.beginPath(); c.arc(0, 3, 5, 0, Math.PI*2); c.fill();
+        // 走査線（ホロ感）
+        c.strokeStyle = 'rgba(255,255,255,0.4)'; c.lineWidth = 0.6;
+        for(let l = 0; l < 4; l++) {
+            c.beginPath();
+            c.moveTo(-16, -16 + l*8); c.lineTo(20, -16 + l*8);
+            c.stroke();
+        }
+        c.restore();
+    }
+
     function drawCloneStrike(c, cs) {
         const elapsed = cs.timer - cs.delay;
         if(elapsed < 0 || elapsed > 0.45) return;
@@ -4717,6 +4755,56 @@
                     c.moveTo(cs.x, cs.y - 18);
                     c.lineTo(cs.x + Math.cos(a)*22, cs.y - 18 + Math.sin(a)*22);
                     c.stroke();
+                }
+            }
+            c.restore();
+            return;
+        }
+        // OMNIAS の巨大ホロ拳（赤紫の拳が空から降下→着地で大衝撃波）
+        if(cs.style === 'fu_holo_fist') {
+            const fx = cs.x;
+            const fy = cs.y;
+            // 前兆: 着地位置に赤い警告サークル
+            if(p < 0.5) {
+                const tt = p / 0.5;
+                c.strokeStyle = `rgba(255,34,102,${0.8 - tt*0.3})`;
+                c.lineWidth = 2;
+                c.beginPath(); c.arc(fx, fy, 50 - tt*20, 0, Math.PI*2); c.stroke();
+                c.beginPath(); c.arc(fx, fy, 30 - tt*12, 0, Math.PI*2); c.stroke();
+                // 中央の十字マーカー
+                c.beginPath(); c.moveTo(fx - 10, fy); c.lineTo(fx + 10, fy); c.stroke();
+                c.beginPath(); c.moveTo(fx, fy - 10); c.lineTo(fx, fy + 10); c.stroke();
+                // 上から降下する拳のシルエット（高い位置からどんどん下がる）
+                const fistY = -50 + tt * (fy + 30);
+                drawHoloFist(c, fx, fistY, 1 + tt*0.5);
+            } else if(p < 0.7) {
+                // インパクト直前 — 拳が地面に到達 + 衝撃
+                const tt = (p - 0.5) / 0.2;
+                drawHoloFist(c, fx, fy - 20 + tt*15, 1.5 + tt*0.3);
+                // 白い閃光
+                c.fillStyle = `rgba(255,255,255,${1-tt*0.5})`;
+                c.beginPath(); c.arc(fx, fy, 30 + tt*40, 0, Math.PI*2); c.fill();
+            } else {
+                // インパクト後 — 衝撃波が広がる
+                const tt = (p - 0.7) / 0.3;
+                drawHoloFist(c, fx, fy - 5, 1.8);
+                // 3重衝撃波（赤紫）
+                for(let r = 0; r < 3; r++) {
+                    const rt = Math.max(0, tt - r*0.2);
+                    if(rt > 0) {
+                        c.strokeStyle = `rgba(255,34,102,${(1-rt)*0.9})`;
+                        c.lineWidth = 4 - r;
+                        c.beginPath(); c.arc(fx, fy, 20 + rt*70, 0, Math.PI*2); c.stroke();
+                        c.strokeStyle = `rgba(170,68,255,${(1-rt)*0.7})`;
+                        c.lineWidth = 2;
+                        c.beginPath(); c.arc(fx, fy, 25 + rt*75, 0, Math.PI*2); c.stroke();
+                    }
+                }
+                // 火花
+                for(let k=0; k<8; k++) {
+                    const a = k * Math.PI/4 + tt*3;
+                    c.fillStyle = `rgba(255,255,200,${1-tt})`;
+                    c.fillRect(fx + Math.cos(a)*(20+tt*40), fy + Math.sin(a)*(20+tt*40), 3, 3);
                 }
             }
             c.restore();
@@ -5437,6 +5525,159 @@
         if(Math.sin(time*4) > 0.5) {
             c.fillStyle = '#ffd24a'; c.font = 'bold 18px sans-serif';
             c.fillText('⚠', cx-60, cy+12); c.fillText('⚠', cx+60, cy+12);
+        }
+    }
+
+    // OMNIAS — 全人類監視AI（メガボス・全画面OS UI型）
+    function drawOmniasMega(c, u) {
+        const w = W(), h = H();
+        const baseX = u.x;
+        const time = performance.now() * 0.001;
+        // 上下に揺れながら浮遊（中央上空に居座る巨顔）
+        const cycle = (Math.sin(time * 0.4) + 1) / 2;
+        const elevation = Math.pow(cycle, 4);
+        const lowY = groundY() - 160;
+        const highY = groundY() - 320;
+        const baseY = lowY + (highY - lowY) * elevation;
+        const cx = baseX, cy = baseY + Math.sin(time*1.2)*5;
+
+        // 巨大な影（地面）
+        c.fillStyle = 'rgba(255,34,102,0.35)';
+        c.beginPath(); c.ellipse(cx, groundY()-2, 160, 18, 0, 0, Math.PI*2); c.fill();
+
+        // 赤紫オーラ（脈動・巨大）
+        const pulse = 0.4 + Math.sin(time*2.5)*0.25;
+        const auraGrad = c.createRadialGradient(cx, cy, 40, cx, cy, 360);
+        auraGrad.addColorStop(0, `rgba(255,34,102,${0.6*pulse})`);
+        auraGrad.addColorStop(0.4, `rgba(170,68,255,${0.3*pulse})`);
+        auraGrad.addColorStop(1, 'rgba(170,68,255,0)');
+        c.fillStyle = auraGrad;
+        c.beginPath(); c.arc(cx, cy, 360, 0, Math.PI*2); c.fill();
+
+        // 全画面背景型 OS UI: 巨大なホロウィンドウ
+        const winW = 260, winH = 240;
+        const wx = cx - winW/2, wy = cy - winH/2;
+        // 背景パネル
+        c.fillStyle = `rgba(10,5,30,0.85)`;
+        c.fillRect(wx, wy, winW, winH);
+        // 外枠の赤
+        c.strokeStyle = '#ff2266'; c.lineWidth = 3;
+        c.strokeRect(wx, wy, winW, winH);
+        // 内枠（紫）
+        c.strokeStyle = '#aa44ff'; c.lineWidth = 1.5;
+        c.strokeRect(wx+4, wy+4, winW-8, winH-8);
+        // 4隅のコーナーマーカー
+        c.strokeStyle = '#ff2266'; c.lineWidth = 3;
+        const cm = 14;
+        c.beginPath(); c.moveTo(wx, wy+cm); c.lineTo(wx, wy); c.lineTo(wx+cm, wy); c.stroke();
+        c.beginPath(); c.moveTo(wx+winW-cm, wy); c.lineTo(wx+winW, wy); c.lineTo(wx+winW, wy+cm); c.stroke();
+        c.beginPath(); c.moveTo(wx, wy+winH-cm); c.lineTo(wx, wy+winH); c.lineTo(wx+cm, wy+winH); c.stroke();
+        c.beginPath(); c.moveTo(wx+winW-cm, wy+winH); c.lineTo(wx+winW, wy+winH); c.lineTo(wx+winW, wy+winH-cm); c.stroke();
+
+        // タイトルバー
+        c.fillStyle = `rgba(255,34,102,${0.4 + pulse*0.2})`;
+        c.fillRect(wx+8, wy+8, winW-16, 18);
+        c.fillStyle = '#fff';
+        c.font = 'bold 13px monospace'; c.textAlign = 'left';
+        c.fillText('OMNIAS // GLOBAL SURVEILLANCE AI v2098', wx+12, wy+22);
+        // 閉じるボタン×
+        c.fillStyle = '#ff2266';
+        c.fillRect(wx+winW-22, wy+11, 12, 12);
+        c.fillStyle = '#fff';
+        c.font = 'bold 11px monospace';
+        c.fillText('×', wx+winW-19, wy+21);
+
+        // サブウィンドウ群（複数の監視画面）
+        const subWins = [
+            { x: wx+12, y: wy+34, w: 70, h: 50, title: 'CAM 01' },
+            { x: wx+90, y: wy+34, w: 70, h: 50, title: 'CAM 02' },
+            { x: wx+168, y: wy+34, w: 80, h: 50, title: 'DATA' },
+            { x: wx+12, y: wy+158, w: 70, h: 70, title: 'TRACE' },
+            { x: wx+168, y: wy+158, w: 80, h: 70, title: 'TARGET' }
+        ];
+        for(const sw of subWins) {
+            c.fillStyle = `rgba(170,68,255,${0.18 + pulse*0.1})`;
+            c.fillRect(sw.x, sw.y, sw.w, sw.h);
+            c.strokeStyle = '#aa44ff'; c.lineWidth = 1;
+            c.strokeRect(sw.x, sw.y, sw.w, sw.h);
+            c.fillStyle = '#ff2266';
+            c.font = 'bold 7px monospace';
+            c.fillText(sw.title, sw.x+3, sw.y+9);
+            // ノイズ走査線
+            c.strokeStyle = `rgba(255,255,255,${0.15})`;
+            for(let l = 0; l < 4; l++) {
+                const ly = sw.y + 12 + ((time*40 + l*8) % (sw.h - 14));
+                c.beginPath(); c.moveTo(sw.x+2, ly); c.lineTo(sw.x+sw.w-2, ly); c.stroke();
+            }
+        }
+
+        // 中央に巨大な赤い目（睨む）
+        const eyeX = cx, eyeY = wy + 110;
+        c.fillStyle = '#1a0010';
+        c.fillRect(eyeX-40, eyeY-20, 80, 40);
+        c.strokeStyle = '#ff2266'; c.lineWidth = 2;
+        c.strokeRect(eyeX-40, eyeY-20, 80, 40);
+        // 目玉（脈動）
+        const eyeBlink = 0.7 + Math.sin(time*2.8)*0.3;
+        c.fillStyle = `rgba(255,34,102,${eyeBlink})`;
+        c.beginPath(); c.arc(eyeX, eyeY, 16, 0, Math.PI*2); c.fill();
+        c.fillStyle = '#1a0010';
+        c.beginPath(); c.arc(eyeX, eyeY, 8, 0, Math.PI*2); c.fill();
+        // 瞳（白光）
+        c.fillStyle = `rgba(255,255,255,${eyeBlink})`;
+        c.beginPath(); c.arc(eyeX+3, eyeY-3, 3, 0, Math.PI*2); c.fill();
+        // 目から放射する赤光
+        c.strokeStyle = `rgba(255,34,102,${0.4*eyeBlink})`; c.lineWidth = 1.5;
+        for(let i = 0; i < 12; i++) {
+            const ang = i*Math.PI/6 + time*0.5;
+            c.beginPath(); c.moveTo(eyeX, eyeY);
+            c.lineTo(eyeX + Math.cos(ang)*70, eyeY + Math.sin(ang)*70); c.stroke();
+        }
+
+        // 流れるコード（背景に・複数行）
+        c.fillStyle = `rgba(255,34,102,${0.4})`;
+        c.font = 'bold 8px monospace';
+        const codes = ['10110010 11001010', '00101101 10110100', '11110000 01010110', '01101010 11001010'];
+        for(let r = 0; r < 4; r++) {
+            const ty = wy+50 + r*44;
+            const tx = wx+12 + ((time*15 + r*60) % 80);
+            c.fillText(codes[r], tx, ty);
+        }
+
+        // 警告テキスト（点滅）
+        c.fillStyle = `rgba(255,34,102,${0.7 + Math.sin(time*8)*0.3})`;
+        c.font = 'bold 11px monospace'; c.textAlign = 'center';
+        c.fillText('// ALERT // ALERT // ALERT //', cx, wy + winH - 22);
+        // 中央下: ステータス
+        c.fillStyle = '#fff';
+        c.font = 'bold 9px monospace';
+        c.fillText('CONTROL: ACTIVE   THREAT: HIGH', cx, wy + winH - 8);
+        c.textAlign = 'left';
+
+        // 全画面の細い赤い警告ライン（OMNIAS固有）
+        c.strokeStyle = `rgba(255,34,102,${0.4 + Math.sin(time*6)*0.4})`;
+        c.lineWidth = 1.2;
+        c.beginPath(); c.moveTo(0, 6); c.lineTo(w, 6); c.stroke();
+        c.beginPath(); c.moveTo(0, h-6); c.lineTo(w, h-6); c.stroke();
+
+        // 上空に浮遊する小さなサブAIサテライト（複数・回る）
+        for(let k = 0; k < 4; k++) {
+            const ang = k*Math.PI/2 + time*0.4;
+            const sax = cx + Math.cos(ang) * 170;
+            const say = cy + Math.sin(ang) * 90;
+            c.fillStyle = '#aa44ff';
+            c.fillRect(sax-6, say-4, 12, 8);
+            c.fillStyle = '#ff2266';
+            c.fillRect(sax-2, say-1, 4, 2);
+            c.fillStyle = `rgba(170,68,255,0.4)`;
+            c.beginPath(); c.arc(sax, say, 10, 0, Math.PI*2); c.fill();
+        }
+
+        // グリッチ効果（ランダムに横ずれの赤い帯）
+        for(let k = 0; k < 2; k++) {
+            const gy = wy + ((time*200 + k*180) % winH);
+            c.fillStyle = `rgba(255,34,102,${0.2})`;
+            c.fillRect(wx, gy, winW, 2);
         }
     }
 
@@ -13524,20 +13765,40 @@
             }
 
             // ===== 318 fu_omnias =====
-            // N③ 巨大ホロ拳出現（中AOE弾）
+            // N③ 巨大ホロ拳出現 — 3連の巨大ホログラム拳が時間差で叩きつけ
             if(fuActiveWeapon === 'fu_holo_fist') {
-                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
-                game.bullets.push({
-                    x: bx, y: by, tx: tgtX, ty: tgtY,
-                    vx: (tgtX-bx)/24, vy: (tgtY-by)/24,
-                    dmg: atk*1.3, side: attacker.side,
-                    weapon:'fireball', hit:false, aoe:true,
-                    antiAir:fAa, fromFlying:fFl
+                // 最寄りの敵3体に時間差で叩きつけ
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t === target || t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    const d = Math.abs(t.x - attacker.x);
+                    if(d <= attacker.range) candidates.push({u:t, d});
+                }
+                candidates.sort((a,b)=>a.d-b.d);
+                const targets3 = [target];
+                targets3.push(...candidates.slice(0,2).map(n=>n.u));
+                while(targets3.length<3) targets3.push(target);
+                if(!game.cloneStrikes) game.cloneStrikes = [];
+                targets3.forEach((tg, i) => {
+                    const tty = (tg && !tg.isCastle) ? tg.y : groundY();
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x;
+                    game.cloneStrikes.push({
+                        x: ttx, y: tty,
+                        timer: 0, delay: i*0.22,
+                        damage: atk*1.5,  // 1.3 → 1.5 (3連だから合計 4.5x の総ダメ)
+                        side: attacker.side, damageApplied: false,
+                        cloneColor: '#ff2266',
+                        antiAir:fAa, fromFlying:fFl,
+                        isSpecial:false, style:'fu_holo_fist'
+                    });
                 });
+                // 派手な拳出現の前兆エフェクト（フロート）
+                addFloat(attacker.x, attacker.y - 60, '✊ ホロ拳3連 ✊', '#ff2266', true);
                 if(snd && snd.explode) snd.explode();
                 return;
             }
-            // S③ 軌道爆撃20発
+            // S③ オムニアス砲・軌道爆撃 — 派手版（35発＋警告サークル＋画面フラッシュ）
             if(fuActiveWeapon === 'fu_orbital_bomb') {
                 const candidates = [];
                 for(const t of game.units) {
@@ -13546,22 +13807,38 @@
                     candidates.push(t);
                 }
                 candidates.sort((a, b) => isP ? (b.x - a.x) : (a.x - b.x));
-                for(let k=0;k<20;k++){
+                // 35発のミサイル
+                for(let k=0;k<35;k++){
                     const tg = candidates[k % Math.max(1, candidates.length)] || target;
-                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*50;
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*70;
                     const tty = (tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
-                    const bx = attacker.x + (Math.random()-0.5)*60;
-                    const by = -40 + (Math.random()-0.5)*30;
+                    const bx = attacker.x + (Math.random()-0.5)*100;
+                    const by = -60 + (Math.random()-0.5)*40;
                     game.bullets.push({
                         x: bx, y: by, tx: ttx, ty: tty,
-                        vx: (ttx-bx)/(34 + k*0.5), vy: (tty-by)/(34 + k*0.5),
-                        dmg: atk*0.35, side: attacker.side,
+                        vx: (ttx-bx)/(34 + k*0.4), vy: (tty-by)/(34 + k*0.4),
+                        dmg: atk*0.45, side: attacker.side,
                         weapon:'fireball', hit:false, aoe:true,
                         antiAir:fAa, fromFlying:fFl
                     });
                 }
-                addFloat(attacker.x, attacker.y - 60, '☢ オムニアス砲 ☢', '#ff2266', true);
+                // 派手なバナー + 画面フラッシュ
+                addFloat(attacker.x, attacker.y - 60, '☢ オムニアス・キャノン ☢', '#ff2266', true);
+                addFloat(W()/2, H()*0.3, '⚠ OMNIAS OVERRIDE ⚠', '#ff2266', true);
+                // 画面全体に粒子を散らして派手な前兆を作る
+                for(let p=0; p<60; p++){
+                    game.particles.push({
+                        x: Math.random()*W(),
+                        y: Math.random()*H()*0.6,
+                        vx: (Math.random()-0.5)*4,
+                        vy: -Math.random()*3 - 1,
+                        life: 1.5,
+                        color: ['#ff2266','#aa44ff','#fff','#ff44aa'][Math.floor(Math.random()*4)],
+                        size: 4 + Math.random()*5
+                    });
+                }
                 if(snd && snd.explode) snd.explode();
+                if(snd && snd.laser) snd.laser();
                 return;
             }
         }
@@ -15130,7 +15407,9 @@
                 }
             }
             if(u.data && u.data.mega) {
-                if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
+                // OMNIAS は fuRender で先にディスパッチ（同じ helmet='md_sat_red' を共有するため）
+                if(u.data.fuRender === 'omnias') drawOmniasMega(ctx, u);
+                else if(u.data.helmet === 'mechagod') drawMechaGod(ctx, u);
                 else if(u.data.helmet === 'zeus_crown') drawZeus(ctx, u);
                 else if(u.data.helmet === 'md_sat_red') drawSatelliteMega(ctx, u);
                 else drawDarkDragon(ctx, u);
@@ -15242,7 +15521,7 @@
                 ctx.fillRect(mbx, mby, mw * Math.max(0, u.hp/u.maxHp), 14);
                 ctx.font = 'bold 16px sans-serif'; ctx.textAlign = 'center';
                 ctx.lineWidth = 4; ctx.strokeStyle = '#000';
-                const icon = u.data.helmet === 'mechagod' ? '⚔️' : (u.data.helmet === 'md_sat_red' ? '🛰' : '🐉');
+                const icon = u.data.fuRender === 'omnias' ? '🌐' : (u.data.helmet === 'mechagod' ? '⚔️' : (u.data.helmet === 'md_sat_red' ? '🛰' : '🐉'));
                 const hpTxt = `${icon} ${u.data.name}  ${Math.ceil(u.hp).toLocaleString()} / ${u.maxHp.toLocaleString()}`;
                 ctx.strokeText(hpTxt, w/2, mby - 8);
                 ctx.fillStyle = '#ffaaaa';
