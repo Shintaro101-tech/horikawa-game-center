@@ -11652,11 +11652,14 @@
             // N② ナノ粒子弾
             if(fuActiveWeapon === 'fu_nano_shot') {
                 const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                const dx = tgtX - bx, dy = tgtY - by;
+                const dist = Math.hypot(dx, dy) || 1;
+                const sp = 15;
                 game.bullets.push({
                     x: bx, y: by, tx: tgtX, ty: tgtY,
-                    vx: (tgtX-bx)/20, vy: (tgtY-by)/20,
+                    vx: (dx/dist)*sp, vy: (dy/dist)*sp,
                     dmg: atk, side: attacker.side,
-                    weapon:'magic_circle', hit:false,
+                    weapon:'magic_circle', hit:false, aoe:true,
                     antiAir:fAa, fromFlying:fFl
                 });
                 if(snd && snd.laser) snd.laser();
@@ -11885,11 +11888,14 @@
             // N② 飛ぶ懐中時計弾
             if(fuActiveWeapon === 'fu_clock_bullet') {
                 const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                const dx = tgtX - bx, dy = tgtY - by;
+                const dist = Math.hypot(dx, dy) || 1;
+                const sp = 14;
                 game.bullets.push({
                     x: bx, y: by, tx: tgtX, ty: tgtY,
-                    vx: (tgtX-bx)/24, vy: (tgtY-by)/24,
+                    vx: (dx/dist)*sp, vy: (dy/dist)*sp,
                     dmg: atk, side: attacker.side,
-                    weapon:'magic_circle', hit:false,
+                    weapon:'magic_circle', hit:false, aoe:true,
                     antiAir:fAa, fromFlying:fFl
                 });
                 if(snd && snd.laser) snd.laser();

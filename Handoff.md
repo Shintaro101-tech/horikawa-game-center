@@ -191,6 +191,21 @@
 
 ## 直近の作業ログ（新しい順）
 
+### 2026-05-24 (続々)
+- **未来編 城砲を AI戦術ドローン群（案4）に確定** — 5案プレビュー (`samurai-wars/fu_cannon-preview.html`) からユーザー選択
+  - 事前チャージは現代編と同じくスキップ（ボタン押下で即発射）
+  - 城屋上から30機の青いドローンが弧を描いて敵を個別ホーミング
+  - 各機90ダメ（合計2700）、敵がいない時は敵城に18ダメ
+  - 0〜0.45秒で順次発射、各機0.55〜0.8秒で飛行→着弾爆発
+  - ターゲットが死んでたら最寄り敵に再ターゲット（飛行中に元ターゲット死亡しても画面外の敵を新たに狙う）
+  - 新関数: `drawDroneSwarmCannon`、新配列: `game.cannonDrones`
+  - `actuallyFireLaser` で era 分岐、ステージ開始時に `game.cannonDrones = null` でリセット
+  - HUD に「🛸 AI DRONE SWARM x30」表示
+- **未来編 fu_* キャラの弾命中率を改善**（ユーザー報告：「未来編のキャラの攻撃が的にあたっていないことがあります」）
+  - 直撃系 magic_circle 弾を「正規化ベクトル × 固定速度」に変更（旧 `(tgtX-bx)/22` は遠距離で遅すぎてスナップショット位置を外していた）
+  - `fu_plasma_blade`(zero N) / `fu_laser_pointer`(drone_queen N) / `fu_glitch_bite`(holoshark N) / `fu_nano_shot`(nanocloud N) / `fu_clock_bullet`(chronos N) に `aoe:true` を追加 → 50px 範囲爆発で当たり判定が寛容に
+  - 弾速 14〜20 px/frame に統一
+
 ### 2026-05-24 (現代編 通常/必殺分離)
 - **現代編 17キャラに「通常攻撃 / 必殺技」分離を実装**（過去編・未来編と同じパターン）
   - 各キャラのデータに `mdSpecial`（必殺技 weapon ID）を追加し、既存の `weapon` フィールドを通常攻撃に置換
