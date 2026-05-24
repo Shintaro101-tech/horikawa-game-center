@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ヘラクレスオオカブト 通常攻撃3案</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#0a2010 0%,transparent 60%),linear-gradient(180deg,#0a0a08 0%,#000 100%);min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#ffd24a;margin-bottom:6px}.sub{text-align:center;color:#88dd44;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:8px}.note{text-align:center;color:#888;font-size:0.78rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,15,8,0.7);border:2px solid var(--c,#ffd24a);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(255,210,74,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#0a2010 0%,#264a18 70%,#3a4a18 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#ffd24a);margin-bottom:6px}p{font-size:0.8rem;color:#fdd;line-height:1.4}footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}</style></head><body>
+<h1>🪲 ヘラクレスオオカブト — 通常攻撃 3案</h1>
+<div class="sub">NORMAL ATTACK CANDIDATES</div>
+<div class="note">必殺技は「角串刺し」を維持、飛行能力も維持</div>
+<div class="grid">
+<div class="card" style="--c:#fff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案A. 角突き</h2><p>長い角で突く近接単発。</p></div>
+<div class="card" style="--c:#ff5544;--g:rgba(255,85,68,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案B. 角投擲</h2><p>切り離した角を中距離投げ。</p></div>
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案C. 体当たり突進</h2><p>飛行から急降下する突進。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · NORMAL ATTACK PREVIEW</footer>
+<script>
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){c.fillStyle='#264a18';c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a4a18';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#88aa44';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawHercules(c,x,y){c.fillStyle='#3a2010';c.beginPath();c.ellipse(x,y-30,18,15,0,0,Math.PI*2);c.fill();c.fillStyle='#1a1004';c.fillRect(x-4,y-40,8,12);c.beginPath();c.moveTo(x,y-50);c.lineTo(x-3,y-58);c.lineTo(x+3,y-58);c.closePath();c.fill();c.fillStyle='rgba(50,32,16,0.5)';c.beginPath();c.ellipse(x-12,y-40,8,4,-0.5,0,Math.PI*2);c.fill();c.beginPath();c.ellipse(x+12,y-40,8,4,0.5,0,Math.PI*2);c.fill();c.fillStyle='#3a2010';c.fillRect(x-12,y-12,3,8);c.fillRect(x-4,y-12,3,8);c.fillRect(x+4,y-12,3,8);c.fillRect(x+9,y-12,3,8);}
+
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHercules(c,w*0.3,h*0.7);
+  if(t<0.4){const tt=t/0.4;const x=w*0.3+tt*15;
+    c.fillStyle='#1a1004';c.beginPath();c.moveTo(x,h*0.7-50);c.lineTo(x+15,h*0.7-65);c.lineTo(x+5,h*0.7-50);c.closePath();c.fill();
+  }else{c.fillStyle=`rgba(255,255,255,${1-(t-0.4)/0.6})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();
+    c.strokeStyle=`rgba(255,255,255,${1-(t-0.4)/0.6})`;c.lineWidth=3;c.beginPath();c.moveTo(tg.x-10,tg.y-22);c.lineTo(tg.x+10,tg.y-10);c.stroke();}
+},1400);
+
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.7,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawHercules(c,w*0.25,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.25+10+tt*(tg.x-w*0.25-25);const y=h*0.6-Math.sin(tt*Math.PI)*15;
+    c.save();c.translate(x,y);c.rotate(tt*Math.PI*3);
+    c.fillStyle='#1a1004';c.fillRect(-2,-12,4,24);c.beginPath();c.moveTo(-2,-12);c.lineTo(-5,-18);c.lineTo(2,-15);c.closePath();c.fill();c.restore();
+  }else{c.fillStyle=`rgba(255,85,68,${1-(t-0.7)/0.3})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();}
+},1600);
+
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.6,y:h*0.7};drawEnemy(c,tg.x,tg.y);
+  if(t<0.6){const tt=t/0.6;const x=w*0.25+tt*(tg.x-w*0.25-20);const y=h*0.4+tt*(tg.y-50-h*0.4);
+    for(let k=1;k<5;k++){const tk=Math.max(0,tt-k*0.05);const xk=w*0.25+tk*(tg.x-w*0.25-20);const yk=h*0.4+tk*(tg.y-50-h*0.4);
+      c.fillStyle=`rgba(255,210,74,${0.4-k*0.08})`;c.beginPath();c.arc(xk,yk,12-k*2,0,Math.PI*2);c.fill();}
+    drawHercules(c,x,y);
+  }else{c.fillStyle=`rgba(255,210,74,${1-(t-0.6)/0.4})`;c.beginPath();c.arc(tg.x,tg.y-16,24,0,Math.PI*2);c.fill();}
+},1700);
+</script></body></html>

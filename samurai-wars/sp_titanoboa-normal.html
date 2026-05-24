@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>ティタノボア 通常攻撃3案</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#1a0a30 0%,transparent 60%),linear-gradient(180deg,#0a0a08 0%,#000 100%);min-height:100vh;padding:24px 16px 40px}
+h1{text-align:center;font-size:1.4rem;font-weight:900;color:#aa44ff;margin-bottom:6px}.sub{text-align:center;color:#88dd44;font-size:0.85rem;letter-spacing:3px;opacity:0.8;margin-bottom:8px}.note{text-align:center;color:#888;font-size:0.78rem;margin-bottom:20px}
+.grid{display:grid;gap:14px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#aa44ff);border-radius:14px;padding:14px;box-shadow:0 0 18px var(--g,rgba(170,68,255,0.3))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#1a0a30 0%,#3a2050 70%,#3a2060 100%);border-radius:10px;padding:8px;margin-bottom:10px;min-height:200px}canvas{display:block;max-width:100%;height:auto}
+h2{font-size:0.95rem;color:var(--c,#aa44ff);margin-bottom:6px}p{font-size:0.8rem;color:#dcf;line-height:1.4}footer{text-align:center;margin-top:28px;color:#607D8B;font-size:0.75rem}</style></head><body>
+<h1>🐍 ティタノボア — 通常攻撃 3案</h1>
+<div class="sub">NORMAL ATTACK CANDIDATES</div>
+<div class="note">必殺技は「猛毒の霧」を維持</div>
+<div class="grid">
+<div class="card" style="--c:#fff;--g:rgba(255,255,255,0.4)"><div class="canv-wrap"><canvas id="at-a" width="280" height="200"></canvas></div><h2>案A. 噛みつき</h2><p>毒牙で噛みつく近接単発。</p></div>
+<div class="card" style="--c:#88dd66;--g:rgba(136,221,102,0.5)"><div class="canv-wrap"><canvas id="at-b" width="280" height="200"></canvas></div><h2>案B. 毒針</h2><p>口から毒の針を中距離発射。</p></div>
+<div class="card" style="--c:#aa44ff;--g:rgba(170,68,255,0.5)"><div class="canv-wrap"><canvas id="at-c" width="280" height="200"></canvas></div><h2>案C. 締め付け2連</h2><p>胴体で敵を素早く2回締める。</p></div>
+</div>
+<footer>© HORIKAWA FAMILY · NORMAL ATTACK PREVIEW</footer>
+<script>
+function startAnim(id,fn,dur){const cv=document.getElementById(id);const ctx=cv.getContext('2d');const start=performance.now();function loop(){const t=((performance.now()-start)%dur)/dur;ctx.clearRect(0,0,cv.width,cv.height);drawScene(ctx,cv.width,cv.height);fn(ctx,t,cv.width,cv.height);requestAnimationFrame(loop);}loop();}
+function drawScene(c,w,h){c.fillStyle='#3a2050';c.fillRect(0,0,w,h*0.7);c.fillStyle='#3a2060';c.fillRect(0,h*0.7,w,h*0.3);c.fillStyle='#aa44ff';c.fillRect(0,h*0.7,w,1);}
+function drawEnemy(c,x,y){c.fillStyle='rgba(0,0,0,0.4)';c.beginPath();c.ellipse(x,y,10,3,0,0,Math.PI*2);c.fill();c.fillStyle='#5a1a1a';c.fillRect(x-6,y-22,12,22);c.fillStyle='#3a0808';c.beginPath();c.arc(x,y-26,5,0,Math.PI*2);c.fill();}
+function drawTitanoboa(c,x,y){c.strokeStyle='#3a1a4a';c.lineWidth=14;c.lineCap='round';c.beginPath();c.moveTo(x-30,y);c.bezierCurveTo(x-20,y-10,x-10,y-15,x+5,y-15);c.stroke();c.fillStyle='#3a1a4a';c.beginPath();c.arc(x+8,y-15,10,0,Math.PI*2);c.fill();c.fillStyle='#ff3344';c.beginPath();c.arc(x+12,y-17,1.5,0,Math.PI*2);c.fill();c.fillStyle='#fff';c.beginPath();c.moveTo(x+12,y-12);c.lineTo(x+10,y-8);c.lineTo(x+14,y-10);c.closePath();c.fill();c.lineCap='butt';}
+
+startAnim('at-a',(c,t,w,h)=>{const tg={x:w*0.55,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawTitanoboa(c,w*0.3,h*0.7);
+  if(t<0.4){const tt=t/0.4;const x=w*0.3+8+tt*30;
+    c.fillStyle='#0a0a0a';c.beginPath();c.arc(x,h*0.62,10,0,Math.PI*2);c.fill();c.fillStyle='#fff';for(let i=0;i<4;i++){c.beginPath();c.moveTo(x-6+i*4,h*0.62);c.lineTo(x-5+i*4,h*0.67);c.lineTo(x-3+i*4,h*0.62);c.closePath();c.fill();}
+  }else{c.fillStyle=`rgba(170,68,255,${1-(t-0.4)/0.6})`;c.beginPath();c.arc(tg.x,tg.y-16,20,0,Math.PI*2);c.fill();}
+},1400);
+
+startAnim('at-b',(c,t,w,h)=>{const tg={x:w*0.65,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawTitanoboa(c,w*0.25,h*0.7);
+  if(t<0.7){const tt=t/0.7;const x=w*0.25+18+tt*(tg.x-w*0.25-30);
+    c.strokeStyle='#88dd66';c.lineWidth=2;c.beginPath();c.moveTo(x-10,h*0.6);c.lineTo(x+10,h*0.6);c.stroke();
+    c.fillStyle='#88dd66';c.beginPath();c.moveTo(x+10,h*0.6-3);c.lineTo(x+16,h*0.6);c.lineTo(x+10,h*0.6+3);c.closePath();c.fill();
+  }else{c.fillStyle=`rgba(136,221,102,${1-(t-0.7)/0.3})`;c.beginPath();c.arc(tg.x,tg.y-16,18,0,Math.PI*2);c.fill();}
+},1500);
+
+startAnim('at-c',(c,t,w,h)=>{const tg={x:w*0.5,y:h*0.7};drawEnemy(c,tg.x,tg.y);drawTitanoboa(c,w*0.3,h*0.7);
+  const phase=t*2;const idx=Math.floor(phase);const sub=phase-idx;
+  // 締め付けエフェクト
+  for(let k=0;k<6;k++){const a=k*Math.PI/3+t*Math.PI*4;
+    c.strokeStyle=`rgba(170,68,255,${0.7-sub*0.5})`;c.lineWidth=4;
+    c.beginPath();c.arc(tg.x,tg.y-16,16+k*2,a,a+0.6);c.stroke();}
+  if(sub<0.4){c.fillStyle=`rgba(255,255,200,${(1-sub*2.5)*0.7})`;c.beginPath();c.arc(tg.x,tg.y-16,18,0,Math.PI*2);c.fill();}
+  c.fillStyle='#aa44ff';c.font='bold 18px sans-serif';c.textAlign='center';c.fillText((idx+1)+'HIT',tg.x,h*0.95);
+},1500);
+</script></body></html>

@@ -4951,6 +4951,76 @@
 
     // サテライト・キャノン砲（現代編専用）— 案B改: 全画面オービタル・ストライク
     //   即発射 → 衛星から複数の極太レーザーが画面全域に同時降下 → 全画面爆発
+    // 未来編 城砲: AI戦術ドローン群（30機）
+    function drawDroneSwarmCannon(c, w, h) {
+        if(!game.cannonDrones) return;
+        // 軽い HUD テキスト
+        c.fillStyle = `rgba(0,212,255,0.8)`;
+        c.font = 'bold 16px monospace'; c.textAlign = 'center';
+        c.fillText('🛸 AI DRONE SWARM x30', w/2, 36);
+        c.textAlign = 'left';
+        const gy = groundY();
+        for(const d of game.cannonDrones) {
+            if(d.dead) continue;
+            const elapsed = d.timer - d.launchDelay;
+            if(elapsed < 0) continue;
+            const t = Math.min(1, elapsed / d.flightDur);
+            // 進行中のターゲット位置（生きてれば追従）
+            let tx = d.tx, ty = d.ty;
+            if(d.targetRef && !d.targetRef.dead) {
+                tx = d.targetRef.x; ty = d.targetRef.y - 25;
+            }
+            // 軌道（弧を描く）
+            const px = d.sx + (tx - d.sx) * t;
+            const py = d.sy + (ty - d.sy) * t - Math.sin(t * Math.PI) * d.arcH;
+            // 軌跡
+            c.strokeStyle = `rgba(0,212,255,${0.35 * (1-t*0.5)})`;
+            c.lineWidth = 0.8;
+            c.beginPath();
+            c.moveTo(d.sx, d.sy);
+            // 弧の軌跡を簡略な3点ベジエで
+            const midX = (d.sx + tx) / 2;
+            const midY = (d.sy + ty) / 2 - d.arcH;
+            c.quadraticCurveTo(midX, midY, px, py);
+            c.stroke();
+            // ドローン本体
+            c.fillStyle = '#00d4ff';
+            c.fillRect(px-3.5, py-2, 7, 4);
+            c.fillStyle = '#aaeeff';
+            c.fillRect(px-2.5, py-1.5, 5, 3);
+            // 中央LED
+            c.fillStyle = '#ffd24a';
+            c.fillRect(px-0.5, py-0.5, 1.5, 1.5);
+            // プロペラ（4枚）
+            c.strokeStyle = `rgba(0,212,255,${0.6})`;
+            c.lineWidth = 1;
+            c.beginPath();
+            c.moveTo(px-5, py-2.5); c.lineTo(px-3, py-2.5);
+            c.moveTo(px+3, py-2.5); c.lineTo(px+5, py-2.5);
+            c.moveTo(px-5, py+2.5); c.lineTo(px-3, py+2.5);
+            c.moveTo(px+3, py+2.5); c.lineTo(px+5, py+2.5);
+            c.stroke();
+            // 発光オーラ
+            c.fillStyle = `rgba(0,212,255,0.18)`;
+            c.beginPath(); c.arc(px, py, 7, 0, Math.PI*2); c.fill();
+            // ターゲットレーザーポインター（残り0.3以内）
+            if(t > 0.7 && d.targetRef && !d.targetRef.dead) {
+                c.strokeStyle = `rgba(255,40,80,${(t-0.7)/0.3 * 0.7})`;
+                c.lineWidth = 1;
+                c.beginPath();
+                c.moveTo(px, py); c.lineTo(tx, ty);
+                c.stroke();
+            }
+        }
+        // 城のドローン発射ポート（屋上から青い光が漏れる）
+        const launchX = w - 100, launchY = gy - 80;
+        const pulse = 0.5 + Math.sin(performance.now() * 0.015) * 0.5;
+        c.fillStyle = `rgba(0,212,255,${0.4 + pulse * 0.3})`;
+        c.beginPath(); c.arc(launchX, launchY, 12, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(255,255,255,${0.7})`;
+        c.beginPath(); c.arc(launchX, launchY, 5, 0, Math.PI*2); c.fill();
+    }
+
     function drawSatelliteCannon(c, w, h) {
         const t = 1 - Math.min(1, game.laserAnim / 1.6); // 0 → 1 の進行
         const gy = groundY();
@@ -10088,6 +10158,7 @@
         game.laserCharge = 0;
         game.laserAnim = 0;
         game.laserChargeUp = 0;
+        game.cannonDrones = null;
         game.castleDestroyed = null;
         game.combo = 0;
         game.comboTimer = 0;
@@ -10188,8 +10259,8 @@
         }
         game.laserCharge = 0;
         snd.coin();
-        // 現代編は事前チャージをスキップして即発射
-        if(currentEra === 'modern') {
+        // 現代編・未来編は事前チャージをスキップして即発射
+        if(currentEra === 'modern' || currentEra === 'future') {
             actuallyFireLaser();
         } else {
             game.laserChargeUp = 1.0; // 1秒のタメ
@@ -10197,6 +10268,33 @@
         updateHUD();
     }
     function actuallyFireLaser() {
+        // 未来編: AI戦術ドローン群（30機）— 各機がホーミングで敵を撃つ
+        if(currentEra === 'future') {
+            game.laserAnim = 2.0;
+            snd.laser();
+            if(snd && snd.coin) snd.coin();
+            const enemies = game.units.filter(u => u.side === 'e' && !u.dead);
+            const launchX = W() - 100, launchY = groundY() - 80;
+            game.cannonDrones = [];
+            for(let k=0; k<30; k++){
+                const tgt = enemies.length > 0 ? enemies[k % enemies.length] : null;
+                game.cannonDrones.push({
+                    sx: launchX, sy: launchY,
+                    tx: tgt ? tgt.x : (140 + Math.random()*300),
+                    ty: tgt ? (tgt.y - 25) : (groundY() - 25),
+                    targetRef: tgt,
+                    damage: 90,  // 30機 × 90 = 2700 総ダメ
+                    launchDelay: (k / 30) * 0.45,
+                    flightDur: 0.55 + Math.random()*0.25,
+                    arcH: 55 + (k % 5) * 8,
+                    timer: 0, dead: false, exploded: false
+                });
+            }
+            // 敵城ダメージ（控えめ — 主火力はドローン経由）
+            game.enemyCastleHp = Math.max(0, game.enemyCastleHp - 250);
+            updateHUD();
+            return;
+        }
         game.laserAnim = 1.6;
         snd.laser();
         if(snd && snd.explode) snd.explode();
@@ -11288,11 +11386,14 @@
             // N② プラズマ刀1本投げ
             if(fuActiveWeapon === 'fu_plasma_blade') {
                 const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                const dx = tgtX - bx, dy = tgtY - by;
+                const dist = Math.hypot(dx, dy) || 1;
+                const sp = 14;
                 game.bullets.push({
                     x: bx, y: by, tx: tgtX, ty: tgtY,
-                    vx: (tgtX-bx)/22, vy: (tgtY-by)/22,
+                    vx: (dx/dist)*sp, vy: (dy/dist)*sp,
                     dmg: atk, side: attacker.side,
-                    weapon:'magic_circle', hit:false,
+                    weapon:'magic_circle', hit:false, aoe:true,
                     antiAir:fAa, fromFlying:fFl
                 });
                 if(snd && snd.slash) snd.slash();
@@ -11357,11 +11458,14 @@
             // N① レーザーポインター単発
             if(fuActiveWeapon === 'fu_laser_pointer') {
                 const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                const dx = tgtX - bx, dy = tgtY - by;
+                const dist = Math.hypot(dx, dy) || 1;
+                const sp = 18;
                 game.bullets.push({
                     x: bx, y: by, tx: tgtX, ty: tgtY,
-                    vx: (tgtX-bx)/18, vy: (tgtY-by)/18,
+                    vx: (dx/dist)*sp, vy: (dy/dist)*sp,
                     dmg: atk, side: attacker.side,
-                    weapon:'magic_circle', hit:false,
+                    weapon:'magic_circle', hit:false, aoe:true,
                     antiAir:fAa, fromFlying:fFl
                 });
                 if(snd && snd.laser) snd.laser();
@@ -11419,11 +11523,14 @@
             // N① グリッチ噛みつき（近距離単発）
             if(fuActiveWeapon === 'fu_glitch_bite') {
                 const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                const dx = tgtX - bx, dy = tgtY - by;
+                const dist = Math.hypot(dx, dy) || 1;
+                const sp = 20;
                 game.bullets.push({
                     x: bx, y: by, tx: tgtX, ty: tgtY,
-                    vx: (tgtX-bx)/12, vy: (tgtY-by)/12,
+                    vx: (dx/dist)*sp, vy: (dy/dist)*sp,
                     dmg: atk*1.1, side: attacker.side,
-                    weapon:'magic_circle', hit:false,
+                    weapon:'magic_circle', hit:false, aoe:true,
                     antiAir:fAa, fromFlying:fFl
                 });
                 if(snd && snd.slash) snd.slash();
@@ -12519,6 +12626,42 @@
             }
         }
         if(game.laserAnim > 0) game.laserAnim -= dt;
+
+        // 未来編 AI戦術ドローン群 — 各機が到達したら命中処理
+        if(game.cannonDrones && game.cannonDrones.length > 0) {
+            let aliveCount = 0;
+            for(const d of game.cannonDrones) {
+                if(d.dead) continue;
+                d.timer += dt;
+                const elapsed = d.timer - d.launchDelay;
+                if(elapsed < 0) { aliveCount++; continue; }
+                const t = elapsed / d.flightDur;
+                if(t >= 1 && !d.exploded) {
+                    d.exploded = true; d.dead = true;
+                    // 元のターゲットが死んでたら最寄り敵に再ターゲット
+                    let tgt = d.targetRef;
+                    if(!tgt || tgt.dead) {
+                        const enemies = game.units.filter(u => u.side === 'e' && !u.dead);
+                        if(enemies.length > 0) {
+                            enemies.sort((a,b) => Math.hypot(a.x - d.tx, a.y - d.ty) - Math.hypot(b.x - d.tx, b.y - d.ty));
+                            tgt = enemies[0];
+                        }
+                    }
+                    if(tgt && !tgt.dead) {
+                        damageUnit(tgt, d.damage);
+                        addParticles(tgt.x, tgt.y - 30, 10, '#00d4ff');
+                        addParticles(tgt.x, tgt.y - 30, 5, '#fff');
+                    } else {
+                        // ターゲットなし → 敵城に小ダメ
+                        game.enemyCastleHp = Math.max(0, game.enemyCastleHp - 18);
+                        addParticles(100, groundY()-40, 8, '#00d4ff');
+                    }
+                } else {
+                    aliveCount++;
+                }
+            }
+            if(aliveCount === 0) game.cannonDrones = null;
+        }
 
         // 敵スポーン（敵城が落ちたら新規スポーン停止）
         if(game.enemyCastleHp > 0) {
@@ -13799,10 +13942,13 @@
                 ctx.stroke();
             }
         }
-        // 龍神レーザー砲 / サテライト・砲（発射本体）
+        // 龍神レーザー砲 / サテライト・砲 / AI戦術ドローン群（発射本体）
         if(game.laserAnim > 0 && currentEra === 'modern') {
             // 現代編はサテライト・砲（複数ビームが空から右→左にスイープ）
             drawSatelliteCannon(ctx, w, h);
+        } else if(game.laserAnim > 0 && currentEra === 'future') {
+            // 未来編は AI戦術ドローン群（30機がホーミング）
+            drawDroneSwarmCannon(ctx, w, h);
         } else if(game.laserAnim > 0) {
             const t = Math.min(1, game.laserAnim / 1.6);
             const cannonX = w - 100 - 90/2 - 8 - 44;
