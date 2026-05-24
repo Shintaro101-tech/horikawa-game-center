@@ -9760,6 +9760,741 @@
         }
     }
 
+    // 未来編 背景（2098年地球・各国共通の空飛ぶ車/電車/ホログラム＋ステージ別ランドマーク）
+    function drawFutureCityBg(c, t, w, h, gy) {
+        const time = performance.now() * 0.001;
+        const stageId = game.stageId || 301;
+        const rnd = (n) => { const x = Math.sin(stageId * 91 + n * 173) * 10000; return x - Math.floor(x); };
+        // テーマ別パレット
+        const palette = (() => {
+            switch(t.id) {
+                case 'fu_neo_tokyo':   return { wall:'#1a0a3a', shade:'#08041a', win:['#ff44dd','#aa44ff','#00f0ff'], accent:'#aa44ff' };
+                case 'fu_ruined_ny':   return { wall:'#3a1a0a', shade:'#1a0a04', win:['#ffaa44','#ff5544'], accent:'#ff7733' };
+                case 'fu_sky_city':    return { wall:'#1a1858', shade:'#0a0828', win:['#ff66dd','#aa88ff','#ffd24a'], accent:'#ff66dd' };
+                case 'fu_vr_arena':    return { wall:'#08102a', shade:'#040820', win:['#00ffaa','#22ffcc'], accent:'#00ffaa' };
+                case 'fu_holo_sea':    return { wall:'#0a2848', shade:'#04102a', win:['#00d4ff','#aaeeff'], accent:'#00d4ff' };
+                case 'fu_ice_kremlin': return { wall:'#1a2838', shade:'#0a1820', win:['#aaccff','#88ffcc'], accent:'#aaccff' };
+                case 'fu_lab_dark':    return { wall:'#0a0820', shade:'#040410', win:['#88ff44','#aaff66'], accent:'#88ff44' };
+                case 'fu_paris_sky':   return { wall:'#2a1850', shade:'#100828', win:['#ddccff','#aa88ee','#ffd24a'], accent:'#ccaaee' };
+                case 'fu_delhi_port':  return { wall:'#2a1018', shade:'#1a0408', win:['#ffd24a','#ff7733','#3399ff'], accent:'#ffd24a' };
+                case 'fu_amazon_bio':  return { wall:'#0a2810', shade:'#041008', win:['#44dd55','#88ff66','#ffd24a'], accent:'#44dd55' };
+                case 'fu_pyramid':     return { wall:'#3a1a30', shade:'#1a0818', win:['#ddbb44','#ff7733'], accent:'#ddbb44' };
+                case 'fu_arctic_dome': return { wall:'#1a4858', shade:'#0a2030', win:['#aaeeff','#88ffee'], accent:'#aaeeff' };
+                case 'fu_colosseum':   return { wall:'#2a0808', shade:'#180404', win:['#dd2222','#ffaa44'], accent:'#dd2222' };
+                case 'fu_orbit_base':  return { wall:'#1a0838', shade:'#080418', win:['#cc66ff','#aa44dd','#00f0ff'], accent:'#cc66ff' };
+                case 'fu_vertical_sg': return { wall:'#0a2838', shade:'#04101c', win:['#22dd99','#44ffcc'], accent:'#22dd99' };
+                case 'fu_london_time': return { wall:'#1a0838', shade:'#080418', win:['#bb66dd','#ddaa44'], accent:'#bb66dd' };
+                case 'fu_dubai_gold':  return { wall:'#3a1018', shade:'#1a0408', win:['#ffdd44','#ffaa22','#ff7733'], accent:'#ffdd44' };
+                case 'fu_space_arc':   return { wall:'#0a0828', shade:'#040218', win:['#ff2266','#aa44ff'], accent:'#ff2266' };
+                default:               return { wall:'#1a1a48', shade:'#0a0a24', win:['#aa44ff','#00f0ff'], accent:'#aa44ff' };
+            }
+        })();
+
+        // === 遠景: 街明かり ===
+        c.fillStyle = `rgba(${t.accent ? '255,210,74' : '255,210,74'},0.18)`;
+        for(let i = 0; i < 30; i++) {
+            const lx = ((i * 43) + (stageId * 19)) % w;
+            c.fillRect(lx, gy - 4, 2, 2);
+        }
+
+        // === 遠景: 未来都市シルエット（六角形・浮遊型ビル） ===
+        c.fillStyle = palette.shade;
+        const farCount = 7 + Math.floor(rnd(0) * 4);
+        for(let i = 0; i < farCount; i++) {
+            const px = (i + 0.5) / farCount + (rnd(i*3+1) - 0.5) * 0.06;
+            const ph = 55 + Math.floor(rnd(i*3+2) * 70);
+            const pw = 30 + Math.floor(rnd(i*3+3) * 30);
+            const bx = w * px;
+            // 浮遊隙間
+            c.fillRect(bx - pw/2, gy - ph, pw, ph - 8);
+            c.fillStyle = palette.accent;
+            c.globalAlpha = 0.3;
+            c.fillRect(bx - pw/2 + 2, gy - 8, pw - 4, 2);
+            c.globalAlpha = 1;
+            c.fillStyle = palette.shade;
+        }
+
+        // === 中景ビル（未来型・浮遊する高層） ===
+        const buildingCount = 5 + Math.floor(rnd(10) * 3);
+        for(let idx = 0; idx < buildingCount; idx++) {
+            const px = (idx + 0.5) / buildingCount + (rnd(idx*5+11) - 0.5) * 0.08;
+            const ph = 110 + Math.floor(rnd(idx*5+12) * 130);
+            const pw = 44 + Math.floor(rnd(idx*5+13) * 32);
+            const bx = w * px;
+            // 反重力浮遊
+            const floatY = Math.sin(time * 0.5 + idx) * 1.5;
+            // 本体（少し台形・未来型）
+            c.fillStyle = palette.wall;
+            c.beginPath();
+            c.moveTo(bx - pw/2 + 4, gy - ph + floatY);
+            c.lineTo(bx + pw/2 - 4, gy - ph + floatY);
+            c.lineTo(bx + pw/2, gy - 12 + floatY);
+            c.lineTo(bx - pw/2, gy - 12 + floatY);
+            c.closePath(); c.fill();
+            c.strokeStyle = palette.shade; c.lineWidth = 1; c.stroke();
+            // 浮遊隙間（地面との間）
+            c.fillStyle = palette.accent;
+            c.globalAlpha = 0.5;
+            c.fillRect(bx - pw/2, gy - 8 + floatY, pw, 2);
+            c.globalAlpha = 1;
+            // 屋上の発光ライン
+            c.fillStyle = palette.accent;
+            c.fillRect(bx - pw/2 + 4, gy - ph + floatY, pw - 8, 2);
+            // 窓（縦長スリット型）
+            const cols = Math.floor(pw / 9);
+            const rows = Math.floor(ph / 11);
+            for(let row = 0; row < rows; row++) {
+                for(let col = 0; col < cols; col++) {
+                    const seed = (row * cols + col + idx * 13 + stageId * 7) % 7;
+                    if(seed < 5) {
+                        c.fillStyle = palette.win[(row + col + idx + stageId) % palette.win.length];
+                        c.fillRect(bx - pw/2 + 4 + col*9, gy - ph + 6 + row*11 + floatY, 3, 6);
+                    }
+                }
+            }
+            // 屋上の赤いブリンカー（高いビルのみ）
+            if(ph > 170 && idx % 2 === 0) {
+                c.strokeStyle = '#aaa'; c.lineWidth = 1.5;
+                c.beginPath(); c.moveTo(bx, gy - ph + floatY); c.lineTo(bx, gy - ph + floatY - 14); c.stroke();
+                const blink = Math.sin(time * 3 + idx) > 0;
+                c.fillStyle = blink ? '#ff3344' : 'rgba(255,51,68,0.3)';
+                c.beginPath(); c.arc(bx, gy - ph + floatY - 16, 2.5, 0, Math.PI*2); c.fill();
+            }
+        }
+
+        // === ホログラム広告（決定的に配置・点滅） ===
+        const holoCount = 3;
+        for(let i = 0; i < holoCount; i++) {
+            const hx = w * (0.15 + i * 0.35);
+            const hy = h * (0.15 + (i % 2) * 0.1);
+            const sz = 35 + (stageId + i) % 4 * 4;
+            const pulse = 0.5 + Math.sin(time * 2 + i) * 0.3;
+            // ホロ枠
+            c.strokeStyle = `rgba(${i===0?'255,68,221':i===1?'0,212,255':'255,210,74'},${0.4 + pulse * 0.3})`;
+            c.lineWidth = 1.2;
+            c.strokeRect(hx - sz/2, hy - sz/2, sz, sz * 0.7);
+            // ホロアイコン（円・三角・四角を回す）
+            c.fillStyle = `rgba(${i===0?'255,68,221':i===1?'0,212,255':'255,210,74'},${pulse * 0.7})`;
+            if(i === 0) { c.beginPath(); c.arc(hx, hy, 10, 0, Math.PI*2); c.fill(); }
+            else if(i === 1) {
+                c.beginPath(); c.moveTo(hx, hy-10); c.lineTo(hx+9, hy+6); c.lineTo(hx-9, hy+6); c.closePath(); c.fill();
+            }
+            else { c.fillRect(hx-8, hy-8, 16, 16); }
+            // 走査線
+            c.strokeStyle = `rgba(255,255,255,${0.2 + pulse * 0.1})`;
+            c.lineWidth = 0.5;
+            for(let l = 0; l < 4; l++) {
+                c.beginPath();
+                c.moveTo(hx - sz/2, hy - sz/2 + l*7 + ((time*30 + i*5) % 7));
+                c.lineTo(hx + sz/2, hy - sz/2 + l*7 + ((time*30 + i*5) % 7));
+                c.stroke();
+            }
+        }
+
+        // === 空飛ぶ車（4台が異なる速度・高さで流れる） ===
+        const cars = [
+            { col:'#ff2222', light:'#ffd24a', spd:32, yR:0.32, len:14, h:5 },
+            { col:'#00d4ff', light:'#fff',    spd:46, yR:0.42, len:11, h:4 },
+            { col:'#ffd24a', light:'#fff',    spd:38, yR:0.55, len:13, h:5 },
+            { col:'#aa44ff', light:'#00f0ff', spd:55, yR:0.25, len:10, h:4 }
+        ];
+        cars.forEach((car, idx) => {
+            const period = w + 100;
+            const cx = (((time * car.spd + idx * 200) % period) - 50);
+            const cy = h * car.yR;
+            const dirR = ((idx + Math.floor(time / 15)) % 2 === 0) ? 1 : -1;
+            const drawX = dirR > 0 ? cx : (w - cx);
+            // 車体（流線型）
+            c.fillStyle = car.col;
+            c.beginPath();
+            c.moveTo(drawX - car.len, cy);
+            c.quadraticCurveTo(drawX - car.len * 0.8, cy - car.h, drawX, cy - car.h);
+            c.lineTo(drawX + car.len, cy - car.h * 0.6);
+            c.quadraticCurveTo(drawX + car.len * 1.1, cy, drawX + car.len, cy + 1);
+            c.lineTo(drawX - car.len, cy + 1);
+            c.closePath(); c.fill();
+            // 窓（黒スモーク）
+            c.fillStyle = 'rgba(0,0,0,0.4)';
+            c.fillRect(drawX - car.len * 0.5, cy - car.h + 1, car.len, car.h * 0.5);
+            // ヘッドライト
+            c.fillStyle = car.light;
+            c.fillRect(drawX + car.len * dirR * 0.9, cy - car.h * 0.4, 2, 1.5);
+            // ジェット噴射
+            c.fillStyle = `rgba(0,212,255,0.6)`;
+            c.fillRect(drawX - car.len * dirR * 1.1, cy - car.h * 0.3, 4, 1);
+            // 反重力リング
+            c.strokeStyle = `rgba(0,212,255,0.35)`; c.lineWidth = 0.8;
+            c.beginPath(); c.ellipse(drawX, cy + 2, car.len * 1.2, 2, 0, 0, Math.PI*2); c.stroke();
+        });
+
+        // === 空飛ぶ電車（1編成、画面横断、ゆっくり）— 全ステージ共通 ===
+        const trainPeriod = w + 240;
+        const trainOff = (time * 28) % trainPeriod;
+        const trainX = trainOff - 200;
+        const trainY = h * 0.48;
+        const trainColor = palette.accent;
+        // 浮遊レール（うっすら）
+        c.strokeStyle = `rgba(0,212,255,0.18)`; c.lineWidth = 1;
+        c.beginPath(); c.moveTo(0, trainY + 12); c.lineTo(w, trainY + 12); c.stroke();
+        c.beginPath(); c.moveTo(0, trainY - 4); c.lineTo(w, trainY - 4); c.stroke();
+        // 編成（先頭+3両）
+        for(let car = 0; car < 4; car++) {
+            const tx = trainX - car * 28;
+            if(tx < -28 || tx > w + 28) continue;
+            // 車体
+            c.fillStyle = palette.wall;
+            c.fillRect(tx, trainY - 5, 26, 12);
+            c.strokeStyle = palette.shade; c.lineWidth = 0.8; c.strokeRect(tx, trainY - 5, 26, 12);
+            // 先頭は流線
+            if(car === 0) {
+                c.fillStyle = trainColor;
+                c.beginPath();
+                c.moveTo(tx + 26, trainY - 5);
+                c.lineTo(tx + 34, trainY + 1);
+                c.lineTo(tx + 26, trainY + 7);
+                c.closePath(); c.fill();
+                // 先頭ライト
+                c.fillStyle = '#fff';
+                c.fillRect(tx + 30, trainY, 2, 2);
+            }
+            // 窓
+            c.fillStyle = palette.win[0];
+            for(let k = 0; k < 3; k++) c.fillRect(tx + 3 + k*8, trainY - 2, 5, 4);
+            // 屋根ライン
+            c.fillStyle = trainColor;
+            c.fillRect(tx, trainY - 6, 26, 1);
+            // 浮遊光（電車下）
+            c.fillStyle = `rgba(0,212,255,0.4)`;
+            c.fillRect(tx, trainY + 7, 26, 1.5);
+        }
+
+        // === 上空のホロ文字（テーマカラー、漂う） ===
+        const holoTexts = ['NEO', '2098', 'AI', '∞', 'CYBER'];
+        c.font = 'bold 8px monospace';
+        for(let i = 0; i < 3; i++) {
+            const fx = ((time * 12 + i * 280) % (w + 100)) - 50;
+            const fy = 30 + i * 18 + Math.sin(time * 1.5 + i) * 2;
+            c.fillStyle = `rgba(${i===0?'255,68,221':i===1?'0,212,255':'255,210,74'},0.45)`;
+            c.fillText(holoTexts[(stageId + i) % holoTexts.length], fx, fy);
+        }
+
+        // === 反重力リング（地平線近く・3本） ===
+        c.strokeStyle = `rgba(0,212,255,0.22)`; c.lineWidth = 1;
+        for(let i = 0; i < 3; i++) {
+            c.beginPath();
+            c.ellipse(w * (0.3 + i * 0.25), gy - 30 - i * 4, 60 + i * 10, 6, 0, 0, Math.PI*2);
+            c.stroke();
+        }
+
+        // === ステージ毎の固有ランドマーク ===
+        drawFutureLandmark(c, stageId, w, h, gy, time);
+    }
+
+    // 未来編 ステージ別ランドマーク（301-318）
+    function drawFutureLandmark(c, stageId, w, h, gy, time) {
+        switch(stageId) {
+            case 301: { // ネオ東京 — ネオン富士山＋サイバー鳥居
+                // 富士山（紫×ネオン）
+                c.fillStyle = '#2a0848';
+                c.beginPath(); c.moveTo(w*0.2, gy);
+                c.lineTo(w*0.45, gy - 130); c.lineTo(w*0.55, gy - 145); c.lineTo(w*0.75, gy);
+                c.closePath(); c.fill();
+                // 雪冠（ネオンピンク）
+                c.fillStyle = '#ff44dd';
+                c.beginPath(); c.moveTo(w*0.43, gy - 110);
+                c.lineTo(w*0.5, gy - 145); c.lineTo(w*0.55, gy - 145); c.lineTo(w*0.58, gy - 110);
+                c.closePath(); c.fill();
+                // ネオン縁
+                c.strokeStyle = '#aa44ff'; c.lineWidth = 1.5;
+                c.beginPath(); c.moveTo(w*0.2, gy);
+                c.lineTo(w*0.45, gy - 130); c.lineTo(w*0.55, gy - 145); c.lineTo(w*0.75, gy);
+                c.stroke();
+                // サイバー鳥居（赤+ネオン）
+                c.fillStyle = '#aa1010';
+                c.fillRect(w*0.1, gy - 70, 4, 70); c.fillRect(w*0.18, gy - 70, 4, 70);
+                c.fillRect(w*0.08, gy - 72, 16, 4);
+                c.fillRect(w*0.08, gy - 64, 16, 3);
+                // ネオン光
+                c.fillStyle = `rgba(0,212,255,${0.5 + Math.sin(time*4)*0.3})`;
+                c.fillRect(w*0.08, gy - 76, 16, 2);
+                break;
+            }
+            case 302: { // 廃墟マンハッタン — 朽ちた自由の女神
+                const sx = w * 0.55, sy = gy;
+                // 台座
+                c.fillStyle = '#3a2a18';
+                c.fillRect(sx - 18, sy - 30, 36, 30);
+                // 体（緑銅錆び）
+                c.fillStyle = '#5a7a5a';
+                c.fillRect(sx - 10, sy - 75, 20, 45);
+                // 朽ちた箇所
+                c.fillStyle = '#3a1010';
+                c.fillRect(sx - 5, sy - 60, 8, 10);
+                // 頭
+                c.fillStyle = '#5a7a5a';
+                c.beginPath(); c.arc(sx, sy - 84, 8, 0, Math.PI*2); c.fill();
+                // 王冠（朽ちた）
+                c.fillStyle = '#4a6a4a';
+                for(let k = -2; k <= 2; k++) {
+                    c.fillRect(sx + k*3 - 1, sy - 96, 2, 6);
+                }
+                // 松明
+                c.fillStyle = '#5a7a5a';
+                c.fillRect(sx + 8, sy - 100, 3, 20);
+                c.fillStyle = '#ff7733';
+                c.beginPath(); c.arc(sx + 9.5, sy - 103, 3, 0, Math.PI*2); c.fill();
+                // 半壊した摩天楼（左奥）
+                c.fillStyle = '#1a0808';
+                c.beginPath();
+                c.moveTo(w*0.08, gy);
+                c.lineTo(w*0.08, gy - 160);
+                c.lineTo(w*0.13, gy - 140);
+                c.lineTo(w*0.18, gy - 165);
+                c.lineTo(w*0.18, gy);
+                c.closePath(); c.fill();
+                break;
+            }
+            case 303: { // 上海雲海都市 — 東方明珠TV塔（球体タワー）
+                const tx = w * 0.5;
+                // 細い塔
+                c.fillStyle = '#1a1858';
+                c.fillRect(tx - 3, gy - 200, 6, 200);
+                // 球体3つ
+                c.fillStyle = '#aa66dd';
+                c.beginPath(); c.arc(tx, gy - 200, 18, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(tx, gy - 150, 22, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(tx, gy - 80, 16, 0, Math.PI*2); c.fill();
+                // 発光リング
+                c.strokeStyle = `rgba(255,68,221,${0.6 + Math.sin(time*3)*0.3})`;
+                c.lineWidth = 1.5;
+                c.beginPath(); c.arc(tx, gy - 150, 26, 0, Math.PI*2); c.stroke();
+                // ネオン漢字（中華）
+                c.fillStyle = `rgba(255,68,221,0.6)`;
+                c.font = 'bold 14px sans-serif';
+                c.fillText('未来', tx - 14, gy - 200);
+                break;
+            }
+            case 304: { // ソウルVRアリーナ — Nソウルタワー + VRグリッド
+                const tx = w * 0.5;
+                c.fillStyle = '#0a1830';
+                c.fillRect(tx - 2, gy - 140, 4, 140);
+                // 塔の球体
+                c.fillStyle = '#00ffaa';
+                c.beginPath(); c.arc(tx, gy - 145, 12, 0, Math.PI*2); c.fill();
+                // VRグリッド（緑ネオン）
+                c.strokeStyle = `rgba(0,255,170,0.4)`; c.lineWidth = 0.6;
+                for(let i = 0; i < 8; i++) {
+                    c.beginPath();
+                    c.moveTo(0, gy - 20 - i * 8); c.lineTo(w, gy - 20 - i * 8 + i * 2);
+                    c.stroke();
+                }
+                for(let i = 0; i < 12; i++) {
+                    c.beginPath();
+                    c.moveTo(w * i / 12, gy); c.lineTo(w * i / 12 + (i - 6) * 4, gy - 70);
+                    c.stroke();
+                }
+                break;
+            }
+            case 305: { // シドニー湾 — オペラハウス + 月 + 海
+                // 月
+                c.fillStyle = '#aaeeff';
+                c.beginPath(); c.arc(w * 0.78, h * 0.18, 18, 0, Math.PI*2); c.fill();
+                // オペラハウス（白い貝殻型）
+                c.fillStyle = '#eeeeee';
+                const ox = w * 0.5;
+                for(let k = 0; k < 3; k++) {
+                    c.beginPath();
+                    c.moveTo(ox - 30 + k*22, gy);
+                    c.quadraticCurveTo(ox - 15 + k*22, gy - 50 - k*10, ox + 5 + k*22, gy);
+                    c.closePath(); c.fill();
+                    c.strokeStyle = '#888'; c.lineWidth = 0.8; c.stroke();
+                }
+                // 海面（青い反射）
+                c.fillStyle = 'rgba(0,212,255,0.2)';
+                c.fillRect(0, gy - 4, w, 4);
+                for(let i = 0; i < 8; i++) {
+                    c.fillStyle = `rgba(170,238,255,${0.3 + Math.sin(time*2+i)*0.2})`;
+                    c.fillRect(i * w / 8, gy - 2, 4, 2);
+                }
+                break;
+            }
+            case 306: { // 極地クレムリン — 玉ねぎドーム + オーロラ
+                // オーロラ（緑紫）
+                for(let k = 0; k < 4; k++) {
+                    c.fillStyle = `rgba(${k%2?'170,255,200':'170,170,255'},${0.15 + Math.sin(time + k)*0.1})`;
+                    c.beginPath();
+                    c.moveTo(0, h*0.12 + k*8);
+                    for(let i=0; i<=8; i++){
+                        const x = i*w/8;
+                        const y = h*0.12 + k*8 + Math.sin(time + i + k)*8;
+                        c.lineTo(x, y);
+                    }
+                    c.lineTo(w, h*0.35 + k*4); c.lineTo(0, h*0.35 + k*4);
+                    c.closePath(); c.fill();
+                }
+                // クレムリン（玉ねぎドーム3つ）
+                const kx = w * 0.5;
+                c.fillStyle = '#aa1010';
+                c.fillRect(kx - 50, gy - 80, 100, 80);
+                for(let k = -1; k <= 1; k++) {
+                    const dx = kx + k * 35;
+                    c.fillStyle = '#88ddff';
+                    c.beginPath();
+                    c.moveTo(dx - 12, gy - 80);
+                    c.quadraticCurveTo(dx - 14, gy - 100, dx, gy - 110);
+                    c.quadraticCurveTo(dx + 14, gy - 100, dx + 12, gy - 80);
+                    c.closePath(); c.fill();
+                    // 十字
+                    c.fillStyle = '#ffd24a';
+                    c.fillRect(dx - 1, gy - 118, 2, 8);
+                    c.fillRect(dx - 3, gy - 115, 6, 2);
+                }
+                break;
+            }
+            case 307: { // ベルリン研究所 — ブランデンブルク門 + 試験管
+                const gx = w * 0.5;
+                // 門の柱（6本）
+                c.fillStyle = '#1a0820';
+                for(let k = -2; k <= 2; k++) c.fillRect(gx + k*15 - 3, gy - 90, 6, 90);
+                // 上部
+                c.fillRect(gx - 36, gy - 100, 72, 10);
+                // 四頭の馬車（黒シルエット）
+                c.fillStyle = '#000';
+                c.fillRect(gx - 14, gy - 115, 28, 8);
+                c.fillRect(gx - 8, gy - 120, 4, 5);
+                // 試験管（左右に光る）
+                for(let k = 0; k < 2; k++) {
+                    const fx = w * (0.15 + k * 0.7);
+                    c.fillStyle = '#88ff44';
+                    c.fillRect(fx, gy - 40, 6, 30);
+                    c.fillRect(fx - 2, gy - 42, 10, 4);
+                    // バブル
+                    c.fillStyle = `rgba(255,255,255,${0.5 + Math.sin(time*3+k)*0.3})`;
+                    c.beginPath(); c.arc(fx + 3, gy - 30 + Math.sin(time*2)*3, 1.5, 0, Math.PI*2); c.fill();
+                }
+                break;
+            }
+            case 308: { // パリ空中庭園 — エッフェル塔 + 浮遊緑の島
+                const ex = w * 0.55;
+                // エッフェル塔（細い4本+三角）
+                c.fillStyle = '#5a4a3a';
+                c.beginPath();
+                c.moveTo(ex - 28, gy); c.lineTo(ex - 4, gy - 180);
+                c.lineTo(ex + 4, gy - 180); c.lineTo(ex + 28, gy);
+                c.closePath(); c.fill();
+                // 水平梁
+                for(let k = 0; k < 3; k++) {
+                    const py = gy - 50 - k * 50;
+                    const pw = 28 - k * 8;
+                    c.fillRect(ex - pw, py, pw * 2, 3);
+                }
+                // 浮遊する緑の島（左右に2つ）
+                for(let k = 0; k < 2; k++) {
+                    const ix = w * (0.18 + k * 0.6);
+                    const iy = h * 0.35 + Math.sin(time + k) * 4;
+                    c.fillStyle = '#5a3a18';
+                    c.beginPath(); c.ellipse(ix, iy + 8, 25, 6, 0, 0, Math.PI*2); c.fill();
+                    c.fillStyle = '#44aa55';
+                    c.beginPath(); c.ellipse(ix, iy, 25, 10, 0, 0, Math.PI*2); c.fill();
+                    // 木
+                    c.fillStyle = '#226633';
+                    c.beginPath(); c.arc(ix - 6, iy - 6, 5, 0, Math.PI*2); c.fill();
+                    c.beginPath(); c.arc(ix + 6, iy - 6, 5, 0, Math.PI*2); c.fill();
+                }
+                break;
+            }
+            case 309: { // ニューデリー宇宙港 — 軌道エレベーター
+                const ex = w * 0.5;
+                // 縦に伸びる軌道エレベーター
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 4;
+                c.beginPath(); c.moveTo(ex - 5, gy - 200); c.lineTo(ex - 5, 0); c.stroke();
+                c.beginPath(); c.moveTo(ex + 5, gy - 200); c.lineTo(ex + 5, 0); c.stroke();
+                // 基部（赤い要塞）
+                c.fillStyle = '#aa1010';
+                c.fillRect(ex - 40, gy - 80, 80, 80);
+                c.fillStyle = '#ffd24a';
+                c.fillRect(ex - 40, gy - 80, 80, 4);
+                // ヒンドゥー文様
+                for(let k = 0; k < 4; k++) {
+                    c.fillStyle = '#ddaa44';
+                    c.fillRect(ex - 30 + k * 20, gy - 60, 12, 12);
+                }
+                // 昇降カプセル
+                const elevY = ((time * 30) % (gy - 200));
+                c.fillStyle = '#3399ff';
+                c.fillRect(ex - 6, gy - 200 - elevY, 12, 14);
+                c.fillStyle = '#fff';
+                c.fillRect(ex - 4, gy - 198 - elevY, 8, 4);
+                break;
+            }
+            case 310: { // アマゾン超ジャングル — バイオドーム + 巨木
+                // 巨大バイオドーム
+                const dx = w * 0.5;
+                c.fillStyle = 'rgba(68,221,85,0.25)';
+                c.beginPath(); c.arc(dx, gy, 110, Math.PI, 0); c.fill();
+                c.strokeStyle = '#44dd55'; c.lineWidth = 1.5;
+                c.beginPath(); c.arc(dx, gy, 110, Math.PI, 0); c.stroke();
+                // ドーム内の格子
+                for(let k = 0; k < 5; k++) {
+                    c.strokeStyle = `rgba(68,221,85,0.5)`;
+                    c.beginPath();
+                    c.moveTo(dx - 110 + k * 50, gy);
+                    c.lineTo(dx, gy - 110);
+                    c.stroke();
+                }
+                // 巨木（ドーム内）
+                c.fillStyle = '#226633';
+                c.fillRect(dx - 4, gy - 100, 8, 100);
+                c.fillStyle = '#44aa55';
+                c.beginPath(); c.arc(dx, gy - 80, 25, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(dx - 12, gy - 65, 16, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(dx + 12, gy - 65, 16, 0, Math.PI*2); c.fill();
+                // ホタル
+                for(let k = 0; k < 8; k++) {
+                    c.fillStyle = `rgba(255,255,200,${0.5 + Math.sin(time*3+k)*0.4})`;
+                    const fx = dx + Math.cos(time + k) * 40;
+                    const fy = gy - 50 + Math.sin(time*2 + k) * 20;
+                    c.fillRect(fx, fy, 2, 2);
+                }
+                break;
+            }
+            case 311: { // ピラミッドサイバー砂漠 — ホロピラミッド + スフィンクス
+                // ピラミッド3つ
+                for(let k = -1; k <= 1; k++) {
+                    const px = w * (0.5 + k * 0.22);
+                    const ph = 100 + Math.abs(k) * -20;
+                    c.fillStyle = '#3a1818';
+                    c.beginPath();
+                    c.moveTo(px - 50, gy); c.lineTo(px, gy - ph); c.lineTo(px + 50, gy);
+                    c.closePath(); c.fill();
+                    // ホロエッジ（ネオン金）
+                    c.strokeStyle = `rgba(255,210,74,${0.6 + Math.sin(time*2+k)*0.3})`;
+                    c.lineWidth = 1.5;
+                    c.beginPath();
+                    c.moveTo(px - 50, gy); c.lineTo(px, gy - ph); c.lineTo(px + 50, gy);
+                    c.stroke();
+                    // 内部ヒエログリフ
+                    c.fillStyle = `rgba(255,210,74,0.6)`;
+                    c.font = 'bold 12px serif';
+                    c.fillText('𓂀', px - 5, gy - ph * 0.5);
+                }
+                // スフィンクス（手前）
+                c.fillStyle = '#5a3818';
+                c.fillRect(w * 0.15, gy - 30, 60, 30);
+                c.beginPath(); c.arc(w * 0.15 + 60, gy - 35, 12, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#ffd24a';
+                c.fillRect(w * 0.15 + 55, gy - 40, 2, 2);
+                break;
+            }
+            case 312: { // 北極ドーム — 透明氷ドーム + オーロラ
+                // オーロラ
+                for(let k = 0; k < 4; k++) {
+                    c.fillStyle = `rgba(${k%2?'170,238,255':'170,255,238'},${0.18 + Math.sin(time + k)*0.1})`;
+                    c.beginPath();
+                    c.moveTo(0, h*0.1 + k*10);
+                    for(let i=0; i<=8; i++){
+                        const x = i*w/8;
+                        const y = h*0.1 + k*10 + Math.sin(time + i + k)*10;
+                        c.lineTo(x, y);
+                    }
+                    c.lineTo(w, h*0.35); c.lineTo(0, h*0.35);
+                    c.closePath(); c.fill();
+                }
+                // 氷ドーム
+                const ddx = w * 0.5;
+                c.fillStyle = 'rgba(170,238,255,0.18)';
+                c.beginPath(); c.arc(ddx, gy, 140, Math.PI, 0); c.fill();
+                c.strokeStyle = '#aaeeff'; c.lineWidth = 1.5;
+                c.beginPath(); c.arc(ddx, gy, 140, Math.PI, 0); c.stroke();
+                // ドーム内の設備
+                c.fillStyle = '#1a4858';
+                c.fillRect(ddx - 30, gy - 50, 60, 50);
+                c.fillStyle = '#aaeeff';
+                for(let k = 0; k < 3; k++) c.fillRect(ddx - 25 + k * 20, gy - 40, 12, 10);
+                // 氷山（左右）
+                c.fillStyle = '#5a8aaa';
+                c.beginPath(); c.moveTo(0, gy); c.lineTo(w*0.08, gy - 50); c.lineTo(w*0.16, gy); c.fill();
+                c.beginPath(); c.moveTo(w*0.86, gy); c.lineTo(w*0.92, gy - 60); c.lineTo(w, gy); c.fill();
+                break;
+            }
+            case 313: { // ローマ再建コロッセオ — ホロコロッセオ
+                const cx = w * 0.5;
+                // 大円形コロッセオ
+                c.fillStyle = '#3a0808';
+                c.beginPath(); c.ellipse(cx, gy - 10, 130, 30, 0, Math.PI, 0); c.fill();
+                // アーチ列（4段）
+                for(let row = 0; row < 4; row++) {
+                    const ry = gy - 30 - row * 20;
+                    const rw = 130 - row * 12;
+                    c.fillStyle = '#cc2222';
+                    for(let k = -4; k <= 4; k++) {
+                        const ax = cx + k * (rw / 4.5);
+                        c.fillRect(ax - 4, ry, 8, 16);
+                    }
+                    // 上部リング
+                    c.fillStyle = '#3a0808';
+                    c.fillRect(cx - rw, ry, rw*2, 4);
+                }
+                // ホロ松明（青LED炎）
+                for(let k = -2; k <= 2; k++) {
+                    const tx = cx + k * 50;
+                    c.fillStyle = `rgba(0,212,255,${0.7 + Math.sin(time*4+k)*0.3})`;
+                    c.beginPath(); c.arc(tx, gy - 100, 4, 0, Math.PI*2); c.fill();
+                }
+                break;
+            }
+            case 314: { // カンクン軌道砲基地 — 軌道砲発射台 + ロケット
+                const cx = w * 0.5;
+                // 大型発射台
+                c.fillStyle = '#cc66ff';
+                c.fillRect(cx - 30, gy - 50, 60, 50);
+                // 軌道砲（縦に伸びる）
+                c.fillStyle = '#1a0838';
+                c.fillRect(cx - 15, gy - 200, 30, 150);
+                // 砲身先端（赤コア）
+                c.fillStyle = `rgba(255,34,102,${0.7 + Math.sin(time*5)*0.3})`;
+                c.beginPath(); c.arc(cx, gy - 210, 8, 0, Math.PI*2); c.fill();
+                // ロケット発射（時々）
+                const rocketT = (time * 0.5) % 1;
+                if(rocketT > 0.3 && rocketT < 0.95) {
+                    const ry = gy - 220 - (rocketT - 0.3) * 200;
+                    c.fillStyle = '#fff';
+                    c.fillRect(cx + 40, ry, 4, 14);
+                    c.fillStyle = '#ff7733';
+                    c.fillRect(cx + 41, ry + 14, 2, 6 + Math.random()*4);
+                }
+                break;
+            }
+            case 315: { // シンガポール垂直都市 — マリーナベイサンズ + 縦高層
+                // マリーナベイサンズ（3本の柱+船型屋根）
+                const sx = w * 0.5;
+                c.fillStyle = '#1a3838';
+                for(let k = -1; k <= 1; k++) c.fillRect(sx + k * 30 - 8, gy - 180, 16, 180);
+                // 船型屋根
+                c.fillStyle = '#0a2828';
+                c.beginPath();
+                c.moveTo(sx - 50, gy - 180);
+                c.quadraticCurveTo(sx - 60, gy - 200, sx, gy - 200);
+                c.quadraticCurveTo(sx + 60, gy - 200, sx + 50, gy - 180);
+                c.closePath(); c.fill();
+                // 屋上の植物
+                c.fillStyle = '#22dd99';
+                for(let k = 0; k < 6; k++) c.fillRect(sx - 40 + k * 16, gy - 204, 6, 4);
+                // 植物の絡む高層（左右）
+                for(let k = 0; k < 2; k++) {
+                    const bx = w * (0.15 + k * 0.7);
+                    c.fillStyle = '#0a2838';
+                    c.fillRect(bx, gy - 150, 24, 150);
+                    // 緑の蔦
+                    c.fillStyle = '#22dd99';
+                    for(let y = 0; y < 5; y++) {
+                        c.fillRect(bx + 2, gy - 30 - y*25, 20, 4);
+                    }
+                }
+                break;
+            }
+            case 316: { // ロンドン時空研究所 — ビッグベン + 時空裂け目
+                // ビッグベン
+                const bx = w * 0.55;
+                c.fillStyle = '#2a1858';
+                c.fillRect(bx - 12, gy - 180, 24, 180);
+                // 時計（4面ある中の正面）
+                c.fillStyle = '#ddaa44';
+                c.beginPath(); c.arc(bx, gy - 150, 11, 0, Math.PI*2); c.fill();
+                c.fillStyle = '#2a1858';
+                c.beginPath(); c.arc(bx, gy - 150, 9, 0, Math.PI*2); c.fill();
+                // 時計の針
+                c.strokeStyle = '#ddaa44'; c.lineWidth = 1.5;
+                c.beginPath(); c.moveTo(bx, gy - 150); c.lineTo(bx + Math.sin(time)*6, gy - 150 - Math.cos(time)*6); c.stroke();
+                c.beginPath(); c.moveTo(bx, gy - 150); c.lineTo(bx + Math.sin(time*0.1)*4, gy - 150 - Math.cos(time*0.1)*4); c.stroke();
+                // 上の屋根
+                c.fillStyle = '#bb66dd';
+                c.beginPath(); c.moveTo(bx - 14, gy - 180); c.lineTo(bx, gy - 200); c.lineTo(bx + 14, gy - 180); c.fill();
+                // 時空裂け目（紫の亀裂）
+                c.strokeStyle = `rgba(187,102,221,${0.6 + Math.sin(time*3)*0.3})`;
+                c.lineWidth = 2;
+                for(let k = 0; k < 3; k++) {
+                    c.beginPath();
+                    let lx = w * 0.2, ly = h * 0.1;
+                    c.moveTo(lx, ly);
+                    for(let i = 0; i < 6; i++) {
+                        lx += w * 0.1 + Math.sin(i + k) * 8;
+                        ly += h * 0.04;
+                        c.lineTo(lx, ly);
+                    }
+                    c.stroke();
+                }
+                break;
+            }
+            case 317: { // ドバイ砂漠スカイタワー — ブルジュハリファ + 砂漠
+                // 砂丘
+                c.fillStyle = '#5a3818';
+                c.beginPath(); c.moveTo(0, gy);
+                for(let i = 0; i <= 8; i++) c.lineTo(i*w/8, gy - 8 - Math.sin(i*1.5)*8);
+                c.lineTo(w, gy); c.closePath(); c.fill();
+                // ブルジュハリファ（細長い金タワー）
+                const bx = w * 0.5;
+                c.fillStyle = '#ffdd44';
+                c.beginPath();
+                c.moveTo(bx - 16, gy);
+                c.lineTo(bx - 4, gy - 220);
+                c.lineTo(bx + 4, gy - 220);
+                c.lineTo(bx + 16, gy);
+                c.closePath(); c.fill();
+                c.strokeStyle = '#ffaa22'; c.lineWidth = 1;
+                c.stroke();
+                // セグメントライン
+                for(let k = 1; k < 8; k++) {
+                    const y = gy - k * 28;
+                    c.strokeStyle = '#aa7700'; c.lineWidth = 0.5;
+                    c.beginPath(); c.moveTo(bx - 14 + k, y); c.lineTo(bx + 14 - k, y); c.stroke();
+                }
+                // 頂上の発光
+                c.fillStyle = `rgba(255,255,200,${0.7 + Math.sin(time*4)*0.3})`;
+                c.beginPath(); c.arc(bx, gy - 224, 6, 0, Math.PI*2); c.fill();
+                break;
+            }
+            case 318: { // 国際宇宙ステーション「アーク」 — 巨大ステーション + 地球
+                // 地球（左下）
+                c.fillStyle = '#1a3858';
+                c.beginPath(); c.arc(0, h, 180, Math.PI, Math.PI*2); c.fill();
+                c.fillStyle = '#3a7a3a';
+                c.beginPath(); c.arc(-30, h - 50, 40, 0, Math.PI*2); c.fill();
+                c.beginPath(); c.arc(80, h - 30, 30, 0, Math.PI*2); c.fill();
+                // 大気層（光）
+                c.strokeStyle = 'rgba(170,238,255,0.4)'; c.lineWidth = 3;
+                c.beginPath(); c.arc(0, h, 180, Math.PI, Math.PI*2); c.stroke();
+                // 巨大宇宙ステーション（中央上）
+                const sx = w * 0.5, sy = h * 0.3;
+                // 中央リング（回転）
+                c.strokeStyle = '#ff2266'; c.lineWidth = 4;
+                c.beginPath(); c.ellipse(sx, sy, 80, 20, Math.sin(time*0.5)*0.1, 0, Math.PI*2); c.stroke();
+                // 中央コア
+                c.fillStyle = '#1a0828';
+                c.fillRect(sx - 20, sy - 14, 40, 28);
+                c.fillStyle = '#aa44ff';
+                c.fillRect(sx - 18, sy - 12, 36, 24);
+                // 中央の赤目
+                c.fillStyle = `rgba(255,34,102,${0.8 + Math.sin(time*3)*0.2})`;
+                c.beginPath(); c.arc(sx, sy, 5, 0, Math.PI*2); c.fill();
+                // ソーラーパネル（左右）
+                c.fillStyle = '#aa44ff';
+                c.fillRect(sx - 70, sy - 6, 30, 12); c.fillRect(sx + 40, sy - 6, 30, 12);
+                c.strokeStyle = '#ff2266'; c.lineWidth = 0.5;
+                for(let k = 1; k < 6; k++) {
+                    c.beginPath(); c.moveTo(sx - 70 + k*5, sy - 6); c.lineTo(sx - 70 + k*5, sy + 6); c.stroke();
+                    c.beginPath(); c.moveTo(sx + 40 + k*5, sy - 6); c.lineTo(sx + 40 + k*5, sy + 6); c.stroke();
+                }
+                // 警告ライン（点滅）
+                c.strokeStyle = `rgba(255,34,102,${0.5 + Math.sin(time*6)*0.5})`;
+                c.lineWidth = 1;
+                c.beginPath(); c.moveTo(0, h*0.15); c.lineTo(w, h*0.15); c.stroke();
+                c.beginPath(); c.moveTo(0, h*0.5); c.lineTo(w, h*0.5); c.stroke();
+                break;
+            }
+        }
+    }
+
     // 東京タワー（赤白の鉄塔）
     function drawTokyoTower(c, baseX, gy) {
         const towerH = 220;
@@ -10064,9 +10799,11 @@
             }
         } else if(t.id === 'city' || t.id === 'downtown' || t.id === 'neon' || t.id === 'school' || t.id === 'harbor' || t.id === 'sewer') {
             drawModernCityBg(ctx, t, w, h, gy);
+        } else if(t.id && t.id.startsWith('fu_')) {
+            drawFutureCityBg(ctx, t, w, h, gy);
         }
-        // 遠景の山（現代編はビルが背景なのでスキップ）
-        if(currentEra !== 'modern') {
+        // 遠景の山（現代・未来編はビル/未来建造物が背景なのでスキップ）
+        if(currentEra !== 'modern' && currentEra !== 'future') {
             ctx.fillStyle = t.mtFar;
             ctx.beginPath(); ctx.moveTo(0, gy);
             for(let i=0;i<=10;i++){
