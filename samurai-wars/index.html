@@ -984,69 +984,69 @@
           desc:'神霊の力を宿す伝説の武士' }
     );
 
-    // ===== 超過去編 ボス→仲間（クリア報酬） =====
+    // ===== 超過去編 ボス→仲間（クリア報酬・通常 weapon + 必殺 spSpecial） =====
     SAMURAI_DATA.push(
-        // Stage 101: T-Rex（対空：体格で空にも届く）
-        { id:'sp_trex', name:'ティラノサウルス', yomi:'てぃらのさうるす', cost:1400, hp:5500, atk:380, atkSpeed:1.5, range:70, speed:0.7,
-          cooldown:30.0, color:'#aa6644', helmet:'rex_jaw', weapon:'fist', rarity:4, scale:1.7, antiAir:true,
-          desc:'赤茶の巨体で空にも届く恐竜の王' },
-        // Stage 102: プルスサウルス（王道緑茶 + 水鉄砲）
-        { id:'sp_pulrus', name:'プルスサウルス', yomi:'ぷるすさうるす', cost:1100, hp:4200, atk:330, atkSpeed:1.6, range:280, speed:0.8,
-          cooldown:24.0, color:'#3a4030', helmet:'croc_jaw', weapon:'water_shot', rarity:3, scale:1.5,
-          desc:'古代の超巨大ワニ。高圧の水鉄砲で一直線に貫く' },
-        // Stage 103: プロコプトドン（王道 + ジャンプ連打）
-        { id:'sp_kangaroo', name:'プロコプトドン', yomi:'ぷろこぷとどん', cost:850, hp:2400, atk:240, atkSpeed:1.4, range:200, speed:2.4,
-          cooldown:18.0, color:'#a87040', helmet:'kangaroo_head', weapon:'jump_combo', rarity:3, scale:1.2,
-          desc:'史上最大級のカンガルー。跳ねて連続攻撃' },
-        // Stage 104: マンモス（王道毛深い + 足踏み地震）
-        { id:'sp_mammoth', name:'マンモス', yomi:'まんもす', cost:1800, hp:8500, atk:480, atkSpeed:2.4, range:200, speed:0.5,
-          cooldown:38.0, color:'#aa6644', helmet:'mammoth_tusk', weapon:'foot_quake', rarity:4, scale:1.8,
-          desc:'氷河期を支配した巨象。足踏み地震で範囲制圧' },
+        // Stage 101: T-Rex — N B 尾びれ叩き + S 噛みつき(fist)
+        { id:'sp_trex', name:'ティラノサウルス', yomi:'てぃらのさうるす', cost:1400, hp:5500, atk:380, atkSpeed:1.5, range:80, speed:0.7,
+          cooldown:30.0, color:'#aa6644', helmet:'rex_jaw', weapon:'sp_n_tail', spSpecial:'fist', rarity:4, scale:1.7, antiAir:true, aoe:true,
+          desc:'赤茶の巨体の恐竜王。通常は尾びれAOE、8回ごとに大噛みつき' },
+        // Stage 102: プルスサウルス — N C 短い水鉄砲 + S 高圧水鉄砲
+        { id:'sp_pulrus', name:'プルスサウルス', yomi:'ぷるすさうるす', cost:1100, hp:4200, atk:330, atkSpeed:1.6, range:200, speed:0.8,
+          cooldown:24.0, color:'#3a4030', helmet:'croc_jaw', weapon:'sp_n_water_short', spSpecial:'water_shot', rarity:3, scale:1.5, ranged:true,
+          desc:'古代の超巨大ワニ。通常は短い水鉄砲、8回ごとに長距離高圧水流' },
+        // Stage 103: プロコプトドン — N C 跳び蹴り + S ジャンプ連打
+        { id:'sp_kangaroo', name:'プロコプトドン', yomi:'ぷろこぷとどん', cost:850, hp:2400, atk:240, atkSpeed:1.4, range:180, speed:2.4,
+          cooldown:18.0, color:'#a87040', helmet:'kangaroo_head', weapon:'sp_n_fly_kick', spSpecial:'jump_combo', rarity:3, scale:1.2,
+          desc:'巨大カンガルー。通常は跳び蹴り、8回ごとに3連ジャンプ' },
+        // Stage 104: マンモス — N C 踏みつけ + S 足踏み地震
+        { id:'sp_mammoth', name:'マンモス', yomi:'まんもす', cost:1800, hp:8500, atk:480, atkSpeed:2.2, range:80, speed:0.5,
+          cooldown:38.0, color:'#aa6644', helmet:'mammoth_tusk', weapon:'sp_n_stomp', spSpecial:'foot_quake', rarity:4, scale:1.8, aoe:true,
+          desc:'氷河期の巨象。通常は踏みつけ、8回ごとに足踏み地震で範囲制圧' },
         // Stage 105: サンドワーム（王道 + 巨体ジャンプ叩きつけ）
         { id:'sp_sandworm', name:'サンドワーム', yomi:'さんどわーむ', cost:1600, hp:6000, atk:420, atkSpeed:2.5, range:280, speed:0.6,
           cooldown:36.0, color:'#a07040', helmet:'worm_head', weapon:'slam_down', rarity:4, scale:1.6, antiAir:true,
           desc:'砂漠の超巨大みみず。空高く跳び上がって叩きつける' },
-        // Stage 106: ゴーレム（苔むした古代 + 自爆突進）
-        { id:'sp_golem', name:'ゴーレム', yomi:'ごーれむ', cost:1500, hp:9000, atk:300, atkSpeed:2.4, range:140, speed:0.45,
-          cooldown:34.0, color:'#5a6a5a', helmet:'stone_block', weapon:'self_destruct', rarity:4, scale:1.55,
-          desc:'苔むした古代の番人。自爆突進で全てを巻き込む' },
-        // Stage 107: ティタノボア（紫黒の毒蛇 + 毒霧吐き）
-        { id:'sp_titanoboa', name:'ティタノボア', yomi:'てぃたのぼあ', cost:1350, hp:5200, atk:370, atkSpeed:2.0, range:240, speed:1.0,
-          cooldown:28.0, color:'#3a1a4a', helmet:'snake_poison', weapon:'poison_fog', rarity:4, scale:1.55,
-          desc:'紫黒の毒蛇。前方一帯に猛毒の霧を吐く' },
-        // Stage 108: ヘラクレスオオカブト（飛行 + 対空）
-        { id:'sp_hercules', name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', cost:1700, hp:3800, atk:420, atkSpeed:1.4, range:50, speed:1.3,
-          cooldown:32.0, color:'#1a1004', helmet:'beetle_horn', weapon:'beetle_horn_attack', rarity:4, scale:1.4,
+        // Stage 106: ゴーレム — N B 岩投げ + S 自爆突進
+        { id:'sp_golem', name:'ゴーレム', yomi:'ごーれむ', cost:1500, hp:9000, atk:300, atkSpeed:2.0, range:200, speed:0.45,
+          cooldown:34.0, color:'#5a6a5a', helmet:'stone_block', weapon:'sp_n_rock_throw', spSpecial:'self_destruct', rarity:4, scale:1.55, ranged:true, aoe:true,
+          desc:'苔むした古代の番人。通常は岩投げ、8回ごとに自爆突進' },
+        // Stage 107: ティタノボア — N B 毒針 + S 猛毒の霧
+        { id:'sp_titanoboa', name:'ティタノボア', yomi:'てぃたのぼあ', cost:1350, hp:5200, atk:370, atkSpeed:1.8, range:240, speed:1.0,
+          cooldown:28.0, color:'#3a1a4a', helmet:'snake_poison', weapon:'sp_n_poison_dart', spSpecial:'poison_fog', rarity:4, scale:1.55, ranged:true,
+          desc:'紫黒の毒蛇。通常は毒針、8回ごとに前方一帯の毒霧' },
+        // Stage 108: ヘラクレスオオカブト — N C 体当たり突進 + S 角串刺し
+        { id:'sp_hercules', name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', cost:1700, hp:3800, atk:420, atkSpeed:1.5, range:200, speed:1.3,
+          cooldown:32.0, color:'#1a1004', helmet:'beetle_horn', weapon:'sp_n_ram', spSpecial:'beetle_horn_attack', rarity:4, scale:1.4,
           flying:true, antiAir:true, wingColor:'#3a2010',
-          desc:'人の十倍の甲虫。空を飛び角で串刺しにする' },
-        // Stage 109: ナーガ（王道緑女神 + 蛇の召喚）
-        { id:'sp_naga', name:'ナーガ', yomi:'なーが', cost:1500, hp:3500, atk:340, atkSpeed:1.7, range:240, speed:0.95,
-          cooldown:28.0, color:'#5aaa66', helmet:'snake_giant', weapon:'snake_summon', rarity:4, ranged:true,
-          desc:'緑の蛇神。三体の小蛇を召喚して敵を襲わせる' },
-        // Stage 110: サンダーバード（飛行 + 対空 + 範囲）
+          desc:'人の十倍の甲虫。通常は体当たり突進、8回ごとに角串刺し' },
+        // Stage 109: ナーガ — N C 蛇鞭 + S 三蛇召喚
+        { id:'sp_naga', name:'ナーガ', yomi:'なーが', cost:1500, hp:3500, atk:340, atkSpeed:1.7, range:220, speed:0.95,
+          cooldown:28.0, color:'#5aaa66', helmet:'snake_giant', weapon:'sp_n_snake_whip', spSpecial:'snake_summon', rarity:4, ranged:true,
+          desc:'緑の蛇神。通常は蛇鞭、8回ごとに三体の小蛇召喚' },
+        // Stage 110: サンダーバード — N B 雷光弾 + S 火炎ブレス
         { id:'sp_phoenix', name:'サンダーバード', yomi:'さんだーばーど', cost:2300, hp:4800, atk:540, atkSpeed:1.7, range:260, speed:1.1,
-          cooldown:46.0, color:'#ffd24a', helmet:'phoenix_crest', weapon:'fire_breath', rarity:5, scale:1.45,
-          flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#ddaa22',
-          desc:'黄金の翼で天空を制する伝説の神鳥' },
-        // Stage 111: ベオウルフ（雷の戦士 + 跳躍斬り）
-        { id:'sp_beowulf', name:'ベオウルフ', yomi:'べおうるふ', cost:1900, hp:7200, atk:520, atkSpeed:2.2, range:200, speed:1.05,
-          cooldown:36.0, color:'#5a5a5a', helmet:'bone_helm', weapon:'leap_slash', rarity:4, scale:1.3,
-          desc:'雷を纏う北欧戦士。空高く跳んで叩き斬る' },
-        // Stage 112: バロール（苔むした古代 + 邪眼の光線）
-        { id:'sp_balor', name:'バロール', yomi:'ばろーる', cost:2100, hp:6800, atk:560, atkSpeed:2.0, range:360, speed:0.5,
-          cooldown:42.0, color:'#5a6a5a', helmet:'green_giant', weapon:'evil_eye', rarity:5, scale:1.7,
+          cooldown:46.0, color:'#ffd24a', helmet:'phoenix_crest', weapon:'sp_n_thunder_orb', spSpecial:'fire_breath', rarity:5, scale:1.45,
+          flying:true, antiAir:true, ranged:true, wingColor:'#ddaa22',
+          desc:'黄金の神鳥。通常は雷光弾、8回ごとに広範囲の火炎ブレス' },
+        // Stage 111: ベオウルフ — N C 二段斬り + S 雷斬一閃
+        { id:'sp_beowulf', name:'ベオウルフ', yomi:'べおうるふ', cost:1900, hp:7200, atk:520, atkSpeed:2.0, range:60, speed:1.05,
+          cooldown:36.0, color:'#5a5a5a', helmet:'bone_helm', weapon:'sp_n_double_slash', spSpecial:'leap_slash', rarity:4, scale:1.3,
+          desc:'雷を纏う北欧戦士。通常は二段斬り、8回ごとに空高く跳んで雷斬一閃' },
+        // Stage 112: バロール — N C 岩投擲 + S 邪眼凝視
+        { id:'sp_balor', name:'バロール', yomi:'ばろーる', cost:2100, hp:6800, atk:560, atkSpeed:2.0, range:220, speed:0.5,
+          cooldown:42.0, color:'#5a6a5a', helmet:'green_giant', weapon:'sp_n_rock_throw_balor', spSpecial:'evil_eye', rarity:5, scale:1.7,
+          ranged:true, antiAir:true, aoe:true,
+          desc:'苔むした古代の隻眼巨人。通常は岩投擲、8回ごとに邪眼凝視' },
+        // Stage 113: 手長足長 — N B 長い足蹴り + S 妖怪渦巻
+        { id:'sp_tenagaashinaga', name:'手長足長', yomi:'てながあしなが', cost:1900, hp:5400, atk:480, atkSpeed:1.7, range:220, speed:0.85,
+          cooldown:38.0, color:'#3a1a4a', helmet:'twin_yokai', weapon:'sp_n_long_kick', spSpecial:'spin_attack', rarity:4, scale:1.35,
           ranged:true, antiAir:true,
-          desc:'苔むした古代の隻眼巨人。邪眼から赤い光線を放つ' },
-        // Stage 113: 手長足長（闇の妖怪 + 渦巻き攻撃）
-        { id:'sp_tenagaashinaga', name:'手長足長', yomi:'てながあしなが', cost:1900, hp:5400, atk:480, atkSpeed:2.0, range:140, speed:0.85,
-          cooldown:38.0, color:'#3a1a4a', helmet:'twin_yokai', weapon:'spin_attack', rarity:4, scale:1.35,
-          antiAir:true,
-          desc:'闇に潜む二人組の妖怪。背中合わせの渦巻き攻撃' },
-        // Stage 114: フロストジャイアント（氷結晶の魔法使い + 吹雪）
-        { id:'sp_frost', name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', cost:2400, hp:8800, atk:620, atkSpeed:2.2, range:280, speed:0.55,
-          cooldown:48.0, color:'#aaeeff', helmet:'frost_crown', weapon:'blizzard', rarity:5, scale:1.75,
-          ranged:true, antiAir:true,
-          desc:'氷結晶の魔法使い。前方一帯を吹雪で凍らせる' },
+          desc:'闇に潜む二人組の妖怪。通常は長い足蹴り、8回ごとに渦巻き攻撃' },
+        // Stage 114: フロストジャイアント — N C 冷気波 + S 絶対零度・吹雪
+        { id:'sp_frost', name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', cost:2400, hp:8800, atk:620, atkSpeed:2.0, range:240, speed:0.55,
+          cooldown:48.0, color:'#aaeeff', helmet:'frost_crown', weapon:'sp_n_cold_wave', spSpecial:'blizzard', rarity:5, scale:1.75,
+          ranged:true, antiAir:true, aoe:true,
+          desc:'氷結晶の魔法使い。通常は冷気波、8回ごとに前方一帯を吹雪で凍結' },
         // Stage 115: 孫悟空（七十二変化＋分身ラッシュ・対空）
         { id:'sp_gokuu', name:'孫悟空', yomi:'そんごくう', cost:2600, hp:6500, atk:780, atkSpeed:0.9, range:160, speed:1.6,
           cooldown:50.0, color:'#cc6600', helmet:'monkey_circlet', weapon:'clone_rush', rarity:5, scale:1.25,
@@ -2662,34 +2662,34 @@
         17: { name:'サイボーグ大蛇', yomi:'さいぼーぐおろち',     hp:26250, atk:1150, helmet:'cyber_orochi', weapon:'big_laser',   color:'#1a1a3a', scale:3.1, ranged:true, aoe:true },
         18: { name:'暗黒大龍神',     yomi:'あんこくだいりゅうじん', hp:55000, atk:1800, helmet:'darkdragon', weapon:'kyojin_blast',  color:'#1a0820', scale:1, ranged:true, aoe:true, mega:true, atkSpeed:1.6, range:420, speed:0.18 },
         // ===== 超過去編 ボス（クリアで仲間に） =====
-        // Stage 101 — T-Rex (anti-air via size, opens up flying enemies for stage 2+)
-        101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'fist', color:'#aa6644', scale:2.1, antiAir:true },
-        // Stage 102 — プルスサウルス（水鉄砲）
-        102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'water_shot', color:'#3a4030', scale:2.0, range:320, atkSpeed:1.7 },
-        // Stage 103 — プロコプトドン（ジャンプ連打）
-        103: { name:'プロコプトドン', yomi:'ぷろこぷとどん', hp:4600, atk:280, helmet:'kangaroo_head', weapon:'jump_combo', color:'#a87040', scale:1.9, range:220, atkSpeed:1.5 },
-        // Stage 104 — マンモス（王道 + 足踏み地震）
-        104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'foot_quake', color:'#aa6644', scale:2.3, range:220, atkSpeed:2.5 },
+        // Stage 101 — T-Rex (N 尾びれAOE + S 噛みつき)
+        101: { name:'ティラノサウルス', yomi:'てぃらのさうるす', hp:2800, atk:200, helmet:'rex_jaw', weapon:'sp_n_tail', spSpecial:'fist', color:'#aa6644', scale:2.1, antiAir:true, range:80, aoe:true },
+        // Stage 102 — プルスサウルス (N 短い水鉄砲 + S 高圧水鉄砲)
+        102: { name:'プルスサウルス', yomi:'ぷるすさうるす', hp:3800, atk:240, helmet:'croc_jaw', weapon:'sp_n_water_short', spSpecial:'water_shot', color:'#3a4030', scale:2.0, range:200, atkSpeed:1.7, ranged:true },
+        // Stage 103 — プロコプトドン (N 跳び蹴り + S ジャンプ連打)
+        103: { name:'プロコプトドン', yomi:'ぷろこぷとどん', hp:4600, atk:280, helmet:'kangaroo_head', weapon:'sp_n_fly_kick', spSpecial:'jump_combo', color:'#a87040', scale:1.9, range:180, atkSpeed:1.5 },
+        // Stage 104 — マンモス (N 踏みつけ + S 足踏み地震)
+        104: { name:'マンモス', yomi:'まんもす', hp:6000, atk:340, helmet:'mammoth_tusk', weapon:'sp_n_stomp', spSpecial:'foot_quake', color:'#aa6644', scale:2.3, range:80, atkSpeed:2.2, aoe:true },
         // Stage 105 — Sandworm（巨体ジャンプ叩きつけ）
         105: { name:'サンドワーム', yomi:'さんどわーむ', hp:7500, atk:380, helmet:'worm_head', weapon:'slam_down', color:'#a07040', scale:2.1, range:300, antiAir:true, atkSpeed:2.6 },
-        // Stage 106 — ゴーレム（苔むした古代 + 自爆突進）
-        106: { name:'ゴーレム', yomi:'ごーれむ', hp:11000, atk:330, helmet:'stone_block', weapon:'self_destruct', color:'#5a6a5a', scale:2.0, range:140, atkSpeed:2.5 },
-        // Stage 107 — ティタノボア（紫黒の毒蛇 + 毒霧）
-        107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_poison', weapon:'poison_fog', color:'#3a1a4a', scale:2.0, range:280, atkSpeed:2.2 },
-        // Stage 108 — Hercules beetle (flying + anti-air)
-        108: { name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', hp:9500, atk:480, helmet:'beetle_horn', weapon:'beetle_horn_attack', color:'#1a1004', scale:1.9, flying:true, antiAir:true, wingColor:'#3a2010' },
-        // Stage 109 — ナーガ（蛇の召喚）
-        109: { name:'ナーガ', yomi:'なーが', hp:10500, atk:460, helmet:'snake_giant', weapon:'snake_summon', color:'#5aaa66', scale:2.0, ranged:true, range:280, atkSpeed:1.9 },
-        // Stage 110 — Thunderbird / 黄金鳳凰 (flying + anti-air + AOE)
-        110: { name:'サンダーバード', yomi:'さんだーばーど', hp:12500, atk:560, helmet:'phoenix_crest', weapon:'fire_breath', color:'#ffd24a', scale:2.1, flying:true, antiAir:true, ranged:true, aoe:true, range:260, wingColor:'#ddaa22' },
-        // Stage 111 — ベオウルフ（雷の戦士・跳躍斬り）
-        111: { name:'ベオウルフ', yomi:'べおうるふ', hp:16000, atk:680, helmet:'bone_helm', weapon:'leap_slash', color:'#5a5a5a', scale:2.0, range:240, atkSpeed:2.4 },
-        // Stage 112 — Balor (苔むした古代・邪眼の光線)
-        112: { name:'バロール', yomi:'ばろーる', hp:17500, atk:760, helmet:'green_giant', weapon:'evil_eye', color:'#5a6a5a', scale:2.4, ranged:true, antiAir:true, range:400, atkSpeed:2.2 },
-        // Stage 113 — Tenagaashinaga (闇の妖怪・渦巻き攻撃)
-        113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'spin_attack', color:'#3a1a4a', scale:2.1, antiAir:true, range:160, atkSpeed:2.2 },
-        // Stage 114 — Frost Giant (氷結晶魔法使い・吹雪)
-        114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'blizzard', color:'#aaeeff', scale:2.5, ranged:true, antiAir:true, range:320, atkSpeed:2.4 },
+        // Stage 106 — ゴーレム (N 岩投げ + S 自爆突進)
+        106: { name:'ゴーレム', yomi:'ごーれむ', hp:11000, atk:330, helmet:'stone_block', weapon:'sp_n_rock_throw', spSpecial:'self_destruct', color:'#5a6a5a', scale:2.0, range:200, atkSpeed:2.0, ranged:true, aoe:true },
+        // Stage 107 — ティタノボア (N 毒針 + S 毒霧)
+        107: { name:'ティタノボア', yomi:'てぃたのぼあ', hp:11000, atk:430, helmet:'snake_poison', weapon:'sp_n_poison_dart', spSpecial:'poison_fog', color:'#3a1a4a', scale:2.0, range:240, atkSpeed:1.9, ranged:true },
+        // Stage 108 — Hercules beetle (N 体当たり + S 角串刺し)
+        108: { name:'ヘラクレスオオカブト', yomi:'へらくれすおおかぶと', hp:9500, atk:480, helmet:'beetle_horn', weapon:'sp_n_ram', spSpecial:'beetle_horn_attack', color:'#1a1004', scale:1.9, flying:true, antiAir:true, wingColor:'#3a2010', range:200, atkSpeed:1.6 },
+        // Stage 109 — ナーガ (N 蛇鞭 + S 三蛇召喚)
+        109: { name:'ナーガ', yomi:'なーが', hp:10500, atk:460, helmet:'snake_giant', weapon:'sp_n_snake_whip', spSpecial:'snake_summon', color:'#5aaa66', scale:2.0, ranged:true, range:220, atkSpeed:1.7 },
+        // Stage 110 — Thunderbird (N 雷光弾 + S 火炎ブレス)
+        110: { name:'サンダーバード', yomi:'さんだーばーど', hp:12500, atk:560, helmet:'phoenix_crest', weapon:'sp_n_thunder_orb', spSpecial:'fire_breath', color:'#ffd24a', scale:2.1, flying:true, antiAir:true, ranged:true, range:260, atkSpeed:1.7, wingColor:'#ddaa22' },
+        // Stage 111 — ベオウルフ (N 二段斬り + S 雷斬一閃)
+        111: { name:'ベオウルフ', yomi:'べおうるふ', hp:16000, atk:680, helmet:'bone_helm', weapon:'sp_n_double_slash', spSpecial:'leap_slash', color:'#5a5a5a', scale:2.0, range:60, atkSpeed:2.0 },
+        // Stage 112 — Balor (N 岩投擲 + S 邪眼凝視)
+        112: { name:'バロール', yomi:'ばろーる', hp:17500, atk:760, helmet:'green_giant', weapon:'sp_n_rock_throw_balor', spSpecial:'evil_eye', color:'#5a6a5a', scale:2.4, ranged:true, antiAir:true, aoe:true, range:240, atkSpeed:2.0 },
+        // Stage 113 — Tenagaashinaga (N 長い足蹴り + S 妖怪渦巻)
+        113: { name:'手長足長', yomi:'てながあしなが', hp:18000, atk:760, helmet:'twin_yokai', weapon:'sp_n_long_kick', spSpecial:'spin_attack', color:'#3a1a4a', scale:2.1, ranged:true, antiAir:true, range:220, atkSpeed:1.8 },
+        // Stage 114 — Frost Giant (N 冷気波 + S 絶対零度・吹雪)
+        114: { name:'フロストジャイアント', yomi:'ふろすとじゃいあんと', hp:22000, atk:880, helmet:'frost_crown', weapon:'sp_n_cold_wave', spSpecial:'blizzard', color:'#aaeeff', scale:2.5, ranged:true, antiAir:true, aoe:true, range:240, atkSpeed:2.0 },
         // Stage 115 — Sun Wukong (clone rush + anti-air)
         115: { name:'孫悟空', yomi:'そんごくう', hp:21000, atk:1050, helmet:'monkey_circlet', weapon:'clone_rush', color:'#cc6600', scale:1.9, antiAir:true, range:160, clones:2 },
         // Stage 116 — Illuyanka (Eastern dragon, flying + anti-air + AOE fire)
@@ -5673,6 +5673,8 @@
             mdRender: b.mdRender,
             // 現代編 通常攻撃/必殺技分離
             mdSpecial: b.mdSpecial,
+            // 超過去編 通常攻撃/必殺技分離
+            spSpecial: b.spSpecial,
             // 未来編専用の固有描画 + 必殺技
             fuRender: b.fuRender, fuSpecial: b.fuSpecial
         };
@@ -11393,15 +11395,15 @@
         const kishinkaBuff = (attacker.kishinka || 0) > 0;
         const dmgMult = (isSpecial ? 2.0 : 1.0) * (kishinkaBuff ? 2.0 : 1.0);
         const atk = attacker.atk * dmgMult;
-        // 必殺技と通常攻撃を分離（現代編キャラ — mdSpecial が設定されている）
+        // 必殺技と通常攻撃を分離（現代編=mdSpecial / 超過去編=spSpecial）
         // 8回ごとに必殺技、それ以外は通常攻撃。data.weapon を一時的に swap して既存ロジック流用。
-        const _mdSplit = !!(attacker.data && attacker.data.mdSpecial);
-        const _origWeapon = _mdSplit ? attacker.data.weapon : null;
-        if(_mdSplit && isSpecial) attacker.data.weapon = attacker.data.mdSpecial;
+        const _splitSpec = attacker.data && (attacker.data.mdSpecial || attacker.data.spSpecial);
+        const _origWeapon = _splitSpec ? attacker.data.weapon : null;
+        if(_splitSpec && isSpecial) attacker.data.weapon = _splitSpec;
         try {
             return attackTargetBody(attacker, target, atk, isSpecial, kishinkaBuff);
         } finally {
-            if(_mdSplit) attacker.data.weapon = _origWeapon;
+            if(_splitSpec) attacker.data.weapon = _origWeapon;
         }
     }
     function attackTargetBody(attacker, target, atk, isSpecial, kishinkaBuff) {
@@ -12261,6 +12263,177 @@
                         life: 0.8, color: '#88dd66', size: 4
                     });
                 }
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+        }
+        // ====================================================
+        // 超過去編 通常攻撃ハンドラ（sp_n_*）
+        // ====================================================
+        if(mdWeapon && mdWeapon.startsWith && mdWeapon.startsWith('sp_n_')) {
+            attacker.swing = 1;
+            const fwdDir = attacker.side === 'p' ? -1 : 1;
+            const tgtX = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+            const tgtY = target.isCastle ? (groundY() - 30) : (target.y - 30);
+
+            // 1. sp_n_tail (T-Rex B) — 尾びれ叩き 近接横AOE
+            if(mdWeapon === 'sp_n_tail') {
+                const aoeR = 70;
+                const cx = attacker.x + fwdDir*30;
+                const canHitFly = !!attacker.data.antiAir;
+                game.units.forEach(t => {
+                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - cx) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, atk);
+                    }
+                });
+                addSlashEffect(cx, attacker.y - 30, '#ffd24a', aoeR);
+                if(snd && snd.hit) snd.hit();
+                return;
+            }
+            // 2. sp_n_water_short (プルスサウルス C) — 短い水鉄砲
+            if(mdWeapon === 'sp_n_water_short') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 11, damage: atk, side: attacker.side,
+                    maxRange: 200, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'water'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 3. sp_n_fly_kick (プロコプトドン C) — 跳び蹴り（突進）
+            if(mdWeapon === 'sp_n_fly_kick') {
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tgtX,
+                    timer: 0, damage: atk * 1.1, selfDamage: 0,
+                    side: attacker.side, attackerRef: null, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'leap'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 4. sp_n_stomp (マンモス C) — 踏みつけ 狭範囲AOE
+            if(mdWeapon === 'sp_n_stomp') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: attacker.x + fwdDir*20, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, range: 75
+                });
+                if(snd && snd.hit) snd.hit();
+                return;
+            }
+            // 5. sp_n_rock_throw (ゴーレム B) — 岩投げ
+            // 6. sp_n_rock_throw_balor (バロール C) — 同じ仕様
+            if(mdWeapon === 'sp_n_rock_throw' || mdWeapon === 'sp_n_rock_throw_balor') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/32, vy: (tgtY-by)/32,
+                    dmg: atk, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 7. sp_n_poison_dart (ティタノボア B) — 毒針
+            if(mdWeapon === 'sp_n_poison_dart') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/24, vy: (tgtY-by)/24,
+                    dmg: atk, side: attacker.side,
+                    weapon:'fireball', hit:false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 8. sp_n_ram (ヘラクレス C) — 体当たり突進
+            if(mdWeapon === 'sp_n_ram') {
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tgtX,
+                    timer: 0, damage: atk * 1.2, selfDamage: 0,
+                    side: attacker.side, attackerRef: null, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'leap'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 9. sp_n_snake_whip (ナーガ C) — 蛇鞭
+            if(mdWeapon === 'sp_n_snake_whip') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/22, vy: (tgtY-by)/22,
+                    dmg: atk, side: attacker.side,
+                    weapon:'kunai', hit:false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 10. sp_n_thunder_orb (サンダーバード B) — 雷光弾
+            if(mdWeapon === 'sp_n_thunder_orb') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/24, vy: (tgtY-by)/24,
+                    dmg: atk, side: attacker.side,
+                    weapon:'thunder_bolt', hit:false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // 11. sp_n_double_slash (ベオウルフ C) — 二段斬り
+            if(mdWeapon === 'sp_n_double_slash') {
+                damageUnit(target, atk * 0.6);
+                addSlashEffect(target.x, target.y - 30, '#dde8f0', 28);
+                // 0.15秒後に2発目
+                setTimeout(() => {
+                    if(!target.dead) {
+                        damageUnit(target, atk * 0.6);
+                        addSlashEffect(target.x, target.y - 30, '#ffd24a', 26);
+                    }
+                }, 150);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 12. sp_n_long_kick (手長足長 B) — 長い足蹴り（遠距離だがbullet風）
+            if(mdWeapon === 'sp_n_long_kick') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/20, vy: (tgtY-by)/20,
+                    dmg: atk, side: attacker.side,
+                    weapon:'kunai', hit:false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 13. sp_n_cold_wave (フロストジャイアント C) — 冷気波
+            if(mdWeapon === 'sp_n_cold_wave') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 12, damage: atk, side: attacker.side,
+                    maxRange: 240, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'water'
+                });
                 if(snd && snd.slash) snd.slash();
                 return;
             }

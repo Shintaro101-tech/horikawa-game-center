@@ -191,6 +191,28 @@
 
 ## 直近の作業ログ（新しい順）
 
+### 2026-05-24 (超過去編 通常/必殺分離)
+- **超過去編 13キャラに「通常攻撃 / 必殺技」分離を実装**（5キャラは現状維持）
+  - 各キャラのデータに `spSpecial`（必殺技 weapon ID）を追加し、既存の `weapon` フィールドを通常攻撃に置換
+  - `spawnBossFromData` で `spSpecial` も伝播
+  - `attackTarget` 冒頭の split swap 処理を一般化し、`mdSpecial` と `spSpecial` の両方に対応
+  - 通常攻撃 13 種類 (`sp_n_*`) を新規実装:
+    - sp_n_tail (T-Rex B) — 尾びれAOE
+    - sp_n_water_short (プルスサウルス C) — 短い水鉄砲
+    - sp_n_fly_kick (プロコプトドン C) — 跳び蹴り kamikaze leap
+    - sp_n_stomp (マンモス C) — 踏みつけ quake AOE
+    - sp_n_rock_throw (ゴーレム B) — 岩投げ fireball AOE
+    - sp_n_poison_dart (ティタノボア B) — 毒針 bullet
+    - sp_n_ram (ヘラクレスオオカブト C) — 体当たり突進 kamikaze
+    - sp_n_snake_whip (ナーガ C) — 蛇鞭 bullet
+    - sp_n_thunder_orb (サンダーバード B) — 雷光弾 thunder_bolt
+    - sp_n_double_slash (ベオウルフ C) — 二段斬り (setTimeoutで2発目)
+    - sp_n_rock_throw_balor (バロール C) — 岩投擲 fireball AOE
+    - sp_n_long_kick (手長足長 B) — 長い足蹴り bullet
+    - sp_n_cold_wave (フロストジャイアント C) — 冷気波 slashWave
+  - 現状維持: サンドワーム / 孫悟空 / イルルヤンカシュ / スサノオ / ゼウス
+- **通常攻撃 候補プレビュー 18ファイル + 一覧ページ**を追加 (`sp_*-normal.html` + `super-past-normal-index.html`)
+
 ### 2026-05-24 (未来編 城砲 派手化＋改名)
 - **未来編 城砲を「AIスワーム召喚」に改名＋派手化**（ユーザー要望「もっと派手に。名前も変えて」）
   - HUDボタン: 「🛸 AIスワーム召喚」（過去/超過去=龍神レーザー砲、現代=サテライト・キャノン砲 と差別化）
