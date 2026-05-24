@@ -935,7 +935,14 @@
         md_zombie:   { name:'ゾンビ会社員',  yomi:'ぞんびかいしゃいん', hp:520, atk:60, atkSpeed:0.8, range:34, speed:0.7, color:'#5a4a3a', helmet:'rag',    weapon:'fist',  gold:28 },
         md_cyborg:   { name:'サイボーグ兵', yomi:'さいぼーぐへい', hp:1500, atk:170, atkSpeed:1.5, range:42, speed:1.1, color:'#5a6a7a', helmet:'visor',  weapon:'laser_arm', gold:120 },
         md_drone:    { name:'警備ドローン', yomi:'けいびどろーん', hp:480,  atk:78,  atkSpeed:0.9, range:80, speed:1.7, color:'#3a3a3a', helmet:'dome',   weapon:'beam',  gold:38, flying:true, antiAir:true, ranged:true, wingColor:'#1a1a1a' },
-        md_heli:     { name:'攻撃ヘリ',     yomi:'こうげきへり', hp:1700, atk:220, atkSpeed:1.7, range:280, speed:1.0, color:'#3a4030', helmet:'turret', weapon:'rocket', gold:180, flying:true, antiAir:true, ranged:true, wingColor:'#1a2010', aoe:true }
+        md_heli:     { name:'攻撃ヘリ',     yomi:'こうげきへり', hp:1700, atk:220, atkSpeed:1.7, range:280, speed:1.0, color:'#3a4030', helmet:'turret', weapon:'rocket', gold:180, flying:true, antiAir:true, ranged:true, wingColor:'#1a2010', aoe:true },
+        // ===== 未来編 雑魚 (2098年地球) =====
+        fu_nano:        { name:'ナノ兵',         yomi:'なのへい',         hp:480,  atk:60,  atkSpeed:1.0, range:36, speed:1.5, color:'#aaccff', helmet:'visor',  weapon:'fist',     gold:24, fuRender:'nano' },
+        fu_guard_drone: { name:'警備ドローン群',   yomi:'けいびどろーんぐん', hp:680, atk:100, atkSpeed:0.9, range:90, speed:1.8, color:'#5a3a8a', helmet:'dome',   weapon:'beam',     gold:54, flying:true, antiAir:true, ranged:true, wingColor:'#aa44ff', fuRender:'guard_drone' },
+        fu_hover_scoot: { name:'反重力スクーター兵', yomi:'はんじゅうりょくすくーたーへい', hp:1100, atk:140, atkSpeed:1.3, range:42, speed:1.8, color:'#ff44aa', helmet:'visor', weapon:'fist', gold:78, fuRender:'hover_scoot' },
+        fu_vr_avatar:   { name:'VRアバター戦士',  yomi:'ぶいあーるあばたーせんし', hp:1900, atk:220, atkSpeed:1.4, range:42, speed:1.1, color:'#22dd99', helmet:'antenna', weapon:'laser_arm', gold:140, fuRender:'vr_avatar' },
+        fu_quantum_sol: { name:'量子戦闘員',      yomi:'りょうしせんとういん', hp:2600, atk:300, atkSpeed:1.5, range:240, speed:0.95, color:'#cccccc', helmet:'visor', weapon:'big_laser', gold:200, ranged:true, fuRender:'quantum_sol' },
+        fu_flying_taxi: { name:'空飛ぶタクシー',  yomi:'そらとぶたくしー',  hp:2100, atk:260, atkSpeed:1.7, range:260, speed:1.1, color:'#ffd24a', helmet:'turret', weapon:'rocket', gold:220, flying:true, antiAir:true, ranged:true, wingColor:'#ddaa44', aoe:true, fuRender:'flying_taxi' }
     };
 
     const STAGE_UNLOCKS = {
@@ -955,7 +962,13 @@
         205:'md_merry',     206:'md_hanako',    207:'md_hacker',    208:'md_drone_cmd',
         209:'md_smog',      210:'md_ai_guard',  211:'md_rat_king',  212:'md_bullet',
         213:'md_zigas',     214:'md_megalodon', 215:'md_ufo',       216:'md_mecha3',
-        217:'md_ceo',       218:'md_satellite'
+        217:'md_ceo',       218:'md_satellite',
+        // 未来編 — クリアするとボスが仲間に
+        301:'fu_zero',      302:'fu_titan',     303:'fu_drone_queen', 304:'fu_aero',
+        305:'fu_holoshark', 306:'fu_supercomp', 307:'fu_madsci',      308:'fu_nanocloud',
+        309:'fu_asura',     310:'fu_biorex',    311:'fu_anubis',      312:'fu_cryo',
+        313:'fu_maximus',   314:'fu_lancer',    315:'fu_gaia',        316:'fu_chronos',
+        317:'fu_quantum',   318:'fu_omnias'
     };
 
     // ガチャ専用の隠し3キャラ（既存の兜/武器を流用）
@@ -1139,6 +1152,84 @@
           desc:'赤と金の戦略軌道兵器。全画面に時間差爆撃を降らせる' }
     );
 
+    // ===== 未来編 ボス→仲間（クリア報酬・18体・2098年地球） =====
+    // 各キャラに fuRender（固有描画キー）+ 通常 weapon と必殺 fuSpecial を持つ。
+    // ボスでも味方でも同じ見た目と挙動が出るように spawnBossFromData でも伝播。
+    SAMURAI_DATA.push(
+        // Stage 301: サムライ将軍 ZERO (🇯🇵) — A 紺紫量子 + N② プラズマ刀投げ + S② 浮遊刀5本
+        { id:'fu_zero', name:'サムライ将軍 ZERO', yomi:'さむらいしょうぐん ぜろ', cost:1200, hp:1700, atk:230, atkSpeed:1.4, range:280, speed:1.5,
+          cooldown:16.0, color:'#4a2a8a', helmet:'visor', weapon:'fu_plasma_blade', fuSpecial:'fu_float_blades', rarity:4, scale:1.2, ranged:true, fuRender:'zero',
+          desc:'紺紫の量子サムライ。必殺は浮遊する5本の電子刀の同時射出' },
+        // Stage 302: 戦闘用ロボ TITAN-X (🇺🇸) — A 重装黄黒 + N② アサルト連射 + S① ガトリング7連扇状
+        { id:'fu_titan', name:'戦闘用ロボ TITAN-X', yomi:'せんとうようろぼ たいたん えっくす', cost:1400, hp:2400, atk:280, atkSpeed:1.6, range:300, speed:1.0,
+          cooldown:20.0, color:'#ffd24a', helmet:'turret', weapon:'fu_assault_rifle', fuSpecial:'fu_gatling_fan', rarity:4, scale:1.3, ranged:true, fuRender:'titan',
+          desc:'黄と黒の廃墟戦特化重装メカ。必殺は7連扇状ガトリング掃射' },
+        // Stage 303: ドローン女王 MIRAI-Q (🇨🇳) — B 純白セラフ + N① レーザーポインター + S② レーザーグリッド
+        { id:'fu_drone_queen', name:'ドローン女王 MIRAI-Q', yomi:'どろーんじょおう みらい きゅう', cost:1500, hp:2100, atk:320, atkSpeed:1.5, range:320, speed:1.3,
+          cooldown:22.0, color:'#fff', helmet:'dome', weapon:'fu_laser_pointer', fuSpecial:'fu_laser_grid', rarity:4, scale:1.2, ranged:true, flying:true, antiAir:true, aoe:true, wingColor:'#00ddff', fuRender:'drone_queen',
+          desc:'純白セラフのドローン女王。必殺は全画面降下レーザーグリッド' },
+        // Stage 304: 空飛ぶ車軍団 AERO-SEOUL (🇰🇷) — A 真っ赤スポーツ + N② ヘッドライト黄ビーム + S③ メガビーム
+        { id:'fu_aero', name:'空飛ぶ車軍団 AERO-SEOUL', yomi:'そらとぶくるまぐんだん えあろ そうる', cost:1700, hp:2700, atk:360, atkSpeed:1.5, range:300, speed:1.8,
+          cooldown:24.0, color:'#dd2222', helmet:'visor', weapon:'fu_headlight', fuSpecial:'fu_mega_beam', rarity:5, scale:1.25, ranged:true, flying:true, antiAir:true, wingColor:'#aa1010', fuRender:'aero',
+          desc:'真紅のジェットスポーツカー。必殺は前方極太の黄白メガビーム' },
+        // Stage 305: ホロサメ MEGA-HOLO (🇦🇺) — B 紫紅グリッチ + N① グリッチ噛みつき + S③ サメの大群召喚
+        { id:'fu_holoshark', name:'ホロサメ MEGA-HOLO', yomi:'ほろさめ めが ほろ', cost:1800, hp:3200, atk:420, atkSpeed:1.6, range:180, speed:1.4,
+          cooldown:26.0, color:'#aa2266', helmet:'oni', weapon:'fu_glitch_bite', fuSpecial:'fu_shark_swarm', rarity:5, scale:1.5, ranged:true, antiAir:true, fuRender:'holoshark',
+          desc:'紫紅のグリッチホログラム鮫。必殺は上空から降る12発のサメ型弾雨' },
+        // Stage 306: 量子スパコン PERMAFROST (🇷🇺) — C 機械化クレムリン宮殿 + N③ サーバー光線 + S③ メガ氷柱5本
+        { id:'fu_supercomp', name:'量子スパコン PERMAFROST', yomi:'りょうしすぱこん ぱーまふろすと', cost:2000, hp:3800, atk:480, atkSpeed:1.8, range:340, speed:0.6,
+          cooldown:30.0, color:'#88aaff', helmet:'kishin', weapon:'fu_server_beam', fuSpecial:'fu_ice_pillars', rarity:5, scale:1.6, ranged:true, antiAir:true, fuRender:'supercomp',
+          desc:'機械化クレムリンの量子巨人。必殺は5本のメガ氷柱を地面から召喚' },
+        // Stage 307: マッドサイエンティスト ヴォルフ博士 (🇩🇪) — A 白衣狂気 + N③ 試験管投擲 + S② 改造クリーチャー3体召喚
+        { id:'fu_madsci', name:'ヴォルフ博士', yomi:'う゛ぉるふはかせ', cost:2100, hp:3400, atk:540, atkSpeed:1.7, range:280, speed:1.0,
+          cooldown:32.0, color:'#fff', helmet:'mahou_robe', weapon:'fu_flask_throw', fuSpecial:'fu_creature_summon', rarity:5, scale:1.2, ranged:true, aoe:true, fuRender:'madsci',
+          desc:'狂気の白衣科学者。必殺は3体の改造クリーチャーを召喚し前進させる' },
+        // Stage 308: ナノクラウド MUTABLE (🇫🇷) — A 銀の渦巻く雲 + N② ナノ粒子弾 + S① 形態変化スマッシュ
+        { id:'fu_nanocloud', name:'ナノクラウド MUTABLE', yomi:'なのくらうど みゅーたぶる', cost:2200, hp:3900, atk:560, atkSpeed:1.7, range:240, speed:0.95,
+          cooldown:34.0, color:'#cccccc', helmet:'cosmic_orb', weapon:'fu_nano_shot', fuSpecial:'fu_morph_smash', rarity:5, scale:1.4, ranged:true, fuRender:'nanocloud',
+          desc:'銀の渦巻く雲の意識体。必殺は巨大ハンマーに変形して叩きつける' },
+        // Stage 309: 軌道守護神 ASURA-9 (🇮🇳) — A 6本腕の青神メカ + N① 剣振り + S③ 軌道弾雨
+        { id:'fu_asura', name:'軌道守護神 ASURA-9', yomi:'きどうしゅごしん あすら ないん', cost:2400, hp:4500, atk:620, atkSpeed:1.5, range:280, speed:0.9,
+          cooldown:38.0, color:'#3366cc', helmet:'kishin', weapon:'fu_sword_slash', fuSpecial:'fu_orbital_rain', rarity:5, scale:1.5, ranged:true, antiAir:true, fuRender:'asura',
+          desc:'6本腕の青神メカ。必殺は上空から12発の隕石型弾を降らせる' },
+        // Stage 310: バイオAI恐竜 GENESIS-REX (🇧🇷) — A 緑の機械ジャングル恐竜 + N② 火球吐き + S① バイオブレス
+        { id:'fu_biorex', name:'GENESIS-REX', yomi:'じぇねしす れっくす', cost:2500, hp:5200, atk:680, atkSpeed:1.7, range:260, speed:0.8,
+          cooldown:40.0, color:'#44aa55', helmet:'rex_jaw', weapon:'fu_fireball_breath', fuSpecial:'fu_bio_breath', rarity:5, scale:1.6, ranged:true, antiAir:true, fuRender:'biorex',
+          desc:'蔦の絡む機械ジャングル恐竜。必殺は緑の毒霧バイオブレス' },
+        // Stage 311: 古代AI ANUBIS-OS (🇪🇬) — C 砂塵の異形巨人 + N② 紫の死の光線 + S② 砂の大竜巻
+        { id:'fu_anubis', name:'ANUBIS-OS', yomi:'あぬびす おーえす', cost:2600, hp:4800, atk:720, atkSpeed:1.6, range:340, speed:0.7,
+          cooldown:42.0, color:'#ccaa66', helmet:'twin_yokai', weapon:'fu_death_ray', fuSpecial:'fu_sand_tornado', rarity:5, scale:1.7, ranged:true, antiAir:true, fuRender:'anubis',
+          desc:'砂塵で構成された古代AIの異形巨人。必殺は画面横断の砂の大竜巻' },
+        // Stage 312: クライオキング (🇨🇦) — A 青白い氷の王 + N③ 冷気コーンブレス + S② 氷柱乱立
+        { id:'fu_cryo', name:'クライオキング', yomi:'くらいおきんぐ', cost:2700, hp:5500, atk:780, atkSpeed:1.8, range:240, speed:0.7,
+          cooldown:44.0, color:'#aaeeff', helmet:'frost_crown', weapon:'fu_cryo_breath', fuSpecial:'fu_ice_pillars', rarity:5, scale:1.55, ranged:true, antiAir:true, aoe:true, fuRender:'cryo',
+          desc:'氷の王冠と杖を持つ凍結の王。必殺は5本の巨大氷柱を地面から突き出す' },
+        // Stage 313: サイボーグ剣闘士 MAXIMUS-3 (🇮🇹) — A 赤金重装 + N① 剣振り + S① 巨大剣回転斬り
+        { id:'fu_maximus', name:'剣闘士 MAXIMUS-3', yomi:'けんとうし まきします すりー', cost:2800, hp:6500, atk:840, atkSpeed:1.4, range:55, speed:1.0,
+          cooldown:46.0, color:'#cc2222', helmet:'taisho', weapon:'fu_sword_slash', fuSpecial:'fu_spin_slash', rarity:5, scale:1.4, fuRender:'maximus',
+          desc:'赤金の重装サイボーグ剣闘士。必殺は周囲全方向の巨大剣回転斬り' },
+        // Stage 314: 巨大メカ ORBIT-LANCER (🇲🇽) — B 銀の宇宙騎士 + N③ ミサイル単発 + S② 衛星ミサイル雨
+        { id:'fu_lancer', name:'ORBIT-LANCER', yomi:'おーびっと らんさー', cost:3000, hp:7500, atk:920, atkSpeed:1.8, range:340, speed:0.7,
+          cooldown:50.0, color:'#cccccc', helmet:'cannon', weapon:'fu_missile_single', fuSpecial:'fu_missile_rain', rarity:5, scale:1.6, ranged:true, antiAir:true, aoe:true, fuRender:'lancer',
+          desc:'白銀の宇宙騎士型重装メカ。必殺は全画面に降る8発の衛星ミサイル雨' },
+        // Stage 315: 都市制御AI GAIA-MIND (🇸🇬) — A 緑の女神ホログラム + N③ 木の根束縛 + S③ 引力場
+        { id:'fu_gaia', name:'GAIA-MIND', yomi:'がいあ まいんど', cost:3200, hp:7000, atk:1000, atkSpeed:1.7, range:260, speed:0.8,
+          cooldown:52.0, color:'#22dd99', helmet:'miko', weapon:'fu_root_bind', fuSpecial:'fu_gravity_well', rarity:5, scale:1.45, ranged:true, antiAir:true, aoe:true, fuRender:'gaia',
+          desc:'緑のホログラム都市女神。必殺は範囲の敵を中央に吸い寄せる引力場' },
+        // Stage 316: 時空王 CHRONOS (🇬🇧) — A 黒銀ゴシック王 + N② 飛ぶ懐中時計弾 + S① 時間停止
+        { id:'fu_chronos', name:'CHRONOS', yomi:'くろのす', cost:3400, hp:7800, atk:1080, atkSpeed:1.8, range:300, speed:0.9,
+          cooldown:55.0, color:'#3a3a4a', helmet:'zeus_crown', weapon:'fu_clock_bullet', fuSpecial:'fu_time_stop', rarity:5, scale:1.5, ranged:true, antiAir:true, aoe:true, fuRender:'chronos',
+          desc:'黒銀ゴシックの時空王。必殺は全画面の敵を時間停止＋ダメージ' },
+        // Stage 317: 量子龍 GOLD QUANTUM (🇦🇪) — A 純金ドラゴン + N① 噛みつき + S① 黄金ブレス
+        { id:'fu_quantum', name:'GOLD QUANTUM', yomi:'ごーるど くおんたむ', cost:3700, hp:9000, atk:1200, atkSpeed:1.8, range:320, speed:1.0,
+          cooldown:60.0, color:'#ffd24a', helmet:'dragon_head', weapon:'fu_dragon_bite', fuSpecial:'fu_gold_breath', rarity:5, scale:1.7, ranged:true, antiAir:true, aoe:true, flying:true, wingColor:'#ddaa22', noWings:true, fuRender:'quantum',
+          desc:'純金鱗の東洋量子龍。必殺は画面横断の黄金極太ブレス' },
+        // Stage 318: OMNIAS 全人類監視AI (🌐) — C 全画面OS型 + N③ 巨大ホロ拳 + S③ 軌道爆撃20発
+        { id:'fu_omnias', name:'OMNIAS', yomi:'おむにあす', cost:5000, hp:11000, atk:1600, atkSpeed:2.0, range:9999, speed:0.85,
+          cooldown:110.0, color:'#ff2266', helmet:'md_sat_red', weapon:'fu_holo_fist', fuSpecial:'fu_orbital_bomb', rarity:5, scale:1.7, ranged:true, antiAir:true, aoe:true, fuRender:'omnias',
+          desc:'国際宇宙ステーション「アーク」の全人類監視AI。必殺は全画面に降る20発の軌道爆撃' }
+    );
+
     // アチーブメント
     const ACHIEVEMENTS = [
         { id:'first_win',  name:'初陣',         desc:'初めてステージをクリア',   check:() => saveData.clearedStages.length >= 1 },
@@ -1187,7 +1278,11 @@
         // 現代編 ボス→仲間
         'md_bouso', 'md_kaitou', 'md_kuchisake', 'md_teketeke', 'md_merry', 'md_hanako',
         'md_hacker', 'md_drone_cmd', 'md_smog', 'md_ai_guard', 'md_rat_king', 'md_bullet',
-        'md_zigas', 'md_megalodon', 'md_ufo', 'md_mecha3', 'md_ceo', 'md_satellite'
+        'md_zigas', 'md_megalodon', 'md_ufo', 'md_mecha3', 'md_ceo', 'md_satellite',
+        // 未来編 ボス→仲間 (2098年地球)
+        'fu_zero', 'fu_titan', 'fu_drone_queen', 'fu_aero', 'fu_holoshark', 'fu_supercomp',
+        'fu_madsci', 'fu_nanocloud', 'fu_asura', 'fu_biorex', 'fu_anubis', 'fu_cryo',
+        'fu_maximus', 'fu_lancer', 'fu_gaia', 'fu_chronos', 'fu_quantum', 'fu_omnias'
     ];
     SAMURAI_DATA.sort((a, b) => {
         const ai = CHARACTER_ORDER.indexOf(a.id);
@@ -1210,8 +1305,8 @@
           desc:'<ruby>高層<rt>こうそう</rt></ruby>ビルとSNSが<ruby>渦巻<rt>うずま</rt></ruby>く<ruby>現代<rt>げんだい</rt></ruby><ruby>都市<rt>とし</rt></ruby>の<ruby>戦<rt>たたか</rt></ruby>い',
           color:'#18FFFF', glow:'rgba(24,255,255,0.45)', available:false, unlockHint:'<ruby>超過去編<rt>ちょうかこへん</rt></ruby><ruby>全<rt>ぜん</rt></ruby><ruby>制覇<rt>せいは</rt></ruby>で<ruby>解放<rt>かいほう</rt></ruby>' },
         { id:'future',       name:'未来編',   yomi:'みらいへん',         emoji:'🛸',
-          desc:'AIとサイボーグが<ruby>覇<rt>は</rt></ruby>を<ruby>競<rt>きそ</rt></ruby>う<ruby>近<rt>きん</rt></ruby><ruby>未来<rt>みらい</rt></ruby>',
-          color:'#b94dff', glow:'rgba(185,77,255,0.45)', available:false },
+          desc:'2098<ruby>年<rt>ねん</rt></ruby>。AIとロボット、<ruby>空<rt>そら</rt></ruby><ruby>飛<rt>と</rt></ruby>ぶ<ruby>車<rt>くるま</rt></ruby>が<ruby>覇<rt>は</rt></ruby>を<ruby>競<rt>きそ</rt></ruby>う<ruby>近未来<rt>きんみらい</rt></ruby>の<ruby>地球<rt>ちきゅう</rt></ruby>',
+          color:'#b94dff', glow:'rgba(185,77,255,0.45)', available:false, unlockHint:'<ruby>現代編<rt>げんだいへん</rt></ruby><ruby>全<rt>ぜん</rt></ruby><ruby>制覇<rt>せいは</rt></ruby>で<ruby>解放<rt>かいほう</rt></ruby>' },
         { id:'super_future', name:'超未来編', yomi:'ちょうみらいへん',   emoji:'🌌',
           desc:'<ruby>宇宙<rt>うちゅう</rt></ruby><ruby>時代<rt>じだい</rt></ruby>。<ruby>銀河<rt>ぎんが</rt></ruby>を<ruby>懸<rt>か</rt></ruby>けた<ruby>最終<rt>さいしゅう</rt></ruby><ruby>決戦<rt>けっせん</rt></ruby>',
           color:'#ffd24a', glow:'rgba(255,210,74,0.5)',  available:false },
@@ -1228,6 +1323,10 @@
         }
         if(era.id === 'modern') {
             const cleared = (saveData.clearedStages || []).filter(id => id >= 101 && id <= 118);
+            return cleared.length >= 18;
+        }
+        if(era.id === 'future') {
+            const cleared = (saveData.clearedStages || []).filter(id => id >= 201 && id <= 218);
             return cleared.length >= 18;
         }
         return false;
@@ -1530,7 +1629,106 @@
             { type:'md_riot', start:1.5, every:2.6 },
             { type:'md_cyborg', start:3.5, every:4.4 },
             { type:'md_drone', start:5, every:5 },
-            { type:'md_heli', start:8, every:8 } ]}
+            { type:'md_heli', start:8, every:8 } ]},
+        // ===== 未来編 (id:301-318) — 2098年地球・現代編より難度高め =====
+        { id:301, era:'future', theme:'fu_neo_tokyo', name:'ネオ東京サイバー都市', yomi:'ねおとうきょう さいばーとし', country:'🇯🇵',
+          castleHp:13000, enemyCastleHp:13000, reward:780, spawns:[
+            { type:'fu_nano', start:1.5, every:4.0 } ]},
+        { id:302, era:'future', theme:'fu_ruined_ny', name:'廃墟マンハッタン', yomi:'はいきょまんはったん', country:'🇺🇸',
+          castleHp:17000, enemyCastleHp:17000, reward:1000, spawns:[
+            { type:'fu_nano', start:1.2, every:3.6 },
+            { type:'fu_hover_scoot', start:18, every:18 } ]},
+        { id:303, era:'future', theme:'fu_sky_city', name:'上海雲海都市', yomi:'しゃんはい うんかいとし', country:'🇨🇳',
+          castleHp:22000, enemyCastleHp:22000, reward:1280, spawns:[
+            { type:'fu_nano', start:1.0, every:3.2 },
+            { type:'fu_guard_drone', start:14, every:14 } ]},
+        { id:304, era:'future', theme:'fu_vr_arena', name:'ソウルVRアリーナ', yomi:'そうる ぶいあーる ありーな', country:'🇰🇷',
+          castleHp:28000, enemyCastleHp:28000, reward:1600, spawns:[
+            { type:'fu_nano', start:1.0, every:3.0 },
+            { type:'fu_vr_avatar', start:12, every:14 },
+            { type:'fu_guard_drone', start:25, every:20 } ]},
+        { id:305, era:'future', theme:'fu_holo_sea', name:'シドニー湾ホログラム海岸', yomi:'しどにーわん ほろぐらむかいがん', country:'🇦🇺',
+          castleHp:34000, enemyCastleHp:34000, reward:1900, spawns:[
+            { type:'fu_nano', start:1.0, every:2.8 },
+            { type:'fu_vr_avatar', start:10, every:12 },
+            { type:'fu_guard_drone', start:20, every:16 } ]},
+        { id:306, era:'future', theme:'fu_ice_kremlin', name:'極地クレムリン要塞', yomi:'きょくち くれむりんようさい', country:'🇷🇺',
+          castleHp:41000, enemyCastleHp:41000, reward:2250, spawns:[
+            { type:'fu_nano', start:1.0, every:2.6 },
+            { type:'fu_hover_scoot', start:8, every:10 },
+            { type:'fu_guard_drone', start:18, every:14 } ]},
+        { id:307, era:'future', theme:'fu_lab_dark', name:'ベルリン狂気の研究所', yomi:'べるりん きょうきのけんきゅうじょ', country:'🇩🇪',
+          castleHp:50000, enemyCastleHp:50000, reward:2650, spawns:[
+            { type:'fu_nano', start:1.0, every:2.4 },
+            { type:'fu_hover_scoot', start:6, every:8 },
+            { type:'fu_vr_avatar', start:14, every:12 } ]},
+        { id:308, era:'future', theme:'fu_paris_sky', name:'パリ空中庭園', yomi:'ぱり くうちゅうていえん', country:'🇫🇷',
+          castleHp:60000, enemyCastleHp:60000, reward:3100, spawns:[
+            { type:'fu_nano', start:1.0, every:2.2 },
+            { type:'fu_hover_scoot', start:5, every:7 },
+            { type:'fu_flying_taxi', start:30, every:24 } ]},
+        { id:309, era:'future', theme:'fu_delhi_port', name:'ニューデリー宇宙港', yomi:'にゅーでりー うちゅうこう', country:'🇮🇳',
+          castleHp:72000, enemyCastleHp:72000, reward:3650, spawns:[
+            { type:'fu_nano', start:1.0, every:2.0 },
+            { type:'fu_vr_avatar', start:5, every:6.5 },
+            { type:'fu_guard_drone', start:10, every:9 },
+            { type:'fu_flying_taxi', start:25, every:22 } ]},
+        { id:310, era:'future', theme:'fu_amazon_bio', name:'アマゾン超ジャングル', yomi:'あまぞん ちょうじゃんぐる', country:'🇧🇷',
+          castleHp:85000, enemyCastleHp:85000, reward:4200, spawns:[
+            { type:'fu_nano', start:1.0, every:1.9 },
+            { type:'fu_hover_scoot', start:4, every:6 },
+            { type:'fu_vr_avatar', start:8, every:8 },
+            { type:'fu_quantum_sol', start:30, every:26 } ]},
+        { id:311, era:'future', theme:'fu_pyramid', name:'ピラミッドサイバー砂漠', yomi:'ぴらみっど さいばーさばく', country:'🇪🇬',
+          castleHp:100000, enemyCastleHp:100000, reward:4800, spawns:[
+            { type:'fu_nano', start:1.0, every:1.8 },
+            { type:'fu_vr_avatar', start:3, every:5 },
+            { type:'fu_guard_drone', start:8, every:8 },
+            { type:'fu_quantum_sol', start:22, every:20 } ]},
+        { id:312, era:'future', theme:'fu_arctic_dome', name:'北極ドーム基地', yomi:'ほっきょく どーむきち', country:'🇨🇦',
+          castleHp:118000, enemyCastleHp:118000, reward:5500, spawns:[
+            { type:'fu_nano', start:1.0, every:1.7 },
+            { type:'fu_hover_scoot', start:3, every:5 },
+            { type:'fu_quantum_sol', start:7, every:7 },
+            { type:'fu_flying_taxi', start:18, every:18 } ]},
+        { id:313, era:'future', theme:'fu_colosseum', name:'ローマ再建コロッセオ', yomi:'ろーま さいけんころっせお', country:'🇮🇹',
+          castleHp:140000, enemyCastleHp:140000, reward:6300, spawns:[
+            { type:'fu_nano', start:1.0, every:1.6 },
+            { type:'fu_vr_avatar', start:2.5, every:4.5 },
+            { type:'fu_quantum_sol', start:6, every:6 },
+            { type:'fu_guard_drone', start:5, every:6 } ]},
+        { id:314, era:'future', theme:'fu_orbit_base', name:'カンクン軌道砲基地', yomi:'かんくん きどうほうきち', country:'🇲🇽',
+          castleHp:165000, enemyCastleHp:165000, reward:7200, spawns:[
+            { type:'fu_nano', start:1.0, every:1.5 },
+            { type:'fu_hover_scoot', start:2.5, every:4 },
+            { type:'fu_quantum_sol', start:5, every:5.5 },
+            { type:'fu_flying_taxi', start:14, every:14 } ]},
+        { id:315, era:'future', theme:'fu_vertical_sg', name:'シンガポール垂直都市', yomi:'しんがぽーる すいちょくとし', country:'🇸🇬',
+          castleHp:195000, enemyCastleHp:195000, reward:8200, spawns:[
+            { type:'fu_nano', start:1.0, every:1.4 },
+            { type:'fu_vr_avatar', start:2.5, every:3.8 },
+            { type:'fu_guard_drone', start:5, every:5.5 },
+            { type:'fu_flying_taxi', start:12, every:12 } ]},
+        { id:316, era:'future', theme:'fu_london_time', name:'ロンドン時空研究所', yomi:'ろんどん じくうけんきゅうじょ', country:'🇬🇧',
+          castleHp:230000, enemyCastleHp:230000, reward:9300, spawns:[
+            { type:'fu_nano', start:1.0, every:1.3 },
+            { type:'fu_hover_scoot', start:2, every:3.4 },
+            { type:'fu_quantum_sol', start:5, every:5 },
+            { type:'fu_flying_taxi', start:10, every:10 } ]},
+        { id:317, era:'future', theme:'fu_dubai_gold', name:'ドバイ砂漠スカイタワー', yomi:'どばい さばくすかいたわー', country:'🇦🇪',
+          castleHp:275000, enemyCastleHp:275000, reward:10500, spawns:[
+            { type:'fu_nano', start:1.0, every:1.2 },
+            { type:'fu_vr_avatar', start:2, every:3.2 },
+            { type:'fu_quantum_sol', start:4, every:4.5 },
+            { type:'fu_guard_drone', start:5, every:5 },
+            { type:'fu_flying_taxi', start:9, every:9 } ]},
+        { id:318, era:'future', theme:'fu_space_arc', name:'国際宇宙ステーション「アーク」最終決戦', yomi:'こくさいうちゅうすてーしょん あーく さいしゅうけっせん', country:'🌐',
+          castleHp:340000, enemyCastleHp:340000, reward:13000, spawns:[
+            { type:'fu_nano', start:1.0, every:1.1 },
+            { type:'fu_hover_scoot', start:1.5, every:2.6 },
+            { type:'fu_quantum_sol', start:3.5, every:4.2 },
+            { type:'fu_guard_drone', start:5, every:5 },
+            { type:'fu_flying_taxi', start:8, every:8 } ]}
     ];
 
     // 各レベルの max は「次レベルへのアップグレードコスト」より大きく設定
@@ -2362,7 +2560,62 @@
           accent:'rgba(100,180,220,0.18)', enemyStyle:'modern', enemyColor:'#1a2838', enemyTrim:'#88ccee' },
         { id:'sewer',    name:'地下',     skyTop:'#0a0608', skyBottom:'#1a1018', moon:'#88aa44', moonGlow:'#88dd44',
           mtFar:'#100808', mtNear:'#040204', groundTop:'#1a1410', groundBottom:'#040404',
-          accent:'rgba(140,220,80,0.14)', enemyStyle:'modern', enemyColor:'#1a1810', enemyTrim:'#aabb44' }
+          accent:'rgba(140,220,80,0.14)', enemyStyle:'modern', enemyColor:'#1a1810', enemyTrim:'#aabb44' },
+        // ===== 未来編 (2098年地球) =====
+        { id:'fu_neo_tokyo',  name:'ネオ東京',   skyTop:'#0a0028', skyBottom:'#3a0a4a', moon:'#ff66ff', moonGlow:'#ff44dd',
+          mtFar:'#2a0848', mtNear:'#100428', groundTop:'#1a0828', groundBottom:'#04001a',
+          accent:'rgba(170,68,255,0.22)', enemyStyle:'future', enemyColor:'#2a0a48', enemyTrim:'#aa44ff' },
+        { id:'fu_ruined_ny',  name:'廃墟マンハッタン', skyTop:'#3a0810', skyBottom:'#6a2018', moon:'#ffaa66', moonGlow:'#ff7733',
+          mtFar:'#2a0808', mtNear:'#1a0404', groundTop:'#3a1808', groundBottom:'#100404',
+          accent:'rgba(255,150,80,0.20)', enemyStyle:'future', enemyColor:'#2a1808', enemyTrim:'#ffaa44' },
+        { id:'fu_sky_city',   name:'雲海都市', skyTop:'#0a1838', skyBottom:'#3a3088', moon:'#ff44cc', moonGlow:'#ff66dd',
+          mtFar:'#1a2050', mtNear:'#080828', groundTop:'#1a2848', groundBottom:'#040818',
+          accent:'rgba(255,100,200,0.20)', enemyStyle:'future', enemyColor:'#2a1858', enemyTrim:'#ff66dd' },
+        { id:'fu_vr_arena',   name:'VRグリッド', skyTop:'#000018', skyBottom:'#080a30', moon:'#00ffaa', moonGlow:'#22ffcc',
+          mtFar:'#0a1030', mtNear:'#04081a', groundTop:'#0a1428', groundBottom:'#020010',
+          accent:'rgba(0,255,180,0.22)', enemyStyle:'future', enemyColor:'#0a1830', enemyTrim:'#00ffaa' },
+        { id:'fu_holo_sea',   name:'シドニー湾', skyTop:'#08102a', skyBottom:'#1a3068', moon:'#aaeeff', moonGlow:'#88ccff',
+          mtFar:'#10283a', mtNear:'#081020', groundTop:'#15304a', groundBottom:'#04102a',
+          accent:'rgba(0,212,255,0.22)', enemyStyle:'future', enemyColor:'#0a2848', enemyTrim:'#00d4ff' },
+        { id:'fu_ice_kremlin',name:'氷雪クレムリン', skyTop:'#0a1840', skyBottom:'#3a5a88', moon:'#88ffcc', moonGlow:'#66dd99',
+          mtFar:'#1a3858', mtNear:'#0a1830', groundTop:'#88aacc', groundBottom:'#2a3858',
+          accent:'rgba(180,220,255,0.25)', enemyStyle:'future', enemyColor:'#2a3a68', enemyTrim:'#aaccff' },
+        { id:'fu_lab_dark',   name:'ベルリン研究所', skyTop:'#0a0010', skyBottom:'#1a0830', moon:'#88ff44', moonGlow:'#66dd22',
+          mtFar:'#100820', mtNear:'#040410', groundTop:'#180a28', groundBottom:'#040208',
+          accent:'rgba(140,255,80,0.18)', enemyStyle:'future', enemyColor:'#180830', enemyTrim:'#88ff44' },
+        { id:'fu_paris_sky',  name:'パリ空中庭園', skyTop:'#1a0a30', skyBottom:'#3a1858', moon:'#ddccff', moonGlow:'#aa88ee',
+          mtFar:'#2a1850', mtNear:'#100828', groundTop:'#2a1850', groundBottom:'#080418',
+          accent:'rgba(200,180,240,0.22)', enemyStyle:'future', enemyColor:'#2a1858', enemyTrim:'#cccccc' },
+        { id:'fu_delhi_port', name:'ニューデリー宇宙港', skyTop:'#1a0a18', skyBottom:'#4a1830', moon:'#ffd24a', moonGlow:'#ffaa22',
+          mtFar:'#2a0a18', mtNear:'#180408', groundTop:'#3a1a18', groundBottom:'#0a0408',
+          accent:'rgba(255,170,80,0.22)', enemyStyle:'future', enemyColor:'#2a1018', enemyTrim:'#3399ff' },
+        { id:'fu_amazon_bio', name:'アマゾン超ジャングル', skyTop:'#001a08', skyBottom:'#0a3a18', moon:'#88ff66', moonGlow:'#66dd44',
+          mtFar:'#1a3010', mtNear:'#0a1808', groundTop:'#1a2808', groundBottom:'#040804',
+          accent:'rgba(120,255,80,0.22)', enemyStyle:'future', enemyColor:'#0a2810', enemyTrim:'#44dd55' },
+        { id:'fu_pyramid',    name:'ピラミッドサイバー砂漠', skyTop:'#1a0a28', skyBottom:'#3a1838', moon:'#ffd24a', moonGlow:'#ffaa66',
+          mtFar:'#3a1818', mtNear:'#1a0808', groundTop:'#5a3818', groundBottom:'#1a0a04',
+          accent:'rgba(255,210,74,0.22)', enemyStyle:'future', enemyColor:'#3a1a30', enemyTrim:'#ddbb44' },
+        { id:'fu_arctic_dome',name:'北極ドーム基地', skyTop:'#020028', skyBottom:'#1a3858', moon:'#aaffee', moonGlow:'#88ddee',
+          mtFar:'#1a2848', mtNear:'#081020', groundTop:'#88ccdd', groundBottom:'#2a4858',
+          accent:'rgba(170,238,255,0.28)', enemyStyle:'future', enemyColor:'#1a4858', enemyTrim:'#aaeeff' },
+        { id:'fu_colosseum',  name:'再建コロッセオ', skyTop:'#1a0408', skyBottom:'#3a1010', moon:'#ffaa44', moonGlow:'#ff6644',
+          mtFar:'#2a0808', mtNear:'#180404', groundTop:'#3a1808', groundBottom:'#0a0404',
+          accent:'rgba(255,80,40,0.22)', enemyStyle:'future', enemyColor:'#2a0808', enemyTrim:'#dd2222' },
+        { id:'fu_orbit_base', name:'カンクン軌道砲基地', skyTop:'#0a0a30', skyBottom:'#1a1858', moon:'#cc66ff', moonGlow:'#aa44dd',
+          mtFar:'#1a1848', mtNear:'#0a0828', groundTop:'#1a1838', groundBottom:'#040218',
+          accent:'rgba(204,102,255,0.22)', enemyStyle:'future', enemyColor:'#1a0838', enemyTrim:'#cc66ff' },
+        { id:'fu_vertical_sg',name:'シンガポール垂直都市', skyTop:'#0a1828', skyBottom:'#1a3848', moon:'#66ffcc', moonGlow:'#44dd99',
+          mtFar:'#1a2838', mtNear:'#0a1828', groundTop:'#1a3838', groundBottom:'#040810',
+          accent:'rgba(34,221,153,0.22)', enemyStyle:'future', enemyColor:'#1a3838', enemyTrim:'#22dd99' },
+        { id:'fu_london_time',name:'ロンドン時空研究所', skyTop:'#1a0830', skyBottom:'#3a1858', moon:'#bb66dd', moonGlow:'#aa44cc',
+          mtFar:'#2a1048', mtNear:'#100828', groundTop:'#2a1848', groundBottom:'#080418',
+          accent:'rgba(187,102,221,0.24)', enemyStyle:'future', enemyColor:'#2a1858', enemyTrim:'#bb66dd' },
+        { id:'fu_dubai_gold', name:'ドバイ砂漠スカイタワー', skyTop:'#2a0a28', skyBottom:'#5a1818', moon:'#ffdd44', moonGlow:'#ffaa22',
+          mtFar:'#3a1018', mtNear:'#1a0408', groundTop:'#5a3810', groundBottom:'#1a0a04',
+          accent:'rgba(255,221,68,0.26)', enemyStyle:'future', enemyColor:'#3a1018', enemyTrim:'#ffdd44' },
+        { id:'fu_space_arc',  name:'国際宇宙ステーション「アーク」', skyTop:'#000010', skyBottom:'#0a0828', moon:'#ff2266', moonGlow:'#ff4488',
+          mtFar:'#100828', mtNear:'#040218', groundTop:'#0a0a28', groundBottom:'#000010',
+          accent:'rgba(255,34,102,0.28)', enemyStyle:'future', enemyColor:'#1a0828', enemyTrim:'#ff2266' }
     ];
     function getTheme(stageId) {
         // ステージに theme が明示されていればそれを使う
@@ -2457,7 +2710,26 @@
         215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'md_ufo_gray', weapon:'md_beam_burst', color:'#aaaaaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:320, atkSpeed:2.0, wingColor:'#666', mdRender:'ufo' },
         216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'md_mecha_dark', weapon:'md_missile_storm', color:'#1a1a1a', scale:2.7, ranged:true, range:300, antiAir:true, aoe:true, atkSpeed:2.6, mdRender:'mecha3' },
         217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'md_ceo_glasses', weapon:'md_stamp', color:'#0a0a0a', scale:2.4, ranged:true, range:240, aoe:true, atkSpeed:2.2, mdRender:'ceo' },
-        218: { name:'暗黒衛星兵器サテライト・ゼロ', yomi:'あんこくえいせいへいきさてらいと・ぜろ', hp:70000, atk:3000, helmet:'md_sat_red', weapon:'md_killsat', color:'#aa1010', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.22, mdRender:'satellite' }
+        218: { name:'暗黒衛星兵器サテライト・ゼロ', yomi:'あんこくえいせいへいきさてらいと・ぜろ', hp:70000, atk:3000, helmet:'md_sat_red', weapon:'md_killsat', color:'#aa1010', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.22, mdRender:'satellite' },
+        // ===== 未来編 ボス (id:301-318) - 現代編より強い =====
+        301: { name:'サムライ将軍 ZERO', yomi:'さむらいしょうぐん ぜろ', hp:5500, atk:380, helmet:'visor', weapon:'fu_plasma_blade', fuSpecial:'fu_float_blades', color:'#4a2a8a', scale:1.8, range:280, atkSpeed:2.0, ranged:true, fuRender:'zero' },
+        302: { name:'戦闘用ロボ TITAN-X', yomi:'せんとうようろぼ たいたん えっくす', hp:7500, atk:450, helmet:'turret', weapon:'fu_assault_rifle', fuSpecial:'fu_gatling_fan', color:'#ffd24a', scale:1.9, range:300, atkSpeed:2.2, ranged:true, fuRender:'titan' },
+        303: { name:'ドローン女王 MIRAI-Q', yomi:'どろーんじょおう みらい きゅう', hp:9500, atk:520, helmet:'dome', weapon:'fu_laser_pointer', fuSpecial:'fu_laser_grid', color:'#fff', scale:1.8, range:320, atkSpeed:2.0, flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#00ddff', fuRender:'drone_queen' },
+        304: { name:'空飛ぶ車軍団 AERO-SEOUL', yomi:'そらとぶくるまぐんだん えあろ そうる', hp:11500, atk:600, helmet:'visor', weapon:'fu_headlight', fuSpecial:'fu_mega_beam', color:'#dd2222', scale:1.85, range:300, atkSpeed:1.8, speed:1.4, flying:true, antiAir:true, ranged:true, wingColor:'#aa1010', fuRender:'aero' },
+        305: { name:'ホロサメ MEGA-HOLO', yomi:'ほろさめ めが ほろ', hp:14000, atk:700, helmet:'oni', weapon:'fu_glitch_bite', fuSpecial:'fu_shark_swarm', color:'#aa2266', scale:2.2, range:180, atkSpeed:2.0, antiAir:true, ranged:true, fuRender:'holoshark' },
+        306: { name:'量子スパコン PERMAFROST', yomi:'りょうしすぱこん ぱーまふろすと', hp:17000, atk:820, helmet:'kishin', weapon:'fu_server_beam', fuSpecial:'fu_ice_pillars', color:'#88aaff', scale:2.2, range:340, atkSpeed:2.4, ranged:true, antiAir:true, speed:0.3, fuRender:'supercomp' },
+        307: { name:'ヴォルフ博士', yomi:'う゛ぉるふはかせ', hp:20000, atk:920, helmet:'mahou_robe', weapon:'fu_flask_throw', fuSpecial:'fu_creature_summon', color:'#fff', scale:1.9, range:280, atkSpeed:2.2, ranged:true, aoe:true, fuRender:'madsci' },
+        308: { name:'ナノクラウド MUTABLE', yomi:'なのくらうど みゅーたぶる', hp:24000, atk:1000, helmet:'cosmic_orb', weapon:'fu_nano_shot', fuSpecial:'fu_morph_smash', color:'#cccccc', scale:2.1, range:240, atkSpeed:2.0, ranged:true, fuRender:'nanocloud' },
+        309: { name:'軌道守護神 ASURA-9', yomi:'きどうしゅごしん あすら ないん', hp:28000, atk:1100, helmet:'kishin', weapon:'fu_sword_slash', fuSpecial:'fu_orbital_rain', color:'#3366cc', scale:2.2, range:280, atkSpeed:1.8, ranged:true, antiAir:true, fuRender:'asura' },
+        310: { name:'GENESIS-REX', yomi:'じぇねしす れっくす', hp:33000, atk:1250, helmet:'rex_jaw', weapon:'fu_fireball_breath', fuSpecial:'fu_bio_breath', color:'#44aa55', scale:2.4, range:260, atkSpeed:1.9, ranged:true, antiAir:true, fuRender:'biorex' },
+        311: { name:'ANUBIS-OS', yomi:'あぬびす おーえす', hp:38000, atk:1400, helmet:'twin_yokai', weapon:'fu_death_ray', fuSpecial:'fu_sand_tornado', color:'#ccaa66', scale:2.4, range:340, atkSpeed:2.0, ranged:true, antiAir:true, fuRender:'anubis' },
+        312: { name:'クライオキング', yomi:'くらいおきんぐ', hp:44000, atk:1550, helmet:'frost_crown', weapon:'fu_cryo_breath', fuSpecial:'fu_ice_pillars', color:'#aaeeff', scale:2.3, range:240, atkSpeed:2.2, ranged:true, antiAir:true, aoe:true, fuRender:'cryo' },
+        313: { name:'剣闘士 MAXIMUS-3', yomi:'けんとうし まきします すりー', hp:50000, atk:1700, helmet:'taisho', weapon:'fu_sword_slash', fuSpecial:'fu_spin_slash', color:'#cc2222', scale:2.1, range:55, atkSpeed:1.6, fuRender:'maximus' },
+        314: { name:'ORBIT-LANCER', yomi:'おーびっと らんさー', hp:57000, atk:1850, helmet:'cannon', weapon:'fu_missile_single', fuSpecial:'fu_missile_rain', color:'#cccccc', scale:2.4, range:340, atkSpeed:2.2, ranged:true, antiAir:true, aoe:true, fuRender:'lancer' },
+        315: { name:'GAIA-MIND', yomi:'がいあ まいんど', hp:66000, atk:2000, helmet:'miko', weapon:'fu_root_bind', fuSpecial:'fu_gravity_well', color:'#22dd99', scale:2.3, range:260, atkSpeed:2.0, ranged:true, antiAir:true, aoe:true, fuRender:'gaia' },
+        316: { name:'CHRONOS', yomi:'くろのす', hp:76000, atk:2200, helmet:'zeus_crown', weapon:'fu_clock_bullet', fuSpecial:'fu_time_stop', color:'#3a3a4a', scale:2.4, range:300, atkSpeed:2.2, ranged:true, antiAir:true, aoe:true, fuRender:'chronos' },
+        317: { name:'GOLD QUANTUM', yomi:'ごーるど くおんたむ', hp:88000, atk:2400, helmet:'dragon_head', weapon:'fu_dragon_bite', fuSpecial:'fu_gold_breath', color:'#ffd24a', scale:2.5, range:320, atkSpeed:2.0, ranged:true, antiAir:true, aoe:true, flying:true, wingColor:'#ddaa22', noWings:true, fuRender:'quantum' },
+        318: { name:'OMNIAS', yomi:'おむにあす', hp:120000, atk:3500, helmet:'md_sat_red', weapon:'fu_holo_fist', fuSpecial:'fu_orbital_bomb', color:'#ff2266', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.20, fuRender:'omnias' }
     };
 
     // ステージ18は二段階ボス戦
@@ -5166,10 +5438,10 @@
 
     function spawnBossFromData(b) {
         if(!b) return;
-        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍、現代編=4.8倍）
+        // 編ごとのボス倍率（過去編=3倍、超過去編=2倍、現代編=4.8倍、未来編=6.0倍）
         const stage = STAGE_DATA.find(s => s.id === game.stageId);
         const era = (stage && stage.era) || 'past';
-        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : (era === 'modern' ? 4.8 : 1));
+        const bossMul = era === 'past' ? 3 : (era === 'super_past' ? 2 : (era === 'modern' ? 4.8 : (era === 'future' ? 6.0 : 1)));
         const baseGold = b.gold || Math.floor(b.hp / 8);
         const data = {
             name: b.name, yomi: b.yomi,
@@ -5189,7 +5461,9 @@
             // 瞬間移動（テケテケ・花子さん）
             teleport: b.teleport,
             // 現代編専用の固有描画（味方と同じ見た目になるように）
-            mdRender: b.mdRender
+            mdRender: b.mdRender,
+            // 未来編専用の固有描画 + 必殺技
+            fuRender: b.fuRender, fuSpecial: b.fuSpecial
         };
         spawnUnit('e', data);
         addFloat(W()/2, H()*0.18, `🏯 ボス出現！ ${b.name} 🏯`, '#ff3344', true);
@@ -6890,6 +7164,11 @@
             drawModernUnit(c, x, y, u, dir, swing, scale);
             return;
         }
+        // 未来編キャラも固有描画にディスパッチ
+        if(u && u.fuRender && typeof FU_DRAW !== 'undefined' && FU_DRAW[u.fuRender]) {
+            drawFutureUnit(c, x, y, u, dir, swing, scale);
+            return;
+        }
         // dir: 1=facing left, -1=facing right
         c.save(); c.translate(x, y); c.scale(dir*scale, scale);
 
@@ -7454,6 +7733,513 @@
         }
     };
 
+    // ==========================================
+    // 未来編キャラ固有描画 — 18体（ボス・味方共通・2098年地球）
+    // ==========================================
+    function drawFutureUnit(c, x, y, u, dir, swing, scale=1) {
+        c.save(); c.translate(x, y); c.scale(dir*scale, scale);
+        // 浮遊影（未来感のため少し横長）
+        c.fillStyle = 'rgba(0,0,0,0.3)';
+        c.beginPath(); c.ellipse(0, 2, 20, 4, 0, 0, Math.PI*2); c.fill();
+        const fn = FU_DRAW[u.fuRender];
+        if(fn) fn(c, u, swing);
+        c.restore();
+    }
+    // 人型未来兵のベース
+    function _fuHumanoidBase(c, u, opts) {
+        const body = opts.body || u.color;
+        const skin = opts.skin || '#f0d4a8';
+        // 脚
+        c.fillStyle = opts.legs || '#1a1a1a';
+        c.fillRect(-7, -10, 5, 12); c.fillRect(2, -10, 5, 12);
+        if(opts.shoes !== false) { c.fillStyle = opts.shoeColor || '#000';
+            c.fillRect(-8, 0, 7, 2); c.fillRect(1, 0, 7, 2); }
+        // 胴体
+        c.fillStyle = body;
+        c.fillRect(-11, -28, 22, 22);
+        c.strokeStyle = '#000'; c.lineWidth = 1; c.strokeRect(-11, -28, 22, 22);
+        c.fillStyle = 'rgba(255,255,255,0.18)'; c.fillRect(-10,-27,5,4);
+        // 腕
+        c.fillStyle = body;
+        c.fillRect(-14, -25, 4, 14);
+        c.fillRect(10, -25, 4, 14);
+        c.strokeRect(-14, -25, 4, 14); c.strokeRect(10, -25, 4, 14);
+        // 首・頭
+        if(opts.skipHead !== true) {
+            c.fillStyle = skin;
+            c.beginPath(); c.arc(0, -34, 7, 0, Math.PI*2); c.fill();
+            c.strokeStyle = '#000'; c.stroke();
+        }
+    }
+
+    const FU_DRAW = {
+        // 301: サムライ将軍 ZERO — A 紺紫の量子サムライ
+        zero(c, u) {
+            // 半透明オーラ
+            c.fillStyle='rgba(170,68,255,0.18)';c.beginPath();c.arc(0,-22,22,0,Math.PI*2);c.fill();
+            // ホログラム羽織
+            c.fillStyle='rgba(120,60,200,0.55)';c.beginPath();c.moveTo(-14,-26);c.lineTo(-22,-4);c.lineTo(-14,-6);c.closePath();c.fill();
+            c.beginPath();c.moveTo(14,-26);c.lineTo(22,-4);c.lineTo(14,-6);c.closePath();c.fill();
+            _fuHumanoidBase(c, u, { body:'#4a2a8a', skin:'#e0c8d8' });
+            // バイザー
+            c.fillStyle='#1a0a40';c.fillRect(-7,-35,14,3);
+            c.fillStyle='#00f0ff';c.fillRect(-6,-34,12,1);
+            // 量子粒子
+            c.fillStyle='#00f0ff';c.fillRect(-9,-40,1.5,1.5);c.fillRect(7,-38,1.5,1.5);c.fillRect(2,-44,1.5,1.5);
+            // 電子刀（腰）
+            c.save();c.translate(11,-12);c.rotate(-Math.PI/8);
+            c.strokeStyle='#aa44ff';c.lineWidth=2.5;c.beginPath();c.moveTo(0,0);c.lineTo(18,-2);c.stroke();
+            c.fillStyle='#fff';c.fillRect(16,-3,3,2);c.restore();
+        },
+        // 302: 戦闘用ロボ TITAN-X — A 重装黄黒ミリタリーメカ
+        titan(c, u) {
+            // 脚
+            c.fillStyle='#1a1a1a';c.fillRect(-9,-12,7,14);c.fillRect(2,-12,7,14);
+            c.fillStyle='#ffd24a';c.fillRect(-9,-12,7,3);c.fillRect(2,-12,7,3);
+            // 胴体（重装四角）
+            c.fillStyle='#1a1a1a';c.fillRect(-14,-32,28,24);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-14,-32,28,24);
+            c.fillStyle='#ffd24a';c.fillRect(-14,-32,28,4);c.fillRect(-14,-12,28,3);
+            // 胸の×マーク
+            c.strokeStyle='#000';c.lineWidth=2;c.beginPath();c.moveTo(-6,-26);c.lineTo(6,-16);c.moveTo(6,-26);c.lineTo(-6,-16);c.stroke();
+            // 腕
+            c.fillStyle='#1a1a1a';c.fillRect(-18,-30,5,18);c.fillRect(13,-30,5,18);
+            c.fillStyle='#ffd24a';c.fillRect(-18,-30,5,3);c.fillRect(13,-30,5,3);
+            // 肩のミニガン
+            c.fillStyle='#555';c.fillRect(15,-36,12,6);
+            c.fillStyle='#222';c.beginPath();c.arc(25,-33,2,0,Math.PI*2);c.fill();
+            // 頭部（バイザー）
+            c.fillStyle='#1a1a1a';c.fillRect(-8,-44,16,12);c.strokeRect(-8,-44,16,12);
+            c.fillStyle='#ff2222';c.fillRect(-6,-40,12,3);
+            c.fillStyle='#ffd24a';c.fillRect(-8,-44,16,2);
+            // アンテナ
+            c.strokeStyle='#777';c.lineWidth=1.2;c.beginPath();c.moveTo(-4,-44);c.lineTo(-6,-50);c.stroke();
+        },
+        // 303: ドローン女王 MIRAI-Q — B 純白セラフ型
+        drone_queen(c, u) {
+            // 浮遊（脚なし）
+            // 後光（光輪）
+            c.strokeStyle='rgba(255,210,74,0.8)';c.lineWidth=2;c.beginPath();c.arc(0,-40,10,0,Math.PI*2);c.stroke();
+            // プロペラ翼6枚（背中）
+            c.fillStyle='rgba(0,221,255,0.6)';
+            for(let k=0;k<6;k++){const ang=k*Math.PI/3;c.save();c.translate(0,-24);c.rotate(ang);
+              c.beginPath();c.ellipse(0,-14,3,9,0,0,Math.PI*2);c.fill();c.restore();}
+            // 浮遊スカート（白）
+            c.fillStyle='#fff';c.beginPath();c.moveTo(-12,-6);c.lineTo(-16,12);c.lineTo(16,12);c.lineTo(12,-6);c.closePath();c.fill();
+            c.strokeStyle='#cccccc';c.lineWidth=1;c.stroke();
+            c.fillStyle='#00ddff';c.fillRect(-16,11,32,1.5);
+            // 胴体
+            c.fillStyle='#fff';c.fillRect(-10,-28,20,22);c.strokeStyle='#888';c.lineWidth=1;c.strokeRect(-10,-28,20,22);
+            // 胸のコア
+            c.fillStyle='#00ddff';c.beginPath();c.arc(0,-18,3.5,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(0,-18,1.5,0,Math.PI*2);c.fill();
+            // 腕
+            c.fillStyle='#fff';c.fillRect(-13,-25,3,14);c.fillRect(10,-25,3,14);
+            // 頭（顔）
+            c.fillStyle='#f0e0d0';c.beginPath();c.arc(0,-34,6,0,Math.PI*2);c.fill();
+            // 金王冠
+            c.fillStyle='#ffd24a';c.beginPath();
+            c.moveTo(-6,-38);c.lineTo(-4,-44);c.lineTo(-2,-40);c.lineTo(0,-46);c.lineTo(2,-40);c.lineTo(4,-44);c.lineTo(6,-38);c.closePath();c.fill();
+            // 目
+            c.fillStyle='#00ddff';c.fillRect(-3,-34,1.5,1.5);c.fillRect(2,-34,1.5,1.5);
+        },
+        // 304: AERO-SEOUL — A 真っ赤スポーツカー型
+        aero(c, u) {
+            // ジェット噴射（後方）
+            c.fillStyle='#ffd24a';c.beginPath();c.ellipse(-22,-12,8,4,0,0,Math.PI*2);c.fill();
+            c.fillStyle='#ff8844';c.beginPath();c.ellipse(-18,-12,6,3,0,0,Math.PI*2);c.fill();
+            // 車体（流線形・低め）
+            c.fillStyle='#dd2222';c.beginPath();
+            c.moveTo(-20,-8);c.quadraticCurveTo(-22,-18,-10,-22);c.lineTo(10,-22);c.quadraticCurveTo(22,-20,22,-8);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+            // 窓（黒スモーク）
+            c.fillStyle='#1a1a1a';c.beginPath();
+            c.moveTo(-8,-19);c.lineTo(-3,-21);c.lineTo(8,-21);c.lineTo(11,-19);c.lineTo(11,-15);c.lineTo(-8,-15);c.closePath();c.fill();
+            // 下部
+            c.fillStyle='#aa1010';c.fillRect(-20,-12,40,5);
+            // 丸いヘッドライト
+            c.fillStyle='#ffd24a';c.beginPath();c.arc(18,-10,2.5,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(18,-10,1,0,Math.PI*2);c.fill();
+            // 浮遊リング（地面浮）
+            c.strokeStyle='rgba(0,221,255,0.6)';c.lineWidth=2;c.beginPath();c.ellipse(0,0,24,4,0,0,Math.PI*2);c.stroke();
+            // タイヤなし（浮遊カー）
+            c.fillStyle='#00ddff';c.fillRect(-16,-6,32,1);
+        },
+        // 305: ホロサメ MEGA-HOLO — B 紫紅グリッチサメ
+        holoshark(c, u) {
+            c.save();c.scale(-1,1); // サメは進行方向に頭を向けるため一旦反転（drawFutureUnit外側のdirを打ち消す→敵時に右、味方時に左）
+            // 体（紫紅）
+            c.fillStyle='#aa2266';c.beginPath();
+            c.moveTo(-28,-18);c.quadraticCurveTo(-15,-26,15,-22);c.quadraticCurveTo(28,-18,20,-8);c.lineTo(-28,-8);c.closePath();c.fill();
+            c.strokeStyle='#3a0820';c.lineWidth=1;c.stroke();
+            // 走査線（CRT）
+            c.strokeStyle='rgba(255,255,255,0.25)';c.lineWidth=0.5;
+            for(let i=0;i<5;i++){c.beginPath();c.moveTo(-28,-17+i*3);c.lineTo(20,-17+i*3);c.stroke();}
+            // 背びれ
+            c.fillStyle='#7a1850';c.beginPath();c.moveTo(-2,-22);c.lineTo(2,-34);c.lineTo(8,-22);c.closePath();c.fill();
+            // RGB分離（青）
+            c.fillStyle='rgba(0,221,255,0.4)';c.beginPath();
+            c.moveTo(-30,-18);c.quadraticCurveTo(-17,-26,13,-22);c.quadraticCurveTo(26,-18,18,-8);c.lineTo(-30,-8);c.closePath();c.fill();
+            // RGB分離（赤）
+            c.fillStyle='rgba(255,40,80,0.4)';c.beginPath();
+            c.moveTo(-26,-18);c.quadraticCurveTo(-13,-26,17,-22);c.quadraticCurveTo(30,-18,22,-8);c.lineTo(-26,-8);c.closePath();c.fill();
+            // 目（赤）
+            c.fillStyle='#ff2266';c.beginPath();c.arc(16,-18,2,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(16.5,-18.5,0.8,0,Math.PI*2);c.fill();
+            // 口（歯）
+            c.fillStyle='#1a0010';c.fillRect(8,-13,12,3);
+            c.fillStyle='#fff';for(let i=0;i<5;i++){c.fillRect(8+i*2.5,-13,1,2);}
+            // 尾びれ
+            c.fillStyle='#aa2266';c.beginPath();c.moveTo(-28,-14);c.lineTo(-38,-22);c.lineTo(-38,-2);c.closePath();c.fill();
+            c.restore();
+        },
+        // 306: 量子スパコン PERMAFROST — C 機械化クレムリン宮殿巨人
+        supercomp(c, u) {
+            // 脚
+            c.fillStyle='#446a8a';c.fillRect(-9,-12,7,14);c.fillRect(2,-12,7,14);
+            // 胴体（クレムリン宮殿の壁）
+            c.fillStyle='#88aaff';c.fillRect(-16,-34,32,26);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-16,-34,32,26);
+            // 壁の煉瓦パターン
+            c.strokeStyle='rgba(0,0,0,0.3)';c.lineWidth=0.5;
+            for(let r=0;r<3;r++){c.beginPath();c.moveTo(-16,-32+r*8);c.lineTo(16,-32+r*8);c.stroke();}
+            // LED格子（青）
+            c.fillStyle='#00f0ff';
+            for(let i=0;i<5;i++)for(let j=0;j<3;j++){c.fillRect(-12+i*6,-30+j*8,1.5,1.5);}
+            // 機械の腕
+            c.fillStyle='#5a6a8a';c.fillRect(-20,-28,4,16);c.fillRect(16,-28,4,16);
+            c.fillStyle='#aaa';c.fillRect(-22,-14,8,4);c.fillRect(14,-14,8,4);
+            // 玉ねぎドーム（頭）
+            c.fillStyle='#aaccff';c.beginPath();
+            c.moveTo(-10,-34);c.quadraticCurveTo(-12,-46,0,-52);c.quadraticCurveTo(12,-46,10,-34);c.closePath();c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.stroke();
+            // ドームの装飾線
+            c.strokeStyle='#3a5a8a';c.lineWidth=1;
+            c.beginPath();c.moveTo(-7,-37);c.quadraticCurveTo(-8,-45,0,-48);c.stroke();
+            c.beginPath();c.moveTo(7,-37);c.quadraticCurveTo(8,-45,0,-48);c.stroke();
+            // ドームの十字
+            c.fillStyle='#ffd24a';c.fillRect(-1,-58,2,8);c.fillRect(-3,-55,6,2);
+            // 赤い目
+            c.fillStyle='#ff2222';c.beginPath();c.arc(-4,-40,1.5,0,Math.PI*2);c.fill();c.beginPath();c.arc(4,-40,1.5,0,Math.PI*2);c.fill();
+        },
+        // 307: マッドサイエンティスト ヴォルフ博士 — A 白衣ロングヘア狂気型
+        madsci(c, u) {
+            _fuHumanoidBase(c, u, { body:'#fff', skin:'#f0d4a8', skipHead:true });
+            // 白衣の縦縞（ボタン）
+            c.fillStyle='#888';c.fillRect(0,-26,1,18);
+            c.fillStyle='#000';for(let i=0;i<3;i++){c.fillRect(-0.5,-24+i*6,2,1);}
+            // 顔
+            c.fillStyle='#f0d4a8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 乱れた銀髪
+            c.fillStyle='#cccccc';c.beginPath();
+            c.moveTo(-7,-38);c.lineTo(-10,-46);c.lineTo(-5,-40);c.lineTo(-3,-46);c.lineTo(0,-42);c.lineTo(3,-46);c.lineTo(5,-40);c.lineTo(10,-46);c.lineTo(7,-38);c.closePath();c.fill();
+            // 赤縁眼鏡
+            c.strokeStyle='#cc2222';c.lineWidth=1.5;
+            c.beginPath();c.arc(-3,-34,2.5,0,Math.PI*2);c.stroke();
+            c.beginPath();c.arc(3,-34,2.5,0,Math.PI*2);c.stroke();
+            c.beginPath();c.moveTo(-0.5,-34);c.lineTo(0.5,-34);c.stroke();
+            // 目（光る）
+            c.fillStyle='#fff';c.fillRect(-4,-35,2,1.5);c.fillRect(2,-35,2,1.5);
+            // にやけた口
+            c.strokeStyle='#000';c.lineWidth=1;c.beginPath();c.arc(0,-30,2,0.1,Math.PI-0.1);c.stroke();
+            // フラスコ（手）
+            c.fillStyle='#88ff44';c.beginPath();c.moveTo(13,-14);c.lineTo(13,-8);c.lineTo(17,-8);c.lineTo(17,-14);c.closePath();c.fill();
+            c.fillStyle='#aaaaaa';c.fillRect(13,-16,4,2);
+            // フラスコの泡
+            c.fillStyle='#fff';c.beginPath();c.arc(14,-11,0.8,0,Math.PI*2);c.fill();
+        },
+        // 308: ナノクラウド MUTABLE — A 銀の渦巻く雲
+        nanocloud(c, u) {
+            // 雲の渦巻き（複数の円）
+            c.fillStyle='rgba(204,204,204,0.7)';
+            c.beginPath();c.arc(-8,-12,8,0,Math.PI*2);c.fill();
+            c.beginPath();c.arc(8,-14,9,0,Math.PI*2);c.fill();
+            c.beginPath();c.arc(-2,-22,10,0,Math.PI*2);c.fill();
+            c.beginPath();c.arc(10,-28,7,0,Math.PI*2);c.fill();
+            c.beginPath();c.arc(-12,-26,7,0,Math.PI*2);c.fill();
+            c.beginPath();c.arc(0,-32,9,0,Math.PI*2);c.fill();
+            // 銀粒子
+            c.fillStyle='#eeeeee';
+            for(let k=0;k<10;k++){const a=k*Math.PI*0.628;c.fillRect(Math.cos(a)*14,-22+Math.sin(a)*10,1.5,1.5);}
+            // 中央の顔（うっすら）
+            c.fillStyle='rgba(150,150,180,0.5)';c.beginPath();c.arc(0,-24,5,0,Math.PI*2);c.fill();
+            // 目（青光）
+            c.fillStyle='#00ddff';c.beginPath();c.arc(-2,-24,1.2,0,Math.PI*2);c.fill();c.beginPath();c.arc(2,-24,1.2,0,Math.PI*2);c.fill();
+        },
+        // 309: 軌道守護神 ASURA-9 — A 6本腕の青神メカ
+        asura(c, u) {
+            // 脚
+            c.fillStyle='#1a3066';c.fillRect(-7,-10,5,12);c.fillRect(2,-10,5,12);
+            // 胴体
+            c.fillStyle='#3366cc';c.fillRect(-12,-32,24,24);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-12,-32,24,24);
+            // 金縁装飾
+            c.fillStyle='#ffd24a';c.fillRect(-12,-32,24,2);c.fillRect(-12,-10,24,2);
+            // 6本のメカ腕（左右3本ずつ）
+            c.fillStyle='#3366cc';
+            c.fillRect(-16,-30,4,12);c.fillRect(-18,-22,4,12);c.fillRect(-16,-14,4,10);
+            c.fillRect(12,-30,4,12);c.fillRect(14,-22,4,12);c.fillRect(12,-14,4,10);
+            c.strokeStyle='#000';c.strokeRect(-16,-30,4,12);c.strokeRect(-18,-22,4,12);c.strokeRect(-16,-14,4,10);
+            c.strokeRect(12,-30,4,12);c.strokeRect(14,-22,4,12);c.strokeRect(12,-14,4,10);
+            // 各腕に小さな武器
+            c.fillStyle='#aaa';c.fillRect(-15,-32,2,4);c.fillRect(-17,-24,2,4);c.fillRect(-15,-16,2,4);
+            c.fillRect(13,-32,2,4);c.fillRect(15,-24,2,4);c.fillRect(13,-16,2,4);
+            // 顔
+            c.fillStyle='#e0c8a8';c.beginPath();c.arc(0,-38,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 第三の目（額・赤）
+            c.fillStyle='#ff2222';c.beginPath();c.arc(0,-40,1.8,0,Math.PI*2);c.fill();
+            // 通常の目
+            c.fillStyle='#000';c.fillRect(-3,-37,1.5,1.5);c.fillRect(2,-37,1.5,1.5);
+            // 金の頭飾り（インド神像風）
+            c.fillStyle='#ffd24a';c.beginPath();
+            c.moveTo(-7,-42);c.lineTo(0,-50);c.lineTo(7,-42);c.closePath();c.fill();
+        },
+        // 310: バイオAI恐竜 GENESIS-REX — A 緑の機械ジャングル恐竜
+        biorex(c, u) {
+            c.save();c.scale(-1,1);
+            // 尾
+            c.fillStyle='#44aa55';c.beginPath();c.moveTo(-22,-14);c.quadraticCurveTo(-38,-10,-36,-2);c.lineTo(-22,-6);c.closePath();c.fill();
+            // 胴体
+            c.fillStyle='#44aa55';c.beginPath();
+            c.moveTo(-22,-22);c.quadraticCurveTo(-15,-32,5,-32);c.quadraticCurveTo(20,-30,20,-12);c.lineTo(-22,-12);c.closePath();c.fill();
+            c.strokeStyle='#1a3a20';c.lineWidth=1;c.stroke();
+            // 蔦（茶緑）
+            c.fillStyle='#226633';c.fillRect(-15,-26,2,12);c.fillRect(0,-28,2,10);
+            c.fillStyle='#44aa55';c.beginPath();c.arc(-14,-26,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(1,-28,2,0,Math.PI*2);c.fill();
+            // メカ装甲パーツ（銀）
+            c.fillStyle='#888';c.fillRect(-10,-22,8,3);c.fillRect(5,-24,6,3);
+            // 脚（太い）
+            c.fillStyle='#44aa55';c.fillRect(-15,-12,7,14);c.fillRect(5,-12,7,14);c.strokeRect(-15,-12,7,14);c.strokeRect(5,-12,7,14);
+            // 頭
+            c.fillStyle='#44aa55';c.beginPath();
+            c.moveTo(15,-32);c.quadraticCurveTo(30,-30,30,-18);c.lineTo(20,-18);c.lineTo(18,-30);c.closePath();c.fill();
+            c.strokeStyle='#1a3a20';c.stroke();
+            // 顎（口）
+            c.fillStyle='#3a8a40';c.fillRect(20,-20,12,3);
+            c.fillStyle='#fff';for(let i=0;i<5;i++){c.fillRect(21+i*2,-20,1,2);}
+            // 赤目
+            c.fillStyle='#ff2222';c.beginPath();c.arc(26,-26,1.8,0,Math.PI*2);c.fill();
+            // 蒸気
+            c.fillStyle='rgba(200,255,200,0.4)';c.beginPath();c.arc(28,-32,3,0,Math.PI*2);c.fill();c.beginPath();c.arc(32,-30,2.5,0,Math.PI*2);c.fill();
+            c.restore();
+        },
+        // 311: 古代AI ANUBIS-OS — C 砂塵の異形巨人
+        anubis(c, u) {
+            // 砂で構成された巨人（崩れる輪郭）
+            c.fillStyle='#ccaa66';
+            c.beginPath();c.moveTo(-12,2);c.quadraticCurveTo(-16,-12,-14,-26);c.quadraticCurveTo(-10,-34,0,-36);c.quadraticCurveTo(10,-34,14,-26);c.quadraticCurveTo(16,-12,12,2);c.closePath();c.fill();
+            // 砂粒（崩れ）
+            c.fillStyle='#aa8844';
+            for(let k=0;k<14;k++){const a=k*Math.PI*0.448;c.fillRect(Math.cos(a)*15,-18+Math.sin(a)*16,1.5,1.5);}
+            c.fillStyle='rgba(204,170,102,0.4)';
+            for(let k=0;k<10;k++){const a=k*Math.PI*0.628;c.fillRect(Math.cos(a)*18,-18+Math.sin(a)*18,2,2);}
+            // 古い王冠（金）
+            c.fillStyle='#ddbb44';c.beginPath();
+            c.moveTo(-8,-38);c.lineTo(-6,-44);c.lineTo(-2,-40);c.lineTo(2,-44);c.lineTo(6,-40);c.lineTo(8,-38);c.closePath();c.fill();
+            c.strokeStyle='#7a5a20';c.lineWidth=1;c.stroke();
+            // 緑光の目
+            c.fillStyle='#44dd55';c.beginPath();c.arc(-3,-28,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(3,-28,2,0,Math.PI*2);c.fill();
+            // ヒエログリフ（体表）
+            c.fillStyle='#7a5a20';c.font='bold 5px serif';c.textAlign='center';
+            c.fillText('𓂀',0,-12);
+        },
+        // 312: クライオキング — A 青白い氷の王
+        cryo(c, u) {
+            // 冷気オーラ
+            c.fillStyle='rgba(170,238,255,0.18)';c.beginPath();c.arc(0,-22,22,0,Math.PI*2);c.fill();
+            // 凍結マント
+            c.fillStyle='#88ddff';c.beginPath();
+            c.moveTo(-12,-26);c.lineTo(-18,4);c.lineTo(18,4);c.lineTo(12,-26);c.closePath();c.fill();
+            c.strokeStyle='#5a8aaa';c.lineWidth=1;c.stroke();
+            // 結晶パターン
+            c.fillStyle='#aaeeff';c.beginPath();c.moveTo(-8,-10);c.lineTo(-6,-6);c.lineTo(-4,-10);c.closePath();c.fill();
+            c.beginPath();c.moveTo(4,-10);c.lineTo(6,-6);c.lineTo(8,-10);c.closePath();c.fill();
+            _fuHumanoidBase(c, u, { body:'#aaeeff', skin:'#e0e8f0', skipHead:true });
+            // 顔
+            c.fillStyle='#e0e8f0';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 白い髭
+            c.fillStyle='#fff';c.beginPath();c.moveTo(-5,-28);c.lineTo(-3,-22);c.lineTo(3,-22);c.lineTo(5,-28);c.closePath();c.fill();
+            // 青目
+            c.fillStyle='#00aaff';c.fillRect(-3,-35,1.5,1.5);c.fillRect(2,-35,1.5,1.5);
+            // 氷王冠（とがった結晶）
+            c.fillStyle='#aaeeff';c.beginPath();
+            c.moveTo(-7,-40);c.lineTo(-5,-50);c.lineTo(-2,-42);c.lineTo(0,-52);c.lineTo(2,-42);c.lineTo(5,-50);c.lineTo(7,-40);c.closePath();c.fill();
+            c.strokeStyle='#5a8aaa';c.stroke();
+            // 氷の杖
+            c.save();c.translate(14,-12);c.rotate(-Math.PI/10);
+            c.strokeStyle='#88ddff';c.lineWidth=2.5;c.beginPath();c.moveTo(0,0);c.lineTo(0,-22);c.stroke();
+            c.fillStyle='#aaeeff';c.beginPath();
+            c.moveTo(-4,-22);c.lineTo(0,-30);c.lineTo(4,-22);c.closePath();c.fill();c.restore();
+        },
+        // 313: サイボーグ剣闘士 MAXIMUS-3 — A 赤金の重装剣闘士
+        maximus(c, u) {
+            _fuHumanoidBase(c, u, { body:'#cc2222', skin:'#e0c8a8', skipHead:true });
+            // 金縁装飾
+            c.fillStyle='#ffd24a';c.fillRect(-11,-28,22,2);c.fillRect(-11,-9,22,2);
+            // ベルト
+            c.fillStyle='#5a3010';c.fillRect(-11,-14,22,3);
+            // 大盾（左手）
+            c.fillStyle='#ddaa44';c.fillRect(-22,-30,7,22);
+            c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-22,-30,7,22);
+            c.fillStyle='#cc2222';c.fillRect(-21,-26,5,4);
+            // ライオン紋
+            c.fillStyle='#5a2210';c.beginPath();c.arc(-18.5,-18,2,0,Math.PI*2);c.fill();
+            // ショートソード（右手）
+            c.save();c.translate(12,-14);c.rotate(-Math.PI/6);
+            c.strokeStyle='#aaa';c.lineWidth=3;c.beginPath();c.moveTo(0,0);c.lineTo(0,-16);c.stroke();
+            c.fillStyle='#ffd24a';c.fillRect(-2,1,4,3);c.restore();
+            // 顔
+            c.fillStyle='#e0c8a8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 目
+            c.fillStyle='#000';c.fillRect(-3,-34,1.5,1.5);c.fillRect(2,-34,1.5,1.5);
+            // ヘルメット（赤兜飾り）
+            c.fillStyle='#cc2222';c.fillRect(-8,-44,16,8);
+            c.strokeRect(-8,-44,16,8);
+            // 赤い飾り羽（上）
+            c.fillStyle='#cc2222';c.beginPath();
+            c.moveTo(-4,-44);c.lineTo(-3,-52);c.lineTo(0,-46);c.lineTo(3,-52);c.lineTo(4,-44);c.closePath();c.fill();
+            c.fillStyle='#ffd24a';c.fillRect(-8,-44,16,2);
+        },
+        // 314: 巨大メカ ORBIT-LANCER — B 銀の宇宙騎士型
+        lancer(c, u) {
+            // 展開する翼（4枚）
+            c.fillStyle='#88aaff';c.beginPath();
+            c.moveTo(-12,-26);c.lineTo(-26,-16);c.lineTo(-22,-12);c.lineTo(-12,-18);c.closePath();c.fill();
+            c.beginPath();c.moveTo(12,-26);c.lineTo(26,-16);c.lineTo(22,-12);c.lineTo(12,-18);c.closePath();c.fill();
+            c.fillStyle='#cccccc';c.beginPath();
+            c.moveTo(-12,-22);c.lineTo(-22,-10);c.lineTo(-18,-6);c.lineTo(-12,-14);c.closePath();c.fill();
+            c.beginPath();c.moveTo(12,-22);c.lineTo(22,-10);c.lineTo(18,-6);c.lineTo(12,-14);c.closePath();c.fill();
+            // 脚
+            c.fillStyle='#888';c.fillRect(-8,-12,6,14);c.fillRect(2,-12,6,14);
+            c.fillStyle='#00ddff';c.fillRect(-8,-3,6,1.5);c.fillRect(2,-3,6,1.5);
+            // 胴体
+            c.fillStyle='#cccccc';c.fillRect(-13,-32,26,24);c.strokeStyle='#000';c.lineWidth=1;c.strokeRect(-13,-32,26,24);
+            c.fillStyle='#00ddff';c.fillRect(-13,-32,26,2);c.fillRect(-13,-10,26,2);
+            // 胸のコア
+            c.fillStyle='#00ddff';c.beginPath();c.arc(0,-20,3.5,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(0,-20,1.5,0,Math.PI*2);c.fill();
+            // ビーム剣（両手）
+            c.save();c.translate(-14,-14);c.rotate(Math.PI/6);
+            c.fillStyle='#00ddff';c.fillRect(-1,-18,2,18);
+            c.fillStyle='#888';c.fillRect(-2,1,4,3);c.restore();
+            c.save();c.translate(14,-14);c.rotate(-Math.PI/6);
+            c.fillStyle='#00ddff';c.fillRect(-1,-18,2,18);
+            c.fillStyle='#888';c.fillRect(-2,1,4,3);c.restore();
+            // 騎士兜
+            c.fillStyle='#cccccc';c.fillRect(-8,-44,16,12);c.strokeRect(-8,-44,16,12);
+            c.fillStyle='#00ddff';c.fillRect(-6,-40,12,3);
+            c.fillStyle='#888';c.beginPath();c.moveTo(0,-44);c.lineTo(-2,-52);c.lineTo(2,-52);c.closePath();c.fill();
+        },
+        // 315: 都市制御AI GAIA-MIND — A 緑の女神ホログラム
+        gaia(c, u) {
+            // 半透明オーラ
+            c.fillStyle='rgba(34,221,153,0.18)';c.beginPath();c.arc(0,-22,22,0,Math.PI*2);c.fill();
+            // 葉のドレス
+            c.fillStyle='rgba(68,170,85,0.7)';c.beginPath();
+            c.moveTo(-12,-6);c.lineTo(-18,12);c.lineTo(18,12);c.lineTo(12,-6);c.closePath();c.fill();
+            c.strokeStyle='#226633';c.lineWidth=1;c.stroke();
+            // 葉の縁
+            c.fillStyle='#44aa55';for(let i=0;i<5;i++){c.beginPath();c.arc(-14+i*7,12,2,0,Math.PI);c.fill();}
+            // 半透明胴体
+            c.fillStyle='rgba(34,221,153,0.65)';c.fillRect(-10,-28,20,22);c.strokeStyle='#226633';c.lineWidth=1;c.strokeRect(-10,-28,20,22);
+            // 腕
+            c.fillStyle='rgba(34,221,153,0.65)';c.fillRect(-13,-25,3,14);c.fillRect(10,-25,3,14);
+            // 顔（半透明）
+            c.fillStyle='rgba(180,255,210,0.85)';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();
+            // 蔦の髪
+            c.fillStyle='#226633';c.fillRect(-8,-38,2,12);c.fillRect(6,-38,2,12);
+            c.fillStyle='#44aa55';c.beginPath();c.arc(-7,-26,2,0,Math.PI*2);c.fill();c.beginPath();c.arc(7,-26,2,0,Math.PI*2);c.fill();
+            // 葉のティアラ
+            c.fillStyle='#44aa55';c.beginPath();
+            c.moveTo(-7,-40);c.lineTo(-4,-44);c.lineTo(0,-40);c.lineTo(4,-44);c.lineTo(7,-40);c.closePath();c.fill();
+            // 優しい目
+            c.fillStyle='#fff';c.beginPath();c.arc(-2.5,-34,1.2,0,Math.PI*2);c.fill();c.beginPath();c.arc(2.5,-34,1.2,0,Math.PI*2);c.fill();
+            c.fillStyle='#22dd99';c.beginPath();c.arc(-2.5,-34,0.6,0,Math.PI*2);c.fill();c.beginPath();c.arc(2.5,-34,0.6,0,Math.PI*2);c.fill();
+        },
+        // 316: 時空王 CHRONOS — A 黒銀ゴシック王
+        chronos(c, u) {
+            _fuHumanoidBase(c, u, { body:'#1a1a2a', skin:'#d0c0c8', skipHead:true });
+            // 黒衣の長い裾
+            c.fillStyle='#0a0a1a';c.beginPath();
+            c.moveTo(-11,-6);c.lineTo(-15,12);c.lineTo(15,12);c.lineTo(11,-6);c.closePath();c.fill();
+            // 銀の時計装飾（胸）
+            c.fillStyle='#cccccc';c.beginPath();c.arc(0,-18,4,0,Math.PI*2);c.fill();
+            c.strokeStyle='#000';c.lineWidth=1;c.beginPath();c.arc(0,-18,4,0,Math.PI*2);c.stroke();
+            // 時計の針
+            c.strokeStyle='#000';c.beginPath();c.moveTo(0,-18);c.lineTo(0,-21);c.stroke();
+            c.beginPath();c.moveTo(0,-18);c.lineTo(2.5,-17);c.stroke();
+            // 顔
+            c.fillStyle='#d0c0c8';c.beginPath();c.arc(0,-34,7,0,Math.PI*2);c.fill();c.strokeStyle='#000';c.stroke();
+            // 赤目
+            c.fillStyle='#cc2222';c.fillRect(-3,-35,1.5,1.5);c.fillRect(2,-35,1.5,1.5);
+            // 時計の王冠
+            c.fillStyle='#cccccc';c.beginPath();
+            c.moveTo(-8,-40);c.lineTo(-6,-48);c.lineTo(-2,-42);c.lineTo(0,-50);c.lineTo(2,-42);c.lineTo(6,-48);c.lineTo(8,-40);c.closePath();c.fill();
+            c.strokeStyle='#000';c.stroke();
+            // 王冠の中央時計
+            c.fillStyle='#aa44ff';c.beginPath();c.arc(0,-46,2.5,0,Math.PI*2);c.fill();
+            c.strokeStyle='#fff';c.lineWidth=0.5;c.beginPath();c.moveTo(0,-46);c.lineTo(0,-48);c.stroke();
+            // 杖
+            c.save();c.translate(14,-12);c.rotate(-Math.PI/12);
+            c.strokeStyle='#cccccc';c.lineWidth=2.5;c.beginPath();c.moveTo(0,0);c.lineTo(0,-26);c.stroke();
+            c.fillStyle='#aa44ff';c.beginPath();c.arc(0,-30,3,0,Math.PI*2);c.fill();c.restore();
+        },
+        // 317: 量子龍 GOLD QUANTUM — A 純金のドラゴン
+        quantum(c, u) {
+            c.save();c.scale(-1,1);
+            // 雲（足元）
+            c.fillStyle='rgba(220,220,220,0.6)';c.beginPath();c.arc(-12,-2,8,0,Math.PI*2);c.fill();c.beginPath();c.arc(8,-2,7,0,Math.PI*2);c.fill();
+            // 体（長い東洋龍）
+            c.fillStyle='#ffd24a';c.beginPath();
+            c.moveTo(-30,-12);c.quadraticCurveTo(-20,-20,-5,-18);c.quadraticCurveTo(10,-16,20,-22);c.quadraticCurveTo(28,-26,32,-22);c.quadraticCurveTo(36,-16,28,-12);c.lineTo(-30,-12);c.closePath();c.fill();
+            c.strokeStyle='#7a5a10';c.lineWidth=1;c.stroke();
+            // 金鱗
+            c.strokeStyle='#aa8810';c.lineWidth=0.5;
+            for(let i=0;i<8;i++){c.beginPath();c.arc(-22+i*7,-15,3,0,Math.PI);c.stroke();}
+            // 頭
+            c.fillStyle='#ffd24a';c.beginPath();
+            c.moveTo(28,-22);c.lineTo(38,-26);c.lineTo(40,-18);c.lineTo(32,-14);c.closePath();c.fill();c.strokeStyle='#7a5a10';c.stroke();
+            // 金の角
+            c.fillStyle='#ddaa22';c.beginPath();c.moveTo(32,-26);c.lineTo(36,-34);c.lineTo(34,-24);c.closePath();c.fill();
+            c.beginPath();c.moveTo(36,-26);c.lineTo(40,-32);c.lineTo(38,-24);c.closePath();c.fill();
+            // 碧目
+            c.fillStyle='#44dd99';c.beginPath();c.arc(34,-22,1.8,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(34.5,-22.5,0.6,0,Math.PI*2);c.fill();
+            // 金のヒゲ
+            c.strokeStyle='#ddaa22';c.lineWidth=1;c.beginPath();c.moveTo(36,-16);c.quadraticCurveTo(46,-12,48,-4);c.stroke();
+            c.beginPath();c.moveTo(38,-18);c.quadraticCurveTo(48,-16,50,-8);c.stroke();
+            // 神々しい鬣
+            c.fillStyle='#ddaa22';c.beginPath();c.moveTo(20,-22);c.lineTo(22,-30);c.lineTo(26,-22);c.closePath();c.fill();
+            c.beginPath();c.moveTo(10,-18);c.lineTo(12,-26);c.lineTo(16,-18);c.closePath();c.fill();
+            c.restore();
+        },
+        // 318: OMNIAS — C 全画面背景型（ラスボス：縦長・巨顔）
+        omnias(c, u) {
+            // 巨顔の枠（ホログラム赤）
+            c.fillStyle='rgba(255,34,102,0.12)';c.fillRect(-32,-90,64,90);
+            c.strokeStyle='#ff2266';c.lineWidth=1.5;c.strokeRect(-32,-90,64,90);
+            // OS UI ライン
+            c.strokeStyle='rgba(255,34,102,0.6)';c.lineWidth=0.5;
+            for(let i=0;i<6;i++){c.beginPath();c.moveTo(-32,-80+i*14);c.lineTo(32,-80+i*14);c.stroke();}
+            // 中央の巨大赤目
+            c.fillStyle='#1a0010';c.fillRect(-22,-58,44,20);
+            c.fillStyle='#ff2222';c.beginPath();c.arc(0,-48,9,0,Math.PI*2);c.fill();
+            c.fillStyle='#000';c.beginPath();c.arc(0,-48,4,0,Math.PI*2);c.fill();
+            c.fillStyle='#fff';c.beginPath();c.arc(2,-50,1.5,0,Math.PI*2);c.fill();
+            // 多数のサブ画面
+            c.fillStyle='#aa44ff';c.fillRect(-28,-86,10,8);c.fillRect(18,-86,10,8);c.fillRect(-28,-30,10,8);c.fillRect(18,-30,10,8);
+            c.strokeStyle='#ff2266';c.strokeRect(-28,-86,10,8);c.strokeRect(18,-86,10,8);c.strokeRect(-28,-30,10,8);c.strokeRect(18,-30,10,8);
+            // テキスト「OMNIAS」
+            c.fillStyle='#ff2266';c.font='bold 7px monospace';c.textAlign='center';
+            c.fillText('OMNIAS',0,-80);
+            c.font='bold 5px monospace';c.fillText('//SYSTEM',0,-22);
+            c.fillText('CONTROL',0,-12);
+            // 流れるコード（0と1）
+            c.fillStyle='rgba(255,34,102,0.5)';c.font='bold 5px monospace';c.textAlign='left';
+            c.fillText('10110010',-30,-72);c.fillText('01011001',-30,-66);c.fillText('11001010',-30,-36);
+            // 中央下部：四角の警告
+            c.fillStyle='#ff2266';c.fillRect(-12,-6,24,4);
+            c.fillStyle='#fff';c.font='bold 4px monospace';c.fillText('ALERT',0,-3);
+        }
+    };
+
     // 城（テーマ＋プレイヤーレベル対応）
     // 超過去編専用の古代風の砦（石・土・藁）
     function drawAncientCastle(c, x, gy, isPlayer, lv, hpRatio) {
@@ -7998,6 +8784,175 @@
         }
     }
 
+    // 未来編専用の反重力タワー城（4段階進化）
+    function drawFutureCastle(c, x, gy, isPlayer, lv, hpRatio) {
+        const time = performance.now() / 1000;
+        // 浮遊感のため、城全体が少し上下動
+        const float = Math.sin(time * 1.5) * 1.5;
+        const yOff = float;
+
+        let bodyCol, glowCol, accentCol, flagCol;
+        if(isPlayer) {
+            const palettes = [
+                { body:'#3a4a6a', glow:'#00d4ff', accent:'#aaccff', flag:'#00f0ff' },
+                { body:'#2a3a6a', glow:'#00d4ff', accent:'#aaeeff', flag:'#00ffaa' },
+                { body:'#2a4a8a', glow:'#00ffcc', accent:'#88ffdd', flag:'#ffd24a' },
+                { body:'#1a3a8a', glow:'#aa44ff', accent:'#ddccff', flag:'#ff44ff' }
+            ];
+            const p = palettes[lv-1] || palettes[0];
+            bodyCol = p.body; glowCol = p.glow; accentCol = p.accent; flagCol = p.flag;
+        } else {
+            bodyCol = '#2a0a3a'; glowCol = '#aa44ff'; accentCol = '#ff44aa'; flagCol = '#ff2266';
+        }
+        const cw = 90;
+
+        // 反重力リング（地面に薄い円）
+        c.fillStyle = `rgba(${isPlayer?'0,212,255':'170,68,255'},0.18)`;
+        c.beginPath(); c.ellipse(x, gy+2, cw*0.8, 10, 0, 0, Math.PI*2); c.fill();
+        c.strokeStyle = `rgba(${isPlayer?'0,212,255':'170,68,255'},0.6)`; c.lineWidth = 2;
+        c.beginPath(); c.ellipse(x, gy+2, cw*0.8, 10, 0, 0, Math.PI*2); c.stroke();
+        c.beginPath(); c.ellipse(x, gy-4, cw*0.6, 6, 0, 0, Math.PI*2); c.stroke();
+
+        // Lv1=浮遊シェルター / Lv2=反重力タワー / Lv3=クォンタムシタデル / Lv4=軌道エレベーター付き超未来要塞
+        // 基部の浮遊リング（少し浮く）
+        c.fillStyle = bodyCol;
+        c.fillRect(x-cw/2+4, gy-46+yOff, cw-8, 38);
+        c.strokeStyle='rgba(0,0,0,0.4)'; c.lineWidth=1; c.strokeRect(x-cw/2+4, gy-46+yOff, cw-8, 38);
+        // 浮遊隙間（地面との間）
+        c.fillStyle = `rgba(${isPlayer?'0,212,255':'170,68,255'},0.5)`;
+        c.fillRect(x-cw/2+8, gy-8+yOff, cw-16, 3);
+
+        // 基部の連続窓（六角ガラス）
+        c.fillStyle = accentCol;
+        for(let i=0;i<6;i++){
+            const wx = x - cw/2 + 12 + i*12;
+            c.fillRect(wx, gy-40+yOff, 8, 12);
+        }
+
+        // 中段
+        c.fillStyle = bodyCol;
+        c.fillRect(x-cw/2+10, gy-106+yOff, cw-20, 60);
+        c.strokeRect(x-cw/2+10, gy-106+yOff, cw-20, 60);
+        // 中段の連続窓
+        c.fillStyle = accentCol;
+        for(let r=0;r<3;r++)for(let i=0;i<4;i++){
+            c.fillRect(x-cw/2+14+i*14, gy-100+yOff+r*18, 10, 8);
+        }
+        // 中段の発光リング
+        c.fillStyle = glowCol;
+        c.fillRect(x-cw/2+10, gy-50+yOff, cw-20, 2);
+        c.fillRect(x-cw/2+10, gy-104+yOff, cw-20, 2);
+
+        // 上段
+        c.fillStyle = bodyCol;
+        c.fillRect(x-cw/2+18, gy-156+yOff, cw-36, 50);
+        c.strokeRect(x-cw/2+18, gy-156+yOff, cw-36, 50);
+        // 上段の発光大窓
+        c.fillStyle = accentCol;
+        c.fillRect(x-cw/2+22, gy-150+yOff, cw-44, 38);
+        c.fillStyle = glowCol;
+        c.fillRect(x-cw/2+18, gy-110+yOff, cw-36, 2);
+
+        // Lv3+ クォンタムシタデル — 上に追加層 + 浮遊サブモジュール
+        if(lv >= 3) {
+            c.fillStyle = bodyCol;
+            c.fillRect(x-cw/2+24, gy-200+yOff, cw-48, 44);
+            c.strokeRect(x-cw/2+24, gy-200+yOff, cw-48, 44);
+            c.fillStyle = glowCol;
+            c.fillRect(x-cw/2+24, gy-160+yOff, cw-48, 2);
+            // 量子コア（中央の光る球）
+            const coreY = gy - 178 + yOff;
+            c.fillStyle = `rgba(${isPlayer?'0,255,200':'255,68,170'},0.5)`;
+            c.beginPath(); c.arc(x, coreY, 14, 0, Math.PI*2); c.fill();
+            c.fillStyle = glowCol;
+            c.beginPath(); c.arc(x, coreY, 7, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#fff';
+            c.beginPath(); c.arc(x, coreY, 3, 0, Math.PI*2); c.fill();
+            // サブモジュール（左右に浮遊）
+            const subY = gy - 178 + yOff + Math.sin(time*2) * 3;
+            c.fillStyle = bodyCol;
+            c.fillRect(x-cw/2-8, subY-6, 8, 12); c.strokeRect(x-cw/2-8, subY-6, 8, 12);
+            c.fillRect(x+cw/2, subY-6, 8, 12); c.strokeRect(x+cw/2, subY-6, 8, 12);
+            c.fillStyle = glowCol;
+            c.beginPath(); c.arc(x-cw/2-4, subY, 1.5, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(x+cw/2+4, subY, 1.5, 0, Math.PI*2); c.fill();
+        }
+
+        // Lv4 軌道エレベーター（空に伸びる）
+        if(lv >= 4) {
+            c.strokeStyle = glowCol; c.lineWidth = 3;
+            c.beginPath(); c.moveTo(x-3, gy-200+yOff); c.lineTo(x-3, gy-280); c.stroke();
+            c.beginPath(); c.moveTo(x+3, gy-200+yOff); c.lineTo(x+3, gy-280); c.stroke();
+            // エレベーター（昇降する箱）
+            const elevY = gy - 220 - ((time * 30) % 60);
+            c.fillStyle = bodyCol;
+            c.fillRect(x-5, elevY, 10, 8); c.strokeStyle='#000'; c.strokeRect(x-5, elevY, 10, 8);
+            c.fillStyle = accentCol; c.fillRect(x-4, elevY+1, 8, 3);
+        }
+
+        // 天頂（屋上）
+        // Lv1〜2: 浮遊衛星パラボラアンテナ砲台（自城のレーザー砲）
+        // Lv3+: 同上＋装飾
+        const topY = lv >= 3 ? gy - 200 + yOff : gy - 156 + yOff;
+        if(isPlayer) {
+            // パラボラ砲台
+            c.fillStyle = '#aaaaaa';
+            c.beginPath(); c.ellipse(x, topY-2, 14, 6, 0, 0, Math.PI*2); c.fill();
+            c.fillStyle = '#555';
+            c.beginPath(); c.ellipse(x, topY, 10, 4, 0, 0, Math.PI*2); c.fill();
+            // チャージ表示は別途
+            c.fillStyle = glowCol;
+            c.beginPath(); c.arc(x, topY-2, 2.5, 0, Math.PI*2); c.fill();
+        } else {
+            // 敵城：赤いブリンカー付き鉄塔 + ピンクネオン看板
+            c.fillStyle = '#666';
+            c.fillRect(x-2, topY-30, 4, 30);
+            // ブリンカー（赤・点滅）
+            const blink = Math.sin(time*5) > 0 ? '#ff2222' : '#7a0010';
+            c.fillStyle = blink;
+            c.beginPath(); c.arc(x, topY-32, 3, 0, Math.PI*2); c.fill();
+            // 横ネオン看板
+            c.fillStyle = '#1a0820';
+            c.fillRect(x-18, topY-18, 36, 8);
+            c.fillStyle = '#ff44ff';
+            c.font = 'bold 6px sans-serif'; c.textAlign='center';
+            c.fillText('OMNIAS', x, topY-12);
+        }
+
+        // 旗（自城のみ）
+        if(isPlayer) {
+            const flagTop = lv >= 4 ? gy-290 : (lv >= 3 ? gy-220+yOff : gy-200+yOff);
+            c.fillStyle = '#aaaaaa';
+            c.fillRect(x-1, flagTop, 2, 18);
+            c.fillStyle = flagCol;
+            c.fillRect(x, flagTop, 14, 10);
+            // 旗の発光縁
+            c.strokeStyle = glowCol; c.lineWidth = 0.8;
+            c.strokeRect(x, flagTop, 14, 10);
+        }
+
+        // HPによる破損演出
+        if(hpRatio < 0.5) {
+            // ガラス割れ
+            c.fillStyle = 'rgba(0,0,0,0.4)';
+            c.fillRect(x-cw/2+22, gy-130+yOff, 10, 14);
+            c.fillRect(x-cw/2+44, gy-92+yOff, 8, 10);
+            // 火花
+            c.fillStyle = `rgba(255,120,30,${0.5 + Math.sin(time*8)*0.3})`;
+            c.beginPath(); c.arc(x+5, gy-80+yOff, 3, 0, Math.PI*2); c.fill();
+        }
+        if(hpRatio < 0.25) {
+            // 上層崩壊 + 黒煙
+            const tt = (time*0.6) % 1;
+            c.fillStyle = `rgba(40,40,40,${0.55-tt*0.3})`;
+            c.beginPath(); c.arc(x-5 + Math.sin(tt*2)*4, gy-200+yOff - ((tt*8+22) % 30), 8, 0, Math.PI*2); c.fill();
+            c.beginPath(); c.arc(x+10 + Math.sin(tt*2+2)*4, gy-220+yOff - ((tt*8+22) % 30), 6, 0, Math.PI*2); c.fill();
+            // 火花
+            c.fillStyle = 'rgba(255,120,30,0.7)';
+            c.beginPath(); c.arc(x-5, gy-205+yOff, 3, 0, Math.PI*2); c.fill();
+        }
+    }
+
     function drawCastle(c, x, isPlayer, hpRatio) {
         const gy = groundY();
         c.save();
@@ -8016,6 +8971,12 @@
         // 現代編はビル・マンションデザインに分岐
         if(currentEra === 'modern') {
             drawModernCastle(c, x, gy, isPlayer, lv, hpRatio);
+            c.restore();
+            return;
+        }
+        // 未来編は反重力タワーデザインに分岐
+        if(currentEra === 'future') {
+            drawFutureCastle(c, x, gy, isPlayer, lv, hpRatio);
             c.restore();
             return;
         }
@@ -9308,6 +10269,11 @@
             const baseMul = 2.4;
             return { hp: baseMul * (1 + idx * 0.22), atk: baseMul * (1 + idx * 0.18) };
         }
+        if(era === 'future') {
+            // 未来編: 現代編より一段上 (基本2.8倍 + +25%HP/+20%ATK per stage)
+            const baseMul = 2.8;
+            return { hp: baseMul * (1 + idx * 0.25), atk: baseMul * (1 + idx * 0.20) };
+        }
         // 過去編: 雑魚の基本倍率を 1.5倍 にした上でステージ進行で増加
         const baseMul = 1.5;
         return { hp: baseMul * (1 + idx * 0.18), atk: baseMul * (1 + idx * 0.15) };
@@ -10053,6 +11019,616 @@
                     });
                 }
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '☢ キルセイト ☢', '#ff3344', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+        }
+        // ====================================================
+        // 未来編 専用武器ハンドラ（味方とボス共通・2098年地球）
+        // 必殺技時(isSpecial)は fuSpecial に切り替え、通常時は fuNormal。
+        // 味方時(side==='p')は攻撃が右→左に流れるように方向反転。
+        // ====================================================
+        const fuWeapon = attacker.data && attacker.data.weapon;
+        const fuSpecialWeapon = attacker.data && attacker.data.fuSpecial;
+        const fuActiveWeapon = isSpecial && fuSpecialWeapon ? fuSpecialWeapon : fuWeapon;
+        if(fuActiveWeapon && fuActiveWeapon.startsWith && fuActiveWeapon.startsWith('fu_')) {
+            attacker.swing = 1;
+            const fwdDir = attacker.side === 'p' ? -1 : 1;
+            const isP = attacker.side === 'p';
+            const tgtX = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+            const tgtY = target.isCastle ? (groundY() - 30) : (target.y - 30);
+            const fAa = !!attacker.data.antiAir;
+            const fFl = !!attacker.data.flying;
+
+            // ===== 301 fu_zero =====
+            // N② プラズマ刀1本投げ
+            if(fuActiveWeapon === 'fu_plasma_blade') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/22, vy: (tgtY-by)/22,
+                    dmg: atk, side: attacker.side,
+                    weapon:'magic_circle', hit:false,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // S② 浮遊刀5本同時射出
+            if(fuActiveWeapon === 'fu_float_blades') {
+                for(let k=0;k<5;k++){
+                    const ang = -Math.PI*0.35 + (k/4)*Math.PI*0.7;
+                    const dx = fwdDir * Math.cos(ang), dy = Math.sin(ang);
+                    game.bullets.push({
+                        x: attacker.x, y: attacker.y - 30,
+                        tx: attacker.x + dx*320, ty: attacker.y - 30 + dy*150,
+                        vx: dx*5, vy: dy*4,
+                        dmg: atk*0.55, side: attacker.side,
+                        weapon:'magic_circle', hit:false,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '⚔ 浮遊刀5連 ⚔', '#aa44ff', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+
+            // ===== 302 fu_titan =====
+            // N② アサルトライフル弾連射（6発バラバラ）
+            if(fuActiveWeapon === 'fu_assault_rifle') {
+                for(let k=0;k<6;k++){
+                    const dx = fwdDir, dy = (Math.random()-0.5)*0.3;
+                    game.bullets.push({
+                        x: attacker.x + fwdDir*15, y: attacker.y - 30 + (Math.random()-0.5)*8,
+                        tx: tgtX, ty: tgtY,
+                        vx: dx*6 + (Math.random()-0.5), vy: dy*6,
+                        dmg: atk*0.22, side: attacker.side,
+                        weapon:'magic_circle', hit:false,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // S① ガトリング7連扇状掃射
+            if(fuActiveWeapon === 'fu_gatling_fan') {
+                for(let k=0;k<7;k++){
+                    const ang = -Math.PI*0.28 + (k/6)*Math.PI*0.56;
+                    const dx = fwdDir * Math.cos(ang), dy = Math.sin(ang);
+                    game.bullets.push({
+                        x: attacker.x + fwdDir*15, y: attacker.y - 30,
+                        tx: attacker.x + dx*340, ty: attacker.y - 30 + dy*120,
+                        vx: dx*6.5, vy: dy*5,
+                        dmg: atk*0.4, side: attacker.side,
+                        weapon:'magic_circle', hit:false,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '🔫 ガトリング7連 🔫', '#ffd24a', true);
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+
+            // ===== 303 fu_drone_queen =====
+            // N① レーザーポインター単発
+            if(fuActiveWeapon === 'fu_laser_pointer') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/18, vy: (tgtY-by)/18,
+                    dmg: atk, side: attacker.side,
+                    weapon:'magic_circle', hit:false,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // S② レーザーグリッド（全画面5本降下）
+            if(fuActiveWeapon === 'fu_laser_grid') {
+                if(!game.pillars) game.pillars = [];
+                for(let k=0;k<5;k++){
+                    const kIdx = isP ? (4-k) : k;
+                    const px = 140 + (W()-280) * (kIdx/4);
+                    game.pillars.push({
+                        x: px, timer: -k*0.15, damage: atk*0.6,
+                        side: attacker.side, damageApplied:false,
+                        isSpecial:true, style:'laser_grid'
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '🔴 レーザーグリッド 🔴', '#ff44aa', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 304 fu_aero =====
+            // N② ヘッドライト黄ビーム
+            if(fuActiveWeapon === 'fu_headlight') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 14, damage: atk*0.8, side: attacker.side,
+                    maxRange: 280, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:false, style:'golden_light'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // S③ ヘッドライト・メガビーム（極太黄白）
+            if(fuActiveWeapon === 'fu_mega_beam') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 17, damage: atk*1.6, side: attacker.side,
+                    maxRange: 9999, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, style:'mega_flame'
+                });
+                addFloat(attacker.x, attacker.y - 60, '💡 メガビーム 💡', '#ffd24a', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+
+            // ===== 305 fu_holoshark =====
+            // N① グリッチ噛みつき（近距離単発）
+            if(fuActiveWeapon === 'fu_glitch_bite') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/12, vy: (tgtY-by)/12,
+                    dmg: atk*1.1, side: attacker.side,
+                    weapon:'magic_circle', hit:false,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // S③ サメの大群召喚（上空から12発のサメ型弾雨）
+            if(fuActiveWeapon === 'fu_shark_swarm') {
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    candidates.push(t);
+                }
+                candidates.sort((a, b) => isP ? (b.x - a.x) : (a.x - b.x));
+                for(let k=0;k<12;k++){
+                    const tg = candidates[k % Math.max(1, candidates.length)] || target;
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*30;
+                    const tty = (tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
+                    const bx = attacker.x + (Math.random()-0.5)*40;
+                    const by = -20 + (Math.random()-0.5)*30;
+                    game.bullets.push({
+                        x: bx, y: by, tx: ttx, ty: tty,
+                        vx: (ttx-bx)/(26 + k*0.4), vy: (tty-by)/(26 + k*0.4),
+                        dmg: atk*0.45, side: attacker.side,
+                        weapon:'fireball', hit:false, aoe:true,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '🦈 サメの大群 🦈', '#aa2266', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 306 fu_supercomp =====
+            // N③ 緑のサーバー光線（slashWaves eye 緑）
+            if(fuActiveWeapon === 'fu_server_beam') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 16, damage: atk, side: attacker.side,
+                    maxRange: 340, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:false, style:'eye'
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // S③ メガ氷柱5本召喚 (pillars + ice)
+            if(fuActiveWeapon === 'fu_ice_pillars') {
+                if(!game.pillars) game.pillars = [];
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    candidates.push(t);
+                }
+                candidates.sort((a, b) => isP ? (a.x - b.x) : (b.x - a.x));
+                for(let k=0;k<5;k++){
+                    const kIdx = isP ? (4-k) : k;
+                    const tg = candidates[k % Math.max(1, candidates.length)];
+                    const px = tg ? tg.x : (tgtX + (kIdx-2)*60);
+                    game.pillars.push({
+                        x: px, timer: -k*0.18, damage: atk*0.9,
+                        side: attacker.side, damageApplied:false,
+                        isSpecial:true, style:'ice'
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '❄ メガ氷柱5本 ❄', '#aaeeff', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 307 fu_madsci =====
+            // N③ 試験管投擲（緑毒の小AOE弾）
+            if(fuActiveWeapon === 'fu_flask_throw') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/26, vy: (tgtY-by)/26 - 2,
+                    dmg: atk*0.9, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // S② 改造クリーチャー3体召喚（jumpCombos）
+            if(fuActiveWeapon === 'fu_creature_summon') {
+                const targets = [target];
+                const nearby = [];
+                for(const t of game.units) {
+                    if(t === target || t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    const d = Math.abs(t.x - attacker.x);
+                    if(d <= attacker.range) nearby.push({u:t,d});
+                }
+                nearby.sort((a,b)=>a.d-b.d);
+                targets.push(...nearby.slice(0,2).map(n=>n.u));
+                while(targets.length<3) targets.push(target);
+                if(!game.jumpCombos) game.jumpCombos = [];
+                targets.forEach((tg,i)=>{
+                    const ty=(tg && !tg.isCastle) ? tg.y : groundY();
+                    const tx=tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x;
+                    game.jumpCombos.push({
+                        startX: attacker.x, targetX: tx, targetY: ty,
+                        timer: 0, delay: i*0.2,
+                        damage: atk*0.95, side: attacker.side, damageApplied:false,
+                        antiAir:fAa, fromFlying:fFl,
+                        isSpecial:true, style:'fu_creature'
+                    });
+                });
+                addFloat(attacker.x, attacker.y - 60, '🧪 クリーチャー召喚 🧪', '#88ff44', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+
+            // ===== 308 fu_nanocloud =====
+            // N② ナノ粒子弾
+            if(fuActiveWeapon === 'fu_nano_shot') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/20, vy: (tgtY-by)/20,
+                    dmg: atk, side: attacker.side,
+                    weapon:'magic_circle', hit:false,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // S① 形態変化スマッシュ（kamikazes slam）
+            if(fuActiveWeapon === 'fu_morph_smash') {
+                if(!game.kamikazes) game.kamikazes = [];
+                game.kamikazes.push({
+                    startX: attacker.x, x: attacker.x, targetX: tgtX,
+                    timer: 0, damage: atk * 1.8, selfDamage: 0,
+                    side: attacker.side, attackerRef: null, damageApplied: false,
+                    hitUnits: [], pierce: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, style:'slam'
+                });
+                addFloat(attacker.x, attacker.y - 60, '🔨 形態スマッシュ 🔨', '#cccccc', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 309 fu_asura =====
+            // N① 剣振り（1本腕で近距離弾）
+            if(fuActiveWeapon === 'fu_sword_slash') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 13, damage: atk, side: attacker.side,
+                    maxRange: Math.min(attacker.range, 200), traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:false, style:'wind'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // S③ 軌道弾雨（上空から12発の隕石型）
+            if(fuActiveWeapon === 'fu_orbital_rain') {
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    candidates.push(t);
+                }
+                candidates.sort((a, b) => isP ? (b.x - a.x) : (a.x - b.x));
+                for(let k=0;k<12;k++){
+                    const tg = candidates[k % Math.max(1, candidates.length)] || target;
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*30;
+                    const tty = (tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
+                    const bx = attacker.x + (Math.random()-0.5)*60;
+                    const by = -30 + (Math.random()-0.5)*20;
+                    game.bullets.push({
+                        x: bx, y: by, tx: ttx, ty: tty,
+                        vx: (ttx-bx)/(30 + k*0.4), vy: (tty-by)/(30 + k*0.4),
+                        dmg: atk*0.42, side: attacker.side,
+                        weapon:'fireball', hit:false, aoe:true,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '☄ 軌道弾雨 ☄', '#ffaa44', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 310 fu_biorex =====
+            // N② 火球吐き
+            if(fuActiveWeapon === 'fu_fireball_breath') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/22, vy: (tgtY-by)/22,
+                    dmg: atk*1.1, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // S① バイオブレス（緑の毒霧コーン）
+            if(fuActiveWeapon === 'fu_bio_breath') {
+                if(!game.blizzards) game.blizzards = [];
+                game.blizzards.push({
+                    x: attacker.x, dir: fwdDir, timer: 0, damage: atk,
+                    side: attacker.side, ticksApplied: 0,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, range: 280, style:'poison'
+                });
+                addFloat(attacker.x, attacker.y - 60, '☠ バイオブレス ☠', '#44dd55', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 311 fu_anubis =====
+            // N② 紫の死の光線
+            if(fuActiveWeapon === 'fu_death_ray') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 18, damage: atk, side: attacker.side,
+                    maxRange: 340, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:false, style:'eye'
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // S② 砂の大竜巻
+            if(fuActiveWeapon === 'fu_sand_tornado') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 9, damage: atk*1.1, side: attacker.side,
+                    maxRange: 9999, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, style:'tornado'
+                });
+                addFloat(attacker.x, attacker.y - 60, '🌪 砂の大竜巻 🌪', '#ccaa66', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+
+            // ===== 312 fu_cryo =====
+            // N③ 冷気コーンブレス
+            if(fuActiveWeapon === 'fu_cryo_breath') {
+                if(!game.blizzards) game.blizzards = [];
+                game.blizzards.push({
+                    x: attacker.x, dir: fwdDir, timer: 0, damage: atk,
+                    side: attacker.side, ticksApplied: 0,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:false, range: 240, style:'fire'  // 視覚=ice風だが既存のフレーム流用
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // S② 氷柱乱立 — fu_ice_pillars と同じ
+            // (fuSpecial='fu_ice_pillars' を指定済なので上の S③ 量子スパコンのハンドラで処理される)
+
+            // ===== 313 fu_maximus =====
+            // (fu_sword_slash は 309 と共通)
+            // S① 巨大剣回転斬り（quakes naginata_spin）
+            if(fuActiveWeapon === 'fu_spin_slash') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: attacker.x, timer: 0, damage: atk*0.9,
+                    side: attacker.side, damageApplied: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, range: 140, style:'naginata_spin'
+                });
+                addFloat(attacker.x, attacker.y - 60, '⚔ 回転斬り ⚔', '#cc2222', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+
+            // ===== 314 fu_lancer =====
+            // N③ ミサイル単発（AOE）
+            if(fuActiveWeapon === 'fu_missile_single') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/26, vy: (tgtY-by)/26,
+                    dmg: atk*1.2, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // S② 衛星ミサイル雨（全画面8発降下）
+            if(fuActiveWeapon === 'fu_missile_rain') {
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    candidates.push(t);
+                }
+                candidates.sort((a, b) => isP ? (b.x - a.x) : (a.x - b.x));
+                for(let k=0;k<8;k++){
+                    const tg = candidates[k % Math.max(1, candidates.length)] || target;
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*40;
+                    const tty = (tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
+                    const bx = attacker.x + (Math.random()-0.5)*40;
+                    const by = -30 + (Math.random()-0.5)*30;
+                    game.bullets.push({
+                        x: bx, y: by, tx: ttx, ty: tty,
+                        vx: (ttx-bx)/(30 + k*0.5), vy: (tty-by)/(30 + k*0.5),
+                        dmg: atk*0.55, side: attacker.side,
+                        weapon:'fireball', hit:false, aoe:true,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '🚀 衛星ミサイル雨 🚀', '#cccccc', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 315 fu_gaia =====
+            // N③ 木の根束縛攻撃
+            if(fuActiveWeapon === 'fu_root_bind') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: tgtX, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:false, range: 100, style:'binding_seal'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // S③ 引力場（quakes water_vortex 流用、緑の渦）
+            if(fuActiveWeapon === 'fu_gravity_well') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: tgtX, timer: 0, damage: atk*1.2,
+                    side: attacker.side, damageApplied: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, range: 180, style:'water_vortex'
+                });
+                addFloat(attacker.x, attacker.y - 60, '🌀 引力場 🌀', '#22dd99', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 316 fu_chronos =====
+            // N② 飛ぶ懐中時計弾
+            if(fuActiveWeapon === 'fu_clock_bullet') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/24, vy: (tgtY-by)/24,
+                    dmg: atk, side: attacker.side,
+                    weapon:'magic_circle', hit:false,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // S① 時間停止（全画面の敵をスタン + ダメージ）
+            if(fuActiveWeapon === 'fu_time_stop') {
+                let hitN = 0;
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    damageUnit(t, atk * 0.6);
+                    t.stunTimer = Math.max(t.stunTimer || 0, 1.6);
+                    hitN++;
+                }
+                // 紫の時間停止視覚（一時的）
+                game.timeStopFlash = 1.0;
+                addFloat(attacker.x, attacker.y - 60, '⏱ 時間停止 ⏱', '#aa44ff', true);
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+
+            // ===== 317 fu_quantum =====
+            // N① 噛みつき（近距離単発・大ダメ）
+            if(fuActiveWeapon === 'fu_dragon_bite') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/14, vy: (tgtY-by)/14,
+                    dmg: atk*1.2, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // S① 黄金ブレス（極太黄金ビーム）
+            if(fuActiveWeapon === 'fu_gold_breath') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 15, damage: atk*1.5, side: attacker.side,
+                    maxRange: 9999, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir:fAa, fromFlying:fFl,
+                    isSpecial:true, style:'golden_light'
+                });
+                addFloat(attacker.x, attacker.y - 60, '🐉 黄金ブレス 🐉', '#ffd24a', true);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+
+            // ===== 318 fu_omnias =====
+            // N③ 巨大ホロ拳出現（中AOE弾）
+            if(fuActiveWeapon === 'fu_holo_fist') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/24, vy: (tgtY-by)/24,
+                    dmg: atk*1.3, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir:fAa, fromFlying:fFl
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // S③ 軌道爆撃20発
+            if(fuActiveWeapon === 'fu_orbital_bomb') {
+                const candidates = [];
+                for(const t of game.units) {
+                    if(t.side === attacker.side || t.dead) continue;
+                    if(t.data.flying && !canHitTarget(attacker, t)) continue;
+                    candidates.push(t);
+                }
+                candidates.sort((a, b) => isP ? (b.x - a.x) : (a.x - b.x));
+                for(let k=0;k<20;k++){
+                    const tg = candidates[k % Math.max(1, candidates.length)] || target;
+                    const ttx = tg.isCastle ? (target.side==='enemy'?100:W()-100) : tg.x + (Math.random()-0.5)*50;
+                    const tty = (tg && !tg.isCastle) ? (tg.y-30) : (groundY()-30);
+                    const bx = attacker.x + (Math.random()-0.5)*60;
+                    const by = -40 + (Math.random()-0.5)*30;
+                    game.bullets.push({
+                        x: bx, y: by, tx: ttx, ty: tty,
+                        vx: (ttx-bx)/(34 + k*0.5), vy: (tty-by)/(34 + k*0.5),
+                        dmg: atk*0.35, side: attacker.side,
+                        weapon:'fireball', hit:false, aoe:true,
+                        antiAir:fAa, fromFlying:fFl
+                    });
+                }
+                addFloat(attacker.x, attacker.y - 60, '☢ オムニアス砲 ☢', '#ff2266', true);
                 if(snd && snd.explode) snd.explode();
                 return;
             }
@@ -11307,6 +12883,7 @@
                 let eraUnlockedNew = null;
                 const wasPastCleared = (saveData.clearedStages || []).filter(id => id >= 1 && id <= 18).length >= 18;
                 const wasSuperPastCleared = (saveData.clearedStages || []).filter(id => id >= 101 && id <= 118).length >= 18;
+                const wasModernCleared = (saveData.clearedStages || []).filter(id => id >= 201 && id <= 218).length >= 18;
                 if(!saveData.clearedStages.includes(game.stageId)) {
                     saveData.clearedStages.push(game.stageId);
                     const u = STAGE_UNLOCKS[game.stageId];
@@ -11324,6 +12901,11 @@
                     const nowSuperPastCleared = saveData.clearedStages.filter(id => id >= 101 && id <= 118).length >= 18;
                     if(!wasSuperPastCleared && nowSuperPastCleared) {
                         eraUnlockedNew = getEra('modern');
+                    }
+                    // 現代編全クリアで未来編が解放されたタイミングを検知
+                    const nowModernCleared = saveData.clearedStages.filter(id => id >= 201 && id <= 218).length >= 18;
+                    if(!wasModernCleared && nowModernCleared) {
+                        eraUnlockedNew = getEra('future');
                     }
                 }
                 // 星評価（残HP割合）

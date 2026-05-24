@@ -191,6 +191,49 @@
 
 ## 直近の作業ログ（新しい順）
 
+### 2026-05-24 (続)
+- **未来編 18ステージを本実装**（id:301-318）— 現代編クリアで解放、2098年地球
+  - 解放ゲート: `isEraAvailable` に `future` 分岐（201-218 全クリアで `available`）
+  - 勝利画面で「🌟 未来編 解放！🌟」バナーを表示（現代編全クリア時）
+  - 18ステージ: ネオ東京/廃墟マンハッタン/上海雲海都市/ソウルVRアリーナ/シドニー湾/極地クレムリン/ベルリン研究所/パリ空中庭園/ニューデリー宇宙港/アマゾン超ジャングル/ピラミッドサイバー砂漠/北極ドーム/ローマ再建コロッセオ/カンクン軌道砲基地/シンガポール垂直都市/ロンドン時空研究所/ドバイ砂漠スカイタワー/国際宇宙ステーション「アーク」(各国フラグ属性 `country` 付き)
+  - 新雑魚6種: `fu_nano`(ナノ兵) / `fu_guard_drone`(警備ドローン群=空対空) / `fu_hover_scoot`(反重力スクーター兵) / `fu_vr_avatar`(VRアバター戦士) / `fu_quantum_sol`(量子戦闘員) / `fu_flying_taxi`(空飛ぶタクシー=空対空遠AOE)
+  - 新テーマ18種: fu_neo_tokyo / fu_ruined_ny / fu_sky_city / fu_vr_arena / fu_holo_sea / fu_ice_kremlin / fu_lab_dark / fu_paris_sky / fu_delhi_port / fu_amazon_bio / fu_pyramid / fu_arctic_dome / fu_colosseum / fu_orbit_base / fu_vertical_sg / fu_london_time / fu_dubai_gold / fu_space_arc (enemyStyle:'future')
+  - **18体のボス**（`STAGE_BOSSES[301..318]`）：ユーザーが事前にプレビューHTMLで選んだ「デザイン3案」+「通常攻撃3案」+「必殺技3案」の組み合わせを反映
+    301 サムライ将軍 ZERO (A 紺紫量子 + N② プラズマ刀投げ + S② 浮遊刀5本)
+    302 戦闘用ロボ TITAN-X (A 重装黄黒 + N② アサルト連射 + S① ガトリング7連扇状)
+    303 ドローン女王 MIRAI-Q (B 純白セラフ + N① レーザーポインター + S② レーザーグリッド)
+    304 空飛ぶ車軍団 AERO-SEOUL (A 真紅スポーツ + N② ヘッドライト黄 + S③ メガビーム)
+    305 ホロサメ MEGA-HOLO (B 紫紅グリッチ + N① グリッチ噛みつき + S③ サメの大群12発)
+    306 量子スパコン PERMAFROST (C 機械化クレムリン + N③ サーバー光線 + S③ メガ氷柱5本)
+    307 ヴォルフ博士 (A 白衣狂気 + N③ 試験管投擲 + S② クリーチャー3体召喚)
+    308 ナノクラウド MUTABLE (A 銀の渦巻く雲 + N② ナノ粒子弾 + S① 形態スマッシュ)
+    309 軌道守護神 ASURA-9 (A 6本腕青神メカ + N① 剣振り + S③ 軌道弾雨12発)
+    310 GENESIS-REX (A 緑機械ジャングル恐竜 + N② 火球吐き + S① バイオブレス毒霧)
+    311 ANUBIS-OS (C 砂塵の異形巨人 + N② 紫の死の光線 + S② 砂の大竜巻)
+    312 クライオキング (A 青白い氷の王 + N③ 冷気コーン + S② 氷柱5本)
+    313 剣闘士 MAXIMUS-3 (A 赤金重装 + N① 剣振り + S① 回転斬りAOE)
+    314 ORBIT-LANCER (B 銀の宇宙騎士 + N③ ミサイル単発 + S② 衛星ミサイル雨8発)
+    315 GAIA-MIND (A 緑の女神ホログラム + N③ 木の根束縛 + S③ 引力場渦)
+    316 CHRONOS (A 黒銀ゴシック王 + N② 飛ぶ時計弾 + S① 時間停止+AOE)
+    317 GOLD QUANTUM (A 純金東洋龍 + N① 噛みつき + S① 黄金ブレス)
+    318 OMNIAS (C 全画面OS型・メガボス + N③ ホロ拳 + S③ 軌道爆撃20発)
+  - 全ボスはクリアで仲間に: `STAGE_UNLOCKS[301..318]` + `fu_*` の 18 味方ユニットを `SAMURAI_DATA` に追加（`CHARACTER_ORDER` も更新）
+  - 難易度: 現代編より上 — 雑魚は基本2.8倍（vs 現代2.4倍） / ボスは 6.0倍（vs 現代4.8倍） / ステージスケール +25%HP・+20%ATK per stage
+  - 城デザイン: **未来的な反重力タワー** — 新関数 `drawFutureCastle` を新設、`drawCastle` 冒頭で `currentEra==='future'` を分岐
+    - 自城4段階進化: 浮遊シェルター(Lv1) → 反重力タワー(Lv2) → クォンタムシタデル+量子コア+浮遊サブモジュール(Lv3) → 軌道エレベーター付き超未来要塞(Lv4)
+    - 城本体が浮遊（地面との間にネオン隙間+反重力リング）。常時 sin 揺れ
+    - **龍神レーザー砲ポジ = 屋上のパラボラ砲台**（自城）/ 敵城は赤いブリンカー＋OMNIAS ネオン看板
+    - HP 50%/25% でガラス割れ・上層崩壊・黒煙・火花
+  - **未来編キャラ固有描画**: 新フィールド `fuRender` を `SAMURAI_DATA` と `STAGE_BOSSES` の fu_* 18キャラに付与
+    - `spawnBossFromData` でも `fuRender` + `fuSpecial` をボス data に伝播
+    - `drawSamuraiCanvas` 冒頭で `u.fuRender` をチェックして `drawFutureUnit` にディスパッチ（侍名簿/編成/ガチャ/出撃カード全部に反映）
+    - 18体の固有 Canvas 描画を `FU_DRAW` テーブルで定義
+  - **未来編 専用武器ハンドラ**: `attackTarget` に `fuActiveWeapon = isSpecial ? fuSpecial : weapon` で分岐するブロックを追加
+    - 通常攻撃(`fu_*` weapon) と 必殺技(`fu_*` fuSpecial)を別々に実装
+    - 全アクティブ攻撃に**味方側方向反転**を実装: pillars時間差順序を `kIdx = isP ? (max-k) : k`、missile/rain candidates を `attacker.x` 距離で sort（味方=右側から、敵=左側から）、wave/bullet の vx は `fwdDir` で正負を反転
+  - 既存システム流用: slashWaves(wind/eye/golden_light/mega_flame/tornado), blizzards(poison/fire), quakes(naginata_spin/binding_seal/water_vortex), kamikazes(slam), jumpCombos, bullets(magic_circle/fireball), pillars(ice/laser_grid/water/acid)。新スタイル名 `fu_creature`/`ice`/`laser_grid` も style として登録（描画は既存ロジックにフォールバック）
+  - 一時フラグ: `game.timeStopFlash` (CHRONOS S①) — 紫の時間停止視覚用（描画側で必要なら拾う）
+
 ### 2026-05-24
 - **未来編 18ボス デザインプレビュー追加**（2098年地球・18か国）— 本実装前の選択用
   - `samurai-wars/future-preview-index.html` に Phase 1〜4 別の一覧（4色グループ）
