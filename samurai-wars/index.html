@@ -4951,15 +4951,81 @@
 
     // サテライト・キャノン砲（現代編専用）— 案B改: 全画面オービタル・ストライク
     //   即発射 → 衛星から複数の極太レーザーが画面全域に同時降下 → 全画面爆発
-    // 未来編 城砲: AI戦術ドローン群（30機）
+    // 未来編 城砲: AIスワーム召喚（50機・派手版）
     function drawDroneSwarmCannon(c, w, h) {
         if(!game.cannonDrones) return;
-        // 軽い HUD テキスト
-        c.fillStyle = `rgba(0,212,255,0.8)`;
-        c.font = 'bold 16px monospace'; c.textAlign = 'center';
-        c.fillText('🛸 AI DRONE SWARM x30', w/2, 36);
-        c.textAlign = 'left';
         const gy = groundY();
+        const launchX = w - 100, launchY = gy - 80;
+        const time = performance.now() * 0.001;
+        // 4色のドローンパレット
+        const droneCols = [
+            { body:'#00d4ff', edge:'#aaeeff', led:'#ffd24a', trail:'0,212,255' },
+            { body:'#aa44ff', edge:'#ddaaff', led:'#00f0ff', trail:'170,68,255' },
+            { body:'#ff44aa', edge:'#ffaadd', led:'#ffd24a', trail:'255,68,170' },
+            { body:'#ffd24a', edge:'#ffeeaa', led:'#fff',    trail:'255,210,74' }
+        ];
+
+        // === 発射時の画面全体フラッシュ ===
+        if(game.cannonLaunchFlash > 0) {
+            const fa = game.cannonLaunchFlash / 0.6;
+            c.fillStyle = `rgba(0,212,255,${fa * 0.35})`;
+            c.fillRect(0, 0, w, h);
+            // 走査線
+            c.strokeStyle = `rgba(255,255,255,${fa * 0.5})`;
+            c.lineWidth = 1;
+            for(let k=0; k<6; k++){
+                c.beginPath();
+                c.moveTo(0, h * (0.15 + k*0.13) + ((time*200) % 20));
+                c.lineTo(w, h * (0.15 + k*0.13) + ((time*200) % 20));
+                c.stroke();
+            }
+        }
+
+        // === 発射ポータルのリング波紋 ===
+        if(game.cannonPortalRings) {
+            for(const r of game.cannonPortalRings) {
+                if(r.alpha <= 0) continue;
+                c.strokeStyle = `rgba(0,212,255,${r.alpha})`;
+                c.lineWidth = 3;
+                c.beginPath(); c.arc(launchX, launchY, 20 + r.r, 0, Math.PI*2); c.stroke();
+                c.strokeStyle = `rgba(170,68,255,${r.alpha * 0.6})`;
+                c.lineWidth = 1.5;
+                c.beginPath(); c.arc(launchX, launchY, 28 + r.r, 0, Math.PI*2); c.stroke();
+            }
+        }
+
+        // === 城屋上のドローン発射ポート（脈動） ===
+        const pulse = 0.5 + Math.sin(time * 8) * 0.5;
+        // 外側の光
+        c.fillStyle = `rgba(0,212,255,${0.3 + pulse * 0.2})`;
+        c.beginPath(); c.arc(launchX, launchY, 22 + pulse * 4, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(170,68,255,${0.4 + pulse * 0.3})`;
+        c.beginPath(); c.arc(launchX, launchY, 14, 0, Math.PI*2); c.fill();
+        // 内側の白光
+        c.fillStyle = `rgba(255,255,255,${0.85})`;
+        c.beginPath(); c.arc(launchX, launchY, 6, 0, Math.PI*2); c.fill();
+        // 上に伸びる光柱
+        const beamGrad = c.createLinearGradient(launchX, launchY, launchX, launchY - 60);
+        beamGrad.addColorStop(0, 'rgba(0,212,255,0.9)');
+        beamGrad.addColorStop(1, 'rgba(0,212,255,0)');
+        c.fillStyle = beamGrad;
+        c.fillRect(launchX - 5, launchY - 60, 10, 60);
+        // 電撃分岐
+        c.strokeStyle = `rgba(255,255,255,${0.6 + pulse * 0.3})`;
+        c.lineWidth = 1.2;
+        for(let k=0; k<3; k++){
+            c.beginPath();
+            let lx = launchX, ly = launchY;
+            c.moveTo(lx, ly);
+            for(let i=0; i<5; i++){
+                lx += (Math.sin(time*10 + k + i)*8);
+                ly -= 12;
+                c.lineTo(lx, ly);
+            }
+            c.stroke();
+        }
+
+        // === ドローン本体（飛行中） ===
         for(const d of game.cannonDrones) {
             if(d.dead) continue;
             const elapsed = d.timer - d.launchDelay;
@@ -4970,55 +5036,122 @@
             if(d.targetRef && !d.targetRef.dead) {
                 tx = d.targetRef.x; ty = d.targetRef.y - 25;
             }
-            // 軌道（弧を描く）
+            // 軌道（弧）
             const px = d.sx + (tx - d.sx) * t;
             const py = d.sy + (ty - d.sy) * t - Math.sin(t * Math.PI) * d.arcH;
-            // 軌跡
-            c.strokeStyle = `rgba(0,212,255,${0.35 * (1-t*0.5)})`;
-            c.lineWidth = 0.8;
-            c.beginPath();
-            c.moveTo(d.sx, d.sy);
-            // 弧の軌跡を簡略な3点ベジエで
+            const col = droneCols[d.colorIdx];
+            const sz = d.isElite ? 1.8 : 1.0;
+
+            // === 軌跡（長く・カラフル） ===
             const midX = (d.sx + tx) / 2;
             const midY = (d.sy + ty) / 2 - d.arcH;
+            // 外側ハロ
+            c.strokeStyle = `rgba(${col.trail},${0.18 * (1-t*0.3)})`;
+            c.lineWidth = 4;
+            c.beginPath(); c.moveTo(d.sx, d.sy);
             c.quadraticCurveTo(midX, midY, px, py);
             c.stroke();
-            // ドローン本体
-            c.fillStyle = '#00d4ff';
-            c.fillRect(px-3.5, py-2, 7, 4);
-            c.fillStyle = '#aaeeff';
-            c.fillRect(px-2.5, py-1.5, 5, 3);
-            // 中央LED
-            c.fillStyle = '#ffd24a';
-            c.fillRect(px-0.5, py-0.5, 1.5, 1.5);
-            // プロペラ（4枚）
-            c.strokeStyle = `rgba(0,212,255,${0.6})`;
-            c.lineWidth = 1;
-            c.beginPath();
-            c.moveTo(px-5, py-2.5); c.lineTo(px-3, py-2.5);
-            c.moveTo(px+3, py-2.5); c.lineTo(px+5, py-2.5);
-            c.moveTo(px-5, py+2.5); c.lineTo(px-3, py+2.5);
-            c.moveTo(px+3, py+2.5); c.lineTo(px+5, py+2.5);
+            // 内側ライン
+            c.strokeStyle = `rgba(${col.trail},${0.55 * (1-t*0.3)})`;
+            c.lineWidth = 1.5;
+            c.beginPath(); c.moveTo(d.sx, d.sy);
+            c.quadraticCurveTo(midX, midY, px, py);
             c.stroke();
-            // 発光オーラ
-            c.fillStyle = `rgba(0,212,255,0.18)`;
-            c.beginPath(); c.arc(px, py, 7, 0, Math.PI*2); c.fill();
-            // ターゲットレーザーポインター（残り0.3以内）
-            if(t > 0.7 && d.targetRef && !d.targetRef.dead) {
-                c.strokeStyle = `rgba(255,40,80,${(t-0.7)/0.3 * 0.7})`;
-                c.lineWidth = 1;
+
+            // === ターゲットレーザーポインター（最初から発射時まで連続） ===
+            if(d.targetRef && !d.targetRef.dead && t > 0.2) {
+                const beamAlpha = Math.min(0.8, (t - 0.2) * 1.6);
+                c.strokeStyle = `rgba(255,40,80,${beamAlpha})`;
+                c.lineWidth = d.isElite ? 1.6 : 0.9;
                 c.beginPath();
                 c.moveTo(px, py); c.lineTo(tx, ty);
                 c.stroke();
+                // 着地点に赤いマーカー
+                c.fillStyle = `rgba(255,40,80,${beamAlpha})`;
+                c.beginPath(); c.arc(tx, ty, 2 + d.isElite*1, 0, Math.PI*2); c.fill();
+            }
+
+            // === ドローン本体（大きめ＋発光オーラ） ===
+            // オーラ
+            c.fillStyle = `rgba(${col.trail},${0.25})`;
+            c.beginPath(); c.arc(px, py, 10 * sz, 0, Math.PI*2); c.fill();
+            // 本体
+            c.fillStyle = col.body;
+            c.fillRect(px - 5*sz, py - 2.5*sz, 10*sz, 5*sz);
+            // 縁（明るい）
+            c.fillStyle = col.edge;
+            c.fillRect(px - 4*sz, py - 1.8*sz, 8*sz, 3.6*sz);
+            // 中央LED（コア）
+            c.fillStyle = col.led;
+            c.fillRect(px - 1*sz, py - 1*sz, 2*sz, 2*sz);
+            // 中央白光
+            c.fillStyle = '#fff';
+            c.fillRect(px - 0.3*sz, py - 0.3*sz, 0.6*sz, 0.6*sz);
+            // プロペラ（4枚・上下）
+            c.strokeStyle = `rgba(${col.trail},${0.8})`;
+            c.lineWidth = 1.2 * sz;
+            c.beginPath();
+            c.moveTo(px - 7*sz, py - 3*sz); c.lineTo(px - 4*sz, py - 3*sz);
+            c.moveTo(px + 4*sz, py - 3*sz); c.lineTo(px + 7*sz, py - 3*sz);
+            c.moveTo(px - 7*sz, py + 3*sz); c.lineTo(px - 4*sz, py + 3*sz);
+            c.moveTo(px + 4*sz, py + 3*sz); c.lineTo(px + 7*sz, py + 3*sz);
+            c.stroke();
+            // エリート機の追加装飾（金の縁＋上の旗）
+            if(d.isElite) {
+                c.strokeStyle = '#ffd24a'; c.lineWidth = 1.2;
+                c.strokeRect(px - 6, py - 3.5, 12, 7);
+                c.fillStyle = '#ffd24a';
+                c.fillRect(px - 0.5, py - 8, 1, 4);
+                c.beginPath(); c.moveTo(px, py-8); c.lineTo(px+4, py-7); c.lineTo(px, py-6); c.closePath(); c.fill();
             }
         }
-        // 城のドローン発射ポート（屋上から青い光が漏れる）
-        const launchX = w - 100, launchY = gy - 80;
-        const pulse = 0.5 + Math.sin(performance.now() * 0.015) * 0.5;
-        c.fillStyle = `rgba(0,212,255,${0.4 + pulse * 0.3})`;
-        c.beginPath(); c.arc(launchX, launchY, 12, 0, Math.PI*2); c.fill();
-        c.fillStyle = `rgba(255,255,255,${0.7})`;
-        c.beginPath(); c.arc(launchX, launchY, 5, 0, Math.PI*2); c.fill();
+
+        // === HUD バナー（中央上・派手なアニメ） ===
+        const bt = game.cannonBannerT || 0;
+        if(bt < 1.6) {
+            const bAlpha = bt < 0.2 ? bt/0.2 : (bt < 1.2 ? 1 : (1.6-bt)/0.4);
+            const bScale = bt < 0.25 ? (0.5 + (bt/0.25)*0.5) : 1;
+            c.save();
+            c.translate(w/2, h*0.16);
+            c.scale(bScale, bScale);
+            // 枠の発光
+            c.shadowColor = '#00d4ff'; c.shadowBlur = 24;
+            // 背景枠
+            c.fillStyle = `rgba(10,10,30,${bAlpha*0.75})`;
+            c.fillRect(-150, -22, 300, 44);
+            c.strokeStyle = `rgba(0,212,255,${bAlpha})`;
+            c.lineWidth = 2;
+            c.strokeRect(-150, -22, 300, 44);
+            c.shadowBlur = 0;
+            // メインテキスト
+            c.fillStyle = `rgba(255,255,255,${bAlpha})`;
+            c.font = 'bold 22px sans-serif'; c.textAlign = 'center';
+            c.fillText('🛸 AIスワーム召喚 🛸', 0, 0);
+            // サブテキスト
+            c.fillStyle = `rgba(0,212,255,${bAlpha * 0.9})`;
+            c.font = 'bold 11px monospace';
+            c.fillText('OMNI SWARM PROTOCOL — 50 DRONES DEPLOYED', 0, 15);
+            // 装飾の星
+            c.fillStyle = `rgba(255,210,74,${bAlpha})`;
+            c.font = 'bold 14px sans-serif';
+            c.fillText('✦', -160, -2); c.fillText('✦', 160, -2);
+            c.textAlign = 'left';
+            c.restore();
+        }
+
+        // === 画面端の HUD ライン ===
+        c.strokeStyle = `rgba(0,212,255,${0.4 + Math.sin(time*5)*0.2})`;
+        c.lineWidth = 1.5;
+        c.beginPath(); c.moveTo(0, 8); c.lineTo(w, 8); c.stroke();
+        c.beginPath(); c.moveTo(0, h-8); c.lineTo(w, h-8); c.stroke();
+        // コーナーマーカー
+        c.strokeStyle = `rgba(0,212,255,0.7)`;
+        c.lineWidth = 2;
+        const cm = 16;
+        c.beginPath(); c.moveTo(0, cm); c.lineTo(0, 0); c.lineTo(cm, 0); c.stroke();
+        c.beginPath(); c.moveTo(w-cm, 0); c.lineTo(w, 0); c.lineTo(w, cm); c.stroke();
+        c.beginPath(); c.moveTo(0, h-cm); c.lineTo(0, h); c.lineTo(cm, h); c.stroke();
+        c.beginPath(); c.moveTo(w-cm, h); c.lineTo(w, h); c.lineTo(w, h-cm); c.stroke();
     }
 
     function drawSatelliteCannon(c, w, h) {
@@ -10913,6 +11046,8 @@
         if(laserLabel) {
             if(currentEra === 'modern') {
                 laserLabel.innerHTML = '🛰 <ruby>サテライト</ruby>・キャノン<ruby>砲<rt>ほう</rt></ruby>';
+            } else if(currentEra === 'future') {
+                laserLabel.innerHTML = '🛸 AI<ruby>スワーム</ruby><ruby>召喚<rt>しょうかん</rt></ruby>';
             } else {
                 // 過去編・超過去編は共通で龍神レーザー砲
                 laserLabel.innerHTML = '⚡ <ruby>龍神<rt>りゅうじん</rt></ruby>レーザー<ruby>砲<rt>ほう</rt></ruby>';
@@ -11005,30 +11140,58 @@
         updateHUD();
     }
     function actuallyFireLaser() {
-        // 未来編: AI戦術ドローン群（30機）— 各機がホーミングで敵を撃つ
+        // 未来編: AIスワーム召喚（50機）— 各機がホーミングで敵を撃つ
         if(currentEra === 'future') {
-            game.laserAnim = 2.0;
+            game.laserAnim = 2.6;
             snd.laser();
             if(snd && snd.coin) snd.coin();
+            if(snd && snd.explode) snd.explode();
             const enemies = game.units.filter(u => u.side === 'e' && !u.dead);
             const launchX = W() - 100, launchY = groundY() - 80;
             game.cannonDrones = [];
-            for(let k=0; k<30; k++){
+            game.cannonLaunchFlash = 0.6;  // 発射時の城周辺フラッシュ
+            game.cannonBannerT = 0;        // バナーアニメ
+            for(let k=0; k<50; k++){
                 const tgt = enemies.length > 0 ? enemies[k % enemies.length] : null;
+                const isElite = (k % 8 === 0); // 8機に1機はエリート（大型・高ダメ）
                 game.cannonDrones.push({
-                    sx: launchX, sy: launchY,
+                    sx: launchX + (Math.random()-0.5)*16,
+                    sy: launchY + (Math.random()-0.5)*16,
                     tx: tgt ? tgt.x : (140 + Math.random()*300),
                     ty: tgt ? (tgt.y - 25) : (groundY() - 25),
                     targetRef: tgt,
-                    damage: 90,  // 30機 × 90 = 2700 総ダメ
-                    launchDelay: (k / 30) * 0.45,
-                    flightDur: 0.55 + Math.random()*0.25,
-                    arcH: 55 + (k % 5) * 8,
-                    timer: 0, dead: false, exploded: false
+                    damage: isElite ? 220 : 95,
+                    launchDelay: (k / 50) * 0.55,
+                    flightDur: 0.55 + Math.random()*0.3,
+                    arcH: 55 + (k % 6) * 10,
+                    timer: 0, dead: false, exploded: false,
+                    isElite,
+                    colorIdx: k % 4,
+                    wave: Math.floor(k / 10)
                 });
             }
+            // 発射ポータルのリング（複数）
+            game.cannonPortalRings = [
+                { r: 0, alpha: 1.0 },
+                { r: -8, alpha: 1.0 },
+                { r: -16, alpha: 1.0 }
+            ];
             // 敵城ダメージ（控えめ — 主火力はドローン経由）
-            game.enemyCastleHp = Math.max(0, game.enemyCastleHp - 250);
+            game.enemyCastleHp = Math.max(0, game.enemyCastleHp - 350);
+            // 派手な発射演出（城周りに爆発粒子）
+            for(let i=0; i<40; i++){
+                game.particles.push({
+                    x: launchX + (Math.random()-0.5)*80,
+                    y: launchY + (Math.random()-0.5)*80,
+                    vx: (Math.random()-0.5)*8,
+                    vy: -Math.random()*5,
+                    life: 1.2,
+                    color: ['#00d4ff','#aa44ff','#ffd24a','#fff','#ff44aa'][Math.floor(Math.random()*5)],
+                    size: 3 + Math.random()*4
+                });
+            }
+            // 中央バナー
+            addFloat(W()/2, H()*0.32, '🛸 AIスワーム召喚 🛸', '#00d4ff', true);
             updateHUD();
             return;
         }
@@ -13392,18 +13555,40 @@
                     }
                     if(tgt && !tgt.dead) {
                         damageUnit(tgt, d.damage);
-                        addParticles(tgt.x, tgt.y - 30, 10, '#00d4ff');
-                        addParticles(tgt.x, tgt.y - 30, 5, '#fff');
+                        // エリート機は爆発が大きい
+                        const burst = d.isElite ? 24 : 12;
+                        addParticles(tgt.x, tgt.y - 30, burst, '#00d4ff');
+                        addParticles(tgt.x, tgt.y - 30, Math.floor(burst*0.6), '#fff');
+                        if(d.isElite) {
+                            addParticles(tgt.x, tgt.y - 30, 8, '#ff44aa');
+                            addParticles(tgt.x, tgt.y - 30, 6, '#ffd24a');
+                            // 衝撃波リング（particle として描画）
+                            game.particles.push({
+                                x: tgt.x, y: tgt.y - 30,
+                                vx: 0, vy: 0, life: 0.4,
+                                color: 'rgba(255,255,255,0.85)',
+                                size: 60, isSlash: true
+                            });
+                        }
                     } else {
                         // ターゲットなし → 敵城に小ダメ
-                        game.enemyCastleHp = Math.max(0, game.enemyCastleHp - 18);
-                        addParticles(100, groundY()-40, 8, '#00d4ff');
+                        game.enemyCastleHp = Math.max(0, game.enemyCastleHp - (d.isElite ? 50 : 22));
+                        addParticles(100, groundY()-40, d.isElite ? 14 : 8, '#00d4ff');
                     }
                 } else {
                     aliveCount++;
                 }
             }
             if(aliveCount === 0) game.cannonDrones = null;
+        }
+        if(game.cannonLaunchFlash > 0) game.cannonLaunchFlash -= dt;
+        if(game.cannonBannerT != null && game.cannonDrones) game.cannonBannerT += dt;
+        if(game.cannonPortalRings) {
+            for(const r of game.cannonPortalRings) {
+                r.r += dt * 180;
+                r.alpha -= dt * 1.2;
+            }
+            if(game.cannonPortalRings.every(r => r.alpha <= 0)) game.cannonPortalRings = null;
         }
 
         // 敵スポーン（敵城が落ちたら新規スポーン停止）
