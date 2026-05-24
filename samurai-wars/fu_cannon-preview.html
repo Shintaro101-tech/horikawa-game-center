@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>未来編 城砲 候補プレビュー</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;background:radial-gradient(ellipse at top,#aa44ff22 0%,transparent 60%),linear-gradient(180deg,#001020 0%,#000 100%);background-attachment:fixed;min-height:100vh;padding:24px 16px 60px}
+h1{text-align:center;font-size:1.5rem;font-weight:900;color:#aa44ff;text-shadow:0 0 30px rgba(170,68,255,0.6);margin-bottom:6px}
+.sub{text-align:center;color:#00f0ff;font-size:0.85rem;letter-spacing:4px;opacity:0.8;margin-bottom:24px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr;max-width:1100px;margin:0 auto}
+@media(min-width:760px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:rgba(20,10,30,0.7);border:2px solid var(--c,#aa44ff);border-radius:14px;padding:16px;box-shadow:0 0 18px var(--g,rgba(170,68,255,0.25))}
+.canv-wrap{display:flex;justify-content:center;align-items:center;background:linear-gradient(180deg,#000020 0%,#0a0a40 70%,#1a1858 100%);border-radius:10px;padding:8px;margin-bottom:12px;min-height:230px}
+canvas{display:block;max-width:100%;height:auto}
+h2{font-size:1.05rem;color:var(--c,#aa44ff);margin-bottom:6px}
+.desc{font-size:0.82rem;color:#cdf;line-height:1.5;margin-bottom:8px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;font-size:0.7rem}
+.tag{background:rgba(170,68,255,0.2);border:1px solid var(--c,#aa44ff);color:var(--c,#aa44ff);padding:2px 8px;border-radius:10px}
+footer{text-align:center;margin-top:30px;color:#456;font-size:0.7rem}
+</style></head><body>
+<h1>🛰 未来編 城砲 候補（5案）</h1>
+<div class="sub">FUTURE ERA CASTLE CANNON CANDIDATES — 2098</div>
+
+<div class="grid">
+
+<div class="card" style="--c:#aa66ff;--g:rgba(170,102,255,0.45)">
+<div class="canv-wrap"><canvas id="c1" width="320" height="220"></canvas></div>
+<h2>案1. 🌌 宇宙光線（COSMIC RAY）</h2>
+<p class="desc">大気圏外から極太の虹色レーザーが画面全幅に降下。1秒チャージ → 上空から幅100pxの超極太ビーム → 全敵に大ダメ＋全画面振動。</p>
+<div class="tags"><span class="tag">単発</span><span class="tag">全画面</span><span class="tag">瞬間火力</span></div>
+</div>
+
+<div class="card" style="--c:#cc44ff;--g:rgba(204,68,255,0.45)">
+<div class="canv-wrap"><canvas id="c2" width="320" height="220"></canvas></div>
+<h2>案2. 🌀 量子崩壊砲（QUANTUM COLLAPSE）</h2>
+<p class="desc">5箇所に紫の渦 → 全敵を中央に重力で吸い寄せ → 一点大爆縮。範囲は狭いが密集してれば大ダメ。位置取りで効くタイプ。</p>
+<div class="tags"><span class="tag">吸引</span><span class="tag">一点爆発</span><span class="tag">中範囲</span></div>
+</div>
+
+<div class="card" style="--c:#cccccc;--g:rgba(204,204,204,0.4)">
+<div class="canv-wrap"><canvas id="c3" width="320" height="220"></canvas></div>
+<h2>案3. 🌫 ナノクラウド殲滅（NANO SWARM）</h2>
+<p class="desc">銀色のナノマシン雲が全画面に充満 → 5秒間 持続DoT＋全敵スタン。瞬間火力より戦況コントロール型。敵の進軍を完全停止。</p>
+<div class="tags"><span class="tag">持続</span><span class="tag">スタン</span><span class="tag">全画面</span></div>
+</div>
+
+<div class="card" style="--c:#00d4ff;--g:rgba(0,212,255,0.4)">
+<div class="canv-wrap"><canvas id="c4" width="320" height="220"></canvas></div>
+<h2>案4. 🛸 AI戦術ドローン群（AI DRONE SWARM）</h2>
+<p class="desc">城屋上から30機の青ドローンが一斉発進 → 空中で散開 → 各機が個別に敵を狙撃。敵が多いほど強い。視覚的に賑やか。</p>
+<div class="tags"><span class="tag">多体ターゲット</span><span class="tag">時間差</span><span class="tag">賑やか</span></div>
+</div>
+
+<div class="card" style="--c:#ffd24a;--g:rgba(255,210,74,0.45)">
+<div class="canv-wrap"><canvas id="c5" width="320" height="220"></canvas></div>
+<h2>案5. 🐉 ホログラム神獣（HOLO BEAST）</h2>
+<p class="desc">画面全体に巨大なホログラム量子龍が一瞬出現 → 咆哮波で全敵を吹き飛ばす。過去編の龍神砲を未来編らしく再解釈。視覚インパクト最大。</p>
+<div class="tags"><span class="tag">召喚</span><span class="tag">ノックバック</span><span class="tag">伝説</span></div>
+</div>
+
+</div>
+
+<footer>© HORIKAWA FAMILY · FUTURE ERA CANNON PREVIEW · 2098</footer>
+
+<script>
+// 共通: シーン背景（未来編の戦場）
+function drawScene(c, w, h) {
+    // 夜空グラデ
+    const sky = c.createLinearGradient(0,0,0,h*0.7);
+    sky.addColorStop(0,'#000020'); sky.addColorStop(1,'#3a1858');
+    c.fillStyle = sky; c.fillRect(0,0,w,h*0.7);
+    // 地面
+    c.fillStyle = '#0a0a28'; c.fillRect(0,h*0.7,w,h*0.3);
+    c.fillStyle='#aa44ff'; c.fillRect(0,h*0.7,w,1);
+    // 星
+    for(let i=0;i<14;i++){c.fillStyle='#fff';c.fillRect((i*23+5)%w,(i*13+3)%(h*0.5),1,1);}
+    // 反重力タワー（自城）右側
+    drawFutureCastle(c, w-50, h*0.7);
+    // 敵（左側に4体）
+    for(let i=0;i<4;i++) drawEnemy(c, 60+i*35, h*0.7);
+}
+function drawFutureCastle(c, x, gy) {
+    // 浮遊リング
+    c.strokeStyle='rgba(0,212,255,0.5)'; c.lineWidth=1.5;
+    c.beginPath(); c.ellipse(x, gy+1, 32, 4, 0, 0, Math.PI*2); c.stroke();
+    // 城本体（簡略）
+    c.fillStyle='#2a3a6a'; c.fillRect(x-22, gy-50, 44, 42);
+    c.strokeStyle='rgba(0,0,0,0.4)'; c.strokeRect(x-22, gy-50, 44, 42);
+    c.fillStyle='#aaccff';
+    for(let i=0;i<3;i++)for(let j=0;j<2;j++){c.fillRect(x-18+i*12, gy-44+j*16, 8, 10);}
+    // 屋上パラボラ砲
+    c.fillStyle='#aaaaaa'; c.beginPath(); c.ellipse(x, gy-50, 10, 4, 0, 0, Math.PI*2); c.fill();
+    c.fillStyle='#00d4ff'; c.beginPath(); c.arc(x, gy-50, 2, 0, Math.PI*2); c.fill();
+    // 浮遊隙間
+    c.fillStyle='rgba(0,212,255,0.5)'; c.fillRect(x-18, gy-8, 36, 2);
+}
+function drawEnemy(c, x, y) {
+    // 影
+    c.fillStyle='rgba(0,0,0,0.4)'; c.beginPath(); c.ellipse(x,y,10,3,0,0,Math.PI*2); c.fill();
+    // 体
+    c.fillStyle='#5a1a4a'; c.fillRect(x-6, y-22, 12, 22);
+    c.fillStyle='#aa44ff'; c.fillRect(x-6, y-22, 12, 3);
+    // 頭
+    c.fillStyle='#7a3a8a'; c.beginPath(); c.arc(x, y-26, 5, 0, Math.PI*2); c.fill();
+    c.fillStyle='#ff2266'; c.fillRect(x-2, y-26, 1.5, 1.5); c.fillRect(x+0.5, y-26, 1.5, 1.5);
+}
+function startAnim(id, fn, dur) {
+    const cv = document.getElementById(id);
+    const ctx = cv.getContext('2d');
+    const start = performance.now();
+    function loop() {
+        const t = ((performance.now() - start) % dur) / dur;
+        ctx.clearRect(0, 0, cv.width, cv.height);
+        drawScene(ctx, cv.width, cv.height);
+        fn(ctx, t, cv.width, cv.height);
+        requestAnimationFrame(loop);
+    }
+    loop();
+}
+
+// === 案1: 宇宙光線 ===
+startAnim('c1', (c, t, w, h) => {
+    const gy = h*0.7;
+    if(t < 0.25) {
+        // チャージ（城上空に粒子が集まる）
+        const tt = t/0.25;
+        for(let k=0;k<10;k++){
+            const a = k*Math.PI*0.628 + t*8;
+            const r = 30 - tt*22;
+            c.fillStyle = `rgba(${[170,255,0,255,255,170][k%6]},${[68,210,212,68,255,102][k%6]},${[255,74,255,255,170,255][k%6]},${0.6+tt*0.4})`;
+            c.fillRect(Math.cos(a)*r + (Math.random()-0.5)*3 - 30 + 50, -20 + Math.sin(a)*r*0.4 + 20, 2, 2);
+        }
+        // 警告
+        c.strokeStyle = `rgba(255,255,255,${tt})`; c.lineWidth=1.5;
+        c.beginPath(); c.moveTo(0, gy); c.lineTo(w, gy); c.stroke();
+    } else {
+        const tt = (t-0.25)/0.75;
+        // 極太の虹色ビーム（画面全幅）
+        const colors = ['rgba(170,102,255,', 'rgba(0,212,255,', 'rgba(255,255,255,', 'rgba(255,210,74,', 'rgba(255,68,170,'];
+        for(let k=0;k<5;k++){
+            const off = k - 2;
+            const grad = c.createLinearGradient(0, 0, 0, gy);
+            grad.addColorStop(0, colors[k] + (1-tt*0.5) + ')');
+            grad.addColorStop(1, colors[k] + (0.4-tt*0.3) + ')');
+            c.fillStyle = grad;
+            c.fillRect(0, 0, w, gy);
+            c.globalCompositeOperation = 'screen';
+        }
+        c.globalCompositeOperation = 'source-over';
+        // 白い中央コア
+        c.fillStyle = `rgba(255,255,255,${1-tt*0.7})`;
+        c.fillRect(0, 0, w, gy);
+        c.globalCompositeOperation = 'source-over';
+        // 着弾の白フラッシュ
+        if(tt < 0.4) {
+            c.fillStyle = `rgba(255,255,255,${(0.4-tt)/0.4 * 0.5})`;
+            c.fillRect(0, 0, w, h);
+        }
+        // 着弾の余韻粒子
+        for(let i=0;i<8;i++){
+            const px = (i*40 + (t*30)%40) % w;
+            c.fillStyle = `rgba(${[170,255,0,255,255][i%5]},${[102,210,212,68,255][i%5]},${[255,74,255,170,255][i%5]},${0.7-tt*0.5})`;
+            c.fillRect(px, gy - tt*60 - 10, 3, 3);
+        }
+    }
+}, 2800);
+
+// === 案2: 量子崩壊砲 ===
+startAnim('c2', (c, t, w, h) => {
+    const gy = h*0.7;
+    const cx = w*0.4, cy = gy - 30;
+    if(t < 0.35) {
+        // 5箇所に紫の渦
+        const tt = t/0.35;
+        for(let k=0;k<5;k++){
+            const px = 60 + k*45;
+            const py = gy - 30;
+            // 渦（複数リング）
+            for(let r=0;r<3;r++){
+                c.strokeStyle = `rgba(204,68,255,${0.6-r*0.15})`;
+                c.lineWidth = 1.5;
+                c.beginPath();
+                c.arc(px, py, 8 + r*4 + Math.sin(t*10+k+r)*1.5, 0, Math.PI*2);
+                c.stroke();
+            }
+            c.fillStyle = `rgba(204,68,255,${tt*0.7})`;
+            c.beginPath(); c.arc(px, py, 5, 0, Math.PI*2); c.fill();
+        }
+    } else if(t < 0.55) {
+        // 全部中央に収束
+        const tt = (t-0.35)/0.20;
+        for(let k=0;k<5;k++){
+            const sx = 60 + k*45, sy = gy - 30;
+            const px = sx + (cx-sx)*tt, py = sy + (cy-sy)*tt;
+            c.fillStyle = `rgba(204,68,255,${0.8})`;
+            c.beginPath(); c.arc(px, py, 6 + tt*4, 0, Math.PI*2); c.fill();
+            // 軌跡
+            c.strokeStyle = `rgba(0,212,255,${0.4})`; c.lineWidth=1;
+            c.beginPath(); c.moveTo(sx, sy); c.lineTo(px, py); c.stroke();
+        }
+    } else {
+        // 中央で大爆縮
+        const tt = (t-0.55)/0.45;
+        // 中央爆発
+        c.fillStyle = `rgba(255,255,255,${1-tt})`;
+        c.beginPath(); c.arc(cx, cy, 80*tt, 0, Math.PI*2); c.fill();
+        c.fillStyle = `rgba(204,68,255,${0.8-tt*0.5})`;
+        c.beginPath(); c.arc(cx, cy, 90*tt, 0, Math.PI*2); c.fill();
+        // リング
+        for(let r=0;r<4;r++){
+            const rt = Math.max(0, tt - r*0.15);
+            c.strokeStyle = `rgba(0,212,255,${1-rt})`; c.lineWidth = 3-r*0.5;
+            c.beginPath(); c.arc(cx, cy, 20+rt*70, 0, Math.PI*2); c.stroke();
+        }
+        // 火花
+        for(let k=0;k<12;k++){
+            const a = k*Math.PI/6 + t*4;
+            c.fillStyle = `rgba(255,200,255,${0.8-tt*0.6})`;
+            const r = 30 + tt*40;
+            c.fillRect(cx + Math.cos(a)*r, cy + Math.sin(a)*r, 2, 2);
+        }
+    }
+}, 2600);
+
+// === 案3: ナノクラウド殲滅 ===
+startAnim('c3', (c, t, w, h) => {
+    const gy = h*0.7;
+    // 城から雲を噴出 → 全画面に広がる
+    const expand = Math.min(1, t*1.4);
+    const radius = expand * Math.max(w, h);
+    // 銀色の雲（複数のソフトな円）
+    for(let i=0;i<8;i++){
+        const cx = w-50 + Math.sin(i+t*2)*5;
+        const cy = gy - 30 + Math.cos(i+t*2)*5;
+        const ang = (i/8)*Math.PI*2 + t;
+        const dx = Math.cos(ang) * radius * 0.5;
+        const dy = Math.sin(ang) * radius * 0.4;
+        c.fillStyle = `rgba(204,204,220,${0.18 + Math.sin(i+t*3)*0.05})`;
+        c.beginPath(); c.arc(cx + dx, cy + dy, 50 + Math.sin(i+t*4)*10, 0, Math.PI*2); c.fill();
+    }
+    // ナノ粒子（銀のドット雨）
+    for(let k=0;k<40;k++){
+        const px = ((k*23 + t*40) % (w + 40)) - 20;
+        const py = ((k*13 + t*50) % h);
+        if(px > w*(1-expand)) {
+            c.fillStyle = `rgba(255,255,255,${0.5})`;
+            c.fillRect(px, py, 1.5, 1.5);
+        }
+    }
+    // 敵にスタン星
+    if(expand > 0.7) {
+        for(let i=0;i<4;i++){
+            const x = 60+i*35;
+            for(let k=0;k<3;k++){
+                const ang = k*Math.PI*0.66 + t*Math.PI*4;
+                c.fillStyle='#ffd24a';c.font='bold 12px sans-serif';
+                c.fillText('★', x+Math.cos(ang)*12-4, gy-20+Math.sin(ang)*6);
+            }
+            // ダメ数字
+            if(t > 0.5) {
+                c.fillStyle = `rgba(255,150,200,${1-((t*2)%1)})`;
+                c.font = 'bold 11px sans-serif';
+                c.fillText('-' + Math.floor(80+i*20), x-12, gy - 40 - ((t*40)%30));
+            }
+        }
+    }
+    // 中央テキスト
+    if(expand > 0.5) {
+        const tta = (expand - 0.5) / 0.5;
+        c.fillStyle = `rgba(204,204,220,${tta * 0.9})`;
+        c.font = 'bold 14px sans-serif'; c.textAlign='center';
+        c.fillText('NANO SWARM', w/2, h*0.25);
+        c.textAlign = 'left';
+    }
+}, 3000);
+
+// === 案4: AI戦術ドローン群 ===
+startAnim('c4', (c, t, w, h) => {
+    const gy = h*0.7;
+    const baseX = w-50, baseY = gy-50;
+    const drones = 30;
+    const tgts = [60, 95, 130, 165];
+    for(let k=0;k<drones;k++){
+        // 発射タイミング（少しずつズレ）
+        const launchT = (k/drones) * 0.3;
+        const flightT = Math.max(0, Math.min(1, (t - launchT) / 0.6));
+        if(flightT <= 0) continue;
+        // 各ドローンは特定の敵にホーミング
+        const tgtIdx = k % tgts.length;
+        const tx = tgts[tgtIdx];
+        const ty = gy - 25;
+        // 曲線で飛ぶ
+        const px = baseX + (tx - baseX) * flightT;
+        const arcH = 50 + (k % 5) * 5;
+        const py = baseY + (ty - baseY) * flightT - Math.sin(flightT * Math.PI) * arcH;
+        // ドローン本体（小・青）
+        if(flightT < 1) {
+            c.fillStyle = '#00d4ff';
+            c.fillRect(px-2, py-1, 4, 2);
+            // プロペラ
+            c.strokeStyle = 'rgba(0,212,255,0.4)';
+            c.lineWidth = 0.5;
+            c.beginPath(); c.moveTo(px-3, py-1); c.lineTo(px+3, py-1); c.stroke();
+            // 軌跡
+            c.fillStyle = `rgba(0,212,255,${0.3 * (1-flightT)})`;
+            c.fillRect(px+2, py-0.5, 6, 1);
+        } else {
+            // 着弾フラッシュ
+            const flashT = Math.min(1, (t - launchT - 0.6) / 0.15);
+            if(flashT < 1) {
+                c.fillStyle = `rgba(255,255,255,${1-flashT})`;
+                c.beginPath(); c.arc(tx, ty, 8 + flashT*4, 0, Math.PI*2); c.fill();
+                c.fillStyle = `rgba(0,212,255,${0.6-flashT*0.4})`;
+                c.beginPath(); c.arc(tx, ty, 12 + flashT*6, 0, Math.PI*2); c.fill();
+            }
+        }
+    }
+    // 中央テキスト
+    if(t > 0.05) {
+        c.fillStyle = `rgba(0,212,255,0.7)`;
+        c.font = 'bold 11px monospace'; c.textAlign='center';
+        c.fillText('AI DRONE x30', w/2, h*0.15);
+        c.textAlign = 'left';
+    }
+}, 3000);
+
+// === 案5: ホログラム神獣 ===
+startAnim('c5', (c, t, w, h) => {
+    const gy = h*0.7;
+    if(t < 0.15) {
+        // 召喚エフェクト（城上空に光柱）
+        const tt = t/0.15;
+        c.strokeStyle = `rgba(255,210,74,${tt})`; c.lineWidth = 3;
+        c.beginPath(); c.moveTo(w-50, gy-50); c.lineTo(w-50, 10); c.stroke();
+        c.fillStyle = `rgba(255,210,74,${tt*0.4})`;
+        c.beginPath(); c.arc(w-50, gy-50, 30*tt, 0, Math.PI*2); c.fill();
+    } else if(t < 0.75) {
+        // 巨大ホログラム龍が画面奥から手前へ
+        const tt = (t-0.15)/0.6;
+        const scale = 0.5 + tt*0.8;
+        const alpha = Math.min(0.85, tt*1.5);
+        c.save();
+        c.translate(w*0.5, gy-50);
+        c.scale(scale, scale);
+        // 龍の体（東洋龍・蛇のように曲がる）
+        c.strokeStyle = `rgba(255,210,74,${alpha})`;
+        c.lineWidth = 14;
+        c.beginPath();
+        const wob = Math.sin(t*6)*8;
+        c.moveTo(-120, 20+wob);
+        c.bezierCurveTo(-80, -10+wob, -40, 40-wob, 0, 0);
+        c.bezierCurveTo(40, -30+wob, 80, 20-wob, 130, -10+wob);
+        c.stroke();
+        // 龍の内側（薄い）
+        c.strokeStyle = `rgba(255,255,200,${alpha*0.6})`;
+        c.lineWidth = 8;
+        c.stroke();
+        // 鬣
+        c.strokeStyle = `rgba(0,212,255,${alpha*0.8})`;
+        c.lineWidth = 2;
+        for(let k=-3;k<=3;k++){
+            c.beginPath();
+            c.moveTo(k*15, 0 + wob*0.5);
+            c.lineTo(k*15 + Math.sin(k)*4, -22 + wob*0.3);
+            c.stroke();
+        }
+        // 頭（右端）
+        c.fillStyle = `rgba(255,210,74,${alpha})`;
+        c.beginPath();
+        c.ellipse(130, -10+wob, 20, 12, 0, 0, Math.PI*2);
+        c.fill();
+        c.strokeStyle = `rgba(0,212,255,${alpha})`; c.lineWidth=2;
+        c.stroke();
+        // 角
+        c.fillStyle = `rgba(255,255,200,${alpha})`;
+        c.beginPath(); c.moveTo(125,-22+wob); c.lineTo(132,-32+wob); c.lineTo(130,-20+wob); c.closePath(); c.fill();
+        c.beginPath(); c.moveTo(135,-22+wob); c.lineTo(142,-32+wob); c.lineTo(140,-20+wob); c.closePath(); c.fill();
+        // 目（青）
+        c.fillStyle = `rgba(0,212,255,1)`;
+        c.beginPath(); c.arc(136, -10+wob, 3, 0, Math.PI*2); c.fill();
+        c.restore();
+        // 咆哮波（手前に向かって波が広がる）
+        if(tt > 0.5) {
+            const wt = (tt - 0.5) / 0.5;
+            for(let k=0;k<3;k++){
+                const rt = Math.max(0, wt - k*0.15);
+                if(rt > 0) {
+                    c.strokeStyle = `rgba(255,210,74,${(1-rt)*0.7})`;
+                    c.lineWidth = 4 - k;
+                    c.beginPath();
+                    c.ellipse(w*0.5, gy-15, rt*200, rt*30, 0, 0, Math.PI*2);
+                    c.stroke();
+                }
+            }
+            // 敵が吹き飛ぶ
+            for(let i=0;i<4;i++){
+                const x = 60+i*35 - wt*30;
+                const yo = -wt*15;
+                c.save(); c.translate(x, gy + yo); c.rotate(-wt*0.5);
+                c.fillStyle='rgba(0,0,0,0.3)'; c.beginPath(); c.ellipse(0,wt*15,10,3,0,0,Math.PI*2); c.fill();
+                c.fillStyle='#5a1a4a'; c.fillRect(-6,-22,12,22);
+                c.fillStyle='#7a3a8a'; c.beginPath(); c.arc(0,-26,5,0,Math.PI*2); c.fill();
+                c.restore();
+            }
+        }
+        // 中央テキスト
+        c.fillStyle = `rgba(255,210,74,${alpha*0.9})`;
+        c.font = 'bold 14px sans-serif'; c.textAlign='center';
+        c.fillText('🐉 量子龍召喚 🐉', w/2, 22);
+        c.textAlign = 'left';
+    } else {
+        // 余韻
+        const tt = (t-0.75)/0.25;
+        c.fillStyle = `rgba(255,210,74,${0.3*(1-tt)})`;
+        c.fillRect(0, 0, w, gy);
+    }
+}, 3400);
+</script>
+</body></html>
