@@ -191,6 +191,34 @@
 
 ## 直近の作業ログ（新しい順）
 
+### 2026-05-24 (現代編 通常/必殺分離)
+- **現代編 17キャラに「通常攻撃 / 必殺技」分離を実装**（過去編・未来編と同じパターン）
+  - 各キャラのデータに `mdSpecial`（必殺技 weapon ID）を追加し、既存の `weapon` フィールドを通常攻撃に置換
+  - `spawnBossFromData` で `mdSpecial` も伝播
+  - `attackTarget` 冒頭で `isSpecial` を判定 → 8回ごとに `attacker.data.weapon` を一時的に `mdSpecial` に swap して既存ロジック流用（try/finally で確実に復元）
+  - 既存の attackTarget 本体を `attackTargetBody(attacker, target, atk, isSpecial, kishinkaBuff)` として切り出し
+  - 通常攻撃 17 種類 (`md_n_*`) を新規実装:
+    - md_n_bottle (暴走族C) — fireball AOE 投擲
+    - md_n_cane (怪盗A) — 近接単発
+    - md_n_scissors (クチサケB) — quake naginata_spin 3連
+    - md_n_dash (テケテケC) — slashWave charge_beam 超高速貫通
+    - md_n_circle (メリーC) — quake binding_seal AOE
+    - md_n_wail (花子C) — slashWave wind 前方波
+    - md_n_sniper (ハッカーC) — kunai 高速単発
+    - md_n_bomb (ドローン軍団長C) — fireball AOE 小型爆弾
+    - md_n_3shot (スモッグC) — pendingShots 3連 fireball
+    - md_n_fist (AI兵器B) — 近接AOEパンチ
+    - md_n_throw_rat (ラットキングC) — jumpCombo md_rat 1匹
+    - md_n_punch (ブレットマンA) — 近接単発
+    - md_n_ball (ザイガスA) — 近接AOE 鉄球
+    - md_n_bite (メガロドンA) — 近接単発+血飛沫
+    - md_n_abduct (UFO B) — 単発スタン光線
+    - md_n_chest_beam (メカMK-III B) — magic_circle 単発ビーム
+    - md_n_cash_punch (CEO B) — 近接+札パーティクル
+  - 各キャラの `range` / `ranged` / `aoe` / `atkSpeed` を通常攻撃に合わせて再調整（melee 化キャラは range 50-100、ranged 化はそのまま）
+  - サテライト・ゼロは通常攻撃と必殺技を分けず現状維持
+- **通常攻撃 候補プレビュー 18ファイル + 一覧ページ**を追加 (`md_*-normal.html` + `modern-normal-index.html`)
+
 ### 2026-05-24 (続)
 - **未来編 18ステージを本実装**（id:301-318）— 現代編クリアで解放、2098年地球
   - 解放ゲート: `isEraAvailable` に `future` 分岐（201-218 全クリアで `available`）

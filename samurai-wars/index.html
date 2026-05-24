@@ -1069,83 +1069,89 @@
     );
 
     // ===== 現代編 ボス→仲間（クリア報酬・18体） =====
-    // 各キャラに mdRender（固有描画キー）と固有 weapon を付与。
-    // ボスでも味方でも同じ見た目・必殺技が出るように spawnBossFromData でも mdRender が伝播する。
+    // 各キャラに mdRender（固有描画キー）+ 通常 weapon と必殺 mdSpecial を持つ。
+    // 8回攻撃ごとに必殺技、それ以外は通常攻撃。spawnBossFromData で全て伝播。
     SAMURAI_DATA.push(
-        // Stage 201: 暴走族頭領 — A 黒特攻服 + ② バイク特攻突進
-        { id:'md_bouso', name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', cost:900, hp:1400, atk:170, atkSpeed:1.4, range:200, speed:1.6,
-          cooldown:14.0, color:'#1a1a1a', helmet:'mohawk', weapon:'md_bike', rarity:3, scale:1.2, mdRender:'bouso',
-          desc:'黒特攻服の頭領。バイクで特攻突進して貫通する' },
-        // Stage 202: 怪盗ブラックタイガー — A 黒タキシード + ③ トランプ8方向投擲
-        { id:'md_kaitou', name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', cost:1200, hp:1500, atk:230, atkSpeed:1.6, range:280, speed:1.4,
-          cooldown:18.0, color:'#0a0a0a', helmet:'hood', weapon:'md_cards', rarity:4, scale:1.15, antiAir:true, ranged:true, mdRender:'kaitou',
-          desc:'黒タキシードの怪盗紳士。8方向にトランプを投擲する' },
-        // Stage 203: クチサケ女 — A 赤マスク + ③ 呪い波動
-        { id:'md_kuchisake', name:'クチサケ女', yomi:'くちさけおんな', cost:1100, hp:2200, atk:260, atkSpeed:1.6, range:300, speed:1.0,
-          cooldown:16.0, color:'#aa1010', helmet:'md_kuchi_mask', weapon:'md_curse', rarity:3, scale:1.3, ranged:true, mdRender:'kuchisake',
-          desc:'赤マスクの女。紫の呪い波動が前方を貫通する' },
-        // Stage 204: テケテケ — B 血染JK + ② 瞬間移動3連撃
-        { id:'md_teketeke', name:'テケテケ', yomi:'てけてけ', cost:1300, hp:1700, atk:300, atkSpeed:1.6, range:200, speed:2.4,
-          cooldown:20.0, color:'#1a1a4a', helmet:'md_sailor', weapon:'md_tp_strike', rarity:4, scale:1.1, teleport:true, mdRender:'teketeke',
-          desc:'血染めのセーラー服。瞬間移動で3連続斬りを叩き込む' },
-        // Stage 205: 呪い人形メリー — C 市松人形 + ③ 小人形3体召喚
-        { id:'md_merry', name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', cost:1400, hp:1500, atk:320, atkSpeed:1.8, range:240, speed:0.9,
-          cooldown:22.0, color:'#aa1010', helmet:'md_ichimatsu', weapon:'md_doll_summon', rarity:4, scale:1.15, ranged:true, mdRender:'merry',
-          desc:'赤と黒の市松人形。3体の小人形を召喚して襲わせる' },
-        // Stage 206: トイレの花子さん — B 白巫女 + ② 水柱AOE
+        // Stage 201: 暴走族 — N③ ボトル投擲 + S② バイク特攻
+        { id:'md_bouso', name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', cost:900, hp:1400, atk:170, atkSpeed:1.4, range:240, speed:1.6,
+          cooldown:14.0, color:'#1a1a1a', helmet:'mohawk', weapon:'md_n_bottle', mdSpecial:'md_bike', rarity:3, scale:1.2,
+          ranged:true, aoe:true, mdRender:'bouso',
+          desc:'黒特攻服の頭領。通常は瓶投擲、8回ごとにバイク特攻突進' },
+        // Stage 202: 怪盗 — NA ステッキ突き + S③ トランプ8方向
+        { id:'md_kaitou', name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', cost:1200, hp:1500, atk:230, atkSpeed:1.6, range:50, speed:1.4,
+          cooldown:18.0, color:'#0a0a0a', helmet:'hood', weapon:'md_n_cane', mdSpecial:'md_cards', rarity:4, scale:1.15, antiAir:true, mdRender:'kaitou',
+          desc:'黒タキシードの怪盗。通常はステッキ突き、8回ごとに8方向トランプ' },
+        // Stage 203: クチサケ女 — NB 鋏3連 + S③ 呪い波動
+        { id:'md_kuchisake', name:'クチサケ女', yomi:'くちさけおんな', cost:1100, hp:2200, atk:260, atkSpeed:1.8, range:65, speed:1.0,
+          cooldown:16.0, color:'#aa1010', helmet:'md_kuchi_mask', weapon:'md_n_scissors', mdSpecial:'md_curse', rarity:3, scale:1.3, mdRender:'kuchisake',
+          desc:'赤マスクの女。通常は鋏3連斬り、8回ごとに紫の呪い波動' },
+        // Stage 204: テケテケ — NC 地這い超速突進 + S② 瞬間移動3連
+        { id:'md_teketeke', name:'テケテケ', yomi:'てけてけ', cost:1300, hp:1700, atk:300, atkSpeed:1.7, range:220, speed:2.4,
+          cooldown:20.0, color:'#1a1a4a', helmet:'md_sailor', weapon:'md_n_dash', mdSpecial:'md_tp_strike', rarity:4, scale:1.1,
+          ranged:true, teleport:true, mdRender:'teketeke',
+          desc:'血染めのセーラー服。通常は地這い超速突進、8回ごとに瞬間移動3連撃' },
+        // Stage 205: メリー — NC 呪詛魔法陣 + S③ 小人形3体
+        { id:'md_merry', name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', cost:1400, hp:1500, atk:320, atkSpeed:1.8, range:220, speed:0.9,
+          cooldown:22.0, color:'#aa1010', helmet:'md_ichimatsu', weapon:'md_n_circle', mdSpecial:'md_doll_summon', rarity:4, scale:1.15,
+          ranged:true, aoe:true, mdRender:'merry',
+          desc:'市松人形。通常は呪詛の魔法陣、8回ごとに3体の小人形召喚' },
+        // Stage 206: 花子さん — NC 呪いの叫び + S② 水柱AOE
         { id:'md_hanako', name:'トイレの花子さん', yomi:'といれのはなこさん', cost:1500, hp:1800, atk:340, atkSpeed:1.6, range:240, speed:1.0,
-          cooldown:24.0, color:'#fff', helmet:'md_miko_hanako', weapon:'md_water_pillar', rarity:4, scale:1.2, ranged:true, aoe:true, teleport:true, mdRender:'hanako',
-          desc:'白の巫女装束の花子。瞬間移動して水柱AOEを連続噴出させる' },
-        // Stage 207: ハッカー帝王 — B 白衣天才 + ① グリッチ弾
+          cooldown:24.0, color:'#fff', helmet:'md_miko_hanako', weapon:'md_n_wail', mdSpecial:'md_water_pillar', rarity:4, scale:1.2,
+          ranged:true, aoe:true, teleport:true, mdRender:'hanako',
+          desc:'白の巫女装束の花子。通常は呪いの叫び、8回ごとに水柱AOE' },
+        // Stage 207: ハッカー — NC ハッキング光線 + S① グリッチ弾
         { id:'md_hacker', name:'ハッカー帝王', yomi:'はっかーていおう', cost:1700, hp:2200, atk:420, atkSpeed:1.8, range:300, speed:0.9,
-          cooldown:28.0, color:'#fff', helmet:'md_ar_glasses', weapon:'magic_circle', rarity:5, scale:1.2, ranged:true, aoe:true, mdRender:'hacker',
-          desc:'白衣の天才プログラマ。グリッチ弾で敵を麻痺させる' },
-        // Stage 208: ドローン軍団長 — A 紺軍曹 + ③ 精密誘導3連
-        { id:'md_drone_cmd', name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', cost:1800, hp:2400, atk:460, atkSpeed:1.8, range:300, speed:1.2,
-          cooldown:30.0, color:'#3a4a7a', helmet:'md_drone_helm', weapon:'md_guided', rarity:5, scale:1.2,
+          cooldown:28.0, color:'#fff', helmet:'md_ar_glasses', weapon:'md_n_sniper', mdSpecial:'magic_circle', rarity:5, scale:1.2,
+          ranged:true, mdRender:'hacker',
+          desc:'白衣の天才プログラマ。通常はハッキング光線、8回ごとにグリッチ弾AOE' },
+        // Stage 208: ドローン軍団長 — NC 小型爆弾 + S③ 精密誘導3連
+        { id:'md_drone_cmd', name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', cost:1800, hp:2400, atk:460, atkSpeed:1.8, range:260, speed:1.2,
+          cooldown:30.0, color:'#3a4a7a', helmet:'md_drone_helm', weapon:'md_n_bomb', mdSpecial:'md_guided', rarity:5, scale:1.2,
           flying:true, antiAir:true, ranged:true, aoe:true, wingColor:'#2a3050', mdRender:'drone_cmd',
-          desc:'紺の制服の司令官。3発の精密誘導ミサイルで複数の敵を撃つ' },
-        // Stage 209: 公害怪獣スモッグマン — B 紫毒霧 + ③ 酸性雨
-        { id:'md_smog', name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', cost:2000, hp:3200, atk:540, atkSpeed:2.4, range:9999, speed:0.6,
-          cooldown:34.0, color:'#7a3a8a', helmet:'md_smog_horns', weapon:'md_acid_rain', rarity:5, scale:1.4,
-          flying:true, antiAir:true, ranged:true, aoe:true, mdRender:'smog',
-          desc:'紫の毒霧悪魔。空から黄色い酸性雨を全域に降らせる' },
-        // Stage 210: AI兵器ガーディアン — B 漆黒 + ① チャージビーム
-        { id:'md_ai_guard', name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', cost:2200, hp:4000, atk:620, atkSpeed:2.2, range:340, speed:0.7,
-          cooldown:38.0, color:'#1a1a1a', helmet:'md_ai_core', weapon:'big_laser', rarity:5, scale:1.4, ranged:true, antiAir:true, mdRender:'ai_guard',
-          desc:'漆黒のサイバネAI。極太のチャージビームで貫く' },
-        // Stage 211: ラットキング — A 茶 + ③ スウォーム5匹
-        { id:'md_rat_king', name:'ラットキング', yomi:'らっときんぐ', cost:2300, hp:5500, atk:680, atkSpeed:1.7, range:280, speed:1.1,
-          cooldown:40.0, color:'#7a5a3a', helmet:'md_rat_crown', weapon:'md_swarm', rarity:5, scale:1.45, antiAir:true, ranged:true, mdRender:'rat_king',
-          desc:'茶毛の巨大ネズミ王。5匹の子ネズミが同時に飛びかかる' },
-        // Stage 212: ブレットマン — A 銀流線 + ② 音速ダッシュ画面横断
-        { id:'md_bullet', name:'ブレットマン', yomi:'ぶれっとまん', cost:2500, hp:5800, atk:760, atkSpeed:2.0, range:9999, speed:2.0,
-          cooldown:42.0, color:'#dde8f0', helmet:'md_bullet_visor', weapon:'md_sonic', rarity:5, scale:1.35, mdRender:'bullet',
-          desc:'銀の流線型怪人。画面を音速で横断して全敵を貫通する' },
-        // Stage 213: 解体重機ザイガス — C サイバー + ③ ドリル突進貫通
-        { id:'md_zigas', name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', cost:2800, hp:7800, atk:850, atkSpeed:2.4, range:240, speed:0.6,
-          cooldown:46.0, color:'#aaaaaa', helmet:'md_zigas_cyber', weapon:'md_drill', rarity:5, scale:1.55, aoe:true, mdRender:'zigas',
-          desc:'サイバー解体ロボ。巨大ドリルで突進貫通する' },
-        // Stage 214: メガロドン — A 深海灰 + ③ 大渦巻きAOE
-        { id:'md_megalodon', name:'メガロドン', yomi:'めがろどん', cost:2900, hp:8200, atk:920, atkSpeed:2.0, range:160, speed:0.85,
-          cooldown:48.0, color:'#5a6a7a', helmet:'md_shark', weapon:'md_vortex', rarity:5, scale:1.65, aoe:true, mdRender:'megalodon',
-          desc:'深海の巨大灰色ザメ。周囲を大渦巻きで巻き込む' },
-        // Stage 215: UFO円盤王ゼノス — B グレイ型 + ③ 5方向同時ビーム
-        { id:'md_ufo', name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', cost:3100, hp:7500, atk:980, atkSpeed:1.8, range:320, speed:1.2,
-          cooldown:52.0, color:'#aaaaaa', helmet:'md_ufo_gray', weapon:'md_beam_burst', rarity:5, scale:1.5,
+          desc:'紺の制服の司令官。通常は小型爆弾、8回ごとに3発の精密誘導ミサイル' },
+        // Stage 209: スモッグ — NC 汚染粒子3連 + S③ 酸性雨
+        { id:'md_smog', name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', cost:2000, hp:3200, atk:540, atkSpeed:2.0, range:280, speed:0.6,
+          cooldown:34.0, color:'#7a3a8a', helmet:'md_smog_horns', weapon:'md_n_3shot', mdSpecial:'md_acid_rain', rarity:5, scale:1.4,
+          flying:true, antiAir:true, ranged:true, mdRender:'smog',
+          desc:'紫の毒霧悪魔。通常は汚染粒子3連射、8回ごとに全画面酸性雨' },
+        // Stage 210: AI兵器 — NB 鉄拳パンチAOE + S① チャージビーム
+        { id:'md_ai_guard', name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', cost:2200, hp:4000, atk:620, atkSpeed:2.0, range:65, speed:0.7,
+          cooldown:38.0, color:'#1a1a1a', helmet:'md_ai_core', weapon:'md_n_fist', mdSpecial:'big_laser', rarity:5, scale:1.4,
+          aoe:true, antiAir:true, mdRender:'ai_guard',
+          desc:'漆黒のサイバネAI。通常は鉄拳パンチ、8回ごとに極太チャージビーム' },
+        // Stage 211: ラットキング — NC 子ネズミ投擲 + S③ 5匹スウォーム
+        { id:'md_rat_king', name:'ラットキング', yomi:'らっときんぐ', cost:2300, hp:5500, atk:680, atkSpeed:1.7, range:220, speed:1.1,
+          cooldown:40.0, color:'#7a5a3a', helmet:'md_rat_crown', weapon:'md_n_throw_rat', mdSpecial:'md_swarm', rarity:5, scale:1.45,
+          ranged:true, antiAir:true, mdRender:'rat_king',
+          desc:'茶毛の巨大ネズミ王。通常は子ネズミ投擲、8回ごとに5匹スウォーム' },
+        // Stage 212: ブレットマン — NA 高速パンチ + S② 音速ダッシュ
+        { id:'md_bullet', name:'ブレットマン', yomi:'ぶれっとまん', cost:2500, hp:5800, atk:760, atkSpeed:1.4, range:50, speed:2.0,
+          cooldown:42.0, color:'#dde8f0', helmet:'md_bullet_visor', weapon:'md_n_punch', mdSpecial:'md_sonic', rarity:5, scale:1.35, mdRender:'bullet',
+          desc:'銀の流線型怪人。通常は高速パンチ、8回ごとに音速ダッシュ画面横断' },
+        // Stage 213: ザイガス — NA 鉄球振り回し + S③ ドリル突進
+        { id:'md_zigas', name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', cost:2800, hp:7800, atk:850, atkSpeed:2.2, range:100, speed:0.6,
+          cooldown:46.0, color:'#aaaaaa', helmet:'md_zigas_cyber', weapon:'md_n_ball', mdSpecial:'md_drill', rarity:5, scale:1.55, aoe:true, mdRender:'zigas',
+          desc:'サイバー解体ロボ。通常は鉄球振り回し、8回ごとにドリル突進貫通' },
+        // Stage 214: メガロドン — NA 噛みつき + S③ 大渦巻きAOE
+        { id:'md_megalodon', name:'メガロドン', yomi:'めがろどん', cost:2900, hp:8200, atk:920, atkSpeed:1.7, range:60, speed:0.85,
+          cooldown:48.0, color:'#5a6a7a', helmet:'md_shark', weapon:'md_n_bite', mdSpecial:'md_vortex', rarity:5, scale:1.65, mdRender:'megalodon',
+          desc:'深海の巨大灰色ザメ。通常は噛みつき、8回ごとに周囲を大渦巻き' },
+        // Stage 215: UFO — NB 誘拐光線スタン + S③ 5方向同時ビーム
+        { id:'md_ufo', name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', cost:3100, hp:7500, atk:980, atkSpeed:1.6, range:280, speed:1.2,
+          cooldown:52.0, color:'#aaaaaa', helmet:'md_ufo_gray', weapon:'md_n_abduct', mdSpecial:'md_beam_burst', rarity:5, scale:1.5,
           flying:true, antiAir:true, ranged:true, wingColor:'#666', mdRender:'ufo',
-          desc:'グレイ型宇宙人の銀円盤。5方向同時にビームを発射する' },
-        // Stage 216: メカ怪獣 MK-III — C 黒暗黒 + ② 全弾発射12連
-        { id:'md_mecha3', name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', cost:3400, hp:11000, atk:1100, atkSpeed:2.4, range:300, speed:0.7,
-          cooldown:58.0, color:'#1a1a1a', helmet:'md_mecha_dark', weapon:'md_missile_storm', rarity:5, scale:1.75,
-          ranged:true, antiAir:true, aoe:true, mdRender:'mecha3',
-          desc:'黒紫の暗黒メカ怪獣。12発のミサイルを乱射する' },
-        // Stage 217: CEOザイバツ — A 黒スーツ + ③ M&Aスタン
-        { id:'md_ceo', name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', cost:3700, hp:9500, atk:1250, atkSpeed:2.0, range:240, speed:0.95,
-          cooldown:62.0, color:'#0a0a0a', helmet:'md_ceo_glasses', weapon:'md_stamp', rarity:5, scale:1.55,
-          ranged:true, aoe:true, mdRender:'ceo',
-          desc:'黒スーツの闇総帥。巨大なハンコで敵をスタン押印する' },
-        // Stage 218: サテライト・ゼロ — C 赤戦略 + ② キルセイト全画面爆撃
+          desc:'グレイ型宇宙人の銀円盤。通常は誘拐光線スタン、8回ごとに5方向同時ビーム' },
+        // Stage 216: メカMK-III — NB 胸ビーム + S② 12連ミサイル
+        { id:'md_mecha3', name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', cost:3400, hp:11000, atk:1100, atkSpeed:1.8, range:300, speed:0.7,
+          cooldown:58.0, color:'#1a1a1a', helmet:'md_mecha_dark', weapon:'md_n_chest_beam', mdSpecial:'md_missile_storm', rarity:5, scale:1.75,
+          ranged:true, antiAir:true, mdRender:'mecha3',
+          desc:'黒紫の暗黒メカ怪獣。通常は胸ビーム、8回ごとに12連ミサイル乱射' },
+        // Stage 217: CEO — NB 札束ぶつけ + S③ M&Aスタン
+        { id:'md_ceo', name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', cost:3700, hp:9500, atk:1250, atkSpeed:1.5, range:55, speed:0.95,
+          cooldown:62.0, color:'#0a0a0a', helmet:'md_ceo_glasses', weapon:'md_n_cash_punch', mdSpecial:'md_stamp', rarity:5, scale:1.55, mdRender:'ceo',
+          desc:'黒スーツの闇総帥。通常は札束ぶつけ、8回ごとに巨大ハンコでM&Aスタン' },
+        // Stage 218: サテライト・ゼロ — 現状維持（必殺技と通常攻撃を分けず）
         { id:'md_satellite', name:'サテライト・ゼロ', yomi:'さてらいとぜろ', cost:4800, hp:10500, atk:1500, atkSpeed:2.2, range:9999, speed:0.95,
           cooldown:100.0, color:'#aa1010', helmet:'md_sat_red', weapon:'md_killsat', rarity:5, scale:1.6,
           ranged:true, antiAir:true, aoe:true, mdRender:'satellite',
@@ -2692,24 +2698,24 @@
         117: { name:'スサノオ', yomi:'すさのお', hp:30000, atk:1250, helmet:'susanoo_helm', weapon:'slash_wave', color:'#ffd24a', scale:2.3, range:240 },
         // Stage 118 — Zeus (final megaboss: storm god with thunder pillar attack)
         118: { name:'ゼウス', yomi:'ぜうす', hp:84000, atk:3400, helmet:'zeus_crown', weapon:'thunder_pillar', color:'#3a4a8a', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:1.5, range:500, speed:0.20 },
-        // ===== 現代編 ボス（クリアで仲間に・mdRender付き、選択案を反映） =====
-        201: { name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', hp:3300, atk:230, helmet:'mohawk', weapon:'md_bike', color:'#1a1a1a', scale:1.7, range:200, atkSpeed:2.0, speed:1.0, mdRender:'bouso' },
-        202: { name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', hp:4500, atk:280, helmet:'hood', weapon:'md_cards', color:'#0a0a0a', scale:1.8, range:280, atkSpeed:2.0, antiAir:true, ranged:true, mdRender:'kaitou' },
-        203: { name:'クチサケ女', yomi:'くちさけおんな', hp:5400, atk:330, helmet:'md_kuchi_mask', weapon:'md_curse', color:'#aa1010', scale:2.0, range:300, atkSpeed:2.0, ranged:true, mdRender:'kuchisake' },
-        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'md_sailor', weapon:'md_tp_strike', color:'#1a1a4a', scale:1.7, range:200, atkSpeed:2.2, speed:1.4, teleport:true, mdRender:'teketeke' },
-        205: { name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', hp:6500, atk:420, helmet:'md_ichimatsu', weapon:'md_doll_summon', color:'#aa1010', scale:1.8, ranged:true, range:240, atkSpeed:2.2, mdRender:'merry' },
-        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'md_miko_hanako', weapon:'md_water_pillar', color:'#fff', scale:1.9, ranged:true, range:240, atkSpeed:2.0, aoe:true, teleport:true, mdRender:'hanako' },
-        207: { name:'ハッカー帝王', yomi:'はっかーていおう', hp:9500, atk:560, helmet:'md_ar_glasses', weapon:'magic_circle', color:'#fff', scale:1.9, ranged:true, range:300, atkSpeed:2.0, aoe:true, mdRender:'hacker' },
-        208: { name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', hp:11000, atk:620, helmet:'md_drone_helm', weapon:'md_guided', color:'#3a4a7a', scale:1.8, flying:true, antiAir:true, ranged:true, range:300, aoe:true, atkSpeed:2.2, wingColor:'#2a3050', mdRender:'drone_cmd' },
-        209: { name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', hp:13000, atk:700, helmet:'md_smog_horns', weapon:'md_acid_rain', color:'#7a3a8a', scale:2.1, flying:true, antiAir:true, ranged:true, range:9999, aoe:true, atkSpeed:2.6, speed:0.4, mdRender:'smog' },
-        210: { name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', hp:15500, atk:820, helmet:'md_ai_core', weapon:'big_laser', color:'#1a1a1a', scale:2.1, ranged:true, range:340, antiAir:true, atkSpeed:2.4, mdRender:'ai_guard' },
-        211: { name:'ラットキング', yomi:'らっときんぐ', hp:18000, atk:880, helmet:'md_rat_crown', weapon:'md_swarm', color:'#7a5a3a', scale:2.3, range:280, atkSpeed:2.0, antiAir:true, ranged:true, mdRender:'rat_king' },
-        212: { name:'ブレットマン', yomi:'ぶれっとまん', hp:21000, atk:1000, helmet:'md_bullet_visor', weapon:'md_sonic', color:'#dde8f0', scale:2.0, range:9999, atkSpeed:2.4, speed:1.6, mdRender:'bullet' },
-        213: { name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', hp:25000, atk:1100, helmet:'md_zigas_cyber', weapon:'md_drill', color:'#aaaaaa', scale:2.4, range:240, atkSpeed:2.6, aoe:true, mdRender:'zigas' },
-        214: { name:'メガロドン', yomi:'めがろどん', hp:28000, atk:1200, helmet:'md_shark', weapon:'md_vortex', color:'#5a6a7a', scale:2.6, range:160, atkSpeed:2.2, aoe:true, mdRender:'megalodon' },
-        215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'md_ufo_gray', weapon:'md_beam_burst', color:'#aaaaaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:320, atkSpeed:2.0, wingColor:'#666', mdRender:'ufo' },
-        216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'md_mecha_dark', weapon:'md_missile_storm', color:'#1a1a1a', scale:2.7, ranged:true, range:300, antiAir:true, aoe:true, atkSpeed:2.6, mdRender:'mecha3' },
-        217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'md_ceo_glasses', weapon:'md_stamp', color:'#0a0a0a', scale:2.4, ranged:true, range:240, aoe:true, atkSpeed:2.2, mdRender:'ceo' },
+        // ===== 現代編 ボス（クリアで仲間に・通常 weapon + 必殺 mdSpecial 付き） =====
+        201: { name:'暴走族頭領', yomi:'ぼうそうぞくとうりょう', hp:3300, atk:230, helmet:'mohawk', weapon:'md_n_bottle', mdSpecial:'md_bike', color:'#1a1a1a', scale:1.7, range:240, atkSpeed:2.0, ranged:true, aoe:true, mdRender:'bouso' },
+        202: { name:'怪盗ブラックタイガー', yomi:'かいとうぶらっくたいがー', hp:4500, atk:280, helmet:'hood', weapon:'md_n_cane', mdSpecial:'md_cards', color:'#0a0a0a', scale:1.8, range:50, atkSpeed:2.0, antiAir:true, mdRender:'kaitou' },
+        203: { name:'クチサケ女', yomi:'くちさけおんな', hp:5400, atk:330, helmet:'md_kuchi_mask', weapon:'md_n_scissors', mdSpecial:'md_curse', color:'#aa1010', scale:2.0, range:65, atkSpeed:2.2, mdRender:'kuchisake' },
+        204: { name:'テケテケ', yomi:'てけてけ', hp:5800, atk:380, helmet:'md_sailor', weapon:'md_n_dash', mdSpecial:'md_tp_strike', color:'#1a1a4a', scale:1.7, range:220, atkSpeed:2.2, ranged:true, speed:1.4, teleport:true, mdRender:'teketeke' },
+        205: { name:'呪い人形メリー', yomi:'のろいにんぎょうめりー', hp:6500, atk:420, helmet:'md_ichimatsu', weapon:'md_n_circle', mdSpecial:'md_doll_summon', color:'#aa1010', scale:1.8, ranged:true, range:220, atkSpeed:2.4, aoe:true, mdRender:'merry' },
+        206: { name:'トイレの花子さん', yomi:'といれのはなこさん', hp:7800, atk:470, helmet:'md_miko_hanako', weapon:'md_n_wail', mdSpecial:'md_water_pillar', color:'#fff', scale:1.9, ranged:true, range:240, atkSpeed:2.0, aoe:true, teleport:true, mdRender:'hanako' },
+        207: { name:'ハッカー帝王', yomi:'はっかーていおう', hp:9500, atk:560, helmet:'md_ar_glasses', weapon:'md_n_sniper', mdSpecial:'magic_circle', color:'#fff', scale:1.9, ranged:true, range:300, atkSpeed:2.0, mdRender:'hacker' },
+        208: { name:'ドローン軍団長', yomi:'どろーんぐんだんちょう', hp:11000, atk:620, helmet:'md_drone_helm', weapon:'md_n_bomb', mdSpecial:'md_guided', color:'#3a4a7a', scale:1.8, flying:true, antiAir:true, ranged:true, range:260, aoe:true, atkSpeed:2.2, wingColor:'#2a3050', mdRender:'drone_cmd' },
+        209: { name:'公害怪獣スモッグマン', yomi:'こうがいかいじゅうすもっぐまん', hp:13000, atk:700, helmet:'md_smog_horns', weapon:'md_n_3shot', mdSpecial:'md_acid_rain', color:'#7a3a8a', scale:2.1, flying:true, antiAir:true, ranged:true, range:280, atkSpeed:2.4, speed:0.4, mdRender:'smog' },
+        210: { name:'AI兵器ガーディアン', yomi:'えーあいへいきがーでぃあん', hp:15500, atk:820, helmet:'md_ai_core', weapon:'md_n_fist', mdSpecial:'big_laser', color:'#1a1a1a', scale:2.1, range:65, antiAir:true, aoe:true, atkSpeed:2.2, mdRender:'ai_guard' },
+        211: { name:'ラットキング', yomi:'らっときんぐ', hp:18000, atk:880, helmet:'md_rat_crown', weapon:'md_n_throw_rat', mdSpecial:'md_swarm', color:'#7a5a3a', scale:2.3, range:220, atkSpeed:2.0, antiAir:true, ranged:true, mdRender:'rat_king' },
+        212: { name:'ブレットマン', yomi:'ぶれっとまん', hp:21000, atk:1000, helmet:'md_bullet_visor', weapon:'md_n_punch', mdSpecial:'md_sonic', color:'#dde8f0', scale:2.0, range:50, atkSpeed:1.6, speed:1.6, mdRender:'bullet' },
+        213: { name:'解体重機ザイガス', yomi:'かいたいじゅうきざいがす', hp:25000, atk:1100, helmet:'md_zigas_cyber', weapon:'md_n_ball', mdSpecial:'md_drill', color:'#aaaaaa', scale:2.4, range:100, atkSpeed:2.4, aoe:true, mdRender:'zigas' },
+        214: { name:'メガロドン', yomi:'めがろどん', hp:28000, atk:1200, helmet:'md_shark', weapon:'md_n_bite', mdSpecial:'md_vortex', color:'#5a6a7a', scale:2.6, range:60, atkSpeed:1.8, mdRender:'megalodon' },
+        215: { name:'UFO円盤王ゼノス', yomi:'ゆーふぉーえんばんおうぜのす', hp:30000, atk:1300, helmet:'md_ufo_gray', weapon:'md_n_abduct', mdSpecial:'md_beam_burst', color:'#aaaaaa', scale:2.3, flying:true, antiAir:true, ranged:true, range:280, atkSpeed:1.8, wingColor:'#666', mdRender:'ufo' },
+        216: { name:'メカ怪獣 MK-III', yomi:'めかかいじゅうまーくすりー', hp:36000, atk:1450, helmet:'md_mecha_dark', weapon:'md_n_chest_beam', mdSpecial:'md_missile_storm', color:'#1a1a1a', scale:2.7, ranged:true, range:300, antiAir:true, atkSpeed:2.0, mdRender:'mecha3' },
+        217: { name:'暗黒大企業CEO ザイバツ', yomi:'あんこくだいきぎょうしーいーおーざいばつ', hp:42000, atk:1600, helmet:'md_ceo_glasses', weapon:'md_n_cash_punch', mdSpecial:'md_stamp', color:'#0a0a0a', scale:2.4, range:55, atkSpeed:1.7, mdRender:'ceo' },
         218: { name:'暗黒衛星兵器サテライト・ゼロ', yomi:'あんこくえいせいへいきさてらいと・ぜろ', hp:70000, atk:3000, helmet:'md_sat_red', weapon:'md_killsat', color:'#aa1010', scale:1, ranged:true, antiAir:true, aoe:true, mega:true, atkSpeed:2.0, range:9999, speed:0.22, mdRender:'satellite' },
         // ===== 未来編 ボス (id:301-318) - 現代編より強い =====
         301: { name:'サムライ将軍 ZERO', yomi:'さむらいしょうぐん ぜろ', hp:5500, atk:380, helmet:'visor', weapon:'fu_plasma_blade', fuSpecial:'fu_float_blades', color:'#4a2a8a', scale:1.8, range:280, atkSpeed:2.0, ranged:true, fuRender:'zero' },
@@ -5462,6 +5468,8 @@
             teleport: b.teleport,
             // 現代編専用の固有描画（味方と同じ見た目になるように）
             mdRender: b.mdRender,
+            // 現代編 通常攻撃/必殺技分離
+            mdSpecial: b.mdSpecial,
             // 未来編専用の固有描画 + 必殺技
             fuRender: b.fuRender, fuSpecial: b.fuSpecial
         };
@@ -10387,6 +10395,18 @@
         const kishinkaBuff = (attacker.kishinka || 0) > 0;
         const dmgMult = (isSpecial ? 2.0 : 1.0) * (kishinkaBuff ? 2.0 : 1.0);
         const atk = attacker.atk * dmgMult;
+        // 必殺技と通常攻撃を分離（現代編キャラ — mdSpecial が設定されている）
+        // 8回ごとに必殺技、それ以外は通常攻撃。data.weapon を一時的に swap して既存ロジック流用。
+        const _mdSplit = !!(attacker.data && attacker.data.mdSpecial);
+        const _origWeapon = _mdSplit ? attacker.data.weapon : null;
+        if(_mdSplit && isSpecial) attacker.data.weapon = attacker.data.mdSpecial;
+        try {
+            return attackTargetBody(attacker, target, atk, isSpecial, kishinkaBuff);
+        } finally {
+            if(_mdSplit) attacker.data.weapon = _origWeapon;
+        }
+    }
+    function attackTargetBody(attacker, target, atk, isSpecial, kishinkaBuff) {
         // 蛇の召喚（ナーガ専用）— 3体の小蛇を3つのターゲットへ
         if(attacker.data && attacker.data.weapon === 'snake_summon') {
             attacker.swing = 1;
@@ -11020,6 +11040,230 @@
                 }
                 if(isSpecial) addFloat(attacker.x, attacker.y - 60, '☢ キルセイト ☢', '#ff3344', true);
                 if(snd && snd.explode) snd.explode();
+                return;
+            }
+        }
+        // ====================================================
+        // 現代編 通常攻撃ハンドラ（md_n_*）— 必殺技以外のときに発動
+        // ====================================================
+        if(mdWeapon && mdWeapon.startsWith && mdWeapon.startsWith('md_n_')) {
+            attacker.swing = 1;
+            const fwdDir = attacker.side === 'p' ? -1 : 1;
+            const tgtX = target.isCastle ? (target.side === 'enemy' ? 100 : W() - 100) : target.x;
+            const tgtY = target.isCastle ? (groundY() - 30) : (target.y - 30);
+
+            // 1. md_n_bottle (暴走族) — ボトル投擲（AOE）
+            if(mdWeapon === 'md_n_bottle') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/30, vy: (tgtY-by)/30,
+                    dmg: atk, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 2. md_n_cane (怪盗) — ステッキ突き（近接単発）
+            if(mdWeapon === 'md_n_cane') {
+                damageUnit(target, atk);
+                addSlashEffect(target.x, target.y - 30, '#ffd24a', 28);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 3. md_n_scissors (クチサケ) — 3連斬り
+            if(mdWeapon === 'md_n_scissors') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: attacker.x + fwdDir*30, timer: 0, damage: atk*0.5,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, range: 65, style:'naginata_spin'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 4. md_n_dash (テケテケ) — 地這い超速突進（貫通）
+            if(mdWeapon === 'md_n_dash') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 22, damage: atk, side: attacker.side,
+                    maxRange: 220, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'charge_beam'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 5. md_n_circle (メリー) — 呪詛の魔法陣
+            if(mdWeapon === 'md_n_circle') {
+                if(!game.quakes) game.quakes = [];
+                game.quakes.push({
+                    x: tgtX, timer: 0, damage: atk,
+                    side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, range: 90, style:'binding_seal'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 6. md_n_wail (花子) — 呪いの叫び（前方波）
+            if(mdWeapon === 'md_n_wail') {
+                if(!game.slashWaves) game.slashWaves = [];
+                game.slashWaves.push({
+                    x: attacker.x, startX: attacker.x, dir: fwdDir,
+                    speed: 12, damage: atk, side: attacker.side,
+                    maxRange: 240, traveled: 0,
+                    hitUnits: [], castleHit: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style: 'wind'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 7. md_n_sniper (ハッカー) — ハッキング光線
+            if(mdWeapon === 'md_n_sniper') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/20, vy: (tgtY-by)/20,
+                    dmg: atk*1.1, side: attacker.side,
+                    weapon:'kunai', hit:false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 8. md_n_bomb (ドローン軍団長) — 小型爆弾
+            if(mdWeapon === 'md_n_bomb') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/32, vy: (tgtY-by)/32,
+                    dmg: atk*0.9, side: attacker.side,
+                    weapon:'fireball', hit:false, aoe:true,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.explode) snd.explode();
+                return;
+            }
+            // 9. md_n_3shot (スモッグ) — 汚染粒子3連射
+            if(mdWeapon === 'md_n_3shot') {
+                if(!game.pendingShots) game.pendingShots = [];
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                for(let k=0;k<3;k++){
+                    game.pendingShots.push({
+                        delay: k*0.12, fired: false,
+                        bx: bx, by: by - k*6, tx: tgtX, ty: tgtY,
+                        dmg: atk*0.5, side: attacker.side,
+                        weapon: 'fireball',
+                        antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                    });
+                }
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 10. md_n_fist (AI兵器) — 鉄拳パンチ（近接AOE）
+            if(mdWeapon === 'md_n_fist') {
+                const aoeR = 60;
+                const canHitFly = !!attacker.data.antiAir;
+                game.units.forEach(t => {
+                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - target.x) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, atk);
+                    }
+                });
+                addSlashEffect(target.x, target.y - 30, '#ffd24a', aoeR);
+                if(snd && snd.hit) snd.hit();
+                return;
+            }
+            // 11. md_n_throw_rat (ラットキング) — 子ネズミ1匹投擲
+            if(mdWeapon === 'md_n_throw_rat') {
+                if(!game.jumpCombos) game.jumpCombos = [];
+                const ty = target.isCastle ? groundY() : target.y;
+                game.jumpCombos.push({
+                    startX: attacker.x, targetX: tgtX, targetY: ty,
+                    timer: 0, delay: 0,
+                    damage: atk, side: attacker.side, damageApplied: false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying,
+                    isSpecial, style:'md_rat'
+                });
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 12. md_n_punch (ブレットマン) — 高速パンチ
+            if(mdWeapon === 'md_n_punch') {
+                damageUnit(target, atk);
+                addSlashEffect(target.x, target.y - 30, '#aaccff', 28);
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 13. md_n_ball (ザイガス) — 鉄球振り回し（近接AOE）
+            if(mdWeapon === 'md_n_ball') {
+                const aoeR = 90;
+                const cx = attacker.x + fwdDir*40;
+                const canHitFly = !!attacker.data.antiAir;
+                game.units.forEach(t => {
+                    if(t.side !== attacker.side && !t.dead && Math.abs(t.x - cx) < aoeR) {
+                        if(t.data.flying && !canHitFly) return;
+                        damageUnit(t, atk);
+                    }
+                });
+                addSlashEffect(cx, attacker.y - 30, '#aa6600', aoeR);
+                if(snd && snd.hit) snd.hit();
+                return;
+            }
+            // 14. md_n_bite (メガロドン) — 噛みつき
+            if(mdWeapon === 'md_n_bite') {
+                damageUnit(target, atk);
+                addSlashEffect(target.x, target.y - 30, '#fff', 32);
+                // 牙痕
+                for(let i=0;i<6;i++){
+                    game.particles.push({
+                        x: target.x, y: target.y - 16,
+                        vx: (Math.random()-0.5)*5, vy: -Math.random()*3,
+                        life: 0.8, color: '#aa1010', size: 3
+                    });
+                }
+                if(snd && snd.slash) snd.slash();
+                return;
+            }
+            // 15. md_n_abduct (UFO) — 誘拐光線（単発スタン）
+            if(mdWeapon === 'md_n_abduct') {
+                damageUnit(target, atk);
+                if(!target.isCastle) target.stunned = Math.max(target.stunned||0, 1.0);
+                addSlashEffect(target.x, target.y - 30, '#ffd24a', 38);
+                if(snd && snd.coin) snd.coin();
+                return;
+            }
+            // 16. md_n_chest_beam (メカMK-III) — 胸ビーム単発
+            if(mdWeapon === 'md_n_chest_beam') {
+                const bx = attacker.x + fwdDir*15, by = attacker.y - 30;
+                game.bullets.push({
+                    x: bx, y: by, tx: tgtX, ty: tgtY,
+                    vx: (tgtX-bx)/22, vy: (tgtY-by)/22,
+                    dmg: atk, side: attacker.side,
+                    weapon:'magic_circle', hit:false,
+                    antiAir: !!attacker.data.antiAir, fromFlying: !!attacker.data.flying
+                });
+                if(snd && snd.laser) snd.laser();
+                return;
+            }
+            // 17. md_n_cash_punch (CEO) — 札束ぶつけ
+            if(mdWeapon === 'md_n_cash_punch') {
+                damageUnit(target, atk);
+                addSlashEffect(target.x, target.y - 30, '#88dd66', 30);
+                for(let i=0;i<5;i++){
+                    game.particles.push({
+                        x: target.x, y: target.y - 16,
+                        vx: (Math.random()-0.5)*4, vy: -Math.random()*3,
+                        life: 0.8, color: '#88dd66', size: 4
+                    });
+                }
+                if(snd && snd.slash) snd.slash();
                 return;
             }
         }
