@@ -1126,6 +1126,15 @@ function stepRival(e){
   const ph=e.walk||0;
   legs.forEach((l,i)=>{ const s=Math.sin(ph+i*Math.PI); l.mesh.position.y=l.by+Math.max(0,s)*0.1; l.mesh.position.z=l.bz+s*0.16; });
 }
+function cancelRivalRaids(){
+  // プレイヤー拠点が作り直された（転生）→ 古い台座を狙っている敵をリセット
+  for(const e of rivals){
+    if(e.carrying){ scene.remove(e.carrying.mesh); e.carrying=null; }   // 運搬中の戦利品（消えた怪獣）を破棄
+    e.robPed=null;
+    if(e.state==='rob_go'||e.state==='rob_back') e.state='return';
+  }
+  thiefArrowTarget=null; hideStealAlert();
+}
 function maybeStartRob(){
   if(bases[0].locked) return;
   const targets=bases[0].pedestals.filter(p=>p.creatureId); if(!targets.length) return;
@@ -2131,7 +2140,8 @@ function doRebirth(){
   const cost=rebirthCost();
   if(state.money<cost){ toast('おかねが たりない！','danger'); return; }
   state.rebirth++; state.mult++; state.slots=Math.min(MAX_SLOTS, state.slots+1);
-  state.money=100; state.owned=[];
+  state.money-=cost; state.owned=[];                 // 必要額を引いた残りはキープ（怪獣はリセット）
+  cancelRivalRaids();                                // 進行中の敵の窃盗を中止（空の台座から盗む不具合を防ぐ）
   // rebuild the player base: bigger + fancier territory, empty pedestals
   buildBaseContents(bases[0], state.slots, true, state.rebirth);
   updateBaseWorldPositions(bases[0]);

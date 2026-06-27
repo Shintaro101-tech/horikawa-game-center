@@ -259,6 +259,11 @@
 
 ## 直近の作業ログ（新しい順）
 
+### 🐛 2026-06-27 転生バグ2件修正（所持金キープ＋空台座からの窃盗）
+- **転生でお金が100に戻る不具合を修正**: `doRebirth`で`state.money=100`→`state.money-=cost`（必要額を引いた残額をキープ。怪獣は従来どおりリセット）。
+- **転生後に敵が空の台座から盗む不具合を修正**: 転生で`buildBaseContents`が自拠点の台座を作り直すと、`rob_go`中の敵が握っていた**古い台座参照**(`e.robPed`)から盗んでいた。`cancelRivalRaids()`を新設し`doRebirth`内（拠点再構築の直前）で呼ぶ＝全敵の`robPed`をnull化・運搬中の戦利品メッシュを破棄・`rob_go/rob_back`を`return`へ・矢印/アラート解除。
+- 検証: 5000→転生(cost1000)→4000で残額キープ・rebirth=1、rob_go中の敵が`return`化し誰も運搬せず台座0、転生後も通常の窃盗(`maybeStartRob`→`rivalGrabFromPlayer`)は正常動作、エラーなし。**git push 済**。
+
 ### 📖 2026-06-27 図鑑に入手怪獣の3Dイラスト＋360°ビューア
 - 「一度手に入れた怪獣は図鑑にイラストが入り、自分で360度動かして眺められる」を実装。
 - `state.collected`(save/load・load時にCREATURE_BY_IDでサニタイズ)を追加。`markCollected(id)`を`placeCreatureOnPedestal`の自拠点(`base===bases[0]`)時にフック→ドロップ/購入/sell_place/ロード時の所持反映すべてで入手記録。
