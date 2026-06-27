@@ -115,7 +115,7 @@
 - **飛行中の判定**: 追跡敵は `chase` 時にプレイヤーの高さへ上昇（敵も飛ぶ）。捕獲・パンチは3D距離(`distanceTo`)で判定＝高さが合わないと当たらない。`moveEntityTo`はyを触らず、各stateで高さを設定。
 - **運搬速度**: `PLAYER_CARRY_SPEED=7.5`（通常9より少し遅い）。
 - **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
-- **図鑑コレクション＋3Dビューア**: 一度でも自拠点に入った怪獣は `state.collected`(save/load対応)に記録（`markCollected`を`placeCreatureOnPedestal`の`base===bases[0]`時にフック＝ドロップ/購入/sell_place/ロード時の所持反映すべてで発火）。**入手済**はカラーの行＋タップで上部の3Dビューアに表示、**未入手**は灰色「？？？／🔒まだつかまえていない」でロック。先頭に「✨コンプリート N/16」。3Dビューア(`#dex-stage`/`#dex-canvas`)は専用 `dexViewer`(scene/camera/renderer/pivot を遅延生成、`initDexViewer`)。`showDexCreature(id,row)`が`buildCreatureMesh`→`fitDexMesh`でビューア内に正規化(2.3)・中央寄せ。**ドラッグ(pointer)で360°回転**(rotY/rotX)、放置中は自動スピン。`.glb`(バハムート)は非同期ロード後に`loadModel`コールバックで再フィット。`animate()`が dex 表示中のみ `renderDexViewer(dt)` を回す。**`#dex`は`justify-content:flex-start`で上揃え**（`.screen`既定の`center`だと縦長コンテンツの先頭がスクロールで到達不能になるflexバグを回避）。`#dex-stage`は`flex:0 0 auto`で潰れ防止。
+- **図鑑コレクション＋3D別ページ**: 一度でも自拠点に入った怪獣は `state.collected`(save/load対応)に記録（`markCollected`を`placeCreatureOnPedestal`の`base===bases[0]`時にフック＝ドロップ/購入/sell_place/ロード時の所持反映すべてで発火）。図鑑(`#dex`)は一覧のみ：**入手済**=カラー行＋「👀3Dで見る／›」付きでタップ可、**未入手**=灰色「？？？／🔒まだつかまえていない」でロック。先頭に「✨コンプリート N/16」。**入手済をタップ→別ページ(`#cview`)がフルスクリーンで開き怪獣を大きく3D表示**（`showCreaturePage(id)`）。名前は`innerHTML`でふりがな(`<ruby>`)を正しく表示、💰価格／+収入／もってる×N のチップ、`←もどる`で図鑑へ。3Dは専用 `dexViewer`(scene/camera/renderer/pivot を`initDexViewer`で遅延生成、canvasは`#dex-canvas`=cview内)。**カメラは`lookAt(0,0,0)`で原点（怪獣中心）を見る＝画面中央**。`buildCreatureMesh`→`fitDexMesh`で正規化(2.3)・中央寄せ。**ドラッグ(pointer)で360°回転**(rotY/rotX)、放置中は自動スピン。`.glb`(バハムート)は非同期ロード後に`loadModel`コールバックで再フィット。`animate()`が **cview表示中のみ** `renderDexViewer(dt)`、`isModalOpen`に`cview`追加で時間停止。`#dex`/`#cview`は`justify-content:flex-start`（`.screen`既定`center`だと縦長先頭がスクロール到達不能になるflexバグ回避）、`#cv-stage`は`flex:1`でフルスクリーン。
 - **転生でレア確率UP**: `rebirthLuck()`=1+min(rebirth,18)×0.12。パレード/AIの抽選で `weight×luck^rarityIndex` し、転生するほど高レアが出やすい（検証: レア+割合 12.6%→35.4%@転生8）。
 - **自作3Dモデル(.glb)対応**: GLTFLoader読込済。`CREATURES` に `model:'models/xxx.glb'` を足すと `buildCreatureMesh`→`buildModelCreatureMesh`/`loadModel`(キャッシュ付)が非同期ロード→正規化→台座に表示（ロード中は仮プレースホルダ）。AIで作った.glbや Blender書き出しをそのまま登場可能。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
@@ -258,6 +258,14 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🖼 2026-06-27 図鑑3Dを別ページ化＋中央寄せ＋ふりがな修正
+- 「怪獣を中央に」「名前クリックで3Dイメージに飛ぶ（別ページ）」要望に対応。
+- **インライン上部ビューアを廃止→フルスクリーンの別ページ `#cview`** に変更。図鑑(`#dex`)は一覧だけ、入手済み行に「👀3Dで見る／›」を付けタップで`showCreaturePage(id)`が`#cview`を開く（大きく3D表示＋💰価格/+収入/もってる×N チップ＋`←もどる`）。
+- **中央寄せ修正**: カメラを`lookAt(0,0,0)`に（従来はy=1.0で正面を見ていたため怪獣が下寄りだった）。
+- **名前のふりがな表示バグ修正**: `textContent`だと`<ruby>蜃<rt>しん</rt></ruby>`がそのまま文字表示されていた→`innerHTML`に変更。
+- `isModalOpen`に`cview`追加で閲覧中も時間停止、`animate`はcview表示中のみ`renderDexViewer`。`#cv-stage`は`flex:1`でフルスクリーン、`#cview`も`justify-content:flex-start`。
+- 検証(モバイル375px): 蜃(紫procedural)＆バハムート(.glbドラゴン)とも別ページで中央に大きく表示、名前ふりがなOK、ドラッグで360°回転＋自動スピン停止、←もどるで図鑑復帰、未入手はロック、エラーなし。**git push 済**。
 
 ### 🐛 2026-06-27 転生バグ2件修正（所持金キープ＋空台座からの窃盗）
 - **転生でお金が100に戻る不具合を修正**: `doRebirth`で`state.money=100`→`state.money-=cost`（必要額を引いた残額をキープ。怪獣は従来どおりリセット）。
