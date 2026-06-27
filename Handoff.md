@@ -63,7 +63,9 @@
 ├── heist/                 ← 🦖 怪獣を盗む（旧「モンスター・ハイスト」・Three.js r128・新規）
 │   ├── index.html         ← 単一ファイル。Steal a Brainrot inspire の3D収集ゲーム
 │   ├── kaiju-preview.html ← 怪獣デザイン案プレビュー（選定用）
-│   ├── bahamut-preview.html ← バハムートのデザイン3案（選定用・本番は仮で案A）
+│   ├── bahamut-preview.html ← バハムートのデザイン3案（選定用・本番は仮で案A=豪華版）
+│   ├── mainchar-preview.html ← 主人公の愛くるしい3案（ネコ/ペンギン/ウサギ・選定待ち）
+│   └── models/            ← 自作.glb/.gltfモデル置き場（任意・CREATURESで model:'models/x.glb'）
 │   └── character-preview.html ← メイン/敵キャラのデザイン3案（選定済：メイン=B/敵=A・B・C 全採用→本番反映済）
 ├── .claude/launch.json    ← プレビュー用（python3 http.server :8123, name="arcade"）
 ├── Handoff.md             ← このファイル（唯一の引き継ぎドキュメント）
@@ -112,6 +114,8 @@
 - **飛行中の判定**: 追跡敵は `chase` 時にプレイヤーの高さへ上昇（敵も飛ぶ）。捕獲・パンチは3D距離(`distanceTo`)で判定＝高さが合わないと当たらない。`moveEntityTo`はyを触らず、各stateで高さを設定。
 - **運搬速度**: `PLAYER_CARRY_SPEED=7.5`（通常9より少し遅い）。
 - **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
+- **転生でレア確率UP**: `rebirthLuck()`=1+min(rebirth,18)×0.12。パレード/AIの抽選で `weight×luck^rarityIndex` し、転生するほど高レアが出やすい（検証: レア+割合 12.6%→35.4%@転生8）。
+- **自作3Dモデル(.glb)対応**: GLTFLoader読込済。`CREATURES` に `model:'models/xxx.glb'` を足すと `buildCreatureMesh`→`buildModelCreatureMesh`/`loadModel`(キャッシュ付)が非同期ロード→正規化→台座に表示（ロード中は仮プレースホルダ）。AIで作った.glbや Blender書き出しをそのまま登場可能。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
 - **レアリティ**: コモン/レア/エピック/レジェンド/シークレット/**ミシック**の6段階（`RARITY`）。コスト・収入が連動。**ミシック=超激レア**（cost 275000＝シークレット×5、income 3500、weight 1）。
 - **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王・超巨大)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。バハムートのデザインは案A（金紅の竜王）を仮採用、案見本は `heist/bahamut-preview.html`。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
@@ -249,6 +253,13 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🛠 2026-06-27 バハムート強化＋転生運＋主人公案＋.glb対応
+- **バハムートをカッコよく**（`_kBahamut`豪華版＝金の肩アーマー/トゲ/角の冠/光るコア＆クレスト先/巨大な翼＋翼爪/炎の尾。108メッシュ）。bahamut-preview の案Aも同期。
+- **転生でレア確率UP**: `rebirthLuck()` をパレード/AI抽選に適用。
+- **主人公の愛くるしい3案**（`mainchar-preview.html`: A=まんまるネコ/B=ぷくぷくペンギン/C=ふわふわウサギ、目にハイライト追加）。**選定待ち→`buildPlayer`に反映**。
+- **自作3Dモデル(.glb)読込対応**（GLTFLoader＋`loadModel`/`buildModelCreatureMesh`、`CREATURES`に`model:`で登場）。AI生成(Meshy/Tripo/Luma等)やBlender書き出しを `heist/models/` に置いて登録するだけ。
+- 検証: GLTFLoader=function、バハ108メッシュ、レア+12.6%→35.4%、主人公3案描画、エラーなし。**git push 済**。
 
 ### 🐉 2026-06-27 超激レア「バハムート」追加＋ミシックレアリティ
 - 新レアリティ **ミシック**（`RARITY.mythic`、cost 275000＝シークレット×5、income 3500、weight 1）を `RARITY_ORDER` 末尾に追加。図鑑にも反映。

@@ -81,22 +81,31 @@ function featherWing(col,sx){ const g=new THREE.Group(), m=mat(col,{roughness:.6
 }
 
 // ============ 3 BAHAMUT DESIGNS ============
-// A: 竜王 — gold-crimson western dragon (in-game default)
+// A: 竜王 — armored crimson-gold with glowing embers (in-game default)
 function bahaA(){ const g=new THREE.Group();
-  const red=mat(0x9e1b1b,{roughness:.5,metalness:.1}), gold=mat(0xd4a017,{roughness:.4,metalness:.4}), belly=mat(0xf0d890,{roughness:.6});
-  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.1,14,12),red); torso.scale.set(1,1.15,1.45); torso.position.y=1.5; g.add(torso);
-  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.82,12,10),belly); bel.position.set(0,1.2,0.75); bel.scale.set(1,1.35,0.6); g.add(bel);
-  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.22,1.05,8),red); fl.position.set(sx*0.72,0.55,0.6); g.add(fl);
-    for(let c=0;c<3;c++){ const claw=cone(0.07,0.3,WHITE(),5); claw.position.set(sx*0.72+(c-1)*0.12,0.04,0.78); claw.rotation.x=0.9; g.add(claw); }
-    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.24,1.15,8),red); bl.position.set(sx*0.78,0.6,-0.5); g.add(bl); }
-  const neck=snake([[0,2.0,0.6],[0,2.7,0.85],[0,3.2,1.15]],t=>0.36-0.1*t,red,8,belly); g.add(neck);
+  const red=mat(0xb01818,{roughness:.45,metalness:.18}), dark=mat(0x6e0f0f,{roughness:.5}),
+        gold=mat(0xffcf3a,{roughness:.32,metalness:.65}), belly=mat(0xffe7a0,{roughness:.6}), ember=glow(0xff6a00);
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.15,16,14),red); torso.scale.set(1.05,1.2,1.5); torso.position.y=1.55; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.85,12,10),belly); bel.position.set(0,1.2,0.85); bel.scale.set(1,1.4,0.55); g.add(bel);
+  const core=new THREE.Mesh(new THREE.SphereGeometry(0.26,12,12),ember); core.position.set(0,1.75,1.0); g.add(core);
+  for(const sx of [-1,1]){ const sh=new THREE.Mesh(new THREE.SphereGeometry(0.5,10,8,0,Math.PI*2,0,Math.PI/2),gold); sh.position.set(sx*0.95,2.05,0.1); sh.scale.set(1,0.7,1.1); g.add(sh);
+    const spike=cone(0.13,0.6,gold,6); spike.position.set(sx*1.18,2.3,0); spike.rotation.z=sx*0.7; g.add(spike); }
+  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.24,1.1,9),red); fl.position.set(sx*0.78,0.55,0.65); g.add(fl);
+    const thigh=new THREE.Mesh(new THREE.SphereGeometry(0.36,10,8),red); thigh.position.set(sx*0.85,0.95,-0.45); g.add(thigh);
+    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.26,1.2,9),red); bl.position.set(sx*0.82,0.55,-0.5); g.add(bl);
+    for(let c=0;c<3;c++){ const claw=cone(0.09,0.4,gold,5); claw.position.set(sx*0.78+(c-1)*0.15,0.04,0.9); claw.rotation.x=1.0; g.add(claw); } }
+  const neck=snake([[0,2.1,0.55],[0,2.85,0.85],[0,3.35,1.2]],t=>0.42-0.12*t,red,9,dark); g.add(neck);
   const tip=neck.userData.curve.getPoint(1);
-  const head=dragonHead({color:0x9e1b1b,size:0.72,fangs:9,horns:true,hornColor:0xd4a017,eyeGlow:true,eyeColor:0xffd23b}); head.position.copy(tip); head.position.y+=0.12; g.add(head);
-  for(const sx of [-1,1]){ const h2=cone(0.12,0.6,gold,6); h2.position.set(tip.x+sx*0.45,tip.y+0.55,tip.z-0.35); h2.rotation.z=sx*0.6; g.add(h2); }
-  for(let k=0;k<7;k++){ const s=cone(0.16,0.55,gold,5); s.position.set(0,1.5+Math.sin(k/6*Math.PI)*0.6,1.0-k*0.45); s.rotation.x=-0.2; g.add(s); }
-  for(const sx of [-1,1]){ const w=batWing(red,mat(0xd4a017,{side:THREE.DoubleSide,transparent:true,opacity:.94}),sx); w.scale.setScalar(2.3); w.position.set(sx*1.0,2.4,-0.4); w.rotation.y=sx*0.5; w.rotation.z=0.2; g.add(w); }
-  const tail=snake([[0,1.4,-1.1],[0.35,1.0,-2.3],[0.7,1.5,-3.3]],t=>0.32-0.24*t,red,12); g.add(tail);
-  const ts=cone(0.32,0.9,gold,6); ts.position.set(0.7,1.6,-3.6); ts.rotation.x=-1.0; g.add(ts);
+  const head=dragonHead({color:0xb01818,size:0.82,fangs:11,horns:true,hornColor:0xffcf3a,eyeGlow:true,eyeColor:0xff8a00}); head.position.copy(tip); head.position.y+=0.15; g.add(head);
+  for(let h=0;h<6;h++){ const a=-1.0+h*0.4; const horn=cone(0.11,0.85,gold,6); horn.position.set(tip.x+Math.sin(a)*0.6,tip.y+0.65,tip.z-0.45); horn.rotation.z=Math.sin(a)*0.8; horn.rotation.x=-0.35; g.add(horn); }
+  for(let k=0;k<9;k++){ const yk=1.55+Math.sin(k/8*Math.PI)*0.75, zk=1.1-k*0.42;
+    const s=cone(0.18,0.7,dark,4); s.position.set(0,yk,zk); s.rotation.x=-0.15; g.add(s);
+    const tg=new THREE.Mesh(new THREE.SphereGeometry(0.08,6,6),ember); tg.position.set(0,yk+0.42,zk); g.add(tg); }
+  for(const sx of [-1,1]){ const w=batWing(dark,mat(0xb01818,{side:THREE.DoubleSide,transparent:true,opacity:.92}),sx); w.scale.setScalar(2.7); w.position.set(sx*1.05,2.6,-0.4); w.rotation.y=sx*0.55; w.rotation.z=0.25; g.add(w);
+    const wc=cone(0.1,0.4,gold,5); wc.position.set(sx*3.4,3.5,-1.0); g.add(wc); }
+  const tail=snake([[0,1.5,-1.2],[0.4,1.0,-2.5],[0.8,1.6,-3.6]],t=>0.36-0.27*t,red,13); g.add(tail);
+  const tb=cone(0.36,1.1,gold,6); tb.position.set(0.85,1.75,-3.95); tb.rotation.x=-1.05; g.add(tb);
+  const tglow=new THREE.Mesh(new THREE.SphereGeometry(0.15,8,8),ember); tglow.position.set(0.85,2.05,-4.2); g.add(tglow);
   return g;
 }
 // B: 鎧の竜神 — armored steel-blue mecha dragon with glowing cyan core

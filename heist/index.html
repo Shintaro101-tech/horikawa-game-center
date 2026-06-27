@@ -262,6 +262,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 "use strict";
 /* =========================================================================
@@ -302,6 +303,8 @@ const CREATURES = [
   {id:'balor',     name:'バロール',                           rarity:'legendary'},  // 邪眼の巨人
   {id:'gorynych',  name:'ゴルィニシチェ',                     rarity:'secret'},     // 3頭9尾の翼竜
   {id:'bahamut',   name:'バハムート',                         rarity:'mythic'},     // 竜の王・超巨大（デザイン案A仮）
+  // ▼ 自作の3Dモデル(.glb)をキャラにする例（heist/models/ にファイルを置いて↓を有効化）:
+  // {id:'mykaiju', name:'マイ<ruby>怪獣<rt>かいじゅう</rt></ruby>', rarity:'epic', model:'models/mykaiju.glb'},
 ];
 const CREATURE_BY_ID = {}; CREATURES.forEach(c=>CREATURE_BY_ID[c.id]=c);
 function creaturesByRarity(r){ return CREATURES.filter(c=>c.rarity===r); }
@@ -704,30 +707,76 @@ function _kGorynych(){ const g=new THREE.Group();
   return g;
 }
 
-// ---- バハムート (Dragon King — design A: gold-crimson western dragon; in-game default) ----
+// ---- バハムート (Dragon King — design A, upgraded: armored crimson-gold + glowing embers) ----
 function _kBahamut(){ const g=new THREE.Group();
-  const red=_mat(0x9e1b1b,{roughness:.5,metalness:.1}), gold=_mat(0xd4a017,{roughness:.4,metalness:.4}), belly=_mat(0xf0d890,{roughness:.6});
-  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.1,14,12),red); torso.scale.set(1,1.15,1.45); torso.position.y=1.5; g.add(torso);
-  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.82,12,10),belly); bel.position.set(0,1.2,0.75); bel.scale.set(1,1.35,0.6); g.add(bel);
-  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.22,1.05,8),red); fl.position.set(sx*0.72,0.55,0.6); g.add(fl);
-    for(let c=0;c<3;c++){ const claw=_cone(0.07,0.3,_WHITE(),5); claw.position.set(sx*0.72+(c-1)*0.12,0.04,0.78); claw.rotation.x=0.9; g.add(claw); }
-    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.24,1.15,8),red); bl.position.set(sx*0.78,0.6,-0.5); g.add(bl); }
-  const neck=_snake([[0,2.0,0.6],[0,2.7,0.85],[0,3.2,1.15]],t=>0.36-0.1*t,red,8,belly); g.add(neck);
+  const red=_mat(0xb01818,{roughness:.45,metalness:.18}), dark=_mat(0x6e0f0f,{roughness:.5}),
+        gold=_mat(0xffcf3a,{roughness:.32,metalness:.65}), belly=_mat(0xffe7a0,{roughness:.6}), ember=_glow(0xff6a00);
+  // muscular torso + glowing chest core
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.15,16,14),red); torso.scale.set(1.05,1.2,1.5); torso.position.y=1.55; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.85,12,10),belly); bel.position.set(0,1.2,0.85); bel.scale.set(1,1.4,0.55); g.add(bel);
+  const core=new THREE.Mesh(new THREE.SphereGeometry(0.26,12,12),ember); core.position.set(0,1.75,1.0); g.add(core);
+  // gold shoulder armor + spikes
+  for(const sx of [-1,1]){ const sh=new THREE.Mesh(new THREE.SphereGeometry(0.5,10,8,0,Math.PI*2,0,Math.PI/2),gold); sh.position.set(sx*0.95,2.05,0.1); sh.scale.set(1,0.7,1.1); g.add(sh);
+    const spike=_cone(0.13,0.6,gold,6); spike.position.set(sx*1.18,2.3,0); spike.rotation.z=sx*0.7; g.add(spike); }
+  // 4 powerful legs + gold claws
+  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.24,1.1,9),red); fl.position.set(sx*0.78,0.55,0.65); g.add(fl);
+    const thigh=new THREE.Mesh(new THREE.SphereGeometry(0.36,10,8),red); thigh.position.set(sx*0.85,0.95,-0.45); g.add(thigh);
+    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.26,1.2,9),red); bl.position.set(sx*0.82,0.55,-0.5); g.add(bl);
+    for(let c=0;c<3;c++){ const claw=_cone(0.09,0.4,gold,5); claw.position.set(sx*0.78+(c-1)*0.15,0.04,0.9); claw.rotation.x=1.0; g.add(claw); } }
+  // thick neck + fierce head + crown of horns
+  const neck=_snake([[0,2.1,0.55],[0,2.85,0.85],[0,3.35,1.2]],t=>0.42-0.12*t,red,9,dark); g.add(neck);
   const tip=neck.userData.curve.getPoint(1);
-  const head=_dhead({color:0x9e1b1b,size:0.72,fangs:9,horns:true,hornColor:0xd4a017,eyeGlow:true,eyeColor:0xffd23b}); head.position.copy(tip); head.position.y+=0.12; g.add(head);
-  for(const sx of [-1,1]){ const h2=_cone(0.12,0.6,gold,6); h2.position.set(tip.x+sx*0.45,tip.y+0.55,tip.z-0.35); h2.rotation.z=sx*0.6; g.add(h2); }
-  for(let k=0;k<7;k++){ const s=_cone(0.16,0.55,gold,5); s.position.set(0,1.5+Math.sin(k/6*Math.PI)*0.6,1.0-k*0.45); s.rotation.x=-0.2; g.add(s); }
-  for(const sx of [-1,1]){ const w=_batwing(red,_mat(0xd4a017,{side:THREE.DoubleSide,transparent:true,opacity:.94}),sx); w.scale.setScalar(2.3); w.position.set(sx*1.0,2.4,-0.4); w.rotation.y=sx*0.5; w.rotation.z=0.2; g.add(w); }
-  const tail=_snake([[0,1.4,-1.1],[0.35,1.0,-2.3],[0.7,1.5,-3.3]],t=>0.32-0.24*t,red,12); g.add(tail);
-  const ts=_cone(0.32,0.9,gold,6); ts.position.set(0.7,1.6,-3.6); ts.rotation.x=-1.0; g.add(ts);
+  const head=_dhead({color:0xb01818,size:0.82,fangs:11,horns:true,hornColor:0xffcf3a,eyeGlow:true,eyeColor:0xff8a00}); head.position.copy(tip); head.position.y+=0.15; g.add(head);
+  for(let h=0;h<6;h++){ const a=-1.0+h*0.4; const horn=_cone(0.11,0.85,gold,6); horn.position.set(tip.x+Math.sin(a)*0.6,tip.y+0.65,tip.z-0.45); horn.rotation.z=Math.sin(a)*0.8; horn.rotation.x=-0.35; g.add(horn); }
+  // jagged glowing back crest
+  for(let k=0;k<9;k++){ const yk=1.55+Math.sin(k/8*Math.PI)*0.75, zk=1.1-k*0.42;
+    const s=_cone(0.18,0.7,dark,4); s.position.set(0,yk,zk); s.rotation.x=-0.15; g.add(s);
+    const tg=new THREE.Mesh(new THREE.SphereGeometry(0.08,6,6),ember); tg.position.set(0,yk+0.42,zk); g.add(tg); }
+  // huge swept wings + wing claws
+  for(const sx of [-1,1]){ const w=_batwing(dark,_mat(0xb01818,{side:THREE.DoubleSide,transparent:true,opacity:.92}),sx); w.scale.setScalar(2.7); w.position.set(sx*1.05,2.6,-0.4); w.rotation.y=sx*0.55; w.rotation.z=0.25; g.add(w);
+    const wc=_cone(0.1,0.4,gold,5); wc.position.set(sx*3.4,3.5,-1.0); g.add(wc); }
+  // long tail + flaming gold blade
+  const tail=_snake([[0,1.5,-1.2],[0.4,1.0,-2.5],[0.8,1.6,-3.6]],t=>0.36-0.27*t,red,13); g.add(tail);
+  const tb=_cone(0.36,1.1,gold,6); tb.position.set(0.85,1.75,-3.95); tb.rotation.x=-1.05; g.add(tb);
+  const tglow=new THREE.Mesh(new THREE.SphereGeometry(0.15,8,8),ember); tglow.position.set(0.85,2.05,-4.2); g.add(tglow);
   return g;
 }
 
 const KAIJU_BUILD={ mukade:_kMukade, illuyanka:_kIlluyanka, hydra:_kHydra, cerberus:_kCerberus, ouryu:_kOuryu, kuzuryu:_kKuzuryu, rainbow:_kRainbow,
   ikuchi:_kIkuchi, umibozu:_kUmibozu, tenaga:_kTenagaAshinaga, shin:_kShin, daidara:_kDaidara, orion:_kOrion, balor:_kBalor, gorynych:_kGorynych, bahamut:_kBahamut };
 
+// ---- custom 3D model (.glb/.gltf) support ----
+// 自作モデルをキャラにするには CREATURES に { model:'models/xxx.glb' } を足すだけ（下のbuildCreatureMeshが処理）
+const MODEL_CACHE={};
+function loadModel(url, cb){
+  const c=MODEL_CACHE[url];
+  if(c && c.ready){ cb(c.scene); return; }
+  if(c){ c.cbs.push(cb); return; }
+  const entry={ready:false, scene:null, cbs:[cb]}; MODEL_CACHE[url]=entry;
+  try{ new THREE.GLTFLoader().load(url, gltf=>{ entry.scene=gltf.scene; entry.ready=true; entry.cbs.forEach(f=>f(entry.scene)); entry.cbs=[]; },
+    undefined, err=>console.warn('model load failed:',url,err)); }
+  catch(e){ console.warn('GLTFLoader unavailable',e); }
+}
+function buildModelCreatureMesh(creatureId, url){
+  const wrap=new THREE.Group(); wrap.userData.creatureId=creatureId; wrap.userData.bob=Math.random()*Math.PI*2;
+  const ph=new THREE.Mesh(new THREE.SphereGeometry(0.5,8,7), _mat(0xbcd, {transparent:true,opacity:.5})); ph.position.y=0.7; wrap.add(ph);
+  const target = creatureId==='bahamut' ? 2.6 : 1.8;
+  loadModel(url, (scene)=>{
+    wrap.remove(ph);
+    const inner=scene.clone(true);
+    const box=new THREE.Box3().setFromObject(inner), size=box.getSize(new THREE.Vector3());
+    const maxd=Math.max(size.x,size.y,size.z)||1; inner.scale.setScalar(target/maxd);
+    const b2=new THREE.Box3().setFromObject(inner), ctr=b2.getCenter(new THREE.Vector3());
+    inner.position.x-=ctr.x; inner.position.z-=ctr.z; inner.position.y-=b2.min.y;
+    wrap.add(inner);
+  });
+  return wrap;
+}
+
 // build a creature mesh, normalized to fit a pedestal (bottom-aligned, centered)
 function buildCreatureMesh(creatureId){
+  const def=CREATURE_BY_ID[creatureId];
+  if(def && def.model) return buildModelCreatureMesh(creatureId, def.model);   // 自作.glbモデル
   const fn=KAIJU_BUILD[creatureId];
   const inner = fn ? fn() : (function(){ const b=new THREE.Group(); b.add(new THREE.Mesh(new THREE.SphereGeometry(0.6,8,7),_mat(0x999999))); return b; })();
   const box=new THREE.Box3().setFromObject(inner), size=box.getSize(new THREE.Vector3());
@@ -851,14 +900,16 @@ function populateInitialCreatures(){
   }
 }
 
+// the more you rebirth, the luckier: higher rarities get weighted more
+function rebirthLuck(){ return 1 + Math.min(state.rebirth, 18) * 0.12; }
 function randomCreatureForWealth(wealth){
-  // bias rarity up with wealth
-  const bias = wealth; // 1..5
+  // bias rarity up with wealth + rebirth luck
+  const bias = wealth, luck = rebirthLuck();
   const pool = [];
   RARITY_ORDER.forEach((r,ri)=>{
     let w = RARITY[r].weight;
-    // shift weight toward higher rarity as wealth grows
     w *= Math.max(0.15, 1 + (ri - (3 - bias*0.4)) * 0.25);
+    w *= Math.pow(luck, ri);   // rebirth luck shifts toward rarer
     if(w>0) for(let k=0;k<Math.max(1,Math.round(w));k++) pool.push(r);
   });
   const r = pool[Math.floor(Math.random()*pool.length)] || 'common';
@@ -1246,8 +1297,8 @@ function updateThiefArrow(){
 
 // ----- parade: creatures stroll a ring road; buy by walking up + action -----
 function paradeRandomCreature(){
-  const pool=[];
-  RARITY_ORDER.forEach((r,ri)=>{ const w=Math.max(1,Math.round(RARITY[r].weight/(ri+1))); for(let k=0;k<w;k++) pool.push(r); });
+  const pool=[], luck=rebirthLuck();
+  RARITY_ORDER.forEach((r,ri)=>{ const w=Math.max(1,Math.round(RARITY[r].weight/(ri+1) * Math.pow(luck,ri))); for(let k=0;k<w;k++) pool.push(r); });
   const r=pool[Math.floor(Math.random()*pool.length)]||'common';
   const cs=creaturesByRarity(r); return cs[Math.floor(Math.random()*cs.length)].id;
 }
