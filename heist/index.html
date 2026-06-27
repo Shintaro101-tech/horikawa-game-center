@@ -117,14 +117,6 @@
   .mini-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f2d3d;}
   #btn-mute{background:radial-gradient(circle at 35% 28%,#cfe7ff,#1aa3ff);font-size:1.2rem;}
   .mini-btn.right{left:auto;background:radial-gradient(circle at 35% 28%,#d6ffe0,#27c93f);}
-  .act.small.dash{background:radial-gradient(circle at 35% 28%,#c8fff0,#19c79b);color:#fff;}
-
-  /* stamina meter */
-  #stamina{position:absolute;left:18px;bottom:max(168px,calc(env(safe-area-inset-bottom) + 168px));width:140px;z-index:12;pointer-events:none;}
-  #stamina .lbl{font-size:.65rem;font-weight:900;color:#1f2d3d;text-shadow:0 1px 0 #fff;}
-  #stamina .bar{height:14px;background:#fff;border:3px solid #1f2d3d;border-radius:10px;overflow:hidden;box-shadow:0 2px 0 #1f2d3d;}
-  #stamina .fill{height:100%;width:100%;background:linear-gradient(90deg,#ffd54a,#19c79b);transition:width .08s linear;}
-  #stamina.full .fill{background:linear-gradient(90deg,#39ff88,#19c79b);}
 
   /* dex cards */
   .dex-item{display:flex;align-items:center;gap:12px;background:#eef6ff;border-radius:14px;padding:10px;margin-bottom:10px;border:3px solid #1f2d3d;}
@@ -167,7 +159,6 @@
     .act-wrap{gap:7px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));}
     .act{width:60px;height:60px;font-size:.74rem;border-width:3px;}
     .act.small{width:46px;height:46px;font-size:.6rem;border-width:3px;}
-    #stamina{bottom:max(118px,calc(env(safe-area-inset-bottom) + 118px));width:120px;}
   }
   /* tablets / big screens: enlarge touch targets a touch */
   @media (min-width:820px){
@@ -206,13 +197,11 @@
     <div id="alert-banner"></div>
     <div id="thief-arrow">⬆<span class="who"></span></div>
 
-    <div id="stamina" style="display:none;"><span class="lbl">スタミナ</span><div class="bar"><div class="fill" id="stamina-fill"></div></div></div>
 
     <div id="joy"><div class="thumb"></div></div>
     <div class="act-wrap">
       <button class="act small jump" id="btn-jump">⬆️<br>ジャンプ</button>
       <button class="act small descend" id="btn-descend" style="display:none;">⬇️<br>おりる</button>
-      <button class="act small dash" id="btn-dash" style="display:none;">💨<br>ダッシュ</button>
       <button class="act atk" id="btn-attack">👊<br>なぐる</button>
       <button class="act" id="btn-action">？</button>
     </div>
@@ -320,7 +309,7 @@ const FRUITS = [
   {id:'biyon',     name:'ビヨンビヨンの<ruby>実<rt>み</rt></ruby>', emoji:'🤜', color:0xff8a3c, rarity:'secret',    cost:7000, range:11, kb:18, stun:700,  kind:'stretch', desc:'<ruby>手<rt>て</rt></ruby>がのびて とおくの<ruby>敵<rt>てき</rt></ruby>を<ruby>画面<rt>がめん</rt></ruby>の<ruby>端<rt>はし</rt></ruby>まで ふっとばす！'},
   {id:'kami',      name:'カミカミの<ruby>実<rt>み</rt></ruby>',     emoji:'⚡', color:0xfff15a, rarity:'rare',      cost:2500, range:11, kb:13, stun:1100, kind:'thunder', desc:'<ruby>雷<rt>かみなり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>を こうげき！しびれる'},
   {id:'goro',      name:'グルグルの<ruby>実<rt>み</rt></ruby>',     emoji:'🌀', color:0x9b5cff, rarity:'rare',      cost:3000, range:5,  kb:18, stun:600,  kind:'spin',   desc:'まわって まわりの<ruby>敵<rt>てき</rt></ruby>を いっきにふっとばす！'},
-  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, rarity:'epic',      cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>！スタミナ<ruby>満<rt>まん</rt></ruby>タンで <ruby>進<rt>すす</rt></ruby>む<ruby>方向<rt>ほうこう</rt></ruby>のキーを2かい'},
+  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, rarity:'epic',      cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>持<rt>も</rt></ruby>っているあいだ ずっと<b>ダッシュ</b>！<ruby>足<rt>あし</rt></ruby>が とても<ruby>速<rt>はや</rt></ruby>くなる'},
   {id:'kira',      name:'キラキラの<ruby>実<rt>み</rt></ruby>',     emoji:'✨', color:0x7fe0ff, rarity:'epic',      cost:4000, range:13, kb:12, stun:500,  kind:'sparkle', rangedImmune:true, desc:'キラキラ<ruby>球<rt>だま</rt></ruby>で こうげき！とおくの とくしゅこうげきが きかない'},
   {id:'mera',      name:'ボウボウの<ruby>実<rt>み</rt></ruby>',     emoji:'🔥', color:0xff6a2b, rarity:'epic',      cost:4500, range:8,  aoe:3.5, kb:15, stun:700, kind:'fire', desc:'<ruby>炎<rt>ほのお</rt></ruby>をボウボウ ふきだす！まえの<ruby>敵<rt>てき</rt></ruby>をやく'},
   {id:'bakuhatsu', name:'バクハツの<ruby>実<rt>み</rt></ruby>',     emoji:'💣', color:0xff4d4d, rarity:'legendary', cost:5000, range:7,  aoe:5,   kb:20, stun:800, kind:'bomb', desc:'<ruby>爆弾<rt>ばくだん</rt></ruby>をなげる！まわりぜんぶ ふっとばす'},
@@ -350,10 +339,9 @@ const GRAVITY = 26, JUMP_V = 9.5, FLY_SPEED = 9, DOUBLE_MS = 320, FLY_CEIL = 24;
 const phys = {y:0, vy:0, grounded:true, flying:false};
 let jumpHeld=false, descendHeld=false, lastJumpTime=-9999;
 
-// dash (ハヤハヤの実) + stamina
-let stamina=1, dashActive=false, lastDirKey='', lastDirTime=-9999, dashPuffT=0;
-const DASH_DIRS=['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'];
-const STAMINA_REGEN=1/5, DASH_DRAIN=1/2.5, DASH_MULT=1.9, DASH_DOUBLE_MS=300;
+// dash (ハヤハヤの実): equipped = always dashing (no stamina)
+let dashPuffT=0;
+const DASH_MULT=1.9;
 
 // parade shop (creatures/fruits walk straight along a road, entrance -> exit)
 const PARADE_N = 6;          // items on the road at once (well-spaced to avoid mis-buys)
@@ -1109,12 +1097,6 @@ function updateMuki(dt){
     if(st>=1.4){ scene.remove(m.fist); mukiSeq=null; }
   }
 }
-function tryDash(){
-  if(document.getElementById('hud').classList.contains('hidden')) return;
-  if(state.fruit!=='haya') return;
-  if(dashActive || stamina<1) return;       // need a FULL meter, and not already dashing
-  dashActive=true; sfx('dash'); toast('💨 ダッシュ！','good');
-}
 // E / left-click: deliver loot > punch a nearby enemy > grab/buy/lock > swing
 function actionOrAttack(){
   if(document.getElementById('hud').classList.contains('hidden')) return;
@@ -1129,15 +1111,6 @@ function spawnDashPuff(){
   const p=new THREE.Mesh(new THREE.SphereGeometry(0.3,6,5), new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.7}));
   p.position.copy(player.position); p.position.y+=0.5;
   addFx(p,0.3,(o,t)=>{ o.scale.setScalar(1+t); o.material.opacity=0.7*(1-t); });
-}
-function updateStaminaUI(){
-  const wrap=document.getElementById('stamina'), db=document.getElementById('btn-dash');
-  if(state.fruit==='haya'){
-    wrap.style.display=''; db.style.display='';
-    document.getElementById('stamina-fill').style.width=(Math.max(0,stamina)*100)+'%';
-    const ready = stamina>=1 && !dashActive;
-    wrap.classList.toggle('full', ready); db.disabled=!ready;
-  } else { wrap.style.display='none'; db.style.display='none'; }
 }
 
 // ----- ephemeral effects -----
@@ -1355,8 +1328,6 @@ function initControls(){
     else if(k==='e' && !e.repeat){ actionOrAttack(); }
     else if((k==='f'||k==='j') && !e.repeat){ doAttack(); }
     else if(k==='m' && !e.repeat){ toggleMute(); }
-    // double-tap the SAME direction key -> dash that way
-    if(DASH_DIRS.includes(k) && !e.repeat){ const t=nowMs(); if(k===lastDirKey && t-lastDirTime<DASH_DOUBLE_MS) tryDash(); lastDirKey=k; lastDirTime=t; }
   });
   addEventListener('keyup', e=>{ const k=e.key.toLowerCase(); keys[k]=false;
     if(e.key===' ') jumpHeld=false; else if(k==='shift') descendHeld=false; });
@@ -1396,9 +1367,6 @@ function initControls(){
   document.getElementById('btn-mute').addEventListener('click', toggleMute);
   document.getElementById('btn-lock').addEventListener('click', toggleLock);
   document.getElementById('btn-dex').addEventListener('click', openDex);
-  const dashB=document.getElementById('btn-dash');
-  dashB.addEventListener('touchstart', e=>{ e.preventDefault(); tryDash(); }, {passive:false});
-  dashB.addEventListener('mousedown', e=>{ e.preventDefault(); tryDash(); });
   // left-click on the game world: deliver / punch nearby enemy / grab-buy-lock / swing
   renderer.domElement.addEventListener('mousedown', e=>{
     if(e.button!==0) return;
@@ -1620,18 +1588,14 @@ function update(dt){
     const len = Math.hypot(mx,mz);
     if(len>1){ mx/=len; mz/=len; }
     let speed = carrying ? PLAYER_CARRY_SPEED : PLAYER_SPEED;
-    if(dashActive) speed *= DASH_MULT;
+    if(state.fruit==='haya') speed *= DASH_MULT;   // ハヤハヤの実 = always dashing
     player.position.x += mx*speed*dt;
     player.position.z += mz*speed*dt;
     moving = (len>0.05);
     if(moving){ const a=Math.atan2(mx,mz); player.rotation.y = a; }
   }
-  // stamina / dash drain & regen
-  if(state.fruit==='haya'){
-    if(dashActive){ stamina-=DASH_DRAIN*dt; if(stamina<=0){ stamina=0; dashActive=false; }
-      dashPuffT-=dt; if(dashPuffT<=0){ dashPuffT=0.07; spawnDashPuff(); } }
-    else stamina=Math.min(1, stamina+STAMINA_REGEN*dt);
-  } else { dashActive=false; stamina=1; }
+  // ハヤハヤの実: leave little speed-puffs while running
+  if(state.fruit==='haya' && moving){ dashPuffT-=dt; if(dashPuffT<=0){ dashPuffT=0.07; spawnDashPuff(); } }
   // bounds
   const lim=100;
   player.position.x=Math.max(-lim,Math.min(lim,player.position.x));
@@ -1700,7 +1664,6 @@ function update(dt){
   updateFx(dt);
   updateMuki(dt);
   updateFlyUI();
-  updateStaminaUI();
 
   // ----- income tick -----
   const tnow = nowMs();

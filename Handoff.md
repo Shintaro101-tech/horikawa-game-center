@@ -105,7 +105,7 @@
 - **ムキムキ＝溜め演出**: `doAttack`は`kind==='giant'`なら`startMukiCharge()`へ分岐（即ノックバックしない）。`mukiSeq{phase}`を`updateMuki(dt)`で進行。charge(0.8s)=巨大拳(`buildBigFist`)が加速回転で振り回し→slam(0.15s)=正面へ強打、着弾で範囲ノックバック(kb56,launch1300)＋大エフェクト。開始時に最寄り敵へ向き直る。`sfx('charge')`。**壁時計(`nowMs`)基準なので同期ループのテストでは進まない点に注意**。
 - **図鑑/メニュー中はポーズ**: `animate()`が`isModalOpen()`(dex/rebirth/howto表示中)なら`update`を呼ばず時間停止＝**盗まれない**。復帰時 `lastTick` を戻し収入ジャンプ防止。
 - **パレード間隔**: `PARADE_N=6`・X0/X1=±32（gap≈10.7）＋buy判定 `nearD=2.8` で誤購入防止。
-- **ダッシュ＆スタミナ（ハヤハヤの実）**: スタミナ満タン時のみ、**進む方向のキー（WASD/矢印）を同じキー2連打**で発動（`DASH_DIRS`/`lastDirKey`）or 💨ダッシュボタン（`tryDash`）。発動中は速度×`DASH_MULT`、スタミナが`DASH_DRAIN`で減り0で終了→満タンに戻るまで再発動不可。左下にスタミナバー(`#stamina`/`updateStaminaUI`)。
+- **ダッシュ（ハヤハヤの実）**: **装備している間ずっとダッシュ**＝移動速度×`DASH_MULT`(1.9)。スタミナ/メーター/2連打/ダッシュボタンは廃止。移動中は `spawnDashPuff` でスピード煙。`update`の速度計算で `state.fruit==='haya'` を判定するだけ。
 - **運搬中に売って置き換え**: 自拠点が満杯のまま怪獣を運ぶと、文脈が `sell_place`（一番近い台座の怪獣を半額で売却→空いた枠に運搬中を設置、`doSellPlace`）。
 - **E / 左クリック = `actionOrAttack`**: 優先順位「配達(drop/sell_place) ＞ 射程内の敵を殴る ＞ つかむ/かう/ロック ＞ 空振り」。＝Eキーでも敵を殴れる。攻撃(`doAttack`)は盗み状態に関係なくいつでも可。
 - **飛行中の判定**: 追跡敵は `chase` 時にプレイヤーの高さへ上昇（敵も飛ぶ）。捕獲・パンチは3D距離(`distanceTo`)で判定＝高さが合わないと当たらない。`moveEntityTo`はyを触らず、各stateで高さを設定。
@@ -248,6 +248,9 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 💨 2026-06-27 ハヤハヤの実を「常時ダッシュ」に変更
+- スタミナメーター/2連打/ダッシュボタンを**全廃**。ハヤハヤ装備中は常に速度×1.9で走る（`update`の速度計算で `state.fruit==='haya'` 判定）。移動中はスピード煙のみ。`tryDash`/`updateStaminaUI`/`#stamina`/`#btn-dash`/関連CSS削除。検証: 通常4.32→ハヤ8.21（×1.9）、UI要素消滅、エラーなし。**git push 済**。
 
 ### 💪 2026-06-27 ムキムキ溜め演出＋実リネーム＋レスポンシブ
 - **ムキムキの実=溜め演出**: 巨大拳が加速回転で振り回し→正面へ強打（着弾で範囲ふっとばし・大エフェクト）。`startMukiCharge`/`updateMuki`/`buildBigFist`/`mukiSeq`、`sfx('charge')`。検証で charge→slam→51ユニット吹っ飛び確認。
