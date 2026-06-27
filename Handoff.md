@@ -115,6 +115,7 @@
 - **飛行中の判定**: 追跡敵は `chase` 時にプレイヤーの高さへ上昇（敵も飛ぶ）。捕獲・パンチは3D距離(`distanceTo`)で判定＝高さが合わないと当たらない。`moveEntityTo`はyを触らず、各stateで高さを設定。
 - **運搬速度**: `PLAYER_CARRY_SPEED=7.5`（通常9より少し遅い）。
 - **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
+- **図鑑コレクション＋3Dビューア**: 一度でも自拠点に入った怪獣は `state.collected`(save/load対応)に記録（`markCollected`を`placeCreatureOnPedestal`の`base===bases[0]`時にフック＝ドロップ/購入/sell_place/ロード時の所持反映すべてで発火）。**入手済**はカラーの行＋タップで上部の3Dビューアに表示、**未入手**は灰色「？？？／🔒まだつかまえていない」でロック。先頭に「✨コンプリート N/16」。3Dビューア(`#dex-stage`/`#dex-canvas`)は専用 `dexViewer`(scene/camera/renderer/pivot を遅延生成、`initDexViewer`)。`showDexCreature(id,row)`が`buildCreatureMesh`→`fitDexMesh`でビューア内に正規化(2.3)・中央寄せ。**ドラッグ(pointer)で360°回転**(rotY/rotX)、放置中は自動スピン。`.glb`(バハムート)は非同期ロード後に`loadModel`コールバックで再フィット。`animate()`が dex 表示中のみ `renderDexViewer(dt)` を回す。**`#dex`は`justify-content:flex-start`で上揃え**（`.screen`既定の`center`だと縦長コンテンツの先頭がスクロールで到達不能になるflexバグを回避）。`#dex-stage`は`flex:0 0 auto`で潰れ防止。
 - **転生でレア確率UP**: `rebirthLuck()`=1+min(rebirth,18)×0.12。パレード/AIの抽選で `weight×luck^rarityIndex` し、転生するほど高レアが出やすい（検証: レア+割合 12.6%→35.4%@転生8）。
 - **自作3Dモデル(.glb)対応**: GLTFLoader読込済。`CREATURES` に `model:'models/xxx.glb'` を足すと `buildCreatureMesh`→`buildModelCreatureMesh`/`loadModel`(キャッシュ付)が非同期ロード→正規化→台座に表示（ロード中は仮プレースホルダ）。AIで作った.glbや Blender書き出しをそのまま登場可能。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
@@ -257,6 +258,14 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 📖 2026-06-27 図鑑に入手怪獣の3Dイラスト＋360°ビューア
+- 「一度手に入れた怪獣は図鑑にイラストが入り、自分で360度動かして眺められる」を実装。
+- `state.collected`(save/load・load時にCREATURE_BY_IDでサニタイズ)を追加。`markCollected(id)`を`placeCreatureOnPedestal`の自拠点(`base===bases[0]`)時にフック→ドロップ/購入/sell_place/ロード時の所持反映すべてで入手記録。
+- 図鑑：**入手済**=カラー行＋タップで上部3Dビューアに表示（選択行を黄ハイライト）、**未入手**=灰色「？？？／🔒」ロック。先頭に「✨コンプリート N/16」。
+- 3Dビューア（`#dex-stage`/`#dex-canvas`/`dexViewer`/`initDexViewer`/`showDexCreature`/`fitDexMesh`/`renderDexViewer`）：`buildCreatureMesh`を流用、ビューア内に正規化2.3・中央寄せ。**ドラッグで360°回転**＋放置で自動スピン。`.glb`(バハ)は`loadModel`コールバックで非同期到着後に再フィット。`animate()`がdex表示中のみ描画。
+- 不具合修正: `.screen`の`justify-content:center`で縦長コンテンツの先頭がスクロール到達不能になるflexバグ →`#dex{justify-content:flex-start}`。`#dex-stage`は`flex:0 0 auto`(潰れ防止)。
+- 検証(モバイル375px): コンプリート5/16表示、未入手＝？？？灰ロック、イルルヤンカシュ(緑procedural)＆バハムート(.glbドラゴン)ともビューア表示、ドラッグでrotY/rotX変化＋自動スピン停止、エラーなし。**git push 済**。
 
 ### ⚖️ 2026-06-27 転生Lv8上限＋バハムート出現率1/4
 - **転生は最大Lv8**（`MAX_REBIRTH=8`）。8到達で台座枠が12になり打ち止め、最大画面は「🏆最大レベル」表示＋ボタン無効。load時クランプ。
