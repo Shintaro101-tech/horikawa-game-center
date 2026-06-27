@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#7ec8ff">
+<title>バハムート デザインえらび</title>
+<style>
+  :root{--ink:#1f2d3d;}
+  *{box-sizing:border-box;}
+  body{margin:0;color:var(--ink);
+    background:linear-gradient(180deg,#7ec8ff 0%,#bfe9ff 45%,#d9f5c9 100%);min-height:100vh;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Segoe UI",sans-serif;}
+  ruby rt{font-size:.5em;opacity:.8;font-weight:normal;}
+  header{text-align:center;padding:22px 16px 8px;}
+  h1{font-size:clamp(1.7rem,6.5vw,2.6rem);margin:.1em 0;color:#fff;font-weight:900;
+    -webkit-text-stroke:3px var(--ink);text-shadow:0 5px 0 var(--ink),0 6px 8px rgba(0,0,0,.3);}
+  .lead{font-weight:800;max-width:640px;margin:8px auto 0;line-height:1.6;font-size:clamp(.9rem,3.4vw,1.05rem);}
+  .tag{display:inline-block;background:#fff;border:3px solid var(--ink);border-radius:999px;
+    padding:4px 14px;font-weight:900;margin-top:6px;box-shadow:0 3px 0 rgba(31,45,61,.35);}
+  .wrap{max-width:760px;margin:0 auto;padding:10px 12px 60px;}
+  .card{background:#fff;border:4px solid var(--ink);border-radius:22px;margin:18px 0;
+    box-shadow:0 6px 0 rgba(31,45,61,.4);overflow:hidden;}
+  .card h2{margin:0;padding:12px 16px;font-size:clamp(1.2rem,5vw,1.6rem);font-weight:900;
+    background:linear-gradient(180deg,#ffd0e0,#e01040);color:#fff;border-bottom:4px solid var(--ink);}
+  .card h2 small{display:block;font-size:.6em;font-weight:800;opacity:.92;}
+  .stage{width:100%;height:340px;display:block;background:transparent;}
+  .caps{display:flex;border-top:4px solid var(--ink);}
+  .cap{flex:1;padding:10px 8px;font-size:.84rem;font-weight:700;line-height:1.45;text-align:center;}
+  .cap:not(:last-child){border-right:3px dashed rgba(31,45,61,.3);}
+  .cap b{display:block;font-size:1.05rem;font-weight:900;margin-bottom:3px;}
+  .cap.A b{color:#e8590c;} .cap.B b{color:#1971c2;} .cap.C b{color:#9b5cff;}
+  footer{text-align:center;font-weight:800;padding:10px 16px 40px;opacity:.85;line-height:1.7;}
+</style>
+</head>
+<body>
+<header>
+  <h1>🐉 バハムート デザインえらび</h1>
+  <p class="lead"><b>バハムート</b>（<ruby>竜<rt>りゅう</rt></ruby>の<ruby>王<rt>おう</rt></ruby>・<ruby>超<rt>ちょう</rt></ruby>レアの<ruby>巨大<rt>きょだい</rt></ruby><ruby>怪獣<rt>かいじゅう</rt></ruby>）の<ruby>案<rt>あん</rt></ruby>を3つ<ruby>用意<rt>ようい</rt></ruby>しました。<br>
+  <ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>ったものを「バハムートは<b>B</b>」のように<ruby>教<rt>おし</rt></ruby>えてください！</p>
+  <span class="tag">くるくる<ruby>回<rt>まわ</rt></ruby>るよ</span>
+</header>
+<div class="wrap" id="wrap"></div>
+<footer><ruby>色<rt>いろ</rt></ruby>や<ruby>細<rt>こま</rt></ruby>かい<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>本番<rt>ほんばん</rt></ruby>で さらに<ruby>調整<rt>ちょうせい</rt></ruby>できます。<ruby>今<rt>いま</rt></ruby>は<ruby>仮<rt>かり</rt></ruby>で <b>案A</b> が<ruby>入<rt>はい</rt></ruby>っています。</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+"use strict";
+const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
+function mat(c,o={}){return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.55,metalness:.05},o));}
+function glow(c){return new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.9,roughness:.4});}
+const WHITE=()=>mat(0xffffff,{roughness:.7});
+const DARK=()=>mat(0x20202a,{roughness:.5});
+function cone(r,h,m,s){return new THREE.Mesh(new THREE.ConeGeometry(r,h,s||6),m);}
+function snake(knots,rFn,m,seg,belly){ seg=seg||16;
+  const curve=new THREE.CatmullRomCurve3(knots.map(k=>V3(k[0],k[1],k[2]))), g=new THREE.Group();
+  for(let i=0;i<=seg;i++){ const t=i/seg,p=curve.getPoint(t),r=rFn(t);
+    const s=new THREE.Mesh(new THREE.SphereGeometry(r,9,8),m); s.position.copy(p); g.add(s);
+    if(belly){ const b=new THREE.Mesh(new THREE.SphereGeometry(r*0.72,8,7),belly); b.position.set(p.x,p.y-r*0.55,p.z); b.scale.y=0.6; g.add(b); } }
+  g.userData.curve=curve; return g;
+}
+function addEyes(g,pos,dx,r,gl,col){ for(const sx of [-dx,dx]){
+  const w=new THREE.Mesh(new THREE.SphereGeometry(r,10,10), gl?glow(col||0xffee00):mat(0xffffff,{roughness:.3})); w.position.set(pos[0]+sx,pos[1],pos[2]); g.add(w);
+  const p=new THREE.Mesh(new THREE.SphereGeometry(r*0.5,8,8),DARK()); p.position.set(pos[0]+sx,pos[1],pos[2]+r*0.7); g.add(p);} }
+function dragonHead(o={}){
+  const c=o.color||0x9e1b1b,m=mat(c,{roughness:.5}),s=o.size||0.6,g=new THREE.Group();
+  const sk=new THREE.Mesh(new THREE.SphereGeometry(s,12,10),m); sk.scale.set(1,0.9,1.2); g.add(sk);
+  const sn=new THREE.Mesh(new THREE.BoxGeometry(s*1.05,s*0.7,s*1.2),m); sn.position.set(0,-s*0.18,s*1.1); g.add(sn);
+  addEyes(g,[0,s*0.35,s*0.7],s*0.5,s*0.26,!!o.eyeGlow,o.eyeColor);
+  if(o.fangs){ const fm=WHITE(); for(let i=0;i<o.fangs;i++){ const a=-0.6+(o.fangs>1?(i/(o.fangs-1))*1.2:0); const f=cone(s*0.1,s*0.5,fm,5); f.position.set(Math.sin(a)*s*0.55,-s*0.45,s*1.5); f.rotation.x=Math.PI; g.add(f);} }
+  if(o.horns){ for(const sx of [-1,1]){ const h=cone(s*0.16,s*0.95,o.hornColor?mat(o.hornColor):WHITE(),6); h.position.set(sx*s*0.42,s*0.7,-s*0.3); h.rotation.x=-0.4; h.rotation.z=sx*0.3; g.add(h);} }
+  return g;
+}
+function batWing(m,mem,sx){ const g=new THREE.Group();
+  for(let k=0;k<3;k++){ const b=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,1.4-0.2*k,6),m); b.position.set(0.5+k*0.3,0.2*k,-0.2*k); b.rotation.z=-0.5-0.25*k; g.add(b);}
+  const sh=new THREE.Shape(); sh.moveTo(0,0); sh.lineTo(1.6,0.4); sh.lineTo(1.5,-0.5); sh.lineTo(0.6,-0.9); sh.lineTo(0,0);
+  g.add(new THREE.Mesh(new THREE.ShapeGeometry(sh),mem)); g.scale.x=sx; return g;
+}
+function featherWing(col,sx){ const g=new THREE.Group(), m=mat(col,{roughness:.6});
+  for(let k=0;k<6;k++){ const f=new THREE.Mesh(new THREE.BoxGeometry(0.14,0.05,1.3-0.13*k),m); f.position.set(0.2+k*0.18,0,-0.1*k); f.rotation.y=-0.3-0.1*k; g.add(f);} g.scale.x=sx; return g;
+}
+
+// ============ 3 BAHAMUT DESIGNS ============
+// A: 竜王 — gold-crimson western dragon (in-game default)
+function bahaA(){ const g=new THREE.Group();
+  const red=mat(0x9e1b1b,{roughness:.5,metalness:.1}), gold=mat(0xd4a017,{roughness:.4,metalness:.4}), belly=mat(0xf0d890,{roughness:.6});
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.1,14,12),red); torso.scale.set(1,1.15,1.45); torso.position.y=1.5; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.82,12,10),belly); bel.position.set(0,1.2,0.75); bel.scale.set(1,1.35,0.6); g.add(bel);
+  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.22,1.05,8),red); fl.position.set(sx*0.72,0.55,0.6); g.add(fl);
+    for(let c=0;c<3;c++){ const claw=cone(0.07,0.3,WHITE(),5); claw.position.set(sx*0.72+(c-1)*0.12,0.04,0.78); claw.rotation.x=0.9; g.add(claw); }
+    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.24,1.15,8),red); bl.position.set(sx*0.78,0.6,-0.5); g.add(bl); }
+  const neck=snake([[0,2.0,0.6],[0,2.7,0.85],[0,3.2,1.15]],t=>0.36-0.1*t,red,8,belly); g.add(neck);
+  const tip=neck.userData.curve.getPoint(1);
+  const head=dragonHead({color:0x9e1b1b,size:0.72,fangs:9,horns:true,hornColor:0xd4a017,eyeGlow:true,eyeColor:0xffd23b}); head.position.copy(tip); head.position.y+=0.12; g.add(head);
+  for(const sx of [-1,1]){ const h2=cone(0.12,0.6,gold,6); h2.position.set(tip.x+sx*0.45,tip.y+0.55,tip.z-0.35); h2.rotation.z=sx*0.6; g.add(h2); }
+  for(let k=0;k<7;k++){ const s=cone(0.16,0.55,gold,5); s.position.set(0,1.5+Math.sin(k/6*Math.PI)*0.6,1.0-k*0.45); s.rotation.x=-0.2; g.add(s); }
+  for(const sx of [-1,1]){ const w=batWing(red,mat(0xd4a017,{side:THREE.DoubleSide,transparent:true,opacity:.94}),sx); w.scale.setScalar(2.3); w.position.set(sx*1.0,2.4,-0.4); w.rotation.y=sx*0.5; w.rotation.z=0.2; g.add(w); }
+  const tail=snake([[0,1.4,-1.1],[0.35,1.0,-2.3],[0.7,1.5,-3.3]],t=>0.32-0.24*t,red,12); g.add(tail);
+  const ts=cone(0.32,0.9,gold,6); ts.position.set(0.7,1.6,-3.6); ts.rotation.x=-1.0; g.add(ts);
+  return g;
+}
+// B: 鎧の竜神 — armored steel-blue mecha dragon with glowing cyan core
+function bahaB(){ const g=new THREE.Group();
+  const steel=mat(0x46566a,{roughness:.35,metalness:.7}), plate=mat(0x6a7d96,{roughness:.3,metalness:.85}), cyan=glow(0x33e6ff);
+  const torso=new THREE.Mesh(new THREE.BoxGeometry(1.7,1.5,2.3),steel); torso.position.y=1.6; g.add(torso);
+  const core=new THREE.Mesh(new THREE.SphereGeometry(0.34,12,12),cyan); core.position.set(0,1.5,1.05); g.add(core);
+  for(let k=0;k<3;k++){ const pl=new THREE.Mesh(new THREE.BoxGeometry(1.5-k*0.25,0.16,0.3),plate); pl.position.set(0,1.15+k*0.4,1.0); g.add(pl); }
+  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.BoxGeometry(0.42,1.1,0.42),plate); fl.position.set(sx*0.82,0.55,0.6); g.add(fl);
+    const bl=new THREE.Mesh(new THREE.BoxGeometry(0.48,1.2,0.48),plate); bl.position.set(sx*0.88,0.6,-0.6); g.add(bl);
+    for(let c=0;c<3;c++){ const claw=cone(0.08,0.32,WHITE(),5); claw.position.set(sx*0.82+(c-1)*0.14,0.02,0.85); claw.rotation.x=0.9; g.add(claw);} }
+  const neck=snake([[0,2.1,0.6],[0,2.8,0.9],[0,3.3,1.2]],t=>0.34-0.1*t,steel,8); g.add(neck);
+  const tip=neck.userData.curve.getPoint(1);
+  const head=dragonHead({color:0x46566a,size:0.66,fangs:6,horns:true,hornColor:0x8aa0c0,eyeGlow:true,eyeColor:0x33e6ff}); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+  const jaw=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.1,0.5),cyan); jaw.position.set(tip.x,tip.y-0.32,tip.z+0.9); g.add(jaw);
+  for(const sx of [-1,1]){ const wg=new THREE.Group();
+    for(let k=0;k<3;k++){ const panel=new THREE.Mesh(new THREE.BoxGeometry(1.7-k*0.35,0.1,0.8),plate); panel.position.set(0.95+k*0.2,0.3-k*0.25,-0.2); panel.rotation.z=-0.4-k*0.2; wg.add(panel);
+      const edge=new THREE.Mesh(new THREE.BoxGeometry(1.7-k*0.35,0.05,0.07),cyan); edge.position.set(panel.position.x,panel.position.y,panel.position.z+0.4); edge.rotation.z=panel.rotation.z; wg.add(edge); }
+    wg.position.set(sx*0.95,2.6,-0.5); wg.scale.x=sx; g.add(wg); }
+  for(let k=0;k<6;k++){ const s=cone(0.15,0.55,cyan,4); s.position.set(0,1.65+Math.sin(k/5*Math.PI)*0.5,1.0-k*0.5); s.rotation.x=-0.2; g.add(s); }
+  const tail=snake([[0,1.5,-1.2],[0.3,1.1,-2.4],[0.6,1.6,-3.4]],t=>0.3-0.22*t,steel,12); g.add(tail);
+  const ts=new THREE.Mesh(new THREE.ConeGeometry(0.32,1.1,4),cyan); ts.position.set(0.6,1.7,-3.7); ts.rotation.x=-1.0; g.add(ts);
+  return g;
+}
+// C: 蒼天の古龍 — cosmic navy/violet dragon with star spots & feathered wings
+function bahaC(){ const g=new THREE.Group();
+  const navy=mat(0x2a2f6a,{roughness:.45}), violet=mat(0x6a3fd6,{roughness:.5}), star=glow(0xbfe3ff);
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.05,14,12),navy); torso.scale.set(1,1.15,1.4); torso.position.y=1.5; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.78,12,10),violet); bel.position.set(0,1.2,0.7); bel.scale.set(1,1.3,0.6); g.add(bel);
+  const starPos=[[0.7,2.1,0.6],[-0.6,1.9,0.7],[0.3,2.4,0.2],[-0.4,1.4,0.9],[0.8,1.3,-0.2],[-0.7,1.6,-0.3],[0.0,2.5,-0.2],[0.5,1.0,0.5],[-0.3,1.0,0.6],[0.2,1.8,1.0],[-0.5,2.2,0.1],[0.6,2.0,-0.4]];
+  starPos.forEach(p=>{ const s=new THREE.Mesh(new THREE.SphereGeometry(0.07,6,6),star); s.position.set(p[0],p[1],p[2]); g.add(s); });
+  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.24,0.2,1.0,8),navy); fl.position.set(sx*0.7,0.55,0.55); g.add(fl);
+    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.22,1.1,8),navy); bl.position.set(sx*0.75,0.6,-0.5); g.add(bl); }
+  const neck=snake([[0,2.0,0.6],[0,2.7,0.85],[0,3.2,1.15]],t=>0.34-0.1*t,navy,8,violet); g.add(neck);
+  const tip=neck.userData.curve.getPoint(1);
+  const head=dragonHead({color:0x2a2f6a,size:0.7,fangs:8,eyeGlow:true,eyeColor:0xffffff}); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+  for(let h=0;h<5;h++){ const a=-0.8+h*0.4; const horn=cone(0.1,0.75,mat(0xbfe3ff),5); horn.position.set(tip.x+Math.sin(a)*0.5,tip.y+0.6,tip.z-0.4); horn.rotation.z=Math.sin(a)*0.7; horn.rotation.x=-0.3; g.add(horn); }
+  for(const sx of [-1,1]){ const w=featherWing(0x6a3fd6,sx); w.scale.setScalar(2.6); w.position.set(sx*1.0,2.5,-0.3); w.rotation.z=0.3; g.add(w);
+    const bw=batWing(navy, mat(0x8a5fff,{side:THREE.DoubleSide,transparent:true,opacity:.55}), sx); bw.scale.setScalar(1.7); bw.position.set(sx*0.9,2.0,-0.6); g.add(bw); }
+  const tail=snake([[0,1.4,-1.1],[0.3,1.0,-2.3],[0.6,1.5,-3.3]],t=>0.3-0.22*t,navy,12); g.add(tail);
+  const tstar=new THREE.Mesh(new THREE.OctahedronGeometry(0.34),star); tstar.position.set(0.6,1.6,-3.6); g.add(tstar);
+  return g;
+}
+
+const DEF={ name:'🐉 バハムート', sub:'<ruby>竜<rt>りゅう</rt></ruby>の<ruby>王<rt>おう</rt></ruby>・ミシック（<ruby>超<rt>ちょう</rt></ruby>レア）',
+  caps:['<b>A</b><ruby>竜王<rt>りゅうおう</rt></ruby><br><ruby>金<rt>きん</rt></ruby>と<ruby>紅<rt>くれない</rt></ruby>の<ruby>王道<rt>おうどう</rt></ruby>ドラゴン。<ruby>大<rt>おお</rt></ruby>きな<ruby>翼<rt>つばさ</rt></ruby>と<ruby>角<rt>つの</rt></ruby>の<ruby>冠<rt>かんむり</rt></ruby>',
+        '<b>B</b><ruby>鎧<rt>よろい</rt></ruby>の<ruby>竜神<rt>りゅうじん</rt></ruby><br><ruby>鋼鉄<rt>こうてつ</rt></ruby>の<ruby>装甲<rt>そうこう</rt></ruby>＋<ruby>光<rt>ひか</rt></ruby>る<ruby>青<rt>あお</rt></ruby>いコア。メカっぽい',
+        '<b>C</b><ruby>蒼天<rt>そうてん</rt></ruby>の<ruby>古龍<rt>こりゅう</rt></ruby><br><ruby>星<rt>ほし</rt></ruby>が<ruby>光<rt>ひか</rt></ruby>る<ruby>紺色<rt>こんいろ</rt></ruby>の<ruby>体<rt>からだ</rt></ruby>＋<ruby>羽根<rt>はね</rt></ruby>の<ruby>翼<rt>つばさ</rt></ruby>。<ruby>神秘的<rt>しんぴてき</rt></ruby>'],
+  builds:[bahaA,bahaB,bahaC] };
+
+const renderers=[];
+function buildSection(def){
+  const card=document.createElement('div'); card.className='card';
+  const h2=document.createElement('h2'); h2.innerHTML=def.name+'<small>'+def.sub+'</small>'; card.appendChild(h2);
+  const canvas=document.createElement('canvas'); canvas.className='stage'; card.appendChild(canvas);
+  const caps=document.createElement('div'); caps.className='caps';
+  ['A','B','C'].forEach((L,i)=>{ const c=document.createElement('div'); c.className='cap '+L; c.innerHTML=def.caps[i]; caps.appendChild(c);});
+  card.appendChild(caps); document.getElementById('wrap').appendChild(card);
+  const scene=new THREE.Scene();
+  scene.add(new THREE.HemisphereLight(0xffffff,0x8fbf6f,1.15));
+  const sun=new THREE.DirectionalLight(0xfff3d6,0.95); sun.position.set(6,12,8); scene.add(sun);
+  const camera=new THREE.PerspectiveCamera(42,2,0.1,100);
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true}); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const variants=[];
+  for(let i=0;i<3;i++){
+    const wrap=new THREE.Group(); const model=def.builds[i]();
+    const box=new THREE.Box3().setFromObject(model), size=box.getSize(new THREE.Vector3());
+    const maxd=Math.max(size.x,size.y,size.z)||1; model.scale.setScalar(3.7/maxd);
+    const c2=new THREE.Box3().setFromObject(model), ctr=c2.getCenter(new THREE.Vector3()); model.position.sub(ctr);
+    wrap.add(model); wrap.position.x=(i-1)*4.5;
+    const disc=new THREE.Mesh(new THREE.CircleGeometry(1.7,24),new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.12}));
+    disc.rotation.x=-Math.PI/2; disc.position.y=-1.85; wrap.add(disc);
+    scene.add(wrap); variants.push(wrap);
+  }
+  renderers.push({renderer,scene,camera,variants,canvas});
+}
+buildSection(DEF);
+function resize(){ renderers.forEach(r=>{ const w=r.canvas.clientWidth,h=r.canvas.clientHeight;
+  r.renderer.setSize(w,h,false); r.camera.aspect=w/h; r.camera.updateProjectionMatrix();
+  r.camera.position.set(0,0.8,12.5); r.camera.lookAt(0,0,0); }); }
+addEventListener('resize',resize); resize();
+let last=performance.now();
+function loop(now){ const dt=Math.min(0.05,(now-last)/1000); last=now;
+  renderers.forEach(r=>{ r.variants.forEach(v=>v.rotation.y+=dt*0.6); r.renderer.render(r.scene,r.camera); });
+  requestAnimationFrame(loop); }
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

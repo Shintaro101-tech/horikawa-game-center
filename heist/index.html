@@ -278,8 +278,9 @@ const RARITY = {
   epic:      {name:'エピック', color:0xb06bff, glow:0xb06bff, cost:1500,  income:26,  weight:14},
   legendary: {name:'レジェンド',color:0xffd54a, glow:0xffd54a, cost:9000,  income:120, weight:6},
   secret:    {name:'シークレット',color:0xff2bd6,glow:0xff2bd6, cost:55000, income:650, weight:2},
+  mythic:    {name:'ミシック',  color:0xe01040, glow:0xff2e63, cost:275000, income:3500, weight:1},  // 超激レア（シークレット×5）
 };
-const RARITY_ORDER = ['common','rare','epic','legendary','secret'];
+const RARITY_ORDER = ['common','rare','epic','legendary','secret','mythic'];
 function rarityHex(r){ return '#'+RARITY[r].color.toString(16).padStart(6,'0'); }
 
 // Hero creature catalog (designs chosen by user; rarity assigned for balance).
@@ -300,6 +301,7 @@ const CREATURES = [
   {id:'orion',     name:'オリオン',                           rarity:'legendary'},  // 海神の息子の狩人
   {id:'balor',     name:'バロール',                           rarity:'legendary'},  // 邪眼の巨人
   {id:'gorynych',  name:'ゴルィニシチェ',                     rarity:'secret'},     // 3頭9尾の翼竜
+  {id:'bahamut',   name:'バハムート',                         rarity:'mythic'},     // 竜の王・超巨大（デザイン案A仮）
 ];
 const CREATURE_BY_ID = {}; CREATURES.forEach(c=>CREATURE_BY_ID[c.id]=c);
 function creaturesByRarity(r){ return CREATURES.filter(c=>c.rarity===r); }
@@ -702,15 +704,35 @@ function _kGorynych(){ const g=new THREE.Group();
   return g;
 }
 
+// ---- バハムート (Dragon King — design A: gold-crimson western dragon; in-game default) ----
+function _kBahamut(){ const g=new THREE.Group();
+  const red=_mat(0x9e1b1b,{roughness:.5,metalness:.1}), gold=_mat(0xd4a017,{roughness:.4,metalness:.4}), belly=_mat(0xf0d890,{roughness:.6});
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(1.1,14,12),red); torso.scale.set(1,1.15,1.45); torso.position.y=1.5; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.82,12,10),belly); bel.position.set(0,1.2,0.75); bel.scale.set(1,1.35,0.6); g.add(bel);
+  for(const sx of [-1,1]){ const fl=new THREE.Mesh(new THREE.CylinderGeometry(0.26,0.22,1.05,8),red); fl.position.set(sx*0.72,0.55,0.6); g.add(fl);
+    for(let c=0;c<3;c++){ const claw=_cone(0.07,0.3,_WHITE(),5); claw.position.set(sx*0.72+(c-1)*0.12,0.04,0.78); claw.rotation.x=0.9; g.add(claw); }
+    const bl=new THREE.Mesh(new THREE.CylinderGeometry(0.3,0.24,1.15,8),red); bl.position.set(sx*0.78,0.6,-0.5); g.add(bl); }
+  const neck=_snake([[0,2.0,0.6],[0,2.7,0.85],[0,3.2,1.15]],t=>0.36-0.1*t,red,8,belly); g.add(neck);
+  const tip=neck.userData.curve.getPoint(1);
+  const head=_dhead({color:0x9e1b1b,size:0.72,fangs:9,horns:true,hornColor:0xd4a017,eyeGlow:true,eyeColor:0xffd23b}); head.position.copy(tip); head.position.y+=0.12; g.add(head);
+  for(const sx of [-1,1]){ const h2=_cone(0.12,0.6,gold,6); h2.position.set(tip.x+sx*0.45,tip.y+0.55,tip.z-0.35); h2.rotation.z=sx*0.6; g.add(h2); }
+  for(let k=0;k<7;k++){ const s=_cone(0.16,0.55,gold,5); s.position.set(0,1.5+Math.sin(k/6*Math.PI)*0.6,1.0-k*0.45); s.rotation.x=-0.2; g.add(s); }
+  for(const sx of [-1,1]){ const w=_batwing(red,_mat(0xd4a017,{side:THREE.DoubleSide,transparent:true,opacity:.94}),sx); w.scale.setScalar(2.3); w.position.set(sx*1.0,2.4,-0.4); w.rotation.y=sx*0.5; w.rotation.z=0.2; g.add(w); }
+  const tail=_snake([[0,1.4,-1.1],[0.35,1.0,-2.3],[0.7,1.5,-3.3]],t=>0.32-0.24*t,red,12); g.add(tail);
+  const ts=_cone(0.32,0.9,gold,6); ts.position.set(0.7,1.6,-3.6); ts.rotation.x=-1.0; g.add(ts);
+  return g;
+}
+
 const KAIJU_BUILD={ mukade:_kMukade, illuyanka:_kIlluyanka, hydra:_kHydra, cerberus:_kCerberus, ouryu:_kOuryu, kuzuryu:_kKuzuryu, rainbow:_kRainbow,
-  ikuchi:_kIkuchi, umibozu:_kUmibozu, tenaga:_kTenagaAshinaga, shin:_kShin, daidara:_kDaidara, orion:_kOrion, balor:_kBalor, gorynych:_kGorynych };
+  ikuchi:_kIkuchi, umibozu:_kUmibozu, tenaga:_kTenagaAshinaga, shin:_kShin, daidara:_kDaidara, orion:_kOrion, balor:_kBalor, gorynych:_kGorynych, bahamut:_kBahamut };
 
 // build a creature mesh, normalized to fit a pedestal (bottom-aligned, centered)
 function buildCreatureMesh(creatureId){
   const fn=KAIJU_BUILD[creatureId];
   const inner = fn ? fn() : (function(){ const b=new THREE.Group(); b.add(new THREE.Mesh(new THREE.SphereGeometry(0.6,8,7),_mat(0x999999))); return b; })();
   const box=new THREE.Box3().setFromObject(inner), size=box.getSize(new THREE.Vector3());
-  const maxd=Math.max(size.x,size.y,size.z)||1; inner.scale.setScalar(1.7/maxd);
+  const target = creatureId==='bahamut' ? 2.6 : 1.7;   // バハムートは巨大に
+  const maxd=Math.max(size.x,size.y,size.z)||1; inner.scale.setScalar(target/maxd);
   const box2=new THREE.Box3().setFromObject(inner), ctr=box2.getCenter(new THREE.Vector3());
   inner.position.x-=ctr.x; inner.position.z-=ctr.z; inner.position.y-=box2.min.y;   // bottom on pedestal
   const wrap=new THREE.Group(); wrap.add(inner);
@@ -1819,7 +1841,7 @@ function buyParade(slot){
 
 // ----- 図鑑 (encyclopedia) -----
 const CREATURE_COLOR={mukade:0x9c3b22, illuyanka:0x2e7d4f, hydra:0xf5ca2b, cerberus:0x18181f, ouryu:0x2f6fe0, kuzuryu:0x6a5fe0, rainbow:0xff3b3b,
-  ikuchi:0x3a7d6e, umibozu:0x14141c, tenaga:0xc8a06a, shin:0x8a3fd6, daidara:0x8d6e4a, orion:0x6fb0d8, balor:0x5a5a66, gorynych:0x3a8d3a};
+  ikuchi:0x3a7d6e, umibozu:0x14141c, tenaga:0xc8a06a, shin:0x8a3fd6, daidara:0x8d6e4a, orion:0x6fb0d8, balor:0x5a5a66, gorynych:0x3a8d3a, bahamut:0x9e1b1b};
 function openDex(){ if(document.getElementById('hud').classList.contains('hidden')) return; renderDex(); showScreen('dex'); }
 function renderDex(){
   const list=document.getElementById('dex-list'); list.innerHTML='';

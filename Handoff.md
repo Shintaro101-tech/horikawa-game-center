@@ -63,6 +63,7 @@
 ├── heist/                 ← 🦖 怪獣を盗む（旧「モンスター・ハイスト」・Three.js r128・新規）
 │   ├── index.html         ← 単一ファイル。Steal a Brainrot inspire の3D収集ゲーム
 │   ├── kaiju-preview.html ← 怪獣デザイン案プレビュー（選定用）
+│   ├── bahamut-preview.html ← バハムートのデザイン3案（選定用・本番は仮で案A）
 │   └── character-preview.html ← メイン/敵キャラのデザイン3案（選定済：メイン=B/敵=A・B・C 全採用→本番反映済）
 ├── .claude/launch.json    ← プレビュー用（python3 http.server :8123, name="arcade"）
 ├── Handoff.md             ← このファイル（唯一の引き継ぎドキュメント）
@@ -112,8 +113,8 @@
 - **運搬速度**: `PLAYER_CARRY_SPEED=7.5`（通常9より少し遅い）。
 - **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
-- **レアリティ**: コモン/レア/エピック/レジェンド/シークレットの5段階（`RARITY`）。コスト・収入が連動（色は今は未使用、キャラ固有色）。
-- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret)。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
+- **レアリティ**: コモン/レア/エピック/レジェンド/シークレット/**ミシック**の6段階（`RARITY`）。コスト・収入が連動。**ミシック=超激レア**（cost 275000＝シークレット×5、income 3500、weight 1）。
+- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王・超巨大)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。バハムートのデザインは案A（金紅の竜王）を仮採用、案見本は `heist/bahamut-preview.html`。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
 - **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / **ビヨン・ムキ=secret**）。図鑑にバッジ表示。
 - **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
 - **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
@@ -248,6 +249,12 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🐉 2026-06-27 超激レア「バハムート」追加＋ミシックレアリティ
+- 新レアリティ **ミシック**（`RARITY.mythic`、cost 275000＝シークレット×5、income 3500、weight 1）を `RARITY_ORDER` 末尾に追加。図鑑にも反映。
+- **バハムート**（`id:'bahamut'`, rarity mythic）を `CREATURES`/`CREATURE_COLOR`/`KAIJU_BUILD` に追加。`buildCreatureMesh` でバハムートのみ正規化を 2.6 にして他より一回り大きく表示。
+- **デザイン3案**を `heist/bahamut-preview.html` に作成（A=金紅の竜王／B=鋼鉄メカ竜／C=星光る古龍）。本番は**仮で案A**。**ユーザー選定待ち→選択案を `_kBahamut` に差し替える**。
+- 検証: ミシック275000・収入3500、バハムート78メッシュ・台座で巨大表示、図鑑にミシック表示、エラーなし。**git push 済**。
 
 ### 💨 2026-06-27 ハヤハヤの実を「常時ダッシュ」に変更
 - スタミナメーター/2連打/ダッシュボタンを**全廃**。ハヤハヤ装備中は常に速度×1.9で走る（`update`の速度計算で `state.fruit==='haya'` 判定）。移動中はスピード煙のみ。`tryDash`/`updateStaminaUI`/`#stamina`/`#btn-dash`/関連CSS削除。検証: 通常4.32→ハヤ8.21（×1.9）、UI要素消滅、エラーなし。**git push 済**。
