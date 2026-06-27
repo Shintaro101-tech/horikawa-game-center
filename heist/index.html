@@ -390,6 +390,7 @@ function load(){
     if(s){ Object.assign(state, s); if(!Array.isArray(state.owned)) state.owned=[];
       state.owned = state.owned.filter(id=>CREATURE_BY_ID[id]);   // drop unknown/old ids
       state.slots = Math.max(4, Math.min(MAX_SLOTS, state.slots||4));
+      state.rebirth = Math.min(MAX_REBIRTH, state.rebirth||0);
       if(state.fruit && !FRUIT_BY_ID[state.fruit]) state.fruit=null; }
   }catch(e){}
 }
@@ -902,6 +903,14 @@ function populateInitialCreatures(){
 
 // the more you rebirth, the luckier: higher rarities get weighted more
 function rebirthLuck(){ return 1 + Math.min(state.rebirth, 18) * 0.12; }
+// バハムートは出にくく：選ばれても3/4は別の怪獣に置き換え（=今の1/4の出現率）
+function dampBahamut(id){
+  if(id==='bahamut' && Math.random()<0.75){
+    const alt=CREATURES.filter(c=>c.rarity!=='mythic');
+    return alt[Math.floor(Math.random()*alt.length)].id;
+  }
+  return id;
+}
 function randomCreatureForWealth(wealth){
   // bias rarity up with wealth + rebirth luck
   const bias = wealth, luck = rebirthLuck();
@@ -914,7 +923,7 @@ function randomCreatureForWealth(wealth){
   });
   const r = pool[Math.floor(Math.random()*pool.length)] || 'common';
   const cands = creaturesByRarity(r);
-  return cands[Math.floor(Math.random()*cands.length)].id;
+  return dampBahamut(cands[Math.floor(Math.random()*cands.length)].id);
 }
 
 // main character: design B = ふわっとマスコット
@@ -1351,7 +1360,7 @@ function paradeRandomCreature(){
   const pool=[], luck=rebirthLuck();
   RARITY_ORDER.forEach((r,ri)=>{ const w=Math.max(1,Math.round(RARITY[r].weight/(ri+1) * Math.pow(luck,ri))); for(let k=0;k<w;k++) pool.push(r); });
   const r=pool[Math.floor(Math.random()*pool.length)]||'common';
-  const cs=creaturesByRarity(r); return cs[Math.floor(Math.random()*cs.length)].id;
+  const cs=creaturesByRarity(r); return dampBahamut(cs[Math.floor(Math.random()*cs.length)].id);
 }
 // a parade item is a creature OR a devil fruit
 function paradeRandomItem(){
@@ -1970,13 +1979,25 @@ function renderDex(){
 }
 
 // ----- Rebirth -----
+const MAX_REBIRTH = 8;   // 転生はLv8まで（台座枠が12になる回数）
 function rebirthCost(){ return Math.floor(1000 * Math.pow(6, state.rebirth)); }
 function openRebirth(){
   if(document.getElementById('hud').classList.contains('hidden')) return;
+  const info=document.getElementById('rebirth-info');
+  const maxed = state.rebirth>=MAX_REBIRTH;
+  if(maxed){
+    info.innerHTML=`
+      <p style="font-size:1.2rem;font-weight:900;color:var(--n-gold)">🏆 <ruby>最大<rt>さいだい</rt></ruby>レベル！</p>
+      <p><ruby>転生<rt>てんせい</rt></ruby> <b>Lv${state.rebirth}</b>（MAX）に<ruby>到達<rt>とうたつ</rt></ruby>しました。</p>
+      <p>おかね<ruby>倍率<rt>ばいりつ</rt></ruby> <b style="color:var(--n-green)">×${state.mult}</b> ・ <ruby>台座<rt>だいざ</rt></ruby><ruby>枠<rt>わく</rt></ruby> <b style="color:var(--n-green)">${state.slots}</b></p>
+      <p>これ<ruby>以上<rt>いじょう</rt></ruby>の<ruby>転生<rt>てんせい</rt></ruby>はできません。</p>`;
+    document.getElementById('btn-do-rebirth').disabled=true;
+    showScreen('rebirth'); return;
+  }
   const cost=rebirthCost();
   const can=state.money>=cost;
-  const info=document.getElementById('rebirth-info');
   info.innerHTML=`
+    <p><ruby>転生<rt>てんせい</rt></ruby> Lv${state.rebirth} → <b>Lv${state.rebirth+1}</b>（MAX ${MAX_REBIRTH}）</p>
     <p><ruby>必要<rt>ひつよう</rt></ruby>なおかね：<b style="color:var(--n-gold)">${fmt(cost)}</b></p>
     <p>いまのおかね：${fmt(state.money)}</p>
     <hr style="border-color:rgba(31,45,61,.25)">
@@ -1991,6 +2012,7 @@ function openRebirth(){
   showScreen('rebirth');
 }
 function doRebirth(){
+  if(state.rebirth>=MAX_REBIRTH){ toast('🏆 もう転生できません（MAX）','danger'); return; }
   const cost=rebirthCost();
   if(state.money<cost){ toast('おかねが たりない！','danger'); return; }
   state.rebirth++; state.mult++; state.slots=Math.min(MAX_SLOTS, state.slots+1);

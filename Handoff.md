@@ -122,6 +122,8 @@
 - **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。**バハムートは Meshy AI 製の自作.glb（`heist/models/bahamut.glb`）を採用**（`model:'models/bahamut.glb'`→`buildModelCreatureMesh`が読込）。**容量は gltf-transform で最適化済（28.9MB→2.4MB：簡略化+KHR_mesh_quantization+テクスチャ1024）**。正規化targetはバハのみ **5.2**（=他の約3倍、単一台座からはみ出す巨大サイズ）。procedural版`_kBahamut`/`bahamut-preview.html`は予備。
   - 再最適化コマンド: `npm_config_cache=<書込可dir> npx @gltf-transform/cli optimize in.glb out.glb --compress quantize --simplify true --simplify-ratio 0.12 --texture-size 1024 --texture-compress auto --instance false --palette false`（quantizeはThree.js r128がネイティブ対応＝デコーダ追加不要。Draco/Meshoptは別途デコーダが要るので不可）。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
 - **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / **ビヨン・ムキ=secret**）。図鑑にバッジ表示。
+- **転生は Lv8 が上限**（`MAX_REBIRTH=8`。8で台座枠が4→12に到達して打ち止め。`doRebirth`/`openRebirth`でガード、最大時はボタン無効＋「最大レベル」表示。load時に rebirth を 8 にクランプ）。費用 `1000×6^Lv`。
+- **バハムートは出現率1/4**（`dampBahamut`：選ばれても3/4は非mythicに置換。パレード/AI両方に適用）。
 - **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
 - **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
 - **レスポンシブ**: 既定でモバイルファースト（vw/dvh/clamp/env(safe-area)）。`@media` で **≤400px=操作系を縮小**／**横向き(max-height:540px)=コンパクト化**／**≥820px(タブレット)=タッチ操作を拡大**。スマホ縦/横・タブレットで検証済（重なりなし）。
@@ -255,6 +257,10 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### ⚖️ 2026-06-27 転生Lv8上限＋バハムート出現率1/4
+- **転生は最大Lv8**（`MAX_REBIRTH=8`）。8到達で台座枠が12になり打ち止め、最大画面は「🏆最大レベル」表示＋ボタン無効。load時クランプ。
+- **バハムートの出現率を1/4に**（`dampBahamut`、パレード/AI両方）。検証: 保持率0.249、転生8でパレード約1%・AI約4%に低下、Lv8で再転生不可。**git push 済**。
 
 ### 🐉 2026-06-27 バハムート 巨大化（2倍）＋.glb軽量化（29→2.4MB）
 - バハムートの正規化サイズを **2.6→5.2（倍）** に。台座1個には収まらず翼が隣にはみ出す巨大サイズ（迫力重視）。気になれば中間値に調整可。
