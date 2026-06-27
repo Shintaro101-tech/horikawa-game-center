@@ -116,6 +116,23 @@
     box-shadow:0 3px 0 #1f2d3d;pointer-events:auto;cursor:pointer;z-index:12;}
   .mini-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #1f2d3d;}
   #btn-mute{background:radial-gradient(circle at 35% 28%,#cfe7ff,#1aa3ff);font-size:1.2rem;}
+  .mini-btn.right{left:auto;background:radial-gradient(circle at 35% 28%,#d6ffe0,#27c93f);}
+  .act.small.dash{background:radial-gradient(circle at 35% 28%,#c8fff0,#19c79b);color:#fff;}
+
+  /* stamina meter */
+  #stamina{position:absolute;left:18px;bottom:max(168px,calc(env(safe-area-inset-bottom) + 168px));width:140px;z-index:12;pointer-events:none;}
+  #stamina .lbl{font-size:.65rem;font-weight:900;color:#1f2d3d;text-shadow:0 1px 0 #fff;}
+  #stamina .bar{height:14px;background:#fff;border:3px solid #1f2d3d;border-radius:10px;overflow:hidden;box-shadow:0 2px 0 #1f2d3d;}
+  #stamina .fill{height:100%;width:100%;background:linear-gradient(90deg,#ffd54a,#19c79b);transition:width .08s linear;}
+  #stamina.full .fill{background:linear-gradient(90deg,#39ff88,#19c79b);}
+
+  /* dex cards */
+  .dex-item{display:flex;align-items:center;gap:12px;background:#eef6ff;border-radius:14px;padding:10px;margin-bottom:10px;border:3px solid #1f2d3d;}
+  .dex-item .dot{width:44px;height:44px;border-radius:50%;flex:0 0 auto;border:3px solid #1f2d3d;}
+  .dex-item .info{flex:1;min-width:0;text-align:left;}
+  .dex-item .nm{font-weight:900;font-size:1.05rem;}
+  .dex-item .sub{font-size:.8rem;opacity:.8;font-weight:700;}
+  .dex-item .cnt{font-weight:900;font-size:.95rem;color:#1f9e2e;white-space:nowrap;}
 
   /* steal alert banner */
   #alert-banner{position:absolute;top:30%;left:0;right:0;text-align:center;z-index:14;pointer-events:none;opacity:0;transition:opacity .15s;}
@@ -146,6 +163,7 @@
 
     <button class="mini-btn" id="btn-rebirth" style="left:10px;">🌀<br><ruby>転生<rt>てんせい</rt></ruby></button>
     <button class="mini-btn" id="btn-mute" style="left:72px;">🔊</button>
+    <button class="mini-btn right" id="btn-dex" style="right:10px;">📖<br><ruby>図鑑<rt>ずかん</rt></ruby></button>
 
     <div id="ctx-hint"></div>
     <div id="toast-wrap"></div>
@@ -153,13 +171,24 @@
     <div id="alert-banner"></div>
     <div id="thief-arrow">⬆<span class="who"></span></div>
 
+    <div id="stamina" style="display:none;"><span class="lbl">スタミナ</span><div class="bar"><div class="fill" id="stamina-fill"></div></div></div>
+
     <div id="joy"><div class="thumb"></div></div>
     <div class="act-wrap">
       <button class="act small jump" id="btn-jump">⬆️<br>ジャンプ</button>
       <button class="act small descend" id="btn-descend" style="display:none;">⬇️<br>おりる</button>
+      <button class="act small dash" id="btn-dash" style="display:none;">💨<br>ダッシュ</button>
       <button class="act atk" id="btn-attack">👊<br>なぐる</button>
       <button class="act" id="btn-action">？</button>
     </div>
+  </div>
+
+  <!-- Dex (encyclopedia) -->
+  <div id="dex" class="screen hidden">
+    <button class="close-x" data-close="dex">×</button>
+    <h1 style="font-size:2rem;">📖 <ruby>怪獣<rt>かいじゅう</rt></ruby><ruby>図鑑<rt>ずかん</rt></ruby></h1>
+    <div id="dex-list" class="panel"></div>
+    <button class="btn" data-close="dex" style="max-width:380px;width:100%;">とじる</button>
   </div>
 
   <!-- Title -->
@@ -251,6 +280,7 @@ const FRUITS = [
   {id:'mera',      name:'メラメラの<ruby>実<rt>み</rt></ruby>',     emoji:'🔥', color:0xff6a2b, cost:4500, range:8,  aoe:3.5, kb:15, stun:700, kind:'fire', desc:'<ruby>炎<rt>ほのお</rt></ruby>をふきだす！まえの<ruby>敵<rt>てき</rt></ruby>をやく'},
   {id:'hie',       name:'ヒエヒエの<ruby>実<rt>み</rt></ruby>',     emoji:'❄️', color:0x8fd9ff, cost:5500, range:9,  kb:8,  stun:2200, kind:'ice', desc:'<ruby>氷<rt>こおり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>をながく とめる！'},
   {id:'goro',      name:'グルグルの<ruby>実<rt>み</rt></ruby>',     emoji:'🌀', color:0x9b5cff, cost:3000, range:5,  kb:18, stun:600,  kind:'spin',   desc:'まわって まわりの<ruby>敵<rt>てき</rt></ruby>を いっきにふっとばす！'},
+  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>できる！スタミナ<ruby>満<rt>まん</rt></ruby>タンで W/↑を2かい'},
 ];
 const FRUIT_BY_ID={}; FRUITS.forEach(f=>FRUIT_BY_ID[f.id]=f);
 
@@ -275,6 +305,10 @@ const GRAVITY = 26, JUMP_V = 9.5, FLY_SPEED = 9, DOUBLE_MS = 320, FLY_CEIL = 24;
 const phys = {y:0, vy:0, grounded:true, flying:false};
 let jumpHeld=false, descendHeld=false, lastJumpTime=-9999;
 
+// dash (ハヤハヤの実) + stamina
+let stamina=1, dashActive=false, lastUpTap=-9999, dashPuffT=0;
+const STAMINA_REGEN=1/5, DASH_DRAIN=1/2.5, DASH_MULT=1.9, DASH_DOUBLE_MS=300;
+
 // parade shop (creatures/fruits walk straight along a road, entrance -> exit)
 const PARADE_N = 9;          // items on the road at once
 const PARADE_SPEED = 4.2;    // units/sec along +x
@@ -290,7 +324,7 @@ let robTimer = 8;            // countdown until an enemy attempts to rob the pla
 let thiefArrowTarget = null; // rival currently carrying player's creature
 
 const RIVAL_NAMES = ['','オレンジ','あお','むらさき','きいろ','みずいろ'];
-const RIVAL_SPEED = 5.4, CHASE_SPEED = 5.6, PLAYER_CARRY_SPEED = 5.8;
+const RIVAL_SPEED = 5.4, CHASE_SPEED = 6.4, PLAYER_CARRY_SPEED = 7.5;
 
 // game state
 const state = {
@@ -738,7 +772,7 @@ function buildRivals(){
 function moveEntityTo(e, tx, tz, speed, dt){
   const c=e.mesh.position, dx=tx-c.x, dz=tz-c.z, d=Math.hypot(dx,dz);
   if(d>0.05){ c.x+=dx/d*speed*dt; c.z+=dz/d*speed*dt; e.mesh.rotation.y=Math.atan2(dx,dz); }
-  e.walk+=dt*10; c.y=Math.abs(Math.sin(e.walk))*0.08;
+  e.walk+=dt*10;   // height handled by caller (so flying chase isn't clobbered)
   return d;
 }
 function updateRivals(dt){
@@ -756,8 +790,11 @@ function updateRivals(dt){
     if(e.state==='guard'){
       moveEntityTo(e, e.guardPos.x+Math.sin(t*0.7+e.phase)*1.4, e.guardPos.z+Math.cos(t*0.5+e.phase)*0.6, 2.2, dt);
     } else if(e.state==='chase'){
-      const d=moveEntityTo(e, pp.x, pp.z, CHASE_SPEED, dt);
-      if(d<1.7 && now>(player.userData.invuln||0)){ knockbackPlayer(e.mesh.position, 15); e.state='return'; }
+      moveEntityTo(e, pp.x, pp.z, CHASE_SPEED, dt);
+      // enemies can fly too: rise toward the player's height
+      e.mesh.position.y += (Math.max(0,player.position.y) - e.mesh.position.y) * (1-Math.pow(0.02,dt));
+      const d3=e.mesh.position.distanceTo(player.position);   // true 3D distance (must be close in the air, too)
+      if(d3<1.9 && now>(player.userData.invuln||0)){ knockbackPlayer(e.mesh.position, 15); e.state='return'; }
       e.cool-=dt; if(e.cool<=0 || pp.distanceTo(b.center)>52) e.state='return';
     } else if(e.state==='rob_go'){
       if(bases[0].locked || !e.robPed || !e.robPed.creatureId){ e.state='return'; }
@@ -769,6 +806,8 @@ function updateRivals(dt){
     } else if(e.state==='return'){
       const d=moveEntityTo(e, e.guardPos.x, e.guardPos.z, RIVAL_SPEED, dt); if(d<1.0) e.state='guard';
     }
+    // height: non-chasers settle to the ground (chase sets its own flying height above)
+    if(e.state!=='chase'){ e.mesh.position.y += (Math.abs(Math.sin(e.walk))*0.08 - e.mesh.position.y) * (1-Math.pow(0.0001,dt)); }
     if(e.carrying) e.carrying.mesh.position.set(e.mesh.position.x, e.mesh.position.y+2.6, e.mesh.position.z), e.carrying.mesh.rotation.y+=dt*3;
   }
   updateThiefArrow();
@@ -832,6 +871,26 @@ function doAttack(){
   }
   targets.forEach(e=> knockbackRival(e, player.position, kb, stun));
   attackEffect(f, targets);
+}
+function tryDash(){
+  if(document.getElementById('hud').classList.contains('hidden')) return;
+  if(state.fruit!=='haya') return;
+  if(dashActive || stamina<1) return;       // need a FULL meter, and not already dashing
+  dashActive=true; sfx('dash'); toast('💨 ダッシュ！','good');
+}
+function spawnDashPuff(){
+  const p=new THREE.Mesh(new THREE.SphereGeometry(0.3,6,5), new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.7}));
+  p.position.copy(player.position); p.position.y+=0.5;
+  addFx(p,0.3,(o,t)=>{ o.scale.setScalar(1+t); o.material.opacity=0.7*(1-t); });
+}
+function updateStaminaUI(){
+  const wrap=document.getElementById('stamina'), db=document.getElementById('btn-dash');
+  if(state.fruit==='haya'){
+    wrap.style.display=''; db.style.display='';
+    document.getElementById('stamina-fill').style.width=(Math.max(0,stamina)*100)+'%';
+    const ready = stamina>=1 && !dashActive;
+    wrap.classList.toggle('full', ready); db.disabled=!ready;
+  } else { wrap.style.display='none'; db.style.display='none'; }
 }
 
 // ----- ephemeral effects -----
@@ -1003,6 +1062,8 @@ function initControls(){
     else if(k==='e' && !e.repeat){ onAction(); }
     else if((k==='f'||k==='j') && !e.repeat){ doAttack(); }
     else if(k==='m' && !e.repeat){ toggleMute(); }
+    // double-tap W or ArrowUp -> dash
+    if((k==='w'||k==='arrowup') && !e.repeat){ const t=nowMs(); if(t-lastUpTap<DASH_DOUBLE_MS) tryDash(); lastUpTap=t; }
   });
   addEventListener('keyup', e=>{ const k=e.key.toLowerCase(); keys[k]=false;
     if(e.key===' ') jumpHeld=false; else if(k==='shift') descendHeld=false; });
@@ -1040,6 +1101,17 @@ function initControls(){
   ab.addEventListener('touchstart', e=>{ e.preventDefault(); doAttack(); }, {passive:false});
   ab.addEventListener('mousedown', e=>{ e.preventDefault(); doAttack(); });
   document.getElementById('btn-mute').addEventListener('click', toggleMute);
+  document.getElementById('btn-dex').addEventListener('click', openDex);
+  const dashB=document.getElementById('btn-dash');
+  dashB.addEventListener('touchstart', e=>{ e.preventDefault(); tryDash(); }, {passive:false});
+  dashB.addEventListener('mousedown', e=>{ e.preventDefault(); tryDash(); });
+  // left-click on the game world: place if possible, else punch
+  renderer.domElement.addEventListener('mousedown', e=>{
+    if(e.button!==0) return;
+    const ctx=getContext();
+    if(ctx && (ctx.type==='drop' || ctx.type==='sell_place')) onAction();
+    else doAttack();
+  });
 }
 
 // ===========================================================================
@@ -1065,12 +1137,16 @@ function syncOwnedFromBase(){
 function getContext(){
   // returns {type:'grab', base, ped} | {type:'drop'} | {type:'lock'} | null
   const pp = player.position;
-  // if carrying → drop at own base free pedestal
+  // if carrying → drop at own base free pedestal (or sell one to make room)
   if(carrying){
     const pBase = bases[0];
-    if(pp.distanceTo(pBase.center) < 6.5){
+    if(pp.distanceTo(pBase.center) < 7.0){
       const free = playerFreeSlot();
       if(free) return {type:'drop', ped:free};
+      // base is full → sell the nearest pedestal creature, then place the carried one
+      let best=null, bd=99;
+      for(const ped of pBase.pedestals){ if(ped.creatureId){ const d=pp.distanceTo(ped.worldPos); if(d<bd){ bd=d; best=ped; } } }
+      if(best) return {type:'sell_place', ped:best};
       return {type:'full'};
     }
     return {type:'carrying'};
@@ -1110,9 +1186,22 @@ function onAction(){
   if(!ctx) return;
   if(ctx.type==='grab') doGrab(ctx.base, ctx.ped);
   else if(ctx.type==='drop') doDrop(ctx.ped);
+  else if(ctx.type==='sell_place') doSellPlace(ctx.ped);
   else if(ctx.type==='lock') toggleLock();
   else if(ctx.type==='buy') buyParade(ctx.slot);
   else if(ctx.type==='full') toast('だいざが いっぱい！','danger');
+}
+// sell a pedestal creature (refund) and immediately place the carried one in its slot
+function doSellPlace(ped){
+  if(!ped || !ped.creatureId || !carrying) return;
+  const oldCid=ped.creatureId, refund=Math.floor(RARITY[CREATURE_BY_ID[oldCid].rarity].cost*0.5);
+  state.money+=refund;
+  placeCreatureOnPedestal(bases[0], ped, null);   // sold
+  const cid=carrying.creatureId; player.remove(carrying.mesh); carrying=null;
+  placeCreatureOnPedestal(bases[0], ped, cid);     // place carried into freed slot
+  syncOwnedFromBase(); save(); updateHUD();
+  toast('💰 '+stripRuby(CREATURE_BY_ID[oldCid].name)+' を うって +'+fmt(refund),'good'); sfx('sell');
+  bigBanner('🎉 '+stripRuby(CREATURE_BY_ID[cid].name)+' を おいた！'); flash();
 }
 
 function doGrab(base, ped){
@@ -1226,12 +1315,19 @@ function update(dt){
     if(keys['d']||keys['arrowright']) mx+=1;
     const len = Math.hypot(mx,mz);
     if(len>1){ mx/=len; mz/=len; }
-    const speed = carrying ? PLAYER_CARRY_SPEED : PLAYER_SPEED;
+    let speed = carrying ? PLAYER_CARRY_SPEED : PLAYER_SPEED;
+    if(dashActive) speed *= DASH_MULT;
     player.position.x += mx*speed*dt;
     player.position.z += mz*speed*dt;
     moving = (len>0.05);
     if(moving){ const a=Math.atan2(mx,mz); player.rotation.y = a; }
   }
+  // stamina / dash drain & regen
+  if(state.fruit==='haya'){
+    if(dashActive){ stamina-=DASH_DRAIN*dt; if(stamina<=0){ stamina=0; dashActive=false; }
+      dashPuffT-=dt; if(dashPuffT<=0){ dashPuffT=0.07; spawnDashPuff(); } }
+    else stamina=Math.min(1, stamina+STAMINA_REGEN*dt);
+  } else { dashActive=false; stamina=1; }
   // bounds
   const lim=100;
   player.position.x=Math.max(-lim,Math.min(lim,player.position.x));
@@ -1297,6 +1393,7 @@ function update(dt){
   updateParade(dt);
   updateFx(dt);
   updateFlyUI();
+  updateStaminaUI();
 
   // ----- income tick -----
   const tnow = nowMs();
@@ -1371,6 +1468,9 @@ function updateContextUI(){
   if(ctx){
     if(ctx.type==='grab'){ const c=CREATURE_BY_ID[ctx.ped.creatureId]; label='つかむ：'+stripRuby(c.name); btnLabel='つかむ'; enabled=true; }
     else if(ctx.type==='drop'){ label='ここに おく！'; btnLabel='おく'; enabled=true; }
+    else if(ctx.type==='sell_place'){ const o=CREATURE_BY_ID[ctx.ped.creatureId], n=CREATURE_BY_ID[carrying.creatureId];
+      const refund=Math.floor(RARITY[o.rarity].cost*0.5);
+      label='うって おく：'+stripRuby(o.name)+'(+'+fmt(refund)+') → '+stripRuby(n.name); btnLabel='うって<br>おく'; enabled=true; }
     else if(ctx.type==='full'){ label='だいざが いっぱい'; btnLabel='いっぱい'; enabled=false; }
     else if(ctx.type==='lock'){ label = bases[0].locked?'ロックちゅう':'ロックする？'; btnLabel='🔒'; enabled=!bases[0].locked; }
     else if(ctx.type==='buy'){
@@ -1438,6 +1538,32 @@ function buyParade(slot){
   }
   // recycle: a fresh item appears at the entrance
   setParadeItem(slot, paradeRandomItem()); slot.x=PARADE_X0; paradeNear=null;
+}
+
+// ----- 図鑑 (encyclopedia) -----
+const CREATURE_COLOR={mukade:0x9c3b22, illuyanka:0x2e7d4f, hydra:0xf5ca2b, cerberus:0x18181f, ouryu:0x2f6fe0, kuzuryu:0x6a5fe0, rainbow:0xff3b3b};
+function openDex(){ if(document.getElementById('hud').classList.contains('hidden')) return; renderDex(); showScreen('dex'); }
+function renderDex(){
+  const list=document.getElementById('dex-list'); list.innerHTML='';
+  const order=['common','rare','epic','legendary','secret'];
+  [...CREATURES].sort((a,b)=>order.indexOf(a.rarity)-order.indexOf(b.rarity)).forEach(c=>{
+    const rar=RARITY[c.rarity], owned=bases[0].pedestals.filter(p=>p.creatureId===c.id).length;
+    const dot='#'+(CREATURE_COLOR[c.id]||0x888888).toString(16).padStart(6,'0'), rcol=rarityHex(c.rarity);
+    const row=document.createElement('div'); row.className='dex-item';
+    row.innerHTML=`<div class="dot" style="background:${dot}"></div>
+      <div class="info"><div class="nm">${c.name} <span class="rar" style="background:${rcol}">${rar.name}</span></div>
+      <div class="sub">+${rar.income}/びょう ・ ねだん ${fmt(rar.cost)}</div></div>
+      <div class="cnt">${owned>0?('×'+owned):'—'}</div>`;
+    list.appendChild(row);
+  });
+  const h=document.createElement('div'); h.style.cssText='font-weight:900;margin:12px 0 6px;font-size:1.05rem;text-align:left;'; h.innerHTML='🍎 <ruby>悪魔<rt>あくま</rt></ruby>の<ruby>実<rt>み</rt></ruby>'; list.appendChild(h);
+  FRUITS.forEach(f=>{
+    const row=document.createElement('div'); row.className='dex-item';
+    row.innerHTML=`<div class="dot" style="background:${'#'+f.color.toString(16).padStart(6,'0')};display:flex;align-items:center;justify-content:center;font-size:1.4rem;">${f.emoji}</div>
+      <div class="info"><div class="nm">${f.name}${state.fruit===f.id?' <span class="rar" style="background:#19c79b">そうび</span>':''}</div>
+      <div class="sub">${f.desc}・💰${fmt(f.cost)}</div></div>`;
+    list.appendChild(row);
+  });
 }
 
 // ----- Rebirth -----
@@ -1522,6 +1648,8 @@ function sfx(type){ try{ audioInit(); const t=actx.currentTime;
     case 'fire': noise(0.4,0.34,t,1600); break;
     case 'ice': for(let k=0;k<3;k++) tone(1700-k*320,0.13,'sine',0.15,t+k*0.05); break;
     case 'spin': tone(380,0.32,'sawtooth',0.2,t,1300); break;
+    case 'dash': noise(0.18,0.25,t,2600); tone(520,0.16,'triangle',0.16,t,1200); break;
+    case 'sell': tone(880,0.08,'triangle',0.18,t); tone(660,0.1,'triangle',0.16,t+0.06); break;
     case 'alarm': for(let k=0;k<3;k++){ tone(900,0.12,'square',0.26,t+k*0.2); tone(640,0.12,'square',0.26,t+k*0.2+0.1);} break;
     case 'recover': tone(523,0.1,'square',0.22,t); tone(659,0.1,'square',0.22,t+0.1); tone(880,0.18,'square',0.24,t+0.2); break;
     case 'powerup': tone(330,0.1,'square',0.2,t); tone(523,0.1,'square',0.2,t+0.1); tone(784,0.1,'square',0.2,t+0.2); tone(1047,0.22,'square',0.24,t+0.3); break;

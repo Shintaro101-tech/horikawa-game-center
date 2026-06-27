@@ -96,7 +96,13 @@
 - **ショップ＝直線パレード**: 入口(`PARADE_X0=-30`)→出口(`PARADE_X1=30`)の直線道(z=0)を怪獣/悪魔の実が `PARADE_SPEED` で流れ、出口で入口へリサイクル（常時供給）。`buildParade`/`updateParade`/`setParadeItem`/`paradeRandomItem`。頭上にHTML価格ラベル(`.plabel`/`.plabel.fruit`)。近づき「かう」で購入(`buyParade`)。**敵も購入**（`updateAI` がパレードの怪獣を消費して自拠点へ）。
 - **戦闘**: `👊なぐる`ボタン/FキーでdoAttack。半径内の敵をノックバック（`knockbackRival`）。装備中の悪魔の実で攻撃が変化。プレイヤーも殴られるとノックバック＋スタン（`knockbackPlayer`、`pkb`/`player.userData.stunUntil/invuln`）。エフェクトは `fx`配列＋`addFx`/`spawnStars`/`attackEffect`。
 - **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯色＝拠点色で誰か識別可。`RIVAL_NAMES`。
-- **悪魔の実 `FRUITS`（8種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)＋メラメラ(fire)/ヒエヒエ(ice・長スタン)/グルグル(spin)。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
+- **悪魔の実 `FRUITS`（9種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)/メラメラ(fire)/ヒエヒエ(ice・長スタン)/グルグル(spin)/**ハヤハヤ(dash)**。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
+- **ダッシュ＆スタミナ（ハヤハヤの実）**: スタミナ満タン時のみ W/↑ を2連打 or 💨ダッシュボタンで発動（`tryDash`）。発動中は速度×`DASH_MULT`、スタミナが`DASH_DRAIN`で減り0で終了→満タンに戻るまで再発動不可。左下にスタミナバー(`#stamina`/`updateStaminaUI`)。`STAMINA_REGEN`/`DASH_DOUBLE_MS`。
+- **運搬中に売って置き換え**: 自拠点が満杯のまま怪獣を運ぶと、文脈が `sell_place`（一番近い台座の怪獣を半額で売却→空いた枠に運搬中を設置、`doSellPlace`）。
+- **左クリック**: ワールド上で左クリック＝置ける場面(drop/sell_place)なら設置、それ以外は殴る（`renderer.domElement` mousedown）。攻撃(`doAttack`)は盗み状態に関係なくいつでも可。
+- **飛行中の判定**: 追跡敵は `chase` 時にプレイヤーの高さへ上昇（敵も飛ぶ）。捕獲・パンチは3D距離(`distanceTo`)で判定＝高さが合わないと当たらない。`moveEntityTo`はyを触らず、各stateで高さを設定。
+- **運搬速度**: `PLAYER_CARRY_SPEED=7.5`（通常9より少し遅い）。
+- **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
 - **レアリティ**: コモン/レア/エピック/レジェンド/シークレットの5段階（`RARITY`）。コスト・収入が連動（色は今は未使用、キャラ固有色）。
 - **怪獣7体（本デザイン確定）**: `CREATURES` = オオムカデ(common,案A) / イルルヤンカシュ(rare,C) / ヒドラ(epic,A) / ケルベロス(epic,C) / 応龍(legendary,B) / 九頭竜(legendary,C) / レインボーサーペント(secret,C)。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`(球チェーン蛇胴)/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`。デザイン案見本は `heist/kaiju-preview.html`。
@@ -232,6 +238,15 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🛠 2026-06-27 「怪獣を盗む」QoL＆機能追加（売却・ダッシュ・図鑑・左クリック・飛行判定）
+- **運搬中に台座の怪獣を売って置き換え**（満杯時に半額還元→空き枠に設置）`doSellPlace`/`sell_place`コンテキスト。
+- **ハヤハヤの実＋スタミナ・ダッシュ**: 満タンで W/↑2連打 or ダッシュボタン。発動→枯渇→満タンまで再発動不可。左下スタミナバー。
+- **左クリックで殴る＆おく**（置ける場面は設置、他は攻撃）。攻撃はいつでも可。
+- **📖図鑑**（右上ボタン）: 怪獣のレア度/収入/価格/所持数＋悪魔の実一覧。
+- **飛行中の被弾を修正**: 敵も飛んで追える＋当たり判定を3D距離に（高さが合わないと殴れない/殴られない）。`moveEntityTo`からy制御を分離。
+- **運搬中は少し遅く**（`PLAYER_CARRY_SPEED`=5.8→7.5、追跡敵=6.4）。
+- 検証: sell_place(+25還元・設置)、ダッシュ枯渇/再発動不可、空中で敵が上昇し捕獲、飛行中はパンチ届かず、図鑑表示、エラーなし。**git push 済**。
 
 ### ⚔️ 2026-06-27 「怪獣を盗む」戦闘・敵AI・悪魔の実・BGM 大型アップデート
 - ユーザー要望を全実装＆プレビュー検証済（盗み→敵追跡→殴られ失敗 / 敵窃盗→アラート＋矢印→殴って取り返し / コミカルSFX / 楽しいBGM / パレード直線化＋常時供給 / 敵も購入 / 悪魔の実）。
