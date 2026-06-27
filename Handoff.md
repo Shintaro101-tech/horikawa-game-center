@@ -97,7 +97,9 @@
 - **拠点ロック**: 自分の拠点中央でアクション → 一定秒ロック（盗まれ防止）。AI拠点もロック/解除を周期で繰り返し、解除中だけが盗めるスキ。ロック中の拠点には侵入できず押し戻される。
 - **ショップ＝直線パレード**: 入口(`PARADE_X0=-30`)→出口(`PARADE_X1=30`)の直線道(z=0)を怪獣/悪魔の実が `PARADE_SPEED` で流れ、出口で入口へリサイクル（常時供給）。`buildParade`/`updateParade`/`setParadeItem`/`paradeRandomItem`。頭上にHTML価格ラベル(`.plabel`/`.plabel.fruit`)。近づき「かう」で購入(`buyParade`)。**敵も購入**（`updateAI` がパレードの怪獣を消費して自拠点へ）。
 - **戦闘**: `👊なぐる`ボタン/FキーでdoAttack。半径内の敵をノックバック（`knockbackRival`）。装備中の悪魔の実で攻撃が変化。プレイヤーも殴られるとノックバック＋スタン（`knockbackPlayer`、`pkb`/`player.userData.stunUntil/invuln`）。エフェクトは `fx`配列＋`addFx`/`spawnStars`/`attackEffect`。
-- **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯色＝拠点色で誰か識別可。`RIVAL_NAMES`。
+- **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯/バイザー/腰布色＝拠点色で誰か識別可。`RIVAL_NAMES`。
+- **キャラデザイン（確定）**: メイン＝**ふわっとマスコット**（`buildPlayer`）。敵＝**3種を拠点ごとに使い分け**（`buildRival(color,style)`：0=ガキ大将/1=ガードロボ/2=ゴブリン、`style=(idx-1)%3`）。案見本 `heist/character-preview.html`。
+- **自分の怪獣を売る**: 自拠点の台座の怪獣に近づくと文脈 `sell`（半額還元・`doSell`）。ロックは contextual をやめ **🔒ロックmini-button**（`btn-lock`→`toggleLock`）に分離。
 - **悪魔の実 `FRUITS`（9種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)/メラメラ(fire)/ヒエヒエ(ice・長スタン)/グルグル(spin)/**ハヤハヤ(dash)**。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
 - **ダッシュ＆スタミナ（ハヤハヤの実）**: スタミナ満タン時のみ、**進む方向のキー（WASD/矢印）を同じキー2連打**で発動（`DASH_DIRS`/`lastDirKey`）or 💨ダッシュボタン（`tryDash`）。発動中は速度×`DASH_MULT`、スタミナが`DASH_DRAIN`で減り0で終了→満タンに戻るまで再発動不可。左下にスタミナバー(`#stamina`/`updateStaminaUI`)。
 - **運搬中に売って置き換え**: 自拠点が満杯のまま怪獣を運ぶと、文脈が `sell_place`（一番近い台座の怪獣を半額で売却→空いた枠に運搬中を設置、`doSellPlace`）。
@@ -241,6 +243,12 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🎨 2026-06-27 「怪獣を盗む」キャラ確定＋怪獣売却
+- メインキャラ＝**ふわっとマスコット**(案B)に変更（`buildPlayer`）。
+- 敵キャラ＝**A/B/C 全部使用**（拠点ごとに ガキ大将/ガードロボ/ゴブリン を `(idx-1)%3` で割当、色=拠点色で識別）。`buildRival(color,style)`＋3サブビルダー。
+- **自分の怪獣を売る機能**: 台座の怪獣に近づき「うる」で半額還元（`doSell`/`sell`コンテキスト）。これに伴い**ロックを🔒mini-buttonに分離**（contextual lock廃止）。
+- 検証: 主人公16メッシュ、敵styles=boss/robot/goblin/boss/robot、売却+750・空き、ロックボタン作動、エラーなし。**git push 済**。
 
 ### 🐲 2026-06-27 「怪獣を盗む」実レア度＋怪獣8体追加＋キャラ案
 - **悪魔の実にレア度**を設定（`FRUITS` に `rarity`）、図鑑にバッジ表示。
