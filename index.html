@@ -164,6 +164,15 @@
         }
         .game-card.war:hover { box-shadow: 0 0 50px rgba(255, 51, 68, 0.55); }
 
+        .game-card.heist {
+            border-color: #ff2bd6;
+            box-shadow: 0 0 30px rgba(255, 43, 214, 0.3);
+        }
+        .game-card.heist::before {
+            background: linear-gradient(135deg, #1a0033 0%, #ff2bd6 100%);
+        }
+        .game-card.heist:hover { box-shadow: 0 0 50px rgba(255, 43, 214, 0.55); }
+
         .emoji {
             font-size: 64px;
             line-height: 1;
@@ -244,8 +253,8 @@
         </div>
         <div class="games">
             <a href="deep-sea/" class="game-card sea">
-                <div class="emoji">🛥</div>
-                <h2><ruby>深海<rt>しんかい</rt></ruby><ruby>大冒険<rt>だいぼうけん</rt></ruby></h2>
+                <div class="emoji">🌏</div>
+                <h2><ruby>世界<rt>せかい</rt></ruby><ruby>大冒険<rt>だいぼうけん</rt></ruby></h2>
                 <p class="desc">うみ・りく・そら・うちゅう を ぼうけん！</p>
                 <span class="arrow">▶ プレイ</span>
             </a>
@@ -257,8 +266,14 @@
             </a>
             <a href="samurai-wars/" class="game-card war">
                 <div class="emoji">🏯</div>
-                <h2><ruby>過去<rt>かこ</rt></ruby>・<ruby>未来<rt>みらい</rt></ruby><ruby>大戦争<rt>だいせんそう</rt></ruby></h2>
+                <h2><ruby>時代<rt>じだい</rt></ruby><ruby>大戦争<rt>だいせんそう</rt></ruby></h2>
                 <p class="desc"><ruby>侍<rt>さむらい</rt></ruby>とロボットを<ruby>率<rt>ひき</rt></ruby>いて<ruby>敵城<rt>てきじょう</rt></ruby>を<ruby>落<rt>お</rt></ruby>とせ！</p>
+                <span class="arrow">▶ プレイ</span>
+            </a>
+            <a href="heist/" class="game-card heist">
+                <div class="emoji">🦖</div>
+                <h2><ruby>怪獣<rt>かいじゅう</rt></ruby>を<ruby>盗<rt>ぬす</rt></ruby>む</h2>
+                <p class="desc"><ruby>怪獣<rt>かいじゅう</rt></ruby>を<ruby>盗<rt>ぬす</rt></ruby>んで<ruby>砦<rt>とりで</rt></ruby>を<ruby>育<rt>そだ</rt></ruby>てろ！</p>
                 <span class="arrow">▶ プレイ</span>
             </a>
         </div>

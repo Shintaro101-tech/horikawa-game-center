@@ -49,17 +49,20 @@
 
 ```
 堀川家のゲームセンター/
-├── index.html             ← ポータル（3ゲームのカード + 訪問者カウンター）
-├── deep-sea/              ← 🛥 深海大冒険（Phaser 3）
+├── index.html             ← ポータル（4ゲームのカード + 訪問者カウンター）
+├── deep-sea/              ← 🌏 世界大冒険（旧「深海大冒険」・Phaser 3。フォルダ名は deep-sea のまま）
 │   ├── index.html
 │   ├── css/style.css
 │   └── js/game.js
 ├── kanji-race/            ← ⚔️ 漢字侍 聖剣伝説（Three.js r128）
 │   ├── index.html
 │   └── css/style.css
-├── samurai-wars/          ← 🏯 過去・未来大戦争（Canvas 2D タワーディフェンス）
+├── samurai-wars/          ← 🏯 時代大戦争（旧「過去・未来大戦争」・Canvas 2D タワーディフェンス。フォルダ名は samurai-wars のまま）
 │   ├── index.html         ← 単一ファイル、~16000行（4編実装済）
 │   ├── *-preview.html     ← デザイン選択用プレビュー（過去27 + 現代18 + 未来18 + 城砲5 + indexes）
+├── heist/                 ← 🦖 怪獣を盗む（旧「モンスター・ハイスト」・Three.js r128・新規）
+│   └── index.html         ← 単一ファイル。Steal a Brainrot inspire の3D収集ゲーム
+├── .claude/launch.json    ← プレビュー用（python3 http.server :8123, name="arcade"）
 ├── Handoff.md             ← このファイル（唯一の引き継ぎドキュメント）
 └── README.md
 ```
@@ -68,7 +71,7 @@
 
 ## ホーム画面（`index.html`）
 
-- 3ゲームカード（深海大冒険 / 漢字侍 聖剣伝説 / 過去・未来大戦争）
+- 4ゲームカード（世界大冒険 / 漢字侍 聖剣伝説 / 時代大戦争 / 怪獣を盗む）
 - フッター下に **訪問者カウンター**（控えめなシアン、ラベル `TOTAL VISITORS`）
   - サービス: `counterapi.dev`（無料・登録不要）
   - namespace: `horikawa-arcade` / counter key: `home`
@@ -81,7 +84,31 @@
 
 ## 各ゲームの現状
 
-### 🛥 深海大冒険 (`deep-sea/`)
+### 🦖 怪獣を盗む (`heist/index.html`) — 新規・プロトタイプ段階
+**Steal a Brainrot（Roblox）inspire** の3D収集ハイストゲーム。Three.js r128・単一HTML。シングルプレイ（AI拠点が相手）。
+- **見た目は明るい昼間のカートゥーン調**（ブレインロット寄せ。ネオンではない）: 青空＋雲＋芝生＋砂の広場＋カラフルな砦＋太枠ぷっくりUI。`scene.background=0x8fd4ff` / `HemisphereLight` で屋外光。`--ink=#1f2d3d` の黒枠＋ドロップシャドウがカートゥーンの肝。
+
+- **コアループ**（移植済・全動作確認済）: 放置収入 × 盗む/運ぶ × ショップ購入 × 転生(リバース)
+- **3D**: ネオン和風フロア、リング配置の拠点6つ（自分1 + AI5）。三人称追従カメラ。
+- **操作**: 画面ジョイスティック（左下）+ アクションボタン（右下、文脈で つかむ/おく/🔒/かう が変化）。**スペース=ジャンプ（2連打で飛行ON/OFF＝マイクラ風）、E=アクション**。飛行中は「うえ/おりる」ボタン表示。物理は `phys{y,vy,grounded,flying}`、`doJumpPress`。
+- **盗みの流れ**: AI拠点（ロック解除中）に入る → アクションで台座の怪獣を つかむ（運搬中は移動半速・頭上に表示）→ 自分の拠点まで運び 空き台座に おく → 所持化。
+- **拠点ロック**: 自分の拠点中央でアクション → 一定秒ロック（盗まれ防止）。AI拠点もロック/解除を周期で繰り返し、解除中だけが盗めるスキ。ロック中の拠点には侵入できず押し戻される。
+- **ショップ＝直線パレード**: 入口(`PARADE_X0=-30`)→出口(`PARADE_X1=30`)の直線道(z=0)を怪獣/悪魔の実が `PARADE_SPEED` で流れ、出口で入口へリサイクル（常時供給）。`buildParade`/`updateParade`/`setParadeItem`/`paradeRandomItem`。頭上にHTML価格ラベル(`.plabel`/`.plabel.fruit`)。近づき「かう」で購入(`buyParade`)。**敵も購入**（`updateAI` がパレードの怪獣を消費して自拠点へ）。
+- **戦闘**: `👊なぐる`ボタン/FキーでdoAttack。半径内の敵をノックバック（`knockbackRival`）。装備中の悪魔の実で攻撃が変化。プレイヤーも殴られるとノックバック＋スタン（`knockbackPlayer`、`pkb`/`player.userData.stunUntil/invuln`）。エフェクトは `fx`配列＋`addFx`/`spawnStars`/`attackEffect`。
+- **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯色＝拠点色で誰か識別可。`RIVAL_NAMES`。
+- **悪魔の実 `FRUITS`（8種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)＋メラメラ(fire)/ヒエヒエ(ice・長スタン)/グルグル(spin)。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
+- **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
+- **レアリティ**: コモン/レア/エピック/レジェンド/シークレットの5段階（`RARITY`）。コスト・収入が連動（色は今は未使用、キャラ固有色）。
+- **怪獣7体（本デザイン確定）**: `CREATURES` = オオムカデ(common,案A) / イルルヤンカシュ(rare,C) / ヒドラ(epic,A) / ケルベロス(epic,C) / 応龍(legendary,B) / 九頭竜(legendary,C) / レインボーサーペント(secret,C)。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`(球チェーン蛇胴)/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`。デザイン案見本は `heist/kaiju-preview.html`。
+- **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
+- **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
+- **保存**: `localStorage['monsterHeistSave']`（money/rebirth/mult/slots/owned/bestMoney/fruit）。load時に未知IDの owned/fruit を除去＆slots を 4..12 にクランプ。
+- **操作まとめ**: 移動=ジョイスティック/WASD、ジャンプ=スペース(2連で飛行)、アクション(つかむ/おく/ロック/かう)=E、なぐる=F、ミュート=M。
+- **ふりがな**: 全UIに `<ruby>` 済。
+- **主要関数**: `buildBases`/`buildBaseContents`/`baseGrid`/`decorateBase` / `getContext`(文脈) / `doGrab`/`doDrop`/`buyParade`/`toggleLock` / `updateAI`/`updateRivals`/`updateParade` / `update`(メインループ) / `doRebirth`。
+- **未実装/TODO**: 性能（hero怪獣は高ポリ気味＝kuzuryu約164メッシュ。Three.jsの視錐台カリングで実描画は抑制されるが、iPhone実機でのFPS要確認）、AIがプレイヤーから盗みに来る脅威、運搬失敗演出、コンボ/アチーブ、BGM。
+
+### 🌏 世界大冒険 (`deep-sea/`) ※旧「深海大冒険」
 - Phaser 3 横スクロールシューティング
 - 4ワールド × 5ステージ、Lv1〜8 進化、特殊武器、ボス戦、ボーナスステージ
 - すべてキャンバス描画（Phaser のText）。**HTMLには漢字なし**（ひらがなのみ）
@@ -93,7 +120,7 @@
 - 1年生／2年生／エンドレス／復習＋ボス戦＋御札ビジュアル＋精霊解放エフェクト＋精霊図鑑
 - **すべてのUI HTML文字列にふりがな済**（コミット e78202a）
 
-### 🏯 過去・未来大戦争 (`samurai-wars/index.html`)
+### 🏯 時代大戦争 (`samurai-wars/index.html`) ※旧「過去・未来大戦争」
 にゃんこ大戦争 inspire の単一HTMLタワーディフェンス。最も活発に開発中。
 
 主要システム:
@@ -205,6 +232,53 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### ⚔️ 2026-06-27 「怪獣を盗む」戦闘・敵AI・悪魔の実・BGM 大型アップデート
+- ユーザー要望を全実装＆プレビュー検証済（盗み→敵追跡→殴られ失敗 / 敵窃盗→アラート＋矢印→殴って取り返し / コミカルSFX / 楽しいBGM / パレード直線化＋常時供給 / 敵も購入 / 悪魔の実）。
+- **戦闘**: なぐるボタン＋ノックバック物理（双方）＋スタン＋星エフェクト。`doAttack`/`knockbackRival`/`knockbackPlayer`/`fx`系。
+- **敵AIをワールド空間ステートマシン化**（`rivals[]`, guard/chase/rob_go/rob_back/return）。盗むと追跡、敵も奪いに来る。`#thief-arrow`方向矢印＋`#alert-banner`で「誰に盗まれたか」を表示。ライバル帯色=拠点色。
+- **悪魔の実8種**（`FRUITS`）: 攻撃が雷/爆弾/巨大拳/炎/氷/回転/伸びる腕/キラキラ弾に変化。パレードに出現→購入で装備、HUD表示。
+- **パレード直線化**: 入口→出口を直進し出口で入口へリサイクル（常時供給）。敵も流れる怪獣を購入。
+- **BGM＋コミカルSFX**: WebAudioチップチューンのループ＋ミュート（🔊/M）。殴る/雷/爆発/アラート/取り返し等の派手な効果音。
+- 検証: doGrab→chase、捕獲→steal失敗、パンチ・実攻撃でノックバック、敵窃盗→取り返し、実購入、120フレーム実行でエラーなし・BGM起動 すべて確認。**git push 済**。
+
+### 🐲 2026-06-27 「怪獣を盗む」怪獣7体を本実装＋転生で陣地成長
+- ユーザーが7体のデザイン案を決定（イルルヤンカシュ=C / 九頭竜=C / ヒドラ=A / ケルベロス=C / レインボーサーペント=C / オオムカデ=A / 応龍=B）。レアリティは適当に振り分け（common〜secret）。
+- `kaiju-preview.html` のビルダーを低ポリ化して `heist/index.html` に移植（`KAIJU_BUILD` + `_snake`/`_dhead` 等ヘルパー）。プレースホルダー(c1〜s1)を全廃。`buildCreatureMesh` は bbox 正規化（max1.7・底面合わせ）で台座に乗せる。
+- **転生で陣地が大きく・カッコよく**: `buildBases` を `baseGrid`/`buildBaseContents`/`decorateBase` に再構成。台座枠数(`state.slots`, 最大`MAX_SLOTS=12`)に合わせ platform/grid をリサイズ。tier(=転生Lv)で 塔→4隅塔→旗→バナー→金アーチ＋色 緑→金 と段階進化。転生時 `buildBaseContents` で作り直し。AI拠点も idx で枠数・tier 可変に。
+- 旧プレースホルダーIDのセーブは load 時にサニタイズ。プレビューで全7体ビルド成功・転生Lv5で金の大型要塞化を確認。**未デプロイ**。
+
+### 🕹️ 2026-06-27 「怪獣を盗む」操作＆ショップ刷新（ジャンプ/飛行・パレード購入・敵プレイヤー）
+- **マイクラ風ジャンプ＆飛行**: スペース/ジャンプボタンでジャンプ、2連打で飛行ON（クリエ風）、もう一度2連打でOFF。重力物理 `phys{y,vy,grounded,flying}`、`doJumpPress()`、定数 `GRAVITY/JUMP_V/FLY_SPEED/DOUBLE_MS/FLY_CEIL`。飛行中は「うえ/おりる」ボタン表示（`updateFlyUI`）、PCはスペース上昇・Shift下降。
+- **ショップをパレード式に変更**: オーバーレイ店を廃止。広場を囲む道（半径 `PARADE_R=14`）を怪獣8体が常時周回（`buildParade`/`updateParade`/`spawnParadeSlot`）。各頭上にHTML価格ラベル（`.plabel`）。近づくと文脈アクションが「かう」になり E/アクションで購入（`buyParade`）。購入すると数秒後に別の怪獣がリポップ。`getContext` に `type:'buy'` を追加。
+- **敵プレイヤー配置**: 各AI拠点に赤いライバルアバター（`buildRival`/`buildRivals`）を配置、砦前を左右に巡回（`updateRivals`）。`base.rival` に保持。
+- キー割当変更: スペース=ジャンプ、E=アクション（旧:スペース=アクション）。`btn-shop`削除→`btn-jump`/`btn-descend`追加。
+- プレビューで全機能を実機相当で検証済（購入で100→50・所持反映、ジャンプ上昇、飛行トグル、ライバル表示）。コアの盗む/放置収入/転生は維持。**未デプロイ**。
+
+### 🐉 2026-06-27 「怪獣を盗む」キャラ7体のデザイン3案プレビュー作成
+- ユーザー指定の7体（イルルヤンカシュ/九頭竜/ヒドラ/ケルベロス/レインボーサーペント/オオムカデ/応龍）を、各 A/B/C の3案で見比べる `heist/kaiju-preview.html` を作成。
+- ゲームと同じ Three.js r128・明るいカートゥーン調。7体それぞれ1 renderer、3案を横並び＋自動回転、下にA/B/C説明。プレビューで全7体エラーなく表示確認済。
+- 3Dビルダーは sphere-chain の蛇胴(`snake`)・`dragonHead`/`wolfHead`・翼(`batWing`/`featherWing`)・多足(`legAt`)などの汎用ヘルパー構成。**本実装時はここから選定案を `heist/index.html` の `CREATURES`/`buildCreatureMesh` に移植する**想定。
+- **ユーザーの選定待ち**（各キャラどの案か）。色や細部は本番で調整可能。
+
+### 🏷️ 2026-06-27 ゲーム3本リネーム＋「怪獣を盗む」をブレインロット風の見た目に
+- リネーム（**フォルダ名・localStorageキーは不変**、表示名のみ変更）:
+  - 「深海大冒険」→「**世界大冒険**」（`<title>` と Phaser TitleScene の `'世界大冒険'`、ポータルカード🌏）
+  - 「過去・未来大戦争」→「**時代大戦争**」（`<title>`、タイトル h1 を `時代大戦争`、subtitle を `ERA WAR`、ポータルカード）
+  - 「モンスター・ハイスト」→「**怪獣を盗む**」（`<title>`、タイトル h1、UI内の「怪物→怪獣(かいじゅう)」一括置換、ポータルカード🦖）
+- **「怪獣を盗む」をネオン→明るい昼間カートゥーン調に全面リスキン**（ユーザー要望「ブレインロットと似た見た目」）:
+  - CSS: 黒枠(`#1f2d3d`)＋ドロップシャドウのぷっくりUI、白チップ/パネル、青空グラデ背景、太枠ボタン。
+  - Three: `scene.background` 青空、`HemisphereLight`＋太陽光、芝生＋砂の広場＋リング小道＋中央の噴水、雲14個(`buildClouds`)、砦は白スカート＋カラフル天板＋屋根ポール、ゲートは半透明フォースフィールド。
+  - プレビューで全画面（タイトル/3D世界/砦+台座+怪獣/ショップ/ポータル）確認済。コアループは無変更で動作維持。
+- **未デプロイ**（git push はユーザー指示待ち）。
+
+### 🦖 2026-06-27 新ゲーム「怪獣を盗む」（旧モンスター・ハイスト）プロトタイプ作成
+- ユーザー要望: Steal a Brainrot 風の新ゲームを **シングルプレイ・3D・別キャラ・コアループ移植・ふりがな/派手演出踏襲** で作る。キャラ詳細は後日。
+- まず Steal a Brainrot を分析（放置収入×盗む/盗まれる×レア収集×転生 が面白さの本体）。
+- `heist/index.html` を新規作成（Three.js r128 単一HTML）。3Dシーン/プレイヤー操作(ジョイスティック+WASD)/拠点6つ(自分+AI5)/台座/レーザーゲート+ロック/放置収入/盗み運搬/ショップ/転生 を実装。
+- プレビュー(`.claude/launch.json` の "arcade" = python http.server :8123)で **コアループ全動作を検証済**: つかむ→運ぶ→おくで所持化&収入増、ロック表示、転生(Lv/倍率/枠/リセット)、ショップ購入。
+- ポータル `index.html` に4枚目のカード（🦹 マゼンタ `.heist`）を追加。2×2グリッドで表示確認済。
+- **キャラは全て仮**。次セッションで本デザインを詰める。**未デプロイ**（git push はユーザー指示待ち）。
 
 ### 🌟 2026-05-24 セッション総まとめ（未来編フル実装デー）
 今日1日で **未来編（2098年地球・18ステージ）を本実装からポリッシュまで完走**。

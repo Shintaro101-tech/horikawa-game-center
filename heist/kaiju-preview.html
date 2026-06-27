@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#7ec8ff">
+<title>怪獣デザインえらび</title>
+<style>
+  :root{--ink:#1f2d3d;}
+  *{box-sizing:border-box;}
+  body{margin:0;color:var(--ink);
+    background:linear-gradient(180deg,#7ec8ff 0%,#bfe9ff 45%,#d9f5c9 100%);min-height:100vh;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Segoe UI",sans-serif;}
+  ruby rt{font-size:.5em;opacity:.8;font-weight:normal;}
+  header{text-align:center;padding:22px 16px 8px;}
+  h1{font-size:clamp(1.8rem,7vw,2.8rem);margin:.1em 0;color:#fff;font-weight:900;
+    -webkit-text-stroke:3px var(--ink);text-shadow:0 5px 0 var(--ink),0 6px 8px rgba(0,0,0,.3);}
+  .lead{font-weight:800;max-width:620px;margin:8px auto 0;line-height:1.6;font-size:clamp(.9rem,3.4vw,1.05rem);}
+  .wrap{max-width:760px;margin:0 auto;padding:10px 12px 60px;}
+  .kaiju{background:#fff;border:4px solid var(--ink);border-radius:22px;margin:18px 0;
+    box-shadow:0 6px 0 rgba(31,45,61,.4);overflow:hidden;}
+  .kaiju h2{margin:0;padding:12px 16px;font-size:clamp(1.2rem,5vw,1.6rem);font-weight:900;
+    background:linear-gradient(180deg,#ffe35c,#ffb300);border-bottom:4px solid var(--ink);}
+  .kaiju h2 small{display:block;font-size:.62em;font-weight:800;opacity:.8;}
+  .stage{width:100%;height:300px;display:block;background:transparent;}
+  .caps{display:flex;border-top:4px solid var(--ink);}
+  .cap{flex:1;padding:10px 8px;font-size:.82rem;font-weight:700;line-height:1.4;text-align:center;}
+  .cap:not(:last-child){border-right:3px dashed rgba(31,45,61,.3);}
+  .cap b{display:block;font-size:1.05rem;font-weight:900;margin-bottom:3px;}
+  .cap.A b{color:#e8590c;} .cap.B b{color:#1971c2;} .cap.C b{color:#9b5cff;}
+  footer{text-align:center;font-weight:800;padding:10px 16px 40px;opacity:.85;line-height:1.7;}
+  .tag{display:inline-block;background:#fff;border:3px solid var(--ink);border-radius:999px;
+    padding:4px 14px;font-weight:900;margin-top:6px;box-shadow:0 3px 0 rgba(31,45,61,.35);}
+</style>
+</head>
+<body>
+<header>
+  <h1>🦖 <ruby>怪獣<rt>かいじゅう</rt></ruby>デザインえらび</h1>
+  <p class="lead">7<ruby>体<rt>たい</rt></ruby>の<ruby>怪獣<rt>かいじゅう</rt></ruby>を <b>A・B・C</b> の3<ruby>案<rt>あん</rt></ruby>ずつ<ruby>用意<rt>ようい</rt></ruby>しました。くるくる<ruby>回<rt>まわ</rt></ruby>ります。<br>
+  <ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>ったものを「イルルヤンカシュは<b>A</b>」のように<ruby>教<rt>おし</rt></ruby>えてください！</p>
+  <span class="tag">← → くらべてね</span>
+</header>
+<div class="wrap" id="wrap"></div>
+<footer>
+  どれを<ruby>選<rt>えら</rt></ruby>んでも、<ruby>本番<rt>ほんばん</rt></ruby>では<ruby>色<rt>いろ</rt></ruby>や<ruby>細<rt>こま</rt></ruby>かい<ruby>部分<rt>ぶぶん</rt></ruby>を さらに<ruby>調整<rt>ちょうせい</rt></ruby>できます。
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+"use strict";
+const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
+function mat(color,opt={}){return new THREE.MeshStandardMaterial(Object.assign({color,roughness:.6,metalness:.05},opt));}
+function glowMat(color){return new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:.9,roughness:.4});}
+const WHITE=()=>mat(0xffffff,{roughness:.7});
+const DARK=()=>mat(0x20202a,{roughness:.5});
+
+// ---- generic builders -------------------------------------------------
+// sphere-chain serpent body along a CatmullRom curve, radius via rFn(t)
+function snake(knots, rFn, m, seg=46, belly=null){
+  const curve=new THREE.CatmullRomCurve3(knots.map(k=>V3(k[0],k[1],k[2])));
+  const g=new THREE.Group();
+  for(let i=0;i<=seg;i++){
+    const t=i/seg, p=curve.getPoint(t), r=rFn(t);
+    const s=new THREE.Mesh(new THREE.SphereGeometry(r,9,8),m); s.position.copy(p); g.add(s);
+    if(belly){
+      const b=new THREE.Mesh(new THREE.SphereGeometry(r*0.72,8,7),belly);
+      b.position.set(p.x,p.y-r*0.55,p.z); b.scale.y=0.6; g.add(b);
+    }
+  }
+  g.userData.curve=curve; return g;
+}
+function addEyes(g,pos,dx,r,glow,col=0xffee00){
+  for(const sx of [-dx,dx]){
+    const w=new THREE.Mesh(new THREE.SphereGeometry(r,10,10), glow?glowMat(col):mat(0xffffff,{roughness:.3}));
+    w.position.set(pos[0]+sx,pos[1],pos[2]); g.add(w);
+    const p=new THREE.Mesh(new THREE.SphereGeometry(r*0.5,8,8),DARK());
+    p.position.set(pos[0]+sx,pos[1],pos[2]+r*0.7); g.add(p);
+  }
+}
+function cone(r,h,m,seg=10){return new THREE.Mesh(new THREE.ConeGeometry(r,h,seg),m);}
+function fangRing(g, cx,cy,cz, count, r, len, m, spread=0.55){
+  for(let i=0;i<count;i++){
+    const a=-spread+ (count>1? (i/(count-1))*spread*2 :0);
+    const f=cone(r,len,m,6); f.position.set(cx+Math.sin(a)*0.32, cy, cz+Math.cos(a)*0.05);
+    f.rotation.x=Math.PI; g.add(f);
+  }
+}
+// dragon-ish head facing +Z
+function dragonHead(o={}){
+  const c=o.color||0x66cc55, m=mat(c,{roughness:.5});
+  const g=new THREE.Group();
+  const skull=new THREE.Mesh(new THREE.SphereGeometry(o.size||0.5,12,10),m); skull.scale.set(1,0.9,1.2); g.add(skull);
+  const snout=new THREE.Mesh(new THREE.BoxGeometry((o.size||0.5)*1.05,(o.size||0.5)*0.7,(o.size||0.5)*1.2),m);
+  snout.position.set(0,-(o.size||0.5)*0.18,(o.size||0.5)*1.1); g.add(snout);
+  addEyes(g,[ (0),(o.size||0.5)*0.35,(o.size||0.5)*0.7],(o.size||0.5)*0.5,(o.size||0.5)*0.26,!!o.eyeGlow,o.eyeColor||0xffee00);
+  // fangs
+  const fm=WHITE();
+  if(o.fangs){ fangRing(g, 0,-(o.size||0.5)*0.45,(o.size||0.5)*1.55, o.fangs, (o.size||0.5)*0.1,(o.size||0.5)*0.5, fm, 0.6); }
+  // horns / antlers
+  if(o.horns){ for(const sx of [-1,1]){ const h=cone((o.size||0.5)*0.16,(o.size||0.5)*0.9, o.hornColor?mat(o.hornColor):WHITE(),6);
+    h.position.set(sx*(o.size||0.5)*0.4,(o.size||0.5)*0.7,-(o.size||0.5)*0.3); h.rotation.x=-0.4; h.rotation.z=sx*0.3; g.add(h);} }
+  if(o.antlers){ for(const sx of [-1,1]){ for(let k=0;k<3;k++){ const h=cone(0.06,0.4,WHITE(),5);
+    h.position.set(sx*(0.3+k*0.12),(o.size||0.5)*0.7+k*0.18,-0.3-k*0.05); h.rotation.z=sx*(0.5+k*0.15); g.add(h);} } }
+  if(o.crest){ for(let k=0;k<4;k++){ const s=cone(0.12,0.32+0.1*Math.sin(k),mat(o.crest),5);
+    s.position.set(0,(o.size||0.5)*0.4+0.0,-(o.size||0.5)*0.2 - k*0.22); g.add(s);} }
+  return g;
+}
+function wolfHead(o={}){
+  const m=mat(o.color||0x202028,{roughness:.55});
+  const g=new THREE.Group();
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.5,12,10),m); head.scale.set(1,0.95,1.05); g.add(head);
+  const snout=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.42,0.7),m); snout.position.set(0,-0.12,0.6); g.add(snout);
+  const nose=new THREE.Mesh(new THREE.SphereGeometry(0.13,8,8),DARK()); nose.position.set(0,-0.05,0.98); g.add(nose);
+  for(const sx of [-1,1]){ const ear=cone(0.18,0.5,m,5); ear.position.set(sx*0.28,0.55,-0.05); ear.rotation.z=sx*0.2; g.add(ear);}
+  addEyes(g,[0,0.18,0.45],0.28,0.16,true,o.eyeColor||0xff3b3b);
+  // fangs
+  for(const sx of [-1,1]){ const f=cone(0.07,0.3,WHITE(),5); f.position.set(sx*0.14,-0.34,0.92); f.rotation.x=Math.PI; g.add(f);}
+  return g;
+}
+function batWing(m,membrane,sx){
+  const g=new THREE.Group();
+  for(let k=0;k<3;k++){ const b=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,1.4-0.2*k,6),m);
+    b.position.set(0.5+k*0.3,0.2*k,-0.2*k); b.rotation.z=-0.5-0.25*k; g.add(b);}
+  const shape=new THREE.Shape(); shape.moveTo(0,0); shape.lineTo(1.6,0.4); shape.lineTo(1.5,-0.5); shape.lineTo(0.6,-0.9); shape.lineTo(0,0);
+  const mem=new THREE.Mesh(new THREE.ShapeGeometry(shape), membrane); g.add(mem);
+  g.scale.x=sx; return g;
+}
+function featherWing(col,sx){
+  const g=new THREE.Group(); const m=mat(col,{roughness:.6});
+  for(let k=0;k<5;k++){ const f=new THREE.Mesh(new THREE.BoxGeometry(0.12,0.04,1.1-0.12*k),m);
+    f.position.set(0.2+k*0.18,0,-0.1*k); f.rotation.y=-0.3-0.1*k; g.add(f);}
+  g.scale.x=sx; return g;
+}
+function legAt(p,len,m,sideSign,bend=0.5){
+  const g=new THREE.Group();
+  const up=new THREE.Mesh(new THREE.CylinderGeometry(0.045,0.05,len,6),m);
+  up.position.set(0,-len/2,0); g.add(up);
+  const low=new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.045,len*0.8,6),m);
+  low.position.set(sideSign*0.0,-len-len*0.35,len*0.18); low.rotation.x=bend; g.add(low);
+  g.position.copy(p); g.rotation.z=sideSign*0.5; return g;
+}
+
+// ====================================================================
+//  7 KAIJU  x  3 VARIANTS
+// ====================================================================
+const KAIJU=[];
+
+// ---- 1. イルルヤンカシュ  (long slender green sea dragon) ----
+KAIJU.push({name:'イルルヤンカシュ', sub:'<ruby>細長<rt>ほそなが</rt></ruby>い<ruby>緑<rt>みどり</rt></ruby>の<ruby>海<rt>うみ</rt></ruby>の<ruby>龍<rt>りゅう</rt></ruby>',
+ caps:['<b>A</b>すなお<br>東洋の海ヘビ。ヒゲ＋丸い頭でやさしい印象',
+       '<b>B</b>うおっぽい<br>背びれ＋大きな尾びれのウナギ風',
+       '<b>C</b>こわい<br>太いトグロ＋背トゲ＋光る斑点のリヴァイアサン'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const green=mat(i===2?0x2e7d4f:0x55c46a,{roughness:.5}), belly=mat(0xcdeeb0,{roughness:.6});
+  if(i===0){
+    const body=snake([[-3,0,0],[-1.6,0.6,0.3],[0,0.2,-0.3],[1.5,0.7,0.2],[2.8,0.3,0]],t=>0.18+0.35*Math.sin(Math.PI*t),green,46,belly);
+    g.add(body);
+    const head=dragonHead({color:0x55c46a,size:0.42,fangs:0}); head.position.set(2.9,0.3,0); head.rotation.y=-0.3; g.add(head);
+    for(const sx of [-1,1]){ const wh=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,0.9,5),WHITE());
+      wh.position.set(2.95,0.2,sx*0.2); wh.rotation.z=1.4; wh.rotation.y=sx*0.4; g.add(wh);}
+  } else if(i===1){
+    const teal=mat(0x3fb6a0,{roughness:.5});
+    const body=snake([[-3,0.1,0],[-1.4,0.5,0.4],[0.2,0.1,-0.4],[1.8,0.5,0.2],[2.9,0.2,0]],t=>0.2+0.34*Math.sin(Math.PI*t),teal,46,belly);
+    g.add(body);
+    // dorsal fin ridge
+    for(let k=0;k<10;k++){ const f=cone(0.16,0.4,mat(0x2a8f80),4); const t=0.1+k*0.08;
+      const p=body.userData.curve.getPoint(t); f.position.set(p.x,p.y+0.28,p.z); g.add(f);}
+    const tail=new THREE.Mesh(new THREE.ConeGeometry(0.5,0.9,4),teal); tail.position.set(-3.3,0,0); tail.rotation.z=Math.PI/2; tail.scale.z=0.3; g.add(tail);
+    const head=dragonHead({color:0x3fb6a0,size:0.46,fangs:4}); head.position.set(3.0,0.2,0); g.add(head);
+  } else {
+    const body=snake([[-2.6,0,0.6],[-1.2,0.4,-0.7],[0.4,0.2,0.7],[1.7,0.7,-0.3],[2.7,0.5,0]],t=>0.26+0.4*Math.sin(Math.PI*t),green,46,belly);
+    g.add(body);
+    for(let k=0;k<12;k++){ const s=cone(0.16,0.5,mat(0x1d5e3a),5); const t=0.08+k*0.07;
+      const p=body.userData.curve.getPoint(t); s.position.set(p.x,p.y+0.32,p.z); s.rotation.x=-0.3; g.add(s);
+      const spot=new THREE.Mesh(new THREE.SphereGeometry(0.08,6,6),glowMat(0x39e6ff)); spot.position.set(p.x,p.y+0.1,p.z+0.35); g.add(spot);}
+    const head=dragonHead({color:0x2e7d4f,size:0.52,fangs:6,horns:true,hornColor:0xdfeecf,eyeGlow:true,eyeColor:0x39e6ff}); head.position.set(2.9,0.5,0); g.add(head);
+  }
+  return g;
+ }});
+
+// ---- 2. 九頭竜  (9 heads, blue back / purple belly) ----
+KAIJU.push({name:'<ruby>九頭竜<rt>くずりゅう</rt></ruby>', sub:'<ruby>背<rt>せ</rt></ruby>は<ruby>青<rt>あお</rt></ruby>・お<ruby>腹<rt>なか</rt></ruby>は<ruby>紫<rt>むらさき</rt></ruby>・<ruby>首<rt>くび</rt></ruby>が9<ruby>本<rt>ほん</rt></ruby>',
+ caps:['<b>A</b>おうぎ<br>9本の首が扇のように広がる王道',
+       '<b>B</b>たば<br>長い首が花束みたいに高くそびえる',
+       '<b>C</b>とぐろ<br>とぐろ胴＋9つの角つき頭で迫力'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const blue=mat(0x2f6fe0,{roughness:.5}), purple=mat(0x8a4fd6,{roughness:.55});
+  // central body lump
+  const core=new THREE.Mesh(new THREE.SphereGeometry(0.9,14,12),blue); core.scale.set(1.2,1,1.2); core.position.y=0.3; g.add(core);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.75,12,10),purple); bel.position.set(0,-0.2,0.4); g.add(bel);
+  const N=9;
+  for(let n=0;n<N;n++){
+    let baseAng,spread,height,lean;
+    if(i===0){ baseAng=(-0.9+ (n/(N-1))*1.8); height=1.4; lean=0.5; }
+    else if(i===1){ baseAng=(-0.5+ (n/(N-1))*1.0); height=2.2; lean=0.15; }
+    else { baseAng=(n/N)*Math.PI*2; height=1.5; lean=0.6; }
+    const dirx=Math.sin(baseAng)*lean, dirz=(i===2?Math.cos(baseAng):0.2)*lean;
+    const tipx=Math.sin(baseAng)*(lean+0.7)* (i===2?1.4:1.6);
+    const tipz=(i===2?Math.cos(baseAng):0.1)*(lean+0.7)*1.4;
+    const neck=snake([[0,0.5,0.2],[dirx,0.5+height*0.5,dirz+0.1],[tipx,0.5+height,tipz]],
+                     t=>0.22-0.08*t, blue, 16, purple);
+    g.add(neck);
+    const head=dragonHead({color:0x2f6fe0,size:0.3,fangs:i===2?4:3,horns:i===2,hornColor:0xbfe0ff,eyeColor:0xffee00});
+    const tip=neck.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.12;
+    head.rotation.y=-baseAng*0.6; g.add(head);
+  }
+  return g;
+ }});
+
+// ---- 3. ヒドラ (3 heads, yellow, cool dragon) ----
+KAIJU.push({name:'ヒドラ', sub:'<ruby>首<rt>くび</rt></ruby>3<ruby>本<rt>ぼん</rt></ruby>・<ruby>黄色<rt>きいろ</rt></ruby>・かっこいいドラゴン',
+ caps:['<b>A</b>ドラゴン<br>翼つき。金色でスマートな王道ドラゴン',
+       '<b>B</b>とげとげ<br>翼なし＋背トゲのエッジィな蛇型',
+       '<b>C</b>よろい<br>装甲プレート＋角の生えた重厚タイプ'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const yellow=mat(i===2?0xe8a90c:0xf5ca2b,{roughness:.45,metalness:.2}), belly=mat(0xfff0b0,{roughness:.6});
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(0.85,14,12),yellow); torso.scale.set(1,1.05,1.25); torso.position.y=0.6; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.6,12,10),belly); bel.position.set(0,0.3,0.55); bel.scale.y=1.2; g.add(bel);
+  // legs
+  for(const sx of [-1,1]){ const l=new THREE.Mesh(new THREE.CylinderGeometry(0.18,0.16,0.7,8),yellow); l.position.set(sx*0.5,0.05,0.3); g.add(l);
+    const l2=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.14,0.6,8),yellow); l2.position.set(sx*0.45,0.1,-0.4); g.add(l2);}
+  // tail
+  const tail=snake([[0,0.5,-0.7],[0,0.3,-1.6],[0.3,0.5,-2.3]],t=>0.22-0.16*t,yellow,18); g.add(tail);
+  // 3 necks+heads
+  for(let n=0;n<3;n++){
+    const off=(n-1);
+    const neck=snake([[off*0.3,0.9,0.6],[off*0.55,1.5,0.7],[off*0.7,2.0,0.9]],t=>0.2-0.05*t,yellow,16,belly); g.add(neck);
+    const head=dragonHead({color:i===2?0xe8a90c:0xf5ca2b,size:0.34,fangs:5,
+      horns:i!==1, hornColor:0xfff0b0, crest:i===1?0xc98a00:null, eyeColor:0xff7b00});
+    const tip=neck.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; head.rotation.y=off*0.25; g.add(head);
+  }
+  if(i===0){ for(const sx of [-1,1]){ const w=batWing(mat(0xe8a90c),mat(0xffe07a,{side:THREE.DoubleSide,transparent:true,opacity:.92}),sx);
+    w.position.set(sx*0.7,1.1,-0.2); w.rotation.y=sx*0.5; g.add(w);} }
+  if(i===2){ // armor plates
+    for(let k=0;k<5;k++){ const p=new THREE.Mesh(new THREE.BoxGeometry(0.9-0.1*k,0.12,0.4),mat(0xb5860b,{metalness:.4,roughness:.4}));
+      p.position.set(0,0.9-k*0.0,0.2-k*0.3); p.rotation.x=0.3; g.add(p);} }
+  return g;
+ }});
+
+// ---- 4. ケルベロス (3-headed wolf, black, long claws) ----
+KAIJU.push({name:'ケルベロス', sub:'<ruby>首<rt>くび</rt></ruby>3つの<ruby>狼<rt>おおかみ</rt></ruby>・<ruby>黒色<rt>くろいろ</rt></ruby>・<ruby>長<rt>なが</rt></ruby>いツメ',
+ caps:['<b>A</b>リアル<br>本物の狼っぽい四つ足。赤い目',
+       '<b>B</b>もふもふ<br>まるくて大きいカートゥーン体型',
+       '<b>C</b>地獄犬<br>炎のたてがみ＋骨トゲ＋超長ツメ'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const black=mat(i===1?0x2b2b38:0x18181f,{roughness:.6});
+  // body
+  const body=new THREE.Mesh(new THREE.SphereGeometry(i===1?1.0:0.8,14,12),black);
+  body.scale.set(1.5,i===1?1.1:0.9,1); body.position.set(-0.2,0.95,0); g.add(body);
+  // legs + long claws
+  const legX=i===1?0.55:0.5, legLen=i===1?0.7:0.85;
+  for(const sx of [-1,1]) for(const fz of [0.6,-0.7]){
+    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.13,legLen,8),black); leg.position.set(-0.2+ (fz>0?0.5:-0.6), legLen/2, sx*legX); g.add(leg);
+    for(let c=0;c<3;c++){ const claw=cone(0.05,i===2?0.5:0.28,WHITE(),5);
+      claw.position.set(-0.2+(fz>0?0.5:-0.6)+(c-1)*0.1, 0.02, sx*legX+0.18); claw.rotation.x=0.9; g.add(claw);}
+  }
+  // tail
+  const tail=snake([[-1.0,1.0,0],[-1.7,1.2,0.1],[-2.1,0.8,0]],t=>0.16-0.08*t,black,14); g.add(tail);
+  // 3 heads
+  for(let n=0;n<3;n++){ const off=(n-1);
+    const neck=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.26,0.6,8),black);
+    neck.position.set(0.55,1.25,off*0.5); neck.rotation.z=-0.5; g.add(neck);
+    const head=wolfHead({color:i===1?0x2b2b38:0x18181f, eyeColor: i===2?0xff7a00:0xff2b2b});
+    head.position.set(0.95,1.5,off*0.55); head.rotation.y=off*0.3; head.scale.setScalar(i===1?1.05:0.9); g.add(head);
+  }
+  if(i===2){ // flame mane + bone spikes
+    for(let n=0;n<3;n++){ const off=(n-1); for(let k=0;k<5;k++){ const fl=cone(0.12,0.4,glowMat(k%2?0xff7a00:0xffd23b),5);
+      fl.position.set(0.6,1.7+0.1*k,off*0.55+(k-2)*0.12); g.add(fl);} }
+    for(let k=0;k<5;k++){ const sp=cone(0.1,0.4,WHITE(),5); sp.position.set(-0.2-k*0.25,1.7,0); sp.rotation.x=0.2; g.add(sp);}
+  }
+  return g;
+ }});
+
+// ---- 5. レインボーサーペント (rainbow dragon, glowing yellow eyes) ----
+KAIJU.push({name:'レインボーサーペント', sub:'<ruby>虹色<rt>にじいろ</rt></ruby>の<ruby>龍<rt>りゅう</rt></ruby>・<ruby>目<rt>め</rt></ruby>は<ruby>黄色<rt>きいろ</rt></ruby>に<ruby>光<rt>ひか</rt></ruby>る',
+ caps:['<b>A</b>アボリジニ<br>大きく弧をえがく虹バンドの大蛇',
+       '<b>B</b>クリスタル<br>角ばった結晶セグメントが虹に光る',
+       '<b>C</b>羽根<br>ケツァール風の虹の羽根つき'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const RB=[0xff3b3b,0xff9d2b,0xffe53b,0x39d353,0x2f8fff,0x8a4fd6];
+  const knots=[[-3,-0.2,0],[-1.7,1.0,0.3],[-0.2,1.5,-0.3],[1.4,1.0,0.3],[2.9,-0.1,0]];
+  const curve=new THREE.CatmullRomCurve3(knots.map(k=>V3(k[0],k[1],k[2])));
+  const seg=46;
+  for(let s=0;s<=seg;s++){ const t=s/seg, p=curve.getPoint(t); const col=RB[s%RB.length];
+    const r=0.2+0.3*Math.sin(Math.PI*t);
+    let mesh;
+    if(i===1){ mesh=new THREE.Mesh(new THREE.OctahedronGeometry(r*1.2,0), glowMat(col)); mesh.material.emissiveIntensity=.5; }
+    else { mesh=new THREE.Mesh(new THREE.SphereGeometry(r,9,8), mat(col,{roughness:.45,emissive:col,emissiveIntensity:.18})); }
+    mesh.position.copy(p); g.add(mesh);
+    if(i===2 && s%3===0){ for(const sx of [-1,1]){ const f=new THREE.Mesh(new THREE.BoxGeometry(0.05,0.04,0.5),mat(RB[(s+2)%RB.length]));
+      f.position.set(p.x,p.y+0.1,p.z+sx*0.2); f.rotation.x=0.6; g.add(f);} }
+  }
+  const head=dragonHead({color:0xff3b3b,size:0.46,fangs:4,horns:i!==2,hornColor:0xfff0b0,eyeGlow:true,eyeColor:0xffee00});
+  const tip=curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+  if(i===0){ // big arc emphasised by ground ring shadow handled globally
+  }
+  return g;
+ }});
+
+// ---- 6. オオムカデ (giant centipede, big teeth, 4 eyes, ~50 legs) ----
+KAIJU.push({name:'オオムカデ', sub:'<ruby>歯<rt>は</rt></ruby>が<ruby>大<rt>おお</rt></ruby>きい・<ruby>目<rt>め</rt></ruby>4つ・<ruby>足<rt>あし</rt></ruby>50<ruby>本<rt>ぼん</rt></ruby>くらい',
+ caps:['<b>A</b>リアル<br>赤茶の体節＋ぎざ歯＋4つの目',
+       '<b>B</b>よろい<br>金属プレートの体節＋大きなアゴ',
+       '<b>C</b>ポップ<br>まるい体＋ニカッと大きな歯のコミカル系'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const col=i===0?0x9c3b22:(i===1?0x7a7f8c:0xff7a3b);
+  const m=mat(col,{roughness:.5,metalness:i===1?.5:.05});
+  const knots=[[-3,0.4,0],[-1.5,0.7,0.4],[0,0.5,-0.4],[1.5,0.7,0.3],[2.6,0.5,0]];
+  const curve=new THREE.CatmullRomCurve3(knots.map(k=>V3(k[0],k[1],k[2])));
+  const SEG=24;
+  for(let s=0;s<=SEG;s++){ const t=s/SEG, p=curve.getPoint(t);
+    const r=(i===2?0.4:0.32)*(0.6+0.4*Math.sin(Math.PI*t));
+    let body;
+    if(i===1){ body=new THREE.Mesh(new THREE.BoxGeometry(r*1.8,r*1.6,r*1.6),m); }
+    else { body=new THREE.Mesh(new THREE.SphereGeometry(r,10,8),m); }
+    body.position.copy(p); g.add(body);
+    // legs (2 per segment ~ 50)
+    if(s>0 && s<SEG){ for(const sx of [-1,1]){ const tang=curve.getTangent(t);
+      const leg=legAt(V3(p.x,p.y-r*0.2,p.z+sx*r*0.9), 0.4, mat(0x222222), sx, 0.6);
+      g.add(leg);} }
+  }
+  // head with 4 eyes + big teeth + mandibles
+  const hp=curve.getPoint(1);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(i===2?0.5:0.42,12,10),m); head.position.copy(hp); head.position.y+=0.05; g.add(head);
+  addEyes(g,[hp.x,hp.y+0.18,hp.z+0.3],0.18,0.1,true,0xffd23b);
+  addEyes(g,[hp.x,hp.y-0.05,hp.z+0.34],0.12,0.08,true,0xffd23b);
+  // mandibles
+  for(const sx of [-1,1]){ const md=cone(0.12,0.6,DARK(),6); md.position.set(hp.x+sx*0.22,hp.y-0.1,hp.z+0.5); md.rotation.x=Math.PI/2; md.rotation.z=sx*0.5; g.add(md);}
+  // big teeth row
+  const tn=i===2?5:6;
+  for(let k=0;k<tn;k++){ const tt=cone(i===2?0.1:0.07, i===2?0.34:0.26, WHITE(),5);
+    tt.position.set(hp.x-0.2+k*(0.4/tn)*2, hp.y-0.25, hp.z+0.55); tt.rotation.x=Math.PI; g.add(tt);}
+  return g;
+ }});
+
+// ---- 7. 応龍 (blue dragon, many fangs) ----
+KAIJU.push({name:'<ruby>応龍<rt>おうりゅう</rt></ruby>', sub:'<ruby>青色<rt>あおいろ</rt></ruby>のドラゴン・<ruby>牙<rt>きば</rt></ruby>がたくさん',
+ caps:['<b>A</b>東洋＋翼<br>長い胴に羽根の翼・鹿の角・牙だらけ',
+       '<b>B</b>西洋<br>コウモリ翼＋鱗のがっしりドラゴン',
+       '<b>C</b>雷<br>電気ブルー＋稲妻のトサカ＋大きな牙の口'],
+ build:(i)=>{
+  const g=new THREE.Group();
+  const blue=mat(i===2?0x29a3ff:0x2f6fe0,{roughness:.5,metalness:.15,emissive:i===2?0x1166aa:0x000000,emissiveIntensity:i===2?.3:0});
+  const belly=mat(0xbfe0ff,{roughness:.6});
+  if(i===0){
+    const body=snake([[-3,0.3,0],[-1.4,1.0,0.4],[0.2,0.9,-0.4],[1.7,1.2,0.3],[2.8,0.9,0]],t=>0.22+0.22*Math.sin(Math.PI*t),blue,46,belly); g.add(body);
+    const head=dragonHead({color:0x2f6fe0,size:0.5,fangs:8,antlers:true,eyeColor:0xffee00}); const tip=body.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+    for(const sx of [-1,1]){ const w=featherWing(0x6fb6ff,sx); w.position.set(0.3,1.3,0.1); w.rotation.z=0.3; w.rotation.y=sx*0.4; g.add(w);}
+    for(let k=0;k<8;k++){ const wh=new THREE.Mesh(new THREE.CylinderGeometry(0.015,0.015,0.5,4),WHITE());
+      const t=0.15+k*0.09; const p=body.userData.curve.getPoint(t); wh.position.set(p.x,p.y+0.28,p.z); g.add(wh);}
+  } else if(i===1){
+    const torso=new THREE.Mesh(new THREE.SphereGeometry(0.95,14,12),blue); torso.scale.set(1,1.1,1.3); torso.position.y=0.9; g.add(torso);
+    const bel=new THREE.Mesh(new THREE.SphereGeometry(0.65,12,10),belly); bel.position.set(0,0.6,0.6); bel.scale.y=1.2; g.add(bel);
+    for(const sx of [-1,1]){ const l=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.18,0.8,8),blue); l.position.set(sx*0.55,0.2,0.3); g.add(l);}
+    const tail=snake([[0,0.7,-0.8],[0.2,0.5,-1.8],[0.5,0.8,-2.5]],t=>0.24-0.18*t,blue,18); g.add(tail);
+    const neck=snake([[0,1.3,0.6],[0,1.9,0.8],[0,2.3,1.0]],t=>0.24-0.06*t,blue,14,belly); g.add(neck);
+    const head=dragonHead({color:0x2f6fe0,size:0.46,fangs:8,horns:true,hornColor:0xbfe0ff,eyeColor:0xffee00}); const tip=neck.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+    for(const sx of [-1,1]){ const w=batWing(blue,mat(0x4fa0ff,{side:THREE.DoubleSide,transparent:true,opacity:.9}),sx); w.position.set(sx*0.7,1.4,-0.1); w.rotation.y=sx*0.5; g.add(w);}
+  } else {
+    const body=snake([[-2.8,0.4,0],[-1.3,1.1,0.3],[0.3,0.9,-0.3],[1.7,1.3,0.3],[2.7,1.0,0]],t=>0.24+0.2*Math.sin(Math.PI*t),blue,46,belly); g.add(body);
+    const head=dragonHead({color:0x29a3ff,size:0.54,fangs:9,eyeGlow:true,eyeColor:0xffee00}); const tip=body.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+    // lightning crest
+    for(let k=0;k<7;k++){ const t=0.15+k*0.1; const p=body.userData.curve.getPoint(t);
+      const z=new THREE.Mesh(new THREE.ConeGeometry(0.12,0.5,4),glowMat(0xa8e0ff)); z.position.set(p.x,p.y+0.32,p.z); z.rotation.z=(k%2?0.4:-0.4); g.add(z);}
+    for(const sx of [-1,1]){ const spark=new THREE.Mesh(new THREE.SphereGeometry(0.1,6,6),glowMat(0xfff7a8)); spark.position.set(2.9,1.4,sx*0.3); g.add(spark);}
+  }
+  return g;
+ }});
+
+// ====================================================================
+//  Render: one renderer per kaiju, 3 variants side by side
+// ====================================================================
+const renderers=[];
+function buildSection(def){
+  const card=document.createElement('div'); card.className='kaiju';
+  const h2=document.createElement('h2'); h2.innerHTML=def.name+'<small>'+def.sub+'</small>'; card.appendChild(h2);
+  const canvas=document.createElement('canvas'); canvas.className='stage'; card.appendChild(canvas);
+  const caps=document.createElement('div'); caps.className='caps';
+  ['A','B','C'].forEach((L,idx)=>{ const c=document.createElement('div'); c.className='cap '+L; c.innerHTML=def.caps[idx]; caps.appendChild(c);});
+  card.appendChild(caps);
+  document.getElementById('wrap').appendChild(card);
+
+  const scene=new THREE.Scene();
+  scene.add(new THREE.HemisphereLight(0xffffff,0x8fbf6f,1.15));
+  const sun=new THREE.DirectionalLight(0xfff3d6,0.9); sun.position.set(6,12,8); scene.add(sun);
+  const camera=new THREE.PerspectiveCamera(42, canvas.clientWidth/canvas.clientHeight||2, 0.1, 100);
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+
+  const variants=[];
+  for(let i=0;i<3;i++){
+    const wrap=new THREE.Group();
+    const model=def.build(i);
+    // normalize size
+    const box=new THREE.Box3().setFromObject(model); const size=box.getSize(new THREE.Vector3());
+    const maxd=Math.max(size.x,size.y,size.z)||1; const sc=3.1/maxd; model.scale.setScalar(sc);
+    const c2=new THREE.Box3().setFromObject(model); const ctr=c2.getCenter(new THREE.Vector3());
+    model.position.sub(ctr);
+    wrap.add(model);
+    wrap.position.x=(i-1)*4.3;
+    // ground shadow disc
+    const disc=new THREE.Mesh(new THREE.CircleGeometry(1.6,24),new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.12}));
+    disc.rotation.x=-Math.PI/2; disc.position.y=-1.7; wrap.add(disc);
+    scene.add(wrap); variants.push(wrap);
+  }
+  renderers.push({renderer,scene,camera,variants,canvas});
+}
+KAIJU.forEach(buildSection);
+
+function resize(){
+  renderers.forEach(r=>{ const w=r.canvas.clientWidth,h=r.canvas.clientHeight;
+    r.renderer.setSize(w,h,false); r.camera.aspect=w/h; r.camera.updateProjectionMatrix();
+    r.camera.position.set(0,0.6,13.5); r.camera.lookAt(0,0,0); });
+}
+addEventListener('resize',resize); resize();
+
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000); last=now;
+  renderers.forEach(r=>{ r.variants.forEach(v=>v.rotation.y+=dt*0.7); r.renderer.render(r.scene,r.camera); });
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

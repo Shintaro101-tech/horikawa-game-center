@@ -1021,7 +1021,7 @@ class TitleScene extends Phaser.Scene {
         const deepest = storage.getDeepest();
         const unlocked = storage.getUnlocked();
 
-        const title = this.add.text(GAME_W / 2, 130, '深海大冒険', {
+        const title = this.add.text(GAME_W / 2, 130, '世界大冒険', {
             fontSize: '78px', fontFamily: FONT, fontStyle: 'bold',
             color: '#FFD54A', stroke: '#001f4d', strokeThickness: 12
         }).setOrigin(0.5);
