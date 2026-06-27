@@ -165,7 +165,7 @@
     #joy{width:108px;height:108px;}
     #joy .thumb{width:48px;height:48px;margin:-24px 0 0 -24px;}
     .mini-btn{width:46px;height:46px;font-size:.6rem;border-radius:13px;}
-    #btn-mute{left:60px !important;} #btn-lock{left:110px !important;}
+    #btn-mute{left:60px !important;} #btn-lock{left:110px !important;} #btn-home{right:60px !important;}
     .chip{padding:4px 9px;}
   }
   /* short landscape (phones held sideways): compact everything, keep it on-screen */
@@ -186,7 +186,7 @@
     #joy{width:150px;height:150px;}
     #joy .thumb{width:66px;height:66px;margin:-33px 0 0 -33px;}
     .mini-btn{width:64px;height:64px;font-size:.8rem;}
-    #btn-mute{left:84px !important;} #btn-lock{left:158px !important;}
+    #btn-mute{left:84px !important;} #btn-lock{left:158px !important;} #btn-home{right:84px !important;}
     .chip{font-size:1.15rem;}
   }
 </style>
@@ -209,6 +209,7 @@
     <button class="mini-btn" id="btn-mute" style="left:72px;">🔊</button>
     <button class="mini-btn" id="btn-lock" style="left:134px;">🔒<br>ロック</button>
     <button class="mini-btn right" id="btn-dex" style="right:10px;">📖<br><ruby>図鑑<rt>ずかん</rt></ruby></button>
+    <button class="mini-btn right" id="btn-home" style="right:72px;background:radial-gradient(circle at 35% 28%,#fff0c2,#ffb300);">🏠<br>ホーム</button>
 
     <div id="ctx-hint"></div>
     <div id="toast-wrap"></div>
@@ -1546,6 +1547,7 @@ function initControls(){
   document.getElementById('btn-mute').addEventListener('click', toggleMute);
   document.getElementById('btn-lock').addEventListener('click', toggleLock);
   document.getElementById('btn-dex').addEventListener('click', openDex);
+  document.getElementById('btn-home').addEventListener('click', ()=>{ save(); location.href='../'; });
   // left-click on the game world: deliver / punch nearby enemy / grab-buy-lock / swing
   renderer.domElement.addEventListener('mousedown', e=>{
     if(e.button!==0) return;
