@@ -119,7 +119,8 @@
 - **自作3Dモデル(.glb)対応**: GLTFLoader読込済。`CREATURES` に `model:'models/xxx.glb'` を足すと `buildCreatureMesh`→`buildModelCreatureMesh`/`loadModel`(キャッシュ付)が非同期ロード→正規化→台座に表示（ロード中は仮プレースホルダ）。AIで作った.glbや Blender書き出しをそのまま登場可能。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
 - **レアリティ**: コモン/レア/エピック/レジェンド/シークレット/**ミシック**の6段階（`RARITY`）。コスト・収入が連動。**ミシック=超激レア**（cost **550000**＝シークレット×10、income 3500、weight 1）。
-- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。**バハムートは Meshy AI 製の自作.glb（`heist/models/bahamut.glb`、約29MB）を採用**（`model:'models/bahamut.glb'`→`buildModelCreatureMesh`が読込）。procedural版`_kBahamut`/`bahamut-preview.html`は予備。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
+- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。**バハムートは Meshy AI 製の自作.glb（`heist/models/bahamut.glb`）を採用**（`model:'models/bahamut.glb'`→`buildModelCreatureMesh`が読込）。**容量は gltf-transform で最適化済（28.9MB→2.4MB：簡略化+KHR_mesh_quantization+テクスチャ1024）**。正規化targetはバハのみ **5.2**（=他の約3倍、単一台座からはみ出す巨大サイズ）。procedural版`_kBahamut`/`bahamut-preview.html`は予備。
+  - 再最適化コマンド: `npm_config_cache=<書込可dir> npx @gltf-transform/cli optimize in.glb out.glb --compress quantize --simplify true --simplify-ratio 0.12 --texture-size 1024 --texture-compress auto --instance false --palette false`（quantizeはThree.js r128がネイティブ対応＝デコーダ追加不要。Draco/Meshoptは別途デコーダが要るので不可）。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
 - **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / **ビヨン・ムキ=secret**）。図鑑にバッジ表示。
 - **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
 - **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
@@ -254,6 +255,11 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🐉 2026-06-27 バハムート 巨大化（2倍）＋.glb軽量化（29→2.4MB）
+- バハムートの正規化サイズを **2.6→5.2（倍）** に。台座1個には収まらず翼が隣にはみ出す巨大サイズ（迫力重視）。気になれば中間値に調整可。
+- .glbを **gltf-transform で 28.9MB→2.4MB（約92%減）**：簡略化(ratio0.12)＋quantize(KHR_mesh_quantization・loader対応)＋テクスチャ1024。見た目劣化ほぼ無し・ロード高速化。エラーなし。**git push 済**。
+- ※旧29MB版はgit履歴に残存（容量懸念あれば履歴書換だが今回は未対応）。
 
 ### 🐉 2026-06-27 バハムートを自作.glbモデルに＋価格倍
 - ユーザー提供の **Meshy AI 製.glb**（黒い古龍）を `heist/models/bahamut.glb`(約29MB)に配置し、`CREATURES` のバハムートに `model:` を設定。ゲーム内で読込・正規化・台座表示を確認（GLTFLoader経由）。

@@ -760,7 +760,7 @@ function loadModel(url, cb){
 function buildModelCreatureMesh(creatureId, url){
   const wrap=new THREE.Group(); wrap.userData.creatureId=creatureId; wrap.userData.bob=Math.random()*Math.PI*2;
   const ph=new THREE.Mesh(new THREE.SphereGeometry(0.5,8,7), _mat(0xbcd, {transparent:true,opacity:.5})); ph.position.y=0.7; wrap.add(ph);
-  const target = creatureId==='bahamut' ? 2.6 : 1.8;
+  const target = creatureId==='bahamut' ? 5.2 : 1.8;
   loadModel(url, (scene)=>{
     wrap.remove(ph);
     const inner=scene.clone(true);
@@ -780,7 +780,7 @@ function buildCreatureMesh(creatureId){
   const fn=KAIJU_BUILD[creatureId];
   const inner = fn ? fn() : (function(){ const b=new THREE.Group(); b.add(new THREE.Mesh(new THREE.SphereGeometry(0.6,8,7),_mat(0x999999))); return b; })();
   const box=new THREE.Box3().setFromObject(inner), size=box.getSize(new THREE.Vector3());
-  const target = creatureId==='bahamut' ? 2.6 : 1.7;   // バハムートは巨大に
+  const target = creatureId==='bahamut' ? 5.2 : 1.7;   // バハムートは巨大に
   const maxd=Math.max(size.x,size.y,size.z)||1; inner.scale.setScalar(target/maxd);
   const box2=new THREE.Box3().setFromObject(inner), ctr=box2.getCenter(new THREE.Vector3());
   inner.position.x-=ctr.x; inner.position.z-=ctr.z; inner.position.y-=box2.min.y;   // bottom on pedestal
