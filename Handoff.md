@@ -63,7 +63,7 @@
 ├── heist/                 ← 🦖 怪獣を盗む（旧「モンスター・ハイスト」・Three.js r128・新規）
 │   ├── index.html         ← 単一ファイル。Steal a Brainrot inspire の3D収集ゲーム
 │   ├── kaiju-preview.html ← 怪獣デザイン案プレビュー（選定用）
-│   └── character-preview.html ← メイン/敵キャラのデザイン3案ずつ（選定用・未反映）
+│   └── character-preview.html ← メイン/敵キャラのデザイン3案（選定済：メイン=B/敵=A・B・C 全採用→本番反映済）
 ├── .claude/launch.json    ← プレビュー用（python3 http.server :8123, name="arcade"）
 ├── Handoff.md             ← このファイル（唯一の引き継ぎドキュメント）
 └── README.md
@@ -86,16 +86,16 @@
 
 ## 各ゲームの現状
 
-### 🦖 怪獣を盗む (`heist/index.html`) — 新規・プロトタイプ段階
+### 🦖 怪獣を盗む (`heist/index.html`) — 新規・多機能実装済（活発に開発中）
 **Steal a Brainrot（Roblox）inspire** の3D収集ハイストゲーム。Three.js r128・単一HTML。シングルプレイ（AI拠点が相手）。
 - **見た目は明るい昼間のカートゥーン調**（ブレインロット寄せ。ネオンではない）: 青空＋雲＋芝生＋砂の広場＋カラフルな砦＋太枠ぷっくりUI。`scene.background=0x8fd4ff` / `HemisphereLight` で屋外光。`--ink=#1f2d3d` の黒枠＋ドロップシャドウがカートゥーンの肝。
 
 - **コアループ**（移植済・全動作確認済）: 放置収入 × 盗む/運ぶ × ショップ購入 × 転生(リバース)
-- **3D**: ネオン和風フロア、リング配置の拠点6つ（自分1 + AI5）。三人称追従カメラ。
-- **操作**: 画面ジョイスティック（左下）+ アクションボタン（右下、文脈で つかむ/おく/🔒/かう が変化）。**スペース=ジャンプ（2連打で飛行ON/OFF＝マイクラ風）、E=アクション**。飛行中は「うえ/おりる」ボタン表示。物理は `phys{y,vy,grounded,flying}`、`doJumpPress`。
-- **盗みの流れ**: AI拠点（ロック解除中）に入る → アクションで台座の怪獣を つかむ（運搬中は移動半速・頭上に表示）→ 自分の拠点まで運び 空き台座に おく → 所持化。
-- **拠点ロック**: 自分の拠点中央でアクション → 一定秒ロック（盗まれ防止）。AI拠点もロック/解除を周期で繰り返し、解除中だけが盗めるスキ。ロック中の拠点には侵入できず押し戻される。
-- **ショップ＝直線パレード**: 入口(`PARADE_X0=-30`)→出口(`PARADE_X1=30`)の直線道(z=0)を怪獣/悪魔の実が `PARADE_SPEED` で流れ、出口で入口へリサイクル（常時供給）。`buildParade`/`updateParade`/`setParadeItem`/`paradeRandomItem`。頭上にHTML価格ラベル(`.plabel`/`.plabel.fruit`)。近づき「かう」で購入(`buyParade`)。**敵も購入**（`updateAI` がパレードの怪獣を消費して自拠点へ）。
+- **3D**: 明るい昼間カートゥーンのフロア（青空＋芝生＋砂広場）、リング配置の拠点6つ（自分1 + AI5、リングは+30°回転でパレード道と非干渉）。三人称追従カメラ。
+- **操作**: 画面ジョイスティック（左下）+ アクションボタン（右下、文脈で つかむ/おく/うる/かう が変化）。**スペース=ジャンプ（2連打で飛行ON/OFF＝マイクラ風）、E/左クリック=`actionOrAttack`、F=なぐる、M=ミュート**。飛行中は「うえ/おりる」ボタン表示。物理は `phys{y,vy,grounded,flying}`、`doJumpPress`。
+- **盗みの流れ**: AI拠点（ロック解除中）に入る → アクションで台座の怪獣を つかむ（運搬中は移動少し遅・頭上に表示）→ 自分の拠点まで運び 空き台座に おく → 所持化。
+- **拠点ロック**: **🔒ロックmini-button**で一定秒ロック（盗まれ防止）。AI拠点もロック/解除を周期で繰り返し、解除中だけが盗めるスキ。ロック中の拠点には侵入できず押し戻される。
+- **ショップ＝直線パレード**: 入口(`PARADE_X0=-32`)→出口(`PARADE_X1=32`)の直線道(z=0)を怪獣/悪魔の実が `PARADE_SPEED` で流れ、出口で入口へリサイクル（常時供給。`PARADE_N=6`で間隔を空け誤購入防止）。`buildParade`/`updateParade`/`setParadeItem`/`paradeRandomItem`。頭上にHTML価格ラベル(`.plabel`/`.plabel.fruit`)。近づき「かう」で購入(`buyParade`)。**敵も購入**（`updateAI` がパレードの怪獣を消費して自拠点へ）。
 - **戦闘**: `👊なぐる`ボタン/FキーでdoAttack。半径内の敵をノックバック（`knockbackRival`）。装備中の悪魔の実で攻撃が変化。プレイヤーも殴られるとノックバック＋スタン（`knockbackPlayer`、`pkb`/`player.userData.stunUntil/invuln`）。エフェクトは `fx`配列＋`addFx`/`spawnStars`/`attackEffect`。
 - **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯/バイザー/腰布色＝拠点色で誰か識別可。`RIVAL_NAMES`。
 - **キャラデザイン（確定）**: メイン＝**ふわっとマスコット**（`buildPlayer`）。敵＝**3種を拠点ごとに使い分け**（`buildRival(color,style)`：0=ガキ大将/1=ガードロボ/2=ゴブリン、`style=(idx-1)%3`）。案見本 `heist/character-preview.html`。
@@ -120,7 +120,7 @@
 - **操作まとめ**: 移動=ジョイスティック/WASD、ジャンプ=スペース(2連で飛行)、アクション(つかむ/おく/ロック/かう)=E、なぐる=F、ミュート=M。
 - **ふりがな**: 全UIに `<ruby>` 済。
 - **主要関数**: `buildBases`/`buildBaseContents`/`baseGrid`/`decorateBase` / `getContext`(文脈) / `doGrab`/`doDrop`/`buyParade`/`toggleLock` / `updateAI`/`updateRivals`/`updateParade` / `update`(メインループ) / `doRebirth`。
-- **未実装/TODO**: 性能（hero怪獣は高ポリ気味＝kuzuryu約164メッシュ。Three.jsの視錐台カリングで実描画は抑制されるが、iPhone実機でのFPS要確認）、AIがプレイヤーから盗みに来る脅威、運搬失敗演出、コンボ/アチーブ、BGM。
+- **未実装/TODO・要注意**: ①性能 — 怪獣は高ポリ気味（kuzuryu約164/gorynych約153メッシュ）。Three.jsの視錐台カリングで実描画は抑制されるが、**iPhone実機のFPS要確認**。②コンボ/アチーブ、より本格的なBGM、ステージ進行や目標は未実装（今は放置×収集×PvP対AIのサンドボックス）。③`kaiju-preview.html`/`character-preview.html` は選定用。デザイン変更時はそちらで案出し→本番反映の流れ。
 
 ### 🌏 世界大冒険 (`deep-sea/`) ※旧「深海大冒険」
 - Phaser 3 横スクロールシューティング
