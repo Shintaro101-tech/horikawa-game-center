@@ -279,7 +279,7 @@ const RARITY = {
   epic:      {name:'エピック', color:0xb06bff, glow:0xb06bff, cost:1500,  income:26,  weight:14},
   legendary: {name:'レジェンド',color:0xffd54a, glow:0xffd54a, cost:9000,  income:120, weight:6},
   secret:    {name:'シークレット',color:0xff2bd6,glow:0xff2bd6, cost:55000, income:650, weight:2},
-  mythic:    {name:'ミシック',  color:0xe01040, glow:0xff2e63, cost:275000, income:3500, weight:1},  // 超激レア（シークレット×5）
+  mythic:    {name:'ミシック',  color:0xe01040, glow:0xff2e63, cost:550000, income:3500, weight:1},  // 超激レア（シークレット×10）
 };
 const RARITY_ORDER = ['common','rare','epic','legendary','secret','mythic'];
 function rarityHex(r){ return '#'+RARITY[r].color.toString(16).padStart(6,'0'); }
@@ -302,7 +302,7 @@ const CREATURES = [
   {id:'orion',     name:'オリオン',                           rarity:'legendary'},  // 海神の息子の狩人
   {id:'balor',     name:'バロール',                           rarity:'legendary'},  // 邪眼の巨人
   {id:'gorynych',  name:'ゴルィニシチェ',                     rarity:'secret'},     // 3頭9尾の翼竜
-  {id:'bahamut',   name:'バハムート',                         rarity:'mythic'},     // 竜の王・超巨大（デザイン案A仮）
+  {id:'bahamut',   name:'バハムート',                         rarity:'mythic', model:'models/bahamut.glb'},  // 竜の王（Meshy AI製の自作3Dモデル）
   // ▼ 自作の3Dモデル(.glb)をキャラにする例（heist/models/ にファイルを置いて↓を有効化）:
   // {id:'mykaiju', name:'マイ<ruby>怪獣<rt>かいじゅう</rt></ruby>', rarity:'epic', model:'models/mykaiju.glb'},
 ];

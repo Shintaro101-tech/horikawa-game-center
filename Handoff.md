@@ -118,8 +118,8 @@
 - **転生でレア確率UP**: `rebirthLuck()`=1+min(rebirth,18)×0.12。パレード/AIの抽選で `weight×luck^rarityIndex` し、転生するほど高レアが出やすい（検証: レア+割合 12.6%→35.4%@転生8）。
 - **自作3Dモデル(.glb)対応**: GLTFLoader読込済。`CREATURES` に `model:'models/xxx.glb'` を足すと `buildCreatureMesh`→`buildModelCreatureMesh`/`loadModel`(キャッシュ付)が非同期ロード→正規化→台座に表示（ロード中は仮プレースホルダ）。AIで作った.glbや Blender書き出しをそのまま登場可能。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
-- **レアリティ**: コモン/レア/エピック/レジェンド/シークレット/**ミシック**の6段階（`RARITY`）。コスト・収入が連動。**ミシック=超激レア**（cost 275000＝シークレット×5、income 3500、weight 1）。
-- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王・超巨大)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。バハムートのデザインは案A（金紅の竜王）を仮採用、案見本は `heist/bahamut-preview.html`。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
+- **レアリティ**: コモン/レア/エピック/レジェンド/シークレット/**ミシック**の6段階（`RARITY`）。コスト・収入が連動。**ミシック=超激レア**（cost **550000**＝シークレット×10、income 3500、weight 1）。
+- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret) / **バハムート(mythic・竜の王)**。`buildCreatureMesh`はバハムートのみ正規化targetを2.6に（他は1.7）して巨大化。**バハムートは Meshy AI 製の自作.glb（`heist/models/bahamut.glb`、約29MB）を採用**（`model:'models/bahamut.glb'`→`buildModelCreatureMesh`が読込）。procedural版`_kBahamut`/`bahamut-preview.html`は予備。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
 - **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / **ビヨン・ムキ=secret**）。図鑑にバッジ表示。
 - **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
 - **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
@@ -254,6 +254,11 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🐉 2026-06-27 バハムートを自作.glbモデルに＋価格倍
+- ユーザー提供の **Meshy AI 製.glb**（黒い古龍）を `heist/models/bahamut.glb`(約29MB)に配置し、`CREATURES` のバハムートに `model:` を設定。ゲーム内で読込・正規化・台座表示を確認（GLTFLoader経由）。
+- ミシック価格を **275000→550000**（倍）に。
+- ⚠ .glbが約29MBと大きい→初回ロードに時間/帯域。必要なら Draco圧縮や容量削減を検討。**git push 済**。
 
 ### 🐈 2026-06-27 主人公=ネコ＋歩行/飛行アニメ＋盗品反映＋ロックCD
 - **主人公を案A（まんまるネコ）に**変更。**歩行/走り/飛行/着地アニメ**を追加（`updatePlayerAnim`：足ステップ・前足スイング・しっぽ揺れ・着地スクワッシュ）。**敵キャラにも脚アニメ**（`stepRival`＋各builderで`legs`登録）。
