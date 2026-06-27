@@ -214,7 +214,7 @@
       <p>✈️ ジャンプを<b>2<ruby>回<rt>かい</rt></ruby></b>すると <ruby>空<rt>そら</rt></ruby>を<ruby>飛<rt>と</rt></ruby>べる（マイクラみたい）。もう1<ruby>回<rt>かい</rt></ruby>2<ruby>連<rt>れん</rt></ruby>でやめる。</p>
       <p>🛒 <ruby>怪獣<rt>かいじゅう</rt></ruby>が<ruby>道<rt>みち</rt></ruby>を<b>パレード</b>するよ。ほしい<ruby>怪獣<rt>かいじゅう</rt></ruby>に<ruby>近<rt>ちか</rt></ruby>づいて <b>かう</b>ボタン（PCは<b>E</b>）で<ruby>購入<rt>こうにゅう</rt></ruby>！</p>
       <p>🦹 <ruby>相手<rt>あいて</rt></ruby>の<ruby>砦<rt>とりで</rt></ruby>で <b>つかむ</b>と<ruby>怪獣<rt>かいじゅう</rt></ruby>を<ruby>盗<rt>ぬす</rt></ruby>める。でも<ruby>敵<rt>てき</rt></ruby>が<ruby>追<rt>お</rt></ruby>ってくる！<ruby>砦<rt>とりで</rt></ruby>に<ruby>運<rt>はこ</rt></ruby>ぶ<ruby>前<rt>まえ</rt></ruby>に<ruby>殴<rt>なぐ</rt></ruby>られると しっぱい。</p>
-      <p>👊 <b>なぐる</b>ボタン（PCは<b>F</b>）で<ruby>敵<rt>てき</rt></ruby>を ふっとばせる！<ruby>追<rt>お</rt></ruby>ってくる<ruby>敵<rt>てき</rt></ruby>を なぐって<ruby>逃<rt>に</rt></ruby>げきろう。</p>
+      <p>👊 <b>なぐる</b>ボタン（PCは<b>F</b>や<b>E</b>、<ruby>左<rt>ひだり</rt></ruby>クリック）で<ruby>敵<rt>てき</rt></ruby>を ふっとばせる！<ruby>追<rt>お</rt></ruby>ってくる<ruby>敵<rt>てき</rt></ruby>を なぐって<ruby>逃<rt>に</rt></ruby>げきろう。</p>
       <p>😱 <ruby>敵<rt>てき</rt></ruby>も<ruby>盗<rt>ぬす</rt></ruby>みにくる！<ruby>矢印<rt>やじるし</rt></ruby>を おって<ruby>砦<rt>とりで</rt></ruby>に<ruby>着<rt>つ</rt></ruby>く<ruby>前<rt>まえ</rt></ruby>に なぐれば とりかえせる。</p>
       <p>🍎 パレードに たまに<b><ruby>悪魔<rt>あくま</rt></ruby>の<ruby>実<rt>み</rt></ruby></b>が ながれる。<ruby>買<rt>か</rt></ruby>うと パンチが パワーアップ！（<ruby>雷<rt>かみなり</rt></ruby>・<ruby>爆弾<rt>ばくだん</rt></ruby>など）</p>
       <p>💰 <ruby>砦<rt>とりで</rt></ruby>の<ruby>怪獣<rt>かいじゅう</rt></ruby>は<ruby>毎秒<rt>まいびょう</rt></ruby>おかねを<ruby>生<rt>う</rt></ruby>む。🔒<b>ロック</b>で<ruby>守<rt>まも</rt></ruby>る。🌀<b><ruby>転生<rt>てんせい</rt></ruby></b>で<ruby>倍率<rt>ばいりつ</rt></ruby>と<ruby>枠<rt>わく</rt></ruby>UP。</p>
@@ -280,7 +280,7 @@ const FRUITS = [
   {id:'mera',      name:'メラメラの<ruby>実<rt>み</rt></ruby>',     emoji:'🔥', color:0xff6a2b, cost:4500, range:8,  aoe:3.5, kb:15, stun:700, kind:'fire', desc:'<ruby>炎<rt>ほのお</rt></ruby>をふきだす！まえの<ruby>敵<rt>てき</rt></ruby>をやく'},
   {id:'hie',       name:'ヒエヒエの<ruby>実<rt>み</rt></ruby>',     emoji:'❄️', color:0x8fd9ff, cost:5500, range:9,  kb:8,  stun:2200, kind:'ice', desc:'<ruby>氷<rt>こおり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>をながく とめる！'},
   {id:'goro',      name:'グルグルの<ruby>実<rt>み</rt></ruby>',     emoji:'🌀', color:0x9b5cff, cost:3000, range:5,  kb:18, stun:600,  kind:'spin',   desc:'まわって まわりの<ruby>敵<rt>てき</rt></ruby>を いっきにふっとばす！'},
-  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>できる！スタミナ<ruby>満<rt>まん</rt></ruby>タンで W/↑を2かい'},
+  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>！スタミナ<ruby>満<rt>まん</rt></ruby>タンで <ruby>進<rt>すす</rt></ruby>む<ruby>方向<rt>ほうこう</rt></ruby>のキーを2かい'},
 ];
 const FRUIT_BY_ID={}; FRUITS.forEach(f=>FRUIT_BY_ID[f.id]=f);
 
@@ -306,7 +306,8 @@ const phys = {y:0, vy:0, grounded:true, flying:false};
 let jumpHeld=false, descendHeld=false, lastJumpTime=-9999;
 
 // dash (ハヤハヤの実) + stamina
-let stamina=1, dashActive=false, lastUpTap=-9999, dashPuffT=0;
+let stamina=1, dashActive=false, lastDirKey='', lastDirTime=-9999, dashPuffT=0;
+const DASH_DIRS=['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright'];
 const STAMINA_REGEN=1/5, DASH_DRAIN=1/2.5, DASH_MULT=1.9, DASH_DOUBLE_MS=300;
 
 // parade shop (creatures/fruits walk straight along a road, entrance -> exit)
@@ -877,6 +878,16 @@ function tryDash(){
   if(dashActive || stamina<1) return;       // need a FULL meter, and not already dashing
   dashActive=true; sfx('dash'); toast('💨 ダッシュ！','good');
 }
+// E / left-click: deliver loot > punch a nearby enemy > grab/buy/lock > swing
+function actionOrAttack(){
+  if(document.getElementById('hud').classList.contains('hidden')) return;
+  const ctx=getContext();
+  if(ctx && (ctx.type==='drop' || ctx.type==='sell_place')){ onAction(); return; }   // delivering takes priority
+  const f=state.fruit?FRUIT_BY_ID[state.fruit]:null, range=f?f.range:3.2;
+  if(rivals.some(e=>e.mesh.position.distanceTo(player.position)<range)){ doAttack(); return; }  // enemy in reach -> punch
+  if(ctx && (ctx.type==='grab' || ctx.type==='lock' || ctx.type==='buy')){ onAction(); return; }
+  doAttack();
+}
 function spawnDashPuff(){
   const p=new THREE.Mesh(new THREE.SphereGeometry(0.3,6,5), new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:0.7}));
   p.position.copy(player.position); p.position.y+=0.5;
@@ -1104,11 +1115,11 @@ function initControls(){
     const k=e.key.toLowerCase(); keys[k]=true;
     if(e.key===' '){ e.preventDefault(); jumpHeld=true; if(!e.repeat) doJumpPress(); }
     else if(k==='shift'){ descendHeld=true; }
-    else if(k==='e' && !e.repeat){ onAction(); }
+    else if(k==='e' && !e.repeat){ actionOrAttack(); }
     else if((k==='f'||k==='j') && !e.repeat){ doAttack(); }
     else if(k==='m' && !e.repeat){ toggleMute(); }
-    // double-tap W or ArrowUp -> dash
-    if((k==='w'||k==='arrowup') && !e.repeat){ const t=nowMs(); if(t-lastUpTap<DASH_DOUBLE_MS) tryDash(); lastUpTap=t; }
+    // double-tap the SAME direction key -> dash that way
+    if(DASH_DIRS.includes(k) && !e.repeat){ const t=nowMs(); if(k===lastDirKey && t-lastDirTime<DASH_DOUBLE_MS) tryDash(); lastDirKey=k; lastDirTime=t; }
   });
   addEventListener('keyup', e=>{ const k=e.key.toLowerCase(); keys[k]=false;
     if(e.key===' ') jumpHeld=false; else if(k==='shift') descendHeld=false; });
@@ -1150,12 +1161,10 @@ function initControls(){
   const dashB=document.getElementById('btn-dash');
   dashB.addEventListener('touchstart', e=>{ e.preventDefault(); tryDash(); }, {passive:false});
   dashB.addEventListener('mousedown', e=>{ e.preventDefault(); tryDash(); });
-  // left-click on the game world: place if possible, else punch
+  // left-click on the game world: deliver / punch nearby enemy / grab-buy-lock / swing
   renderer.domElement.addEventListener('mousedown', e=>{
     if(e.button!==0) return;
-    const ctx=getContext();
-    if(ctx && (ctx.type==='drop' || ctx.type==='sell_place')) onAction();
-    else doAttack();
+    actionOrAttack();
   });
 }
 

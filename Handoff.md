@@ -97,9 +97,9 @@
 - **戦闘**: `👊なぐる`ボタン/FキーでdoAttack。半径内の敵をノックバック（`knockbackRival`）。装備中の悪魔の実で攻撃が変化。プレイヤーも殴られるとノックバック＋スタン（`knockbackPlayer`、`pkb`/`player.userData.stunUntil/invuln`）。エフェクトは `fx`配列＋`addFx`/`spawnStars`/`attackEffect`。
 - **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯色＝拠点色で誰か識別可。`RIVAL_NAMES`。
 - **悪魔の実 `FRUITS`（9種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)/メラメラ(fire)/ヒエヒエ(ice・長スタン)/グルグル(spin)/**ハヤハヤ(dash)**。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
-- **ダッシュ＆スタミナ（ハヤハヤの実）**: スタミナ満タン時のみ W/↑ を2連打 or 💨ダッシュボタンで発動（`tryDash`）。発動中は速度×`DASH_MULT`、スタミナが`DASH_DRAIN`で減り0で終了→満タンに戻るまで再発動不可。左下にスタミナバー(`#stamina`/`updateStaminaUI`)。`STAMINA_REGEN`/`DASH_DOUBLE_MS`。
+- **ダッシュ＆スタミナ（ハヤハヤの実）**: スタミナ満タン時のみ、**進む方向のキー（WASD/矢印）を同じキー2連打**で発動（`DASH_DIRS`/`lastDirKey`）or 💨ダッシュボタン（`tryDash`）。発動中は速度×`DASH_MULT`、スタミナが`DASH_DRAIN`で減り0で終了→満タンに戻るまで再発動不可。左下にスタミナバー(`#stamina`/`updateStaminaUI`)。
 - **運搬中に売って置き換え**: 自拠点が満杯のまま怪獣を運ぶと、文脈が `sell_place`（一番近い台座の怪獣を半額で売却→空いた枠に運搬中を設置、`doSellPlace`）。
-- **左クリック**: ワールド上で左クリック＝置ける場面(drop/sell_place)なら設置、それ以外は殴る（`renderer.domElement` mousedown）。攻撃(`doAttack`)は盗み状態に関係なくいつでも可。
+- **E / 左クリック = `actionOrAttack`**: 優先順位「配達(drop/sell_place) ＞ 射程内の敵を殴る ＞ つかむ/かう/ロック ＞ 空振り」。＝Eキーでも敵を殴れる。攻撃(`doAttack`)は盗み状態に関係なくいつでも可。
 - **飛行中の判定**: 追跡敵は `chase` 時にプレイヤーの高さへ上昇（敵も飛ぶ）。捕獲・パンチは3D距離(`distanceTo`)で判定＝高さが合わないと当たらない。`moveEntityTo`はyを触らず、各stateで高さを設定。
 - **運搬速度**: `PLAYER_CARRY_SPEED=7.5`（通常9より少し遅い）。
 - **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
@@ -238,6 +238,10 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🎮 2026-06-27 「怪獣を盗む」操作改善（ダッシュ方向＋E攻撃）
+- **ダッシュ＝進む方向キーの2連打**に変更（同じ方向キーを2回／別キーは不発）。`DASH_DIRS`/`lastDirKey`。
+- **Eキー（と左クリック）でも敵を殴れる**ように `actionOrAttack`（配達＞射程内の敵を殴る＞つかむ/かう/ロック＞空振り）。検証: d2連打/←2連打でダッシュ、別キーは不発、E攻撃KB、敵不在時はEで購入も機能。
 
 ### ✨ 2026-06-27 「怪獣を盗む」レイアウト調整＋実の技を派手化
 - **パレードが拠点を貫通しない様レイアウト調整**: 拠点リングを **+30°回転**（`buildBases` の `ang` に `+Math.PI/6`）→ z=0 のパレード直線道がどの拠点とも重ならない（全拠点の |z|≥13）。プレイヤー初期位置も拠点→広場側へ補正。
