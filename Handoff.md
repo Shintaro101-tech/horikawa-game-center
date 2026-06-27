@@ -61,7 +61,9 @@
 │   ├── index.html         ← 単一ファイル、~16000行（4編実装済）
 │   ├── *-preview.html     ← デザイン選択用プレビュー（過去27 + 現代18 + 未来18 + 城砲5 + indexes）
 ├── heist/                 ← 🦖 怪獣を盗む（旧「モンスター・ハイスト」・Three.js r128・新規）
-│   └── index.html         ← 単一ファイル。Steal a Brainrot inspire の3D収集ゲーム
+│   ├── index.html         ← 単一ファイル。Steal a Brainrot inspire の3D収集ゲーム
+│   ├── kaiju-preview.html ← 怪獣デザイン案プレビュー（選定用）
+│   └── character-preview.html ← メイン/敵キャラのデザイン3案ずつ（選定用・未反映）
 ├── .claude/launch.json    ← プレビュー用（python3 http.server :8123, name="arcade"）
 ├── Handoff.md             ← このファイル（唯一の引き継ぎドキュメント）
 └── README.md
@@ -105,7 +107,8 @@
 - **図鑑**: 📖ボタン(右上)→`#dex`。全怪獣のレア度/収入/価格/所持数＋全悪魔の実を一覧（`openDex`/`renderDex`/`CREATURE_COLOR`）。
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
 - **レアリティ**: コモン/レア/エピック/レジェンド/シークレットの5段階（`RARITY`）。コスト・収入が連動（色は今は未使用、キャラ固有色）。
-- **怪獣7体（本デザイン確定）**: `CREATURES` = オオムカデ(common,案A) / イルルヤンカシュ(rare,C) / ヒドラ(epic,A) / ケルベロス(epic,C) / 応龍(legendary,B) / 九頭竜(legendary,C) / レインボーサーペント(secret,C)。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`(球チェーン蛇胴)/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`。デザイン案見本は `heist/kaiju-preview.html`。
+- **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret)。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
+- **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（ビヨン=common / カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / ムキ=secret）。図鑑にバッジ表示。
 - **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
 - **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
 - **保存**: `localStorage['monsterHeistSave']`（money/rebirth/mult/slots/owned/bestMoney/fruit）。load時に未知IDの owned/fruit を除去＆slots を 4..12 にクランプ。
@@ -238,6 +241,12 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🐲 2026-06-27 「怪獣を盗む」実レア度＋怪獣8体追加＋キャラ案
+- **悪魔の実にレア度**を設定（`FRUITS` に `rarity`）、図鑑にバッジ表示。
+- **怪獣を8体追加**（計7→15）: イクチ/海坊主/手長足長/蜃/ダイダラボッチ/オリオン/バロール/ゴルィニシチェ。デザインは任せ実装。`_humanoid`ヘルパー新設。全ビルド・図鑑・スポーン確認（ゴルィニシチェ153メッシュが最重）。
+- **メイン/敵キャラのデザイン3案ずつ**を `heist/character-preview.html` に作成（メイン: 忍者シーフ/マスコット/メカ怪盗、敵: ガキ大将/ガードロボ/ゴブリン）。**ユーザー選定待ち→本番のプレイヤー/ライバル描画(`buildPlayer`/`buildRival`)に反映する**。
+- **未デプロイ**（要 git push）。
 
 ### 🎮 2026-06-27 「怪獣を盗む」操作改善（ダッシュ方向＋E攻撃）
 - **ダッシュ＝進む方向キーの2連打**に変更（同じ方向キーを2回／別キーは不発）。`DASH_DIRS`/`lastDirKey`。

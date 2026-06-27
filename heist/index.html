@@ -266,21 +266,30 @@ const CREATURES = [
   {id:'ouryu',     name:'<ruby>応龍<rt>おうりゅう</rt></ruby>', rarity:'legendary'}, // B: 西洋コウモリ翼
   {id:'kuzuryu',   name:'<ruby>九頭竜<rt>くずりゅう</rt></ruby>', rarity:'legendary'}, // C: とぐろ9頭
   {id:'rainbow',   name:'レインボーサーペント',               rarity:'secret'},     // C: 虹+羽根
+  // --- added batch ---
+  {id:'ikuchi',    name:'イクチ',                             rarity:'common'},     // うなぎ型の海妖怪
+  {id:'umibozu',   name:'<ruby>海坊主<rt>うみぼうず</rt></ruby>', rarity:'rare'},    // 黒い海の妖怪
+  {id:'tenaga',    name:'<ruby>手長足長<rt>てながあしなが</rt></ruby>', rarity:'epic'}, // 手長＋足長コンビ
+  {id:'shin',      name:'<ruby>蜃<rt>しん</rt></ruby>',         rarity:'epic'},       // 紫のドラゴン
+  {id:'daidara',   name:'ダイダラボッチ',                     rarity:'legendary'},  // 巨人の神
+  {id:'orion',     name:'オリオン',                           rarity:'legendary'},  // 海神の息子の狩人
+  {id:'balor',     name:'バロール',                           rarity:'legendary'},  // 邪眼の巨人
+  {id:'gorynych',  name:'ゴルィニシチェ',                     rarity:'secret'},     // 3頭9尾の翼竜
 ];
 const CREATURE_BY_ID = {}; CREATURES.forEach(c=>CREATURE_BY_ID[c.id]=c);
 function creaturesByRarity(r){ return CREATURES.filter(c=>c.rarity===r); }
 
 // Devil fruits — buyable items that change your attack (one equipped at a time).
 const FRUITS = [
-  {id:'biyon',     name:'ビヨンビヨンの<ruby>実<rt>み</rt></ruby>', emoji:'🤜', color:0xff8a3c, cost:1200, range:9,  kb:16, stun:600,  kind:'stretch', desc:'<ruby>手<rt>て</rt></ruby>がのびて とおくの<ruby>敵<rt>てき</rt></ruby>をパンチ！'},
-  {id:'kami',      name:'カミカミの<ruby>実<rt>み</rt></ruby>',     emoji:'⚡', color:0xfff15a, cost:2500, range:11, kb:13, stun:1100, kind:'thunder', desc:'<ruby>雷<rt>かみなり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>を こうげき！しびれる'},
-  {id:'kira',      name:'キラキラの<ruby>実<rt>み</rt></ruby>',     emoji:'✨', color:0x7fe0ff, cost:4000, range:13, kb:12, stun:500,  kind:'sparkle', rangedImmune:true, desc:'キラキラ<ruby>球<rt>だま</rt></ruby>で こうげき！とおくの とくしゅこうげきが きかない'},
-  {id:'bakuhatsu', name:'バクハツの<ruby>実<rt>み</rt></ruby>',     emoji:'💣', color:0xff4d4d, cost:5000, range:7,  aoe:5,   kb:20, stun:800, kind:'bomb', desc:'<ruby>爆弾<rt>ばくだん</rt></ruby>をなげる！まわりぜんぶ ふっとばす'},
-  {id:'muki',      name:'ムキムキの<ruby>実<rt>み</rt></ruby>',     emoji:'💪', color:0xff5db1, cost:6500, range:4,  kb:34, stun:1000, kind:'giant',  desc:'こぶしがでかくなり <ruby>敵<rt>てき</rt></ruby>をとおくまで ふっとばす！'},
-  {id:'mera',      name:'メラメラの<ruby>実<rt>み</rt></ruby>',     emoji:'🔥', color:0xff6a2b, cost:4500, range:8,  aoe:3.5, kb:15, stun:700, kind:'fire', desc:'<ruby>炎<rt>ほのお</rt></ruby>をふきだす！まえの<ruby>敵<rt>てき</rt></ruby>をやく'},
-  {id:'hie',       name:'ヒエヒエの<ruby>実<rt>み</rt></ruby>',     emoji:'❄️', color:0x8fd9ff, cost:5500, range:9,  kb:8,  stun:2200, kind:'ice', desc:'<ruby>氷<rt>こおり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>をながく とめる！'},
-  {id:'goro',      name:'グルグルの<ruby>実<rt>み</rt></ruby>',     emoji:'🌀', color:0x9b5cff, cost:3000, range:5,  kb:18, stun:600,  kind:'spin',   desc:'まわって まわりの<ruby>敵<rt>てき</rt></ruby>を いっきにふっとばす！'},
-  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>！スタミナ<ruby>満<rt>まん</rt></ruby>タンで <ruby>進<rt>すす</rt></ruby>む<ruby>方向<rt>ほうこう</rt></ruby>のキーを2かい'},
+  {id:'biyon',     name:'ビヨンビヨンの<ruby>実<rt>み</rt></ruby>', emoji:'🤜', color:0xff8a3c, rarity:'common',    cost:1200, range:9,  kb:16, stun:600,  kind:'stretch', desc:'<ruby>手<rt>て</rt></ruby>がのびて とおくの<ruby>敵<rt>てき</rt></ruby>をパンチ！'},
+  {id:'kami',      name:'カミカミの<ruby>実<rt>み</rt></ruby>',     emoji:'⚡', color:0xfff15a, rarity:'rare',      cost:2500, range:11, kb:13, stun:1100, kind:'thunder', desc:'<ruby>雷<rt>かみなり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>を こうげき！しびれる'},
+  {id:'goro',      name:'グルグルの<ruby>実<rt>み</rt></ruby>',     emoji:'🌀', color:0x9b5cff, rarity:'rare',      cost:3000, range:5,  kb:18, stun:600,  kind:'spin',   desc:'まわって まわりの<ruby>敵<rt>てき</rt></ruby>を いっきにふっとばす！'},
+  {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, rarity:'epic',      cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>！スタミナ<ruby>満<rt>まん</rt></ruby>タンで <ruby>進<rt>すす</rt></ruby>む<ruby>方向<rt>ほうこう</rt></ruby>のキーを2かい'},
+  {id:'kira',      name:'キラキラの<ruby>実<rt>み</rt></ruby>',     emoji:'✨', color:0x7fe0ff, rarity:'epic',      cost:4000, range:13, kb:12, stun:500,  kind:'sparkle', rangedImmune:true, desc:'キラキラ<ruby>球<rt>だま</rt></ruby>で こうげき！とおくの とくしゅこうげきが きかない'},
+  {id:'mera',      name:'メラメラの<ruby>実<rt>み</rt></ruby>',     emoji:'🔥', color:0xff6a2b, rarity:'epic',      cost:4500, range:8,  aoe:3.5, kb:15, stun:700, kind:'fire', desc:'<ruby>炎<rt>ほのお</rt></ruby>をふきだす！まえの<ruby>敵<rt>てき</rt></ruby>をやく'},
+  {id:'bakuhatsu', name:'バクハツの<ruby>実<rt>み</rt></ruby>',     emoji:'💣', color:0xff4d4d, rarity:'legendary', cost:5000, range:7,  aoe:5,   kb:20, stun:800, kind:'bomb', desc:'<ruby>爆弾<rt>ばくだん</rt></ruby>をなげる！まわりぜんぶ ふっとばす'},
+  {id:'hie',       name:'ヒエヒエの<ruby>実<rt>み</rt></ruby>',     emoji:'❄️', color:0x8fd9ff, rarity:'legendary', cost:5500, range:9,  kb:8,  stun:2200, kind:'ice', desc:'<ruby>氷<rt>こおり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>をながく とめる！'},
+  {id:'muki',      name:'ムキムキの<ruby>実<rt>み</rt></ruby>',     emoji:'💪', color:0xff5db1, rarity:'secret',    cost:6500, range:4,  kb:34, stun:1000, kind:'giant',  desc:'こぶしがでかくなり <ruby>敵<rt>てき</rt></ruby>をとおくまで ふっとばす！'},
 ];
 const FRUIT_BY_ID={}; FRUITS.forEach(f=>FRUIT_BY_ID[f.id]=f);
 
@@ -486,6 +495,16 @@ function _leg(p,len,m,sign){ const g=new THREE.Group();
   const lo=new THREE.Mesh(new THREE.CylinderGeometry(0.035,0.045,len*0.8,5),m); lo.position.set(0,-len-len*0.35,len*0.18); lo.rotation.x=0.6; g.add(lo);
   g.position.copy(p); g.rotation.z=sign*0.5; return g;
 }
+// generic chunky humanoid; returns {g, body, head, bodyTop}
+function _humanoid(o){ o=o||{};
+  const bodyR=o.bodyR||0.5, bodyH=o.bodyH||1.3, headR=o.headR||0.42, legH=o.legH||0.7, armLen=o.armLen||0.9;
+  const skin=_mat(o.color||0xc8a06a,{roughness:.6}), legMat=o.legColor?_mat(o.legColor):skin, g=new THREE.Group();
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(bodyR,bodyR*1.1,bodyH,11),skin); body.position.y=legH+bodyH/2; g.add(body);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(headR,12,11),skin); head.position.y=legH+bodyH+headR*0.8; g.add(head);
+  for(const sx of [-1,1]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.12,armLen,8),skin); arm.position.set(sx*(bodyR+0.14), legH+bodyH-armLen/2+0.1, 0); g.add(arm); g.userData['arm'+(sx<0?'L':'R')]=arm; }
+  for(const sx of [-1,1]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.17,0.15,legH,8),legMat); leg.position.set(sx*0.22,legH/2,0); g.add(leg); }
+  return {g, body, head, bodyTop:legH+bodyH};
+}
 
 // ---- イルルヤンカシュ C: 太いトグロ + 背トゲ + 光る斑点 ----
 function _kIlluyanka(){ const g=new THREE.Group();
@@ -577,7 +596,90 @@ function _kOuryu(){ const g=new THREE.Group();
   return g;
 }
 
-const KAIJU_BUILD={ mukade:_kMukade, illuyanka:_kIlluyanka, hydra:_kHydra, cerberus:_kCerberus, ouryu:_kOuryu, kuzuryu:_kKuzuryu, rainbow:_kRainbow };
+// ---- イクチ (eel-like giant sea yokai) ----
+function _kIkuchi(){ const g=new THREE.Group();
+  const teal=_mat(0x3a7d6e,{roughness:.4}), belly=_mat(0xd8e8c0,{roughness:.6});
+  const body=_snake([[-2.8,0.2,0.4],[-1.2,0.5,-0.5],[0.4,0.3,0.5],[1.8,0.6,-0.3],[2.8,0.4,0]],t=>0.2+0.22*Math.sin(Math.PI*t),teal,18,belly); g.add(body);
+  for(let k=0;k<9;k++){ const t=0.12+k*0.085, p=body.userData.curve.getPoint(t); const f=_cone(0.1,0.32,_mat(0x2a5d4e),4); f.position.set(p.x,p.y+0.24,p.z); f.rotation.x=-0.2; g.add(f); }
+  const head=_dhead({color:0x3a7d6e,size:0.42,fangs:4,eyeColor:0xffd23b}); const tip=body.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.05; g.add(head);
+  for(const sx of [-1,1]){ const wh=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,0.8,4),_WHITE()); wh.position.set(2.95,0.35,sx*0.18); wh.rotation.z=1.35; wh.rotation.y=sx*0.4; g.add(wh); }
+  return g;
+}
+// ---- 海坊主 (black sea spirit head rising from the water) ----
+function _kUmibozu(){ const g=new THREE.Group();
+  const head=new THREE.Mesh(new THREE.SphereGeometry(1.1,16,14), _mat(0x14141c,{roughness:.35,metalness:.2})); head.position.y=1.35; head.scale.y=1.18; g.add(head);
+  _eyes(g,[0,1.6,0.95],0.36,0.2,true,0xffffff);
+  for(let k=0;k<9;k++){ const a=-1.1+k*0.275; const tooth=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.18,0.1),_WHITE()); tooth.position.set(Math.sin(a)*0.5,0.95,0.92); g.add(tooth); }   // grin
+  const mouth=new THREE.Mesh(new THREE.BoxGeometry(1.0,0.12,0.1),_mat(0x3a1010)); mouth.position.set(0,0.86,0.95); g.add(mouth);
+  for(let r=0;r<2;r++){ const water=new THREE.Mesh(new THREE.TorusGeometry(0.9+r*0.35,0.22,8,22), _mat(0x3fb6e0,{roughness:.3,metalness:.1,transparent:true,opacity:.85})); water.position.y=0.2-r*0.05; water.rotation.x=Math.PI/2; g.add(water); }
+  return g;
+}
+// ---- 手長足長 (long-arm + long-leg yokai duo) ----
+function _kTenagaAshinaga(){ const g=new THREE.Group();
+  const tan=_mat(0xc8a06a,{roughness:.6}), dk=_mat(0x7a5038,{roughness:.6});
+  // 足長 (long legs) carrying 手長 on its shoulders
+  const aBody=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.45,0.9,9),tan); aBody.position.y=2.0; g.add(aBody);
+  const aHead=new THREE.Mesh(new THREE.SphereGeometry(0.34,11,10),tan); aHead.position.y=2.72; g.add(aHead);
+  _eyes(g,[0,2.78,0.3],0.14,0.08,false);
+  for(const sx of [-1,1]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.13,0.11,1.8,7),tan); leg.position.set(sx*0.22,0.9,0); g.add(leg);
+    const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.5,6),tan); arm.position.set(sx*0.5,2.1,0); g.add(arm); }
+  // 手長 (long arms) riding on top
+  const tBody=new THREE.Mesh(new THREE.CylinderGeometry(0.34,0.4,0.7,9),dk); tBody.position.set(0,3.3,0); g.add(tBody);
+  const tHead=new THREE.Mesh(new THREE.SphereGeometry(0.3,11,10),dk); tHead.position.set(0,3.85,0); g.add(tHead);
+  _eyes(g,[0,3.9,0.26],0.12,0.07,false);
+  for(const sx of [-1,1]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.09,1.9,7),dk); arm.position.set(sx*0.55,2.95,0.15); arm.rotation.z=sx*0.5; g.add(arm);
+    const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.4,6),dk); leg.position.set(sx*0.18,3.0,0); g.add(leg); }
+  return g;
+}
+// ---- 蜃 (Shin: purple dragon, clam-shell back) ----
+function _kShin(){ const g=new THREE.Group();
+  const purple=_mat(0x8a3fd6,{roughness:.4,metalness:.2}), belly=_mat(0xe0c0ff,{roughness:.6});
+  const body=_snake([[-2.6,0.2,0.5],[-1.0,0.7,-0.5],[0.5,0.5,0.5],[1.8,0.9,-0.3],[2.7,0.6,0]],t=>0.24+0.24*Math.sin(Math.PI*t),purple,18,belly); g.add(body);
+  for(let k=0;k<7;k++){ const t=0.12+k*0.1, p=body.userData.curve.getPoint(t); const sh=new THREE.Mesh(new THREE.SphereGeometry(0.3,8,6,0,Math.PI*2,0,Math.PI/2), _mat(0xb98fff,{roughness:.3,metalness:.3})); sh.position.set(p.x,p.y+0.16,p.z); g.add(sh); }
+  const head=_dhead({color:0x8a3fd6,size:0.5,fangs:6,horns:true,hornColor:0xe0c0ff,eyeGlow:true,eyeColor:0xff5db1}); const tip=body.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; g.add(head);
+  return g;
+}
+// ---- ダイダラボッチ (giant earth deity) ----
+function _kDaidara(){ const h=_humanoid({color:0x8d6e4a,bodyR:0.72,bodyH:1.8,headR:0.55,legH:1.05,armLen:1.3,legColor:0x6e5436}); const g=h.g;
+  _eyes(g,[0,h.head.position.y+0.05,0.5],0.22,0.13,true,0xffffff);
+  for(const sx of [-1,1]){ const rock=new THREE.Mesh(new THREE.DodecahedronGeometry(0.3), _mat(0x5a6e3a,{roughness:1})); rock.position.set(sx*0.92,h.bodyTop-0.1,0); g.add(rock); }
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(0.22,8,8),_mat(0x3a2a1a)); hair.position.set(0,h.head.position.y+0.5,0); g.add(hair);
+  const beard=new THREE.Mesh(new THREE.ConeGeometry(0.3,0.5,8),_mat(0x4a3a2a)); beard.position.set(0,h.head.position.y-0.4,0.3); beard.rotation.x=Math.PI; g.add(beard);
+  return g;
+}
+// ---- オリオン (son of Poseidon, sea hunter) ----
+function _kOrion(){ const h=_humanoid({color:0x6fb0d8,bodyR:0.56,bodyH:1.5,headR:0.45,legH:0.9,armLen:1.05,legColor:0x4a86b0}); const g=h.g;
+  _eyes(g,[0,h.head.position.y+0.05,0.42],0.18,0.1,true,0xffffff);
+  const hair=new THREE.Mesh(new THREE.SphereGeometry(0.47,12,8,0,Math.PI*2,0,Math.PI/1.6),_mat(0x223a5a)); hair.position.set(0,h.head.position.y+0.08,0); g.add(hair);
+  for(let k=-1;k<=1;k++){ const star=new THREE.Mesh(new THREE.OctahedronGeometry(0.12),_glow(0xffffff)); star.position.set(k*0.26,h.body.position.y,0.56); g.add(star); }   // Orion's belt
+  const bow=new THREE.Mesh(new THREE.TorusGeometry(0.6,0.05,6,16,Math.PI),_mat(0x8a5a2a)); bow.position.set(0.95,h.body.position.y+0.2,0); bow.rotation.y=Math.PI/2; g.add(bow);
+  const str=new THREE.Mesh(new THREE.CylinderGeometry(0.02,0.02,1.2,4),_mat(0xeeeeee)); str.position.set(0.95,h.body.position.y+0.2,0); g.add(str);
+  return g;
+}
+// ---- バロール (Fomorian giant with a destructive evil eye) ----
+function _kBalor(){ const h=_humanoid({color:0x5a5a66,bodyR:0.62,bodyH:1.6,headR:0.5,legH:0.95,armLen:1.15,legColor:0x3a3a44}); const g=h.g;
+  const white=new THREE.Mesh(new THREE.SphereGeometry(0.36,14,12),_mat(0xfff0f0,{emissive:0xff3b3b,emissiveIntensity:.45})); white.position.set(0,h.head.position.y,0.42); g.add(white);
+  const pupil=new THREE.Mesh(new THREE.SphereGeometry(0.17,10,10),_glow(0xff2020)); pupil.position.set(0,h.head.position.y,0.68); g.add(pupil);
+  const ring=new THREE.Mesh(new THREE.TorusGeometry(0.52,0.06,6,18),_glow(0xff3b3b)); ring.position.set(0,h.head.position.y,0.5); g.add(ring);
+  for(const sx of [-1,1]){ const horn=_cone(0.13,0.65,_mat(0x1a1a1a),6); horn.position.set(sx*0.32,h.head.position.y+0.42,-0.1); horn.rotation.z=sx*0.4; g.add(horn); }
+  return g;
+}
+// ---- ゴルィニシチェ (Zmey Gorynych: 3 heads, 9 tails, winged) ----
+function _kGorynych(){ const g=new THREE.Group();
+  const green=_mat(0x3a8d3a,{roughness:.45}), belly=_mat(0xd0e8a0,{roughness:.6});
+  const torso=new THREE.Mesh(new THREE.SphereGeometry(0.9,12,11),green); torso.scale.set(1,1.1,1.3); torso.position.y=0.85; g.add(torso);
+  const bel=new THREE.Mesh(new THREE.SphereGeometry(0.62,11,9),belly); bel.position.set(0,0.55,0.55); bel.scale.y=1.2; g.add(bel);
+  for(const sx of [-1,1]){ const l=new THREE.Mesh(new THREE.CylinderGeometry(0.2,0.18,0.7,7),green); l.position.set(sx*0.5,0.1,0.25); g.add(l); }
+  for(let n=0;n<3;n++){ const off=(n-1); const neck=_snake([[off*0.35,1.1,0.5],[off*0.55,1.65,0.6],[off*0.7,2.15,0.7]],t=>0.2-0.05*t,green,6,belly); g.add(neck);
+    const head=_dhead({color:0x3a8d3a,size:0.32,fangs:4,horns:true,hornColor:0xd0e8a0,eyeColor:0xff3b3b}); const tip=neck.userData.curve.getPoint(1); head.position.copy(tip); head.position.y+=0.1; head.rotation.y=off*0.3; g.add(head); }
+  for(let n=0;n<9;n++){ const a=(n/8-0.5)*1.7; const tail=_snake([[0,0.7,-0.6],[Math.sin(a)*0.9,0.5,-1.4],[Math.sin(a)*1.6,0.7,-2.2]],t=>0.13-0.09*t,green,5); g.add(tail);
+    const tip2=_cone(0.1,0.32,_mat(0xd0e8a0),5); tip2.position.set(Math.sin(a)*1.6,0.7,-2.3); g.add(tip2); }
+  for(const sx of [-1,1]){ const w=_batwing(green,_mat(0x6abf6a,{side:THREE.DoubleSide,transparent:true,opacity:.9}),sx); w.position.set(sx*0.85,1.1,-0.2); w.rotation.y=sx*0.5; g.add(w); }
+  return g;
+}
+
+const KAIJU_BUILD={ mukade:_kMukade, illuyanka:_kIlluyanka, hydra:_kHydra, cerberus:_kCerberus, ouryu:_kOuryu, kuzuryu:_kKuzuryu, rainbow:_kRainbow,
+  ikuchi:_kIkuchi, umibozu:_kUmibozu, tenaga:_kTenagaAshinaga, shin:_kShin, daidara:_kDaidara, orion:_kOrion, balor:_kBalor, gorynych:_kGorynych };
 
 // build a creature mesh, normalized to fit a pedestal (bottom-aligned, centered)
 function buildCreatureMesh(creatureId){
@@ -1597,7 +1699,8 @@ function buyParade(slot){
 }
 
 // ----- 図鑑 (encyclopedia) -----
-const CREATURE_COLOR={mukade:0x9c3b22, illuyanka:0x2e7d4f, hydra:0xf5ca2b, cerberus:0x18181f, ouryu:0x2f6fe0, kuzuryu:0x6a5fe0, rainbow:0xff3b3b};
+const CREATURE_COLOR={mukade:0x9c3b22, illuyanka:0x2e7d4f, hydra:0xf5ca2b, cerberus:0x18181f, ouryu:0x2f6fe0, kuzuryu:0x6a5fe0, rainbow:0xff3b3b,
+  ikuchi:0x3a7d6e, umibozu:0x14141c, tenaga:0xc8a06a, shin:0x8a3fd6, daidara:0x8d6e4a, orion:0x6fb0d8, balor:0x5a5a66, gorynych:0x3a8d3a};
 function openDex(){ if(document.getElementById('hud').classList.contains('hidden')) return; renderDex(); showScreen('dex'); }
 function renderDex(){
   const list=document.getElementById('dex-list'); list.innerHTML='';
@@ -1613,10 +1716,12 @@ function renderDex(){
     list.appendChild(row);
   });
   const h=document.createElement('div'); h.style.cssText='font-weight:900;margin:12px 0 6px;font-size:1.05rem;text-align:left;'; h.innerHTML='🍎 <ruby>悪魔<rt>あくま</rt></ruby>の<ruby>実<rt>み</rt></ruby>'; list.appendChild(h);
-  FRUITS.forEach(f=>{
+  const ford=['common','rare','epic','legendary','secret'];
+  [...FRUITS].sort((a,b)=>ford.indexOf(a.rarity)-ford.indexOf(b.rarity)).forEach(f=>{
+    const rar=RARITY[f.rarity];
     const row=document.createElement('div'); row.className='dex-item';
     row.innerHTML=`<div class="dot" style="background:${'#'+f.color.toString(16).padStart(6,'0')};display:flex;align-items:center;justify-content:center;font-size:1.4rem;">${f.emoji}</div>
-      <div class="info"><div class="nm">${f.name}${state.fruit===f.id?' <span class="rar" style="background:#19c79b">そうび</span>':''}</div>
+      <div class="info"><div class="nm">${f.name} <span class="rar" style="background:${rarityHex(f.rarity)}">${rar.name}</span>${state.fruit===f.id?' <span class="rar" style="background:#19c79b">そうび</span>':''}</div>
       <div class="sub">${f.desc}・💰${fmt(f.cost)}</div></div>`;
     list.appendChild(row);
   });

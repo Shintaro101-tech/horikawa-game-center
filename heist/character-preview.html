@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#7ec8ff">
+<title>キャラデザインえらび</title>
+<style>
+  :root{--ink:#1f2d3d;}
+  *{box-sizing:border-box;}
+  body{margin:0;color:var(--ink);
+    background:linear-gradient(180deg,#7ec8ff 0%,#bfe9ff 45%,#d9f5c9 100%);min-height:100vh;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Segoe UI",sans-serif;}
+  ruby rt{font-size:.5em;opacity:.8;font-weight:normal;}
+  header{text-align:center;padding:22px 16px 8px;}
+  h1{font-size:clamp(1.8rem,7vw,2.8rem);margin:.1em 0;color:#fff;font-weight:900;
+    -webkit-text-stroke:3px var(--ink);text-shadow:0 5px 0 var(--ink),0 6px 8px rgba(0,0,0,.3);}
+  .lead{font-weight:800;max-width:620px;margin:8px auto 0;line-height:1.6;font-size:clamp(.9rem,3.4vw,1.05rem);}
+  .wrap{max-width:760px;margin:0 auto;padding:10px 12px 60px;}
+  .card{background:#fff;border:4px solid var(--ink);border-radius:22px;margin:18px 0;
+    box-shadow:0 6px 0 rgba(31,45,61,.4);overflow:hidden;}
+  .card h2{margin:0;padding:12px 16px;font-size:clamp(1.2rem,5vw,1.6rem);font-weight:900;
+    background:linear-gradient(180deg,#bfe7ff,#1aa3ff);color:#fff;border-bottom:4px solid var(--ink);}
+  .card.enemy h2{background:linear-gradient(180deg,#ffc7b0,#ff5a3c);}
+  .card h2 small{display:block;font-size:.62em;font-weight:800;opacity:.9;}
+  .stage{width:100%;height:320px;display:block;background:transparent;}
+  .caps{display:flex;border-top:4px solid var(--ink);}
+  .cap{flex:1;padding:10px 8px;font-size:.82rem;font-weight:700;line-height:1.4;text-align:center;}
+  .cap:not(:last-child){border-right:3px dashed rgba(31,45,61,.3);}
+  .cap b{display:block;font-size:1.05rem;font-weight:900;margin-bottom:3px;}
+  .cap.A b{color:#e8590c;} .cap.B b{color:#1971c2;} .cap.C b{color:#9b5cff;}
+  footer{text-align:center;font-weight:800;padding:10px 16px 40px;opacity:.85;line-height:1.7;}
+  .tag{display:inline-block;background:#fff;border:3px solid var(--ink);border-radius:999px;
+    padding:4px 14px;font-weight:900;margin-top:6px;box-shadow:0 3px 0 rgba(31,45,61,.35);}
+</style>
+</head>
+<body>
+<header>
+  <h1>🦸 キャラデザインえらび</h1>
+  <p class="lead"><b>メインキャラ</b>（あなた）と<b><ruby>敵<rt>てき</rt></ruby>キャラ</b>を A・B・C の3<ruby>案<rt>あん</rt></ruby>ずつ<ruby>用意<rt>ようい</rt></ruby>しました。<br>
+  <ruby>気<rt>き</rt></ruby>に<ruby>入<rt>い</rt></ruby>ったものを「メインはB、<ruby>敵<rt>てき</rt></ruby>はC」のように<ruby>教<rt>おし</rt></ruby>えてください！</p>
+  <span class="tag">くるくる<ruby>回<rt>まわ</rt></ruby>るよ</span>
+</header>
+<div class="wrap" id="wrap"></div>
+<footer><ruby>色<rt>いろ</rt></ruby>や<ruby>細<rt>こま</rt></ruby>かい<ruby>部分<rt>ぶぶん</rt></ruby>は<ruby>本番<rt>ほんばん</rt></ruby>で さらに<ruby>調整<rt>ちょうせい</rt></ruby>できます。</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+"use strict";
+function mat(c,o){return new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.55},o||{}));}
+function glow(c){return new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.85,roughness:.4});}
+function cone(r,h,m,s){return new THREE.Mesh(new THREE.ConeGeometry(r,h,s||7),m);}
+function eyes(g,pos,dx,r,col){ for(const sx of [-dx,dx]){
+  const w=new THREE.Mesh(new THREE.SphereGeometry(r,10,10),mat(0xffffff,{roughness:.3})); w.position.set(pos[0]+sx,pos[1],pos[2]); g.add(w);
+  const p=new THREE.Mesh(new THREE.SphereGeometry(r*0.55,8,8),col?glow(col):mat(0x20202a)); p.position.set(pos[0]+sx,pos[1],pos[2]+r*0.7); g.add(p);} }
+
+// ============ MAIN CHARACTER (3) ============
+// A: 忍者シーフ
+function _pNinja(){ const g=new THREE.Group(); const black=mat(0x1c1c2a,{roughness:.5}), cy=mat(0x00d0d0,{roughness:.4,emissive:0x007777,emissiveIntensity:.3});
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(0.42,0.5,1.2,12),black); body.position.y=0.95; g.add(body);
+  const scarf=new THREE.Mesh(new THREE.TorusGeometry(0.4,0.12,8,18),cy); scarf.position.y=1.5; scarf.rotation.x=Math.PI/2; g.add(scarf);
+  const tail=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.7,0.08),cy); tail.position.set(-0.3,1.25,-0.3); tail.rotation.z=0.4; g.add(tail);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.4,14,12),mat(0xffd9b8,{roughness:.6})); head.position.y=1.9; g.add(head);
+  const maskLow=new THREE.Mesh(new THREE.SphereGeometry(0.41,14,8,0,Math.PI*2,Math.PI*0.55,Math.PI*0.45),black); maskLow.position.y=1.9; g.add(maskLow);
+  const band=new THREE.Mesh(new THREE.CylinderGeometry(0.42,0.42,0.18,14),cy); band.position.y=2.05; g.add(band);
+  eyes(g,[0,1.95,0.34],0.16,0.09,0x00d0d0);
+  for(const sx of [-0.56,0.56]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.85,8),black); arm.position.set(sx,1.0,0); g.add(arm);}
+  for(const sx of [-0.2,0.2]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.15,0.62,8),black); leg.position.set(sx,0.31,0); g.add(leg);}
+  return g;
+}
+// B: ふわっとマスコット
+function _pMascot(){ const g=new THREE.Group(); const teal=mat(0x4fd0c0,{roughness:.55});
+  const body=new THREE.Mesh(new THREE.SphereGeometry(0.75,16,14),teal); body.scale.set(1,1.1,1); body.position.y=0.85; g.add(body);
+  const belly=new THREE.Mesh(new THREE.SphereGeometry(0.5,12,10),mat(0xffffff)); belly.position.set(0,0.7,0.45); belly.scale.set(1,1.1,0.5); g.add(belly);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.6,16,14),teal); head.position.y=1.6; g.add(head);
+  const hood=new THREE.Mesh(new THREE.SphereGeometry(0.62,16,10,0,Math.PI*2,0,Math.PI/1.7),mat(0x2f8fe0)); hood.position.y=1.66; g.add(hood);
+  for(const sx of [-1,1]){ const ear=new THREE.Mesh(new THREE.SphereGeometry(0.2,10,9),mat(0x2f8fe0)); ear.position.set(sx*0.42,2.1,0); g.add(ear);}
+  eyes(g,[0,1.6,0.5],0.2,0.14);
+  const cheek=(sx)=>{const c=new THREE.Mesh(new THREE.SphereGeometry(0.1,8,8),mat(0xff9db0)); c.position.set(sx*0.34,1.45,0.45); g.add(c);}; cheek(-1); cheek(1);
+  for(const sx of [-0.7,0.7]){ const arm=new THREE.Mesh(new THREE.SphereGeometry(0.18,9,8),teal); arm.position.set(sx,0.95,0); g.add(arm);}
+  for(const sx of [-0.28,0.28]){ const foot=new THREE.Mesh(new THREE.SphereGeometry(0.2,9,8),mat(0x2f8fe0)); foot.position.set(sx,0.18,0.1); foot.scale.set(1,0.7,1.3); g.add(foot);}
+  return g;
+}
+// C: メカ怪盗
+function _pMecha(){ const g=new THREE.Group(); const silver=mat(0xcdd6e0,{metalness:.7,roughness:.3}), pink=mat(0xff2bd6,{emissive:0xff2bd6,emissiveIntensity:.4});
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.52,1.25,12),silver); body.position.y=0.95; g.add(body);
+  const core=new THREE.Mesh(new THREE.SphereGeometry(0.16,10,10),pink); core.position.set(0,1.1,0.42); g.add(core);
+  const cape=new THREE.Mesh(new THREE.BoxGeometry(0.9,1.3,0.08),mat(0x7a1f6a)); cape.position.set(0,1.1,-0.4); cape.rotation.x=0.12; g.add(cape);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.4,14,12),silver); head.position.y=1.9; g.add(head);
+  const visor=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.22,0.2),mat(0x111122,{emissive:0xff2bd6,emissiveIntensity:.8})); visor.position.set(0,1.93,0.32); g.add(visor);
+  const ant=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,0.5,5),silver); ant.position.set(0.25,2.35,0); g.add(ant);
+  const tip=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),pink); tip.position.set(0.25,2.6,0); g.add(tip);
+  for(const sx of [-0.56,0.56]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.85,8),silver); arm.position.set(sx,1.0,0); g.add(arm);}
+  for(const sx of [-0.2,0.2]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.15,0.15,0.62,8),mat(0x556070,{metalness:.6})); leg.position.set(sx,0.31,0); g.add(leg);
+    const thr=new THREE.Mesh(new THREE.ConeGeometry(0.1,0.25,8),glow(0x39e6ff)); thr.position.set(sx,-0.02,0); thr.rotation.x=Math.PI; g.add(thr);}
+  return g;
+}
+
+// ============ ENEMY CHARACTER (3) ============
+// A: あばれガキ大将
+function _eBoss(){ const g=new THREE.Group(); const red=mat(0xff5a3c,{roughness:.5}), dark=mat(0x6a1b1b);
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(0.46,0.56,1.2,12),mat(0xffe08a)); body.position.y=0.95; g.add(body);
+  const vest=new THREE.Mesh(new THREE.CylinderGeometry(0.5,0.58,0.8,12),red); vest.position.y=1.05; vest.scale.set(1,1,0.7); g.add(vest);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.42,14,12),mat(0xffd9b8,{roughness:.6})); head.position.y=1.85; g.add(head);
+  const band=new THREE.Mesh(new THREE.CylinderGeometry(0.44,0.44,0.2,14),red); band.position.y=2.02; g.add(band);
+  const knot=new THREE.Mesh(new THREE.BoxGeometry(0.18,0.5,0.08),red); knot.position.set(-0.4,2.0,-0.2); knot.rotation.z=0.5; g.add(knot);
+  eyes(g,[0,1.85,0.35],0.16,0.09,0xff2b2b);
+  for(const sx of [-1,1]){ const brow=new THREE.Mesh(new THREE.BoxGeometry(0.18,0.05,0.08),dark); brow.position.set(sx*0.16,2.0,0.36); brow.rotation.z=-sx*0.4; g.add(brow);}
+  for(const sx of [-0.6,0.6]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.85,8),mat(0xffd9b8)); arm.position.set(sx,1.0,0); g.add(arm);
+    const fist=new THREE.Mesh(new THREE.SphereGeometry(0.18,9,8),mat(0xffd9b8)); fist.position.set(sx,0.55,0); g.add(fist);}
+  for(const sx of [-0.22,0.22]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.6,8),dark); leg.position.set(sx,0.3,0); g.add(leg);}
+  return g;
+}
+// B: ガードロボ
+function _eRobot(){ const g=new THREE.Group(); const steel=mat(0x9aa6b4,{metalness:.8,roughness:.3}), dark=mat(0x44505e,{metalness:.7});
+  const body=new THREE.Mesh(new THREE.BoxGeometry(0.9,1.0,0.7),steel); body.position.y=1.0; g.add(body);
+  const panel=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,0.05),dark); panel.position.set(0,1.0,0.37); g.add(panel);
+  const light=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),glow(0xff3b3b)); light.position.set(0,1.0,0.42); g.add(light);
+  const head=new THREE.Mesh(new THREE.BoxGeometry(0.6,0.5,0.55),steel); head.position.y=1.85; g.add(head);
+  const visor=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.16,0.05),mat(0x111122,{emissive:0xff3b3b,emissiveIntensity:.9})); visor.position.set(0,1.88,0.3); g.add(visor);
+  const ant=new THREE.Mesh(new THREE.CylinderGeometry(0.03,0.03,0.4,5),dark); ant.position.set(0,2.3,0); g.add(ant);
+  const tip=new THREE.Mesh(new THREE.SphereGeometry(0.08,8,8),glow(0xff3b3b)); tip.position.set(0,2.55,0); g.add(tip);
+  for(const sx of [-1,1]){ const sh=new THREE.Mesh(new THREE.SphereGeometry(0.2,10,9),dark); sh.position.set(sx*0.55,1.4,0); g.add(sh);
+    const arm=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.7,0.2),steel); arm.position.set(sx*0.6,1.0,0); g.add(arm);
+    const claw=new THREE.Mesh(new THREE.BoxGeometry(0.26,0.2,0.26),dark); claw.position.set(sx*0.6,0.6,0); g.add(claw);}
+  for(const sx of [-0.25,0.25]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.24,0.6,0.24),dark); leg.position.set(sx,0.3,0); g.add(leg);}
+  return g;
+}
+// C: いたずらゴブリン
+function _eGoblin(){ const g=new THREE.Group(); const green=mat(0x6abf4a,{roughness:.6}), cloth=mat(0x8a4a2a);
+  const body=new THREE.Mesh(new THREE.SphereGeometry(0.5,14,12),green); body.scale.set(1,1.05,1); body.position.y=0.75; g.add(body);
+  const loin=new THREE.Mesh(new THREE.CylinderGeometry(0.45,0.5,0.4,12),cloth); loin.position.y=0.55; g.add(loin);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.46,14,12),green); head.position.y=1.45; head.scale.set(1,0.95,1.05); g.add(head);
+  for(const sx of [-1,1]){ const ear=cone(0.16,0.7,green,6); ear.position.set(sx*0.5,1.55,-0.05); ear.rotation.z=sx*1.2; g.add(ear);}
+  const nose=cone(0.1,0.35,green,7); nose.position.set(0,1.4,0.45); nose.rotation.x=Math.PI/2.2; g.add(nose);
+  eyes(g,[0,1.55,0.38],0.18,0.1,0xffd23b);
+  const grin=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.1,0.05),mat(0x2a1a10)); grin.position.set(0,1.2,0.42); g.add(grin);
+  for(let k=0;k<4;k++){ const tooth=new THREE.Mesh(new THREE.ConeGeometry(0.04,0.12,4),mat(0xffffff)); tooth.position.set(-0.15+k*0.1,1.16,0.44); g.add(tooth);}
+  for(const sx of [-0.55,0.55]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.7,7),green); arm.position.set(sx,0.85,0); g.add(arm);}
+  for(const sx of [-0.2,0.2]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.45,7),green); leg.position.set(sx,0.22,0); g.add(leg);}
+  return g;
+}
+
+const SECTIONS=[
+  {cls:'', name:'🦸 メインキャラ（あなた）', sub:'<ruby>怪獣<rt>かいじゅう</rt></ruby>を<ruby>盗<rt>ぬす</rt></ruby>む<ruby>主人公<rt>しゅじんこう</rt></ruby>',
+    caps:['<b>A</b><ruby>忍者<rt>にんじゃ</rt></ruby>シーフ<br>マスク＋マフラーの すばしっこい<ruby>怪盗<rt>かいとう</rt></ruby>',
+          '<b>B</b>ふわっとマスコット<br>まるくて かわいい フード<ruby>付<rt>つ</rt></ruby>き',
+          '<b>C</b>メカ<ruby>怪盗<rt>かいとう</rt></ruby><br>バイザー＋マント＋ネオンの メカ'],
+    builds:[_pNinja,_pMascot,_pMecha]},
+  {cls:'enemy', name:'👿 <ruby>敵<rt>てき</rt></ruby>キャラ', sub:'<ruby>陣地<rt>じんち</rt></ruby>を<ruby>守<rt>まも</rt></ruby>る／<ruby>盗<rt>ぬす</rt></ruby>みにくる<ruby>相手<rt>あいて</rt></ruby>',
+    caps:['<b>A</b>ガキ<ruby>大将<rt>だいしょう</rt></ruby><br>はちまき＋ベストの あばれんぼう',
+          '<b>B</b>ガードロボ<br>バイザーの<ruby>四角<rt>しかく</rt></ruby>い<ruby>警備<rt>けいび</rt></ruby>ロボット',
+          '<b>C</b>ゴブリン<br><ruby>大<rt>おお</rt></ruby>きな<ruby>耳<rt>みみ</rt></ruby>＋とがった<ruby>歯<rt>は</rt></ruby>の いたずらっ<ruby>子<rt>こ</rt></ruby>'],
+    builds:[_eBoss,_eRobot,_eGoblin]},
+];
+
+const renderers=[];
+function buildSection(def){
+  const card=document.createElement('div'); card.className='card '+def.cls;
+  const h2=document.createElement('h2'); h2.innerHTML=def.name+'<small>'+def.sub+'</small>'; card.appendChild(h2);
+  const canvas=document.createElement('canvas'); canvas.className='stage'; card.appendChild(canvas);
+  const caps=document.createElement('div'); caps.className='caps';
+  ['A','B','C'].forEach((L,i)=>{ const c=document.createElement('div'); c.className='cap '+L; c.innerHTML=def.caps[i]; caps.appendChild(c);});
+  card.appendChild(caps); document.getElementById('wrap').appendChild(card);
+
+  const scene=new THREE.Scene();
+  scene.add(new THREE.HemisphereLight(0xffffff,0x8fbf6f,1.15));
+  const sun=new THREE.DirectionalLight(0xfff3d6,0.9); sun.position.set(6,12,8); scene.add(sun);
+  const camera=new THREE.PerspectiveCamera(42,2,0.1,100);
+  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  const variants=[];
+  for(let i=0;i<3;i++){
+    const wrap=new THREE.Group(); const model=def.builds[i]();
+    const box=new THREE.Box3().setFromObject(model); const size=box.getSize(new THREE.Vector3());
+    const maxd=Math.max(size.x,size.y,size.z)||1; model.scale.setScalar(3.0/maxd);
+    const c2=new THREE.Box3().setFromObject(model); const ctr=c2.getCenter(new THREE.Vector3());
+    model.position.sub(ctr); wrap.add(model); wrap.position.x=(i-1)*4.3;
+    const disc=new THREE.Mesh(new THREE.CircleGeometry(1.5,24),new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.12}));
+    disc.rotation.x=-Math.PI/2; disc.position.y=-1.7; wrap.add(disc);
+    scene.add(wrap); variants.push(wrap);
+  }
+  renderers.push({renderer,scene,camera,variants,canvas});
+}
+SECTIONS.forEach(buildSection);
+function resize(){ renderers.forEach(r=>{ const w=r.canvas.clientWidth,h=r.canvas.clientHeight;
+  r.renderer.setSize(w,h,false); r.camera.aspect=w/h; r.camera.updateProjectionMatrix();
+  r.camera.position.set(0,0.6,13.5); r.camera.lookAt(0,0,0); }); }
+addEventListener('resize',resize); resize();
+let last=performance.now();
+function loop(now){ const dt=Math.min(0.05,(now-last)/1000); last=now;
+  renderers.forEach(r=>{ r.variants.forEach(v=>v.rotation.y+=dt*0.7); r.renderer.render(r.scene,r.camera); });
+  requestAnimationFrame(loop); }
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
