@@ -283,7 +283,7 @@ function creaturesByRarity(r){ return CREATURES.filter(c=>c.rarity===r); }
 
 // Devil fruits — buyable items that change your attack (one equipped at a time).
 const FRUITS = [
-  {id:'biyon',     name:'ビヨンビヨンの<ruby>実<rt>み</rt></ruby>', emoji:'🤜', color:0xff8a3c, rarity:'common',    cost:1200, range:9,  kb:16, stun:600,  kind:'stretch', desc:'<ruby>手<rt>て</rt></ruby>がのびて とおくの<ruby>敵<rt>てき</rt></ruby>をパンチ！'},
+  {id:'biyon',     name:'ビヨンビヨンの<ruby>実<rt>み</rt></ruby>', emoji:'🤜', color:0xff8a3c, rarity:'secret',    cost:7000, range:11, kb:18, stun:700,  kind:'stretch', desc:'<ruby>手<rt>て</rt></ruby>がのびて とおくの<ruby>敵<rt>てき</rt></ruby>を<ruby>画面<rt>がめん</rt></ruby>の<ruby>端<rt>はし</rt></ruby>まで ふっとばす！'},
   {id:'kami',      name:'カミカミの<ruby>実<rt>み</rt></ruby>',     emoji:'⚡', color:0xfff15a, rarity:'rare',      cost:2500, range:11, kb:13, stun:1100, kind:'thunder', desc:'<ruby>雷<rt>かみなり</rt></ruby>で<ruby>敵<rt>てき</rt></ruby>を こうげき！しびれる'},
   {id:'goro',      name:'グルグルの<ruby>実<rt>み</rt></ruby>',     emoji:'🌀', color:0x9b5cff, rarity:'rare',      cost:3000, range:5,  kb:18, stun:600,  kind:'spin',   desc:'まわって まわりの<ruby>敵<rt>てき</rt></ruby>を いっきにふっとばす！'},
   {id:'haya',      name:'ハヤハヤの<ruby>実<rt>み</rt></ruby>',     emoji:'💨', color:0x39d3a0, rarity:'epic',      cost:3500, range:3.4, kb:13, stun:450,  kind:'dash', dash:true, desc:'<ruby>速<rt>はや</rt></ruby>く<b>ダッシュ</b>！スタミナ<ruby>満<rt>まん</rt></ruby>タンで <ruby>進<rt>すす</rt></ruby>む<ruby>方向<rt>ほうこう</rt></ruby>のキーを2かい'},
@@ -322,9 +322,9 @@ const DASH_DIRS=['w','a','s','d','arrowup','arrowdown','arrowleft','arrowright']
 const STAMINA_REGEN=1/5, DASH_DRAIN=1/2.5, DASH_MULT=1.9, DASH_DOUBLE_MS=300;
 
 // parade shop (creatures/fruits walk straight along a road, entrance -> exit)
-const PARADE_N = 9;          // items on the road at once
+const PARADE_N = 6;          // items on the road at once (well-spaced to avoid mis-buys)
 const PARADE_SPEED = 4.2;    // units/sec along +x
-const PARADE_X0 = -30, PARADE_X1 = 30, PARADE_Z = 0;  // entrance -> exit, road on z=0
+const PARADE_X0 = -32, PARADE_X1 = 32, PARADE_Z = 0;  // entrance -> exit, road on z=0 (gap ≈ 10.7)
 const parade = [];
 let paradeNear = null;       // nearest buyable parade item in range
 
@@ -911,9 +911,13 @@ function updateRivals(dt){
   if(robTimer<=0){ robTimer=13+Math.random()*9; maybeStartRob(); }
   thiefArrowTarget=null;
   for(const e of rivals){
-    // knockback slide
-    if(e.kb.lengthSq()>0.02){ e.mesh.position.x+=e.kb.x*dt; e.mesh.position.z+=e.kb.z*dt; e.kb.multiplyScalar(Math.pow(0.015,dt)); }
-    if(now<e.stunUntil){ e.mesh.rotation.y+=dt*16; e.mesh.position.y=0.2+Math.abs(Math.sin(now*0.02))*0.1;
+    if(e.iceMesh && now>=e.frozenUntil) unfreezeRival(e);   // thaw
+    // knockback slide — gentle friction during a "launch" so big hits fly far
+    if(e.kb.lengthSq()>0.02){ e.mesh.position.x+=e.kb.x*dt; e.mesh.position.z+=e.kb.z*dt;
+      e.kb.multiplyScalar(Math.pow(now<(e.launchUntil||0)?0.5:0.015, dt)); }
+    if(now<e.stunUntil){
+      if(now<(e.frozenUntil||0)){ e.mesh.position.y=Math.abs(Math.sin(now*0.004))*0.02; }   // frozen solid: no spin
+      else { e.mesh.rotation.y+=dt*16; e.mesh.position.y=0.2+Math.abs(Math.sin(now*0.02))*0.1; }   // dizzy spin
       if(e.carrying) e.carrying.mesh.position.set(e.mesh.position.x,e.mesh.position.y+2.6,e.mesh.position.z);
       if(e.state==='rob_back') thiefArrowTarget=e; continue; }
     const b=e.home, pp=player.position;
@@ -967,9 +971,18 @@ function rivalReachHome(e){
 }
 
 // ----- combat -----
-function knockbackRival(e, fromPos, strength, stun){
+function freezeRival(e, ms){
+  e.frozenUntil=nowMs()+ms;
+  if(!e.iceMesh){ const ice=new THREE.Mesh(new THREE.IcosahedronGeometry(1.05,0),
+    new THREE.MeshStandardMaterial({color:0xaee6ff,transparent:true,opacity:0.55,emissive:0x66c0ff,emissiveIntensity:.3,roughness:.2}));
+    ice.position.y=1.15; e.iceMesh=ice; e.mesh.add(ice); }
+}
+function unfreezeRival(e){ if(e.iceMesh){ e.mesh.remove(e.iceMesh); e.iceMesh=null; } e.frozenUntil=0; }
+function knockbackRival(e, fromPos, strength, stun, launchMs, freezeMs){
   const dir=e.mesh.position.clone().sub(fromPos).setY(0); if(dir.lengthSq()<0.01) dir.set(Math.random()-.5,0,Math.random()-.5);
-  e.kb.copy(dir.normalize().multiplyScalar(strength)); e.stunUntil=nowMs()+(stun||800);
+  e.kb.copy(dir.normalize().multiplyScalar(strength)); e.stunUntil=nowMs()+Math.max(stun||800, launchMs||0, freezeMs||0);
+  if(launchMs) e.launchUntil=nowMs()+launchMs;
+  if(freezeMs) freezeRival(e, freezeMs);
   spawnStars(e.mesh.position);
   if(e.carrying){   // recovered a stolen creature!
     const cid=e.carrying.creatureId, free=playerFreeSlot();
@@ -999,7 +1012,13 @@ function doAttack(){
   if(f && (f.kind==='stretch'||f.kind==='thunder'||f.kind==='sparkle')){      // single nearest
     targets = inRange.length ? [inRange.reduce((a,b)=> a.mesh.position.distanceTo(player.position)<b.mesh.position.distanceTo(player.position)?a:b)] : [];
   }
-  targets.forEach(e=> knockbackRival(e, player.position, kb, stun));
+  // special launch / freeze by fruit (rarer = more dramatic)
+  const kind=f?f.kind:'punch';
+  const bigLaunch = (kind==='giant'||kind==='stretch');             // muki & biyon -> screen edge
+  const launchMs = bigLaunch?1300 : kind==='bomb'?550 : 0;
+  const useKb = bigLaunch?52 : kind==='bomb'?30 : kb;               // bigger initial speed for launches
+  const freezeMs = kind==='ice'?3000 : 0;                            // hie -> 3s frozen solid
+  targets.forEach(e=> knockbackRival(e, player.position, useKb, stun, launchMs, freezeMs));
   attackEffect(f, targets);
 }
 function tryDash(){
@@ -1188,7 +1207,7 @@ function buildParade(){
 }
 function updateParade(dt){
   const pp=player.position, span=PARADE_X1-PARADE_X0;
-  let near=null, nearD=3.4;
+  let near=null, nearD=2.8;   // tighter so you target one item at a time
   for(const p of parade){
     p.x += PARADE_SPEED*dt;
     if(p.x>PARADE_X1){ p.x -= span; setParadeItem(p, paradeRandomItem()); }   // exit -> recycle to entrance
@@ -1616,12 +1635,18 @@ function update(dt){
   updateFloats(dt);
 }
 
+let wasPaused=false;
+function isModalOpen(){   // a menu screen is up → freeze the game (no theft, no income)
+  return ['dex','rebirth','howto'].some(id=>!document.getElementById(id).classList.contains('hidden'));
+}
 function animate(){
   requestAnimationFrame(animate);
   const dt = Math.min(0.05, clock.getDelta());
-  if(!document.getElementById('hud').classList.contains('hidden')){
+  const playing = !document.getElementById('hud').classList.contains('hidden') && !isModalOpen();
+  if(playing){
+    if(wasPaused){ lastTick=nowMs(); wasPaused=false; }   // resume: don't dump skipped time into income
     update(dt);
-  }
+  } else wasPaused=true;
   renderer.render(scene,camera);
 }
 

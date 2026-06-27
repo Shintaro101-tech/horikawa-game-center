@@ -100,7 +100,10 @@
 - **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯/バイザー/腰布色＝拠点色で誰か識別可。`RIVAL_NAMES`。
 - **キャラデザイン（確定）**: メイン＝**ふわっとマスコット**（`buildPlayer`）。敵＝**3種を拠点ごとに使い分け**（`buildRival(color,style)`：0=ガキ大将/1=ガードロボ/2=ゴブリン、`style=(idx-1)%3`）。案見本 `heist/character-preview.html`。
 - **自分の怪獣を売る**: 自拠点の台座の怪獣に近づくと文脈 `sell`（半額還元・`doSell`）。ロックは contextual をやめ **🔒ロックmini-button**（`btn-lock`→`toggleLock`）に分離。
-- **悪魔の実 `FRUITS`（9種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)/メラメラ(fire)/ヒエヒエ(ice・長スタン)/グルグル(spin)/**ハヤハヤ(dash)**。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
+- **悪魔の実 `FRUITS`（9種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)/メラメラ(fire)/ヒエヒエ(ice)/グルグル(spin)/**ハヤハヤ(dash)**。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
+- **吹っ飛び/凍結（攻撃の派手化）**: `doAttack`→`knockbackRival(e,from,kb,stun,launchMs,freezeMs)`。`launchMs`中は摩擦を弱め(`pow(0.5,dt)`)遠くまで飛ぶ。**ムキムキ＆ビヨンビヨン=画面端**(launch1300/kb52)、**バクハツ=中**(launch550/kb30)、**ヒエヒエ=3秒氷漬け**(`freezeRival`が氷ブロック`e.iceMesh`を装着、`frozenUntil`中は静止、`unfreezeRival`で解凍)。
+- **図鑑/メニュー中はポーズ**: `animate()`が`isModalOpen()`(dex/rebirth/howto表示中)なら`update`を呼ばず時間停止＝**盗まれない**。復帰時 `lastTick` を戻し収入ジャンプ防止。
+- **パレード間隔**: `PARADE_N=6`・X0/X1=±32（gap≈10.7）＋buy判定 `nearD=2.8` で誤購入防止。
 - **ダッシュ＆スタミナ（ハヤハヤの実）**: スタミナ満タン時のみ、**進む方向のキー（WASD/矢印）を同じキー2連打**で発動（`DASH_DIRS`/`lastDirKey`）or 💨ダッシュボタン（`tryDash`）。発動中は速度×`DASH_MULT`、スタミナが`DASH_DRAIN`で減り0で終了→満タンに戻るまで再発動不可。左下にスタミナバー(`#stamina`/`updateStaminaUI`)。
 - **運搬中に売って置き換え**: 自拠点が満杯のまま怪獣を運ぶと、文脈が `sell_place`（一番近い台座の怪獣を半額で売却→空いた枠に運搬中を設置、`doSellPlace`）。
 - **E / 左クリック = `actionOrAttack`**: 優先順位「配達(drop/sell_place) ＞ 射程内の敵を殴る ＞ つかむ/かう/ロック ＞ 空振り」。＝Eキーでも敵を殴れる。攻撃(`doAttack`)は盗み状態に関係なくいつでも可。
@@ -110,7 +113,7 @@
 - **放置収入**: 台座の怪獣がレアリティ別に毎秒お金を生む（×転生倍率）。250msごとに加算。
 - **レアリティ**: コモン/レア/エピック/レジェンド/シークレットの5段階（`RARITY`）。コスト・収入が連動（色は今は未使用、キャラ固有色）。
 - **怪獣15体**: `CREATURES` = オオムカデ(common) / イルルヤンカシュ(rare) / ヒドラ(epic) / ケルベロス(epic) / 応龍(legendary) / 九頭竜(legendary) / レインボーサーペント(secret) ＋ **追加8体**: イクチ(common) / 海坊主(rare) / 手長足長(epic) / 蜃(epic) / ダイダラボッチ(legendary) / オリオン(legendary) / バロール(legendary) / ゴルィニシチェ(secret)。`buildCreatureMesh`→`KAIJU_BUILD`(`_kMukade`/`_kIkuchi`/`_kBalor`等)が低ポリ生成→bbox正規化(max1.7・底面合わせ)。ヘルパー: `_snake`/`_dhead`/`_whead`/`_batwing`/`_featherwing`/`_leg`/`_humanoid`(人型)。色は`CREATURE_COLOR`(図鑑用)。怪獣デザイン案見本は `heist/kaiju-preview.html`。
-- **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（ビヨン=common / カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / ムキ=secret）。図鑑にバッジ表示。
+- **悪魔の実にもレア度**: 各 `FRUITS` に `rarity`（カミ・グル=rare / ハヤ・キラ・メラ=epic / バクハツ・ヒエ=legendary / **ビヨン・ムキ=secret**）。図鑑にバッジ表示。
 - **転生で陣地が成長**: `MAX_SLOTS=12`。転生ごとに台座枠+1（最大12）→ `buildBaseContents(base,n,isPlayer,R)` が枠数に合わせ platform/grid をリサイズ＆`decorateBase`で塔/旗/バナー/金アーチを段階追加。`playerBaseColor(R)`で色も緑→…→金へ。`baseGrid(n)`がレイアウト算出。AI拠点も idx で枠数(4+i)とtierが変化。
 - **BGM/SFX**: WebAudio。`audioInit`/`tone`/`noise`、`sfx(type)`（punch/hit/thunder/explosion/alarm/recover/powerup 等コミカル）。`startBGM`(setInterval 170ms ステップシーケンサ `MEL`/`BASS`)。`🔊`ミュートボタン/Mキーで `toggleMute`（masterGain）。
 - **保存**: `localStorage['monsterHeistSave']`（money/rebirth/mult/slots/owned/bestMoney/fruit）。load時に未知IDの owned/fruit を除去＆slots を 4..12 にクランプ。
@@ -243,6 +246,13 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### ❄️ 2026-06-27 「怪獣を盗む」攻撃演出強化＋パレード間隔＋図鑑ポーズ
+- **パレード間隔を拡大**（`PARADE_N`9→6、X0/X1=±32、buy判定2.8）で誤購入防止。
+- **ヒエヒエ=3秒氷漬け**（氷ブロックで静止）、**ムキムキ=画面端まで吹っ飛ばし**、**バクハツ=中程度の吹っ飛ばし**（`knockbackRival`に`launchMs`/`freezeMs`、launch中は摩擦弱め）。
+- **図鑑/メニュー表示中はゲーム時間停止**（`isModalOpen`→`animate`で`update`スキップ）＝見てる間に盗まれない。復帰時の収入ジャンプも防止。
+- **ビヨンビヨンの実をシークレットに**（cost7000）＋攻撃で**画面端まで吹っ飛ばす**（stretchをlaunch対象に追加）。
+- 検証: 間隔10.7 / ヒエ2995ms氷塊 / ムキ47.6・ビヨン47.6・バクハツ27.5・通常11ユニット / 図鑑中は敵静止&収入ジャンプ0 / 図鑑にシークレットバッジ。**git push 済**。
 
 ### 🎨 2026-06-27 「怪獣を盗む」キャラ確定＋怪獣売却
 - メインキャラ＝**ふわっとマスコット**(案B)に変更（`buildPlayer`）。
