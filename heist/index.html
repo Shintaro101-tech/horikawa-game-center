@@ -918,22 +918,60 @@ function randomCreatureForWealth(wealth){
 }
 
 // main character: design B = ふわっとマスコット
+// main character: design A = まんまるネコ (round cat) with walk/run/fly/land rig
 function buildPlayer(){
   player = new THREE.Group();
-  const teal=_mat(0x4fd0c0,{roughness:.55}), hoodC=_mat(0x2f8fe0);
-  const body=new THREE.Mesh(new THREE.SphereGeometry(0.75,16,14),teal); body.scale.set(1,1.1,1); body.position.y=0.85; player.add(body);
-  const belly=new THREE.Mesh(new THREE.SphereGeometry(0.5,12,10),_mat(0xffffff)); belly.position.set(0,0.7,0.45); belly.scale.set(1,1.1,0.5); player.add(belly);
-  const head=new THREE.Mesh(new THREE.SphereGeometry(0.6,16,14),teal); head.position.y=1.6; player.add(head);
-  const hood=new THREE.Mesh(new THREE.SphereGeometry(0.62,16,10,0,Math.PI*2,0,Math.PI/1.7),hoodC); hood.position.y=1.66; player.add(hood);
-  for(const sx of [-1,1]){ const ear=new THREE.Mesh(new THREE.SphereGeometry(0.2,10,9),hoodC); ear.position.set(sx*0.42,2.1,0); player.add(ear); }
-  _eyes(player,[0,1.6,0.5],0.2,0.14,false);
-  for(const sx of [-1,1]){ const c=new THREE.Mesh(new THREE.SphereGeometry(0.1,8,8),_mat(0xff9db0)); c.position.set(sx*0.34,1.45,0.45); player.add(c); }
-  for(const sx of [-0.7,0.7]){ const arm=new THREE.Mesh(new THREE.SphereGeometry(0.18,9,8),teal); arm.position.set(sx,0.95,0); player.add(arm); player.userData['arm'+(sx<0?'L':'R')]=arm; }
-  for(const sx of [-0.28,0.28]){ const foot=new THREE.Mesh(new THREE.SphereGeometry(0.2,9,8),hoodC); foot.position.set(sx,0.18,0.1); foot.scale.set(1,0.7,1.3); player.add(foot); player.userData['leg'+(sx<0?'L':'R')]=foot; }
-  player.position.copy(bases[0].center).add(bases[0].center.clone().normalize().multiplyScalar(-7)); // in front of own base, toward the plaza
+  const teal=_mat(0x4fd0c0,{roughness:.55}), blue=_mat(0x2f8fe0), pink=_mat(0xff9db0), white=_mat(0xffffff);
+  const body=new THREE.Mesh(new THREE.SphereGeometry(0.78,16,14),teal); body.scale.set(1,1.05,0.95); body.position.y=0.85; player.add(body);
+  const belly=new THREE.Mesh(new THREE.SphereGeometry(0.5,12,10),white); belly.position.set(0,0.72,0.45); belly.scale.set(1,1.1,0.5); player.add(belly);
+  const head=new THREE.Mesh(new THREE.SphereGeometry(0.6,16,14),teal); head.position.y=1.62; player.add(head);
+  // triangle ears
+  for(const sx of [-1,1]){ const ear=new THREE.Mesh(new THREE.ConeGeometry(0.22,0.42,4),teal); ear.position.set(sx*0.4,2.12,0); ear.rotation.y=Math.PI/4; player.add(ear);
+    const ie=new THREE.Mesh(new THREE.ConeGeometry(0.12,0.24,4),pink); ie.position.set(sx*0.4,2.1,0.05); ie.rotation.y=Math.PI/4; player.add(ie); }
+  _eyes(player,[0,1.66,0.5],0.22,0.16,false);
+  const nose=new THREE.Mesh(new THREE.SphereGeometry(0.07,8,8),_mat(0xff7a9a)); nose.position.set(0,1.48,0.6); player.add(nose);
+  for(const sx of [-1,1]) for(let k=-1;k<=1;k++){ const wh=new THREE.Mesh(new THREE.CylinderGeometry(0.013,0.013,0.42,4),white); wh.position.set(sx*0.46,1.48+k*0.08,0.48); wh.rotation.z=Math.PI/2; wh.rotation.y=sx*0.3; player.add(wh); }
+  for(const sx of [-1,1]){ const c=new THREE.Mesh(new THREE.SphereGeometry(0.1,8,8),pink); c.position.set(sx*0.34,1.5,0.46); player.add(c); }
+  // front paws (animated as arms) + back feet (animated as legs)
+  player.userData.paws=[]; player.userData.feet=[];
+  for(const sx of [-0.58,0.58]){ const paw=new THREE.Mesh(new THREE.SphereGeometry(0.16,9,8),teal); paw.position.set(sx,0.95,0.12); player.add(paw);
+    player.userData.paws.push({mesh:paw, bx:sx, by:0.95, bz:0.12}); player.userData['arm'+(sx<0?'L':'R')]=paw; }
+  for(const sx of [-0.28,0.28]){ const foot=new THREE.Mesh(new THREE.SphereGeometry(0.2,9,8),blue); foot.position.set(sx,0.18,0.12); foot.scale.set(1,0.7,1.25); player.add(foot);
+    player.userData.feet.push({mesh:foot, bx:sx, by:0.18, bz:0.12}); }
+  // tail
+  const tail=new THREE.Mesh(new THREE.CylinderGeometry(0.07,0.1,0.75,8),teal); tail.position.set(0.55,0.95,-0.45); tail.rotation.z=-0.9; player.add(tail);
+  player.userData.tail={mesh:tail, bz:-0.9};
+  player.position.copy(bases[0].center).add(bases[0].center.clone().normalize().multiplyScalar(-7));
   phys.y = 0; phys.vy = 0; phys.grounded = true; phys.flying = false;
   scene.add(player);
-  player.userData.walk = 0;
+  player.userData.walk = 0; player.userData.wasGrounded = true;
+}
+
+// player walk/run/fly/land animation (feet step, paws swing, tail sway, land squash)
+function updatePlayerAnim(dt, moving, now){
+  const ud=player.userData;
+  if(phys.grounded && !ud.wasGrounded) ud.landAt=now;   // touched down → squash
+  ud.wasGrounded=phys.grounded;
+  const dashing=(state.fruit==='haya');
+  ud.walk=(ud.walk||0)+dt*((moving&&phys.grounded)?(dashing?20:13):0);
+  const ph=ud.walk, lift=dashing?0.18:0.12, stride=dashing?0.26:0.18;
+  const feet=ud.feet||[], paws=ud.paws||[], attacking=now<attackAnimUntil;
+  if(phys.flying){
+    feet.forEach(f=>{ f.mesh.position.y+=(f.by+0.16-f.mesh.position.y)*0.18; f.mesh.position.z+=(f.bz-0.18-f.mesh.position.z)*0.18; });
+    paws.forEach(p=>{ p.mesh.position.x+=(p.bx*1.3-p.mesh.position.x)*0.18; p.mesh.position.y+=(p.by+0.12-p.mesh.position.y)*0.18; p.mesh.position.z+=(p.bz-p.mesh.position.z)*0.18; });
+  } else if(moving && phys.grounded){
+    feet.forEach((f,i)=>{ const s=Math.sin(ph+i*Math.PI); f.mesh.position.y=f.by+Math.max(0,s)*lift; f.mesh.position.z=f.bz+s*stride; });
+    if(!attacking) paws.forEach((p,i)=>{ const s=Math.sin(ph+i*Math.PI+Math.PI); p.mesh.position.x=p.bx; p.mesh.position.z=p.bz+s*stride*0.7; p.mesh.position.y=p.by+Math.max(0,s)*0.05; });
+  } else {
+    feet.forEach(f=>{ f.mesh.position.y+=(f.by-f.mesh.position.y)*0.2; f.mesh.position.z+=(f.bz-f.mesh.position.z)*0.2; });
+    if(!attacking) paws.forEach(p=>{ p.mesh.position.x+=(p.bx-p.mesh.position.x)*0.2; p.mesh.position.y+=(p.by-p.mesh.position.y)*0.2; p.mesh.position.z+=(p.bz-p.mesh.position.z)*0.2; });
+  }
+  if(attacking) paws.forEach(p=>{ p.mesh.position.set(p.bx*0.7,p.by+0.12,p.bz+0.5); });   // punch thrust
+  if(ud.tail) ud.tail.mesh.rotation.z = ud.tail.bz + Math.sin((phys.flying?now*0.012:ph*0.5))*0.25 + (phys.flying?0.6:0);
+  // landing squash & stretch
+  let sx=1, sy=1;
+  if(ud.landAt && now-ud.landAt<260){ const a=Math.sin(((now-ud.landAt)/260)*Math.PI); sy=1-a*0.3; sx=1+a*0.22; }
+  player.scale.set(sx,sy,sx);
 }
 
 // ----- rival players (world-space entities, 3 designs A/B/C; base color = id tint) -----
@@ -955,7 +993,8 @@ function buildRivalBoss(g,color){   // A: ガキ大将
   for(const sx of [-1,1]){ const brow=new THREE.Mesh(new THREE.BoxGeometry(0.18,0.05,0.08),dark); brow.position.set(sx*0.16,2.0,0.36); brow.rotation.z=-sx*0.4; g.add(brow); }
   for(const sx of [-0.6,0.6]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.14,0.14,0.85,8),skin); arm.position.set(sx,1.0,0); g.add(arm);
     const fist=new THREE.Mesh(new THREE.SphereGeometry(0.18,9,8),skin); fist.position.set(sx,0.55,0); g.add(fist); }
-  for(const sx of [-0.22,0.22]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.6,8),dark); leg.position.set(sx,0.3,0); g.add(leg); }
+  for(const sx of [-0.22,0.22]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.16,0.16,0.6,8),dark); leg.position.set(sx,0.3,0); g.add(leg);
+    (g.userData.legs=g.userData.legs||[]).push({mesh:leg,by:0.3,bz:0}); }
 }
 function buildRivalRobot(g,color){  // B: ガードロボ
   const steel=_mat(0x9aa6b4,{metalness:.8,roughness:.3}), dark=_mat(0x44505e,{metalness:.7});
@@ -969,7 +1008,8 @@ function buildRivalRobot(g,color){  // B: ガードロボ
   for(const sx of [-1,1]){ const sh=new THREE.Mesh(new THREE.SphereGeometry(0.2,10,9),dark); sh.position.set(sx*0.55,1.4,0); g.add(sh);
     const arm=new THREE.Mesh(new THREE.BoxGeometry(0.2,0.7,0.2),steel); arm.position.set(sx*0.6,1.0,0); g.add(arm);
     const claw=new THREE.Mesh(new THREE.BoxGeometry(0.26,0.2,0.26),dark); claw.position.set(sx*0.6,0.6,0); g.add(claw); }
-  for(const sx of [-0.25,0.25]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.24,0.6,0.24),dark); leg.position.set(sx,0.3,0); g.add(leg); }
+  for(const sx of [-0.25,0.25]){ const leg=new THREE.Mesh(new THREE.BoxGeometry(0.24,0.6,0.24),dark); leg.position.set(sx,0.3,0); g.add(leg);
+    (g.userData.legs=g.userData.legs||[]).push({mesh:leg,by:0.3,bz:0}); }
 }
 function buildRivalGoblin(g,color){ // C: ゴブリン
   const green=_mat(0x6abf4a,{roughness:.6}), cloth=_mat(color);
@@ -982,7 +1022,8 @@ function buildRivalGoblin(g,color){ // C: ゴブリン
   const grin=new THREE.Mesh(new THREE.BoxGeometry(0.4,0.1,0.05),_mat(0x2a1a10)); grin.position.set(0,1.2,0.42); g.add(grin);
   for(let k=0;k<4;k++){ const tooth=new THREE.Mesh(new THREE.ConeGeometry(0.04,0.12,4),_WHITE()); tooth.position.set(-0.15+k*0.1,1.16,0.44); g.add(tooth); }
   for(const sx of [-0.55,0.55]){ const arm=new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,0.7,7),green); arm.position.set(sx,0.85,0); g.add(arm); }
-  for(const sx of [-0.2,0.2]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.45,7),green); leg.position.set(sx,0.22,0); g.add(leg); }
+  for(const sx of [-0.2,0.2]){ const leg=new THREE.Mesh(new THREE.CylinderGeometry(0.12,0.12,0.45,7),green); leg.position.set(sx,0.22,0); g.add(leg);
+    (g.userData.legs=g.userData.legs||[]).push({mesh:leg,by:0.22,bz:0}); }
 }
 function rivalGuardPos(b){ const dirIn=b.center.clone().normalize().multiplyScalar(-1); return b.center.clone().add(dirIn.multiplyScalar(Math.max(2,(b.frontZ||5)-1.2))); }
 function buildRivals(){
@@ -1037,9 +1078,15 @@ function updateRivals(dt){
     }
     // height: non-chasers settle to the ground (chase sets its own flying height above)
     if(e.state!=='chase'){ e.mesh.position.y += (Math.abs(Math.sin(e.walk))*0.08 - e.mesh.position.y) * (1-Math.pow(0.0001,dt)); }
+    stepRival(e);   // animate legs
     if(e.carrying) e.carrying.mesh.position.set(e.mesh.position.x, e.mesh.position.y+2.6, e.mesh.position.z), e.carrying.mesh.rotation.y+=dt*3;
   }
   updateThiefArrow();
+}
+function stepRival(e){
+  const legs=e.mesh.userData.legs; if(!legs) return;
+  const ph=e.walk||0;
+  legs.forEach((l,i)=>{ const s=Math.sin(ph+i*Math.PI); l.mesh.position.y=l.by+Math.max(0,s)*0.1; l.mesh.position.z=l.bz+s*0.16; });
 }
 function maybeStartRob(){
   if(bases[0].locked) return;
@@ -1055,12 +1102,16 @@ function rivalGrabFromPlayer(e){
   e.carrying={creatureId:cid, mesh}; e.state='rob_back';
   showStealAlert(e); sfx('alarm');
 }
+function rcost(id){ return id?RARITY[CREATURE_BY_ID[id].rarity].cost:0; }
 function rivalReachHome(e){
   if(e.carrying){
-    const free=e.home.pedestals.find(p=>!p.creatureId);
-    if(free) placeCreatureOnPedestal(e.home, free, e.carrying.creatureId);
+    const cid=e.carrying.creatureId;
+    // always display the loot in the thief's base (replace its cheapest if full) so you can steal it back
+    let ped=e.home.pedestals.find(p=>!p.creatureId);
+    if(!ped) ped=e.home.pedestals.reduce((a,b)=> rcost(a.creatureId)<=rcost(b.creatureId)?a:b);
+    placeCreatureOnPedestal(e.home, ped, cid);
     scene.remove(e.carrying.mesh); e.carrying=null;
-    toast('😱 '+e.name+'に とられた…','danger'); sfx('lose');
+    toast('😱 '+e.name+'に とられた…とりかえせ！','danger'); sfx('lose');
   }
   e.state='guard'; hideStealAlert();
 }
@@ -1592,11 +1643,14 @@ function returnCarry(reason){
   sfx('lose');
 }
 
+const LOCK_COOLDOWN = 10000;   // 解除後10秒は再ロック不可
 function toggleLock(){
   const pBase = bases[0];
   if(pBase.locked){ return; }
+  const now = nowMs();
+  if(now < (state.lockReadyAt||0)){ toast('⏳ あと '+Math.ceil((state.lockReadyAt-now)/1000)+'びょうで ロックできる','danger'); sfx('lose'); return; }
   const dur = 8000 + state.rebirth*2000;
-  state.lockUntil = nowMs() + dur;
+  state.lockUntil = now + dur;
   pBase.locked = true; pBase.gate.visible=true;
   toast('🔒 ロック！ '+Math.round(dur/1000)+'びょう','good');
   sfx('lock');
@@ -1673,15 +1727,6 @@ function update(dt){
   const lim=100;
   player.position.x=Math.max(-lim,Math.min(lim,player.position.x));
   player.position.z=Math.max(-lim,Math.min(lim,player.position.z));
-  // walk bob
-  player.userData.walk += dt*(moving?12:0);
-  const wb = Math.sin(player.userData.walk)*0.12;
-  if(player.userData.legL){ player.userData.legL.rotation.x=wb; player.userData.legR.rotation.x=-wb; }
-  // punch animation (arms thrust forward briefly)
-  if(player.userData.armR){
-    const at = now < attackAnimUntil ? -1.7 : 0;
-    player.userData.armR.rotation.x = at; player.userData.armL.rotation.x = at;
-  }
 
   // ----- vertical physics: jump / fly (Minecraft-creative style) -----
   if(phys.flying){
@@ -1694,10 +1739,12 @@ function update(dt){
     phys.y += phys.vy*dt;
     if(phys.y<=0){ phys.y=0; phys.vy=0; phys.grounded=true; } else phys.grounded=false;
   }
-  const bobY = (phys.grounded && moving) ? Math.abs(Math.sin(player.userData.walk))*0.08 : 0;
+  // body bob: walk bounce on the ground, gentle hover in the air
+  const bobY = phys.flying ? Math.sin(now*0.005)*0.12
+             : (phys.grounded && moving) ? Math.abs(Math.sin(player.userData.walk||0))*0.08 : 0;
   player.position.y = phys.y + bobY;
-  // little fly cape: tilt body slightly while flying
-  player.rotation.x = phys.flying ? -0.18 : 0;
+  player.rotation.x = phys.flying ? -0.2 : 0;   // lean forward while flying
+  updatePlayerAnim(dt, moving, now);
 
   // block entry into LOCKED bases (push out)
   for(let i=0;i<bases.length;i++){
@@ -1749,9 +1796,9 @@ function update(dt){
     if(tnow % 4000 < 260) save();
   }
 
-  // own base lock expiry
+  // own base lock expiry → start a 10s cooldown before it can lock again
   const pBase=bases[0];
-  if(pBase.locked && nowMs()>state.lockUntil){ pBase.locked=false; pBase.gate.visible=false; updateHUD(); }
+  if(pBase.locked && nowMs()>state.lockUntil){ pBase.locked=false; pBase.gate.visible=false; state.lockReadyAt=nowMs()+LOCK_COOLDOWN; updateHUD(); }
 
   // context hint + action button
   updateContextUI();
@@ -1802,6 +1849,9 @@ function updateHUD(){
     const left = Math.max(0, Math.ceil((state.lockUntil-nowMs())/1000));
     lockEl.textContent = '🔒 '+left+'s';
     chip.style.color='var(--n-green)'; chip.style.borderColor='var(--n-green)';
+  } else if(nowMs() < (state.lockReadyAt||0)){
+    lockEl.textContent='⏳ '+Math.ceil((state.lockReadyAt-nowMs())/1000)+'s';
+    chip.style.color='var(--n-red)'; chip.style.borderColor='var(--n-red)';
   } else {
     lockEl.textContent='あいてOK';
     chip.style.color='var(--n-blue)'; chip.style.borderColor='var(--n-blue)';
@@ -1896,7 +1946,7 @@ const CREATURE_COLOR={mukade:0x9c3b22, illuyanka:0x2e7d4f, hydra:0xf5ca2b, cerbe
 function openDex(){ if(document.getElementById('hud').classList.contains('hidden')) return; renderDex(); showScreen('dex'); }
 function renderDex(){
   const list=document.getElementById('dex-list'); list.innerHTML='';
-  const order=['common','rare','epic','legendary','secret'];
+  const order=['common','rare','epic','legendary','secret','mythic'];
   [...CREATURES].sort((a,b)=>order.indexOf(a.rarity)-order.indexOf(b.rarity)).forEach(c=>{
     const rar=RARITY[c.rarity], owned=bases[0].pedestals.filter(p=>p.creatureId===c.id).length;
     const dot='#'+(CREATURE_COLOR[c.id]||0x888888).toString(16).padStart(6,'0'), rcol=rarityHex(c.rarity);
@@ -1908,7 +1958,7 @@ function renderDex(){
     list.appendChild(row);
   });
   const h=document.createElement('div'); h.style.cssText='font-weight:900;margin:12px 0 6px;font-size:1.05rem;text-align:left;'; h.innerHTML='🍎 <ruby>悪魔<rt>あくま</rt></ruby>の<ruby>実<rt>み</rt></ruby>'; list.appendChild(h);
-  const ford=['common','rare','epic','legendary','secret'];
+  const ford=['common','rare','epic','legendary','secret','mythic'];
   [...FRUITS].sort((a,b)=>ford.indexOf(a.rarity)-ford.indexOf(b.rarity)).forEach(f=>{
     const rar=RARITY[f.rarity];
     const row=document.createElement('div'); row.className='dex-item';

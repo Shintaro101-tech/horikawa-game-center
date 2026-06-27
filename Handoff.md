@@ -97,11 +97,12 @@
 - **3D**: 明るい昼間カートゥーンのフロア（青空＋芝生＋砂広場）、リング配置の拠点6つ（自分1 + AI5、リングは+30°回転でパレード道と非干渉）。三人称追従カメラ。
 - **操作**: 画面ジョイスティック（左下）+ アクションボタン（右下、文脈で つかむ/おく/うる/かう が変化）。**スペース=ジャンプ（2連打で飛行ON/OFF＝マイクラ風）、E/左クリック=`actionOrAttack`、F=なぐる、M=ミュート**。飛行中は「うえ/おりる」ボタン表示。物理は `phys{y,vy,grounded,flying}`、`doJumpPress`。
 - **盗みの流れ**: AI拠点（ロック解除中）に入る → アクションで台座の怪獣を つかむ（運搬中は移動少し遅・頭上に表示）→ 自分の拠点まで運び 空き台座に おく → 所持化。
-- **拠点ロック**: **🔒ロックmini-button**で一定秒ロック（盗まれ防止）。AI拠点もロック/解除を周期で繰り返し、解除中だけが盗めるスキ。ロック中の拠点には侵入できず押し戻される。
+- **拠点ロック**: **🔒ロックmini-button**で一定秒(8+転生×2s)ロック（盗まれ防止）。**解除後10秒は再ロック不可**（`LOCK_COOLDOWN`/`state.lockReadyAt`、HUDに⏳カウント）。AI拠点もロック/解除を周期で繰り返し、解除中だけが盗めるスキ。ロック中の拠点には侵入できず押し戻される。
 - **ショップ＝直線パレード**: 入口(`PARADE_X0=-32`)→出口(`PARADE_X1=32`)の直線道(z=0)を怪獣/悪魔の実が `PARADE_SPEED` で流れ、出口で入口へリサイクル（常時供給。`PARADE_N=6`で間隔を空け誤購入防止）。`buildParade`/`updateParade`/`setParadeItem`/`paradeRandomItem`。頭上にHTML価格ラベル(`.plabel`/`.plabel.fruit`)。近づき「かう」で購入(`buyParade`)。**敵も購入**（`updateAI` がパレードの怪獣を消費して自拠点へ）。
 - **戦闘**: `👊なぐる`ボタン/FキーでdoAttack。半径内の敵をノックバック（`knockbackRival`）。装備中の悪魔の実で攻撃が変化。プレイヤーも殴られるとノックバック＋スタン（`knockbackPlayer`、`pkb`/`player.userData.stunUntil/invuln`）。エフェクトは `fx`配列＋`addFx`/`spawnStars`/`attackEffect`。
-- **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。ライバルの帯/バイザー/腰布色＝拠点色で誰か識別可。`RIVAL_NAMES`。
-- **キャラデザイン（確定）**: メイン＝**ふわっとマスコット**（`buildPlayer`）。敵＝**3種を拠点ごとに使い分け**（`buildRival(color,style)`：0=ガキ大将/1=ガードロボ/2=ゴブリン、`style=(idx-1)%3`）。案見本 `heist/character-preview.html`。
+- **敵プレイヤーAI（ワールド空間ステートマシン）**: `rivals[]`、`base.rivalE`。状態 guard/chase/rob_go/rob_back/return。**盗むと(`doGrab`)その拠点の敵がchaseで追跡→接触でプレイヤーをノックバック＆盗み失敗**。**敵もrob_goで自拠点に侵入→怪獣を奪いrob_back**。窃盗時 `showStealAlert`＋画面端に方向矢印(`updateThiefArrow`/`#thief-arrow`)。**rob_back中の敵を殴ると取り返す**（`knockbackRival`内）。**奪われた怪獣は必ず敵拠点の台座に反映**（満杯なら最安を置換／`rivalReachHome`）→そこへ盗み返せる。ライバルの帯/バイザー/腰布色＝拠点色で誰か識別可。`RIVAL_NAMES`。
+- **キャラデザイン（確定）**: メイン＝**まんまるネコ**（`buildPlayer`案A・三角耳/ヒゲ/しっぽ）。敵＝**3種**（`buildRival(color,style)`：0=ガキ大将/1=ガードロボ/2=ゴブリン、`style=(idx-1)%3`）。案見本 `heist/character-preview.html`/`mainchar-preview.html`。
+- **歩行/走り/飛行/着地アニメ**: プレイヤーは `updatePlayerAnim`（足ステップ＋前足スイング＋しっぽ揺れ、ダッシュで速く、飛行時は脚を畳む＋ホバー揺れ、着地でスクワッシュ＆ストレッチ）。敵も脚を `stepRival` でアニメ（各 `e.mesh.userData.legs`、builderで登録）。プレイヤーの足/前足/しっぽは `player.userData.feet/paws/tail`（base位置付き）。
 - **自分の怪獣を売る**: 自拠点の台座の怪獣に近づくと文脈 `sell`（半額還元・`doSell`）。ロックは contextual をやめ **🔒ロックmini-button**（`btn-lock`→`toggleLock`）に分離。
 - **悪魔の実 `FRUITS`（9種）**: ビヨンビヨン(stretch)/カミカミ(thunder)/キラキラ(sparkle・遠距離特殊無効passive)/バクハツ(bomb)/ムキムキ(giant)/**ボウボウ(fire・旧メラメラ)**/**カチコチ(ice・旧ヒエヒエ)**/グルグル(spin)/**ハヤハヤ(dash)**。※ワンピース実在名(メラメラ/ヒエヒエ)を回避してリネーム。内部idは `mera`/`hie` のまま。`state.fruit`に1つ装備、HUDにチップ表示。パレードに約22%で出現、購入で装備。`buildFruitMesh`。
 - **吹っ飛び/凍結（攻撃の派手化）**: `doAttack`→`knockbackRival(e,from,kb,stun,launchMs,freezeMs)`。`launchMs`中は摩擦を弱め(`pow(0.5,dt)`)遠くまで飛ぶ。**ビヨンビヨン=画面端**(launch1300/kb52)、**バクハツ=中**(launch550/kb30)、**カチコチ=3秒氷漬け**(`freezeRival`が氷ブロック`e.iceMesh`を装着、`frozenUntil`中は静止、`unfreezeRival`で解凍)。
@@ -253,6 +254,13 @@
 ---
 
 ## 直近の作業ログ（新しい順）
+
+### 🐈 2026-06-27 主人公=ネコ＋歩行/飛行アニメ＋盗品反映＋ロックCD
+- **主人公を案A（まんまるネコ）に**変更。**歩行/走り/飛行/着地アニメ**を追加（`updatePlayerAnim`：足ステップ・前足スイング・しっぽ揺れ・着地スクワッシュ）。**敵キャラにも脚アニメ**（`stepRival`＋各builderで`legs`登録）。
+- **バハムートを図鑑の最下部に**（dexソート配列に`mythic`追加）。
+- **奪われた怪獣は敵拠点に必ず反映**（満杯なら最安を置換・`rivalReachHome`）→盗み返せる。
+- **ロック解除後10秒は再ロック不可**（`LOCK_COOLDOWN`、HUDに⏳）。
+- 検証: ネコrig(足2/前足2/しっぽ)・足が動く、敵脚2本、図鑑バハ最下部、満杯でも盗品反映、CD中ロック不可。**git push 済**。
 
 ### 🛠 2026-06-27 バハムート強化＋転生運＋主人公案＋.glb対応
 - **バハムートをカッコよく**（`_kBahamut`豪華版＝金の肩アーマー/トゲ/角の冠/光るコア＆クレスト先/巨大な翼＋翼爪/炎の尾。108メッシュ）。bahamut-preview の案Aも同期。
